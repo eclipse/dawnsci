@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.dawnsci.plotting.api" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.dawnsci.plotting.api" id="toolPageAction" name="Tool Page Action"/>
+      </appInfo>
+      <documentation>
+         [Enter description of this extension point.]
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="tool_page_action" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="tool_page_action">
+      <annotation>
+         <documentation>
+            A action that is registered to one tool page. This action will only appear on the page if the programmer of the page allows actions by extension point.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Id of the action, will be set so that the action may be retrieved from the toolbar or menubar for programmatic manipulation in the view.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="tool_id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Id of the tool page on which the action should appear.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="identifier" basedOn="org.eclipse.dawnsci.plotting.api.toolPage/plotting_tool_page/@id"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="command_id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Id of command action should run.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="identifier" basedOn="org.eclipse.ui.commands/command/@id"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="icon" type="string">
+            <annotation>
+               <documentation>
+                  Icon to be used on the tool pages toolbar. Default none.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="resource"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="label" type="string">
+            <annotation>
+               <documentation>
+                  Label/tooltip to use for action. If not set, the command will be asked for its label.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="action_type">
+            <annotation>
+               <documentation>
+                  Where the action should appear. Default TOOLBAR.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="TOOLBAR">
+                  </enumeration>
+                  <enumeration value="MENUBAR">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiinfo"/>
+      </appInfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="Image">
+   <implementation class="org.eclipse.dawnsci.analysis.dataset.impl.Image"/>
+   <reference bind="setImageFilterService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.image.IImageFilterService" name="IImageFilterService" policy="static"/>
+</scr:component>

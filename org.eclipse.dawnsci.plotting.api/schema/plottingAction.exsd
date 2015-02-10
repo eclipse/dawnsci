@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.dawnsci.plotting.api" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="org.eclipse.dawnsci.plotting.api" id="plottingAction" name="Plotting Action"/>
+      </appinfo>
+      <documentation>
+         [Enter description of this extension point.]
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="plotting_action" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="plotting_action">
+      <annotation>
+         <documentation>
+            A action that is registered to one tool page. This action will only appear on the page if the programmer of the page allows actions by extension point.
+
+NOTE: When you implement the command which is referenced by this action, the application context is the instance of IPlottingSystem which the action is active with. From the execute method you will get an ExecutionEvent, using ExecutionEvent.getApplicationContext() will provide the current IPlottingSystem.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Id of the action, will be set so that the action may be retrieved from the toolbar or menubar for programmatic manipulation in the view.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="plot_name" type="string">
+            <annotation>
+               <documentation>
+                  The registered name of the tool page on which the action should appear. If unset, the action will appear on all tool pages.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="command_id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Id of command action should run.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="identifier" basedOn="org.eclipse.ui.commands/command/@id"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="icon" type="string">
+            <annotation>
+               <documentation>
+                  Icon to be used on the tool pages toolbar. Default none.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="label" type="string">
+            <annotation>
+               <documentation>
+                  Label/tooltip to use for action. If not set, the command will be asked for its label.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="action_type">
+            <annotation>
+               <documentation>
+                  Where the action should appear. Default TOOLBAR.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="TOOLBAR">
+                  </enumeration>
+                  <enumeration value="MENUBAR">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="plot_type">
+            <annotation>
+               <documentation>
+                  The dimensionality of plot the action should appear with. Unset means that the action is visible for all plot types.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="XY">
+                  </enumeration>
+                  <enumeration value="IMAGE">
+                  </enumeration>
+                  <enumeration value="SURFACE">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="apiinfo"/>
+      </appinfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>

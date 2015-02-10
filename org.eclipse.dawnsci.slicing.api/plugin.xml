@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="slicingSystem" name="Slicing System" schema="schema/slicingSystem.exsd"/>
+   <extension-point id="slicingTool" name="Slicing Tool" schema="schema/slicingTool.exsd"/>
+
+</plugin>

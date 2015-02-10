@@ -1,0 +1,40 @@
+Dependency-Note: Please do not add dependencies on draw2d here. The API is supposed
+ to be designed to allow swapping of other swt and javafx plotting.
+Manifest-Version: 1.0
+Eclipse-BuddyPolicy: global
+Bundle-ManifestVersion: 2
+Bundle-Name: Plotting API
+Bundle-SymbolicName: org.eclipse.dawnsci.plotting.api;singleton:=true
+Bundle-Version: 1.2.0.qualifier
+Bundle-Vendor: Diamond Light Source
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.jface;bundle-version="3.8.0",
+ org.eclipse.ui.workbench;bundle-version="3.8.2",
+ org.eclipse.core.commands;bundle-version="3.6.1",
+ org.eclipse.core.runtime;bundle-version="3.8.0",
+ org.eclipse.dawnsci.analysis.api;bundle-version="1.0.0"
+Import-Package: org.slf4j;version="[1.7.6,1.7.7)"
+Export-Package: org.eclipse.dawnsci.plotting.api,
+ org.eclipse.dawnsci.plotting.api.annotation,
+ org.eclipse.dawnsci.plotting.api.axis,
+ org.eclipse.dawnsci.plotting.api.expressions,
+ org.eclipse.dawnsci.plotting.api.filter,
+ org.eclipse.dawnsci.plotting.api.histogram,
+ org.eclipse.dawnsci.plotting.api.histogram.functions,
+ org.eclipse.dawnsci.plotting.api.jreality.compositing,
+ org.eclipse.dawnsci.plotting.api.jreality.core,
+ org.eclipse.dawnsci.plotting.api.jreality.data,
+ org.eclipse.dawnsci.plotting.api.jreality.impl,
+ org.eclipse.dawnsci.plotting.api.jreality.legend,
+ org.eclipse.dawnsci.plotting.api.jreality.overlay,
+ org.eclipse.dawnsci.plotting.api.jreality.overlay.enums,
+ org.eclipse.dawnsci.plotting.api.jreality.overlay.objects,
+ org.eclipse.dawnsci.plotting.api.jreality.overlay.primitives,
+ org.eclipse.dawnsci.plotting.api.jreality.tool,
+ org.eclipse.dawnsci.plotting.api.jreality.util,
+ org.eclipse.dawnsci.plotting.api.preferences,
+ org.eclipse.dawnsci.plotting.api.region,
+ org.eclipse.dawnsci.plotting.api.remote,
+ org.eclipse.dawnsci.plotting.api.tool,
+ org.eclipse.dawnsci.plotting.api.trace,
+ org.eclipse.dawnsci.plotting.api.views

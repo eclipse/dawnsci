@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Slicing API
+Bundle-SymbolicName: org.eclipse.dawnsci.slicing.api;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.dawnsci.slicing.api.Activator
+Bundle-Vendor: Diamond Light Source
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.dawnsci.analysis.api;bundle-version="1.0.0",
+ org.eclipse.dawnsci.plotting.api;bundle-version="1.2.0",
+ org.eclipse.dawnsci.analysis.dataset;bundle-version="1.0.0",
+ org.eclipse.dawnsci.hdf5;bundle-version="1.2.0",
+ org.eclipse.dawnsci.doe;bundle-version="1.2.0",
+ org.apache.commons.beanutils;bundle-version="[1.9.1,1.9.2)",
+ ncsa.hdf;bundle-version="2.8.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.dawnsci.slicing.api,
+ org.eclipse.dawnsci.slicing.api.data,
+ org.eclipse.dawnsci.slicing.api.editor,
+ org.eclipse.dawnsci.slicing.api.system,
+ org.eclipse.dawnsci.slicing.api.tool,
+ org.eclipse.dawnsci.slicing.api.util
+Import-Package: org.slf4j;version="[1.7.6,1.7.7)"

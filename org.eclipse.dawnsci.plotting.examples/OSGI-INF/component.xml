@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="start" deactivate="stop" immediate="true" name="Example Services">
+   <implementation class="org.eclipse.dawnsci.plotting.examples.Examples"/>
+   <reference bind="setDatasetMathsService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.dataset.IDatasetMathsService" name="IDatasetMathsService" policy="dynamic"/>
+   <reference bind="setLoaderService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.io.ILoaderService" name="ILoaderService" policy="dynamic"/>
+   <reference bind="setPlottingService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.IPlottingService" name="IPlottingService" policy="dynamic"/>
+   <reference bind="setPaletteService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.histogram.IPaletteService" name="IPaletteService" policy="dynamic"/>
+</scr:component>

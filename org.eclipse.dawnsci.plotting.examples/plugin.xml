@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.dawnsci.plotting.examples.category"
+            name="Examples">
+      </category>
+      <view
+            category="org.dawnsci.plotting.examples.category"
+            class="org.eclipse.dawnsci.plotting.examples.ImageExample"
+            id="org.dawnsci.plotting.examples.imageExample"
+            name="Image Example"
+            restorable="true">
+      </view>
+      <view
+            category="org.dawnsci.plotting.examples.category"
+            class="org.eclipse.dawnsci.plotting.examples.SectorExample"
+            id="org.dawnsci.plotting.examples.sectorExample"
+            name="Sector Example"
+            restorable="true">
+      </view>
+      <view
+            category="org.dawnsci.plotting.examples.category"
+            class="org.eclipse.dawnsci.plotting.examples.XYExample"
+            id="org.dawnsci.plotting.examples.xyExample"
+            name="XY Example"
+            restorable="true">
+      </view>
+      <view
+            category="org.dawnsci.plotting.examples.category"
+            class="org.eclipse.dawnsci.plotting.examples.AxisExample"
+            id="org.dawnsci.plotting.examples.axisExample"
+            name="Axis Example"
+            restorable="true">
+      </view>
+      <view
+            category="org.dawnsci.plotting.examples.category"
+            class="org.eclipse.dawnsci.plotting.examples.SurfaceExample"
+            id="org.dawnsci.plotting.examples.surfaceExample"
+            name="Surface Example"
+            restorable="true">
+      </view>
+      <view
+            category="org.dawnsci.plotting.examples.category"
+            class="org.eclipse.dawnsci.plotting.examples.BarExample"
+            id="org.dawnsci.plotting.examples.barExample"
+            name="Bar Example"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.eclipse.dawnsci.plotting.examples.perspective.ExamplePerspective"
+            id="org.dawnsci.plotting.examples.perspective.ExamplePerspective"
+            name="Examples">
+      </perspective>
+   </extension>
+
+</plugin>

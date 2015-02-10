@@ -1,0 +1,23 @@
+<plugin>
+   <extension-point id="plottingClass" name="Plotting System" schema="schema/plottingClass.exsd"/>
+   <extension-point id="toolPage" name="Tool Page" schema="schema/toolPage.exsd"/>
+   <extension-point id="toolPageAction" name="Tool Page Action" schema="schema/toolPageAction.exsd"/>
+   <extension-point id="plottingAction" name="plottingAction" schema="schema/plottingAction.exsd"/>
+   <extension-point id="plottingViewer" name="Plotting viewer" schema="schema/plottingViewer.exsd"/>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.eclipse.dawnsci.plotting.api.views.PlottingSystemsView"
+            icon="icons/axis.png"
+            id="org.eclipse.dawnsci.plotting.api.views.PlottingSystemsView"
+            name="Plotting Systems">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.dawnsci.analysis.classloader">
+      <bundle
+            class="org.eclipse.dawnsci.plotting.api.PlottingFactory">
+      </bundle>
+   </extension>
+   
+</plugin>

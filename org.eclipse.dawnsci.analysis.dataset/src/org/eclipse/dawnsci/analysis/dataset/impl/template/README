@@ -1,0 +1,20 @@
+
+This directory contains some python scripts for auto-generating Java.
+It is not active code but code used to write code.
+
+The following classes are generated/amended by these scripts:
+org.eclipse.dawnsci.analysis.dataset.impl.Maths,
+org.eclipse.dawnsci.analysis.dataset.impl,FloatDataset,
+org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset,
+org.eclipse.dawnsci.analysis.dataset.impl.LongDataset,
+org.eclipse.dawnsci.analysis.dataset.impl.ShortDataset,
+org.eclipse.dawnsci.analysis.dataset.impl.ByteDataset,
+org.eclipse.dawnsci.analysis.dataset.impl.BooleanDatasetBase
+
+org.eclipse.dawnsci.analysis.dataset.impl.CompoundFloatDataset,
+org.eclipse.dawnsci.analysis.dataset.impl.ComplexFloatDataset
+
+The file functions.txt defines functions for the org.eclipse.dawnsci.analysis.dataset.impl.Maths class 
+This class also has a fixed part which includes its license header.
+
+I

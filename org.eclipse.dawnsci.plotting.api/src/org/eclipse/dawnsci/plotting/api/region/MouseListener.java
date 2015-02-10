@@ -1,0 +1,68 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2014 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+package org.eclipse.dawnsci.plotting.api.region;
+
+/**
+ * A listener interface for receiving mouse button events.
+ */
+public interface MouseListener {
+
+	/**
+	 * Called when a mouse button has been pressed while over the listened to
+	 * object.
+	 * 
+	 * @param me
+	 *            The MouseEvent object
+	 */
+	void mousePressed(MouseEvent me);
+
+	/**
+	 * Called when a pressed mouse button has been released.
+	 * 
+	 * @param me
+	 *            The MouseEvent object
+	 */
+	void mouseReleased(MouseEvent me);
+
+	/**
+	 * Called when a mouse button has been double clicked over the listened to
+	 * object.
+	 * 
+	 * @param me
+	 *            The MouseEvent object
+	 */
+	void mouseDoubleClicked(MouseEvent me);
+
+	/**
+	 * An empty implementation of MouseListener for convenience.
+	 */
+	public class Stub implements MouseListener {
+		/**
+		 * @see org.eclipse.draw2d.MouseListener#mousePressed(MouseEvent)
+		 */
+		public void mousePressed(MouseEvent me) {
+		}
+
+		/**
+		 * @see org.eclipse.draw2d.MouseListener#mouseReleased(MouseEvent)
+		 */
+		public void mouseReleased(MouseEvent me) {
+		}
+
+		/**
+		 * @see org.eclipse.draw2d.MouseListener#mouseDoubleClicked(MouseEvent)
+		 */
+		public void mouseDoubleClicked(MouseEvent me) {
+		}
+	}
+
+}

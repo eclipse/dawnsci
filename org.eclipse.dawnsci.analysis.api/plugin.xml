@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.eclipse.dawnsci.analysis.classloader" name="Bundle class loader" schema="schema/org.eclipse.dawnsci.analysis.classloader.exsd"/>
+   <extension-point id="operation" name="Operation" schema="schema/operation.exsd"/>
+   <extension
+         point="org.eclipse.dawnsci.analysis.classloader">
+      <bundle
+            class="org.eclipse.dawnsci.analysis.api.dataset.Slice">
+      </bundle>
+   </extension>
+
+</plugin>
