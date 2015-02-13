@@ -58,4 +58,5 @@ public interface IImageTransform {
 	 * @throws Exception
 	 */
 	public List<IDataset> align(List<IDataset> images) throws Exception;
+
 }
