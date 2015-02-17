@@ -12,9 +12,12 @@
 package org.eclipse.dawnsci.plotting.api;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -109,7 +112,14 @@ public class PlottingFactory {
 			for (IFilterDecorator decorator : decorators) decorator.dispose();
 		}
 		if (plottingSystems==null) return null;
-		return plottingSystems.remove(plotName);
+		
+		IPlottingSystem ret = plottingSystems.remove(plotName);
+		if (listeners!=null) for (IPlotRegistrationListener l : listeners) {
+			if (l.getPlottingSystemName()==null || plotName.equals(plotName)) {
+				l.plottingSystemRegistered(new PlotRegistrationEvent(ret));
+			}
+		}
+		return ret;
 	}
 
 	/**
@@ -125,8 +135,36 @@ public class PlottingFactory {
 		
 		
 		if (plottingSystems==null) plottingSystems = new HashMap<String, IPlottingSystem>(7);
-		return plottingSystems.put(plotName, abstractPlottingSystem);
+		IPlottingSystem ret = plottingSystems.put(plotName, abstractPlottingSystem);
+		if (listeners!=null) for (IPlotRegistrationListener l : listeners) {
+			if (l.getPlottingSystemName()==null || plotName.equals(l.getPlottingSystemName())) {
+				l.plottingSystemRegistered(new PlotRegistrationEvent(abstractPlottingSystem));
+			}
+		}
+		return ret;
 	}
+	
+
+	public static void notityPlottingSystemCreated(String plotName, IPlottingSystem sys) {
+		if (listeners!=null) for (IPlotRegistrationListener l : listeners) {
+			if (l.getPlottingSystemName()==null || plotName.equals(l.getPlottingSystemName())) {
+				l.plottingSystemCreated(new PlotRegistrationEvent(sys));
+			}
+		}
+	}
+
+	
+    private static Set<IPlotRegistrationListener> listeners;
+    
+	public static void addRegistrationListener(IPlotRegistrationListener l) {
+		if (listeners==null) listeners = Collections.synchronizedSet(new HashSet<IPlotRegistrationListener>());
+		listeners.add(l);
+	}
+
+	public static void removeRegistrationListener(IPlotRegistrationListener l) {
+		listeners.remove(l);
+	}
+
 		
 	/**
 	 * Get a plotting system by name. NOTE if more than one plotting system has the same name the
