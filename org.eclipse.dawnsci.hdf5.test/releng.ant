@@ -22,8 +22,8 @@
 				<pathelement location="${plugin.basedir}/bin" />
 				<pathelement location="${workspace.git.loc}/diamond-releng.git/diamond.releng.tools/logging" />  <!-- to pick up logback-test.xml -->
 				<pathelement location="${plugin.host.basedir}/bin" />
-				<pathelement location="${workspace.git.loc}/dawn-eclipse.git/org.eclipse.dawnsci.analysis.api/bin" />
-				<pathelement location="${workspace.git.loc}/dawn-eclipse.git/org.eclipse.dawnsci.analysis.dataset/bin" />
+				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.analysis.api/bin" />
+				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.analysis.dataset/bin" />
 				<pathelement location="${workspace.git.loc}/dawn-third.git/ncsa.hdf/bin" />
 				<pathelement location="${workspace.git.loc}/dawn-third.git/ncsa.hdf/jars/*" />
 				<path refid="tp.slf4j.path" />  <!--ensure that required org.slf4j.LoggerFactory appears first in classpath -->
