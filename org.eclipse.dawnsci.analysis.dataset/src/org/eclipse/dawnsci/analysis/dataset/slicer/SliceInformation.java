@@ -59,15 +59,13 @@ public class SliceInformation {
 	public Slice[] getSubSampling() {
 		return sampling.convertToSlice();
 	}
-	
+
 	@Override
 	public SliceInformation clone() {
-		return new SliceInformation(new SliceND(shape.clone(),currentSlice.convertToSlice()),
-									new SliceND(sampling.getShape().clone(),output.convertToSlice()),
-									new SliceND(shape.clone(), sampling.convertToSlice()),shape.clone(),
-									dataDimensions.clone(),totalSlices, number);
+		return new SliceInformation(currentSlice.clone(), output.clone(), sampling.clone(), shape.clone(),
+									dataDimensions.clone(), totalSlices, number);
 	}
-	
+
 	public int getTotalSlices() {
 		return totalSlices;
 	}
