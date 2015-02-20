@@ -238,6 +238,20 @@ public interface IPlottingSystem extends IAdaptable, ITraceSystem, IRegionSystem
 							         IProgressMonitor         monitor);
 
 	/**
+	 * @see IPlottingSystem.updatePlot1D(x,ys,monitor);
+     *
+	 * @param x  - may be null, if null indices of y are used
+	 * @param ys -  must not be null
+	 * @param plotTitle - The name to use as the title of the plot, providing something new is plotted, otherwise leaves title unchanged.
+	 * @param monitor
+	 * @return
+	 */
+	public List<ITrace> updatePlot1D(IDataset                 x, 
+							         List<? extends IDataset> ys,
+							         final String             plotTitle,
+							         IProgressMonitor         monitor);
+
+	/**
 	 * This method is Thread safe - so no need to call from UI thread!
 	 * 
 	 * See also ITraceSystem for flexible trace manipulation.
