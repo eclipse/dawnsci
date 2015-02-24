@@ -172,7 +172,7 @@ public class Slicer {
 			SliceInformation sli = new SliceInformation(in,out,sampling,lz.getShape(),axes, size,count);
 			SliceFromSeriesMetadata ssm = new SliceFromSeriesMetadata(sli);
 			
-			ILazyDataset sliceView = lz.getSliceView(in.convertToSlice());
+			ILazyDataset sliceView = lz.getSliceView(in);
 			sliceView.setName(sliceName);
 			sliceView.setMetadata(ssm);
 			

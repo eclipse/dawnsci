@@ -60,7 +60,7 @@ public class SliceNDGenerator {
 			step[i] = 1;
 		}
 		
-		iter = new PositionIterator(shape, slice.convertToSlice(),dataDimensions);
+		iter = new PositionIterator(slice, dataDimensions);
 	}
 	
 	public int[] getOutputShape() {

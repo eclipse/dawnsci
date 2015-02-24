@@ -568,6 +568,12 @@ public class ThreadSafePlottingSystem extends ThreadSafeObject implements IPlott
 	}
 
 	@Override
+	public List<ITrace> updatePlot1D(IDataset x, List<? extends IDataset> ys,
+			String plotTitle, IProgressMonitor monitor) {
+		return getThreadSafe(delegate.updatePlot1D( x,ys, plotTitle, monitor));
+	}
+
+	@Override
 	public ITrace createPlot2D(IDataset image, List<? extends IDataset> axes,
 			String dataName, IProgressMonitor monitor) {
 		return new ThreadSafeTrace(delegate.createPlot2D(image, axes, dataName, monitor));

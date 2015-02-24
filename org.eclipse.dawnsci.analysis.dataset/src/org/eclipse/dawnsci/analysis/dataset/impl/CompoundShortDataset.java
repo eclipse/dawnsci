@@ -16,6 +16,7 @@ package org.eclipse.dawnsci.analysis.dataset.impl;
 
 import java.util.Arrays;
 
+import org.apache.commons.math3.complex.Complex;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 
@@ -1227,19 +1228,45 @@ public class CompoundShortDataset extends AbstractCompoundDataset {
 	@Override
 	public CompoundShortDataset iadd(final Object b) {
 		Dataset bds = b instanceof Dataset ? (Dataset) b : DatasetFactory.createFromObject(b);
-		final BroadcastIterator it = new BroadcastIterator(this, bds);
-		it.setOutputDouble(true);
-		if (bds.getElementsPerItem() == 1) {
-			while (it.hasNext()) {
-				data[it.aIndex] += it.bDouble;
-				for (int i = 1; i < isize; i++)
-					data[it.aIndex + i] += (short) it.bDouble; // ADD_CAST
+		int is = bds.getElementsPerItem();
+		if (bds.getSize() == 1) {
+			final IndexIterator it = getIterator();
+			if (is == 1) {
+				final double db = bds.getElementDoubleAbs(0);
+				while (it.hasNext()) {
+					for (int i = 0; i < isize; i++) {
+						data[it.index + i] += db;
+					}
+				}
+			} else if (is == isize) {
+				while (it.hasNext()) {
+					for (int i = 0; i < isize; i++) {
+						data[it.index + i] += bds.getElementDoubleAbs(i);
+					}
+				}
+			} else {
+				throw new IllegalArgumentException("Argument does not have same number of elements per item or is not a non-compound dataset");
 			}
 		} else {
-			while (it.hasNext()) {
-				data[it.aIndex] += it.bDouble;
-				for (int i = 1; i < isize; i++)
-					data[it.aIndex + i] += (short) bds.getElementLongAbs(it.bIndex + i); // GET_ELEMENT_WITH_CAST
+			final BroadcastIterator it = new BroadcastIterator(this, bds);
+			it.setOutputDouble(true);
+			if (is == 1) {
+				while (it.hasNext()) {
+					final double db = it.bDouble;
+					data[it.aIndex] += db;
+					for (int i = 1; i < isize; i++) {
+						data[it.aIndex + i] += db;
+					}
+				}
+			} else if (is == isize) {
+				while (it.hasNext()) {
+					data[it.aIndex] += it.bDouble;
+					for (int i = 1; i < isize; i++) {
+						data[it.aIndex + i] += bds.getElementDoubleAbs(it.bIndex + i);
+					}
+				}
+			} else {
+				throw new IllegalArgumentException("Argument does not have same number of elements per item or is not a non-compound dataset");
 			}
 		}
 		setDirty();
@@ -1249,19 +1276,44 @@ public class CompoundShortDataset extends AbstractCompoundDataset {
 	@Override
 	public CompoundShortDataset isubtract(final Object b) {
 		Dataset bds = b instanceof Dataset ? (Dataset) b : DatasetFactory.createFromObject(b);
-		final BroadcastIterator it = new BroadcastIterator(this, bds);
-		it.setOutputDouble(true);
-		if (bds.getElementsPerItem() == 1) {
-			while (it.hasNext()) {
-				data[it.aIndex] -= it.bDouble;
-				for (int i = 1; i < isize; i++)
-					data[it.aIndex + i] = (short) (it.aDouble - it.bDouble); // INT_USE // ADD_CAST
+		int is = bds.getElementsPerItem();
+		if (bds.getSize() == 1) {
+			final IndexIterator it = getIterator();
+			if (is == 1) {
+				final double db = bds.getElementDoubleAbs(0);
+				while (it.hasNext()) {
+					for (int i = 0; i < isize; i++) {
+						data[it.index + i] -= db;
+					}
+				}
+			} else if (is == isize) {
+				while (it.hasNext()) {
+					for (int i = 0; i < isize; i++) {
+						data[it.index + i] -= bds.getElementDoubleAbs(i);
+					}
+				}
+			} else {
+				throw new IllegalArgumentException("Argument does not have same number of elements per item or is not a non-compound dataset");
 			}
 		} else {
-			while (it.hasNext()) {
-				data[it.aIndex] -= it.bDouble;
-				for (int i = 1; i < isize; i++)
-					data[it.aIndex + i] = (short) (data[it.aIndex + i] - bds.getElementDoubleAbs(it.bIndex + i)); // INT_USE // ADD_CAST
+			final BroadcastIterator it = new BroadcastIterator(this, bds);
+			it.setOutputDouble(true);
+			if (is == 1) {
+				while (it.hasNext()) {
+					final double db = it.bDouble;
+					for (int i = 0; i < isize; i++) {
+						data[it.aIndex + i] -= db;
+					}
+				}
+			} else if (is == isize) {
+				while (it.hasNext()) {
+					data[it.aIndex] -= it.bDouble;
+					for (int i = 1; i < isize; i++) {
+						data[it.aIndex + i] -= bds.getElementDoubleAbs(it.bIndex + i);
+					}
+				}
+			} else {
+				throw new IllegalArgumentException("Argument does not have same number of elements per item or is not a non-compound dataset");
 			}
 		}
 		setDirty();
@@ -1271,19 +1323,44 @@ public class CompoundShortDataset extends AbstractCompoundDataset {
 	@Override
 	public CompoundShortDataset imultiply(final Object b) {
 		Dataset bds = b instanceof Dataset ? (Dataset) b : DatasetFactory.createFromObject(b);
-		final BroadcastIterator it = new BroadcastIterator(this, bds);
-		it.setOutputDouble(true);
-		if (bds.getElementsPerItem() == 1) {
-			while (it.hasNext()) {
-				data[it.aIndex] *= it.bDouble;
-				for (int i = 1; i < isize; i++)
-					data[it.aIndex + i] *= (short) it.bDouble; // ADD_CAST
+		int is = bds.getElementsPerItem();
+		if (bds.getSize() == 1) {
+			final IndexIterator it = getIterator();
+			if (is == 1) {
+				final double db = bds.getElementDoubleAbs(0);
+				while (it.hasNext()) {
+					for (int i = 0; i < isize; i++) {
+						data[it.index + i] *= db;
+					}
+				}
+			} else if (is == isize) {
+				while (it.hasNext()) {
+					for (int i = 0; i < isize; i++) {
+						data[it.index + i] *= bds.getElementDoubleAbs(i);
+					}
+				}
+			} else {
+				throw new IllegalArgumentException("Argument does not have same number of elements per item or is not a non-compound dataset");
 			}
 		} else {
-			while (it.hasNext()) {
-				data[it.aIndex] *= it.bDouble;
-				for (int i = 1; i < isize; i++)
-					data[it.aIndex + i] *= (short) bds.getElementLongAbs(it.bIndex + i); // GET_ELEMENT_WITH_CAST
+			final BroadcastIterator it = new BroadcastIterator(this, bds);
+			it.setOutputDouble(true);
+			if (is == 1) {
+				while (it.hasNext()) {
+					final double db = it.bDouble;
+					for (int i = 0; i < isize; i++) {
+						data[it.aIndex + i] *= db;
+					}
+				}
+			} else if (is == isize) {
+				while (it.hasNext()) {
+					data[it.aIndex] *= it.bDouble;
+					for (int i = 1; i < isize; i++) {
+						data[it.aIndex + i] *= bds.getElementDoubleAbs(it.bIndex + i);
+					}
+				}
+			} else {
+				throw new IllegalArgumentException("Argument does not have same number of elements per item or is not a non-compound dataset");
 			}
 		}
 		setDirty();
@@ -1293,29 +1370,63 @@ public class CompoundShortDataset extends AbstractCompoundDataset {
 	@Override
 	public CompoundShortDataset idivide(final Object b) {
 		Dataset bds = b instanceof Dataset ? (Dataset) b : DatasetFactory.createFromObject(b);
-		final BroadcastIterator it = new BroadcastIterator(this, bds);
-		it.setOutputDouble(true);
-		if (bds.getElementsPerItem() == 1) {
-			while (it.hasNext()) {
-				final double db = it.bDouble;
+		int is = bds.getElementsPerItem();
+		if (bds.getSize() == 1) {
+			final IndexIterator it = getIterator();
+			if (is == 1) {
+				final double db = bds.getElementDoubleAbs(0);
 				if (db == 0) { // INT_USE
-					for (int i = 0; i < isize; i++) // INT_USE
-						data[it.aIndex + i] = 0; // INT_USE
+					fill(0); // INT_USE
 				} else { // INT_USE
-				for (int i = 0; i < isize; i++)
-					data[it.aIndex + i] = (short) (data[it.aIndex + i] / db); // INT_USE // ADD_CAST
+				while (it.hasNext()) {
+					for (int i = 0; i < isize; i++) {
+						data[it.index + i] /= db;
+					}
+				}
 				} // INT_USE
+			} else if (is == isize) {
+				while (it.hasNext()) {
+					for (int i = 0; i < isize; i++) {
+						final double db = bds.getElementDoubleAbs(i);
+				try {
+							data[it.index + i] /= db; // INT_EXCEPTION
+				} catch (ArithmeticException e) {
+					data[it.index + i] = 0;
+				}
+					}
+				}
+			} else {
+				throw new IllegalArgumentException("Argument does not have same number of elements per item or is not a non-compound dataset");
 			}
 		} else {
-			while (it.hasNext()) {
-				for (int i = 0; i < isize; i++) {
-					final double db = bds.getElementDoubleAbs(it.bIndex + i);
-					try { // INT_USE
-						data[it.aIndex + i] = (short) (data[it.aIndex + i] / db); // INT_USE // ADD_CAST
-					} catch (ArithmeticException e) { // INT_USE
-						data[it.aIndex + i] = 0; // INT_USE
+			final BroadcastIterator it = new BroadcastIterator(this, bds);
+			it.setOutputDouble(true);
+			if (is == 1) {
+				while (it.hasNext()) {
+					final double db = it.bDouble;
+					if (db == 0) { // INT_USE
+						for (int i = 0; i < isize; i++) { // INT_USE
+							data[it.aIndex + i] = 0; // INT_USE
+						}// INT_USE
+					} else { // INT_USE
+					for (int i = 0; i < isize; i++) {
+						data[it.aIndex + i] /= db;
+					}
 					} // INT_USE
 				}
+			} else if (is == isize) {
+				while (it.hasNext()) {
+					for (int i = 0; i < isize; i++) {
+						final double db = bds.getElementDoubleAbs(it.bIndex + i);
+				try {
+							data[it.aIndex + i] /= db; // INT_EXCEPTION
+				} catch (ArithmeticException e) {
+					data[it.aIndex + i] = 0;
+				}
+					}
+				}
+			} else {
+				throw new IllegalArgumentException("Argument does not have same number of elements per item or is not a non-compound dataset");
 			}
 		}
 		setDirty();
@@ -1330,28 +1441,60 @@ public class CompoundShortDataset extends AbstractCompoundDataset {
 	@Override
 	public CompoundShortDataset iremainder(final Object b) {
 		Dataset bds = b instanceof Dataset ? (Dataset) b : DatasetFactory.createFromObject(b);
-		final BroadcastIterator it = new BroadcastIterator(this, bds);
-		it.setOutputDouble(true);
-		if (bds.getElementsPerItem() == 1) {
-			while (it.hasNext()) {
-				final short db = (short) it.bDouble; // PRIM_TYPE // ADD_CAST
-				if (db == 0) { // INT_ZEROTEST
-				for (int i = 0; i < isize; i++) // INT_ZEROTEST
-					data[it.aIndex + i] = 0; // INT_ZEROTEST
-				} else { // INT_ZEROTEST
-				for (int i = 0; i < isize; i++)
-					data[it.aIndex + i] %= db;
-				} // INT_ZEROTEST
+		int is = bds.getElementsPerItem();
+		if (bds.getSize() == 1) {
+			final IndexIterator it = getIterator();
+			if (is == 1) {
+				final double db = bds.getElementDoubleAbs(0);
+				if (db == 0) { // INT_USE
+					fill(0); // INT_USE
+				} else { // INT_USE
+				while (it.hasNext()) {
+					for (int i = 0; i < isize; i++) {
+						data[it.index + i] %= db;
+					}
+				}
+				} // INT_USE
+			} else if (is == isize) {
+				while (it.hasNext()) {
+					for (int i = 0; i < isize; i++) {
+				try {
+							data[it.index + i] %= bds.getElementDoubleAbs(i); // INT_EXCEPTION
+				} catch (ArithmeticException e) {
+					data[it.index + i] = 0;
+				}
+					}
+				}
+			} else {
+				throw new IllegalArgumentException("Argument does not have same number of elements per item or is not a non-compound dataset");
 			}
 		} else {
-			while (it.hasNext()) {
-				for (int i = 0; i < isize; i++) {
+			final BroadcastIterator it = new BroadcastIterator(this, bds);
+			it.setOutputDouble(true);
+			if (is == 1) {
+				while (it.hasNext()) {
+					final double db = it.bDouble;
+					if (db == 0) { // INT_USE
+						for (int i = 0; i < isize; i++) // INT_USE
+							data[it.aIndex + i] = 0; // INT_USE
+					} else { // INT_USE
+					for (int i = 0; i < isize; i++)
+						data[it.aIndex + i] %= db;
+					} // INT_USE
+				}
+			} else if (is == isize) {
+				while (it.hasNext()) {
+					for (int i = 0; i < isize; i++) {
+						final double db = bds.getElementDoubleAbs(it.bIndex + i);
 				try {
-						data[it.aIndex + i] %= bds.getElementLongAbs(it.bIndex + i); // GET_ELEMENT // INT_EXCEPTION
+							data[it.aIndex + i] %= db; // INT_EXCEPTION
 				} catch (ArithmeticException e) {
 					data[it.aIndex + i] = 0;
 				}
+					}
 				}
+			} else {
+				throw new IllegalArgumentException("Argument does not have same number of elements per item or is not a non-compound dataset");
 			}
 		}
 		setDirty();
@@ -1360,53 +1503,78 @@ public class CompoundShortDataset extends AbstractCompoundDataset {
 
 	@Override
 	public CompoundShortDataset ipower(final Object b) {
-		if (b instanceof Dataset) {
-			final Dataset bds = (Dataset) b;
-			checkCompatibility(bds);
-
-			final IndexIterator it1 = getIterator();
-			final IndexIterator it2 = bds.getIterator();
-			final int bis = bds.getElementsPerItem();
-
-			if (bis == 1) {
-				while (it1.hasNext() && it2.hasNext()) {
-					final short db = (short) bds.getElementLongAbs(it2.index); // PRIM_TYPE // GET_ELEMENT_WITH_CAST
-					for (int i = 0; i < isize; i++) {
-						final double v = Math.pow(data[it1.index + i], db);
-						if (Double.isInfinite(v) || Double.isNaN(v)) { // INT_ZEROTEST
-							data[it1.index + i] = 0; // INT_ZEROTEST // CLASS_TYPE
-						} else { // INT_ZEROTEST
-						data[it1.index + i] = (short) (long) v; // PRIM_TYPE_LONG // ADD_CAST
-						} // INT_ZEROTEST
+		Dataset bds = b instanceof Dataset ? (Dataset) b : DatasetFactory.createFromObject(b);
+		final int is = bds.getElementsPerItem();
+		if (bds.getSize() == 1) {
+			final double vr = bds.getElementDoubleAbs(0);
+			final IndexIterator it = getIterator();
+			if (bds.isComplex()) {
+				final double vi = bds.getElementDoubleAbs(1);
+				if (vi == 0.) {
+					while (it.hasNext()) {
+						for (int i = 0; i < isize; i++) {
+							final double v = Math.pow(data[it.index + i], vr);
+							if (Double.isInfinite(v) || Double.isNaN(v)) { // INT_USE
+								data[it.index + i] = 0; // INT_USE
+							} else { // INT_USE
+							data[it.index + i] = (short) (long) v; // PRIM_TYPE_LONG // ADD_CAST
+							} // INT_USE
+						}
+					}
+				} else {
+					final Complex zv = new Complex(vr, vi);
+					while (it.hasNext()) {
+						for (int i = 0; i < isize; i++) {
+							Complex zd = new Complex(data[it.index + i], 0.);
+							final double v = zd.pow(zv).getReal();
+							if (Double.isInfinite(v) || Double.isNaN(v)) { // INT_USE
+								data[it.index + i] = 0; // INT_USE
+							} else { // INT_USE
+							data[it.index + i] = (short) (long) v; // PRIM_TYPE_LONG // ADD_CAST
+							} // INT_USE
+						}
 					}
 				}
-			} else if (bis == isize) {
-				while (it1.hasNext() && it2.hasNext()) {
+			} else if (is == 1) {
+				while (it.hasNext()) {
 					for (int i = 0; i < isize; i++) {
-						final double v = Math.pow(data[it1.index + i], bds.getElementDoubleAbs(it2.index + i));
-						if (Double.isInfinite(v) || Double.isNaN(v)) { // INT_ZEROTEST
-							data[it1.index + i] = 0; // INT_ZEROTEST // CLASS_TYPE
-						} else { // INT_ZEROTEST
-						data[it1.index + i] = (short) (long) v; // PRIM_TYPE_LONG // ADD_CAST
-						} // INT_ZEROTEST
+						final double v = Math.pow(data[it.index + i], vr);
+						if (Double.isInfinite(v) || Double.isNaN(v)) { // INT_USE
+							data[it.index + i] = 0; // INT_USE
+						} else { // INT_USE
+						data[it.index + i] = (short) (long) v; // PRIM_TYPE_LONG // ADD_CAST
+						} // INT_USE
 					}
 				}
-			} else {
-				throw new IllegalArgumentException(
-						"Argument does not have same number of elements per item or is not a non-compound dataset");
+			} else if (is == isize) {
+				while (it.hasNext()) {
+					for (int i = 0; i < isize; i++) {
+						final double v = Math.pow(data[it.index + i], bds.getElementDoubleAbs(i));
+						if (Double.isInfinite(v) || Double.isNaN(v)) { // INT_USE
+							data[it.index + i] = 0; // INT_USE
+						} else { // INT_USE
+						data[it.index + i] = (short) (long) v; // PRIM_TYPE_LONG // ADD_CAST
+						} // INT_USE
+					}
+				}
 			}
 		} else {
-			final short[] vr = toShortArray(b, isize); // PRIM_TYPE // CLASS_TYPE
-			final IndexIterator it1 = getIterator();
-
-			while (it1.hasNext()) {
-				for (int i = 0; i < isize; i++) {
-					final double v = Math.pow(data[it1.index + i], vr[i]);
-					if (Double.isInfinite(v) || Double.isNaN(v)) { // INT_ZEROTEST
-						data[it1.index + i] = 0; // INT_ZEROTEST // CLASS_TYPE
-					} else { // INT_ZEROTEST
-					data[it1.index + i] = (short) (long) v; // PRIM_TYPE_LONG // ADD_CAST
-					} // INT_ZEROTEST
+			final BroadcastIterator it = new BroadcastIterator(this, bds);
+			it.setOutputDouble(true);
+			while (it.hasNext()) {
+				double v = Math.pow(it.aDouble, it.bDouble);
+				if (Double.isInfinite(v) || Double.isNaN(v)) { // INT_USE
+					data[it.aIndex] = 0; // INT_USE
+				} else { // INT_USE
+				data[it.aIndex] = (short) (long) v; // PRIM_TYPE_LONG // ADD_CAST
+				} // INT_USE
+				for (int i = 1; i < isize; i++) {
+					v = Math.pow(data[it.aIndex + i], bds.getElementDoubleAbs(it.bIndex + i));
+					if (Double.isInfinite(v) || Double.isNaN(v)) { // INT_USE
+						data[it.aIndex + i] = 0; // INT_USE
+					} else { // INT_USE
+					data[it.aIndex + i] = (short) (long) v; // PRIM_TYPE_LONG // ADD_CAST
+					} // INT_USE
 				}
 			}
 		}

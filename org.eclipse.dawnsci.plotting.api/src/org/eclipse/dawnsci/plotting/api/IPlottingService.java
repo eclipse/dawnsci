@@ -89,5 +89,16 @@ public interface IPlottingService {
 	 */
 	public IFilterDecorator createFilterDecorator(IPlottingSystem system);
 
+	/**
+	 * Add a listener to be notified when a new plotting system is registered.
+	 * @param l
+	 */
+	public void addRegistrationListener(IPlotRegistrationListener l);
+	
+	/**
+	 * Remove a plot registration listener.
+	 * @param l
+	 */
+	public void removeRegistrationListener(IPlotRegistrationListener l);
 	
 }
