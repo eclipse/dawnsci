@@ -33,7 +33,7 @@ public class ImageServiceBean {
 	private HistogramBound  minimumCutBound = HistogramBound.DEFAULT_MINIMUM;
 	private HistogramBound  nanBound        = HistogramBound.DEFAULT_NAN;
 	private IDataset        image;
-	private IDataset        value;
+	private IDataset        value; // values used to map colour
 	private IDataset        mask;
 	private PaletteData     palette;
 	private ImageOrigin     origin;
@@ -127,10 +127,17 @@ public class ImageServiceBean {
 		value = null;
 	}
 
+	/**
+	 * @return values to use in colour mapping
+	 */
 	public IDataset getImageValue() {
 		return value;
 	}
 
+	/**
+	 * Set values to use in colour mapping
+	 * @param value
+	 */
 	public void setImageValue(IDataset value) {
 		this.value = value;
 	}
