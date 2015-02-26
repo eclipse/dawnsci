@@ -91,4 +91,9 @@ public @interface OperationModelField {
 	 * @return the range type
 	 */
 	public RangeType rangevalue() default RangeType.NONE;
+	
+	/**
+	 * The number format to format a field editing a number
+	 */
+	public String numberFormat() default "";
 }
