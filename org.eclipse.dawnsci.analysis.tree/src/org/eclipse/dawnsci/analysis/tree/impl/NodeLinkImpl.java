@@ -32,6 +32,7 @@ public class NodeLinkImpl implements NodeLink, Serializable {
 
 	/**
 	 * A node link
+	 * @param tree
 	 * @param path to source
 	 * @param link name
 	 * @param source node which link starts from (can be null)
