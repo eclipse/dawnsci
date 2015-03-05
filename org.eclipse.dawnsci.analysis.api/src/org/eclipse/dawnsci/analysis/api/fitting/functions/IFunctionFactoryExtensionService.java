@@ -9,10 +9,17 @@
 
 package org.eclipse.dawnsci.analysis.api.fitting.functions;
 
+import java.util.List;
+
 public interface IFunctionFactoryExtensionService {
 	/**
 	 * Load extension points & register with the FunctionFactory
 	 */
-	public void registerExtensionPoints();
+	public void registerFunctionExtensionPoints();
+	
+	/**
+	 * Report the plugin which contributed the function
+	 */
+	public List<String> getPlugins();
 
 }
