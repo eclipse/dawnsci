@@ -142,4 +142,6 @@ public interface IOperation<M extends IOperationModel, D extends OperationData> 
 	 * @return passUnmodifiedData
 	 */
 	public boolean isPassUnmodifiedData();
+	
+	//TODO add an init() method
 }
