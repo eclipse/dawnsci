@@ -156,6 +156,12 @@ public interface ISliceSystem {
 	public void setVisible(boolean vis);
 
 	/**
+	 * Turn the toolbar on or off.
+	 * @param vis
+	 */
+	public void setToolbarVisible(boolean vis);
+	
+	/**
 	 * If the slice component has specialist slice actions in a toolbar
 	 * or tabbed panes. This will disable or enable the actions.
 	 * @param b
