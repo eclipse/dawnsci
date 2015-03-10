@@ -36,6 +36,11 @@ public interface IDataHolder extends IDataAnalysisObject {
 	 * @return an object implementing IMetadata
 	 */
 	public IMetadata getMetadata();
+	
+	/**
+	 * Set the metadata
+	 */
+	public void setMetadata(IMetadata md);
 
 	/**
 	 * This does not retrieve lazy datasets.
@@ -155,4 +160,10 @@ public interface IDataHolder extends IDataAnalysisObject {
 	 * @return tree (can be null)
 	 */
 	public Tree getTree();
+	
+	/**
+	 * Set the tree available in the holder
+	 * @param tree
+	 */
+	public void setTree(Tree tree);
 }
