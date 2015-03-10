@@ -54,15 +54,15 @@ public interface IFileLoader {
 	void setLoadAllLazily(boolean willLoadLazily);
 
 	/**
-	 * If a loader supports asynchronous load
-	 * Throws RuntimeException is asynch not supported.
-	 * @param treeOnTop
+	 * Set whether the loader loads asynchronously or not
+	 * Throws RuntimeException if asynchronous loading is not supported.
+	 * @param enable
 	 */
-	void setAsyncLoad(boolean treeOnTop);
+	void setAsyncLoad(boolean enable);
 
 	/**
 	 * If this loader supports asynchronous loading
-	 * @return if loading or throws RuntimeException if asynchronous loading is not supported.
+	 * @return true if still loading, false if finished or throws RuntimeException if asynchronous loading is not supported.
 	 */
 	boolean isLoading();
 }
