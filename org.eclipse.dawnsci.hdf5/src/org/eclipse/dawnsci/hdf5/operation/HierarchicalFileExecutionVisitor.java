@@ -370,7 +370,7 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 		ILazyDataset error = dataset.getError();
 		
 		if (error != null) {
-			IDataset e = error.getSlice().squeeze();
+			IDataset e = error.getSlice();
 			e.setName("errors");
 			H5Utils.insertDataset(file, group, e, sliceOut, newShape);
 		}
