@@ -117,7 +117,14 @@ public class Slicer {
 		
 		for (ILazyDataset slice : slices) {
 			
-			IDataset data = slice.getSlice();
+			IDataset data = null;
+			
+			if (slice instanceof IDataset) {
+				data = ((IDataset)slice).getSliceView();
+			} else {
+				data = slice.getSlice();
+			}
+			
 			SliceFromSeriesMetadata ssm = slice.getMetadata(SliceFromSeriesMetadata.class).get(0);
 			data.setMetadata(ssm);
 			if (visitor!=null) {
