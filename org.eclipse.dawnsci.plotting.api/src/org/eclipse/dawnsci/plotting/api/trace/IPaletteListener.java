@@ -98,6 +98,13 @@ public interface IPaletteListener extends EventListener {
 	 * @param evt
 	 */
 	public void maskChanged(PaletteEvent evt);
+	
+	/**
+	 * Notification when the rescaleHistogram setting has been changed
+	 * 
+	 * @param evt the palette event
+	 */
+	public void rescaleHistogramChanged(PaletteEvent evt);
 
 	public class Stub implements IPaletteListener {
 
@@ -146,10 +153,17 @@ public interface IPaletteListener extends EventListener {
 		public void imageOriginChanged(PaletteEvent evt) {
 			updateEvent(evt);
 		}
+
+		@Override
+		public void rescaleHistogramChanged(PaletteEvent evt) {
+			updateEvent(evt);
+		}
 		
 		protected void updateEvent(PaletteEvent evt) {
 			// TODO
 		}
+
+
 	}
 
 }
