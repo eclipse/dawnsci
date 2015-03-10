@@ -1001,7 +1001,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 			final HObject o = checkExists(name, parent, Dataset.class);
 			Dataset dataset;
 			if (o==null) {
-				dataset = file.createScalarDS(name, parent, dtype, totalShape, totalShape, null, 0, null);
+				dataset = file.createScalarDS(name, parent, dtype, totalShape, totalShape, H5Utils.getLong(data.getShape()), 0, null);
 			} else {
 				dataset = (Dataset)o;
 				
