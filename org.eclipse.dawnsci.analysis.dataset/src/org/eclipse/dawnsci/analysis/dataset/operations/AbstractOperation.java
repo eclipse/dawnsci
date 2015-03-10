@@ -301,6 +301,11 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 	}
 	
 	@Override
+	public void init() {
+		//do nothing
+	}
+	
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

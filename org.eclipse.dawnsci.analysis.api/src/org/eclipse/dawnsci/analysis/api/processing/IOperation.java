@@ -143,5 +143,8 @@ public interface IOperation<M extends IOperationModel, D extends OperationData> 
 	 */
 	public boolean isPassUnmodifiedData();
 	
-	//TODO add an init() method
+	/**
+	 * Called on each operation before a new file is processed
+	 */
+	public void init();
 }
