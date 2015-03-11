@@ -75,7 +75,8 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 		// Used for OSGI
 	}
 
-	private boolean firstPassDone = false;
+	private boolean nonNullExecutionDone = false;
+	private boolean firstExecuteCalled = false;
 	private final String RESULTS_GROUP = "result";
 	private final String INTER_GROUP = "intermediate";
 	private final String AUX_GROUP = "auxiliary";
@@ -150,24 +151,26 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	
 	@Override
 	public void executed(OperationData result, IMonitor monitor) throws Exception {
+		firstExecuteCalled = true;
+		if (result == null) return;
 		//Write data to file
 		final IDataset integrated = result.getData();
 		SliceFromSeriesMetadata metadata = integrated.getMetadata(SliceFromSeriesMetadata.class).get(0);
 		int[] dataDims = metadata.getDataDimensions();
 		int[] shape = metadata.getSubSampledShape();
 		Slice[] slices = metadata.getSliceInOutput();
-		updateAxes(integrated, slices, shape, dataDims, results);
+		updateAxes(integrated, slices, shape, dataDims, results,nonNullExecutionDone);
 		integrated.setName("data");
 		appendData(integrated,results, slices,shape, file);
-		if (!firstPassDone)file.setAttribute(results +"/" +integrated.getName(), "signal", String.valueOf(1));
-		firstPassDone = true;
+		if (!nonNullExecutionDone)file.setAttribute(results +"/" +integrated.getName(), "signal", String.valueOf(1));
+		nonNullExecutionDone = true;
 		
 	}
 
 	@Override
 	public void notify(IOperation<? extends IOperationModel, ? extends OperationData> intermeadiateData, OperationData data) {
 		//make groups on first pass
-		if (!firstPassDone) {
+		if (!firstExecuteCalled) {
 			try {
 				initGroups();
 			} catch (Exception e) {
@@ -202,8 +205,8 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 				IDataset d = data.getData();
 				d.setName("data");
 				appendData(d,group, slices,shape, file);
-				if (!firstPassDone)file.setAttribute(group +"/" +d.getName(), "signal", String.valueOf(1));
-				updateAxes(d, slices, shape, dataDims, group);
+				if (!firstExecuteCalled)file.setAttribute(group +"/" +d.getName(), "signal", String.valueOf(1));
+				updateAxes(d, slices, shape, dataDims, group,firstExecuteCalled);
 				
 			} catch (Exception e) {
 				logger.error(e.getMessage());
@@ -233,8 +236,8 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 						
 						ds.setName("data");
 						appendData(ds,group, slices,shape, file);
-						if (!firstPassDone)file.setAttribute(group +"/" +ds.getName(), "signal", String.valueOf(1));
-						updateAxes(ds, slices, shape, dataDims, group);
+						if (!firstExecuteCalled)file.setAttribute(group +"/" +ds.getName(), "signal", String.valueOf(1));
+						updateAxes(ds, slices, shape, dataDims, group, firstExecuteCalled);
 					} catch (Exception e) {
 						logger.error(e.getMessage());
 					}
@@ -243,7 +246,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 		}
 	}
 	
-private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataDims, String groupName) throws Exception {
+private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataDims, String groupName, boolean firstDone) throws Exception {
 		
 		Map<Integer, String[]> axesNames = null;
 		
@@ -281,7 +284,7 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 					for (int j = 0; j < axis.length; j++) {
 						ILazyDataset ax = axis[j];
 						if (ax == null) continue;
-						if (!firstPassDone) {
+						if (!firstDone) {
 							String name = ax.getName();
 							
 							//assume only our slicing puts [ in a axis name!
@@ -307,7 +310,7 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 						axDataset.setName(axesNames.get(i)[j]);
 						
 						if (setDims.contains(i)) {
-							if(!firstPassDone) {
+							if(!firstDone) {
 							String ds = file.createDataset(axDataset.getName(), axDataset.squeeze(), groupName);
 							file.setAttribute(ds, "axis", String.valueOf(i+1));
 							
