@@ -153,6 +153,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	public void executed(OperationData result, IMonitor monitor) throws Exception {
 		firstExecuteCalled = true;
 		if (result == null) return;
+		if (results ==  null) initGroups();
 		//Write data to file
 		final IDataset integrated = result.getData();
 		SliceFromSeriesMetadata metadata = integrated.getMetadata(SliceFromSeriesMetadata.class).get(0);
