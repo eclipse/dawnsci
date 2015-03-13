@@ -478,6 +478,19 @@ public interface IPlottingSystem extends IAdaptable, ITraceSystem, IRegionSystem
 	 * @param b
 	 */
 	public void setShowIntensity(boolean b);
+	
+	/**
+	 * 
+	 * @return true if values will be shown when the user zooms in far enough
+	 */
+	public boolean isShowValueLabels();
+	
+	/**
+	 * Shows or not the values on high zoom
+	 * @param b
+	 */
+	public void setShowValueLabels(boolean b);
+
 
 	/**
 	 * Sets the legends setting on/off

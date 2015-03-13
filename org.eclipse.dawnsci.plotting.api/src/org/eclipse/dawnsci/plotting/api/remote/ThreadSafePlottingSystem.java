@@ -486,6 +486,17 @@ public class ThreadSafePlottingSystem extends ThreadSafeObject implements IPlott
 	public void setShowIntensity(boolean b) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), new Class[] { boolean.class }, b);
 	}
+	
+	@Override
+	public boolean isShowValueLabels() {
+		return (Boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
+	}
+
+	@Override
+	public void setShowValueLabels(boolean b) {
+		call(getMethodName(Thread.currentThread().getStackTrace()), new Class[] { boolean.class }, b);
+	}
+
 
 	@Override
 	public void setShowLegend(boolean b) {
