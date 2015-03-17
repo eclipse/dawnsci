@@ -27,6 +27,6 @@ public interface DatasetToDatasetFunction {
 	 * @param datasets list of datasets to be processed
 	 * @return list of datasets
 	 */
-	public List<? extends Dataset> value(IDataset... datasets);
+	public List<? extends IDataset> value(IDataset... datasets);
 
 }
