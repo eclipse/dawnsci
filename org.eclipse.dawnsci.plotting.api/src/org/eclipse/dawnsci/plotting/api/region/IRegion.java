@@ -17,6 +17,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
+import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.axis.ICoordinateSystem;
 import org.eclipse.swt.graphics.Color;
@@ -39,8 +40,8 @@ public interface IRegion {
 	public String getName();
 
 	/**
-	 * The name of the region
-	 * 
+	 * The name of the region. Warning: as region names must be unique and are coordinated in a plotting system,
+	 * you probably want to use {@link IPlottingSystem#renameRegion(IRegion, String)}
 	 * @param name
 	 */
 	public void setName(String name);
