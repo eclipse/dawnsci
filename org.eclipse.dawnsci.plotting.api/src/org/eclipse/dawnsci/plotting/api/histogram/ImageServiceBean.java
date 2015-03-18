@@ -344,8 +344,43 @@ public class ImageServiceBean {
 		}
 
 	}
+	
+	/**
+	 * Decodes the histo string and sets the
+	 * values into this bean.
+	 * 
+	 * Example: "MEAN", "OUTLIER_VALUES:5-95"
+	 * 
+	 * @param histo
+	 */
+	public void decode(String histo) {
+		String[] sa = histo.split("\\:");
+		setHistogramType(histogramType.valueOf(sa[0]));
+		if (sa.length>1) {
+			String[] vals = sa[1].split("-");
+			setLo(Double.parseDouble(vals[0]));
+			setHi(Double.parseDouble(vals[1]));
+		}
+	}
 
-
+	/**
+	 * Encodes this bean to a String
+	 * Currently only the histo type, hi and lo are supported
+	 * 
+ 	 * Example: "MEAN", "OUTLIER_VALUES:5-95"
+	 * @return
+	 */
+    public String encode() {
+    	final StringBuilder buf = new StringBuilder();
+    	buf.append(getHistogramType().toString());
+    	if (getHistogramType()==HistoType.OUTLIER_VALUES) {
+        	buf.append(":");
+        	buf.append(getLo());
+        	buf.append("-");
+        	buf.append(getHi());
+    	}
+    	return buf.toString();
+    }
 
 	public enum ImageOrigin {
 		TOP_LEFT("Top left"), TOP_RIGHT("Top right"), BOTTOM_LEFT("Bottom left"), BOTTOM_RIGHT("Bottom right");
