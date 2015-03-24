@@ -70,7 +70,7 @@ public class MapToRotatedCartesian implements DatasetToDatasetFunction {
 	 * @param roi
 	 */
 	public MapToRotatedCartesian(IRectangularROI roi) {
-		this((int) roi.getPointX(), (int) roi.getPointY(), (int) roi.getLength(0), (int) roi.getLength(1), roi.getAngle());
+		this((int) roi.getPointX(), (int) roi.getPointY(), (int) roi.getLength(0), (int) roi.getLength(1), roi.getAngleDegrees());
 	}
 
 	/**
