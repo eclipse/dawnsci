@@ -779,7 +779,9 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
     	int    dType   = ((org.eclipse.dawnsci.analysis.dataset.impl.Dataset)data).getDtype();
 		long[] shape   = H5Utils.getLong(data.getShape());
 		//need to flatten before getting the buffer!
-		Object buffer  = ((org.eclipse.dawnsci.analysis.dataset.impl.Dataset)data).flatten().getBuffer();
+		IDataset d = data.getSliceView();
+		d.clearMetadata(null);
+		Object buffer  = ((org.eclipse.dawnsci.analysis.dataset.impl.Dataset)d).flatten().getBuffer();
 		
 		return createDataset(name, dType, shape, buffer, parentPath, overwrite);
    	
