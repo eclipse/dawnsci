@@ -104,7 +104,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 		if (metadata != null && metadata.get(0) != null) origin = metadata.get(0);
 		file = HierarchicalDataFactory.getWriter(filePath);
 		try {
-			//dont fail process because of error persisting models
+			// don't fail process because of error persisting models
 			IPersistentFile pf = service.createPersistentFile(file);
 			pf.setOperations(series);
 			pf.setOperationDataOrigin(origin);
@@ -297,7 +297,7 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 								name = name.replace("/", "_");
 							}
 							
-							//sanitize - cant have an axis called data
+							//sanitize - can't have an axis called data
 							if (name.isEmpty() || name.equals("data")) {
 								int n = 0;
 								while(groupAxesNames.containsKey("axis" + n)) n++;

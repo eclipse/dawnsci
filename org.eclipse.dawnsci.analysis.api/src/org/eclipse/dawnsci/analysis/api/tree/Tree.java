@@ -15,13 +15,18 @@ package org.eclipse.dawnsci.analysis.api.tree;
 import java.net.URI;
 
 /**
- * Top level node that holds entire tree
+ * A tree has a link to the top group node
  */
-public interface Tree extends Node {
+public interface Tree {
 
 	public static final String HOST_SEPARATOR = ":";
 	public static final String FILE_STARTER = "//";
-	public static final String ROOT = SEPARATOR;
+	public static final String ROOT = Node.SEPARATOR;
+
+	/**
+	 * @return ID
+	 */
+	public long getID();
 
 	/**
 	 * @return source URI
