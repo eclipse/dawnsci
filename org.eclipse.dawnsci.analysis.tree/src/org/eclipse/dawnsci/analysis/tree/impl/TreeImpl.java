@@ -16,13 +16,14 @@ import java.io.Serializable;
 import java.net.URI;
 
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 
 /**
- * Top-level node for a tree
+ * A tree has a link to the top group node
  */
-public class TreeImpl extends NodeImpl implements Tree, Serializable {
+public class TreeImpl implements Tree, Serializable {
 	protected static final long serialVersionUID = -4612527676015545433L;
 
 	protected final URI source;
@@ -36,8 +37,6 @@ public class TreeImpl extends NodeImpl implements Tree, Serializable {
 	 * @param uri (can be null)
 	 */
 	public TreeImpl(final long oid, URI uri) {
-		super(oid);
-
 		source = uri;
 		host = uri == null ? null : uri.getHost(); // this can return null for "file:/blah"
 		
@@ -60,13 +59,18 @@ public class TreeImpl extends NodeImpl implements Tree, Serializable {
 	}
 
 	@Override
+	public long getID() {
+		return getGroupNode().getID();
+	}
+
+	@Override
 	public GroupNode getGroupNode() {
 		return (GroupNode) link.getDestination();
 	}
 
 	@Override
 	public void setGroupNode(GroupNode g) {
-		link = new NodeLinkImpl(this, null, ROOT, this, g);
+		link = new NodeLinkImpl(this, null, ROOT, null, g);
 	}
 
 	@Override
@@ -82,7 +86,7 @@ public class TreeImpl extends NodeImpl implements Tree, Serializable {
 	@Override
 	public NodeLink findNodeLink(final String pathname) {
 			final String path = canonicalizePath(pathname);
-			if (path.indexOf(SEPARATOR) != 0)
+			if (path.indexOf(Node.SEPARATOR) != 0)
 				return null;
 	
 			if (path.length() == 1) {
@@ -96,7 +100,7 @@ public class TreeImpl extends NodeImpl implements Tree, Serializable {
 //			}
 			// check if root attribute is needed
 			final String spath = path.substring(1);
-			if (!spath.startsWith(ATTRIBUTE)) {
+			if (!spath.startsWith(Node.ATTRIBUTE)) {
 				return g.findNodeLink(spath);
 			}
 	
@@ -120,7 +124,7 @@ public class TreeImpl extends NodeImpl implements Tree, Serializable {
 		StringBuilder path = new StringBuilder(pathname);
 		int i = 0;
 		while ((i = path.indexOf(UPDIR)) >= 0) {
-			int j = path.lastIndexOf(SEPARATOR, i - 1);
+			int j = path.lastIndexOf(Node.SEPARATOR, i - 1);
 			if (j <= 0) {
 				// can not find SEPARATOR or preserve ROOT
 				path.insert(0, ROOT);
