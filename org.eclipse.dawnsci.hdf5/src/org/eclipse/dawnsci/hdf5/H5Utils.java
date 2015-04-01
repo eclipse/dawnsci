@@ -208,13 +208,11 @@ public class H5Utils {
 	 * @throws Exception
 	 */
 	public static void appendDataset(IHierarchicalDataFile file, String parent, IDataset a) throws Exception {
-		
-		String s = file.appendDataset(a.getName(),  
-				                     a, 
-				                     parent);
-		
-		file.setNexusAttribute(s, Nexus.SDS);	
-		
+
+		String s = file.appendDataset(a.getName(), a, parent);
+
+		file.setNexusAttribute(s, Nexus.SDS);
+
 	}
 	
 	public static void insertDataset(IHierarchicalDataFile file, String parent, IDataset a, Slice[] slice, long[] finalShape) throws Exception {

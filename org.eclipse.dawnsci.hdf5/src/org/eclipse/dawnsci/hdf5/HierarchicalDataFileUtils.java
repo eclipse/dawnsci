@@ -14,8 +14,6 @@ package org.eclipse.dawnsci.hdf5;
 import java.util.ArrayList;
 import java.util.List;
 
-import ncsa.hdf.object.Group;
-
 public class HierarchicalDataFileUtils {
 	// delete empty strings
 	private static String[] cleanArray(String[] array) {

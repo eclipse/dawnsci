@@ -212,7 +212,6 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 		}
 		count=1;
 	}
-	
 
 	/**
 	 * Returns the root TreeNode for iterating down the
@@ -243,7 +242,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 	 * Returns the object with using full name.
 	 * 
 	 * Full name is a / separated full path to the
-	 * data e.g. /entry1/counterTimer01/enery
+	 * data e.g. /entry1/counterTimer01/energy
 	 * 
 	 * @param path
 	 * @return
@@ -646,7 +645,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 	public void print() throws Exception {
 		printGroup(_getRoot(), "");
 	}
-	
+
 	/**
      * Recursively print a group and its members.
      * @throws Exception
@@ -680,13 +679,13 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 		HObject entry = getData(entryPath);
 		NexusUtils.setIntAttribute(file, entry, name, value);
 	}
-	
+
 	@Override
 	public void setNexusAttribute(String objectPath, String attribute) throws Exception {
 		HObject object = getData(objectPath);
 		NexusUtils.setNexusAttribute(file, object, attribute);
 	}
-	
+
 	/**
 	 * Creates and returns a new dataset with the given name and parent
 	 * If it already exists then the dataset is overwritten
@@ -699,7 +698,6 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 		return createStringDataset(name, value, parent, true);
 	}
 
-	
 	@Override
 	public String createStringDataset(final String name, final String value, final String parent) throws Exception {
 		return createStringDataset(name, value, parent, false);
@@ -734,7 +732,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 			parent.close(id);
 		}
 	}
-	
+
 	@Override
 	public String createStringDataset(final String name, final int size, final String parentPath) throws Exception {
 		
@@ -760,7 +758,6 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 		}
 	}
 
-	
 	@Override
 	public String replaceDataset(final String name, IDataset data, final String parent) throws Exception {
 		return createDataset(name, data, parent, true);
@@ -770,7 +767,6 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 	public String createDataset(final String name, final IDataset data, final String parent) throws Exception {
 		return createDataset(name, data, parent, false);
 	}
-
 
     @Override
 	public String createDataset(String     name,  
