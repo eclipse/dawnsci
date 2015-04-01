@@ -13,6 +13,7 @@ package org.eclipse.dawnsci.hdf5;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
+import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.ByteDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
@@ -152,7 +153,7 @@ public class H5Utils {
 		
 		// There is a smarter way of doing this, but am in a hurry...
 		try {
-		    return getDatatype(((org.eclipse.dawnsci.analysis.dataset.impl.Dataset)a).getDtype());
+		    return getDatatype(AbstractDataset.getDType(a));
 		} catch (Exception ne) {
 			throw new Exception("Cannot deal with data in form "+a.getClass().getName());
 		}
