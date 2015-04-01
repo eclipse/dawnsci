@@ -35,6 +35,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
+import org.eclipse.dawnsci.analysis.api.metadata.OriginMetadata;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.data.Constants;
@@ -355,6 +356,9 @@ class SliceRequest implements HttpSessionBindingListener {
 
 		final ObjectOutputStream ostream = new ObjectOutputStream(response.getOutputStream());
 		try {
+			// We remove the origin metadata because the reference
+			// to the original dataset is not desirable.
+			data.clearMetadata(OriginMetadata.class);
 			ostream.writeObject(data);
 			
 		} catch (Exception ne) {

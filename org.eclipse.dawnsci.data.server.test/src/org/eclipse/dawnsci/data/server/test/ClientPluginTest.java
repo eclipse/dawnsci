@@ -12,10 +12,9 @@
 package org.eclipse.dawnsci.data.server.test;
 
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 import java.util.Collection;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.data.client.DataClient;
@@ -43,8 +42,6 @@ public class ClientPluginTest {
 	public static void setPlotImageService(IPlotImageService service) {
 		plotService = service;
 	}
-
-	private volatile int count = 0;
 	
 	/**
 	 * Test opens stream in plotting system.
@@ -195,5 +192,6 @@ public class ClientPluginTest {
  		page.setPartState(page.getActivePartReference(), IWorkbenchPage.STATE_MAXIMIZED);
  		return part;
 	}
+
 
 }

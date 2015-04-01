@@ -82,8 +82,11 @@ public class DataServer implements IApplication{
 		}
 	}
 
-	
 	public void start() throws Exception {
+		start(true);
+	}
+	
+	public void start(boolean block) throws Exception {
 		
 		this.server = new Server(port);
         
@@ -100,7 +103,7 @@ public class DataServer implements IApplication{
         server.setHandler(sessionHandler);    
 
 	    server.start();
-	    server.join();
+	    if (block) server.join();
 	}
 
 	public int getPort() {

@@ -12,12 +12,21 @@
 package org.eclipse.dawnsci.data.server.test;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Arrays;
 
+import org.dawnsci.plotting.services.ImageService;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.data.client.DataClient;
+import org.eclipse.dawnsci.data.server.DataServer;
 import org.eclipse.dawnsci.data.server.Format;
+import org.eclipse.dawnsci.data.server.ServiceHolder;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import uk.ac.diamond.scisoft.analysis.dataset.function.Downsample;
+import uk.ac.diamond.scisoft.analysis.osgi.LoaderServiceImpl;
 
 /**
  * Runs as standard junit test.
@@ -30,32 +39,64 @@ import org.junit.Test;
  * 
  * @author fcp94556
  *
- */
+ */ 
 public class ClientTest {
+	
+	private static DataServer server;
+	private static String     testDir;
 
+	/**
+	 * Programmatically start the DataServer OSGi application which runs
+	 * under Jetty and starts jetty itself.
+	 * @throws Exception 
+	 */
+	@BeforeClass
+	public static void startDataServer() throws Exception {
+		
+		// Sorry but the concrete classes for these services are not part of an eclipse project.
+		// To get these concrete services go to dawnsci.org and follow the instructions for
+		// setting up dawnsci to run in your application.
+		ServiceHolder.setDownService(new Downsample());
+		ServiceHolder.setImageService(new ImageService());
+		ServiceHolder.setLoaderService(new LoaderServiceImpl());
+	
+        // Start the DataServer
+		server = new DataServer();
+		server.setPort(8080);
+		server.start(false);
+		
+		File pluginDir = new File((new File("")).getAbsolutePath()); // Assuming test run in test plugin
+		testDir = (new File(pluginDir, "testfiles")).getAbsolutePath();
+	}
+	
+	@AfterClass
+	public static void stop() {
+		server.stop();
+	}
+
+	
 	@Test
 	public void testFullData() throws Exception {
 		
 		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:8080/");
-		client.setPath("c:/Work/results/TomographyDataSet.hdf5");
-		client.setDataset("/entry/exchange/data");
-		client.setSlice("[0,:1024,:1024]");
-		
+		client.setPath(testDir+"/export.h5");
+		client.setDataset("/entry/edf/data");
+		client.setSlice("[0,:2048,:2048]");
+
 		final IDataset data = client.get();
-		if (!Arrays.equals(data.getShape(), new int[]{1024, 1024})) {
+		if (!Arrays.equals(data.getShape(), new int[]{2048, 2048})) {
 			throw new Exception("Unexpected shape "+Arrays.toString(data.getShape()));
 		}
-
 	}
-	
+
 	@Test
 	public void testDownsampledData() throws Exception {
 		
 		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:8080/");
-		client.setPath("c:/Work/results/TomographyDataSet.hdf5");
-		client.setDataset("/entry/exchange/data");
-		client.setSlice("[0,:1024,:1024]");
-		client.setBin("MEAN:2x2");
+		client.setPath(testDir+"/export.h5");
+		client.setDataset("/entry/edf/data");
+		client.setSlice("[0,:2048,:2048]");
+		client.setBin("MEAN:4x4");
 		
 		final IDataset data = client.get();
 		if (!Arrays.equals(data.getShape(), new int[]{512, 512})) {
@@ -68,10 +109,10 @@ public class ClientTest {
 	public void testDownsampledJPG() throws Exception {
 		
 		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/");
-		client.setPath("c:/Work/results/TomographyDataSet.hdf5");
-		client.setDataset("/entry/exchange/data");
-		client.setSlice("[0,:1024,:1024]");
-		client.setBin("MEAN:2x2");
+		client.setPath(testDir+"/export.h5");
+		client.setDataset("/entry/edf/data");
+		client.setSlice("[0,:2048,:2048]");
+		client.setBin("MEAN:4x4");
 		client.setFormat(Format.JPG);
 		client.setHisto("MEAN");
 		
@@ -85,10 +126,10 @@ public class ClientTest {
 	public void testDownsampledMJPG() throws Exception {
 		
 		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/");
-		client.setPath("c:/Work/results/TomographyDataSet.hdf5");
-		client.setDataset("/entry/exchange/data");
-		client.setSlice("[700,:1024,:1024]");
-		client.setBin("MEAN:2x2");
+		client.setPath(testDir+"/export.h5");
+		client.setDataset("/entry/edf/data");
+		client.setSlice("[0,:2048,:2048]");
+		client.setBin("MEAN:4x4");
 		client.setFormat(Format.MJPG);
 		client.setHisto("MEAN");
 		client.setSleep(100); // Default anyway is 100ms
@@ -105,7 +146,7 @@ public class ClientTest {
 			System.out.println("Image "+i+" found");
 		}
 	
-		if (i != 20) throw new Exception("20 images were not found! "+i+" were!");
+		if (i != 4) throw new Exception("4 images were not found! "+i+" were!");
 	}
 	
 	@Test

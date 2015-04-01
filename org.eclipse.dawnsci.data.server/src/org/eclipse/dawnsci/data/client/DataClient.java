@@ -19,6 +19,7 @@ import java.net.URLEncoder;
 
 import javax.imageio.ImageIO;
 
+import org.eclipse.dawnsci.analysis.api.IClassLoaderService;
 import org.eclipse.dawnsci.data.client.streamer.IStreamer;
 import org.eclipse.dawnsci.data.client.streamer.StreamerFactory;
 import org.eclipse.dawnsci.data.server.Format;
@@ -82,6 +83,13 @@ import org.eclipse.dawnsci.data.server.Format;
  */
 public class DataClient<T> {
 
+	private static IClassLoaderService classService;
+	public static void setClassLoaderService(IClassLoaderService service) {
+		classService = service;
+	}
+	public DataClient() {
+		// OSGi
+	}
 
 	private String     base;
 	private String     path;
@@ -173,6 +181,10 @@ public class DataClient<T> {
 	private T getData() throws Exception {
 		isFinished = false;
 		try {
+			// We are getting into serializing and deserializing IDataset which
+			// might come with some fruity 
+			if (classService!=null) classService.setDataAnalysisClassLoaderActive(true);
+
 			if (format!=null && format!=Format.DATA) {
 				throw new Exception("Cannot get data with format set to "+format);
 			}
@@ -192,6 +204,7 @@ public class DataClient<T> {
 				if (oin!=null) oin.close();
 	 		}
 		} finally {
+			if (classService!=null) classService.setDataAnalysisClassLoaderActive(false);
 			isFinished = true;
 		}
 
