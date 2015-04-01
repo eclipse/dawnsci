@@ -89,7 +89,7 @@ public class SliceNDGenerator {
 		
 		iter.reset();
 		
-		PositionIterator piter = new PositionIterator(iter.getShape(),datadimensions);
+		PositionIterator piter = new PositionIterator(iter.getShape(), datadimensions);
 		Map<SliceND,SliceND> map = new HashMap<SliceND, SliceND>();
 		
 		List<SliceND> output = new ArrayList<SliceND>();
@@ -97,21 +97,23 @@ public class SliceNDGenerator {
 		int[] st = new int[inputShape.length];
 		for (int i = 0; i < st.length;i++) st[i] = 1;
 		
+		int[] pos = iter.getPos();
+		int[] end = new int[pos.length];
+		int[] ppos = piter.getPos();
+		int[] pend = new int[ppos.length];
 		while (iter.hasNext()) {
-			int[] pos = iter.getPos();
-			int[] end = getEndFromPos(pos);
+			setEndFromPos(pos, end);
 			SliceND main = new SliceND(inputShape, pos, end, st);
 			output.add(main);
 			
 			if (positionInOutput != null) {
 				piter.hasNext();
-				pos = piter.getPos();
-				end = getEndFromPos(pos);
-				SliceND outer = new SliceND(getOutputShape(), pos, end, st);
+				setEndFromPos(ppos, pend);
+				SliceND outer = new SliceND(getOutputShape(), ppos, pend, st);
 				map.put(main, outer);
 			}
 		}
-		
+
 		if (dimensionOrder != null) {
 			Comparator<SliceND> c = SliceNDGenerator.getStartComparator(inputShape.length,dimensionOrder);
 			Collections.sort(output,c);
@@ -122,20 +124,16 @@ public class SliceNDGenerator {
 		return output;
 	}
 
-	private int[] getEndFromPos(int[] pos) {
-		
-		int[] end = pos.clone();
-		for (int i = 0; i<pos.length;i++) {
-			end[i]++;
+	private void setEndFromPos(int[] pos, int[] end) {
+		for (int i = 0; i < pos.length; i++) {
+			end[i] = pos[i] + 1;
 		}
 
-		for (int i = 0; i < datadimensions.length; i++){
-			end[datadimensions[i]] = inputShape[datadimensions[i]];
+		for (int i : datadimensions) {
+			end[i] = inputShape[i];
 		}
-		
-		return end;
 	}
-	
+
 	public static Comparator<SliceND> getStartComparator(final int rank, final int[] incrementOrder) {
 		
 		final int[] full = getDimensionSortingArray(rank,incrementOrder);
