@@ -149,6 +149,7 @@ class SliceRequest implements HttpSessionBindingListener {
 		case MJPG:  // In the case of MJPG, we loop over doSlice(...)
 		case MDATA: // In the case of MDATA, we loop over doSlice(...)
 			sendImages(lz, slices, baseRequest, request, response, format);
+			break;
 			
 	    default:
 	    	throw new Exception("Cannot process format: "+format);
