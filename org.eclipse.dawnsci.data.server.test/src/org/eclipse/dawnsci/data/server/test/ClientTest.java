@@ -44,6 +44,7 @@ public class ClientTest {
 	
 	private static DataServer server;
 	private static String     testDir;
+	private static int        port;
 
 	/**
 	 * Programmatically start the DataServer OSGi application which runs
@@ -61,9 +62,12 @@ public class ClientTest {
 		ServiceHolder.setLoaderService(new LoaderServiceImpl());
 	
         // Start the DataServer
+		port   = TestUtils.getFreePort(8080);
 		server = new DataServer();
-		server.setPort(8080);
+		server.setPort(port);
 		server.start(false);
+		
+		System.out.println("Started DataServer on port "+port);
 		
 		File pluginDir = new File((new File("")).getAbsolutePath()); // Assuming test run in test plugin
 		testDir = (new File(pluginDir, "testfiles")).getAbsolutePath();
@@ -78,7 +82,7 @@ public class ClientTest {
 	@Test
 	public void testFullData() throws Exception {
 		
-		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:8080/");
+		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:"+port+"/");
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -92,7 +96,7 @@ public class ClientTest {
 	@Test
 	public void testDownsampledData() throws Exception {
 		
-		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:8080/");
+		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:"+port+"/");
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -108,7 +112,7 @@ public class ClientTest {
 	@Test
 	public void testDownsampledJPG() throws Exception {
 		
-		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/");
+		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:"+port+"/");
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -125,7 +129,7 @@ public class ClientTest {
 	@Test
 	public void testDownsampledMJPG() throws Exception {
 		
-		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/");
+		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:"+port+"/");
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -152,7 +156,7 @@ public class ClientTest {
 	@Test
 	public void testFastMJPG() throws Exception {
 		
-		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/");
+		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:"+port+"/");
 		client.setPath("RANDOM:512x512");
 		client.setFormat(Format.MJPG);
 		client.setHisto("MEAN");
@@ -182,7 +186,7 @@ public class ClientTest {
 	@Test
 	public void testFastMDATA() throws Exception {
 		
-		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:8080/");
+		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:"+port+"/");
 		client.setPath("RANDOM:512x512");
 		client.setFormat(Format.MDATA);
 		client.setHisto("MEAN");

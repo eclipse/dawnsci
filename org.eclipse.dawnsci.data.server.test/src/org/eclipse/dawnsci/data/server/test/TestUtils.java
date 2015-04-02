@@ -11,6 +11,10 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.data.server.test;
 
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.ServerSocket;
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -124,5 +128,54 @@ public class TestUtils {
 		return windows[0].getActivePage();
 	}
 
+	/**
+	 * Attempts to get a free port starting at the passed in port and
+	 * working up.
+	 * 
+	 * @param startPort
+	 * @return
+	 */
+	public static int getFreePort(final int startPort) {
+		
+	    int port = startPort;
+	    while(!TestUtils.isPortFree(port)) port++;
+	    	
+	    return port;
+	}
+
+
+	/**
+	 * Checks if a port is free.
+	 * @param port
+	 * @return
+	 */
+	public static boolean isPortFree(int port) {
+
+	    ServerSocket ss = null;
+	    DatagramSocket ds = null;
+	    try {
+	        ss = new ServerSocket(port);
+	        ss.setReuseAddress(true);
+	        ds = new DatagramSocket(port);
+	        ds.setReuseAddress(true);
+	        return true;
+	    } catch (IOException e) {
+	    	// Swallow this, it's not free
+	    	return false;
+	    } finally {
+	        if (ds != null) {
+	            ds.close();
+	        }
+
+	        if (ss != null) {
+	            try {
+	                ss.close();
+	            } catch (IOException e) {
+	                /* should not be thrown */
+	            }
+	        }
+	    }
+
+	}
 
 }
