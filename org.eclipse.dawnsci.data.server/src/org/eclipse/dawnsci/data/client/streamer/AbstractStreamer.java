@@ -32,7 +32,8 @@ abstract class AbstractStreamer<T> implements IStreamer<T>, Runnable {
 	private BlockingQueue<T> queue;
 	private InputStream      in;
 	private long             sleepTime;
-	private long             droppedImages = 0;
+	private long             droppedImages  = 0;
+	private long             receivedImages = 0;
 	private boolean          isFinished;
 	
 	private String             delimiter;
@@ -153,14 +154,18 @@ abstract class AbstractStreamer<T> implements IStreamer<T>, Runnable {
 			setFinished(true);
 			return null;
 		}
+		receivedImages++;
 		return bi;
 	}
 
 	protected abstract T getQueueEndObject();
 
 
-	public long getDroppedImages() {
+	public long getDroppedImageCount() {
 		return droppedImages;
+	}
+	public long getReceivedImageCount() {
+		return receivedImages;
 	}
 
 	public void start() {

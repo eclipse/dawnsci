@@ -36,7 +36,13 @@ public interface IStreamer<T> {
 	 * Gets the count of dropped images from this stream
 	 * @return
 	 */
-	long getDroppedImages();
+	long getDroppedImageCount();
+
+	/**
+	 * Gets the count of received images from this stream
+	 * @return
+	 */
+	long getReceivedImageCount();
 
 	/**
 	 * Call to stop streamer from streaming.

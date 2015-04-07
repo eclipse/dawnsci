@@ -9,7 +9,7 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.data.server.test;
+package org.eclipse.dawnsci.data.client;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -19,16 +19,22 @@ import org.eclipse.dawnsci.analysis.api.dataset.DataListenerDelegate;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
-import org.eclipse.dawnsci.data.client.DataClient;
 import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
+import org.eclipse.swt.widgets.Display;
 
-public class DynamicRGBDataset extends RGBDataset implements IDynamicDataset {
+/**
+ * Class used to get a streaming image into the plotting system.
+ * 
+ * @author fcp94556
+ *
+ */
+public class DynamicRGBImage extends RGBDataset implements IDynamicDataset {
 	
 	private static IPlotImageService plotService;
 	public static void setPlotImageService(IPlotImageService service) {
 		plotService = service;
 	}
-	public DynamicRGBDataset() {
+	public DynamicRGBImage() {
 		// OSGi
 	}
 
@@ -40,8 +46,13 @@ public class DynamicRGBDataset extends RGBDataset implements IDynamicDataset {
 	private DataListenerDelegate      delegate;
 	private DataClient<BufferedImage> client;
 	
-	public DynamicRGBDataset(DataClient<BufferedImage> client, int... shape) {
-		super(shape);
+	/**
+	 * 
+	 * @param client the client used to create the connection, for instance MJPG
+	 * @param shape the shape of the data if known, or do not set it if not.
+	 */
+	public DynamicRGBImage(DataClient<BufferedImage> client, int... shape) {
+		super(shape == null || shape.length<1 ? new int[]{1,1} : shape);
 		this.delegate = new DataListenerDelegate();
 		this.client = client;
 	}
@@ -73,13 +84,15 @@ public class DynamicRGBDataset extends RGBDataset implements IDynamicDataset {
     		final RGBDataset set = (RGBDataset)plotService.createDataset(image);
     		setBuffer(set.getBuffer());
     		setData();
-    		setShape(set.getShape());
+    		shape = set.getShape();
     		delegate.fire(new DataEvent(set));
     		
     		++count;
     		if (count>maxImages) return;
     		
-    		TestUtils.delay(client.getSleep());
+    		if (client.getSleep()>-1) {
+    			delay(client.getSleep());
+    		}
     	}
 
 	}
@@ -98,4 +111,39 @@ public class DynamicRGBDataset extends RGBDataset implements IDynamicDataset {
 		delegate.removeDataListener(l);
 	}
 	
+	public static void delay(long waitTimeMillis) {
+		
+		if (Display.getDefault() != null) {
+
+			Display display = Display.getDefault();
+
+			// If this is the UI thread,
+			// then process input.
+			long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
+			while (System.currentTimeMillis() < endTimeMillis) {
+				try {
+					if (!display.readAndDispatch()) {
+						display.sleep();
+					}
+				} catch (Exception ne) {
+					try {
+						Thread.sleep(waitTimeMillis);
+					} catch (InterruptedException e) {
+						// Ignored
+					}
+					break;
+				}
+			}
+			display.update();
+			
+		} else {
+			try {
+				Thread.sleep(waitTimeMillis);
+			} catch (InterruptedException e) {
+				// Ignored.
+			}
+		}
+	}
+
+
 }

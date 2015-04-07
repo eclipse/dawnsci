@@ -141,7 +141,10 @@ public class DataClient<T> {
 	}
 
 	public long getDroppedImageCount() {
-		return streamer.getDroppedImages();
+		return streamer.getDroppedImageCount();
+	}
+	public long getReceivedImageCount() {
+		return streamer.getReceivedImageCount();
 	}
 	
 	public T get() throws Exception {

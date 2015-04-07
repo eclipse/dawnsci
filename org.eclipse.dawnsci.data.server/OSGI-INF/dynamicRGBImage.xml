@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="Dynamic RGB Dataset">
-   <implementation class="org.eclipse.dawnsci.data.server.test.DynamicRGBDataset"/>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="Dynamic RGB Image">
+   <implementation class="org.eclipse.dawnsci.data.client.DynamicRGBImage"/>
    <reference bind="setPlotImageService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.image.IPlotImageService" name="IPlotImageService" policy="static"/>
 </scr:component>
