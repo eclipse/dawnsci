@@ -101,6 +101,7 @@ public class DataClient<T> {
 	private long       sleep=100;
 	private int        imageCache=10;
 	private boolean    isFinished;
+	private boolean    get = true;
 	
 	// Private data, not getter/setter
 	private IStreamer<T> streamer;
@@ -214,14 +215,16 @@ public class DataClient<T> {
 	private String getURLString() throws Exception {
 		final StringBuilder buf = new StringBuilder();
 		buf.append(base);
-		buf.append("?");
-		append(buf, "path",    path);
-		append(buf, "dataset", dataset);
-		append(buf, "slice",   slice);
-		append(buf, "bin",     bin);
-	    append(buf, "format",  format);
-	    append(buf, "histo",   histo);
-	    append(buf, "sleep",   sleep);
+		if (isGet()) { // Add params
+			buf.append("?");
+			append(buf, "path",    path);
+			append(buf, "dataset", dataset);
+			append(buf, "slice",   slice);
+			append(buf, "bin",     bin);
+		    append(buf, "format",  format);
+		    append(buf, "histo",   histo);
+		    append(buf, "sleep",   sleep);
+		}
 		return buf.toString();
 	}
 
@@ -275,11 +278,15 @@ public class DataClient<T> {
 		result = prime * result + ((bin == null) ? 0 : bin.hashCode());
 		result = prime * result + ((dataset == null) ? 0 : dataset.hashCode());
 		result = prime * result + ((format == null) ? 0 : format.hashCode());
+		result = prime * result + (get ? 1231 : 1237);
 		result = prime * result + ((histo == null) ? 0 : histo.hashCode());
 		result = prime * result + imageCache;
+		result = prime * result + (isFinished ? 1231 : 1237);
 		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		result = prime * result + (int) (sleep ^ (sleep >>> 32));
 		result = prime * result + ((slice == null) ? 0 : slice.hashCode());
+		result = prime * result
+				+ ((streamer == null) ? 0 : streamer.hashCode());
 		return result;
 	}
 	@Override
@@ -290,7 +297,7 @@ public class DataClient<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DataClient<T> other = (DataClient<T>) obj;
+		DataClient other = (DataClient) obj;
 		if (base == null) {
 			if (other.base != null)
 				return false;
@@ -308,12 +315,16 @@ public class DataClient<T> {
 			return false;
 		if (format != other.format)
 			return false;
+		if (get != other.get)
+			return false;
 		if (histo == null) {
 			if (other.histo != null)
 				return false;
 		} else if (!histo.equals(other.histo))
 			return false;
 		if (imageCache != other.imageCache)
+			return false;
+		if (isFinished != other.isFinished)
 			return false;
 		if (path == null) {
 			if (other.path != null)
@@ -326,6 +337,11 @@ public class DataClient<T> {
 			if (other.slice != null)
 				return false;
 		} else if (!slice.equals(other.slice))
+			return false;
+		if (streamer == null) {
+			if (other.streamer != null)
+				return false;
+		} else if (!streamer.equals(other.streamer))
 			return false;
 		return true;
 	}
@@ -361,6 +377,12 @@ public class DataClient<T> {
 
 	public void setImageCache(int imageCache) {
 		this.imageCache = imageCache;
+	}
+	public boolean isGet() {
+		return get;
+	}
+	public void setGet(boolean get) {
+		this.get = get;
 	}
 
 }
