@@ -51,7 +51,8 @@ public class ROIUtils {
 		// to-do add grid
 		else if (RectangularROI.class.isAssignableFrom(clazz))
 			return new RectangularROIList();
-		// to-do add ring
+		else if (RingROI.class.isAssignableFrom(clazz))
+			return new RingROIList();
 		else if (SectorROI.class.isAssignableFrom(clazz))
 			return new SectorROIList();
 		// to-do add circular fit
