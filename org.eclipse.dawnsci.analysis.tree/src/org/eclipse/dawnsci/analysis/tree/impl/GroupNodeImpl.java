@@ -36,6 +36,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	private int datasets;
 	private int groups;
 	private final Map<String, NodeLink> nodes;
+	private boolean populated = false;
 
 	/**
 	 * Set a reference to the global pool of nodes
@@ -63,6 +64,11 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		datasets = 0;
 		groups = 0;
 		nodes = new LinkedHashMap<String, NodeLink>();
+	}
+
+	@Override
+	public boolean isPopulated() {
+		return populated;
 	}
 
 	/**
@@ -110,6 +116,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 				datasets++;
 			}
 			nodes.put(name, link);
+			populated = true;
 		}
 	}
 
@@ -188,6 +195,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 				groups++;
 			}
 			nodes.put(name, createNodeLink(file, path, name, g));
+			populated = true;
 		}
 	}
 
@@ -282,6 +290,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 				datasets++;
 			}
 			nodes.put(name, createNodeLink(file, path, name, d));
+			populated = true;
 		}
 	}
 

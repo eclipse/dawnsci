@@ -25,6 +25,11 @@ import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 public interface GroupNode extends Node, Iterable<NodeLink> {
 
 	/**
+	 * @return true if it has been populated with any nodes
+	 */
+	public boolean isPopulated();
+
+	/**
 	 * Set a reference to the global pool of nodes
 	 * @param globalPool
 	 */
