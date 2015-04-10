@@ -11,7 +11,6 @@
  *******************************************************************************/ 
 package org.eclipse.dawnsci.hdf5;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -776,14 +775,8 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
     	int    dType   = AbstractDataset.getDType(data);
 		long[] shape   = H5Utils.getLong(data.getShape());
 		
-		return createDataset(name, dType, shape, flattenDataset(data), parentPath, overwrite);
+		return createDataset(name, dType, shape, DatasetUtils.serializeDataset(data), parentPath, overwrite);
    	}
-
-    private Serializable flattenDataset(final IDataset data) {
-		org.eclipse.dawnsci.analysis.dataset.impl.Dataset d = DatasetUtils.convertToDataset(data.getSliceView());
-		d.clearMetadata(null);
-		return d.flatten().getBuffer();
-    }
 
     @Override
 	public String createDataset(final String name, final int dType, final long[] dims, final Object buffer, final String parent) throws Exception {
@@ -869,7 +862,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
     	int    dType   = AbstractDataset.getDType(data);
 		long[] shape   = H5Utils.getLong(data.getShape());
 		
-		return appendDataset(name, dType, shape, flattenDataset(data), parentGroupPath);
+		return appendDataset(name, dType, shape, DatasetUtils.serializeDataset(data), parentGroupPath);
 	}
 	
 	@Override
@@ -1029,7 +1022,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 	        	selected[i] = (startStopStep[1][i]-startStopStep[0][i])/startStopStep[2][i];
 	        }
 	        
-	        dataset.write(flattenDataset(data));
+	        dataset.write(DatasetUtils.serializeDataset(data));
 			
 			return dataset.getFullName();
 			
