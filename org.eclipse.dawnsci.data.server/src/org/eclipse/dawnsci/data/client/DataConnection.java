@@ -10,7 +10,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
 import org.eclipse.swt.widgets.Display;
 
-class DataConnection {
+public class DataConnection {
 	
 	private static IPlotImageService plotService;
 	public static void setPlotImageService(IPlotImageService service) {
