@@ -48,7 +48,7 @@ public class ClientPluginTest {
 	 * Test opens stream in plotting system.
 	 * @throws Exception
 	 */
-	//@Test
+	@Test
 	public void testDynamicDatasetEPICSGreyScale() throws Exception {
 		
 		// Requires an EPICS stream to connect to, not for general overight testing!
@@ -56,17 +56,16 @@ public class ClientPluginTest {
 		client.setGet(false);
     	client.setFormat(Format.MJPG);
     	client.setImageCache(10); // More than we will send...
-    	client.setSleep(80);     
+    	client.setSleep(80);
 
     	IWorkbenchPart part = openView();
-		 
-		final IPlottingSystem   sys = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
-		final DynamicGreyScaleImage rgb = new DynamicGreyScaleImage(client);
-		IImageTrace trace = (IImageTrace)sys.createPlot2D(rgb, null, null);
+		
+		final IPlottingSystem       sys  = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
+		final DynamicGreyScaleImage grey = new DynamicGreyScaleImage(client);
+		IImageTrace trace = (IImageTrace)sys.createPlot2D(grey, null, null);
 		trace.setDownsampleType(DownsampleType.POINT); // Fast!
-		trace.setRescaleHistogram(false); // Fast! Comes from RGBData anyway though
 
-		rgb.start(100); // blocks until 100 images received.
+		grey.start(100); // blocks until 100 images received.
 		
 		System.out.println("Received images = "+client.getReceivedImageCount());
 		System.out.println("Dropped images = "+client.getDroppedImageCount());

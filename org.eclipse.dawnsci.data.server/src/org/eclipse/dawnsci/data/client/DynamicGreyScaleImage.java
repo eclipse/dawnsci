@@ -5,7 +5,6 @@ import java.io.Serializable;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.ShortDataset;
 
 /**
@@ -13,7 +12,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.ShortDataset;
  * @author fcp94556
  *
  */
-public class DynamicGreyScaleImage extends ShortDataset implements IDynamicDataset<RGBDataset> {
+public class DynamicGreyScaleImage extends ShortDataset implements IDynamicDataset<ShortDataset> {
 	
 	/**
 	 * 
@@ -21,7 +20,7 @@ public class DynamicGreyScaleImage extends ShortDataset implements IDynamicDatas
 	private static final long serialVersionUID = -1581983742203718163L;
 
 	
-	private DataConnection            connection;
+	private DataConnection<ShortDataset>            connection;
 	
 	/**
 	 * 
@@ -30,7 +29,7 @@ public class DynamicGreyScaleImage extends ShortDataset implements IDynamicDatas
 	 */
 	public DynamicGreyScaleImage(DataClient<BufferedImage> client, int... shape) {
 		super(shape == null || shape.length<1 ? new int[]{1,1} : shape);
-		this.connection= new DataConnection();
+		this.connection= new DataConnection<ShortDataset>(getDtype(), true);
 		connection.setClient(client);
 		connection.setDataset(this);
 	}
@@ -56,9 +55,8 @@ public class DynamicGreyScaleImage extends ShortDataset implements IDynamicDatas
 	}
 
 	@Override
-	public void setData(RGBDataset newData) {
+	public void setData(ShortDataset sdata) {
 		
-		ShortDataset sdata = ((RGBDataset)newData).getRedView();
 		Serializable buffer = sdata.getBuffer();
 		
 		odata = buffer;

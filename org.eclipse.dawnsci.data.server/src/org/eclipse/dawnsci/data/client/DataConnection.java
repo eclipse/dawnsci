@@ -5,28 +5,34 @@ import java.awt.image.BufferedImage;
 import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
 import org.eclipse.dawnsci.analysis.api.dataset.DataListenerDelegate;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
 import org.eclipse.swt.widgets.Display;
 
-public class DataConnection {
+public class DataConnection<T extends IDataset> {
 	
 	private static IPlotImageService plotService;
 	public static void setPlotImageService(IPlotImageService service) {
 		plotService = service;
 	}
-	
-	
-	
-	private DataClient<BufferedImage> client;
-	private DataListenerDelegate      delegate;
-	private IDynamicDataset           dataset;
-	
 	public DataConnection() {
-		this.delegate = new DataListenerDelegate();
+		// OSGi
 	}
-
+	
+	private DataClient<BufferedImage>   client;
+	private DataListenerDelegate        delegate;
+	private IDynamicDataset<T>          dataset;
+	private int dType;
+	private boolean greyScale;
+	
+	public DataConnection(int dType, boolean greyScale) {
+		this.delegate = new DataListenerDelegate();
+		this.dType    = dType; // Should match parameterized type
+		this.greyScale= greyScale; 
+	}
 	
 	public void start(int maxImages) throws Exception {
 		
@@ -36,8 +42,11 @@ public class DataConnection {
 			final BufferedImage image = client.take();
 			if (image==null) break;
 			
-			final RGBDataset set = (RGBDataset)plotService.createDataset(image);
-			dataset.setData(set);
+			Dataset rgb = (Dataset)plotService.createDataset(image);
+			if (greyScale) rgb = ((RGBDataset)rgb).getRedView();
+			
+			IDataset set = rgb.cast(dType);
+			dataset.setData((T)set);
 			delegate.fire(new DataEvent(set));
 			
 			++count;
@@ -98,12 +107,12 @@ public class DataConnection {
 	}
 
 
-	public IDynamicDataset getDataset() {
+	public IDynamicDataset<T> getDataset() {
 		return dataset;
 	}
 
 
-	public void setDataset(IDynamicDataset dataset) {
+	public void setDataset(IDynamicDataset<T> dataset) {
 		this.dataset = dataset;
 	}
 	

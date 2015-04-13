@@ -32,7 +32,7 @@ public class DynamicRGBImage extends RGBDataset implements IDynamicDataset<RGBDa
 	 */
 	private static final long serialVersionUID = 2512465878034055747L;
 
-	private DataConnection            connection;
+	private DataConnection<RGBDataset>            connection;
 	
 	/**
 	 * 
@@ -41,7 +41,7 @@ public class DynamicRGBImage extends RGBDataset implements IDynamicDataset<RGBDa
 	 */
 	public DynamicRGBImage(DataClient<BufferedImage> client, int... shape) {
 		super(shape == null || shape.length<1 ? new int[]{1,1} : shape);
-		this.connection= new DataConnection();
+		this.connection= new DataConnection<RGBDataset>(getDtype(), false);
 		connection.setClient(client);
 		connection.setDataset(this);
 	}
