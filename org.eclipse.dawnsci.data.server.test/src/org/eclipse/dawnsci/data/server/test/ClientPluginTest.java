@@ -17,6 +17,7 @@ import java.util.Collection;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.data.client.DataClient;
+import org.eclipse.dawnsci.data.client.DynamicGreyScaleImage;
 import org.eclipse.dawnsci.data.client.DynamicRGBImage;
 import org.eclipse.dawnsci.data.server.Format;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
@@ -47,6 +48,35 @@ public class ClientPluginTest {
 	 * Test opens stream in plotting system.
 	 * @throws Exception
 	 */
+	//@Test
+	public void testDynamicDatasetEPICSGreyScale() throws Exception {
+		
+		// Requires an EPICS stream to connect to, not for general overight testing!
+		DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg");
+		client.setGet(false);
+    	client.setFormat(Format.MJPG);
+    	client.setImageCache(10); // More than we will send...
+    	client.setSleep(80);     
+
+    	IWorkbenchPart part = openView();
+		 
+		final IPlottingSystem   sys = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
+		final DynamicGreyScaleImage rgb = new DynamicGreyScaleImage(client);
+		IImageTrace trace = (IImageTrace)sys.createPlot2D(rgb, null, null);
+		trace.setDownsampleType(DownsampleType.POINT); // Fast!
+		trace.setRescaleHistogram(false); // Fast! Comes from RGBData anyway though
+
+		rgb.start(100); // blocks until 100 images received.
+		
+		System.out.println("Received images = "+client.getReceivedImageCount());
+		System.out.println("Dropped images = "+client.getDroppedImageCount());
+
+	}
+
+	/**
+	 * Test opens stream in plotting system.
+	 * @throws Exception
+	 */
 	@Test
 	public void testDynamicDatasetEPICS() throws Exception {
 		
@@ -65,7 +95,7 @@ public class ClientPluginTest {
 		trace.setDownsampleType(DownsampleType.POINT); // Fast!
 		trace.setRescaleHistogram(false); // Fast! Comes from RGBData anyway though
 
-		rgb.start(10000000); // blocks until 100 images received.
+		rgb.start(100); // blocks until 100 images received.
 		
 		System.out.println("Received images = "+client.getReceivedImageCount());
 		System.out.println("Dropped images = "+client.getDroppedImageCount());
