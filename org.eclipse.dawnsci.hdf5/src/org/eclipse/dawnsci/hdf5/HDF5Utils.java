@@ -23,6 +23,8 @@ import ncsa.hdf.hdf5lib.structs.H5O_info_t;
 import ncsa.hdf.object.Datatype;
 import ncsa.hdf.object.h5.H5Datatype;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.dataset.impl.ByteDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -485,5 +487,59 @@ public class HDF5Utils {
 		}
 
 		return data;
+	}
+
+	/**
+	 * Create a dataset in HDF5 file
+	 * @param fileName
+	 * @param path path to group containing dataset
+	 * @param name name of dataset
+	 * @param initialShape
+	 * @param maxShape
+	 * @param chunking
+	 * @param dtype dataset type
+	 * @param asUnsigned
+	 * @throws ScanFileHolderException
+	 */
+	public static void createDataset(final String fileName, final String path, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final boolean asUnsigned) throws ScanFileHolderException {
+		try (HierarchicalDataFile writer = (HierarchicalDataFile) HierarchicalDataFactory.getWriter(fileName, true)) {
+			writer.createDataset(name, dtype, toLongArray(initialShape), toLongArray(maxShape), toLongArray(chunking), null, path, true);
+		} catch (Exception e) {
+			logger.error("Could not create dataset", e);
+			throw new ScanFileHolderException("Could not create dataset", e);
+		}
+	}
+
+	/**
+	 * Set slice of dataset in HDF5 file
+	 * @param fileName
+	 * @param path
+	 * @param name
+	 * @param slice
+	 * @param value
+	 * @throws ScanFileHolderException
+	 */
+	public static void setDatasetSlice(final String fileName, final String path, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
+		long[][] sss = new long[3][];
+		sss[0] = toLongArray(slice.getStart());
+		sss[1] = toLongArray(slice.getStop());
+		sss[2] = toLongArray(slice.getStep());
+		try (HierarchicalDataFile writer = (HierarchicalDataFile) HierarchicalDataFactory.getWriter(fileName, true)) {
+			writer.insertSlice(name, value, path, sss, null, false);
+		} catch (Exception e) {
+			logger.error("Could not create dataset", e);
+			throw new ScanFileHolderException("Could not create dataset", e);
+		}		
+	}
+
+	private static final long[] toLongArray(final int[] in) {
+		if (in == null)
+			return null;
+
+		long[] out = new long[in.length];
+		for (int i = 0; i < in.length; i++) {
+			out[i] = in[i];
+		}
+		return out;
 	}
 }

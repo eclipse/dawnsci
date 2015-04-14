@@ -775,22 +775,24 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
     	int    dType   = AbstractDataset.getDType(data);
 		long[] shape   = H5Utils.getLong(data.getShape());
 		
-		return createDataset(name, dType, shape, DatasetUtils.serializeDataset(data), parentPath, overwrite);
+		return createDataset(name, dType, shape, null, null, DatasetUtils.serializeDataset(data), parentPath, overwrite);
    	}
 
     @Override
 	public String createDataset(final String name, final int dType, final long[] dims, final Object buffer, final String parent) throws Exception {
-		return createDataset(name, dType, dims, buffer, parent, false);
+		return createDataset(name, dType, dims, null, null, buffer, parent, false);
 	}
 
 	@Override
 	public String replaceDataset(final String name, final int dType, final long[] dims, final Object buffer, final String parent) throws Exception {
-		return createDataset(name, dType, dims, buffer, parent, true);
+		return createDataset(name, dType, dims, null, null, buffer, parent, true);
 	}
 
-	private String createDataset(String         name,  
+	protected String createDataset(String         name,  
 			                    final int      dType, 
 			                    final long[]   shape, 
+			                    final long[]   maxShape, 
+			                    final long[]   chunking, 
 			                    final Object   buffer,
 			                    final String   parentPath,
 								final boolean  overwrite) throws Exception {
@@ -815,7 +817,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 				}
 			}
 
-			Dataset dataset = file.createScalarDS(name, parent, dtype, shape, null, null, 0, buffer);
+			Dataset dataset = file.createScalarDS(name, parent, dtype, shape, maxShape, chunking, 0, buffer);
 
 			return dataset.getFullName();
 
@@ -834,7 +836,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 		HObject link = file.createLink(targetGroup, linkName, object);
 		return link.getFullName();
 	}
-	
+
 	public void delete(String fullPath) throws Exception {
 		final HObject object = getData(fullPath);
 		if (object==null) return;
@@ -957,11 +959,11 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
         HObject object = getData(objectPath);
 		NexusUtils.setAttribute(file, object, name, value);
 	}
-	
+
 	@Override
 	public void setAttribute(String objectPath, String name, String value, boolean overwrite) throws Exception {
 		HObject object = getData(objectPath);
-		NexusUtils.setAttribute(file, object, name, value, overwrite?ATTRIBUTE_TYPE.OVERWRITE:ATTRIBUTE_TYPE.NO_OVERWRITE);
+		NexusUtils.setAttribute(file, object, name, value, overwrite ? ATTRIBUTE_TYPE.OVERWRITE : ATTRIBUTE_TYPE.NO_OVERWRITE);
 	}
 
 	@Override
@@ -975,13 +977,22 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 			return -1;
 		}
 	}
-	
+
 	@Override
 	public synchronized String insertSlice(String name,  
 					            final IDataset data,
 					            final String   parentPath,
 					            final long[][] startStopStep,
 					            final long[] totalShape) throws Exception {
+		return insertSlice(name, data, parentPath, startStopStep, totalShape, true);
+	}
+
+	protected synchronized String insertSlice(String name,  
+            final IDataset data,
+            final String   parentPath,
+            final long[][] startStopStep,
+            final long[] totalShape, boolean create) throws Exception {
+
 		
 		Datatype dtype = H5Utils.getDatatype(data);
 		final Group parent = _group(parentPath);
@@ -992,15 +1003,18 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 			final HObject o = checkExists(name, parent, Dataset.class);
 			Dataset dataset;
 			if (o==null) {
-				long[] shape = null;
-				if (data.getSize() > 1 && data.getRank() == totalShape.length) {
-					shape = H5Utils.getLong(data.getShape());
+				if (create) {
+					long[] shape = null;
+					if (data.getSize() > 1 && data.getRank() == totalShape.length) {
+						shape = H5Utils.getLong(data.getShape());
+					}
+					
+					dataset = file.createScalarDS(name, parent, dtype, totalShape, totalShape, shape , 0, null);
+				} else {
+					throw new IllegalArgumentException("Dataset does not exist");
 				}
-				
-				dataset = file.createScalarDS(name, parent, dtype, totalShape, totalShape, shape , 0, null);
 			} else {
 				dataset = (Dataset)o;
-				
 			}
 			
 			
