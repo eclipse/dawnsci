@@ -126,9 +126,7 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * e.g. /entry1/data@napimount
 	 * @param fullAttributeKey
 	 * @return
-	 * @throws NullPointerException if path (part before @) does not exist 
-	 * in file
-	 * @throws ArrayIndexOutOfBoundsException if there is no @ in fullAttributeKey
+	 * @throws Exception
 	 */
 	public String getAttributeValue(String fullAttributeKey) throws Exception;
 
@@ -162,32 +160,35 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	/**
 	 * dataType one of NUMBER_ARRAY or TEXT or one of the Datatype.CLASS_* variables.
 	 * @return
+	 * @throws Exception
 	 */
 	public List<String> getDatasetNames(int dataType)  throws Exception;
 
 	/**
-	 * 
-	 * @return
+	 * @return map of dataset names with their sizes
+	 * @throws Exception
 	 */
 	public Map<String, Integer> getDatasetSizes(int dataType)  throws Exception;
 
 	/**
-	 * 
-	 * @return
+	 * @return map of dataset names with their shapes
+	 * @throws Exception
 	 */
 	public Map<String, int[]> getDatasetShapes(int dataType)  throws Exception;
 
 	/**
 	 * Get a group, creating one if it does not exist.
 	 * @param string
-	 * @return full path to group.
+	 * @return full path to group
+	 * @throws Exception
 	 */
 	public String group(String path) throws Exception;
 
 	/**
 	 * Get a group in this parent, creating one if it does not exist.
 	 * @param string
-	 * @return
+	 * @return full path to group
+	 * @throws Exception
 	 */
 	public String group(String name, final String parent) throws Exception;
 	
@@ -200,7 +201,7 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	public void setNexusAttribute(final String objectPath, final String attribute) throws Exception;
 	
 	/**
-	 * 
+	 * Set a string attribute. Creates attribute if necessary
 	 * @param object
 	 * @param name
 	 * @param value
@@ -209,10 +210,11 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	public void setAttribute(final String objectPath, final String name, final String value) throws Exception;
 
 	/**
-	 * 
+	 * Set a string attribute
 	 * @param object
 	 * @param name
 	 * @param value
+	 * @param overwrite if true, write only if not already defined, else if false, leave alone if already defined as equal
 	 * @throws Exception
 	 */
 	public void setAttribute(final String objectPath, final String name, final String value, boolean overwrite) throws Exception;
@@ -226,9 +228,8 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param value
 	 * @throws Exception
 	 */
-	public void setIntAttribute(final String   entryPath, final String    name, final int       value) throws Exception;
-	
-	
+	public void setIntAttribute(final String entryPath, final String name, final int value) throws Exception;
+
 	/**
 	 * This method returns the dataset axes for a given signal node. The nexus path must be the path
 	 * to the signal
@@ -246,6 +247,7 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param name
 	 * @param value
 	 * @param parentPath
+	 * @return full path including dataset name
 	 */
 	public String createStringDataset(final String name, final String value, final String parentPath) throws Exception;
 
@@ -256,6 +258,8 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param name
 	 * @param value
 	 * @param parentPath
+	 * @return full path including dataset name
+	 * @throws Exception
 	 */
 	public String createStringDataset(final String name, final int size, final String parentPath) throws Exception;
 
@@ -267,6 +271,8 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param shape
 	 * @param buffer
 	 * @param dataGroupPath
+	 * @return full path including dataset name
+	 * @throws Exception
 	 */
 	public String createDataset(final String name, IDataset data, final String dataGroupPath) throws Exception;
 
@@ -279,7 +285,7 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param dims
 	 * @param buffer
 	 * @param dataGroupPath
-	 * @return
+	 * @return full path including dataset name
 	 * @throws Exception
 	 */
 	public String createDataset(final String name, final int dType, final long[] dims, final Object buffer, final String dataGroupPath) throws Exception;
@@ -292,6 +298,8 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param name
 	 * @param data
 	 * @param overwrite
+	 * @return full path including dataset name
+	 * @throws Exception
 	 */
 	public String createDataset(final String name, IDataset data, final String dataGroupPath, final boolean overwrite) throws Exception;
 
@@ -301,6 +309,8 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * 
 	 * @param name
 	 * @param value
+	 * @return full path including dataset name
+	 * @throws Exception
 	 */
 	public String replaceStringDataset(final String name, final String value, final String parent) throws Exception;
 
@@ -311,6 +321,8 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param name
 	 * @param data
 	 * @param dataGroupPath
+	 * @return full path including dataset name
+	 * @throws Exception
 	 */
 	public String replaceDataset(final String name, final IDataset data, final String dataGroupPath) throws Exception;
 
@@ -322,7 +334,7 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param dims
 	 * @param buffer
 	 * @param dataGroupPath
-	 * @return
+	 * @return full path including dataset name
 	 * @throws Exception
 	 */
 	public String replaceDataset(final String name, final int dType, final long[] dims, final Object buffer, final String dataGroupPath) throws Exception;
@@ -332,7 +344,7 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * 
 	 * If the data set does not exist it is created with dimensions [bufferShape]
 	 * 
-	 * If the data set exists the first dimension is created and increased by one to accomodate it, for instance
+	 * If the data set exists the first dimension is created and increased by one to accommodate it, for instance
 	 * the second image in the stack would resize the data shape to [2, bufferShape...] and
 	 * so forth.
 	 * 
@@ -341,7 +353,8 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param datasetName
 	 * @param data
 	 * @param dataGroupPath
-	 * @return
+	 * @return full path including dataset name
+	 * @throws Exception
 	 */
 	public String appendDataset(String datasetName, IDataset data, String dataGroupPath)  throws Exception;
 
@@ -350,7 +363,7 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * 
 	 * If the data set does not exist it is created with dimensions [bufferShape]
 	 * 
-	 * If the data set exists the first dimension is created and increased by one to accomodate it, for instance
+	 * If the data set exists the first dimension is created and increased by one to accommodate it, for instance
 	 * the second image in the stack would resize the data shape to [2, bufferShape...] and
 	 * so forth.
 	 * 
@@ -361,7 +374,7 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param shape
 	 * @param buffer
 	 * @param dataGroupPath
-	 * @return
+	 * @return full path including dataset name
 	 * @throws Exception
 	 */
 	public String appendDataset(String datasetName, int dType, long[] shape, Object buffer, String dataGroupPath)  throws Exception;
@@ -373,6 +386,7 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param linkName
 	 * @param sourceFullPath
 	 * @return The link object, or null if sourcePath doesn't exist
+	 * @throws Exception
 	 */
 	public String createLink(String targetGroup, String linkName, String sourceFullPath) throws Exception;
 
@@ -398,7 +412,8 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param parent
 	 * @param startStopStep
 	 * @param totalShape
-	 * @return
+	 * @return full path including dataset name
+	 * @throws Exception
 	 */
 	public String insertSlice(String name,  
 					          final IDataset data,
