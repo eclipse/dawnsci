@@ -19,7 +19,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 /**
  * This service can be called to process IDataset using BoofCV transform algorithms
  * 
- * @author wqk87977
+ * @author Baha El Kassaby
  *
  */
 public interface IImageTransform {
