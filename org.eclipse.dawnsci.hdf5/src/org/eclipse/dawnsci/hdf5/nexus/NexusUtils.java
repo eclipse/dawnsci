@@ -87,8 +87,20 @@ public class NexusUtils {
 	}
 	
 	public enum ATTRIBUTE_TYPE {
-		FORCE, OVERWRITE, NO_OVERWRITE;
+		/**
+		 * Create if necessary or overwrite
+		 */
+		FORCE,
+		/**
+		 * Do not create but overwrite if exists
+		 */
+		OVERWRITE,
+		/**
+		 * Do not update if exists and is equal, otherwise create
+		 */
+		NO_OVERWRITE;
 	}
+
 	public static void setAttribute(final FileFormat file,
 			final HObject    entry,
 			final String     name,
@@ -192,8 +204,7 @@ public class NexusUtils {
 	}
 
 	public static void setDatasetAttribute(IDataset dataset, Dataset ds, IHierarchicalDataFile file) throws Exception {
-		
-		NexusUtils.setDatasetAttribute(((IFileFormatDataFile)file).getFileFormat(), 
+		setDatasetAttribute(((IFileFormatDataFile)file).getFileFormat(), 
 				                      ds, 
 				                      dataset.getName(), 
 				                      H5Utils.getDatatype(dataset), 
