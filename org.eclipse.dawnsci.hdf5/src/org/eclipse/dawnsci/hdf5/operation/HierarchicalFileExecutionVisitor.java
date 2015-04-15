@@ -345,11 +345,9 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 	}
 	
 	private void appendSingleValueAxis(IDataset dataset, String group, Slice[] oSlice, int[] oShape, IHierarchicalDataFile file, int axisDim) throws Exception{
-		
-		dataset = dataset.getSliceView().squeeze();
-		
+		dataset = dataset.getSliceView();
+		dataset.setShape(1);
 		H5Utils.insertDataset(file, group, dataset, new Slice[]{oSlice[axisDim]}, new long[]{oShape[axisDim]});
-		
 	}
 	
 	/**

@@ -216,6 +216,7 @@ public class H5Utils {
 	}
 	
 	public static void insertDataset(IHierarchicalDataFile file, String parent, IDataset a, Slice[] slice, long[] finalShape) throws Exception {
-		file.insertSlice(a.getName(), a, parent, new SliceND(a.getShape(), slice));
+		int[] fShape = H5Utils.getInt(finalShape);
+		file.insertSlice(a.getName(), a, parent, new SliceND(a.getShape(), fShape, slice));
 	}
 }

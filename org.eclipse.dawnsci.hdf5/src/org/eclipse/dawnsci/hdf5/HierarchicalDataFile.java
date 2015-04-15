@@ -1050,7 +1050,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 					if (data.getSize() > 1 && data.getRank() == slice.getShape().length) {
 						shape = H5Utils.getLong(data.getShape());
 					}
-					long[] totalShape = H5Utils.getLong(data.getShape());
+					long[] totalShape = H5Utils.getLong(slice.getMaxShape());
 					dataset = file.createScalarDS(name, parent, dtype, totalShape, totalShape, shape , 0, null);
 				} else {
 					throw new IllegalArgumentException("Dataset does not exist");
