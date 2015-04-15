@@ -610,8 +610,53 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 		Group group  = _group(name, parent);
 		return group!=null ? group.getFullName() : null;
 	}
-	
-	
+
+	@Override
+	public String makeGroup(String path, boolean withParents) throws Exception {
+		return createGroup(path, withParents).getFullName();
+	}
+
+	private Group createGroup(String path, boolean withParents) throws Exception {
+		HObject object = null;
+		try {
+			object = getData(path);
+		} catch (Exception e) {
+		}
+
+		if (object == null) {
+			if (path.endsWith(Node.SEPARATOR)) {
+				path = path.substring(0, path.length() - 1);
+			}
+			try {
+				if (withParents) {
+					// try from root
+					Group g;
+					if (path.startsWith(Tree.ROOT)) {
+						path = path.substring(1);
+					}
+					g = _getRoot();
+		
+					int i;
+					while ((i = path.indexOf(Node.SEPARATOR)) != -1) {
+						g = _group(path.substring(0, i), g);
+						path = path.substring(i + 1);
+					}
+					object = _group(path, g);
+				} else {
+					int i = path.lastIndexOf(Node.SEPARATOR);
+					Group p = i == -1 ? _getRoot() : (Group) getData(path.substring(0, i));
+					object = _group(path.substring(i + 1), p);
+				}
+			} catch (Exception e1) {
+			}
+		}
+		if (!(object instanceof Group)) {
+			throw new IllegalArgumentException("Path given was not for a group");
+		}
+
+		return (Group) object;
+	}
+
 	protected Group _group(final String name) throws Exception {
 		return _group(name, _getRoot());
 	}
@@ -807,7 +852,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 			name = name.substring(i + 1);
 		}
 
-		Group parent = _group(parentPath);
+		Group parent = createGroup(parentPath, true);
 		final int id = parent.open();
 		try {
 			if (!overwrite) {

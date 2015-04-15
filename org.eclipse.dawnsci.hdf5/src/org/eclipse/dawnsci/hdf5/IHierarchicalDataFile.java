@@ -192,7 +192,16 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @throws Exception
 	 */
 	public String group(String name, final String parent) throws Exception;
-	
+
+	/**
+	 * Make a group if one does not exist
+	 * @param path
+	 * @param withParents if true, then create missing parents as needed
+	 * @return full path to group
+	 * @throws Exception
+	 */
+	public String makeGroup(String path, boolean withParents) throws Exception;
+
 	/**
 	 * Does not set the attribute again if it is already set.
 	 * @param object
