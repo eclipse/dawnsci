@@ -450,36 +450,114 @@ public class Image {
 		return result;
 	}
 
-	public static Dataset globalThreshold(Dataset input, float threshold) {
-		IDataset thresholded = thresholdService.globalThreshold(input, threshold, true, true);
+	/**
+	 * Applies a global threshold across the whole image. If 'down' is true, then pixels with values <= to 'threshold'
+	 * are set to 1 and the others set to 0. If 'down' is false, then pixels with values >= to 'threshold' are set to 1
+	 * and the others set to 0.
+	 * 
+	 * @param input
+	 *            Input image. Not modified.
+	 * @param threshold
+	 *            threshold value.
+	 * @param down
+	 *            If true then the inequality <= is used, otherwise if false then >= is used.
+	 * @return Output image.
+	 */
+	public static Dataset globalThreshold(Dataset input, float threshold, boolean down) {
+		IDataset thresholded = thresholdService.globalThreshold(input, threshold, down, true);
 		return DatasetUtils.cast(thresholded, input.getDtype());
 	}
 
+	/**
+	 * Applies a global mean threshold across the whole image with the mean pixel intensity value as a threshold value
+	 * 
+	 * @param input
+	 *            Input image. Not modified.
+	 * @param down
+	 *            If true then the inequality <= is used, otherwise if false then >= is used.
+	 * @return output image
+	 */
 	public IDataset globalMeanThreshold(Dataset input, boolean down) {
 		IDataset thresholded = thresholdService.globalMeanThreshold(input, down, true);
 		return DatasetUtils.cast(thresholded, input.getDtype());
 	}
 
+	/**
+	 * Applies a global mean threshold across the whole image with the variance based threshold using Otsu's method.
+	 * 
+	 * @param input
+	 *            Input image. Not modified.
+	 * @param down
+	 *            If true then the inequality <= is used, otherwise if false then >= is used.
+	 * @return output image
+	 */
 	public IDataset globalOtsuThreshold(Dataset input, boolean down) {
 		IDataset thresholded = thresholdService.globalOtsuThreshold(input, down, true);
 		return DatasetUtils.cast(thresholded, input.getDtype());
 	}
 
+	/**
+	 * Applies a global mean threshold across the whole image with the threshold which maximizes the entropy between the
+	 * foreground and background regions.
+	 * 
+	 * @param input
+	 *            Input image. Not modified.
+	 * @param down
+	 *            If true then the inequality <= is used, otherwise if false then >= is used.
+	 * @return output image
+	 */
 	public IDataset globalEntropyThreshold(Dataset input, boolean down) {
 		IDataset thresholded = thresholdService.globalEntropyThreshold(input, down, true);
 		return DatasetUtils.cast(thresholded, input.getDtype());
 	}
 
+	/**
+	 * Thresholds the image using an adaptive threshold that is computed using a local square region centered on each
+	 * pixel. The threshold is equal to the average value of the surrounding pixels plus the bias. If down is true then
+	 * b(x,y) = I(x,y) <= T(x,y) + bias ? 1 : 0. Otherwise b(x,y) = I(x,y) >= T(x,y) + bias ? 0 : 1
+	 * 
+	 * @param input
+	 *            Input image. Not modified.
+	 * @param radius
+	 *            Radius of square region.
+	 * @param down
+	 *            If true then the inequality <= is used, otherwise if false then >= is used.
+	 * @return output image
+	 */
 	public IDataset adaptiveSquareThreshold(Dataset input, int radius, boolean down) {
 		IDataset thresholded = thresholdService.adaptiveSquareThreshold(input, radius, down, true);
 		return DatasetUtils.cast(thresholded, input.getDtype());
 	}
 
+	/**
+	 * Thresholds the image using an adaptive threshold that is computed using a local square region centered on each
+	 * pixel. The threshold is equal to the gaussian weighted sum of the surrounding pixels plus the bias. If down is
+	 * true then b(x,y) = I(x,y) <= T(x,y) + bias ? 1 : 0. Otherwise b(x,y) = I(x,y) >= T(x,y) + bias ? 0 : 1
+	 * 
+	 * @param input
+	 *            Input image. Not modified.
+	 * @param radius
+	 *            Radius of square region.
+	 * @param down
+	 *            If true then the inequality <= is used, otherwise if false then >= is used.
+	 * @return output image
+	 */
 	public IDataset adaptiveGaussianThreshold(Dataset input, int radius, boolean down) {
 		IDataset thresholded = thresholdService.adaptiveGaussianThreshold(input, radius, down, true);
 		return DatasetUtils.cast(thresholded, input.getDtype());
 	}
 
+	/**
+	 * Applies Sauvola thresholding to the input image. Intended for use with text image.
+	 * 
+	 * @param input
+	 *            Input image. Not modified.
+	 * @param radius
+	 *            Radius of square region.
+	 * @param down
+	 *            If true then the inequality <= is used, otherwise if false then >= is used.
+	 * @return output image
+	 */
 	public IDataset adaptiveSauvolaThreshold(Dataset input, int radius, boolean down) {
 		IDataset thresholded = thresholdService.adaptiveSauvolaThreshold(input, radius, down, true);
 		return DatasetUtils.cast(thresholded, input.getDtype());
