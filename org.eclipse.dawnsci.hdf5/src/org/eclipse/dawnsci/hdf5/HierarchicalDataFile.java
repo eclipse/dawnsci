@@ -1060,25 +1060,23 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 			}
 
 			dataset.getMetadata();
+			int rank = dataset.getRank();
 			long[] start    = dataset.getStartDims();
 			long[] stride   = dataset.getStride();
 			long[] selected = dataset.getSelectedDims();
+			long[] shape = new long[rank];
 			int[] istart = slice.getStart();
 			int[] istep  = slice.getStep();
 			int[] ishape = slice.getShape();
+			int[] sshape = slice.getSourceShape();
 
-			// start
-			for (int i = 0; i < start.length; i++) {
+			for (int i = 0; i < rank; i++) {
 				start[i] = istart[i];
-			}
-			// stride
-			for (int i = 0; i < stride.length; i++) {
 				stride[i] = istep[i];
-			}
-			// selected
-			for (int i = 0; i < selected.length; i++) {
 				selected[i] = ishape[i];
+				shape[i] = sshape[i];
 			}
+			((H5ScalarDS) dataset).extend(shape);
 			dataset.write(DatasetUtils.serializeDataset(data));
 
 			return dataset.getFullName();
