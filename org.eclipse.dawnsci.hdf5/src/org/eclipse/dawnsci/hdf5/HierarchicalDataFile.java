@@ -33,6 +33,7 @@ import ncsa.hdf.object.h5.H5Datatype;
 import ncsa.hdf.object.h5.H5ScalarDS;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.hdf5.nexus.NexusUtils;
@@ -947,16 +948,15 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 	}
 
 	@Override
-	public synchronized List<String> getNexusAxesNames(String signalPath, int dimension) throws Exception {
-
+	public synchronized List<String> getNexusAxesNames(String signalPath,
+			int dimension) throws Exception {
 		HObject signal = file.get(signalPath);
-    	
-    	return NexusUtils.getAxes(file, (Dataset)signal, dimension);
+		return NexusUtils.getAxes(file, (Dataset) signal, dimension);
 	}
 
 	@Override
 	public void setAttribute(String objectPath, String name, String value) throws Exception {
-        HObject object = getData(objectPath);
+		HObject object = getData(objectPath);
 		NexusUtils.setAttribute(file, object, name, value);
 	}
 
@@ -971,28 +971,22 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 		
 		Dataset signal = (Dataset)getData(datasetName);
 		try {
-	        signal.getMetadata();
-	        return signal.getDims()[dimension-1];
+			signal.getMetadata();
+			return signal.getDims()[dimension - 1];
 		} catch (Throwable ne) {
 			return -1;
 		}
 	}
 
 	@Override
-	public synchronized String insertSlice(String name,  
-					            final IDataset data,
-					            final String   parentPath,
-					            final long[][] startStopStep,
-					            final long[] totalShape) throws Exception {
-		return insertSlice(name, data, parentPath, startStopStep, totalShape, true);
+	public synchronized String insertSlice(String name, final IDataset data,
+			final String parentPath, final SliceND slice) throws Exception {
+		return insertSlice(name, data, parentPath, slice, true);
 	}
 
-	protected synchronized String insertSlice(String name,  
-            final IDataset data,
-            final String   parentPath,
-            final long[][] startStopStep,
-            final long[] totalShape, boolean create) throws Exception {
-
+	protected synchronized String insertSlice(String name, final IDataset data,
+			final String parentPath, final SliceND slice, boolean create)
+			throws Exception {
 		
 		Datatype dtype = H5Utils.getDatatype(data);
 		final Group parent = _group(parentPath);
@@ -1005,10 +999,10 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 			if (o==null) {
 				if (create) {
 					long[] shape = null;
-					if (data.getSize() > 1 && data.getRank() == totalShape.length) {
+					if (data.getSize() > 1 && data.getRank() == slice.getShape().length) {
 						shape = H5Utils.getLong(data.getShape());
 					}
-					
+					long[] totalShape = H5Utils.getLong(data.getShape());
 					dataset = file.createScalarDS(name, parent, dtype, totalShape, totalShape, shape , 0, null);
 				} else {
 					throw new IllegalArgumentException("Dataset does not exist");
@@ -1016,34 +1010,34 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 			} else {
 				dataset = (Dataset)o;
 			}
-			
-			
+
 			dataset.getMetadata();
-			long[] start     = dataset.getStartDims();
-	        long[] stride    = dataset.getStride();
-	        long[] selected  = dataset.getSelectedDims();
-	        
-	        //start
-	        for (int i = 0; i < start.length; i++) {
-	        	start[i] = startStopStep[0][i];
-	        }
-	        //stride
-	        for (int i = 0; i < stride.length; i++) {
-	        	stride[i] = startStopStep[2][i];
-	        }
-	        //selected
-	        for (int i = 0; i < selected.length; i++) {
-	        	selected[i] = (startStopStep[1][i]-startStopStep[0][i])/startStopStep[2][i];
-	        }
-	        
-	        dataset.write(DatasetUtils.serializeDataset(data));
-			
+			long[] start    = dataset.getStartDims();
+			long[] stride   = dataset.getStride();
+			long[] selected = dataset.getSelectedDims();
+			int[] istart = slice.getStart();
+			int[] istep  = slice.getStep();
+			int[] ishape = slice.getShape();
+
+			// start
+			for (int i = 0; i < start.length; i++) {
+				start[i] = istart[i];
+			}
+			// stride
+			for (int i = 0; i < stride.length; i++) {
+				stride[i] = istep[i];
+			}
+			// selected
+			for (int i = 0; i < selected.length; i++) {
+				selected[i] = ishape[i];
+			}
+			dataset.write(DatasetUtils.serializeDataset(data));
+
 			return dataset.getFullName();
-			
 		} finally {
 			parent.close(id);
 		}
-		
+
 	}
 
 	@Override

@@ -520,12 +520,8 @@ public class HDF5Utils {
 	 * @throws ScanFileHolderException
 	 */
 	public static void setDatasetSlice(final String fileName, final String path, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
-		long[][] sss = new long[3][];
-		sss[0] = toLongArray(slice.getStart());
-		sss[1] = toLongArray(slice.getStop());
-		sss[2] = toLongArray(slice.getStep());
 		try (HierarchicalDataFile writer = (HierarchicalDataFile) HierarchicalDataFactory.getWriter(fileName, true)) {
-			writer.insertSlice(name, value, path, sss, null, false);
+			writer.insertSlice(name, value, path, slice, false);
 		} catch (Exception e) {
 			logger.error("Could not create dataset", e);
 			throw new ScanFileHolderException("Could not create dataset", e);

@@ -13,6 +13,7 @@ package org.eclipse.dawnsci.hdf5;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
+import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.ByteDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -212,27 +213,9 @@ public class H5Utils {
 		String s = file.appendDataset(a.getName(), a, parent);
 
 		file.setNexusAttribute(s, Nexus.SDS);
-
 	}
 	
 	public static void insertDataset(IHierarchicalDataFile file, String parent, IDataset a, Slice[] slice, long[] finalShape) throws Exception {
-
-		long[][] startStopStep = new long[3][slice.length];
-		
-		for (int i = 0; i < slice.length; i++) {
-			startStopStep[0][i] = (long)slice[i].getStart();
-			startStopStep[1][i] = (long)slice[i].getStop();
-			startStopStep[2][i] = (long)slice[i].getStep();
-		}
-		
-		long[] totalShape = new long[finalShape.length];
-		
-		for (int i = 0; i < totalShape.length; i++) {
-			totalShape[i] = (long)finalShape[i];
-        }
-		
-		file.insertSlice(a.getName(), a, parent, startStopStep, totalShape);
-		
+		file.insertSlice(a.getName(), a, parent, new SliceND(a.getShape(), slice));
 	}
-
 }

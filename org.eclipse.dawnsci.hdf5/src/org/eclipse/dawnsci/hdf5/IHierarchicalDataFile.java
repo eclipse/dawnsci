@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 
 
 /**
@@ -178,7 +179,7 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 
 	/**
 	 * Get a group, creating one if it does not exist.
-	 * @param string
+	 * @param path
 	 * @return full path to group
 	 * @throws Exception
 	 */
@@ -186,7 +187,7 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 
 	/**
 	 * Get a group in this parent, creating one if it does not exist.
-	 * @param string
+	 * @param path
 	 * @return full path to group
 	 * @throws Exception
 	 */
@@ -410,16 +411,14 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param dtype
 	 * @param buffer
 	 * @param parent
-	 * @param startStopStep
-	 * @param totalShape
+	 * @param slice
 	 * @return full path including dataset name
 	 * @throws Exception
 	 */
-	public String insertSlice(String name,  
+	public String insertSlice(final String name,  
 					          final IDataset data,
 					          final String   parent,
-					          final long[][] startStopStep,
-					          final long[] totalShape) throws Exception;
+					          final SliceND slice) throws Exception;
 
 
 	/**
