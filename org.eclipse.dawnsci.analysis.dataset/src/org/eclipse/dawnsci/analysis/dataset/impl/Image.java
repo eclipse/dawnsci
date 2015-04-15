@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.image.IImageFilterService;
+import org.eclipse.dawnsci.analysis.api.image.IImageThreshold;
 import org.eclipse.dawnsci.analysis.api.image.IImageTransform;
 import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
 import org.eclipse.dawnsci.analysis.dataset.impl.function.MapToRotatedCartesian;
@@ -36,6 +37,7 @@ public class Image {
 
 	private static IImageFilterService filterService;
 	private static IImageTransform transformService;
+	private static IImageThreshold thresholdService;
 
 	public static void setImageFilterService(IImageFilterService ifs) {
 		filterService = ifs;
@@ -43,6 +45,10 @@ public class Image {
 
 	public static void setImageTransformService(IImageTransform its) {
 		transformService = its;
+	}
+
+	public static void setImageThresholdService(IImageThreshold its) {
+		thresholdService = its;
 	}
 
 	/**
@@ -442,5 +448,40 @@ public class Image {
 		}
 		Dataset result = DatasetUtils.concatenate(alignedData, 0);
 		return result;
+	}
+
+	public static Dataset globalThreshold(Dataset input, float threshold) {
+		IDataset thresholded = thresholdService.globalThreshold(input, threshold, true, true);
+		return DatasetUtils.cast(thresholded, input.getDtype());
+	}
+
+	public IDataset globalMeanThreshold(Dataset input, boolean down) {
+		IDataset thresholded = thresholdService.globalMeanThreshold(input, down, true);
+		return DatasetUtils.cast(thresholded, input.getDtype());
+	}
+
+	public IDataset globalOtsuThreshold(Dataset input, boolean down) {
+		IDataset thresholded = thresholdService.globalOtsuThreshold(input, down, true);
+		return DatasetUtils.cast(thresholded, input.getDtype());
+	}
+
+	public IDataset globalEntropyThreshold(Dataset input, boolean down) {
+		IDataset thresholded = thresholdService.globalEntropyThreshold(input, down, true);
+		return DatasetUtils.cast(thresholded, input.getDtype());
+	}
+
+	public IDataset adaptiveSquareThreshold(Dataset input, int radius, boolean down) {
+		IDataset thresholded = thresholdService.adaptiveSquareThreshold(input, radius, down, true);
+		return DatasetUtils.cast(thresholded, input.getDtype());
+	}
+
+	public IDataset adaptiveGaussianThreshold(Dataset input, int radius, boolean down) {
+		IDataset thresholded = thresholdService.adaptiveGaussianThreshold(input, radius, down, true);
+		return DatasetUtils.cast(thresholded, input.getDtype());
+	}
+
+	public IDataset adaptiveSauvolaThreshold(Dataset input, int radius, boolean down) {
+		IDataset thresholded = thresholdService.adaptiveSauvolaThreshold(input, radius, down, true);
+		return DatasetUtils.cast(thresholded, input.getDtype());
 	}
 }
