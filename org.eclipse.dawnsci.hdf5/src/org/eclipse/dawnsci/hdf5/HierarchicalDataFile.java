@@ -34,6 +34,8 @@ import ncsa.hdf.object.h5.H5ScalarDS;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.eclipse.dawnsci.analysis.api.tree.Node;
+import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.hdf5.nexus.NexusUtils;
@@ -276,7 +278,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 	
 	public String getParent(final String path) throws Exception {
 		
-		final int index = path.lastIndexOf("/");
+		final int index = path.lastIndexOf(Node.SEPARATOR);
 		if (index<0) return null;
 		
     	final String parentPath = path.substring(0, index);
@@ -292,7 +294,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 	 */
 	public String getAttributeValue(String fullAttributeKey) throws Exception {
 		
-		final String[] sa    = fullAttributeKey.split("@");
+		final String[] sa    = fullAttributeKey.split(Node.ATTRIBUTE);
 		final HObject object = getData(sa[0]);
 		List<?> attributes = object.getMetadata();
 		if (attributes==null || attributes.isEmpty()) return null;
@@ -355,7 +357,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 	    				Attribute a = (Attribute)attribute;
 	    				final StringBuilder buf = new StringBuilder();
 	    				buf.append(object.getFullName());
-	    				buf.append("@");
+	    				buf.append(Node.ATTRIBUTE);
 	    				buf.append(a.getName());
 	    				allAttributes.put(buf.toString(), a.getValue());
 	    			}
@@ -590,7 +592,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 		if (object !=null && object instanceof Group) return object.getFullName();
 		
 		final String parent = getParent(path);
-		final String name   = path.substring(path.lastIndexOf('/')+1);
+		final String name   = path.substring(path.lastIndexOf(Node.SEPARATOR)+1);
 		
 		Group par   = parent!=null ? (Group)getData(parent) : _getRoot();
 		Group group = _group(name, par);
@@ -800,8 +802,9 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 
 		Datatype dtype = H5Utils.getDatatype(dType);
 
-		if (name.indexOf('/')>-1) {
-			name = name.substring(name.lastIndexOf('/')+1);
+		int i = name.indexOf(Node.SEPARATOR); 
+		if (i != -1) {
+			name = name.substring(i + 1);
 		}
 
 		Group parent = _group(parentPath);
