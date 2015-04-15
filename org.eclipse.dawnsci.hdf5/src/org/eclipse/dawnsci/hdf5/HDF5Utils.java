@@ -498,12 +498,13 @@ public class HDF5Utils {
 	 * @param maxShape
 	 * @param chunking
 	 * @param dtype dataset type
+	 * @param fill
 	 * @param asUnsigned
 	 * @throws ScanFileHolderException
 	 */
-	public static void createDataset(final String fileName, final String path, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final boolean asUnsigned) throws ScanFileHolderException {
+	public static void createDataset(final String fileName, final String path, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned) throws ScanFileHolderException {
 		try (HierarchicalDataFile writer = (HierarchicalDataFile) HierarchicalDataFactory.getWriter(fileName, true)) {
-			writer.createDataset(name, dtype, toLongArray(initialShape), toLongArray(maxShape), toLongArray(chunking), null, path, true);
+			writer.createDataset(name, dtype, toLongArray(initialShape), toLongArray(maxShape), toLongArray(chunking), null, fill, path, true);
 		} catch (Exception e) {
 			logger.error("Could not create dataset", e);
 			throw new ScanFileHolderException("Could not create dataset", e);

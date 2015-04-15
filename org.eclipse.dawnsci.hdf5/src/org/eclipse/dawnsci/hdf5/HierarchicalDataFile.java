@@ -823,17 +823,17 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
     	int    dType   = AbstractDataset.getDType(data);
 		long[] shape   = H5Utils.getLong(data.getShape());
 		
-		return createDataset(name, dType, shape, null, null, DatasetUtils.serializeDataset(data), parentPath, overwrite);
+		return createDataset(name, dType, shape, null, null, DatasetUtils.serializeDataset(data), null, parentPath, overwrite);
    	}
 
     @Override
 	public String createDataset(final String name, final int dType, final long[] dims, final Object buffer, final String parent) throws Exception {
-		return createDataset(name, dType, dims, null, null, buffer, parent, false);
+		return createDataset(name, dType, dims, null, null, buffer, null, parent, false);
 	}
 
 	@Override
 	public String replaceDataset(final String name, final int dType, final long[] dims, final Object buffer, final String parent) throws Exception {
-		return createDataset(name, dType, dims, null, null, buffer, parent, true);
+		return createDataset(name, dType, dims, null, null, buffer, null, parent, true);
 	}
 
 	protected String createDataset(String         name,  
@@ -842,6 +842,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 			                    final long[]   maxShape, 
 			                    final long[]   chunking, 
 			                    final Object   buffer,
+			                    final Object   fill,
 			                    final String   parentPath,
 								final boolean  overwrite) throws Exception {
 
@@ -866,8 +867,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 				}
 			}
 
-			Dataset dataset = file.createScalarDS(name, parent, dtype, shape, maxShape, chunking, 0, buffer);
-
+			Dataset dataset = file.createScalarDS(name, parent, dtype, shape, maxShape, chunking, 0, fill, buffer);
 			return dataset.getFullName();
 
 		} finally {
