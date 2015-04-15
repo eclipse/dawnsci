@@ -12,9 +12,12 @@
 package org.eclipse.dawnsci.analysis.api.io;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
+import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
 import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
 import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
@@ -137,5 +140,16 @@ public interface ILoaderService {
 	 * @return regular expression
 	 */
 	public Matcher getStackMatcher(String fileName);
+	
+	/**
+	 * Creates a AxesMetadata object containing lazy datasets for the axes specified in the axesNames <Dimension,DatasetName> map
+	 * 
+	 * @param parent - the lazy dataset the metadata relates to
+	 * @param path - the path to the file
+	 * @param axesNames - a map of the dimension (Integer) against the axes dataset name (String)
+	 * @return axesMetadata
+	 * @throws Exception
+	 */
+	public AxesMetadata getAxesMetadata(ILazyDataset parent, String path, Map<Integer, String> axesNames) throws Exception;
 	
 }
