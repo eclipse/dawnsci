@@ -147,4 +147,9 @@ public interface IOperation<M extends IOperationModel, D extends OperationData> 
 	 * Called on each operation before a new file is processed
 	 */
 	public void init();
+	
+	/**
+	 * Called on each operation after each file is processed
+	 */
+	public void dispose();
 }
