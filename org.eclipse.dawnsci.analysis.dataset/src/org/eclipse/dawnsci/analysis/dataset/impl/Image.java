@@ -47,8 +47,8 @@ public class Image {
 		transformService = its;
 	}
 
-	public static void setImageThresholdService(IImageThreshold its) {
-		thresholdService = its;
+	public static void setImageThresholdService(IImageThreshold iths) {
+		thresholdService = iths;
 	}
 
 	/**
