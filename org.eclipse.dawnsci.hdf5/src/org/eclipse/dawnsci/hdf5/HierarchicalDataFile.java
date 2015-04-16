@@ -1037,7 +1037,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 			throws Exception {
 		
 		Datatype dtype = H5Utils.getDatatype(data);
-		final Group parent = _group(parentPath);
+		final Group parent = createGroup(parentPath, true);
 		final int id = parent.open();
 		
 		try {
@@ -1046,12 +1046,12 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 			Dataset dataset;
 			if (o==null) {
 				if (create) {
-					long[] shape = null;
+					long[] chunks = null;
 					if (data.getSize() > 1 && data.getRank() == slice.getShape().length) {
-						shape = H5Utils.getLong(data.getShape());
+						chunks = H5Utils.getLong(data.getShape());
 					}
 					long[] totalShape = H5Utils.getLong(slice.getMaxShape());
-					dataset = file.createScalarDS(name, parent, dtype, totalShape, totalShape, shape , 0, null);
+					dataset = file.createScalarDS(name, parent, dtype, getMaxShape(H5Utils.getLong(data.getShape()), totalShape), totalShape, chunks, 0, null);
 				} else {
 					throw new IllegalArgumentException("Dataset does not exist");
 				}
@@ -1067,7 +1067,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 			long[] shape = new long[rank];
 			int[] istart = slice.getStart();
 			int[] istep  = slice.getStep();
-			int[] ishape = slice.getShape();
+			int[] ishape = data.getShape();
 			int[] sshape = slice.getSourceShape();
 
 			for (int i = 0; i < rank; i++) {
@@ -1076,14 +1076,32 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 				selected[i] = ishape[i];
 				shape[i] = sshape[i];
 			}
-			((H5ScalarDS) dataset).extend(shape);
+			if (isShapeLarger(dataset.getDims(), shape)) {
+				((H5ScalarDS) dataset).extend(shape);
+			}
 			dataset.write(DatasetUtils.serializeDataset(data));
 
 			return dataset.getFullName();
 		} finally {
 			parent.close(id);
 		}
+	}
 
+	private boolean isShapeLarger(long[] dims, long[] shape) {
+		for (int i = 0; i < shape.length; i++) {
+			if (shape[i] > dims[i])
+				return true;
+		}
+		return false;
+	}
+
+	private long[] getMaxShape(long[] a, long[] b) {
+		int rank = a.length;
+		long[] shape = new long[rank];
+		for (int i = 0; i < rank; i++) {
+			shape[i] = Math.max(a[i], b[i]);
+		}
+		return shape;
 	}
 
 	@Override
