@@ -30,6 +30,18 @@ public class AttributeImpl implements Attribute, Serializable {
 	private Dataset value;
 
 	/**
+	 * Create an attribute with node, name
+	 * @param tree
+	 * @param nodeName
+	 * @param attrName
+	 */
+	public AttributeImpl(final Tree tree, final String nodeName, final String attrName) {
+		this.tree = tree;
+		node = nodeName;
+		name = attrName;
+	}
+
+	/**
 	 * Create an attribute with node, name, value and sign
 	 * @param tree
 	 * @param nodeName
