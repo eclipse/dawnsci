@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="Image Threshold service for expressions">
-   <implementation class="org.eclipse.dawnsci.analysis.dataset.impl.Image"/>
-   <reference bind="setImageThresholdService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.image.IImageThreshold" name="IImageThreshold" policy="static"/>
-</scr:component>
