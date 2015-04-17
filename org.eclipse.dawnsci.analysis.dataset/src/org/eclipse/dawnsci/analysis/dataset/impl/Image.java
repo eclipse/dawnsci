@@ -18,7 +18,6 @@ import java.util.List;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.image.IImageFilterService;
-import org.eclipse.dawnsci.analysis.api.image.IImageThreshold;
 import org.eclipse.dawnsci.analysis.api.image.IImageTransform;
 import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
 import org.eclipse.dawnsci.analysis.dataset.impl.function.MapToRotatedCartesian;
@@ -37,7 +36,6 @@ public class Image {
 
 	private static IImageFilterService filterService;
 	private static IImageTransform transformService;
-	private static IImageThreshold thresholdService;
 
 	public static void setImageFilterService(IImageFilterService ifs) {
 		filterService = ifs;
@@ -45,10 +43,6 @@ public class Image {
 
 	public static void setImageTransformService(IImageTransform its) {
 		transformService = its;
-	}
-
-	public static void setImageThresholdService(IImageThreshold iths) {
-		thresholdService = iths;
 	}
 
 	/**
@@ -463,9 +457,27 @@ public class Image {
 	 *            If true then the inequality <= is used, otherwise if false then >= is used.
 	 * @return Output image.
 	 */
-	public static Dataset globalThreshold(Dataset input, float threshold, boolean down) {
-		IDataset thresholded = thresholdService.globalThreshold(input, threshold, down, true);
-		return DatasetUtils.cast(thresholded, input.getDtype());
+	public static IDataset globalThreshold(IDataset input, float threshold, boolean down) {
+		return filterService.globalThreshold(input, threshold, down, false);
+	}
+
+	/**
+	 * Applies a global threshold across the whole image. If 'down' is true, then pixels with values <= to 'threshold'
+	 * are set to 1 and the others set to 0. If 'down' is false, then pixels with values >= to 'threshold' are set to 1
+	 * and the others set to 0.
+	 * 
+	 * @param input
+	 *            Input image. Not modified.
+	 * @param threshold
+	 *            threshold value.
+	 * @param down
+	 *            If true then the inequality <= is used, otherwise if false then >= is used.
+	 * @param isBinary
+	 *            if true will convert to a binary image
+	 * @return Output image.
+	 */
+	public static IDataset globalThreshold(IDataset input, float threshold , boolean down, boolean isBinary) {
+		return filterService.globalThreshold(input, threshold, down, isBinary);
 	}
 
 	/**
@@ -477,9 +489,8 @@ public class Image {
 	 *            If true then the inequality <= is used, otherwise if false then >= is used.
 	 * @return output image
 	 */
-	public IDataset globalMeanThreshold(Dataset input, boolean down) {
-		IDataset thresholded = thresholdService.globalMeanThreshold(input, down, true);
-		return DatasetUtils.cast(thresholded, input.getDtype());
+	public IDataset globalMeanThreshold(IDataset input, boolean down) {
+		return filterService.globalMeanThreshold(input, down, true);
 	}
 
 	/**
@@ -491,9 +502,8 @@ public class Image {
 	 *            If true then the inequality <= is used, otherwise if false then >= is used.
 	 * @return output image
 	 */
-	public IDataset globalOtsuThreshold(Dataset input, boolean down) {
-		IDataset thresholded = thresholdService.globalOtsuThreshold(input, down, true);
-		return DatasetUtils.cast(thresholded, input.getDtype());
+	public IDataset globalOtsuThreshold(IDataset input, boolean down) {
+		return filterService.globalOtsuThreshold(input, down, true);
 	}
 
 	/**
@@ -506,9 +516,8 @@ public class Image {
 	 *            If true then the inequality <= is used, otherwise if false then >= is used.
 	 * @return output image
 	 */
-	public IDataset globalEntropyThreshold(Dataset input, boolean down) {
-		IDataset thresholded = thresholdService.globalEntropyThreshold(input, down, true);
-		return DatasetUtils.cast(thresholded, input.getDtype());
+	public IDataset globalEntropyThreshold(IDataset input, boolean down) {
+		return filterService.globalEntropyThreshold(input, down, true);
 	}
 
 	/**
@@ -524,9 +533,8 @@ public class Image {
 	 *            If true then the inequality <= is used, otherwise if false then >= is used.
 	 * @return output image
 	 */
-	public IDataset adaptiveSquareThreshold(Dataset input, int radius, boolean down) {
-		IDataset thresholded = thresholdService.adaptiveSquareThreshold(input, radius, down, true);
-		return DatasetUtils.cast(thresholded, input.getDtype());
+	public IDataset adaptiveSquareThreshold(IDataset input, int radius, boolean down) {
+		return filterService.adaptiveSquareThreshold(input, radius, down, true);
 	}
 
 	/**
@@ -542,9 +550,8 @@ public class Image {
 	 *            If true then the inequality <= is used, otherwise if false then >= is used.
 	 * @return output image
 	 */
-	public IDataset adaptiveGaussianThreshold(Dataset input, int radius, boolean down) {
-		IDataset thresholded = thresholdService.adaptiveGaussianThreshold(input, radius, down, true);
-		return DatasetUtils.cast(thresholded, input.getDtype());
+	public IDataset adaptiveGaussianThreshold(IDataset input, int radius, boolean down) {
+		return filterService.adaptiveGaussianThreshold(input, radius, down, true);
 	}
 
 	/**
@@ -558,8 +565,7 @@ public class Image {
 	 *            If true then the inequality <= is used, otherwise if false then >= is used.
 	 * @return output image
 	 */
-	public IDataset adaptiveSauvolaThreshold(Dataset input, int radius, boolean down) {
-		IDataset thresholded = thresholdService.adaptiveSauvolaThreshold(input, radius, down, true);
-		return DatasetUtils.cast(thresholded, input.getDtype());
+	public IDataset adaptiveSauvolaThreshold(IDataset input, int radius, boolean down) {
+		return filterService.adaptiveSauvolaThreshold(input, radius, down, true);
 	}
 }
