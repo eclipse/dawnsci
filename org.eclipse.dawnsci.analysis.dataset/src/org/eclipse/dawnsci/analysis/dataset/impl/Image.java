@@ -489,7 +489,7 @@ public class Image {
 	 *            If true then the inequality <= is used, otherwise if false then >= is used.
 	 * @return output image
 	 */
-	public IDataset globalMeanThreshold(IDataset input, boolean down) {
+	public static IDataset globalMeanThreshold(IDataset input, boolean down) {
 		return filterService.globalMeanThreshold(input, down, true);
 	}
 
@@ -502,7 +502,7 @@ public class Image {
 	 *            If true then the inequality <= is used, otherwise if false then >= is used.
 	 * @return output image
 	 */
-	public IDataset globalOtsuThreshold(IDataset input, boolean down) {
+	public static IDataset globalOtsuThreshold(IDataset input, boolean down) {
 		return filterService.globalOtsuThreshold(input, down, true);
 	}
 
@@ -516,7 +516,7 @@ public class Image {
 	 *            If true then the inequality <= is used, otherwise if false then >= is used.
 	 * @return output image
 	 */
-	public IDataset globalEntropyThreshold(IDataset input, boolean down) {
+	public static IDataset globalEntropyThreshold(IDataset input, boolean down) {
 		return filterService.globalEntropyThreshold(input, down, true);
 	}
 
@@ -533,7 +533,7 @@ public class Image {
 	 *            If true then the inequality <= is used, otherwise if false then >= is used.
 	 * @return output image
 	 */
-	public IDataset adaptiveSquareThreshold(IDataset input, int radius, boolean down) {
+	public static IDataset adaptiveSquareThreshold(IDataset input, int radius, boolean down) {
 		return filterService.adaptiveSquareThreshold(input, radius, down, true);
 	}
 
@@ -550,7 +550,7 @@ public class Image {
 	 *            If true then the inequality <= is used, otherwise if false then >= is used.
 	 * @return output image
 	 */
-	public IDataset adaptiveGaussianThreshold(IDataset input, int radius, boolean down) {
+	public static IDataset adaptiveGaussianThreshold(IDataset input, int radius, boolean down) {
 		return filterService.adaptiveGaussianThreshold(input, radius, down, true);
 	}
 
@@ -565,7 +565,7 @@ public class Image {
 	 *            If true then the inequality <= is used, otherwise if false then >= is used.
 	 * @return output image
 	 */
-	public IDataset adaptiveSauvolaThreshold(IDataset input, int radius, boolean down) {
+	public static IDataset adaptiveSauvolaThreshold(IDataset input, int radius, boolean down) {
 		return filterService.adaptiveSauvolaThreshold(input, radius, down, true);
 	}
 }
