@@ -32,6 +32,17 @@ import org.eclipse.dawnsci.analysis.tree.impl.TreeImpl;
 public class TreeFactory {
 
 	/**
+	 * Create an attribute with node, name
+	 * @param tree
+	 * @param nodeName
+	 * @param attrName
+	 */
+	public static Attribute createAttribute(final Tree tree, final String nodeName, final String attrName) {
+		return new AttributeImpl(tree, nodeName, attrName);
+	}
+
+
+	/**
 	 * Create an attribute with node, name, value and sign
 	 * @param tree
 	 * @param nodeName
