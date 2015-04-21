@@ -37,6 +37,14 @@ public @interface OperationModelField {
 	 * @return true if the field is editable or false for read only.
 	 */
 	public boolean editable() default true;
+	
+	/**
+	 * 
+	 * @return a string expression which if true, enables the field.
+	 * For instance a field called 'status' exists which is an enum of OK, FAILED, ...
+	 * The expression for enableif on another field of the model might be  'status==OK'
+	 */
+	public String enableif() default "";
 
 	/**
 	 * The label attribute. If unset, uses the name of the field for the label.
