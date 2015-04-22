@@ -119,7 +119,6 @@ public interface IImageFilterService {
 	 * in the contours are consecutive order in a clockwise or counter-clockwise direction, depending on the
 	 * implementation.
 	 * </p>
-	 * The input data is converted to a binary image first then the contour algorithm is applied to it.
 	 * <p>
 	 * The returned contours are traces of the object.  The trace of an object can be found by marking a point
 	 * with a pen and then marking every point on the contour without removing the pen.  It is possible to have
@@ -128,12 +127,10 @@ public interface IImageFilterService {
 	 *
 	 * @param input Input binary image.  Not modified.
 	 * @param rule Connectivity rule.  Can be 4 or 8.  8 is more commonly used.
-	 * @param colorExternal RGB color
-	 * @param colorInternal RGB color
-	 * @return Dataset contours for each blob.
+	 * @return Dataset Output labeled image.
 	 * @throws Exception 
 	 */
-	public IDataset filterContour(IDataset input, int rule, int colorExternal, int colorInternal) throws Exception;
+	public IDataset extractBlob(IDataset input, int rule) throws Exception;
 
 	/**
 	 * Applies a global threshold across the whole image. If 'down' is true, then pixels with values <= to 'threshold'
