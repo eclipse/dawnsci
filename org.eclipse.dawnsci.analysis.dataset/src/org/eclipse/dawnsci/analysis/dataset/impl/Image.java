@@ -9,7 +9,6 @@
  * Contributors:
  *    Peter Chang - initial API and implementation and/or initial documentation
  *******************************************************************************/
-
 package org.eclipse.dawnsci.analysis.dataset.impl;
 
 import java.util.ArrayList;
@@ -567,5 +566,28 @@ public class Image {
 	 */
 	public static IDataset adaptiveSauvolaThreshold(IDataset input, int radius, boolean down) {
 		return filterService.adaptiveSauvolaThreshold(input, radius, down, true);
+	}
+
+	/**
+	 * <p>
+	 * Given a binary image, connect together pixels to form blobs/clusters using the specified connectivity rule. The
+	 * found blobs will be labeled in an output image and also described as a set of contours. Pixels in the contours
+	 * are consecutive order in a clockwise or counter-clockwise direction, depending on the implementation.
+	 * </p>
+	 * <p>
+	 * The returned contours are traces of the object. The trace of an object can be found by marking a point with a pen
+	 * and then marking every point on the contour without removing the pen. It is possible to have the same point
+	 * multiple times in the contour.
+	 * </p>
+	 * 
+	 * @param input
+	 *            Input binary image. Not modified.
+	 * @param rule
+	 *            Connectivity rule. Can be 4 or 8. 8 is more commonly used.
+	 * @return Dataset Output labeled image.
+	 * @throws Exception
+	 */
+	public static IDataset extractBlob(IDataset input, int rule) throws Exception {
+		return filterService.extractBlob(input, rule);
 	}
 }
