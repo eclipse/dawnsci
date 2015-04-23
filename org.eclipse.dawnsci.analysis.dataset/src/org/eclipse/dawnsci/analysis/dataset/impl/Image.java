@@ -20,6 +20,8 @@ import org.eclipse.dawnsci.analysis.api.image.IImageFilterService;
 import org.eclipse.dawnsci.analysis.api.image.IImageTransform;
 import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
 import org.eclipse.dawnsci.analysis.dataset.impl.function.MapToRotatedCartesian;
+import org.eclipse.dawnsci.analysis.dataset.roi.EllipticalROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -589,5 +591,57 @@ public class Image {
 	 */
 	public static IDataset extractBlob(IDataset input, int rule) throws Exception {
 		return filterService.extractBlob(input, rule);
+	}
+
+	/**
+	 * Image cropped is a rectangle inside of the given ellipse
+	 * 
+	 * @param image
+	 * @param ellipse
+	 * @return IDataset
+	 */
+	public static IDataset maxRectangleFromEllipticalImage(IDataset image, EllipticalROI ellipse) {
+		// TODO make it work for ellipses with non-null angle
+		RectangularROI boundingBox = ellipse.getBounds();
+		double width = boundingBox.getLength(0);
+		double height = boundingBox.getLength(1);
+		int[] center = ellipse.getIntPoint();
+		double majorSemiAxis = ellipse.getSemiAxis(0);
+		double minorSemiAxis = ellipse.getSemiAxis(1);
+		int x = center[0];
+		int y = center[1];
+		if (width >= height) {
+			return maxRectangleFromEllipticalImage(image, majorSemiAxis * 2, minorSemiAxis *2, (int)(x - majorSemiAxis), (int)(y - minorSemiAxis));
+		}
+		return maxRectangleFromEllipticalImage(image, minorSemiAxis * 2, majorSemiAxis * 2, (int)(x - minorSemiAxis), (int)(y - majorSemiAxis));
+	}
+
+	/**
+	 * Image cropped is a rectangle inside of the circular image if centre of ellipse is (0, 0) then (x, y) =
+	 * (a/sqrt(2), b/sqrt(2)) where a = xdiameter/2 and b = ydiameter/2<br>
+	 * With origin of image being top left of the image, (x, y) the top left corner of the rectangle becomes (buffer +
+	 * (a * (sqrt(2)-1)/sqrt(2) , buffer + (b * (sqrt(2)-1)/sqrt(2)) and width = 2*a/sqrt(2) and height = 2*b/sqrt(2)
+	 * 
+	 * @param image
+	 * @param xdiameter
+	 * @param ydiameter
+	 * @param xbuffer
+	 * @param ybuffer
+	 * @return IDataset
+	 */
+	public static IDataset maxRectangleFromEllipticalImage(IDataset image, double xdiameter, double ydiameter, int xbuffer, int ybuffer) {
+		// maximum rectangle dimension
+		double a = xdiameter / 2;
+		double b = ydiameter / 2;
+		int width = (int) (xdiameter / Math.sqrt(2));
+		int height = (int) (ydiameter / Math.sqrt(2));
+
+		// find the top left corner of the largest square within the circle
+		int cornerx = (int) (xbuffer + (a * (Math.sqrt(2)-1)/Math.sqrt(2)));
+		int cornery = (int) (ybuffer + (b * (Math.sqrt(2)-1)/Math.sqrt(2)));
+
+		IDataset cropped = image.getSlice(new int[] { cornerx, cornery}, new int[] { cornerx + width, cornery + height}, null);
+
+		return cropped;
 	}
 }
