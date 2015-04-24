@@ -12,14 +12,10 @@
 
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
@@ -29,7 +25,6 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +36,7 @@ public class Slicer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Slicer.class);
 
-	public static IDataset getFirstSlice(ILazyDataset lz, Map<Integer, String> sliceDimensions) throws Exception {
+	public static IDataset getFirstSlice(ILazyDataset lz, Map<Integer, String> sliceDimensions) {
 		
 		SliceND sampling = getSliceNDFromSliceDimensions(sliceDimensions, lz.getShape());
 		int[] axes = getDataDimensions(lz.getShape(), sliceDimensions);
