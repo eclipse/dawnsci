@@ -9,17 +9,15 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.data.server;
+package org.eclipse.dawnsci.data.server.slice;
 
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.AbstractHandler;
 
 /**
  * The handler for incoming requests. No work should be done here
@@ -33,10 +31,23 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
  * @author fcp94556
  *
  */
-public class DataHandler extends AbstractHandler {
+public class SliceServlet extends HttpServlet {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8511063064565250295L;
 	
 	private static final Object LOCK=new Object();
 
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	doHandle(req, resp);
+    }
+    
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	doHandle(req, resp);
+    }
+    
 	/**
 	 * Remember with servlets each of these is done on a thread from the
 	 * pool. Therefore it should filter down giving each session its
@@ -46,10 +57,8 @@ public class DataHandler extends AbstractHandler {
 	 * TODO User should be able to cancel slice...
 	 * 
 	 */
-	public void handle( String              target,
-						Request             baseRequest,
-						HttpServletRequest  request,
-						HttpServletResponse response)  throws IOException, ServletException {
+	private void doHandle(HttpServletRequest  request,
+						  HttpServletResponse response)  throws IOException, ServletException {
 		
 		HttpSession sess = request.getSession();
 		
@@ -65,13 +74,12 @@ public class DataHandler extends AbstractHandler {
 		}
 		
 		try {
-		    slicer.slice(target, baseRequest, request, response);
+		    slicer.slice(request, response);
 		    
 		} catch (Exception ne) {
 			ne.printStackTrace();
 			response.setContentType("text/html;charset=utf-8");
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			baseRequest.setHandled(true);
 			response.getWriter().println("<h1>"+ne.getMessage()+"</h1>");
 		}
 	}

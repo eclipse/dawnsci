@@ -82,7 +82,7 @@ public class ClientTest {
 	@Test
 	public void testFullData() throws Exception {
 		
-		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:"+port+"/");
+		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:"+port+"/slice/");
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -96,7 +96,7 @@ public class ClientTest {
 	@Test
 	public void testDownsampledData() throws Exception {
 		
-		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:"+port+"/");
+		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:"+port+"/slice/");
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -112,7 +112,7 @@ public class ClientTest {
 	@Test
 	public void testDownsampledJPG() throws Exception {
 		
-		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:"+port+"/");
+		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:"+port+"/slice/");
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -129,7 +129,7 @@ public class ClientTest {
 	@Test
 	public void testDownsampledMJPG() throws Exception {
 		
-		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:"+port+"/");
+		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:"+port+"/slice/");
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -156,7 +156,7 @@ public class ClientTest {
 	@Test
 	public void testFastMJPG() throws Exception {
 		
-		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:"+port+"/");
+		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:"+port+"/slice/");
 		client.setPath("RANDOM:512x512");
 		client.setFormat(Format.MJPG);
 		client.setHisto("MEAN");
@@ -186,7 +186,7 @@ public class ClientTest {
 	@Test
 	public void testFastMDATA() throws Exception {
 		
-		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:"+port+"/");
+		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:"+port+"/slice/");
 		client.setPath("RANDOM:512x512");
 		client.setFormat(Format.MDATA);
 		client.setHisto("MEAN");

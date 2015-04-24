@@ -9,7 +9,7 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.data.server;
+package org.eclipse.dawnsci.data.server.slice;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
@@ -39,12 +39,13 @@ import org.eclipse.dawnsci.analysis.api.metadata.OriginMetadata;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.data.Constants;
+import org.eclipse.dawnsci.data.server.Format;
+import org.eclipse.dawnsci.data.server.ServiceHolder;
 import org.eclipse.dawnsci.plotting.api.histogram.HistogramBound;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.HistoType;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.ImageOrigin;
-import org.eclipse.jetty.server.Request;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.RGB;
@@ -87,11 +88,11 @@ import org.eclipse.swt.graphics.RGB;
  *    
  *     * Example in GET format (POST is also ok):
  * 
- *      http://localhost:8080/?path=c%3A/Work/results/TomographyDataSet.hdf5&dataset=/entry/exchange/data&slice=[0,%3A1024,%3A1024]
+ *      http://localhost:8080/slice/?path=c%3A/Work/results/TomographyDataSet.hdf5&dataset=/entry/exchange/data&slice=[0,%3A1024,%3A1024]
  *      
  *      Or in a browser:
- *      http://localhost:8080/?path=c%3A/Work/results/TomographyDataSet.hdf5&dataset=/entry/exchange/data&slice=[0,%3A1024,%3A1024]&bin=MAXIMUM:2x2&format=JPG
- *      http://localhost:8080/?path=c%3A/Work/results/TomographyDataSet.hdf5&dataset=/entry/exchange/data&slice=[0,%3A1024,%3A1024]&bin=MAXIMUM:2x2&format=MJPG:0
+ *      http://localhost:8080/slice/?path=c%3A/Work/results/TomographyDataSet.hdf5&dataset=/entry/exchange/data&slice=[0,%3A1024,%3A1024]&bin=MAXIMUM:2x2&format=JPG
+ *      http://localhost:8080/slice/?path=c%3A/Work/results/TomographyDataSet.hdf5&dataset=/entry/exchange/data&slice=[0,%3A1024,%3A1024]&bin=MAXIMUM:2x2&format=MJPG:0
  *      
  * @author fcp94556
  *
@@ -108,21 +109,17 @@ class SliceRequest implements HttpSessionBindingListener {
     	this.sessionId = sessionId;
 	}
 	
-	public void slice(String              target,
-					  Request             baseRequest,
-					  HttpServletRequest  request,
+	public void slice(HttpServletRequest  request,
 					  HttpServletResponse response) throws Exception {
 		try {
 		    lock.lock(); // Blocks so that one thread at a time does the slice for a given session.
-		    doSlice(target, baseRequest, request, response);
+		    doSlice(request, response);
 		} finally {
 			lock.unlock();
 		}
 	}
 
-	protected void doSlice(String              target,
-						   Request             baseRequest,
-						   HttpServletRequest  request,
+	protected void doSlice(HttpServletRequest  request,
 						   HttpServletResponse response) throws Exception {
 
 		final String  path    = decode(request.getParameter("path"));
@@ -138,17 +135,17 @@ class SliceRequest implements HttpSessionBindingListener {
 		// We set the meta data as header an
 		switch(format) {
 		case DATA:
-			sendObject(getData(lz, slices, bin), baseRequest, response);
+			sendObject(getData(lz, slices, bin), response);
 			break;
 		
 		case JPG:
 		case PNG:
-			sendImage(getData(lz, slices, bin), baseRequest, request, response, format);
+			sendImage(getData(lz, slices, bin), request, response, format);
 			break;
 			
 		case MJPG:  // In the case of MJPG, we loop over doSlice(...)
 		case MDATA: // In the case of MDATA, we loop over doSlice(...)
-			sendImages(lz, slices, baseRequest, request, response, format);
+			sendImages(lz, slices, request, response, format);
 			break;
 			
 	    default:
@@ -204,14 +201,12 @@ class SliceRequest implements HttpSessionBindingListener {
     
 	private void sendImages(ILazyDataset        lz, 
 			                Slice[]             slices,
-							Request             baseRequest,
 							HttpServletRequest  request,
 							HttpServletResponse response, 
 							Format              format) throws Exception {
 
 
 		response.setStatus(HttpServletResponse.SC_OK);
-		baseRequest.setHandled(true);
 		
 		String delemeter_str = getClass().getName()+Long.toHexString(System.currentTimeMillis());
 		response.setContentType(Constants.MCONTENT_TYPE+";boundary=" + delemeter_str);
@@ -317,7 +312,6 @@ class SliceRequest implements HttpSessionBindingListener {
 	}
 
 	private void sendImage(IDataset            data, 
-			               Request             baseRequest,
 						   HttpServletRequest  request,
 			               HttpServletResponse response, 
 			               Format              format) throws Exception {
@@ -328,7 +322,6 @@ class SliceRequest implements HttpSessionBindingListener {
 			
 		response.setContentType("image/jpeg");
 		response.setStatus(HttpServletResponse.SC_OK);
-		baseRequest.setHandled(true);
 
 		IImageService service = ServiceHolder.getImageService();
 		ImageServiceBean bean = createImageServiceBean();
@@ -346,12 +339,10 @@ class SliceRequest implements HttpSessionBindingListener {
 	
 	
 	private void sendObject(IDataset            data, 
-							Request             baseRequest,
 							HttpServletResponse response) throws Exception {
 
 		response.setContentType("application/zip");
 		response.setStatus(HttpServletResponse.SC_OK);
-		baseRequest.setHandled(true);
 
 		response.setHeader("elementClass", data.elementClass().toString());
 

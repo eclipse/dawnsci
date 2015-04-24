@@ -108,7 +108,7 @@ public class ClientPluginTest {
 	@Test
 	public void testDynamicDataset() throws Exception {
 		
-		DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/");
+		DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/slice/");
     	client.setPath("RANDOM:512x512");
     	client.setFormat(Format.MJPG);
     	client.setHisto("MEAN");
@@ -141,7 +141,7 @@ public class ClientPluginTest {
     	imt.setDownsampleType(DownsampleType.POINT); // Fast!
     	imt.setRescaleHistogram(false); // Fast!
     	     		
-    	final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/");
+    	final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/slice/");
     	client.setPath("c:/Work/results/TomographyDataSet.hdf5");
     	client.setDataset("/entry/exchange/data");
     	client.setSlice("[700,:1024,:1024]");
@@ -198,7 +198,7 @@ public class ClientPluginTest {
     	imt.setDownsampleType(DownsampleType.POINT); // Fast!
     	imt.setRescaleHistogram(false); // Fast!
     	   		
-    	final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/");
+    	final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/slice/");
     	client.setPath("RANDOM:1024x1024");
     	client.setFormat(Format.MJPG);
     	client.setHisto("MEAN");

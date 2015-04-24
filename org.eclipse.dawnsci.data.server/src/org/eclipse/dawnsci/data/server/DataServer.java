@@ -15,15 +15,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.BasicConfigurator;
-import org.eclipse.equinox.app.IApplication;
+import org.eclipse.dawnsci.data.server.event.EventServlet;
+import org.eclipse.dawnsci.data.server.slice.SliceServlet;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.SessionManager;
-import org.eclipse.jetty.server.session.HashSessionIdManager;
-import org.eclipse.jetty.server.session.HashSessionManager;
-import org.eclipse.jetty.server.session.SessionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 
 /**
  * This object is designed to start the server and 
@@ -32,13 +30,8 @@ import org.slf4j.LoggerFactory;
  * @author fcp94556
  *
  */
-public class DataServer implements IApplication{
+public class DataServer extends PortServer {
 	
-	private static final Logger logger = LoggerFactory.getLogger(DataServer.class);
-	
-	private int port = 8080;
-	
-	private Server server;
 	
 	public DataServer() {
          	
@@ -73,44 +66,35 @@ public class DataServer implements IApplication{
     	return server;// We are done with this application now.
 	}
 
-	@Override
-	public void stop() {
-		try {
-			server.stop();
-		} catch (Exception e) {
-			logger.error("Cannot stop server!", e);
-		}
-	}
-
-	public void start() throws Exception {
-		start(true);
-	}
 	
 	public void start(boolean block) throws Exception {
 		
-		this.server = new Server(port);
-        
-    	// We enable sessions on the server so that 
+		this.server = new Server();
+
+		ServerConnector connector = new ServerConnector(server);
+		connector.setPort(getPort());
+		server.addConnector(connector);   	
+
+		// We enable sessions on the server so that 
 		// we can cache LoaderFactories to a given session.
 		// The loader factory therefore needs a non-global 
 		// data soft reference cache.
-        SessionHandler sessionHandler = new SessionHandler();
-        SessionManager sessionManager = new HashSessionManager();
-        sessionManager.setSessionIdManager(new HashSessionIdManager());
-        sessionHandler.setSessionManager(sessionManager);
-        sessionHandler.setHandler(new DataHandler());
-     
-        server.setHandler(sessionHandler);    
+		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+		context.setContextPath("/");
+		server.setHandler(context);
 
-	    server.start();
-	    if (block) server.join();
+		// Doing slicing
+		ServletHolder holderSlice = new ServletHolder("slice", SliceServlet.class);
+		context.addServlet(holderSlice, "/slice/*");
+
+		// Doing events, like data changing shape.
+		ServletHolder holderEvents = new ServletHolder("event", EventServlet.class);
+		holderEvents.setServlet(new EventServlet());
+		context.addServlet(holderEvents, "/event/*");
+
+		server.start();
+		if (block) server.join();
+
 	}
 
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
 }
