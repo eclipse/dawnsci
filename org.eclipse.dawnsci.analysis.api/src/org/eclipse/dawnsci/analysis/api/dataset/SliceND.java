@@ -174,6 +174,9 @@ public class SliceND {
 		checkAllData();
 	}
 
+	/**
+	 * Check whether the slice covers the entire shape
+	 */
 	private void checkAllData() {
 		allData = Arrays.equals(oshape, lshape);
 		if (allData) {

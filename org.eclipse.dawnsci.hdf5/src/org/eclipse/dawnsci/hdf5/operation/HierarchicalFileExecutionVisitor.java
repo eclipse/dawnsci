@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
@@ -66,7 +67,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
-	
+
 	private static IPersistenceService service;
 	public static void setPersistenceService(IPersistenceService s) { // Injected
 		service = s;
@@ -75,30 +76,40 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 		// Used for OSGI
 	}
 
-	private boolean nonNullExecutionDone = false;
-	private boolean firstExecuteCalled = false;
 	private final String RESULTS_GROUP = "result";
 	private final String INTER_GROUP = "intermediate";
 	private final String AUX_GROUP = "auxiliary";
 	private final String ENTRY = "entry";
-	
+
+	private Map<IOperation, Boolean> firstNotifyMap;
+	private Map<IOperation, Integer> positionMap;
+	private boolean firstNonNullExecution = true;
+
 	private String results;
 	private String intermediate;
 	private String auxiliary;
+
 	private Map<String,Map<Integer, String[]>> groupAxesNames = new HashMap<String,Map<Integer,String[]>>();
-	private IOperation<? extends IOperationModel, ? extends OperationData>[] series;
 	private String filePath;
 	IHierarchicalDataFile file;
-	
+
 	private final static Logger logger = LoggerFactory.getLogger(HierarchicalFileExecutionVisitor.class);
-	
+
+
 	public HierarchicalFileExecutionVisitor(String filePath) {
 		this.filePath = filePath;
+		firstNotifyMap = new ConcurrentHashMap<IOperation, Boolean>();
+		positionMap = new ConcurrentHashMap<IOperation, Integer>();
 	}
-	
+
 	@Override
 	public void init(IOperation<? extends IOperationModel, ? extends OperationData>[] series, ILazyDataset data) throws Exception {
-		this.series = series;
+
+		for (int i = 0; i < series.length; i++) {
+			firstNotifyMap.put(series[i], true);
+			positionMap.put(series[i], i);
+		}
+
 		OriginMetadata origin = null;
 		List<SliceFromSeriesMetadata> metadata = data.getMetadata(SliceFromSeriesMetadata.class);
 		if (metadata != null && metadata.get(0) != null) origin = metadata.get(0);
@@ -111,10 +122,11 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 		} catch (Exception e){
 			logger.error("Cant persist operations!", e);
 		}
-		
-		
+
+		initGroups();
+
 	}
-	
+
 	/**
 	 * Makes entry and result NXdata
 	 * @throws Exception
@@ -124,7 +136,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 		results = file.group(RESULTS_GROUP, ENTRY);
 		file.setNexusAttribute(results, "NXdata");
 	}
-	
+
 	/**
 	 * Make the intermediate data NXcollection to store data from the middle of the pipeline
 	 */
@@ -136,7 +148,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 			logger.error(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Makes NXCollection to store the Auxiliary data from each operation (if supplied)
 	 */
@@ -148,10 +160,9 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 			logger.error(e.getMessage());
 		}
 	}
-	
+
 	@Override
 	public void executed(OperationData result, IMonitor monitor) throws Exception {
-		firstExecuteCalled = true;
 		if (result == null) return;
 		if (results ==  null) initGroups();
 		//Write data to file
@@ -160,25 +171,25 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 		int[] dataDims = metadata.getDataDimensions();
 		int[] shape = metadata.getSubSampledShape();
 		Slice[] slices = metadata.getSliceInOutput();
-		updateAxes(integrated, slices, shape, dataDims, results,nonNullExecutionDone);
+		updateAxes(integrated, slices, shape, dataDims, results,firstNonNullExecution);
 		integrated.setName("data");
 		appendData(integrated,results, slices,shape, file);
-		if (!nonNullExecutionDone)file.setAttribute(results +"/" +integrated.getName(), "signal", String.valueOf(1));
-		nonNullExecutionDone = true;
-		
+		if (firstNonNullExecution)file.setAttribute(results +"/" +integrated.getName(), "signal", String.valueOf(1));
+		firstNonNullExecution = false;
+
 	}
 
 	@Override
 	public void notify(IOperation<? extends IOperationModel, ? extends OperationData> intermeadiateData, OperationData data) {
 		//make groups on first pass
-		if (!firstExecuteCalled) {
-			try {
-				initGroups();
-			} catch (Exception e) {
-				logger.error(e.getMessage());
-			}
-		}
-		
+
+		if (!intermeadiateData.isStoreOutput() && (data.getAuxData() == null || data.getAuxData()[0] == null)) return;
+
+		boolean first = firstNotifyMap.get(intermeadiateData);
+		if (first) firstNotifyMap.put(intermeadiateData, false);
+
+		String position = String.valueOf(positionMap.get(intermeadiateData));
+
 		SliceFromSeriesMetadata metadata;
 		try {
 			metadata = data.getData().getMetadata(SliceFromSeriesMetadata.class).get(0);
@@ -186,40 +197,33 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 			logger.error("", "Cannot access series metadata, contact DAWN support");
 			return;
 		}
-		
-		
+
+
 		int[] dataDims = metadata.getDataDimensions();
 		int[] shape = metadata.getSubSampledShape();
 		Slice[] slices = metadata.getSliceInOutput();
-		
+
 		//if specified to save data, do it
 		if (intermeadiateData.isStoreOutput()) {
 			if (intermediate == null) createInterGroup();
-			
+
 			try {
-				
-				int i = 0;
-				while (i < series.length && series[i] != intermeadiateData) i++;
-				
-				String group = file.group(String.valueOf(i) + "-" + intermeadiateData.getName(), intermediate);
+
+				String group = file.group(position + "-" + intermeadiateData.getName(), intermediate);
 				file.setNexusAttribute(group, "NXdata");
 				IDataset d = data.getData();
 				d.setName("data");
 				appendData(d,group, slices,shape, file);
-				if (!firstExecuteCalled)file.setAttribute(group +"/" +d.getName(), "signal", String.valueOf(1));
-				updateAxes(d, slices, shape, dataDims, group,firstExecuteCalled);
-				
+				if (first)file.setAttribute(group +"/" +d.getName(), "signal", String.valueOf(1));
+				updateAxes(d, slices, shape, dataDims, group,first);
+
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
-			
+
 		}
-	
+
 		Serializable[] auxData = data.getAuxData();
-		
-		int pos = 0;
-		while (pos < series.length && series[pos] != intermeadiateData) pos++;
-		
 
 		//save aux data (should be IDataset, with unit dimensions)
 		if (auxData != null && auxData[0] != null) {
@@ -227,18 +231,18 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 				if (auxData[i] instanceof IDataset) {
 					if (auxiliary == null) createAuxGroup();
 					try {
-						
+
 						IDataset ds = (IDataset)auxData[i];
-						String group = file.group(String.valueOf(pos) + "-" + intermeadiateData.getName(), auxiliary);
+						String group = file.group(position + "-" + intermeadiateData.getName(), auxiliary);
 						file.setNexusAttribute(group, "NXCollection");
-						
+
 						group = file.group(ds.getName(), group);
 						file.setNexusAttribute(group, "NXdata");
-						
+
 						ds.setName("data");
 						appendData(ds,group, slices,shape, file);
-						if (!firstExecuteCalled)file.setAttribute(group +"/" +ds.getName(), "signal", String.valueOf(1));
-						updateAxes(ds, slices, shape, dataDims, group, firstExecuteCalled);
+						if (first)file.setAttribute(group +"/" +ds.getName(), "signal", String.valueOf(1));
+						updateAxes(ds, slices, shape, dataDims, group, first);
 					} catch (Exception e) {
 						logger.error(e.getMessage());
 					}
@@ -246,38 +250,38 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 			}
 		}
 	}
-	
-private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataDims, String groupName, boolean firstDone) throws Exception {
-		
+
+	private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataDims, String groupName, boolean first) throws Exception {
+
 		Map<Integer, String[]> axesNames = null;
-		
+
 		if (groupAxesNames.containsKey(groupName)) {
 			axesNames = groupAxesNames.get(groupName);
 		} else {
 			axesNames = new HashMap<Integer,String[]>();
 			groupAxesNames.put(groupName, axesNames);
 		}
-		
+
 		Set<Integer> setDims = new HashSet<Integer>(dataDims.length);
 		for (int i = 0; i < dataDims.length; i++) {
 			setDims.add(dataDims[i]);
 		}
-		
+
 		int[] dsShape = data.getShape();
 		if (dsShape.length > dataDims.length) {
 			//1D to 2D
 			setDims.add(dsShape.length-1);
 		}
-		
+
 		List<AxesMetadata> mList = data.getMetadata(AxesMetadata.class);
 		if (mList!= null && !mList.isEmpty()) {
-			
+
 			for (AxesMetadata am : mList) {
 				ILazyDataset[] axes = am.getAxes();
 				if (axes == null) return;
-				
+
 				int rank = axes.length;
-					
+
 				for (int i = 0; i< rank; i++) {
 					ILazyDataset[] axis = am.getAxis(i);
 					if (axis == null) continue;
@@ -285,23 +289,23 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 					for (int j = 0; j < axis.length; j++) {
 						ILazyDataset ax = axis[j];
 						if (ax == null) continue;
-						if (!firstDone) {
+						if (first) {
 							String name = ax.getName();
-							
+
 							//assume only our slicing puts [ in a axis name!
 							if (name.contains("[")) {
 								name = name.split("\\[")[0];
 							}
-							
+
 							if (name.contains("/")) {
 								name = name.replace("/", "_");
 							}
-							
+
 							//sanitize - can't have an axis called data
 							if (name.isEmpty() || name.equals("data")) {
 								int n = 0;
 								while(groupAxesNames.containsKey("axis" + n)) n++;
-								
+
 								name = "axis" +n;
 							}
 							names[j] = name;
@@ -309,47 +313,47 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 						}
 						IDataset axDataset = ax.getSlice();
 						axDataset.setName(axesNames.get(i)[j]);
-						
+
 						if (setDims.contains(i)) {
-							if(!firstDone) {
-							String ds = file.createDataset(axDataset.getName(), axDataset.squeeze(), groupName);
-							file.setAttribute(ds, "axis", String.valueOf(i+1));
-							
-							ILazyDataset error = axDataset.getError();
-							
-							if (error != null) {
-								IDataset e = error.getSlice().squeeze();
-								e.setName(axDataset.getName() + "_errors");
-								file.createDataset(e.getName(), e.squeeze(), groupName);
-							}
-							
+							if(first) {
+								String ds = file.createDataset(axDataset.getName(), axDataset.squeeze(), groupName);
+								file.setAttribute(ds, "axis", String.valueOf(i+1));
+
+								ILazyDataset error = axDataset.getError();
+
+								if (error != null) {
+									IDataset e = error.getSlice().squeeze();
+									e.setName(axDataset.getName() + "_errors");
+									file.createDataset(e.getName(), e.squeeze(), groupName);
+								}
+
 							}
 						} else {
 							appendSingleValueAxis(axDataset,groupName, oSlice,oShape, file,i);
 							file.setAttribute(groupName +"/" +axDataset.getName(), "axis", String.valueOf(i+1));
-							
+
 							ILazyDataset error = axDataset.getError();
-							
+
 							if (error != null) {
 								IDataset e = error.getSlice();
 								e.setName(axDataset.getName() + "_errors");
 								appendSingleValueAxis(e,groupName, oSlice,oShape, file,i);
 							}
 						}
-					
+
 					}
 				}
-				
+
 			}
 		}
 	}
-	
+
 	private void appendSingleValueAxis(IDataset dataset, String group, Slice[] oSlice, int[] oShape, IHierarchicalDataFile file, int axisDim) throws Exception{
 		dataset = dataset.getSliceView();
 		dataset.setShape(1);
 		H5Utils.insertDataset(file, group, dataset, new Slice[]{oSlice[axisDim]}, new long[]{oShape[axisDim]});
 	}
-	
+
 	/**
 	 * Write the data into the correct position, in the correct dataset
 	 * @param dataset
@@ -368,22 +372,22 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 		long[] newShape = getNewShape(oShape, dataset.getShape(), dd);
 		//write
 		H5Utils.insertDataset(file, group, dataset, sliceOut, newShape);
-		
+
 		ILazyDataset error = dataset.getError();
-		
+
 		if (error != null) {
 			IDataset e = error.getSlice();
 			e.setName("errors");
 			H5Utils.insertDataset(file, group, e, sliceOut, newShape);
 		}
-		
+
 		return;
 	}
 
 	@Override
 	public void close() throws Exception {
 		if (file != null) file.close();
-		
+
 	}
 
 	/**
@@ -394,19 +398,19 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 	 */
 	private int[] getNonSingularDimensions(Slice[] slices, int[] shape) {
 		int[] newShape = new SliceND(shape, slices).getShape();
-		
+
 		List<Integer> notOne = new ArrayList<Integer>();
-		
+
 		for (int i = 0; i < newShape.length; i++) if (newShape[i] != 1) notOne.add(i);
-		
+
 		int[] out = new int[notOne.size()];
 		for (int i = 0; i < out.length; i++) {
 			out[i] = notOne.get(i);
 		}
-		
+
 		return out;
 	}
-	
+
 	/**
 	 * Get a new slice array which reflects the position of the processed data in the full output dataset
 	 * @param oShape
@@ -416,16 +420,16 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 	 * @return newSlices
 	 */
 	private Slice[] getUpdatedSliceArray(int[] oShape, int[] dsShape, Slice[] oSlice, int[] datadims) {
-		
+
 		if (AbstractDataset.squeezeShape(dsShape, false).length == 0) {
 			List<Slice> l = new LinkedList<Slice>(Arrays.asList(oSlice));
 			for (int i =  datadims.length-1; i >= 0; i--) {
 				l.remove(datadims[i]);
 			}
 			return l.toArray(new Slice[l.size()]);
-			
+
 		}
-		
+
 		Arrays.sort(datadims);
 		Slice[] out = null;
 		int dRank = oShape.length - dsShape.length;
@@ -446,15 +450,15 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 				out[datadims[i]] = new Slice(0, dsShape[datadims[i]], 1);
 				s[datadims[i]] = s[datadims[i]];
 			}
-			
+
 			List<Slice> l = new LinkedList<Slice>(Arrays.asList(out));
 			l.add(new Slice(0, dsShape[dsShape.length-1], 1));
 			out = l.toArray(new Slice[l.size()]);
 		}
-		
+
 		return out;
 	}
-	
+
 	/**
 	 * Get the expected final shape of the output dataset
 	 * @param oShape
@@ -463,7 +467,7 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 	 * @return newShape
 	 */
 	private long[] getNewShape(int[]oShape, int[] dsShape, int[] dd) {
-		
+
 		if (AbstractDataset.squeezeShape(dsShape, false).length == 0) {
 			List<Integer> l = new LinkedList<Integer>();
 			for (int i : oShape) l.add(i);
@@ -473,12 +477,12 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 			long[] out = new long[l.size()];
 			for (int i = 0; i< l.size(); i++) out[i] = l.get(i);
 			return out;
-			
+
 		}
-		
+
 		int dRank = oShape.length - dsShape.length;
 		long[] out = null;
-		
+
 		if (dRank == 0) {
 			out = new long[oShape.length];
 			for (int i = 0; i < oShape.length; i++) out[i] = oShape[i];
@@ -492,7 +496,7 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 			for (int i = 0;  i < dRank; i++) ll.set(dd[i], dsShape[dd[i]]);
 			out = new long[ll.size()];
 			for (int i = 0; i< ll.size(); i++) out[i] = ll.get(i);
-			
+
 		} else if (dRank < 0) {
 			List<Integer> ll = new LinkedList<Integer>();
 			for (int i : oShape) ll.add(i);
@@ -502,9 +506,9 @@ private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataD
 			}
 			out = new long[ll.size()];
 			for (int i = 0; i< ll.size(); i++) out[i] = ll.get(i);
-			
+
 		}
-		
+
 		return out;
 	}
 	

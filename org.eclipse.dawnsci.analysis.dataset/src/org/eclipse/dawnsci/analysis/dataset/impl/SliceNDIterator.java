@@ -195,11 +195,14 @@ public class SliceNDIterator extends IndexIterator {
 	@Override
 	public void reset() {
 		for (int i = 0; i <= endrank; i++) {
-			pos[i] = start[i];
+			int b = start[i];
+			int d = step[i];
 			if (!omit[i]) {
-				end[i] = pos[i] + step[i];
+				cSlice.setSlice(i, b, b + d, d);
 				dStart[i] = 0;
 				dStop[i] = 1;
+			} else {
+				cSlice.setSlice(i, b, end[i], d);
 			}
 		}
 
@@ -217,18 +220,18 @@ public class SliceNDIterator extends IndexIterator {
 			pos[endrank] = start[endrank];
 			for (int i = endrank - 1; i >= 0; i--) {
 				if (!omit[i]) {
+					end[i] = pos[i];
 					pos[i] -= step[i];
-					end[i] = pos[i] + step[i];
 					dStart[i]--;
 					dStop[i]--;
 					break;
 				}
 			}
 		} else {
+			end[endrank] = pos[endrank];
 			pos[endrank] -= step[endrank];
 			dStart[endrank]--;
 			dStop[endrank]--;
-			end[endrank] = pos[endrank] + step[endrank];
 		}
 
 		if (sPos != pos) {
