@@ -30,16 +30,31 @@ import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Methods for slicing data using visit patterns.
  * This is Jakes algorithm moved out of the conversion API to make more use of it.
  */
 public class Slicer {
+	
+	private static final Logger logger = LoggerFactory.getLogger(Slicer.class);
 
 	public static IDataset getFirstSlice(ILazyDataset lz, Map<Integer, String> sliceDimensions) throws Exception {
 		
-        return visit(lz, sliceDimensions, "Slice", null);
+		SliceND sampling = getSliceNDFromSliceDimensions(sliceDimensions, lz.getShape());
+		int[] axes = getDataDimensions(lz.getShape(), sliceDimensions);
+		SliceViewIterator generator = new SliceViewIterator(lz, sampling, axes);
+		if (generator.hasNext()) return generator.getCurrentView().getSlice();
+		
+        return null;
+	}
+	
+	public static SliceViewIterator getSliceViewGenerator(ILazyDataset lz, Map<Integer, String> sliceDimensions){
+		SliceND sampling = getSliceNDFromSliceDimensions(sliceDimensions, lz.getShape());
+		int[] axes = getDataDimensions(lz.getShape(), sliceDimensions);
+		return new SliceViewIterator(lz, sampling, axes);
 	}
 
 	/**
@@ -79,26 +94,10 @@ public class Slicer {
 	 */
 	public static int getSize(ILazyDataset lz, Map<Integer, String> sliceDimensions) {
 
-		final int[] fullDims = lz.getShape();
-		
-		//Construct Slice String
-
-		if (sliceDimensions == null) sliceDimensions = new HashMap<Integer, String>();
-		
-		Slice[] slices = getSliceArrayFromSliceDimensions(sliceDimensions, lz.getShape());
-		
-		//create array of ignored axes values
-		int[] axes = getDataDimensions(fullDims, sliceDimensions);
-
-		//Take view of original lazy dataset removing start/stop/step
-		//Makes the iteration simpler
-		ILazyDataset lzView = lz.getSliceView(slices);
-
-		PositionIterator pi = new PositionIterator(lzView.getShape(), axes);
-		int size = 0;
-		while (pi.hasNext()) size++; // TODO Is this loop required or is slices.length the same?
-		
-		return size;
+		SliceND sampling = getSliceNDFromSliceDimensions(sliceDimensions, lz.getShape());
+		int[] axes = getDataDimensions(lz.getShape(), sliceDimensions);
+		SliceViewIterator generator = new SliceViewIterator(lz, sampling, axes);
+		return generator.getTotal();
 
 	}
 	
@@ -113,22 +112,18 @@ public class Slicer {
 	 */
 	private static IDataset visit(ILazyDataset lz, Map<Integer, String> sliceDimensions, String nameFragment, SliceVisitor visitor) throws Exception {
 		
-		Queue<ILazyDataset> slices = getSlices(lz, sliceDimensions, nameFragment);
+		SliceND sampling = getSliceNDFromSliceDimensions(sliceDimensions, lz.getShape());
+		int[] axes = getDataDimensions(lz.getShape(), sliceDimensions);
+		SliceViewIterator generator = new SliceViewIterator(lz, sampling, axes);
 		
-		for (ILazyDataset slice : slices) {
+		while (generator.hasNext()) {
+			long start = System.currentTimeMillis();
+			IDataset data = generator.getCurrentView().getSlice();
 			
-			IDataset data = null;
+			logger.debug("Data loaded in: " +(System.currentTimeMillis()-start)/1000. + " s");
 			
-			if (slice instanceof IDataset) {
-				data = ((IDataset)slice).getSliceView();
-			} else {
-				data = slice.getSlice();
-			}
-			
-			SliceFromSeriesMetadata ssm = slice.getMetadata(SliceFromSeriesMetadata.class).get(0);
-			data.setMetadata(ssm);
 			if (visitor!=null) {
-			    visitor.visit(data, ssm.getSliceInfo().getSliceInOutput(), ssm.getSubSampledShape());
+			    visitor.visit(data, generator.getOutputSlice().convertToSlice(), generator.getOutputShape());
 			} else {
 				return data;
 			}
@@ -139,56 +134,6 @@ public class Slicer {
 		return null;
 	}
 	
-	public static Queue<ILazyDataset> getSlices(ILazyDataset lz, Map<Integer, String> sliceDimensions) {
-		return getSlices(lz, sliceDimensions, null);
-	}
-	
-	public static Queue<ILazyDataset> getSlices(ILazyDataset lz, Map<Integer, String> sliceDimensions, String nameFragment) {
-		
-		
-		final int[] fullDims = lz.getShape();
-		
-		//Construct Slice String
-
-		if (sliceDimensions == null) sliceDimensions = new HashMap<Integer, String>();
-		
-		Slice[] slices = getSliceArrayFromSliceDimensions(sliceDimensions, lz.getShape());
-		
-		//create array of ignored axes values
-		int[] axes = getDataDimensions(fullDims, sliceDimensions);
-		
-		int count = 0;
-		final Queue<ILazyDataset> ret = new LinkedList<ILazyDataset>();
-		
-		SliceND sampling = new SliceND(lz.getShape(), slices);
-		
-		SliceNDGenerator g = new SliceNDGenerator(lz.getShape(), axes, sampling);
-		
-		List<SliceND> outpos = new ArrayList<SliceND>();
-		
-		List<SliceND> dslices = g.generateDataSlices(outpos);
-		int size = dslices.size();
-		
-		for (int i = 0; i < dslices.size(); i++) {
-			SliceND in = dslices.get(i);
-			SliceND out = outpos.get(i);
-			
-			String sliceName = in.toString();		
-			sliceName = (nameFragment!=null ? nameFragment : "") + " ("+ sliceName+")";
-
-			SliceInformation sli = new SliceInformation(in,out,sampling,lz.getShape(),axes, size,count);
-			SliceFromSeriesMetadata ssm = new SliceFromSeriesMetadata(sli);
-			
-			ILazyDataset sliceView = lz.getSliceView(in);
-			sliceView.setName(sliceName);
-			sliceView.setMetadata(ssm);
-			
-			count++;
-			ret.add(sliceView);
-		}
-		
-		return ret;
-	}
 
 	/**
 	 * This method provides a way to slice over a lazy dataset providing the values
@@ -312,6 +257,10 @@ public class Slicer {
 		sb.deleteCharAt(sb.length()-1);
 		return Slice.convertFromString(sb.toString());
 		
+	}
+	
+	public static SliceND getSliceNDFromSliceDimensions(Map<Integer, String> sliceDimensions, int[] shape){
+		return new SliceND(shape, getSliceArrayFromSliceDimensions(sliceDimensions, shape));
 	}
 
 	private static boolean isFullDim(String s) {

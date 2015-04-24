@@ -24,6 +24,14 @@ public class SourceInformation {
 	private String datasetName;
 	private String filePath;
 	
+	/**
+	 * Bean to store the information about the source of a dataset in the 
+	 * SliceFromSeriesMetadata
+	 * 
+	 * @param filePath - the path to the data file
+	 * @param datasetName - the name of the parent dataset
+	 * @param parent - ILazydataset which the dataset containing this metadata comes from
+	 */
 	public SourceInformation(String filePath, String datasetName, ILazyDataset parent) {
 		this.filePath = filePath;
 		this.datasetName = datasetName;
