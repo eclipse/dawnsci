@@ -112,10 +112,7 @@ public class Slicer {
 		SliceViewIterator generator = new SliceViewIterator(lz, sampling, axes);
 		
 		while (generator.hasNext()) {
-			long start = System.currentTimeMillis();
 			IDataset data = generator.getCurrentView().getSlice();
-			
-			logger.debug("Data loaded in: " +(System.currentTimeMillis()-start)/1000. + " s");
 			
 			if (visitor!=null) {
 			    visitor.visit(data, generator.getOutputSlice().convertToSlice(), generator.getOutputShape());
