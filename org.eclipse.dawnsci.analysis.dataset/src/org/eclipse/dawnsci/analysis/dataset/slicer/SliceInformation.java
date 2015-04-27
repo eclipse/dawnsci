@@ -28,16 +28,24 @@ public class SliceInformation {
 	private SliceND sampling;
 	private int[] dataDimensions;
 	private int totalSlices;
-	private int[] shape;
 	
-	public SliceInformation(SliceND current, SliceND output, SliceND sampling,int[] shape, int[] dataDimensions, int total, int number) {
+	/**
+	 * Object to store the information about where a slice is from in a lazy dataset
+	 * 
+	 * @param current - slice describing where this data comes from in the original dataset 
+	 * @param output - slice describing where this data goes in the output dataset
+	 * @param sampling - slice describing how original data is subsampled for iteration 
+	 * @param dataDimensions - dimensions which correspond to the data (as apposed to the stack or scan)
+	 * @param total - total number of slices that can be taken
+	 * @param number - which number this slice corresponds to
+	 */
+	public SliceInformation(SliceND current, SliceND output, SliceND sampling, int[] dataDimensions, int total, int number) {
 		this.currentSlice = current;
 		this.number = number;
 		this.output = output;
 		this.dataDimensions = dataDimensions;
 		this.totalSlices = total;
 		this.sampling = sampling;
-		this.shape = shape;
 	}
 
 	public Slice[] getSliceFromInput() {
@@ -62,7 +70,7 @@ public class SliceInformation {
 
 	@Override
 	public SliceInformation clone() {
-		return new SliceInformation(currentSlice.clone(), output.clone(), sampling.clone(), shape.clone(),
+		return new SliceInformation(currentSlice.clone(), output.clone(), sampling.clone(),
 									dataDimensions.clone(), totalSlices, number);
 	}
 

@@ -509,7 +509,13 @@ public class SliceUtils {
 
 		// This is the bit that takes the time. 
 		// *DO NOT CANCEL MONITOR* if we get this far
-		IDataset slice = (IDataset)ld.getSlice(currentSlice.getSliceStart(), currentSlice.getSliceStop(), currentSlice.getSliceStep());
+		IDataset slice = null;
+		if (ld instanceof IDataset) {
+			slice = ((IDataset)ld).getSliceView(currentSlice.getSliceStart(), currentSlice.getSliceStop(), currentSlice.getSliceStep());
+		} else {
+			slice = ld.getSlice(currentSlice.getSliceStart(), currentSlice.getSliceStop(), currentSlice.getSliceStep());
+		}
+		
 		slice.setName("Slice of "+currentSlice.getName()+" "+currentSlice.getShapeMessage());
 		
 		final DimsDataList ddl = (DimsDataList)currentSlice.getDimensionalData();
