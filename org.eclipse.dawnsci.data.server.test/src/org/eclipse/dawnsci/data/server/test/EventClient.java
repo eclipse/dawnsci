@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.concurrent.Future;
 
 import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
 import org.junit.Test;
 
@@ -13,7 +12,7 @@ public class EventClient {
 	@Test
 	public void checkClientConnection() throws Exception {
 		
-        URI uri = URI.create("ws://localhost:8080/event/");
+        URI uri = URI.create("ws://localhost:8080/event/?path=c%3A/Work/results/TomographyDataSet.hdf5");
 
         WebSocketClient client = new WebSocketClient();
         try {
@@ -27,9 +26,12 @@ public class EventClient {
                 Session session = fut.get();
                 // Send a message
                 session.getRemote().sendString("Hello World");
-                // Close session
-                session.close();
                 
+                // Close session from the server
+                while(session.isOpen()) {
+                	Thread.sleep(100);
+                }
+                session.close();
             } finally {
                 client.stop();
             }

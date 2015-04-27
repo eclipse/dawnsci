@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.BasicConfigurator;
+import org.eclipse.dawnsci.data.server.event.EventServerSocket;
 import org.eclipse.dawnsci.data.server.event.EventServlet;
 import org.eclipse.dawnsci.data.server.slice.SliceServlet;
 import org.eclipse.equinox.app.IApplicationContext;
@@ -22,6 +23,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.websocket.server.WebSocketHandler;
+import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
 /**
  * This object is designed to start the server and 
@@ -73,6 +76,7 @@ public class DataServer extends PortServer {
 
 		ServerConnector connector = new ServerConnector(server);
 		connector.setPort(getPort());
+		connector.setReuseAddress(true);
 		server.addConnector(connector);   	
 
 		// We enable sessions on the server so that 
@@ -88,8 +92,17 @@ public class DataServer extends PortServer {
 		context.addServlet(holderSlice, "/slice/*");
 
 		// Doing events, like data changing shape.
+		// FIXME Should not be needed
+		WebSocketHandler wsHandler = new WebSocketHandler() {
+			@Override
+			public void configure(WebSocketServletFactory factory) {
+				factory.register(EventServerSocket.class);
+			}
+		};
+		context.setHandler(wsHandler);
+		// FIXME End should not be needed.
+
 		ServletHolder holderEvents = new ServletHolder("event", EventServlet.class);
-		holderEvents.setServlet(new EventServlet());
 		context.addServlet(holderEvents, "/event/*");
 
 		server.start();
@@ -97,4 +110,31 @@ public class DataServer extends PortServer {
 
 	}
 
+	
+	/**
+	 * 
+	 * 	public void start(boolean block) throws Exception {
+		
+		this.server = new Server(getPort());
+
+		WebSocketHandler wsHandler = new WebSocketHandler()
+		{
+			@Override
+			public void configure(WebSocketServletFactory factory)
+			{
+				factory.register(EventServerSocket.class);
+			}
+		};
+		ContextHandler context = new ContextHandler();
+		context.setContextPath("/event/*");
+		context.setHandler(wsHandler);
+		
+		server.setHandler(context);
+
+		server.start();
+		if (block) server.join();
+
+	}
+
+	 */
 }
