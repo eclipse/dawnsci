@@ -61,50 +61,64 @@ class ThreadSafeObject {
 					    
 					} catch (NoSuchMethodException nsm1) {
 						
-						if (classes.length==1) { // Deal with primitive getters and setters
-							Class<?> clazz = classes[0];
-						    Method method = null;
-						    
-							// See if there will different signature
-							METHOD_LOOP: for (Method m : delegate.getClass().getMethods()) {
-								if (m.getName().equals(methodName) && m.getParameterTypes().length==classes.length) {
-									for (int i = 0; i < m.getParameterTypes().length; i++) {
-										Class type = m.getParameterTypes()[i];
-										if (!type.isAssignableFrom(classes[i])) {
-											break METHOD_LOOP;
+						Method method = null;
+
+						// See if there will different signature
+						METHOD_LOOP: for (Method m : delegate.getClass().getMethods()) {
+							if (m.getName().equals(methodName) && m.getParameterTypes().length==classes.length) {
+								for (int i = 0; i < m.getParameterTypes().length; i++) {
+									Class type = m.getParameterTypes()[i];
+									if (!type.isAssignableFrom(classes[i])) {
+										
+										if (type.isPrimitive()) {
+											Class<?> clazz = classes[i];
+											if (Double.class.isAssignableFrom(clazz) && type.equals(double.class)) {
+												continue;
+											} else if (Float.class.isAssignableFrom(clazz) && type.equals(float.class)) {
+												continue;
+											} else if (Long.class.isAssignableFrom(clazz) && type.equals(long.class)) {
+												continue;
+											} else if (Integer.class.isAssignableFrom(clazz) && type.equals(int.class)) {
+												continue;
+											} else if (Boolean.class.isAssignableFrom(clazz) && type.equals(boolean.class)) {
+												continue;
+											}
 										}
+										break METHOD_LOOP;
 									}
-									method = m;
 								}
-							}
-
-							if (method==null) {
-								try {
-
-									if (Double.class.isAssignableFrom(clazz)) {
-										method = delegate.getClass().getMethod(methodName, new Class[]{double.class});
-									} else if (Float.class.isAssignableFrom(clazz)) {
-										method = delegate.getClass().getMethod(methodName, new Class[]{float.class});
-									} else if (Long.class.isAssignableFrom(clazz)) {
-										method = delegate.getClass().getMethod(methodName, new Class[]{long.class});
-									} else if (Integer.class.isAssignableFrom(clazz)) {
-										method = delegate.getClass().getMethod(methodName, new Class[]{int.class});
-									} else if (Boolean.class.isAssignableFrom(clazz)) {
-										method = delegate.getClass().getMethod(methodName, new Class[]{boolean.class});
-									}
-								} catch (NoSuchMethodException nsm2) {
-									method = delegate.getClass().getMethod(methodName, new Class[]{Number.class});
-								}
-							}
-	
-							
-							if (method!=null) {
-								Object val    = method.invoke(delegate, args);
-							    ret.add(val);
-							    return;
+								method = m;
+								break METHOD_LOOP;
 							}
 						}
-						
+
+						if (method==null && classes.length==1) {
+							Class<?> clazz = classes[0];
+							try {
+
+								if (Double.class.isAssignableFrom(clazz)) {
+									method = delegate.getClass().getMethod(methodName, new Class[]{double.class});
+								} else if (Float.class.isAssignableFrom(clazz)) {
+									method = delegate.getClass().getMethod(methodName, new Class[]{float.class});
+								} else if (Long.class.isAssignableFrom(clazz)) {
+									method = delegate.getClass().getMethod(methodName, new Class[]{long.class});
+								} else if (Integer.class.isAssignableFrom(clazz)) {
+									method = delegate.getClass().getMethod(methodName, new Class[]{int.class});
+								} else if (Boolean.class.isAssignableFrom(clazz)) {
+									method = delegate.getClass().getMethod(methodName, new Class[]{boolean.class});
+								}
+							} catch (NoSuchMethodException nsm2) {
+								method = delegate.getClass().getMethod(methodName, new Class[]{Number.class});
+							}
+						}
+
+
+						if (method!=null) {
+							Object val    = method.invoke(delegate, args);
+							ret.add(val);
+							return;
+						}
+
 						throw nsm1;
 					}
 					
