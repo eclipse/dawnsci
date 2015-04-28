@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.analysis.tree.impl;
 import java.io.Serializable;
 
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
+import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
@@ -54,6 +55,9 @@ public class AttributeImpl implements Attribute, Serializable {
 		node = nodeName;
 		name = attrName;
 		value = DatasetFactory.createFromObject(attrValue, isUnsigned);
+		if (value.getRank() == 0) {
+			value.setShape(1);
+		}
 	}
 
 	@Override
@@ -63,7 +67,7 @@ public class AttributeImpl implements Attribute, Serializable {
 
 	@Override
 	public String getFullName() {
-		return node + NodeImpl.ATTRIBUTE + name;
+		return node + Node.ATTRIBUTE + name;
 	}
 
 	@Override
