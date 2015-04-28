@@ -3,8 +3,10 @@ package org.eclipse.dawnsci.data.server.test;
 import java.net.URI;
 import java.util.concurrent.Future;
 
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.client.WebSocketClient;
+import org.eclipse.jetty.websocket.WebSocket;
+import org.eclipse.jetty.websocket.WebSocket.Connection;
+import org.eclipse.jetty.websocket.WebSocketClient;
+import org.eclipse.jetty.websocket.WebSocketClientFactory;
 import org.junit.Test;
 
 public class EventClient {
@@ -14,26 +16,29 @@ public class EventClient {
 		
         URI uri = URI.create("ws://localhost:8080/event/?path=c%3A/Work/results/TomographyDataSet.hdf5");
 
-        WebSocketClient client = new WebSocketClient();
+        WebSocketClientFactory factory = new WebSocketClientFactory();
+        factory.start();
+        WebSocketClient        client = new WebSocketClient(factory);
         try {
-            try {
-                client.start();
-                // The socket that receives events
-                EventClientSocket    socket  = new EventClientSocket();
+            
+        	Connection connection = null;
+        	try {
+            	final EventClientSocket clientSocket = new EventClientSocket();
                  // Attempt Connect
-                Future<Session> fut = client.connect(socket,uri);
+                Future<Connection> fut = client.open(uri, clientSocket);
+               
                 // Wait for Connect
-                Session session = fut.get();
+                connection = fut.get();
+                
                 // Send a message
-                session.getRemote().sendString("Hello World");
+                connection.sendMessage("Hello World");
                 
                 // Close session from the server
-                while(session.isOpen()) {
+                while(connection.isOpen()) {
                 	Thread.sleep(100);
                 }
-                session.close();
             } finally {
-                client.stop();
+                if (connection!=null) connection.close();
             }
         } catch (Throwable t) {
             t.printStackTrace(System.err);

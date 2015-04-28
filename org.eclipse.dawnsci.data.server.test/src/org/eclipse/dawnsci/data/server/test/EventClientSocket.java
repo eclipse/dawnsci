@@ -1,31 +1,25 @@
 package org.eclipse.dawnsci.data.server.test;
 
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.WebSocketAdapter;
+import org.eclipse.jetty.websocket.WebSocket;
 
-public class EventClientSocket extends WebSocketAdapter {
+
+public class EventClientSocket implements WebSocket, WebSocket.OnTextMessage {
+
+	@Override
+	public void onOpen(Connection connection) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onClose(int closeCode, String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMessage(String data) {
+		System.out.println("Message from server "+data);
+	}
 	
-    @Override
-    public void onWebSocketConnect(Session sess) {
-    	
-        super.onWebSocketConnect(sess); 
-        System.out.println("Socket Connected: " + sess);
-    }
-    
-    @Override
-    public void onWebSocketText(String message) {
-        super.onWebSocketText(message);
-        System.out.println("Received TEXT message: " + message);
-    }
-    
-    @Override
-    public void onWebSocketClose(int statusCode, String reason) {
-        super.onWebSocketClose(statusCode,reason);
-    }
-    
-    @Override
-    public void onWebSocketError(Throwable cause) {
-        super.onWebSocketError(cause);
-        cause.printStackTrace(System.err);
-    }
 }

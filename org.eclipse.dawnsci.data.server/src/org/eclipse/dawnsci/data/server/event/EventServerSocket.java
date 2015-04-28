@@ -1,52 +1,42 @@
 package org.eclipse.dawnsci.data.server.event;
 
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.WebSocketAdapter;
-import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.eclipse.jetty.websocket.WebSocket;
 
-@WebSocket
-public class EventServerSocket extends WebSocketAdapter {
+class EventServerSocket implements WebSocket {
 	
-    @Override
-    public void onWebSocketConnect(Session sess) {
-    	
-        super.onWebSocketConnect(sess); 
-        
-        Map<String,List<String>> params = sess.getUpgradeRequest().getParameterMap();
-        final List<String> paths = params.get("path");
-        final String path = paths.get(0);
-        System.out.println(path);
+	private HttpServletRequest request;
+
+	EventServerSocket(HttpServletRequest request) {
+		this.request = request;
+	}
+
+	@Override
+	public void onOpen(Connection connection) {
+		
+		final String path = request.getParameter("path");
         
         try {
         	int count = 0;
-        	while(isConnected() && count<10) {
+        	while(connection.isOpen() && count<10) {
 			    Thread.sleep(1000);
-			    sess.getRemote().sendString(path+" changed!");
+			    connection.sendMessage(path+" changed!");
 			    ++count;
         	}
-        	sess.close();
+        	connection.close();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			sess.close();
+			connection.close();
 		}
-    }
-    
-    @Override
-    public void onWebSocketText(String message) {
-        super.onWebSocketText(message);
-    }
-    
-    @Override
-    public void onWebSocketClose(int statusCode, String reason) {
-        super.onWebSocketClose(statusCode,reason);
-    }
-    
-    @Override
-    public void onWebSocketError(Throwable cause) {
-        super.onWebSocketError(cause);
-    }
+		
+	}
+
+	@Override
+	public void onClose(int closeCode, String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

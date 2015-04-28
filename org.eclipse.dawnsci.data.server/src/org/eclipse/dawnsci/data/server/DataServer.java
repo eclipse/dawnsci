@@ -14,17 +14,20 @@ package org.eclipse.dawnsci.data.server;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.activation.DataHandler;
+
 import org.apache.log4j.BasicConfigurator;
-import org.eclipse.dawnsci.data.server.event.EventServerSocket;
 import org.eclipse.dawnsci.data.server.event.EventServlet;
 import org.eclipse.dawnsci.data.server.slice.SliceServlet;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SessionManager;
+import org.eclipse.jetty.server.session.HashSessionIdManager;
+import org.eclipse.jetty.server.session.HashSessionManager;
+import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.websocket.server.WebSocketHandler;
-import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
 /**
  * This object is designed to start the server and 
@@ -72,8 +75,37 @@ public class DataServer extends PortServer {
 	
 	public void start(boolean block) throws Exception {
 		
-		this.server = new Server();
+		this.server = new Server(getPort());
+        
+    	// We enable sessions on the server so that 
+		// we can cache LoaderFactories to a given session.
+		// The loader factory therefore needs a non-global 
+		// data soft reference cache.
+		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.setContextPath("/");
+        server.setHandler(context); 
+       
+        // Make individual servlets
+        // Slicing (large data in binary http)
+		ServletHolder holderSlice = new ServletHolder("slice", SliceServlet.class);
+		context.addServlet(holderSlice, "/slice/*");
+     
+		// Events json objects to notifyu of problems.
+		ServletHolder holderEvent = new ServletHolder("event", EventServlet.class);
+		context.addServlet(holderEvent, "/event/*");
+		
+	    server.start();
+	    if (block) server.join();
 
+	}
+
+	
+	/**
+	 * 
+	 * 	
+	 * 
+	    JETTY 9 
+		
 		ServerConnector connector = new ServerConnector(server);
 		connector.setPort(getPort());
 		connector.setReuseAddress(true);
@@ -104,32 +136,6 @@ public class DataServer extends PortServer {
 
 		ServletHolder holderEvents = new ServletHolder("event", EventServlet.class);
 		context.addServlet(holderEvents, "/event/*");
-
-		server.start();
-		if (block) server.join();
-
-	}
-
-	
-	/**
-	 * 
-	 * 	public void start(boolean block) throws Exception {
-		
-		this.server = new Server(getPort());
-
-		WebSocketHandler wsHandler = new WebSocketHandler()
-		{
-			@Override
-			public void configure(WebSocketServletFactory factory)
-			{
-				factory.register(EventServerSocket.class);
-			}
-		};
-		ContextHandler context = new ContextHandler();
-		context.setContextPath("/event/*");
-		context.setHandler(wsHandler);
-		
-		server.setHandler(context);
 
 		server.start();
 		if (block) server.join();
