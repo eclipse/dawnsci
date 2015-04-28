@@ -18,6 +18,10 @@ public class TreeUtils {
 	 * @return path to node, return null if not found
 	 */
 	public static String getPath(Tree tree, Node node) {
+		GroupNode g = tree.getGroupNode();
+		if (g == node) {
+			return tree.getNodeLink().getFullName();
+		}
 		return getPathDepthFirst(tree.getGroupNode(), node);
 	}
 
