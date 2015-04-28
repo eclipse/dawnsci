@@ -58,10 +58,15 @@ public abstract class AbstractClientProvider {
 			}
 			// It isn't going to work with a port of 0, so throw the error now
 			if (port == 0) {
-				String msg = "Failed to determine suitable port from " + getEnvName() + ", value was '" + portString
-						+ "'";
-				logger.error(msg);
-				throw new IllegalStateException(msg);
+				// Check if this is GDA if the gda.mode property is present
+				boolean isGda = System.getProperty("gda.mode") != null ? true : false;
+				// If not GDA show the error, for GDA it will be suppressed
+				if (!isGda) {
+					String msg = "Failed to determine suitable port from " + getEnvName() + ", value was '"
+							+ portString + "'";
+					logger.error(msg);
+					throw new IllegalStateException(msg);
+				}
 			}
 		}
 
