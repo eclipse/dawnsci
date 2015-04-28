@@ -13,6 +13,7 @@
 package org.eclipse.dawnsci.analysis.api.tree;
 
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 
 /**
  * Node that holds data
@@ -73,6 +74,12 @@ public interface DataNode extends Node {
 	 * @return lazy dataset
 	 */
 	public ILazyDataset getDataset();
+
+	/**
+	 * This can return null if not writeable or is empty
+	 * @return lazy writeable dataset
+	 */
+	public ILazyWriteableDataset getWriteableDataset();
 
 	/**
 	 * Set given (lazy) dataset

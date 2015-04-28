@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.analysis.tree.impl;
 import java.io.Serializable;
 
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
@@ -108,6 +109,11 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	@Override
 	public ILazyDataset getDataset() {
 		return dataset;
+	}
+
+	@Override
+	public ILazyWriteableDataset getWriteableDataset() {
+		return (ILazyWriteableDataset) (dataset instanceof ILazyWriteableDataset ? dataset : null);
 	}
 
 	@Override
