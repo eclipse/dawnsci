@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.analysis.examples.pipelines;
 
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.processing.ExecutionType;
 import org.eclipse.dawnsci.analysis.api.processing.IExecutionVisitor;
