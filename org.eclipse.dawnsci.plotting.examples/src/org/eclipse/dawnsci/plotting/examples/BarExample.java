@@ -63,7 +63,7 @@ public class BarExample extends PlotExample {
     }
 	
 	protected String getFileName() {
-		return "metalmix.mca";
+		return "metalmix.csv";
 	}
 
 

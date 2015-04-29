@@ -36,6 +36,7 @@ public class LoadingExamples {
 	
 	private static ILoaderService service;
 	
+	// Injected by OSGi
 	public static void setLoaderService(ILoaderService s) {
 		service = s;
 	}
@@ -43,7 +44,7 @@ public class LoadingExamples {
 	@Test
 	public void loadSeveral1D() throws Throwable {
 		
-		final File        loc  = new File(Activator.getBundleLocation(Activator.PLUGIN_ID), "metalmix.mca");
+		final File        loc  = new File(Activator.getBundleLocation(Activator.PLUGIN_ID), "metalmix.csv");
 		final IDataHolder dh   = service.getData(loc.getAbsolutePath(), new IMonitor.Stub());
 		
 		System.out.println("We have several data as follows: ");
