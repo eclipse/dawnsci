@@ -15,6 +15,8 @@ import java.io.File;
 import java.util.Arrays;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
@@ -62,4 +64,23 @@ public class LoadingExamples {
 		
 		System.out.println("We have loaded an image of shape "+Arrays.toString(image.getShape()));
 	}
+	
+	@Test
+	public void load2DLazy() throws Throwable {
+		
+		final File     loc   = new File(Activator.getBundleLocation(Activator.PLUGIN_ID), "pow_M99S5_1_0001.cbf");
+		final IDataHolder dh   = service.getData(loc.getAbsolutePath(), new IMonitor.Stub());
+		
+		final ILazyDataset limage = dh.getLazyDataset(0); // This might actually be in memory depending in the loader, what we are
+		                                                 // doing is saying that it does not need to be. Instead of a CBF if this
+		                                                 // was an HDF5 file, it would not be in memory at this point...
+		
+		System.out.println("We have *NOT* loaded an image of shape "+Arrays.toString(limage.getShape()));
+	
+		// Last 500 rows (in this image dimension 0 is y)
+		final IDataset image = limage.getSlice(new Slice(-500,null)); // Now we load it.
+		System.out.println("We have loaded an image of shape "+Arrays.toString(image.getShape()));
+	    
+	}
+
 }
