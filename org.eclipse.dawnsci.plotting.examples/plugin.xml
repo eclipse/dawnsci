@@ -30,9 +30,9 @@
       </view>
       <view
             category="org.dawnsci.plotting.examples.category"
-            class="org.eclipse.dawnsci.plotting.examples.UpdateExample"
+            class="org.eclipse.dawnsci.plotting.examples.XYUpdateExample"
             id="org.dawnsci.plotting.examples.updateExample"
-            name="Update Example"
+            name="XY Update Example"
             restorable="true">
       </view>
       <view

@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author fcp94556
  *
  */
-public class UpdateExample extends PlotExample {
+public class XYUpdateExample extends PlotExample {
 	
 	private boolean buttonPressed = false;
 	
@@ -56,7 +56,7 @@ public class UpdateExample extends PlotExample {
 			clear.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 
 			// We create a basic plot
-			system.createPlotPart(parent, "XY Example", getViewSite().getActionBars(), PlotType.XY, this);
+			system.createPlotPart(parent, "XY Update Example", getViewSite().getActionBars(), PlotType.XY, this);
 			system.getPlotComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 			// Make 3x100 values of first order 
