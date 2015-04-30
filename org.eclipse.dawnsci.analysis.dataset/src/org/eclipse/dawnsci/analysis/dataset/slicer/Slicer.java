@@ -33,8 +33,6 @@ import org.slf4j.LoggerFactory;
  * This is Jakes algorithm moved out of the conversion API to make more use of it.
  */
 public class Slicer {
-	
-	private static final Logger logger = LoggerFactory.getLogger(Slicer.class);
 
 	public static IDataset getFirstSlice(ILazyDataset lz, Map<Integer, String> sliceDimensions) {
 		
