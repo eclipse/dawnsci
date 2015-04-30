@@ -52,13 +52,11 @@ public class XYExample extends PlotExample {
 			
 			// Plot some data
 			
-			// FAST WAY TO PLOT
 			// Thread safe convenience method
 			system.createPlot1D(null, Arrays.asList(dataHolder.getDataset(0), dataHolder.getDataset(1)), new NullProgressMonitor());
 			system.setXFirst(false); // Set the face that 
 			
-			// SLOWER BUT FEATURE RICH WAY
-			// Create, configure, add
+			// Create, configure, add method
 			// Another way of adding traces is like this:
 			IDataset   data  = dataHolder.getDataset(2); // Get some data out of the CSV file
 			data.setName("Frederick");
