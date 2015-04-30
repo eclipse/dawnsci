@@ -29,6 +29,7 @@ public class ExamplePerspective implements IPerspectiveFactory {
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder", IPageLayout.LEFT, 0.5f, IPageLayout.ID_EDITOR_AREA);
 			folderLayout.addView("org.dawnsci.plotting.examples.xyExample");
+			folderLayout.addView("org.dawnsci.plotting.examples.updateExample");
 			folderLayout.addView("org.dawnsci.plotting.examples.axisExample");
 			folderLayout.addView("org.dawnsci.plotting.examples.axisExample");
 			folderLayout.addView("org.dawnsci.plotting.examples.barExample");

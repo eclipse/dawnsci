@@ -30,6 +30,13 @@
       </view>
       <view
             category="org.dawnsci.plotting.examples.category"
+            class="org.eclipse.dawnsci.plotting.examples.UpdateExample"
+            id="org.dawnsci.plotting.examples.updateExample"
+            name="Update Example"
+            restorable="true">
+      </view>
+      <view
+            category="org.dawnsci.plotting.examples.category"
             class="org.eclipse.dawnsci.plotting.examples.AxisExample"
             id="org.dawnsci.plotting.examples.axisExample"
             name="Axis Example"
