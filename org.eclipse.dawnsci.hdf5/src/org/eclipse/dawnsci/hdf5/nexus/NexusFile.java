@@ -20,7 +20,7 @@ import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 
 /**
- * Replacement for NexusFileInterface
+ * Replacement for old Nexus file interface
  * 
  * All elements of a path can be augmented with an optional NX_class string appended on
  * with a {@value #NXCLASS_SEPARATOR}. If the NX_class attribute does not match then an
