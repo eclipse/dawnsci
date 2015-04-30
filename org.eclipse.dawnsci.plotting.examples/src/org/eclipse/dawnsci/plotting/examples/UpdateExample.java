@@ -76,15 +76,13 @@ public class UpdateExample extends PlotExample {
 								try {
 									// Thread safe update of y
 									system.append("y", size, Math.pow(size, 2), new NullProgressMonitor());
-									if (size%5==0) {
-										system.repaint(true);
-									}
+									system.repaint(true);
 									
 								} catch (Exception e) {
 									e.printStackTrace(); // Or your favourite logging.
 								} finally {
 									try {
-										Thread.sleep(250);
+										Thread.sleep(200);
 									} catch (InterruptedException e) {
 										e.printStackTrace(); // Or your favourite logging.
 									}
