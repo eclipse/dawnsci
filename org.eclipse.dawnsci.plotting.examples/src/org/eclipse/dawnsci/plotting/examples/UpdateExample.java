@@ -11,7 +11,9 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.plotting.examples;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
@@ -40,23 +42,28 @@ public class UpdateExample extends PlotExample {
 		
 		parent.setLayout(new GridLayout(1, false));
 		try {
-			// We create a button which when pressed, does updates
-			final Button updates = new Button(parent, SWT.TOGGLE);
-			updates.setText("Append to plot");
-			updates.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+			final Composite buttons = new Composite(parent, SWT.NONE);
+			buttons.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			buttons.setLayout(new GridLayout(2, false));
 			
+			// We create a button which when pressed, does updates
+			final Button updates = new Button(buttons, SWT.CHECK);
+			updates.setText("Append data every 200ms");
+			updates.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+			
+			final Button clear = new Button(buttons, SWT.PUSH);
+			clear.setText("Reset");
+			clear.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+
 			// We create a basic plot
 			system.createPlotPart(parent, "XY Example", getViewSite().getActionBars(), PlotType.XY, this);
 			system.getPlotComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-			// Make 100 values of x^2
-			double[] data = new double[100];
-			for (int i = 0; i < data.length; i++) data[i] = Math.pow(i, 2);
-			IDataset y = new DoubleDataset(data, data.length);
-			y.setName("y");
+			// Make 3x100 values of first order 
+			List<IDataset> ys = getInitialData();
 			
 		    // Plot them
-			system.createPlot1D(null, Arrays.asList(y), new NullProgressMonitor());
+			system.createPlot1D(null, ys, new NullProgressMonitor());
 			
 			// Add a listener to append data
 			updates.addSelectionListener(new SelectionAdapter() {
@@ -67,31 +74,18 @@ public class UpdateExample extends PlotExample {
 					if (!updates.getSelection()) return;
 					
 					// Or better with an Eclipse job...
-					Thread thread = new Thread(new Runnable() {
-						public void run() {
-							while(buttonPressed) {
-								
-								int size = system.getTrace("y").getData().getSize();
-								System.out.println(size);
-								try {
-									// Thread safe update of y
-									system.append("y", size, Math.pow(size, 2), new NullProgressMonitor());
-									system.repaint(true);
-									
-								} catch (Exception e) {
-									e.printStackTrace(); // Or your favourite logging.
-								} finally {
-									try {
-										Thread.sleep(200);
-									} catch (InterruptedException e) {
-										e.printStackTrace(); // Or your favourite logging.
-									}
-								}
-							}
-						}
-					});
-					thread.setDaemon(true);
-					thread.start();
+					createUpdateThread();
+				}
+			});
+			
+			clear.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent e){
+					buttonPressed = false;
+					updates.setSelection(false);
+					
+					// Removed the last updated plots
+					system.clear();
+					system.createPlot1D(null, getInitialData(), new NullProgressMonitor());
 				}
 			});
 
@@ -100,6 +94,47 @@ public class UpdateExample extends PlotExample {
 		}
 
     }
+
+	protected void createUpdateThread() {
+		Thread thread = new Thread(new Runnable() {
+			public void run() {
+				while(buttonPressed) {
+					
+					try {
+						// Thread safe update of y
+						for (int n=2; n<5; ++n) {
+							int size = system.getTrace("y"+n).getData().getSize();
+						    system.append("y"+n, size, Math.pow(size*n, 2), new NullProgressMonitor());
+						}
+						system.repaint(true);
+						
+					} catch (Exception e) {
+						e.printStackTrace(); // Or your favourite logging.
+					} finally {
+						try {
+							Thread.sleep(200);
+						} catch (InterruptedException e) {
+							e.printStackTrace(); // Or your favourite logging.
+						}
+					}
+				}
+			}
+		});
+		thread.setDaemon(true);
+		thread.start();
+	}
+
+	private List<IDataset> getInitialData() {
+		List<IDataset> ys = new ArrayList<IDataset>(3);
+		for (int n=2; n<5; ++n) {
+			double[] data = new double[100];
+			for (int i = 0; i < data.length; i++) data[i] = Math.pow(i*n, 2);
+			IDataset y = new DoubleDataset(data, data.length);
+			y.setName("y"+n);
+			ys.add(y);
+		}
+		return ys;
+	}
 
 	@Override
 	protected String getFileName() {
