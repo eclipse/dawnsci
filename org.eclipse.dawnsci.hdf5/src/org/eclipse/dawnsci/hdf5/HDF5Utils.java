@@ -26,17 +26,10 @@ import ncsa.hdf.object.h5.H5Datatype;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.analysis.dataset.impl.ByteDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.FloatDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LongDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
-import org.eclipse.dawnsci.analysis.dataset.impl.ShortDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,56 +46,12 @@ public class HDF5Utils {
 	 */
 	public static Dataset createDataset(final Object data, final int[] shape, final int dtype,
 			final boolean extend) {
-		Dataset ds = null;
-		switch (dtype) {
-		case Dataset.FLOAT32:
-			float[] fData = (float[]) data;
-			ds = new FloatDataset(fData, shape);
-			break;
-		case Dataset.FLOAT64:
-			double[] dData = (double[]) data;
-			ds = new DoubleDataset(dData, shape);
-			break;
-		case Dataset.INT8:
-			byte[] bData = (byte[]) data;
-			ds = new ByteDataset(bData, shape);
-			break;
-		case Dataset.INT16:
-			short[] sData = (short[]) data;
-			ds = new ShortDataset(sData, shape);
-			break;
-		case Dataset.INT32:
-			int[] iData = (int[]) data;
-			ds = new IntegerDataset(iData, shape);
-			break;
-		case Dataset.INT64:
-			long[] lData = (long[]) data;
-			ds = new LongDataset(lData, shape);
-			break;
-		case Dataset.STRING:
-			String[] strData = (String[]) data;
-			ds = new StringDataset(strData, shape);
-			break;
-		default:
-			throw new IllegalArgumentException("Unknown or unsupported dataset type");
-		}
+		Dataset ds = DatasetFactory.createFromObject(data, dtype);
 	
 		if (extend) {
-			switch (dtype) {
-			case Dataset.INT32:
-				ds = new LongDataset(ds);
-				DatasetUtils.unwrapUnsigned(ds, 32);
-				break;
-			case Dataset.INT16:
-				ds = new IntegerDataset(ds);
-				DatasetUtils.unwrapUnsigned(ds, 16);
-				break;
-			case Dataset.INT8:
-				ds = new ShortDataset(ds);
-				DatasetUtils.unwrapUnsigned(ds, 8);
-				break;
-			}
+			ds = DatasetUtils.makeUnsigned(ds);
 		}
+		ds.setShape(shape);
 		return ds;
 	}
 
@@ -426,20 +375,7 @@ public class HDF5Utils {
 						}
 					}
 					if (extend) {
-						switch (ldtype) {
-						case Dataset.INT32:
-							data = new LongDataset(data);
-							DatasetUtils.unwrapUnsigned(data, 32);
-							break;
-						case Dataset.INT16:
-							data = new IntegerDataset(data);
-							DatasetUtils.unwrapUnsigned(data, 16);
-							break;
-						case Dataset.INT8:
-							data = new ShortDataset(data);
-							DatasetUtils.unwrapUnsigned(data, 8);
-							break;
-						}
+						data = DatasetUtils.makeUnsigned(data);
 					}
 				} catch (HDF5Exception ex) {
 					logger.error("Could not get data space information", ex);
