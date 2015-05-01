@@ -38,7 +38,6 @@ public class SectorExample extends ImageExample {
 		
 		try {
 			final IRegion sector = system.createRegion("Sector 1", RegionType.SECTOR);
-			sector.setRegionColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 			sector.setROI(new SectorROI(10, 10, 0, 100, 0, Math.PI/3));
 			sector.setRegionColor(Display.getDefault().getSystemColor(SWT.COLOR_YELLOW));
 			system.addRegion(sector);

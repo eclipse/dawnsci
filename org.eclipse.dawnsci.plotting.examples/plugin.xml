@@ -31,7 +31,7 @@
       <view
             category="org.dawnsci.plotting.examples.category"
             class="org.eclipse.dawnsci.plotting.examples.XYUpdateExample"
-            id="org.dawnsci.plotting.examples.updateExample"
+            id="org.dawnsci.plotting.examples.xyUpdateExample"
             name="XY Update Example"
             restorable="true">
       </view>
@@ -54,6 +54,13 @@
             class="org.eclipse.dawnsci.plotting.examples.BarExample"
             id="org.dawnsci.plotting.examples.barExample"
             name="Bar Example"
+            restorable="true">
+      </view>
+      <view
+            category="org.dawnsci.plotting.examples.category"
+            class="org.eclipse.dawnsci.plotting.examples.RegionExample"
+            id="org.dawnsci.plotting.examples.regionExample"
+            name="Region Example"
             restorable="true">
       </view>
    </extension>

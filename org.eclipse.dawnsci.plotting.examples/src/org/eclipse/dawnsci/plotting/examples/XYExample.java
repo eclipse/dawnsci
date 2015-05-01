@@ -45,7 +45,7 @@ public class XYExample extends PlotExample {
 			// We create a basic plot
 			system.createPlotPart(parent, "XY Example", getViewSite().getActionBars(), PlotType.XY, this);
 
-			// We read an image
+			// We read an the CVS File
 			final File        loc        = new File(BundleUtils.getBundleLocation(Activator.PLUGIN_ID), getFileName());
 			final IDataHolder dataHolder = service.getData(loc.getAbsolutePath(), new IMonitor.Stub());
 			// NOTE IMonitor is an alternative to IProgressMonitor which cannot be seen in the data layer.
