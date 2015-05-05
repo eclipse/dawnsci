@@ -54,12 +54,12 @@ public class Exercise3 extends Exercise2 {
 				// In reality use a Job queue to do this or the UI goes slow...
 				IImageTrace trace = (IImageTrace)evt.getSource();
 				createThreasholdMask(trace);
-				createTiffImage(trace);
+				createImageFile(trace);
 			}
 		};
 	}
 
-	protected void createTiffImage(IImageTrace trace) {
+	protected void createImageFile(IImageTrace trace) {
 		try {
 			final IImageService iservice = Examples.getCurrent().getImageService();
 			final ImageServiceBean  bean = trace.getImageServiceBean().clone();
