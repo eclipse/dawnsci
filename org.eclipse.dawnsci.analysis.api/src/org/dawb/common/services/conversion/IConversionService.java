@@ -21,7 +21,7 @@ package org.dawb.common.services.conversion;
  * IConversionContext context = service.open("/dls/path_to_some_hdf5_file.nxs"); // regex allowed
  * context.setDatasetName("/entry1/signal/some_data"); // regex allowed
  * context.setOutputPath("/dls/some_place_I_want_my_data");
- * context.setScheme(IConversionContext.ConversionScheme.ASCII_FROM_2D);
+ * context.setConversionScheme(IConversionContext.ConversionScheme.ASCII_FROM_2D);
  * service.process(context);
  * </code>
  * 
