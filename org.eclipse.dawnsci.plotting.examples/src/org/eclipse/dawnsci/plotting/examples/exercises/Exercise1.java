@@ -71,8 +71,12 @@ public class Exercise1 extends ViewPart { // Yes I know inheritance is bad and i
 			// Use your favourite.
 			IAction runReorder = new Action("Run Reordering", IAction.AS_CHECK_BOX) {
 				public void run() {
-					updating = isChecked();
-					if (updating) startReorderThread();
+					boolean updating = isChecked();
+					if (updating) {
+						startReorderThread();
+					} else {
+						stopReorderThread();
+					}
 				}
 			};	
 			getViewSite().getActionBars().getToolBarManager().add(runReorder);
@@ -95,7 +99,9 @@ public class Exercise1 extends ViewPart { // Yes I know inheritance is bad and i
 		}
     }
 
+
 	protected void startReorderThread() {
+		updating = true;
 		final Thread doReordering = new Thread(new Runnable() {
 			public void run() {
 				while(updating) {
@@ -123,6 +129,13 @@ public class Exercise1 extends ViewPart { // Yes I know inheritance is bad and i
 		});
 		doReordering.setDaemon(true);
 		doReordering.start();
+	}
+
+	/**
+	 * Future exercises need to know when processing stopped.
+	 */
+	protected void stopReorderThread() {
+		updating = false;
 	}
 
 	@Override

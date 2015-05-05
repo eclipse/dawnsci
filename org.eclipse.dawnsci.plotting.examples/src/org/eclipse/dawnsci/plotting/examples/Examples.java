@@ -14,6 +14,7 @@ package org.eclipse.dawnsci.plotting.examples;
 import org.eclipse.dawnsci.analysis.api.dataset.IDatasetMathsService;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.plotting.api.IPlottingService;
+import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.IPaletteService;
 import org.osgi.service.component.ComponentContext;
 /**
@@ -27,7 +28,14 @@ public class Examples {
 	private ILoaderService       loaderService;
 	private IPlottingService     plottingService;
 	private IPaletteService      paletteService;
+	private IImageService        imageService;
 	
+	public IImageService getImageService() {
+		return imageService;
+	}
+	public void setImageService(IImageService imageService) {
+		this.imageService = imageService;
+	}
 	public IPaletteService getPaletteService() {
 		return paletteService;
 	}

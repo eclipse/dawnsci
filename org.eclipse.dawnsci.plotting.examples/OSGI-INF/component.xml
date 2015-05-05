@@ -5,4 +5,5 @@
    <reference bind="setLoaderService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.io.ILoaderService" name="ILoaderService" policy="dynamic"/>
    <reference bind="setPlottingService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.IPlottingService" name="IPlottingService" policy="dynamic"/>
    <reference bind="setPaletteService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.histogram.IPaletteService" name="IPaletteService" policy="dynamic"/>
+   <reference bind="setImageService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.histogram.IImageService" name="IImageService" policy="dynamic"/>
 </scr:component>

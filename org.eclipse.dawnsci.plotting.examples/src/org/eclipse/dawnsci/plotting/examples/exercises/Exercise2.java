@@ -29,29 +29,33 @@ public class Exercise2 extends Exercise1 {
         system.addTraceListener(traceListener);
 	}
 	
-	private ITraceListener createTraceListener() {
+	protected ITraceListener createTraceListener() {
 		return new ITraceListener.Stub() {
 			@Override
 			public void traceUpdated(TraceEvent evt) {
-				
-                // Lets do some masking...
 				IImageTrace trace = (IImageTrace)evt.getSource();
-				if (mask==null) mask = new BooleanDataset(trace.getData().getShape());
-				
-				// Start off with everything true (true = not-masked!)
-				mask.fill(true);
-				
-				// Iterate everything - yes this is slowish now. In Java8 we will
-				// implement parallel streams with Datasets...
-				PositionIterator it = new PositionIterator(mask.getShape());
-				while(it.hasNext()) {
-					int[] pos = it.getPos();
-					if (trace.getData().getInt(pos)<=-1) mask.set(false, pos);
-				}
-				
-				trace.setMask(mask);
-			}
+				createThreasholdMask(trace);
+ 			}
 		};
+	}
+
+	protected void createThreasholdMask(IImageTrace trace) {
+		// Lets do some masking...
+		if (mask==null) mask = new BooleanDataset(trace.getData().getShape());
+
+		// Start off with everything true (true = not-masked!)
+		mask.fill(true);
+
+		// Iterate everything - yes this is slowish now. In Java8 we are
+		// implementing parallel streams with Datasets but this was not available
+		// when these examples were being written.
+		PositionIterator it = new PositionIterator(mask.getShape());
+		while(it.hasNext()) {
+			int[] pos = it.getPos();
+			if (trace.getData().getInt(pos)<=-1) mask.set(false, pos);
+		}
+
+		trace.setMask(mask);
 	}
 
 	@Override
