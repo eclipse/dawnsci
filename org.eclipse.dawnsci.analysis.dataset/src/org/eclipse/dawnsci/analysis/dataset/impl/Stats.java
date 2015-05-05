@@ -1837,11 +1837,20 @@ public class Stats {
 		
 		//Concatenate additional set of variables with main set
 		if (b != null) {
-			vars = DatasetUtils.concatenate(new Dataset[]{vars, b}, axis);
+			Dataset extraVars = new DoubleDataset(b);
+			if (b.getRank() == 1) {
+				extraVars.setShape(1, a.getShape()[0]);
+			}
+			vars = DatasetUtils.concatenate(new Dataset[]{vars, extraVars}, axis);
 		}
 		
 		//Calculate deviations & covariance matrix
-		vars.isubtract(vars.mean(false, 1-axis));
+		Dataset varsMean = vars.mean(false, 1-axis);
+		//-vars & varsMean need same shape (this is a hack!)
+		int[] meanShape = vars.getShape();
+		meanShape[1-axis] = 1;
+		varsMean.setShape(meanShape);
+		vars.isubtract(varsMean);
 		Dataset cov;
 		if (rowvar) {
 			cov = Maths.divide(LinearAlgebra.dotProduct(vars, Maths.conjugate(vars.transpose())), norm_fact).squeeze();
