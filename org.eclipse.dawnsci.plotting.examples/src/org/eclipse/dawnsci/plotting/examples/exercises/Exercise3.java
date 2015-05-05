@@ -84,7 +84,6 @@ public class Exercise3 extends Exercise2 {
 			} else {
 				System.out.println("Failed writing: "+imageFile.getAbsolutePath());
 			}
-			// TODO Probably should delete the files between writings.
 			
 		} catch (Exception ne) {
 			ne.printStackTrace();
