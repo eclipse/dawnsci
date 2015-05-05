@@ -1779,30 +1779,47 @@ public class Stats {
 	}
 	
 	
+	
+	/**
+	 * See {@link #covariance(Dataset a, Dataset b, Boolean rowvar, Boolean bias, Integer ddof)} with b = null, rowvar = true, bias = false and ddof = null.
+	 * @param a
+	 * @return covariance array of a
+	 */
 	public static Dataset covariance(final Dataset a) {
 		return covariance(a, true, false, null); 
 	}
+	/**
+	 * See {@link #covariance(Dataset a, Dataset b, Boolean rowvar, Boolean bias, Integer ddof)} with b = null.
+	 * @param a
+	 * @return covariance array of a
+	 */
 	public static Dataset covariance(final Dataset a, 
 			Boolean rowvar, Boolean bias, Integer ddof) {
 		return covariance(a, null, rowvar, bias, ddof);
 	}
+	/**
+	 * See {@link #covariance(Dataset a, Dataset b, Boolean rowvar, Boolean bias, Integer ddof)} with b = null, rowvar = true, bias = false and ddof = null.
+	 * @param a
+	 * @return covariance array of a concatenated with b
+	 */
 	public static Dataset covariance(final Dataset a, final Dataset b) {
 		return covariance(a, b, true, false, null);
 	}
 	/**
-	 * 
-	 * @param a
-	 * @param b
-	 * @param rowvar
-	 * @param bias
-	 * @param ddof
-	 * @return - covariance matrix
+	 * Calculate the covariance matrix (array) of a concatenated with b. This 
+	 * method is directly based on the implementation in numpy (cov). 
+	 * @param a Array containing multiple variable and observations. Each row represents a variable, each column an observation.
+	 * @param b An extra set of variables and observations. Must be of same type as a and have a compatible shape. 
+	 * @param rowvar When true (default), each row is a variable; when false each column is a variable.
+	 * @param bias Default normalisation is (N - 1) - N is number of observations. If set true, normalisation is (N). 
+	 * @param ddof Default normalisation is (N - 1). If ddof is set, then normalisation is (N - ddof).
+	 * @return covariance array of a concatenated with b
 	 */
 	public static Dataset covariance (final Dataset a, final Dataset b, 
 			Boolean rowvar, Boolean bias, Integer ddof) {
 		
-		//TODO Add some handling of the dataset type.
-		Dataset vars = new DoubleDataset(a);
+		//Create a working copy of the dataset & check its rank.
+		Dataset vars = a.clone();
 		if (a.getRank() == 1) {
 			vars.setShape(1, a.getShape()[0]);
 		}
@@ -1824,10 +1841,11 @@ public class Stats {
 		
 		//Set the reduced degrees of freedom & normalisation factor
 		if (ddof == null) {
-			if (bias == false)
+			if (bias == false) {
 				ddof = 1;
-		} else {
-			ddof = 0;
+			} else {
+				ddof = 0;
+			}
 		}
 		double norm_fact = nr - ddof;
 		if (norm_fact <= 0.) {
@@ -1837,7 +1855,8 @@ public class Stats {
 		
 		//Concatenate additional set of variables with main set
 		if (b != null) {
-			Dataset extraVars = new DoubleDataset(b);
+			//Create a working copy of the dataset & check its rank.
+			Dataset extraVars = b.clone();
 			if (b.getRank() == 1) {
 				extraVars.setShape(1, a.getShape()[0]);
 			}
