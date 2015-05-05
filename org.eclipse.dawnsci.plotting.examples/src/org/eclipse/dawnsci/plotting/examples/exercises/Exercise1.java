@@ -43,7 +43,7 @@ import org.eclipse.ui.part.ViewPart;
  * @author Matthew Gerring
  *
  */
-public class Exercise1 extends ViewPart {
+public class Exercise1 extends ViewPart { // Yes I know inheritance is bad and injection is good Blah blah blah... :)
 	
 	protected ILoaderService  service;
 	protected IPlottingSystem system;
