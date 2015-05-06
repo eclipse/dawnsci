@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.data.server;
 
-import org.eclipse.dawnsci.analysis.api.fitting.functions.IDownsampleService;
+import org.eclipse.dawnsci.analysis.api.downsample.IDownsampleService;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 

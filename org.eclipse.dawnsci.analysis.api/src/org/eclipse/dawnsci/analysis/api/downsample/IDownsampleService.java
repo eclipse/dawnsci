@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.eclipse.dawnsci.analysis.api.fitting.functions;
+package org.eclipse.dawnsci.analysis.api.downsample;
 
 import java.util.List;
 
