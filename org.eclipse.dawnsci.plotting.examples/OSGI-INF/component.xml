@@ -6,6 +6,6 @@
    <reference bind="setPlottingService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.IPlottingService" name="IPlottingService" policy="dynamic"/>
    <reference bind="setPaletteService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.histogram.IPaletteService" name="IPaletteService" policy="dynamic"/>
    <reference bind="setImageService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.histogram.IImageService" name="IImageService" policy="dynamic"/>
-   <reference bind="setConversionService" cardinality="1..1" interface="org.dawb.common.services.conversion.IConversionService" name="IConversionService" policy="dynamic"/>
+   <reference bind="setConversionService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.conversion.IConversionService" name="IConversionService" policy="dynamic"/>
    <reference bind="setDownsampleService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.fitting.functions.IDownsampleService" name="IDownsampleService" policy="dynamic"/>
 </scr:component>
