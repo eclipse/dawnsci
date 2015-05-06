@@ -32,4 +32,14 @@ public interface IDownsampleService {
 	 * @throws Exception if downsample encoding is incorrect
 	 */
 	public List<IDataset> downsample(String enc, IDataset... data) throws Exception;
+	
+	/**
+	 * Same as the downsample with a string argument but instead of encoding the
+	 * types in the string, they are provided directly.
+	 * @param mode
+	 * @param binShape
+	 * @param data
+	 * @return list of downsampled datasets
+	 */
+	public List<IDataset> downsample(DownsampleMode mode, int[] binShape, IDataset... data) throws Exception;
 }
