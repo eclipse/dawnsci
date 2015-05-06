@@ -11,7 +11,9 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.plotting.examples;
 
+import org.dawb.common.services.conversion.IConversionService;
 import org.eclipse.dawnsci.analysis.api.dataset.IDatasetMathsService;
+import org.eclipse.dawnsci.analysis.api.fitting.functions.IDownsampleService;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.plotting.api.IPlottingService;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
@@ -29,7 +31,21 @@ public class Examples {
 	private IPlottingService     plottingService;
 	private IPaletteService      paletteService;
 	private IImageService        imageService;
+	private IConversionService   conversionService;
+	private IDownsampleService   downsampleService;
 	
+	public IDownsampleService getDownsampleService() {
+		return downsampleService;
+	}
+	public void setDownsampleService(IDownsampleService downsampleService) {
+		this.downsampleService = downsampleService;
+	}
+	public IConversionService getConversionService() {
+		return conversionService;
+	}
+	public void setConversionService(IConversionService conversionService) {
+		this.conversionService = conversionService;
+	}
 	public IImageService getImageService() {
 		return imageService;
 	}

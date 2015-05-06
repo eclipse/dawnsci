@@ -72,5 +72,26 @@
             name="Examples">
       </perspective>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.eclipse.dawnsci.plotting.examples.exercises.Exercise1"
+            id="org.eclipse.dawnsci.plotting.examples.exercise1"
+            name="Exercise1"
+            restorable="true">
+      </view>
+      <view
+            class="org.eclipse.dawnsci.plotting.examples.exercises.Exercise2"
+            id="org.eclipse.dawnsci.plotting.examples.exercise2"
+            name="Exercise2"
+            restorable="true">
+      </view>
+      <view
+            class="org.eclipse.dawnsci.plotting.examples.exercises.Exercise3"
+            id="org.eclipse.dawnsci.plotting.examples.exercise3"
+            name="Exercise3"
+            restorable="true">
+      </view>
+    </extension>
 
 </plugin>
