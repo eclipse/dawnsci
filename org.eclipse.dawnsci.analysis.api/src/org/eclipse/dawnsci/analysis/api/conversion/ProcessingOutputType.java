@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.dawb.common.services.conversion;
+package org.eclipse.dawnsci.analysis.api.conversion;
 
 //TODO FIXME Javadocs on org.eclipse.dawnsci mandatory
 public enum ProcessingOutputType {

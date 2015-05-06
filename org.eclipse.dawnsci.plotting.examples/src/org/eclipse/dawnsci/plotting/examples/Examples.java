@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.plotting.examples;
 
-import org.dawb.common.services.conversion.IConversionService;
+import org.eclipse.dawnsci.analysis.api.conversion.IConversionService;
 import org.eclipse.dawnsci.analysis.api.dataset.IDatasetMathsService;
 import org.eclipse.dawnsci.analysis.api.fitting.functions.IDownsampleService;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;

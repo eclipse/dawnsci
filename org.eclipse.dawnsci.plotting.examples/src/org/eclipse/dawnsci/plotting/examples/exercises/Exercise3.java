@@ -14,11 +14,11 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import org.dawb.common.services.conversion.IConversionContext;
-import org.dawb.common.services.conversion.IConversionContext.ConversionScheme;
-import org.dawb.common.services.conversion.IConversionService;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.dawnsci.analysis.api.conversion.IConversionContext;
+import org.eclipse.dawnsci.analysis.api.conversion.IConversionService;
+import org.eclipse.dawnsci.analysis.api.conversion.IConversionContext.ConversionScheme;
 import org.eclipse.dawnsci.analysis.api.fitting.functions.IDownsampleService;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
