@@ -70,6 +70,18 @@ public interface DataNode extends Node {
 	public void setString(String text);
 
 	/**
+	 * Get maximum length of any string contained in node when it is encoded as bytes
+	 * @return length in bytes or -1 if not a string
+	 */
+	public int getMaxStringLength();
+
+	/**
+	 * Set maximum length of any string contained in node when it is encoded as bytes
+	 * @param length in bytes
+	 */
+	public void setMaxStringLength(int length);
+
+	/**
 	 * This can return null for empty datasets
 	 * @return lazy dataset
 	 */

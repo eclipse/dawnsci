@@ -30,6 +30,7 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	private long[] maxShape;
 	private String text;
 	private String type;
+	private int maxTextLength = -1;
 
 	/**
 	 * Construct a data node with given object ID
@@ -42,6 +43,16 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	@Override
 	public boolean isString() {
 		return string;
+	}
+
+	@Override
+	public int getMaxStringLength() {
+		return maxTextLength;
+	}
+
+	@Override
+	public void setMaxStringLength(int length) {
+		maxTextLength = length;
 	}
 
 	@Override
@@ -102,8 +113,11 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	@Override
 	public void setString(final String text) {
 		this.text = text;
-		string = true;
-		supported = true;
+		if (text != null) {
+			maxTextLength = text.getBytes().length;
+			string = true;
+			supported = true;
+		}
 	}
 
 	@Override
