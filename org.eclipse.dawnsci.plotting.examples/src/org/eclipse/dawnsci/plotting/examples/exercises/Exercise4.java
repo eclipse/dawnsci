@@ -9,9 +9,12 @@
 
 package org.eclipse.dawnsci.plotting.examples.exercises;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
+import org.eclipse.dawnsci.analysis.dataset.impl.BooleanDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.PlotType;
@@ -47,6 +50,7 @@ public class Exercise4 extends AbstractToolPage implements IROIListener {
 			@Override
 			public void regionAdded(RegionEvent evt) {
 				evt.getRegion().addROIListener(Exercise4.this);
+				updateRegionView(evt.getRegion(), evt.getRegion().getROI());
 			}
 
 			@Override
@@ -69,8 +73,8 @@ public class Exercise4 extends AbstractToolPage implements IROIListener {
 	@Override
     public void activate() {
 		super.activate();
-		regionView.addRegionListener(regionListener);
-		for (IRegion region : regionView.getRegions()) {
+		getPlottingSystem().addRegionListener(regionListener);
+		for (IRegion region : getPlottingSystem().getRegions()) {
 			region.addROIListener(this);
 		}
 		
@@ -85,8 +89,8 @@ public class Exercise4 extends AbstractToolPage implements IROIListener {
 	@Override
     public void deactivate() {
 		super.deactivate();
-		regionView.removeRegionListener(regionListener);
-		for (IRegion region : regionView.getRegions()) {
+		getPlottingSystem().removeRegionListener(regionListener);
+		for (IRegion region : getPlottingSystem().getRegions()) {
 			region.removeROIListener(this);
 		}
 		// We move the move to adding a region as soon as the tool is activated (not ideal)
@@ -111,22 +115,21 @@ public class Exercise4 extends AbstractToolPage implements IROIListener {
 
 	@Override
 	public void roiDragged(ROIEvent evt) {
-		updateRegionView(evt);
+		updateRegionView((IRegion)evt.getSource(), evt.getROI());
 	}
 
 	@Override
 	public void roiChanged(ROIEvent evt) {
-		updateRegionView(evt);
+		updateRegionView((IRegion)evt.getSource(), evt.getROI());
 	}
 
 	@Override
 	public void roiSelected(ROIEvent evt) {
-		updateRegionView(evt);
+		updateRegionView((IRegion)evt.getSource(), evt.getROI());
 	}
 
-	private void updateRegionView(ROIEvent evt) {
+	private void updateRegionView(IRegion region, IROI roi) {
 		
-		IROI roi = evt.getROI();
 		if (roi instanceof RectangularROI) {
 			
 			RectangularROI box = (RectangularROI)roi;
@@ -138,7 +141,23 @@ public class Exercise4 extends AbstractToolPage implements IROIListener {
 			int start1 = (int)Math.round(box.getPoint()[1]);
 			int end1   = (int)Math.round(box.getEndPoint()[1]);
 			
-			IDataset    slice  = data.getSliceView(new Slice(start0, end0), new Slice(start1, end1));
+			IDataset       slice = data.getSliceView(new Slice(start1, end1), new Slice(start0, end0));
+			BooleanDataset mask  = new BooleanDataset(slice.getShape());
+			mask.fill(true);
+
+			// Iterate everything - yes this is slowish now. In Java8 we are
+			// implementing parallel streams with Datasets but this was not available
+			// when these examples were being written.
+			PositionIterator it = new PositionIterator(mask.getShape());
+			while(it.hasNext()) {
+				int[] pos = it.getPos();
+				if (slice.getInt(pos)<=-1) mask.set(false, pos);
+			}
+
+			slice.setName(region.getName());
+			mask.setName("Mask");
+			IImageTrace sliceTrace = (IImageTrace)regionView.updatePlot2D(slice, null, new NullProgressMonitor());
+			sliceTrace.setMask(mask);
 		}
 	}
 

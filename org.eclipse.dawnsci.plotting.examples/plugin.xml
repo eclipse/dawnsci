@@ -93,5 +93,14 @@
             restorable="true">
       </view>
     </extension>
+   <extension
+         point="org.eclipse.dawnsci.plotting.api.toolPage">
+      <plotting_tool_page
+            class="org.eclipse.dawnsci.plotting.examples.exercises.Exercise4"
+            id="org.eclipse.dawnsci.plotting.examples.exercise4"
+            label="Exercise 4 Tool"
+            visible="true">
+      </plotting_tool_page>
+   </extension>
 
 </plugin>
