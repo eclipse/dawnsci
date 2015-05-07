@@ -161,4 +161,9 @@ public class Exercise4 extends AbstractToolPage implements IROIListener {
 		}
 	}
 
+	@Override
+	public Object getAdapter(Class clazz) {
+		if (regionView.getAdapter(clazz)!=null) return regionView.getAdapter(clazz);
+		return super.getAdapter(clazz);
+	}
 }
