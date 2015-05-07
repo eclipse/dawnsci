@@ -72,6 +72,8 @@
             name="Examples">
       </perspective>
    </extension>
+   
+   <!-- Commented out solutions to exercises.
    <extension
          point="org.eclipse.ui.views">
       <view
@@ -102,5 +104,6 @@
             visible="true">
       </plotting_tool_page>
    </extension>
-
+   -->
+   
 </plugin>
