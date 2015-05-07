@@ -105,9 +105,8 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 			out.append(a.getAbs(it.index));
 			out.append('\n');
 		}
-		int end = out.length();
-		out.delete(end-1, end);
-		return out.toString();
+		int end = out.length() - 1;
+		return end > 0 ? out.substring(0, end) : "";
 	}
 
 	@Override
