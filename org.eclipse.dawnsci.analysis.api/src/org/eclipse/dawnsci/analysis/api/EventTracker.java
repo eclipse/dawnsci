@@ -8,17 +8,16 @@
  */
 package org.eclipse.dawnsci.analysis.api;
 
-public interface IAnalyticsTracker {
+public interface EventTracker {
 
 	/**
-	 * Track the focusPoint in the application asynchronously. <br/>
+	 * This method is used to track a events (log, action, exception etc) in the application. 
 	 * 
 	 * @param name
-	 *            Unique name ID of focus point to be tracked
-	 * @param isAsynchronous
-	 *            if True the tracking will be done asynchronously
+	 *            Unique name (human readable) of event to be tracked
+	 *            Example: Data_Browsing_Perspective_launch
 	 * @throws Exception
 	 */
-	public void track(String name, boolean isAsynchronous) throws Exception;
+	public void track(String name) throws Exception;
 
 }
