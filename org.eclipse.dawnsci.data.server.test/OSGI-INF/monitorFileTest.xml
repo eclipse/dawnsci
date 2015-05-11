@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="Monitor File Test">
+   <implementation class="org.eclipse.dawnsci.data.server.test.MonitorFileTest"/>
+   <reference bind="setImageService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.histogram.IImageService" name="IImageService" policy="static"/>
+</scr:component>
