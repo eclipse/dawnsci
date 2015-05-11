@@ -20,4 +20,13 @@ public interface EventTracker {
 	 */
 	public void track(String name) throws Exception;
 
+	/**
+	 * This method is used to track events given an id and a label.
+	 * 
+	 * @param id
+	 *            Unique id
+	 * @param label
+	 *            Name
+	 */ 
+	public void track(String id, String label) throws Exception;
 }
