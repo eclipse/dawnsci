@@ -1,4 +1,4 @@
-package org.eclipse.dawnsci.data.client.dataset;
+package org.eclipse.dawnsci.data.client.dynamic;
 
 import java.awt.image.BufferedImage;
 
@@ -9,7 +9,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
-import org.eclipse.dawnsci.data.client.DataClient;
+import org.eclipse.dawnsci.data.client.slice.SliceClient;
 import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
 import org.eclipse.swt.widgets.Display;
 
@@ -23,9 +23,9 @@ class DataConnection<T extends IDataset> {
 		// OSGi
 	}
 	
-	private DataClient<BufferedImage>   client;
+	private SliceClient<BufferedImage>   client;
 	private DataListenerDelegate        delegate;
-	private IDynamicDataset             dataset;
+	private IDynamicMonitorDataset      dataset;
 	private int dType;
 	private boolean greyScale;
 	
@@ -51,17 +51,17 @@ class DataConnection<T extends IDataset> {
 			delegate.fire(new DataEvent(set));
 			
 			++count;
-			if (count>maxImages) return;
+			if (count>maxImages && maxImages>-1) return;
 			
 			if (client.getSleep()>-1) {
 				delay(client.getSleep());
 			}
 		}
 	}
-	public DataClient<BufferedImage> getClient() {
+	public SliceClient<BufferedImage> getClient() {
 		return client;
 	}
-	public void setClient(DataClient<BufferedImage> client) {
+	public void setClient(SliceClient<BufferedImage> client) {
 		this.client = client;
 	}
 
@@ -113,7 +113,7 @@ class DataConnection<T extends IDataset> {
 	}
 
 
-	public void setDataset(IDynamicDataset dataset) {
+	public void setDataset(IDynamicMonitorDataset dataset) {
 		this.dataset = dataset;
 	}
 	

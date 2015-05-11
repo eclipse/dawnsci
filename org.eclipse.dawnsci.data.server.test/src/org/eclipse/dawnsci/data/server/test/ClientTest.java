@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 import org.dawnsci.plotting.services.ImageService;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.data.client.DataClient;
+import org.eclipse.dawnsci.data.client.slice.SliceClient;
 import org.eclipse.dawnsci.data.server.DataServer;
 import org.eclipse.dawnsci.data.server.Format;
 import org.eclipse.dawnsci.data.server.ServiceHolder;
@@ -45,7 +45,7 @@ public class ClientTest extends DataServerTest {
 	@Test
 	public void testFullData() throws Exception {
 		
-		final DataClient<IDataset> client = new DataClient<IDataset>("localhost", port);
+		final SliceClient<IDataset> client = new SliceClient<IDataset>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -59,7 +59,7 @@ public class ClientTest extends DataServerTest {
 	@Test
 	public void testDownsampledData() throws Exception {
 		
-		final DataClient<IDataset> client = new DataClient<IDataset>("localhost", port);
+		final SliceClient<IDataset> client = new SliceClient<IDataset>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -75,7 +75,7 @@ public class ClientTest extends DataServerTest {
 	@Test
 	public void testDownsampledJPG() throws Exception {
 		
-		final DataClient<BufferedImage> client =  new DataClient<BufferedImage>("localhost", port);
+		final SliceClient<BufferedImage> client =  new SliceClient<BufferedImage>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -92,7 +92,7 @@ public class ClientTest extends DataServerTest {
 	@Test
 	public void testDownsampledMJPG() throws Exception {
 		
-		final DataClient<BufferedImage> client =  new DataClient<BufferedImage>("localhost", port);
+		final SliceClient<BufferedImage> client =  new SliceClient<BufferedImage>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -119,7 +119,7 @@ public class ClientTest extends DataServerTest {
 	@Test
 	public void testFastMJPG() throws Exception {
 		
-		final DataClient<BufferedImage> client =  new DataClient<BufferedImage>("localhost", port);
+		final SliceClient<BufferedImage> client =  new SliceClient<BufferedImage>("localhost", port);
 		client.setPath("RANDOM:512x512");
 		client.setFormat(Format.MJPG);
 		client.setHisto("MEAN");
@@ -149,7 +149,7 @@ public class ClientTest extends DataServerTest {
 	@Test
 	public void testFastMDATA() throws Exception {
 		
-		final DataClient<IDataset> client = new DataClient<IDataset>("localhost", port);
+		final SliceClient<IDataset> client = new SliceClient<IDataset>("localhost", port);
 		client.setPath("RANDOM:512x512");
 		client.setFormat(Format.MDATA);
 		client.setHisto("MEAN");

@@ -26,5 +26,7 @@ Import-Package: javax.servlet;version="2.6.0",
  org.slf4j;version="1.7.6"
 Service-Component: OSGI-INF/*.xml
 Eclipse-RegisterBuddy:  org.eclipse.jetty.websocket.server, org.eclipse.jetty.websocket.servlet
-Export-Package: org.eclipse.dawnsci.data.client
+Export-Package: org.eclipse.dawnsci.data.client,
+ org.eclipse.dawnsci.data.client.dynamic,
+ org.eclipse.dawnsci.data.client.slice
 Bundle-ActivationPolicy: lazy

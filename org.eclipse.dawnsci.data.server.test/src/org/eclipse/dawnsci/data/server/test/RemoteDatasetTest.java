@@ -3,16 +3,16 @@ package org.eclipse.dawnsci.data.server.test;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
 import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
-import org.eclipse.dawnsci.data.client.DataClient;
-import org.eclipse.dawnsci.data.server.Format;
+import org.eclipse.dawnsci.data.client.RemoteDataset;
+import org.eclipse.dawnsci.data.server.ServiceHolder;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
 import org.eclipse.swt.graphics.ImageData;
@@ -25,19 +25,9 @@ import org.junit.Test;
  * @author fcp94556
  *
  */
-public class MonitorFileTest {
-	
-	private static IImageService iservice;
+public class RemoteDatasetTest extends DataServerTest {
 	
 	
-	public static IImageService getImageService() {
-		return iservice;
-	}
-
-	public static void setImageService(IImageService iservice) {
-		MonitorFileTest.iservice = iservice;
-	}
-
 	private volatile boolean testIsRunning = false;
 
 	@Test
@@ -52,16 +42,23 @@ public class MonitorFileTest {
 			testIsRunning = true;
 			final File tmpData = startFileWritingThread();
 			
-			DataClient<IRemoteDataset> client = new DataClient<IRemoteDataset>("localhost", 8080);
-			client.setPath(tmpData.getAbsolutePath());
-			client.setDataset(null); // We just get the first image in the PNG file.
-			client.setFormat(Format.MONITOR); // If the file changes, we get dynamic dataset events.
+			// Wait for a bit to ensure file is being written
+			Thread.sleep(2000);
 			
-			IRemoteDataset data = client.get();
+			// Set the into, then call connect().
+			RemoteDataset data = new RemoteDataset("localhost", 8080);
+			data.setPath(tmpData.getAbsolutePath());
+			data.setDataset(null); // We just get the first image in the PNG file.
+			data.connect();
+			
+			// Check that we got the 1024x1024 as expected
+			if (!Arrays.equals(data.getShape(), new int[]{1024,1024})) throw new Exception("Incorrect remote dataset size!");
+			
+			// Check that we get events about the image changing.			
 			data.addDataListener(new IDataListener() {
 				@Override
 				public void dataChangePerformed(DataEvent evt) {
-					System.out.println("Data changed, new shape is "+evt.getShape());
+					System.out.println("Data changed, shape is "+evt.getShape());
 				}
 			});
 
@@ -83,11 +80,12 @@ public class MonitorFileTest {
         		while(testIsRunning) {
         			
         			try {
-	        			IDataset       rimage = Random.rand(new int[]{1024, 1024});
-	        			ImageServiceBean bean = iservice.createBeanFromPreferences();
+	        			IDataset       rimage   = Random.rand(new int[]{1024, 1024});
+	        			IImageService  iservice = ServiceHolder.getImageService();
+	        			ImageServiceBean bean   = iservice.createBeanFromPreferences();
 	        			bean.setImage(rimage);
-	        			final ImageData   data = iservice.getImageData(bean);
-	        			final BufferedImage bi = iservice.getBufferedImage(data);
+	        			final ImageData   data  = iservice.getImageData(bean);
+	        			final BufferedImage bi  = iservice.getBufferedImage(data);
 	        			
 	        			ImageIO.write(bi, "PNG", ret);
 	        			

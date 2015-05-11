@@ -16,9 +16,8 @@ import java.util.Collection;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
-import org.eclipse.dawnsci.data.client.DataClient;
-import org.eclipse.dawnsci.data.client.dataset.DynamicGreyScaleImage;
-import org.eclipse.dawnsci.data.client.dataset.DynamicRGBImage;
+import org.eclipse.dawnsci.data.client.dynamic.DynamicDatasetFactory;
+import org.eclipse.dawnsci.data.client.slice.SliceClient;
 import org.eclipse.dawnsci.data.server.Format;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
@@ -52,7 +51,7 @@ public class ClientPluginTest {
 	public void testDynamicDatasetEPICSGreyScale() throws Exception {
 		
 		// Requires an EPICS stream to connect to, not for general overight testing!
-		DataClient<BufferedImage> client = new DataClient<BufferedImage>("ws157.diamond.ac.uk", 8080);
+		SliceClient<BufferedImage> client = new SliceClient<BufferedImage>("ws157.diamond.ac.uk", 8080);
 		client.setGet(false);
     	client.setFormat(Format.MJPG);
     	client.setImageCache(10); // More than we will send...
@@ -60,12 +59,12 @@ public class ClientPluginTest {
 
     	IWorkbenchPart part = openView();
 		
-		final IPlottingSystem       sys  = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
-		final DynamicGreyScaleImage grey = new DynamicGreyScaleImage(client);
+		final IPlottingSystem sys  = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
+		final IDataset        grey = DynamicDatasetFactory.createGreyScaleImage(client);
 		IImageTrace trace = (IImageTrace)sys.createPlot2D(grey, null, null);
 		trace.setDownsampleType(DownsampleType.POINT); // Fast!
 
-		grey.start(100); // blocks until 100 images received.
+		DynamicDatasetFactory.start(grey, 100); // blocks until 100 images received.
 		
 		System.out.println("Received images = "+client.getReceivedImageCount());
 		System.out.println("Dropped images = "+client.getDroppedImageCount());
@@ -80,7 +79,7 @@ public class ClientPluginTest {
 	public void testDynamicDatasetEPICS() throws Exception {
 		
 		// Requires an EPICS stream to connect to, not for general overight testing!
-		DataClient<BufferedImage> client = new DataClient<BufferedImage>("ws157.diamond.ac.uk", 8080);
+		SliceClient<BufferedImage> client = new SliceClient<BufferedImage>("ws157.diamond.ac.uk", 8080);
 		client.setGet(false);
     	client.setFormat(Format.MJPG);
     	client.setImageCache(10); // More than we will send...
@@ -89,12 +88,12 @@ public class ClientPluginTest {
     	IWorkbenchPart part = openView();
 		 
 		final IPlottingSystem   sys = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
-		final DynamicRGBImage rgb = new DynamicRGBImage(client);
+		final IDataset rgb = DynamicDatasetFactory.createRGBImage(client);
 		IImageTrace trace = (IImageTrace)sys.createPlot2D(rgb, null, null);
 		trace.setDownsampleType(DownsampleType.POINT); // Fast!
 		trace.setRescaleHistogram(false); // Fast! Comes from RGBData anyway though
 
-		rgb.start(100); // blocks until 100 images received.
+		DynamicDatasetFactory.start(rgb, 100); // blocks until 100 images received.
 		
 		System.out.println("Received images = "+client.getReceivedImageCount());
 		System.out.println("Dropped images = "+client.getDroppedImageCount());
@@ -108,7 +107,7 @@ public class ClientPluginTest {
 	@Test
 	public void testDynamicDataset() throws Exception {
 		
-		DataClient<BufferedImage> client = new DataClient<BufferedImage>("localhost", 8080);
+		SliceClient<BufferedImage> client = new SliceClient<BufferedImage>("localhost", 8080);
     	client.setPath("RANDOM:512x512");
     	client.setFormat(Format.MJPG);
     	client.setHisto("MEAN");
@@ -118,10 +117,10 @@ public class ClientPluginTest {
     	IWorkbenchPart part = openView();
 		 
 		final IPlottingSystem sys = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
-		final DynamicRGBImage rgb = new DynamicRGBImage(client, 512, 512);
+		final IDataset rgb = DynamicDatasetFactory.createRGBImage(client);
 		sys.createPlot2D(rgb, null, null);
 
-		rgb.start(100); // blocks until 100 images received.
+		DynamicDatasetFactory.start(rgb, 100); // blocks until 100 images received.
 	}
 	
 	/**
@@ -141,7 +140,7 @@ public class ClientPluginTest {
     	imt.setDownsampleType(DownsampleType.POINT); // Fast!
     	imt.setRescaleHistogram(false); // Fast!
     	     		
-    	final DataClient<BufferedImage> client = new DataClient<BufferedImage>("localhost", 8080);
+    	final SliceClient<BufferedImage> client = new SliceClient<BufferedImage>("localhost", 8080);
     	client.setPath("c:/Work/results/TomographyDataSet.hdf5");
     	client.setDataset("/entry/exchange/data");
     	client.setSlice("[700,:1024,:1024]");
@@ -198,7 +197,7 @@ public class ClientPluginTest {
     	imt.setDownsampleType(DownsampleType.POINT); // Fast!
     	imt.setRescaleHistogram(false); // Fast!
     	   		
-    	final DataClient<BufferedImage> client = new DataClient<BufferedImage>("localhost", 8080);
+    	final SliceClient<BufferedImage> client = new SliceClient<BufferedImage>("localhost", 8080);
     	client.setPath("RANDOM:1024x1024");
     	client.setFormat(Format.MJPG);
     	client.setHisto("MEAN");

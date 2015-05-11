@@ -1,4 +1,15 @@
-package org.eclipse.dawnsci.data.client.dataset;
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2015 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+package org.eclipse.dawnsci.data.client.dynamic;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -7,32 +18,32 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.ShortDataset;
-import org.eclipse.dawnsci.data.client.DataClient;
+import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
+import org.eclipse.dawnsci.data.client.slice.SliceClient;
 
 /**
- * Used for streaming an image into the plotting system.
+ * Class used to get a streaming image into the plotting system.
+ * 
  * @author fcp94556
  *
  */
-public class DynamicGreyScaleImage extends ShortDataset implements IDynamicDataset {
+class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1581983742203718163L;
+	private static final long serialVersionUID = 2512465878034055747L;
 
-	
-	private DataConnection<ShortDataset>            connection;
+	private DataConnection<RGBDataset>            connection;
 	
 	/**
 	 * 
 	 * @param client the client used to create the connection, for instance MJPG
 	 * @param shape the shape of the data if known, or do not set it if not.
 	 */
-	public DynamicGreyScaleImage(DataClient<BufferedImage> client, int... shape) {
+	public DynamicRGBImage(SliceClient<BufferedImage> client, int... shape) {
 		super(shape == null || shape.length<1 ? new int[]{1,1} : shape);
-		this.connection= new DataConnection<ShortDataset>(getDtype(), true);
+		this.connection= new DataConnection<RGBDataset>(getDtype(), false);
 		connection.setClient(client);
 		connection.setDataset(this);
 	}
@@ -58,13 +69,12 @@ public class DynamicGreyScaleImage extends ShortDataset implements IDynamicDatas
 	}
 
 	@Override
-	public void setData(IDataset sdata) {
+	public void setData(IDataset newData) {
 		
-		Serializable buffer = ((Dataset)sdata).getBuffer();	
-		
+		Serializable buffer = ((Dataset)newData).getBuffer();	
 		odata = buffer;
 		setData();
-		this.shape = sdata.getShape();
+		this.shape = newData.getShape();
 	}
 	
 	@Override
@@ -76,5 +86,6 @@ public class DynamicGreyScaleImage extends ShortDataset implements IDynamicDatas
 	public void removeDataListener(IDataListener l) {
 		connection.removeDataListener(l);
 	}
-	
+
+
 }

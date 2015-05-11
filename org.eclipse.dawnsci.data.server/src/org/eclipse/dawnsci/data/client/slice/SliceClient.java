@@ -9,7 +9,7 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.data.client;
+package org.eclipse.dawnsci.data.client.slice;
 
 import java.io.ObjectInputStream;
 import java.io.UnsupportedEncodingException;
@@ -81,14 +81,15 @@ import org.eclipse.dawnsci.data.server.Format;
  * @author fcp94556
  *
  */
-public class DataClient<T> {
+public class SliceClient<T> {
 
 	private static IClassLoaderService classService;
 	public static void setClassLoaderService(IClassLoaderService service) {
 		classService = service;
 	}
-	public DataClient() {
-		// OSGi
+	public SliceClient() {
+		this.serverName = null;
+		this.port       = -1;
 	}
 
 	private String     path;
@@ -106,11 +107,11 @@ public class DataClient<T> {
 	private IStreamer<T> streamer;
 	
 	// Server and port
-	private String serverName;
-	private int    port;
+	private final String serverName;
+	private final int    port;
 	
 
-	public DataClient(String serverName, int port) {
+	public SliceClient(String serverName, int port) {
 		this.serverName = serverName;
 		this.port       = port;
 	}
@@ -166,36 +167,11 @@ public class DataClient<T> {
 		switch(format) {
 		case DATA:
 			return getData();
-		case MONITOR:
-			return getLiveData();
 		case JPG:
 		case PNG:
 			return getImage();
 		}
 		throw new Exception("Format '"+format+"' cannot be used with get()");
-	}
-	
-	private T getLiveData() throws Exception {
-		isFinished = false;
-		try {
-			// We are getting into serializing and deserializing IDataset which
-			// might come with some fruity 
-			if (classService!=null) classService.setDataAnalysisClassLoaderActive(true);
-
-			if (format!=Format.MONITOR) {
-				throw new Exception("Cannot get data with format set to "+format);
-			}
-			
-			final URL url = new URL(getEventURL());
-			
-	
-	        return null;
-	        
-		} finally {
-			if (classService!=null) classService.setDataAnalysisClassLoaderActive(false);
-			isFinished = true;
-		}
-
 	}
 	
 	private T getImage() throws Exception {
@@ -253,10 +229,6 @@ public class DataClient<T> {
 	
 	private String getSliceURL() throws Exception {
 		return getURL("/slice/");
-	}
-	
-	private String getEventURL() throws Exception {
-		return getURL("/event/");
 	}
 	
 	private String getURL(String servlet) throws Exception {
@@ -349,7 +321,7 @@ public class DataClient<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DataClient other = (DataClient) obj;
+		SliceClient other = (SliceClient) obj;
 		if (serverName == null) {
 			if (other.serverName != null)
 				return false;

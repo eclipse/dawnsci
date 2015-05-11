@@ -14,19 +14,13 @@ package org.eclipse.dawnsci.data.server;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.activation.DataHandler;
-
 import org.apache.log4j.BasicConfigurator;
 import org.eclipse.dawnsci.data.server.event.EventServlet;
+import org.eclipse.dawnsci.data.server.info.InfoServlet;
 import org.eclipse.dawnsci.data.server.slice.SliceServlet;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.SessionManager;
-import org.eclipse.jetty.server.session.HashSessionIdManager;
-import org.eclipse.jetty.server.session.HashSessionManager;
-import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 /**
@@ -89,6 +83,9 @@ public class DataServer extends PortServer {
         // Slicing (large data in binary http)
 		ServletHolder holderSlice = new ServletHolder("slice", SliceServlet.class);
 		context.addServlet(holderSlice, "/slice/*");
+		
+		ServletHolder holderInfo = new ServletHolder("info", InfoServlet.class);
+		context.addServlet(holderInfo, "/info/*");
      
 		// Events json objects to notifyu of problems.
 		ServletHolder holderEvent = new ServletHolder("event", EventServlet.class);
