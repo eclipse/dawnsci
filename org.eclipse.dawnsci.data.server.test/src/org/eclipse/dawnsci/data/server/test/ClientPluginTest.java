@@ -17,8 +17,8 @@ import java.util.Collection;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.data.client.DataClient;
-import org.eclipse.dawnsci.data.client.DynamicGreyScaleImage;
-import org.eclipse.dawnsci.data.client.DynamicRGBImage;
+import org.eclipse.dawnsci.data.client.dataset.DynamicGreyScaleImage;
+import org.eclipse.dawnsci.data.client.dataset.DynamicRGBImage;
 import org.eclipse.dawnsci.data.server.Format;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
@@ -52,7 +52,7 @@ public class ClientPluginTest {
 	public void testDynamicDatasetEPICSGreyScale() throws Exception {
 		
 		// Requires an EPICS stream to connect to, not for general overight testing!
-		DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg");
+		DataClient<BufferedImage> client = new DataClient<BufferedImage>("ws157.diamond.ac.uk", 8080);
 		client.setGet(false);
     	client.setFormat(Format.MJPG);
     	client.setImageCache(10); // More than we will send...
@@ -80,7 +80,7 @@ public class ClientPluginTest {
 	public void testDynamicDatasetEPICS() throws Exception {
 		
 		// Requires an EPICS stream to connect to, not for general overight testing!
-		DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg");
+		DataClient<BufferedImage> client = new DataClient<BufferedImage>("ws157.diamond.ac.uk", 8080);
 		client.setGet(false);
     	client.setFormat(Format.MJPG);
     	client.setImageCache(10); // More than we will send...
@@ -108,7 +108,7 @@ public class ClientPluginTest {
 	@Test
 	public void testDynamicDataset() throws Exception {
 		
-		DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/slice/");
+		DataClient<BufferedImage> client = new DataClient<BufferedImage>("localhost", 8080);
     	client.setPath("RANDOM:512x512");
     	client.setFormat(Format.MJPG);
     	client.setHisto("MEAN");
@@ -141,7 +141,7 @@ public class ClientPluginTest {
     	imt.setDownsampleType(DownsampleType.POINT); // Fast!
     	imt.setRescaleHistogram(false); // Fast!
     	     		
-    	final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/slice/");
+    	final DataClient<BufferedImage> client = new DataClient<BufferedImage>("localhost", 8080);
     	client.setPath("c:/Work/results/TomographyDataSet.hdf5");
     	client.setDataset("/entry/exchange/data");
     	client.setSlice("[700,:1024,:1024]");
@@ -198,7 +198,7 @@ public class ClientPluginTest {
     	imt.setDownsampleType(DownsampleType.POINT); // Fast!
     	imt.setRescaleHistogram(false); // Fast!
     	   		
-    	final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:8080/slice/");
+    	final DataClient<BufferedImage> client = new DataClient<BufferedImage>("localhost", 8080);
     	client.setPath("RANDOM:1024x1024");
     	client.setFormat(Format.MJPG);
     	client.setHisto("MEAN");

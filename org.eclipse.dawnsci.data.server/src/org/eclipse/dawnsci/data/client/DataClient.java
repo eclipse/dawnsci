@@ -91,7 +91,6 @@ public class DataClient<T> {
 		// OSGi
 	}
 
-	private String     base;
 	private String     path;
 	private String     dataset;
 	private String     slice;
@@ -106,9 +105,14 @@ public class DataClient<T> {
 	// Private data, not getter/setter
 	private IStreamer<T> streamer;
 	
+	// Server and port
+	private String serverName;
+	private int    port;
+	
 
-	public DataClient(String base) {
-		this.base = base;
+	public DataClient(String serverName, int port) {
+		this.serverName = serverName;
+		this.port       = port;
 	}
     
 	/**
@@ -128,7 +132,7 @@ public class DataClient<T> {
 		if (isFinished()) throw new Exception("Client has infinished reading images!");
 		if (streamer==null) {
 			this.isFinished = false;
-	        this.streamer = (IStreamer<T>)StreamerFactory.getStreamer(new URL(getURLString()), getSleep(), imageCache, format);
+	        this.streamer = (IStreamer<T>)StreamerFactory.getStreamer(new URL(getSliceURL()), getSleep(), imageCache, format);
 	        streamer.start(); // Runs thread to add to queue
 		}
 		
@@ -147,20 +151,53 @@ public class DataClient<T> {
 		return streamer.getReceivedImageCount();
 	}
 	
+	/**
+	 * Gets a remote, non-dynamic view of the data.
+	 * If format is DATA, loads data and returns it
+	 * If format is an Image returns Buffered Image
+	 * If format is MONITOR an IRemoteDataset is returned.
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	public T get() throws Exception {
 		
 		if (format==null) format = Format.DATA;
 		switch(format) {
 		case DATA:
 			return getData();
+		case MONITOR:
+			return getLiveData();
 		case JPG:
 		case PNG:
 			return getImage();
 		}
 		throw new Exception("Format '"+format+"' cannot be used with get()");
 	}
+	
+	private T getLiveData() throws Exception {
+		isFinished = false;
+		try {
+			// We are getting into serializing and deserializing IDataset which
+			// might come with some fruity 
+			if (classService!=null) classService.setDataAnalysisClassLoaderActive(true);
 
+			if (format!=Format.MONITOR) {
+				throw new Exception("Cannot get data with format set to "+format);
+			}
+			
+			final URL url = new URL(getEventURL());
+			
+	
+	        return null;
+	        
+		} finally {
+			if (classService!=null) classService.setDataAnalysisClassLoaderActive(false);
+			isFinished = true;
+		}
 
+	}
+	
 	private T getImage() throws Exception {
 		
 		isFinished = false;
@@ -169,7 +206,7 @@ public class DataClient<T> {
 				throw new Exception("Cannot get image with format set to "+format);
 			}
 
-			final URL url = new URL(getURLString());
+			final URL url = new URL(getSliceURL());
 			URLConnection  conn = url.openConnection();
 			conn.setDoInput(true);
 			conn.setDoOutput(true);
@@ -193,7 +230,7 @@ public class DataClient<T> {
 				throw new Exception("Cannot get data with format set to "+format);
 			}
 			
-			final URL url = new URL(getURLString());
+			final URL url = new URL(getSliceURL());
 			URLConnection  conn = url.openConnection();
 	        conn.setDoInput(true);
 	        conn.setDoOutput(true);
@@ -214,10 +251,22 @@ public class DataClient<T> {
 
 	}
 	
+	private String getSliceURL() throws Exception {
+		return getURL("/slice/");
+	}
 	
-	private String getURLString() throws Exception {
+	private String getEventURL() throws Exception {
+		return getURL("/event/");
+	}
+	
+	private String getURL(String servlet) throws Exception {
+		
 		final StringBuilder buf = new StringBuilder();
-		buf.append(base);
+		buf.append("http://");
+		buf.append(serverName);
+		buf.append(":");
+		buf.append(port);
+		buf.append(servlet);
 		if (isGet()) { // Add params
 			buf.append("?");
 			append(buf, "path",    path);
@@ -277,7 +326,7 @@ public class DataClient<T> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((base == null) ? 0 : base.hashCode());
+		result = prime * result + ((serverName == null) ? 0 : serverName.hashCode());
 		result = prime * result + ((bin == null) ? 0 : bin.hashCode());
 		result = prime * result + ((dataset == null) ? 0 : dataset.hashCode());
 		result = prime * result + ((format == null) ? 0 : format.hashCode());
@@ -301,10 +350,10 @@ public class DataClient<T> {
 		if (getClass() != obj.getClass())
 			return false;
 		DataClient other = (DataClient) obj;
-		if (base == null) {
-			if (other.base != null)
+		if (serverName == null) {
+			if (other.serverName != null)
 				return false;
-		} else if (!base.equals(other.base))
+		} else if (!serverName.equals(other.serverName))
 			return false;
 		if (bin == null) {
 			if (other.bin != null)

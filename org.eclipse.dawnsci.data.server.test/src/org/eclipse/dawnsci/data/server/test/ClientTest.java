@@ -40,49 +40,12 @@ import uk.ac.diamond.scisoft.analysis.osgi.LoaderServiceImpl;
  * @author fcp94556
  *
  */ 
-public class ClientTest {
-	
-	private static DataServer server;
-	private static String     testDir;
-	private static int        port;
-
-	/**
-	 * Programmatically start the DataServer OSGi application which runs
-	 * under Jetty and starts jetty itself.
-	 * @throws Exception 
-	 */
-	@BeforeClass
-	public static void startDataServer() throws Exception {
-		
-		// Sorry but the concrete classes for these services are not part of an eclipse project.
-		// To get these concrete services go to dawnsci.org and follow the instructions for
-		// setting up dawnsci to run in your application.
-		ServiceHolder.setDownService(new Downsample());
-		ServiceHolder.setImageService(new ImageService());
-		ServiceHolder.setLoaderService(new LoaderServiceImpl());
-	
-        // Start the DataServer
-		port   = TestUtils.getFreePort(8080);
-		server = new DataServer();
-		server.setPort(port);
-		server.start(false);
-		
-		System.out.println("Started DataServer on port "+port);
-		
-		File pluginDir = new File((new File("")).getAbsolutePath()); // Assuming test run in test plugin
-		testDir = (new File(pluginDir, "testfiles")).getAbsolutePath();
-	}
-	
-	@AfterClass
-	public static void stop() {
-		server.stop();
-	}
-
+public class ClientTest extends DataServerTest {
 	
 	@Test
 	public void testFullData() throws Exception {
 		
-		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:"+port+"/slice/");
+		final DataClient<IDataset> client = new DataClient<IDataset>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -96,7 +59,7 @@ public class ClientTest {
 	@Test
 	public void testDownsampledData() throws Exception {
 		
-		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:"+port+"/slice/");
+		final DataClient<IDataset> client = new DataClient<IDataset>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -112,7 +75,7 @@ public class ClientTest {
 	@Test
 	public void testDownsampledJPG() throws Exception {
 		
-		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:"+port+"/slice/");
+		final DataClient<BufferedImage> client =  new DataClient<BufferedImage>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -129,7 +92,7 @@ public class ClientTest {
 	@Test
 	public void testDownsampledMJPG() throws Exception {
 		
-		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:"+port+"/slice/");
+		final DataClient<BufferedImage> client =  new DataClient<BufferedImage>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
 		client.setSlice("[0,:2048,:2048]");
@@ -156,7 +119,7 @@ public class ClientTest {
 	@Test
 	public void testFastMJPG() throws Exception {
 		
-		final DataClient<BufferedImage> client = new DataClient<BufferedImage>("http://localhost:"+port+"/slice/");
+		final DataClient<BufferedImage> client =  new DataClient<BufferedImage>("localhost", port);
 		client.setPath("RANDOM:512x512");
 		client.setFormat(Format.MJPG);
 		client.setHisto("MEAN");
@@ -186,7 +149,7 @@ public class ClientTest {
 	@Test
 	public void testFastMDATA() throws Exception {
 		
-		final DataClient<IDataset> client = new DataClient<IDataset>("http://localhost:"+port+"/slice/");
+		final DataClient<IDataset> client = new DataClient<IDataset>("localhost", port);
 		client.setPath("RANDOM:512x512");
 		client.setFormat(Format.MDATA);
 		client.setHisto("MEAN");

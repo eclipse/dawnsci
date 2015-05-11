@@ -31,7 +31,13 @@ public enum Format {
 	/**
 	 * Stream of images
 	 */
-	MJPG(0); 
+	MJPG(0), 
+	
+	/**
+	 * Data in a single file or directory
+	 * which should be monitored. The 
+	 */
+	MONITOR; 
 	
 	/**
 	 * The dimension to slice over when doing MJPG streams.

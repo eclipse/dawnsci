@@ -3,13 +3,12 @@ package org.eclipse.dawnsci.data.server.test;
 import java.net.URI;
 import java.util.concurrent.Future;
 
-import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocket.Connection;
 import org.eclipse.jetty.websocket.WebSocketClient;
 import org.eclipse.jetty.websocket.WebSocketClientFactory;
 import org.junit.Test;
 
-public class EventClient {
+public class EventClientTest {
 
 	@Test
 	public void checkClientConnection() throws Exception {

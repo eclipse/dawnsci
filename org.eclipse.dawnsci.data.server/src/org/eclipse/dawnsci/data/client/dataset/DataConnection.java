@@ -1,4 +1,4 @@
-package org.eclipse.dawnsci.data.client;
+package org.eclipse.dawnsci.data.client.dataset;
 
 import java.awt.image.BufferedImage;
 
@@ -9,10 +9,11 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
+import org.eclipse.dawnsci.data.client.DataClient;
 import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
 import org.eclipse.swt.widgets.Display;
 
-public class DataConnection<T extends IDataset> {
+class DataConnection<T extends IDataset> {
 	
 	private static IPlotImageService plotService;
 	public static void setPlotImageService(IPlotImageService service) {
@@ -24,7 +25,7 @@ public class DataConnection<T extends IDataset> {
 	
 	private DataClient<BufferedImage>   client;
 	private DataListenerDelegate        delegate;
-	private IDynamicDataset<T>          dataset;
+	private IDynamicDataset             dataset;
 	private int dType;
 	private boolean greyScale;
 	
@@ -107,12 +108,12 @@ public class DataConnection<T extends IDataset> {
 	}
 
 
-	public IDynamicDataset<T> getDataset() {
+	public IDynamicDataset getDataset() {
 		return dataset;
 	}
 
 
-	public void setDataset(IDynamicDataset<T> dataset) {
+	public void setDataset(IDynamicDataset dataset) {
 		this.dataset = dataset;
 	}
 	

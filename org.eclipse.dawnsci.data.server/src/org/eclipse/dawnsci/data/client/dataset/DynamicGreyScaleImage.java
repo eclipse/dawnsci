@@ -1,18 +1,21 @@
-package org.eclipse.dawnsci.data.client;
+package org.eclipse.dawnsci.data.client.dataset;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.ShortDataset;
+import org.eclipse.dawnsci.data.client.DataClient;
 
 /**
  * Used for streaming an image into the plotting system.
  * @author fcp94556
  *
  */
-public class DynamicGreyScaleImage extends ShortDataset implements IDynamicDataset<ShortDataset> {
+public class DynamicGreyScaleImage extends ShortDataset implements IDynamicDataset {
 	
 	/**
 	 * 
@@ -55,9 +58,9 @@ public class DynamicGreyScaleImage extends ShortDataset implements IDynamicDatas
 	}
 
 	@Override
-	public void setData(ShortDataset sdata) {
+	public void setData(IDataset sdata) {
 		
-		Serializable buffer = sdata.getBuffer();
+		Serializable buffer = ((Dataset)sdata).getBuffer();	
 		
 		odata = buffer;
 		setData();

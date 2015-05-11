@@ -6,8 +6,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
+import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
+import org.eclipse.dawnsci.data.client.DataClient;
+import org.eclipse.dawnsci.data.server.Format;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
 import org.eclipse.swt.graphics.ImageData;
@@ -47,6 +52,19 @@ public class MonitorFileTest {
 			testIsRunning = true;
 			final File tmpData = startFileWritingThread();
 			
+			DataClient<IRemoteDataset> client = new DataClient<IRemoteDataset>("localhost", 8080);
+			client.setPath(tmpData.getAbsolutePath());
+			client.setDataset(null); // We just get the first image in the PNG file.
+			client.setFormat(Format.MONITOR); // If the file changes, we get dynamic dataset events.
+			
+			IRemoteDataset data = client.get();
+			data.addDataListener(new IDataListener() {
+				@Override
+				public void dataChangePerformed(DataEvent evt) {
+					System.out.println("Data changed, new shape is "+evt.getShape());
+				}
+			});
+
 			Thread.sleep(5000);
 			
 		} finally {
@@ -67,7 +85,7 @@ public class MonitorFileTest {
         			try {
 	        			IDataset       rimage = Random.rand(new int[]{1024, 1024});
 	        			ImageServiceBean bean = iservice.createBeanFromPreferences();
-	        			bean.setImageValue(rimage);
+	        			bean.setImage(rimage);
 	        			final ImageData   data = iservice.getImageData(bean);
 	        			final BufferedImage bi = iservice.getBufferedImage(data);
 	        			
@@ -84,7 +102,7 @@ public class MonitorFileTest {
         		}
         	}
         });
-        runner.setPriority(Thread.MIN_PRIORITY);
+        runner.setPriority(Thread.NORM_PRIORITY);
         runner.setDaemon(true);
         runner.start();
         return ret;

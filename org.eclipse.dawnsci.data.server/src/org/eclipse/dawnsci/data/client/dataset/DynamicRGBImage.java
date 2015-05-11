@@ -9,15 +9,17 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.data.client;
+package org.eclipse.dawnsci.data.client.dataset;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
+import org.eclipse.dawnsci.data.client.DataClient;
 
 /**
  * Class used to get a streaming image into the plotting system.
@@ -25,7 +27,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
  * @author fcp94556
  *
  */
-public class DynamicRGBImage extends RGBDataset implements IDynamicDataset<RGBDataset> {
+public class DynamicRGBImage extends RGBDataset implements IDynamicDataset {
 	
 	/**
 	 * 
@@ -67,7 +69,7 @@ public class DynamicRGBImage extends RGBDataset implements IDynamicDataset<RGBDa
 	}
 
 	@Override
-	public void setData(RGBDataset newData) {
+	public void setData(IDataset newData) {
 		
 		Serializable buffer = ((Dataset)newData).getBuffer();	
 		odata = buffer;
