@@ -127,6 +127,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	 * @param name
 	 * @param node
 	 */
+	@Override
 	public void addNode(final Tree file, final String path, final String name, final Node node) {
 		if (node == null)
 			return;
@@ -257,6 +258,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	 * @param name
 	 * @return dataset
 	 */
+	@Override
 	public DataNodeImpl getDataNode(final String name) {
 		if (nodes.containsKey(name)) {
 			Node n = nodes.get(name).getDestination();
@@ -321,6 +323,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	 * Remove given dataset
 	 * @param d dataset
 	 */
+	@Override
 	public void removeDataNode(final DataNode d) {
 		for (String n : nodes.keySet()) {
 			NodeLink l = nodes.get(n);
@@ -340,6 +343,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	 * @param name
 	 * @param s symbolic node
 	 */
+	@Override
 	public void addSymbolicNode(final Tree file, final String path, final String name, final SymbolicNode s) {
 		synchronized (nodes) {
 			if (nodes.containsKey(name)) {

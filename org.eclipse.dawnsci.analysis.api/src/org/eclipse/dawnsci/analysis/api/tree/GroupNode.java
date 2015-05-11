@@ -54,6 +54,7 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	/**
 	 * Add node link
 	 * @param link
+	 * @throws IllegalArgumentException if node link of same name already exists but is of different type 
 	 */
 	public void addNodeLink(NodeLink link);
 
@@ -81,6 +82,7 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * Get (child) group node of given name 
 	 * @param name
 	 * @return group
+	 * @throws IllegalArgumentException if named group node does not exist
 	 */
 	public GroupNode getGroupNode(String name);
 
@@ -90,18 +92,21 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * @param path
 	 * @param name
 	 * @param g group
+	 * @throws IllegalArgumentException if a data node of same name already exists
 	 */
 	public void addGroupNode(Tree tree, String path, String name, GroupNode g);
 
 	/**
 	 * Remove group node of given name
 	 * @param name
+	 * @throws IllegalArgumentException if named node does not exist or is not a group node
 	 */
 	public void removeGroupNode(String name);
 
 	/**
 	 * Remove given group node
 	 * @param g group node
+	 * @throws IllegalArgumentException if node is not in group
 	 */
 	public void removeGroupNode(GroupNode g);
 
@@ -120,6 +125,7 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * Get data node of given name
 	 * @param name
 	 * @return dataset
+	 * @throws IllegalArgumentException if named data node does not exist
 	 */
 	public DataNode getDataNode(String name);
 
@@ -129,18 +135,21 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * @param path
 	 * @param name
 	 * @param d dataset
+	 * @throws IllegalArgumentException if a group node of same name already exists
 	 */
 	public void addDataNode(Tree tree, String path, String name, DataNode d);
 
 	/**
 	 * Remove dataset of given name
 	 * @param name
+	 * @throws IllegalArgumentException if named node does not exist or is not a data node
 	 */
 	public void removeDataNode(String name);
 
 	/**
 	 * Remove given dataset
 	 * @param d dataset
+	 * @throws IllegalArgumentException if node is not in group
 	 */
 	public void removeDataNode(DataNode d);
 
