@@ -38,6 +38,10 @@ public interface ITrace extends INameable {
 
 	/**
 	 * Call this method to return a plotted data set by this trace.
+	 * Different trace types will return different ranks from getData().
+	 * For ILineTrace it is 1D line data
+	 * For IImageTrace it is a 2D image
+	 * etc.
 	 */
 	public IDataset getData();
 	
