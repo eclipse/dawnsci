@@ -11,10 +11,10 @@ package org.eclipse.dawnsci.analysis.api;
 public interface EventTracker {
 
 	/**
-	 * This method is used to track a events (log, action, exception etc) in the application. 
+	 * This method is used to track events (log, action, exception etc) in the application. 
 	 * 
 	 * @param name
-	 *            Unique name (human readable) of event to be tracked
+	 *            Unique name (human readable without space) of event to be tracked
 	 *            Example: Data_Browsing_Perspective_launch
 	 * @throws Exception
 	 */
