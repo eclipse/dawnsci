@@ -13,19 +13,19 @@ public interface EventTracker {
 	/**
 	 * This method is used to track events (log, action, exception etc) in the application. 
 	 * 
-	 * @param label
+	 * @param name
 	 *            Name of event to be tracked
 	 * @throws Exception
 	 */
 	public void track(String name) throws Exception;
 
 	/**
-	 * This method is used to track events given an id and a label.
+	 * This method is used to track events from extension points given by their id and label
 	 * 
 	 * @param id
 	 *            Unique id
 	 * @param label
 	 *            Name
-	 */ 
+	 */
 	public void track(String id, String label) throws Exception;
 }
