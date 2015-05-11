@@ -13,9 +13,8 @@ public interface EventTracker {
 	/**
 	 * This method is used to track events (log, action, exception etc) in the application. 
 	 * 
-	 * @param name
-	 *            Unique name (human readable without space) of event to be tracked
-	 *            Example: Data_Browsing_Perspective_launch
+	 * @param label
+	 *            Name of event to be tracked
 	 * @throws Exception
 	 */
 	public void track(String name) throws Exception;
