@@ -22,6 +22,8 @@ import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocket.Connection;
 import org.eclipse.jetty.websocket.WebSocketClient;
 import org.eclipse.jetty.websocket.WebSocketClientFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class manages a remote connection to data and
@@ -34,6 +36,8 @@ import org.eclipse.jetty.websocket.WebSocketClientFactory;
  *
  */
 public class RemoteDataset extends LazyDataset implements IRemoteDataset {
+	
+	private static final Logger logger = LoggerFactory.getLogger(RemoteDataset.class);
 	
 	// Server and port
 	private final String serverName;
@@ -100,17 +104,18 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 
 		@Override
 		public void onOpen(Connection connection) {
-            System.out.println(getClass()+" opened");
+			logger.debug(getClass()+" opened");
 		}
 
 		@Override
 		public void onClose(int closeCode, String message) {
-            System.out.println(getClass()+" closed");
+			logger.debug(getClass()+" closed");
 		}
 
 		@Override
-		public void onMessage(String data) {
+		public synchronized void onMessage(String data) {			
 			DataEvent evt = DataEvent.decode(data);
+			if (evt.getShape()!=null) setShape(shape);
 			eventDelegate.fire(evt);
 		}
 	}

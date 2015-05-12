@@ -33,7 +33,35 @@ public class RemoteDatasetTest extends DataServerTest {
 
 	@Test
 	public void testDirectoryMonitoring() throws Exception {
+		try {
+			testIsRunning = true;
+			final File dir = startFileWritingThread(true);
+			
+			// Set the into, then call connect().
+			IRemoteDataset data = new RemoteDataset("localhost", 8080);
+			data.setPath(dir.getAbsolutePath());
+			data.setDataset("image"); // We just get the first image in the PNG file.
+			data.connect();
+						
+			// Check that we get events about the image changing.			
+			data.addDataListener(new IDataListener() {
+				@Override
+				public void dataChangePerformed(DataEvent evt) {
+					try {
+					    System.out.println("Data changed, shape is "+Arrays.toString(evt.getShape()));
+					} catch (Exception ne) {
+						ne.printStackTrace();
+					}
+				}
+			});
 
+			Thread.sleep(20000);
+			
+			data.disconnect();
+
+		} finally {
+			testIsRunning = false;
+		}
 	}
 	
 	@Test
@@ -41,11 +69,8 @@ public class RemoteDatasetTest extends DataServerTest {
 		
 		try {
 			testIsRunning = true;
-			final File tmpData = startFileWritingThread();
-			
-			// Wait for a bit to ensure file is being written
-			Thread.sleep(2000);
-			
+			final File tmpData = startFileWritingThread(false);
+						
 			// Set the into, then call connect().
 			IRemoteDataset data = new RemoteDataset("localhost", 8080);
 			data.setPath(tmpData.getAbsolutePath());
@@ -59,11 +84,15 @@ public class RemoteDatasetTest extends DataServerTest {
 			data.addDataListener(new IDataListener() {
 				@Override
 				public void dataChangePerformed(DataEvent evt) {
-					System.out.println("Data changed, shape is "+evt.getShape());
+					try {
+					    System.out.println("Data changed, shape is "+Arrays.toString(evt.getShape()));
+					} catch (Exception ne) {
+						ne.printStackTrace();
+					}
 				}
 			});
 
-			Thread.sleep(20000);
+			Thread.sleep(10000);
 			
 			data.disconnect();
 			
@@ -72,14 +101,22 @@ public class RemoteDatasetTest extends DataServerTest {
 		}
 	}
 
-	private File startFileWritingThread() throws IOException {
+	private File startFileWritingThread(final boolean dir) throws IOException, InterruptedException {
 		
-        final File ret = File.createTempFile("temp_transient_file", ".png");
+        final File ret = dir
+        		       ? new File(File.createTempFile("temp_transient_file", ".png").getParentFile(), "test")
+        		       : File.createTempFile("temp_transient_file", ".png");
         ret.deleteOnExit();
+        
+        if (dir) {
+        	if (ret.exists()) TestUtils.recursiveDelete(ret.toPath());
+        	ret.mkdir();
+        }
         
         final Thread runner = new Thread(new Runnable() {
         	public void run() {
         		
+        		int index = 0;
         		while(testIsRunning) {
         			
         			try {
@@ -90,10 +127,16 @@ public class RemoteDatasetTest extends DataServerTest {
 	        			final ImageData   data  = iservice.getImageData(bean);
 	        			final BufferedImage bi  = iservice.getBufferedImage(data);
 	        			
-	        			ImageIO.write(bi, "PNG", ret);
+	        			File file = dir
+	        					  ? new File(ret, "image_"+index+".png")
+	        				      : ret;
+	        			file.deleteOnExit();
+	        			index++;
+	        			
+	        			ImageIO.write(bi, "PNG", file);
 	        			
 	        			Thread.sleep(1000);
-	        			System.out.println(">> Thread wrote "+ret.getAbsolutePath());
+	        			System.out.println(">> Thread wrote "+file.getAbsolutePath());
 	        			
         			} catch (Exception ne) {
         				ne.printStackTrace();
@@ -106,6 +149,10 @@ public class RemoteDatasetTest extends DataServerTest {
         runner.setPriority(Thread.MIN_PRIORITY);
         runner.setDaemon(true);
         runner.start();
+        
+		// Wait for a bit to ensure file is being written
+		Thread.sleep(2000);
+
         return ret;
 	}
 }

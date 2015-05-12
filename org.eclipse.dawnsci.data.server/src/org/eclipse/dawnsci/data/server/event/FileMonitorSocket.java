@@ -104,37 +104,49 @@ class FileMonitorSocket implements WebSocket {
                 WatchKey key = null;
                 while(((key = watcher.take()) != null) && connection.isOpen() && connected) {
                                  		
-             		if (!Files.exists(path)) continue;
-             		
-            		for (WatchEvent<?> event : key.pollEvents()) {
-            			
-	             		if (!Files.exists(path)) continue;
-
- 	             		Path   epath = (Path)event.context();
- 	             		if (!path.endsWith(epath)) continue;
- 	             		
- 	             		FileTime tmp = Files.getLastModifiedTime(path);
- 	             		if (time.equals(tmp)) continue;
- 	             		time  = tmp;
- 	             		
-	             		// Data has changed, read its shape and publish the event using a web socket.
-	             		final IDataHolder  holder = ServiceHolder.getLoaderService().getData(spath, new IMonitor.Stub());
-	        			final ILazyDataset lz = sdataset!=null && !"".equals(sdataset)
-				                              ? holder.getLazyDataset(sdataset)
-				                              : holder.getLazyDataset(0);
-	             		
-	                	final DataEvent evt = new DataEvent(lz.getName(), lz.getShape());
-	                	evt.setFilePath(spath);
-	                    
-	                    // We manually JSON the object because we
-	                	// do not want a dependency and object simple
-	                	String json = evt.encode();
-	                	connection.sendMessage(json);
-	                	
-	                	break;
-            		}
-                	
-                	key.reset();
+             		try {
+                 		if (!Files.exists(path)) continue;
+                 		
+	            		for (WatchEvent<?> event : key.pollEvents()) {
+	            			
+		             		if (!Files.exists(path)) continue;
+	
+	 	             		Path   epath = (Path)event.context();
+	 	             		if (!Files.isDirectory(path) && !path.endsWith(epath)) continue;
+	 	             		
+	 	             		FileTime tmp = Files.getLastModifiedTime(path);
+	 	             		if (time.equals(tmp)) continue;
+	 	             		time  = tmp;
+	 	             		
+	 	             		try {
+			             		// Data has changed, read its shape and publish the event using a web socket.
+			             		final IDataHolder  holder = ServiceHolder.getLoaderService().getData(spath, new IMonitor.Stub());
+						        if (holder == null) continue; // We do not stop if the loader got nothing.
+			        			
+						        final ILazyDataset lz = sdataset!=null && !"".equals(sdataset)
+						                              ? holder.getLazyDataset(sdataset)
+						                              : holder.getLazyDataset(0);
+			             		
+						        if (lz == null) continue; // We do not stop if the loader got nothing.
+						        
+			                	final DataEvent evt = new DataEvent(lz.getName(), lz.getShape());
+			                	evt.setFilePath(spath);
+			                    
+			                    // We manually JSON the object because we
+			                	// do not want a dependency and object simple
+			                	String json = evt.encode();
+			                	connection.sendMessage(json);
+			                	
+	 	             		} catch (Exception ne) {
+	 	             			ne.printStackTrace();
+	 	             			continue;
+	 	             		}
+		                	break;
+	            		}
+	            		
+             		} finally {
+                    	key.reset();
+             		}
                 }
                 
             } catch (Exception e) {
