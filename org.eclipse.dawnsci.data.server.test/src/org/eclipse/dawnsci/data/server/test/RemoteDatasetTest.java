@@ -65,7 +65,7 @@ public class RemoteDatasetTest extends DataServerTest {
 	}
 	
 	@Test
-	public void testFileMonitoring() throws Exception {
+	public void testImageFileMonitoring() throws Exception {
 		
 		try {
 			testIsRunning = true;

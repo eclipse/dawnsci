@@ -8,6 +8,12 @@ import org.eclipse.jetty.websocket.WebSocketClient;
 import org.eclipse.jetty.websocket.WebSocketClientFactory;
 import org.junit.Test;
 
+/**
+ * Not a proper test! This test is used to check events on the server without a RemoteDataset being present.
+ * 
+ * @author fcp94556
+ *
+ */
 public class EventClientTest {
 
 	@Test
