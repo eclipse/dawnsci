@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.data.client.RemoteDataset;
 import org.eclipse.dawnsci.data.server.ServiceHolder;
@@ -46,7 +47,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			Thread.sleep(2000);
 			
 			// Set the into, then call connect().
-			RemoteDataset data = new RemoteDataset("localhost", 8080);
+			IRemoteDataset data = new RemoteDataset("localhost", 8080);
 			data.setPath(tmpData.getAbsolutePath());
 			data.setDataset(null); // We just get the first image in the PNG file.
 			data.connect();
@@ -62,7 +63,9 @@ public class RemoteDatasetTest extends DataServerTest {
 				}
 			});
 
-			Thread.sleep(5000);
+			Thread.sleep(20000);
+			
+			data.disconnect();
 			
 		} finally {
 			testIsRunning = false;
@@ -89,8 +92,8 @@ public class RemoteDatasetTest extends DataServerTest {
 	        			
 	        			ImageIO.write(bi, "PNG", ret);
 	        			
-	        			Thread.sleep(200);
-	        			System.out.println(">> Updated "+ret.getAbsolutePath());
+	        			Thread.sleep(1000);
+	        			System.out.println(">> Thread wrote "+ret.getAbsolutePath());
 	        			
         			} catch (Exception ne) {
         				ne.printStackTrace();
@@ -100,7 +103,7 @@ public class RemoteDatasetTest extends DataServerTest {
         		}
         	}
         });
-        runner.setPriority(Thread.NORM_PRIORITY);
+        runner.setPriority(Thread.MIN_PRIORITY);
         runner.setDaemon(true);
         runner.start();
         return ret;

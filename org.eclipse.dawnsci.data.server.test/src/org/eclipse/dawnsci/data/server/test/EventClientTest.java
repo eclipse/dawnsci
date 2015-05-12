@@ -13,7 +13,7 @@ public class EventClientTest {
 	@Test
 	public void checkClientConnection() throws Exception {
 		
-        URI uri = URI.create("ws://localhost:8080/event/?path=c%3A/Work/results/TomographyDataSet.hdf5");
+        URI uri = URI.create("ws://localhost:8080/event/?path=c%3A/Work/results/Test.txt");
 
         WebSocketClientFactory factory = new WebSocketClientFactory();
         factory.start();

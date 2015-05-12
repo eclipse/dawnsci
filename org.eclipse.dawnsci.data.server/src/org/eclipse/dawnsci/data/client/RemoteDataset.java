@@ -9,12 +9,19 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
+import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
+import org.eclipse.dawnsci.analysis.api.dataset.DataListenerDelegate;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyDataset;
+import org.eclipse.jetty.websocket.WebSocket;
+import org.eclipse.jetty.websocket.WebSocket.Connection;
+import org.eclipse.jetty.websocket.WebSocketClient;
+import org.eclipse.jetty.websocket.WebSocketClientFactory;
 
 /**
  * This class manages a remote connection to data and
@@ -35,7 +42,10 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	// Data
 	private String path;
 	private String dataset;
-
+	
+	// Web socket stuff
+	private Connection connection;
+    private DataListenerDelegate eventDelegate;
 	/**
 	 * 
 	 */
@@ -45,6 +55,7 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 		super("unknown", Dataset.INT, new int[]{1}, null);
 		this.serverName = serverName;
 		this.port       = port;
+		this.eventDelegate = new DataListenerDelegate();
 	}
 	
 	/**
@@ -57,10 +68,51 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 		createInfo();
 		createFileListener();
     }
+    
+    public void disconnect() throws Exception {
+        if (connection.isOpen()) {
+        	connection.sendMessage("Disconnected from "+path);
+       	    connection.close();
+        }
+       	// TODO Close loader as well?    
+    }
 	
-	private void createFileListener() {
-		// TODO Auto-generated method stub
+	private void createFileListener() throws Exception {
 		
+        URI uri = URI.create(getEventURL());
+
+        WebSocketClientFactory factory = new WebSocketClientFactory();
+        factory.start();
+        WebSocketClient        client = new WebSocketClient(factory);
+
+        final DataEventSocket clientSocket = new DataEventSocket();
+        // Attempt Connect
+        Future<Connection> fut = client.open(uri, clientSocket);
+
+        // Wait for Connect
+        connection = fut.get();
+
+        // Send a message
+        connection.sendMessage("Connected to "+path);
+	}
+	
+	private class DataEventSocket implements WebSocket, WebSocket.OnTextMessage {
+
+		@Override
+		public void onOpen(Connection connection) {
+            System.out.println(getClass()+" opened");
+		}
+
+		@Override
+		public void onClose(int closeCode, String message) {
+            System.out.println(getClass()+" closed");
+		}
+
+		@Override
+		public void onMessage(String data) {
+			DataEvent evt = DataEvent.decode(data);
+			eventDelegate.fire(evt);
+		}
 	}
 
 	private void createInfo() throws Exception {
@@ -84,7 +136,7 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 		final String[] split = array.substring(1, array.length()-1).split(",");
 		final int[]    ret   = new int[split.length];
 		for (int i = 0; i < split.length; i++) {
-			ret[i] = Integer.parseInt(split[i]);
+			ret[i] = Integer.parseInt(split[i].trim());
  		}
 		return ret;
 	}
@@ -107,14 +159,12 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 
 	@Override
 	public void addDataListener(IDataListener l) {
-		// TODO Auto-generated method stub
-
+		eventDelegate.addDataListener(l);
 	}
 
 	@Override
 	public void removeDataListener(IDataListener l) {
-		// TODO Auto-generated method stub
-
+		eventDelegate.removeDataListener(l);
 	}
 
 	public String getPath() {
@@ -139,7 +189,7 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	}
 	
 	private String getEventURL() throws Exception {
-		return getURL("/event/");
+		return getURL("ws", "/event/");
 	}
 	
 	private String getInfoURL() throws Exception {
@@ -147,9 +197,13 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	}
 	
 	private String getURL(String servlet) throws Exception {
+        return getURL("http", servlet);
+	}
+	private String getURL(String proto, String servlet) throws Exception {
 		
 		final StringBuilder buf = new StringBuilder();
-		buf.append("http://");
+		buf.append(proto);
+		buf.append("://");
 		buf.append(serverName);
 		buf.append(":");
 		buf.append(port);
@@ -169,6 +223,5 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 		buf.append(URLEncoder.encode(value, "UTF-8"));
 		buf.append("&");
 	}
-
 
 }

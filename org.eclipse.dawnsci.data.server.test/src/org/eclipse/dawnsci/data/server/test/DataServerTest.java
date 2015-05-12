@@ -3,6 +3,7 @@ package org.eclipse.dawnsci.data.server.test;
 import java.io.File;
 
 import org.dawnsci.plotting.services.ImageService;
+import org.dawnsci.plotting.services.PlotImageService;
 import org.eclipse.dawnsci.data.server.DataServer;
 import org.eclipse.dawnsci.data.server.ServiceHolder;
 import org.junit.AfterClass;
@@ -31,6 +32,7 @@ public class DataServerTest {
 		ServiceHolder.setDownService(new Downsample());
 		ServiceHolder.setImageService(new ImageService());
 		ServiceHolder.setLoaderService(new LoaderServiceImpl());
+		ServiceHolder.setPlotImageService(new PlotImageService());
 	
         // Start the DataServer
 		port   = TestUtils.getFreePort(8080);

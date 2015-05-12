@@ -14,6 +14,7 @@ package org.eclipse.dawnsci.data.server;
 import org.eclipse.dawnsci.analysis.api.downsample.IDownsampleService;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
+import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
 
 /**
  * Class to receive OSGi injected services.
@@ -23,7 +24,9 @@ public class ServiceHolder {
 	private static ILoaderService loaderService;
 	private static IImageService  imageService;
 	private static IDownsampleService downService;
+	private static IPlotImageService plotImageService;
 
+	
 	public static IDownsampleService getDownService() {
 		return downService;
 	}
@@ -46,5 +49,13 @@ public class ServiceHolder {
 
 	public static void setLoaderService(ILoaderService loaderService) {
 		ServiceHolder.loaderService = loaderService;
+	}
+
+	public static IPlotImageService getPlotImageService() {
+		return plotImageService;
+	}
+
+	public static void setPlotImageService(IPlotImageService plotImageService) {
+		ServiceHolder.plotImageService = plotImageService;
 	}
 }

@@ -10,15 +10,13 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.data.client.slice.SliceClient;
+import org.eclipse.dawnsci.data.server.ServiceHolder;
 import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
 import org.eclipse.swt.widgets.Display;
 
 class DataConnection<T extends IDataset> {
 	
-	private static IPlotImageService plotService;
-	public static void setPlotImageService(IPlotImageService service) {
-		plotService = service;
-	}
+
 	public DataConnection() {
 		// OSGi
 	}
@@ -43,12 +41,12 @@ class DataConnection<T extends IDataset> {
 			final BufferedImage image = client.take();
 			if (image==null) break;
 			
-			Dataset rgb = (Dataset)plotService.createDataset(image);
+			Dataset rgb = (Dataset)ServiceHolder.getPlotImageService().createDataset(image);
 			if (greyScale) rgb = ((RGBDataset)rgb).getRedView();
 			
 			IDataset set = rgb.cast(dType);
 			dataset.setData((T)set);
-			delegate.fire(new DataEvent(set));
+			delegate.fire(new DataEvent(set.getName(), set.getShape()));
 			
 			++count;
 			if (count>maxImages && maxImages>-1) return;

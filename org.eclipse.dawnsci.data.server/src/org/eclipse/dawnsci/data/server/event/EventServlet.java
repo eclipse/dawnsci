@@ -10,6 +10,6 @@ public class EventServlet extends WebSocketServlet {
 	@Override
 	public WebSocket doWebSocketConnect(HttpServletRequest request,
 			                            String             protocol) {
-		return new EventServerSocket(request);
+		return new FileMonitorSocket(request);
 	}
 }
