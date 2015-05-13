@@ -12,21 +12,12 @@
 package org.eclipse.dawnsci.data.server.test;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.Arrays;
 
-import org.dawnsci.plotting.services.ImageService;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.data.client.slice.SliceClient;
-import org.eclipse.dawnsci.data.server.DataServer;
 import org.eclipse.dawnsci.data.server.Format;
-import org.eclipse.dawnsci.data.server.ServiceHolder;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import uk.ac.diamond.scisoft.analysis.dataset.function.Downsample;
-import uk.ac.diamond.scisoft.analysis.osgi.LoaderServiceImpl;
 
 /**
  * Runs as standard junit test.
@@ -40,7 +31,7 @@ import uk.ac.diamond.scisoft.analysis.osgi.LoaderServiceImpl;
  * @author fcp94556
  *
  */ 
-public class ClientTest extends DataServerTest {
+public class SliceClientTest extends DataServerTest {
 	
 	@Test
 	public void testFullData() throws Exception {

@@ -32,8 +32,6 @@ import org.junit.Test;
  */
 public class RemoteDatasetTest extends DataServerTest {
 	
-	
-	private volatile boolean testIsRunning = false;
 
 	@Test
 	public void testHDF5FileMonitoring() throws Exception {
@@ -96,140 +94,34 @@ public class RemoteDatasetTest extends DataServerTest {
 		}
 	}
 
-	private File startHDF5WritingThread() throws IOException, InterruptedException {
-		
-        final File ret = File.createTempFile("temp_transient_file", ".h5");
-        ret.deleteOnExit();
-         
-        final Thread runner = new Thread(new Runnable() {
-        	public void run() {
-        		
-        		try {
-         			while(testIsRunning) {
-
-         				IHierarchicalDataFile file=null;
-         				try {
-                			file = HierarchicalDataFactory.getWriter(ret.getAbsolutePath());
-               			 
-       					    IDataset       rimage   = Random.rand(new int[]{1024, 1024});
-        					rimage.setName("image");
-        					
-        					file.group("/entry");
-        					file.group("/entry/data");
-        					String path = file.appendDataset(rimage.getName(), rimage, "/entry/data");
-
-        					Thread.sleep(1000);
-        					System.out.println(">> HDF5 wrote image to "+path);
-
-        				} catch (Exception ne) {
-        					ne.printStackTrace();
-        					break;
-        				} finally {
-                			try {
-        						if (file!=null) file.close();
-        					} catch (Exception e) {
-        						e.printStackTrace();
-        					}
-                		}
-        			}
-        			
-        		} catch (Exception ne) {
-        			ne.printStackTrace();
-        			
-        		}
-        	}
-        });
-        runner.setPriority(Thread.MIN_PRIORITY);
-        runner.setDaemon(true);
-        runner.start();
-        
-		// Wait for a bit to ensure file is being written
-		Thread.sleep(2000);
-
-        return ret;
-	}
-
-	private File startFileWritingThread(final boolean dir) throws IOException, InterruptedException {
-		
-        final File ret = dir
-        		       ? new File(File.createTempFile("temp_transient_file", ".png").getParentFile(), "test")
-        		       : File.createTempFile("temp_transient_file", ".png");
-        ret.deleteOnExit();
-        
-        if (dir) {
-        	if (ret.exists()) TestUtils.recursiveDelete(ret.toPath());
-        	ret.mkdir();
-        }
-        
-        final Thread runner = new Thread(new Runnable() {
-        	public void run() {
-        		
-        		int index = 0;
-        		while(testIsRunning) {
-        			
-        			try {
-	        			IDataset       rimage   = Random.rand(new int[]{1024, 1024});
-	        			IImageService  iservice = ServiceHolder.getImageService();
-	        			ImageServiceBean bean   = iservice.createBeanFromPreferences();
-	        			bean.setImage(rimage);
-	        			final ImageData   data  = iservice.getImageData(bean);
-	        			final BufferedImage bi  = iservice.getBufferedImage(data);
-	        			
-	        			File file = dir
-	        					  ? new File(ret, "image_"+index+".png")
-	        				      : ret;
-	        			file.deleteOnExit();
-	        			index++;
-	        			
-	        			ImageIO.write(bi, "PNG", file);
-	        			
-	        			Thread.sleep(1000);
-	        			System.out.println(">> Thread wrote "+file.getAbsolutePath());
-	        			
-        			} catch (Exception ne) {
-        				ne.printStackTrace();
-        				break;
-        			}
-        			
-        		}
-        	}
-        });
-        runner.setPriority(Thread.MIN_PRIORITY);
-        runner.setDaemon(true);
-        runner.start();
-        
-		// Wait for a bit to ensure file is being written
-		Thread.sleep(2000);
-
-        return ret;
-	}
-	
-
 	
 	private void checkAndWait(final IRemoteDataset data, long time) throws Exception {
 		
-		final List<DataEvent> events = new ArrayList<DataEvent>((int)time/1000);
-		
-		// Check that we get events about the image changing.			
-		data.addDataListener(new IDataListener() {
-			@Override
-			public void dataChangePerformed(DataEvent evt) {
-				try {
-					if (!Arrays.equals(evt.getShape(), data.getShape())) throw new Exception("Data shape and event shape are not the same!");
-					System.out.println("Data changed, shape is "+Arrays.toString(evt.getShape()));
-					events.add(evt);
-				} catch (Exception ne) {
-					ne.printStackTrace();
+		try {
+			final List<DataEvent> events = new ArrayList<DataEvent>((int)time/1000);
+			
+			// Check that we get events about the image changing.			
+			data.addDataListener(new IDataListener() {
+				@Override
+				public void dataChangePerformed(DataEvent evt) {
+					try {
+						if (!Arrays.equals(evt.getShape(), data.getShape())) throw new Exception("Data shape and event shape are not the same!");
+						System.out.println("Data changed, shape is "+Arrays.toString(evt.getShape()));
+						events.add(evt);
+					} catch (Exception ne) {
+						ne.printStackTrace();
+					}
 				}
-			}
-		});
-
-		Thread.sleep(time);
+			});
+	
+			Thread.sleep(time);
+			
+			if (events.isEmpty()) throw new Exception("No data events returned while thread writing to file!");
+			if (events.size() < ((time/1000)-5)) throw new Exception("Less data events than expected! Event count was "+events.size());
 		
-		if (events.isEmpty()) throw new Exception("No data events returned while thread writing to file!");
-		if (events.size() < ((time/1000)-5)) throw new Exception("Less data events than expected! Event count was "+events.size());
-
-		data.disconnect();
+		} finally {
+			data.disconnect();
+		}
 	}
 
 

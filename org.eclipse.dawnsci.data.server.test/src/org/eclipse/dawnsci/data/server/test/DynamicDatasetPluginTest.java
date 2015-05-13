@@ -35,8 +35,26 @@ import org.junit.Test;
  * Runs as Junit Plugin test because runs up user interface with stream. 
  * Start the Data Server before running this test!
  * 
+ * Hi All,
+
+A number of people have asked me for an areaDetector simulation, so here you go.
+
+•	From the Launcher, go to Utilities -> GDA AreaDetector Simulation
+•	This will launch an EDM screen with a typical areaDetector GUI and a button to start the IOC
+•	Clicking this button will start an IOC with the PV prefix set to $(hostname –s)-AD-SIM-01
+•	The GUI will have the same PV prefix set
+•	This means that you can run the GUI and IOC on the same machine and they will work together and not interfere with anyone else running the simulation
+•	The CA server port is 6064, so make sure to export EPICS_CA_SERVER_PORT=6064
+
+Thanks,
+Tom Cobb
+--
+
++44 (0)1235 778582
+
+ * 
  */
-public class ClientPluginTest {
+public class DynamicDatasetPluginTest extends DataServerTest {
 
 	private static IPlotImageService plotService;
 	public static void setPlotImageService(IPlotImageService service) {
@@ -45,12 +63,13 @@ public class ClientPluginTest {
 	
 	/**
 	 * Test opens stream in plotting system.
+	 * NEED TO Start IOC on ws197 to run this test
 	 * @throws Exception
 	 */
-	@Test
+	//@Test
 	public void testDynamicDatasetEPICSGreyScale() throws Exception {
 		
-		// Requires an EPICS stream to connect to, not for general overight testing!
+		// Requires an EPICS stream to connect to, not for general overnight testing!
 		SliceClient<BufferedImage> client = new SliceClient<BufferedImage>("ws157.diamond.ac.uk", 8080);
 		client.setGet(false);
     	client.setFormat(Format.MJPG);
@@ -73,9 +92,10 @@ public class ClientPluginTest {
 
 	/**
 	 * Test opens stream in plotting system.
+	 * NEED TO Start IOC on ws197 to run this test
 	 * @throws Exception
 	 */
-	@Test
+	//@Test
 	public void testDynamicDatasetEPICS() throws Exception {
 		
 		// Requires an EPICS stream to connect to, not for general overight testing!

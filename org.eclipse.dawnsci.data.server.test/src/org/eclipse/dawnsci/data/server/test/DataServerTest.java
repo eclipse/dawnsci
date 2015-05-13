@@ -1,11 +1,22 @@
 package org.eclipse.dawnsci.data.server.test;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import org.dawnsci.plotting.services.ImageService;
 import org.dawnsci.plotting.services.PlotImageService;
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.data.server.DataServer;
 import org.eclipse.dawnsci.data.server.ServiceHolder;
+import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
+import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
+import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
+import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
+import org.eclipse.swt.graphics.ImageData;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -50,5 +61,117 @@ public class DataServerTest {
 	public static void stop() {
 		server.stop();
 	}
+
+	
+	protected volatile boolean testIsRunning = false;
+
+	protected File startHDF5WritingThread() throws IOException, InterruptedException {
+		
+        final File ret = File.createTempFile("temp_transient_file", ".h5");
+        ret.deleteOnExit();
+         
+        final Thread runner = new Thread(new Runnable() {
+        	public void run() {
+        		
+        		try {
+         			while(testIsRunning) {
+
+         				IHierarchicalDataFile file=null;
+         				try {
+                			file = HierarchicalDataFactory.getWriter(ret.getAbsolutePath());
+               			 
+       					    IDataset       rimage   = Random.rand(new int[]{1024, 1024});
+        					rimage.setName("image");
+        					
+        					file.group("/entry");
+        					file.group("/entry/data");
+        					String path = file.appendDataset(rimage.getName(), rimage, "/entry/data");
+
+        					Thread.sleep(1000);
+        					System.out.println(">> HDF5 wrote image to "+path);
+
+        				} catch (Exception ne) {
+        					ne.printStackTrace();
+        					break;
+        				} finally {
+                			try {
+        						if (file!=null) file.close();
+        					} catch (Exception e) {
+        						e.printStackTrace();
+        					}
+                		}
+        			}
+        			
+        		} catch (Exception ne) {
+        			ne.printStackTrace();
+        			
+        		}
+        	}
+        });
+        runner.setPriority(Thread.MIN_PRIORITY);
+        runner.setDaemon(true);
+        runner.start();
+        
+		// Wait for a bit to ensure file is being written
+		Thread.sleep(2000);
+
+        return ret;
+	}
+
+	protected File startFileWritingThread(final boolean dir) throws IOException, InterruptedException {
+		
+        final File ret = dir
+        		       ? new File(File.createTempFile("temp_transient_file", ".png").getParentFile(), "test")
+        		       : File.createTempFile("temp_transient_file", ".png");
+        ret.deleteOnExit();
+        
+        if (dir) {
+        	if (ret.exists()) TestUtils.recursiveDelete(ret.toPath());
+        	ret.mkdir();
+        }
+        
+        final Thread runner = new Thread(new Runnable() {
+        	public void run() {
+        		
+        		int index = 0;
+        		while(testIsRunning) {
+        			
+        			try {
+	        			IDataset       rimage   = Random.rand(new int[]{1024, 1024});
+	        			IImageService  iservice = ServiceHolder.getImageService();
+	        			ImageServiceBean bean   = iservice.createBeanFromPreferences();
+	        			bean.setImage(rimage);
+	        			final ImageData   data  = iservice.getImageData(bean);
+	        			final BufferedImage bi  = iservice.getBufferedImage(data);
+	        			
+	        			File file = dir
+	        					  ? new File(ret, "image_"+index+".png")
+	        				      : ret;
+	        			file.deleteOnExit();
+	        			index++;
+	        			
+	        			ImageIO.write(bi, "PNG", file);
+	        			
+	        			Thread.sleep(1000);
+	        			System.out.println(">> Thread wrote "+file.getAbsolutePath());
+	        			
+        			} catch (Exception ne) {
+        				ne.printStackTrace();
+        				break;
+        			}
+        			
+        		}
+        	}
+        });
+        runner.setPriority(Thread.MIN_PRIORITY);
+        runner.setDaemon(true);
+        runner.start();
+        
+		// Wait for a bit to ensure file is being written
+		Thread.sleep(2000);
+
+        return ret;
+	}
+	
 
 }
