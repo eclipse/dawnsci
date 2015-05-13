@@ -53,7 +53,7 @@ public class SliceViewIterator {
 	 */
 	public SliceViewIterator(ILazyDataset lazyDataset, SliceND sampling, int... axes) {
 		this.lazyDataset = lazyDataset;
-		this.sampling = sampling;
+		this.sampling = sampling != null ? sampling : new SliceND(lazyDataset.getShape());
 		this.iterator = new SliceNDIterator(sampling, axes);
 		this.axes = axes;
 		count = 0;
