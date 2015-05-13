@@ -4,6 +4,9 @@ import java.io.File;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.data.server.ServiceHolder;
+import org.eclipse.dawnsci.slicing.api.data.ITransferableDataManager;
+import org.eclipse.dawnsci.slicing.api.data.TransferableLazyDataset;
+import org.eclipse.ui.IEditorPart;
 import org.junit.Test;
 
 
@@ -29,9 +32,15 @@ public class RemoteDatasetPluginTest extends DataServerTest {
 			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
 			data.connect();
 		
-			
 			try {
-				Thread.sleep(10000);
+				// We open a random part then 
+				// 1. copy in the remote dataset which we are currently writing to
+				// 2. plot data from it
+                IEditorPart  editor = TestUtils.openExternalEditor(testDir+"/export.h5");
+                ITransferableDataManager man = (ITransferableDataManager)editor.getAdapter(ITransferableDataManager.class);
+                man.addData(new TransferableLazyDataset(data));
+				
+				TestUtils.delay(10000);
 				
 			} finally {
 				data.disconnect();
