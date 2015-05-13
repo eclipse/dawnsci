@@ -37,7 +37,8 @@ import org.slf4j.LoggerFactory;
  * 
  * 
 <usage><code>
-final IRemoteDataset data = new RemoteDataset("localhost", 8080);
+final IRemoteDatasetService service = ...
+final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);<br>
 data.setPath(h5File.getAbsolutePath());
 data.setDataset("image"); // We just get the first image in the PNG file.
 data.connect();
@@ -52,7 +53,7 @@ try {
  * @author Matthew Gerring
  *
  */
-public class RemoteDataset extends LazyDataset implements IRemoteDataset {
+class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RemoteDataset.class);
 	
@@ -69,7 +70,8 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	/**
 	 * 
 		<usage><code>
-		final IRemoteDataset data = new RemoteDataset("localhost", 8080);<br>
+		final IRemoteDatasetService service = ...
+		final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);<br>
 		data.setPath(h5File.getAbsolutePath());<br>
 		data.setDataset("image"); // We just get the first image in the PNG file.<br>
 		data.connect();<br>

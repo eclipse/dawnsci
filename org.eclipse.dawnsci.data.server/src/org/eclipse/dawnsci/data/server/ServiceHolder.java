@@ -13,6 +13,8 @@ package org.eclipse.dawnsci.data.server;
 
 import org.eclipse.dawnsci.analysis.api.downsample.IDownsampleService;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
+import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
+import org.eclipse.dawnsci.data.client.RemoteDatasetServiceImpl;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
 
@@ -25,7 +27,7 @@ public class ServiceHolder {
 	private static IImageService  imageService;
 	private static IDownsampleService downService;
 	private static IPlotImageService plotImageService;
-
+    private static IRemoteDatasetService remoteDatasetService;
 	
 	public static IDownsampleService getDownService() {
 		return downService;
@@ -57,5 +59,14 @@ public class ServiceHolder {
 
 	public static void setPlotImageService(IPlotImageService plotImageService) {
 		ServiceHolder.plotImageService = plotImageService;
+	}
+
+	public static IRemoteDatasetService getRemoteDatasetService() {
+		return remoteDatasetService;
+	}
+
+	public static void setRemoteDatasetService(
+			IRemoteDatasetService remoteDatasetService) {
+		ServiceHolder.remoteDatasetService = remoteDatasetService;
 	}
 }

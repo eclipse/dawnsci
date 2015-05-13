@@ -10,7 +10,6 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
-import org.eclipse.dawnsci.data.client.RemoteDataset;
 import org.eclipse.dawnsci.data.server.ServiceHolder;
 import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
@@ -26,7 +25,7 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 		
 		final File h5File = createSomeDirectoryData(10, 1024, 1024);
 		
-		final IRemoteDataset data = new RemoteDataset("localhost", 8080);
+		final IRemoteDataset data = ServiceHolder.getRemoteDatasetService().createRemoteDataset("localhost", 8080);
 		data.setPath(h5File.getAbsolutePath());
 		data.setDataset("image"); // We just get the first image in the PNG file.
 		data.connect();
@@ -68,7 +67,7 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 		
 		final File h5File = createSomeH5Data(10, 1024, 1024);
 		
-		final IRemoteDataset data = new RemoteDataset("localhost", 8080);
+		final IRemoteDataset data = ServiceHolder.getRemoteDatasetService().createRemoteDataset("localhost", 8080);
 		data.setPath(h5File.getAbsolutePath());
 		data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
 		data.connect();

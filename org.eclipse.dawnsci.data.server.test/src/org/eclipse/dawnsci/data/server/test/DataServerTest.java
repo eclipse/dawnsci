@@ -10,6 +10,7 @@ import org.dawnsci.plotting.services.ImageService;
 import org.dawnsci.plotting.services.PlotImageService;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
+import org.eclipse.dawnsci.data.client.RemoteDatasetServiceImpl;
 import org.eclipse.dawnsci.data.server.DataServer;
 import org.eclipse.dawnsci.data.server.ServiceHolder;
 import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
@@ -44,6 +45,7 @@ public class DataServerTest {
 		ServiceHolder.setImageService(new ImageService());
 		ServiceHolder.setLoaderService(new LoaderServiceImpl());
 		ServiceHolder.setPlotImageService(new PlotImageService());
+		ServiceHolder.setRemoteDatasetService(new RemoteDatasetServiceImpl());
 	
         // Start the DataServer
 		port   = TestUtils.getFreePort(8080);
