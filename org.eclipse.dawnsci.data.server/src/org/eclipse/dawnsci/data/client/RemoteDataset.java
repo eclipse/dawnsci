@@ -28,7 +28,12 @@ import org.slf4j.LoggerFactory;
  * allows datasets to work seamlessly remotely as if
  * they were ILazyDatasets.
  * 
+ * To do this they require to know the data server's name and port.
+ * They also need a path on the server for the file which they are linked to.
  * 
+ * The DataServer is a standard HTTP with web sockets for events. This makes
+ * RemoteDataset able to pass over HTTP with port 80 open for external data 
+ * viewing too.
  * 
  * @author Matthew Gerring
  *

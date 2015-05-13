@@ -6,7 +6,7 @@ import org.eclipse.dawnsci.analysis.api.io.ILazyLoader;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.data.client.slice.SliceClient;
 
-public class RemoteLoader implements ILazyLoader {
+class RemoteLoader implements ILazyLoader {
 
 	/**
 	 * 
