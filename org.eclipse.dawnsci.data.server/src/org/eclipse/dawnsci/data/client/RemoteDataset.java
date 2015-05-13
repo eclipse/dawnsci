@@ -2,11 +2,9 @@ package org.eclipse.dawnsci.data.client;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
@@ -39,13 +37,7 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RemoteDataset.class);
 	
-	// Server and port
-	private final String serverName;
-	private final int    port;
-
-	// Data
-	private String path;
-	private String dataset;
+	private final URLBuilder urlBuilder;
 	
 	// Web socket stuff
 	private Connection connection;
@@ -57,8 +49,7 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 
 	public RemoteDataset(String serverName, int port) {
 		super("unknown", Dataset.INT, new int[]{1}, null);
-		this.serverName = serverName;
-		this.port       = port;
+		this.urlBuilder = new URLBuilder(serverName, port);
 		this.eventDelegate = new DataListenerDelegate();
 	}
 	
@@ -68,14 +59,14 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	 */
     public void connect() throws Exception {
     	
-		this.loader = new RemoteLoader(URI.create(getSliceURL()));
+		this.loader = new RemoteLoader(urlBuilder);
 		createInfo();
 		createFileListener();
     }
     
     public void disconnect() throws Exception {
         if (connection.isOpen()) {
-        	connection.sendMessage("Disconnected from "+path);
+        	connection.sendMessage("Disconnected from "+urlBuilder.getPath());
        	    connection.close();
         }
        	// TODO Close loader as well?    
@@ -83,7 +74,7 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	
 	private void createFileListener() throws Exception {
 		
-        URI uri = URI.create(getEventURL());
+        URI uri = URI.create(urlBuilder.getEventURL());
 
         WebSocketClientFactory factory = new WebSocketClientFactory();
         factory.start();
@@ -97,7 +88,7 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
         connection = fut.get();
 
         // Send a message
-        connection.sendMessage("Connected to "+path);
+        connection.sendMessage("Connected to "+urlBuilder.getPath());
 	}
 	
 	private class DataEventSocket implements WebSocket, WebSocket.OnTextMessage {
@@ -153,7 +144,7 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	private List<String> getInfo() throws Exception {
 		
 		final List<String> ret = new ArrayList<String>();
-		final URL url = new URL(getInfoURL());
+		final URL url = new URL(urlBuilder.getInfoURL());
 		URLConnection  conn = url.openConnection();
 
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -177,60 +168,19 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	}
 
 	public String getPath() {
-		return path;
+		return urlBuilder.getPath();
 	}
 
 	public void setPath(String path) {
-		this.path = path;
+		urlBuilder.setPath(path);
 	}
 
 	public String getDataset() {
-		return dataset;
+		return urlBuilder.getDataset();
 	}
 
 	public void setDataset(String dataset) {
-		this.dataset = dataset;
-	}
-	
-	
-	private String getSliceURL() throws Exception {
-		return getURL("/slice/");
-	}
-	
-	private String getEventURL() throws Exception {
-		return getURL("ws", "/event/");
-	}
-	
-	private String getInfoURL() throws Exception {
-		return getURL("/info/");
-	}
-	
-	private String getURL(String servlet) throws Exception {
-        return getURL("http", servlet);
-	}
-	private String getURL(String proto, String servlet) throws Exception {
-		
-		final StringBuilder buf = new StringBuilder();
-		buf.append(proto);
-		buf.append("://");
-		buf.append(serverName);
-		buf.append(":");
-		buf.append(port);
-		buf.append(servlet);
-		buf.append("?");
-		append(buf, "path",    path);
-		append(buf, "dataset", dataset);
-		return buf.toString();
-	}
-	
-	private void append(StringBuilder buf, String name, Object object) throws UnsupportedEncodingException {
-		if (object==null || "".equals(object)) return;
-		
-		String value = object.toString();
-		buf.append(name);
-		buf.append("=");
-		buf.append(URLEncoder.encode(value, "UTF-8"));
-		buf.append("&");
+		urlBuilder.setDataset(dataset);
 	}
 
 }
