@@ -21,7 +21,11 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.dawnsci.analysis.api.EventTracker;
+import org.eclipse.dawnsci.plotting.api.EventTrackerServiceLoader;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
+import org.eclipse.dawnsci.plotting.api.preferences.BasePlottingConstants;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineStackTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IPaletteTrace;
@@ -30,11 +34,13 @@ import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.IWindowTrace;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.part.Page;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,6 +110,27 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 	@Override
 	public void setToolSystem(IToolPageSystem system) {
 		this.toolSystem = system;
+	}
+
+	/**
+	 * Call super.createControl() at the end of your implementation of
+	 * createControl() if you want to have this tool usage tracked
+	 */
+	@Override
+	public void createControl(Composite parent) {
+		//TODO put the plugin id somewhere else and not here where it is hardcoded
+		ScopedPreferenceStore store = new ScopedPreferenceStore(InstanceScope.INSTANCE, "org.dawb.common.ui");
+		boolean isTrackingEnabled = store.getBoolean(BasePlottingConstants.IS_TRACKER_ENABLED);
+		if (isTrackingEnabled) {
+			// track Tool launch with tool name
+			EventTracker tracker = EventTrackerServiceLoader.getService();
+			try {
+				if (tracker != null)
+					tracker.track("Tool/" + getTitle());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public String getTitle() {

@@ -112,4 +112,9 @@ public class BasePlottingConstants {
 	 * Property to say if we use the functions with a 24 bit image or not.
 	 */
 	public static final String USE_PALETTE_FUNCTIONS = "org.dawnsci.plotting.use.paletteFunctions";
+
+	/**
+	 * Used to enable/disable event tracking
+	 */
+	public static final String IS_TRACKER_ENABLED = "enable.event.tracking";
 }
