@@ -42,6 +42,11 @@ public interface NexusFile extends AutoCloseable {
 	 */
 	public static final int COMPRESSION_LZW_L1 = 1;
 
+	/**
+	 * Scheme for NeXus URI used to refer to external files
+	 */
+	public static final String NX_URL_SCHEME = "nxfile";
+
 	/*
 	 * use augmented paths (with NX_class attribute)
 	 * use absolute and relative paths with lazy moves and create if necessary
