@@ -1,8 +1,8 @@
 package org.eclipse.dawnsci.data.server.event;
 
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
-import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,8 +21,12 @@ import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.data.server.ServiceHolder;
 import org.eclipse.jetty.websocket.WebSocket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class FileMonitorSocket implements WebSocket {
+	
+	private static final Logger logger = LoggerFactory.getLogger(FileMonitorSocket.class);
 	
 	private HttpServletRequest request;
 	private boolean            connected;
@@ -90,9 +94,10 @@ class FileMonitorSocket implements WebSocket {
          */
         @Override
         public void run() {
+        	
+        	final Path   path  = Paths.get(spath);
             try {
             	// We are monitoring this file, check it against what has happened
-       			final Path   path  = Paths.get(spath);
        			FileTime     time  = Files.getLastModifiedTime(path);
        			
        			// We wait until the file we are told to monitor exists.
@@ -102,7 +107,7 @@ class FileMonitorSocket implements WebSocket {
        			
                 // get the first event before looping
                 WatchKey key = null;
-                while(((key = watcher.take()) != null) && connection.isOpen() && connected) {
+                while((key = watcher.take()) != null) {
                                  		
              		try {
                  		if (!Files.exists(path)) continue;
@@ -115,7 +120,10 @@ class FileMonitorSocket implements WebSocket {
 	 	             		if (!Files.isDirectory(path) && !path.endsWith(epath)) continue;
 	 	             		
 	 	             		FileTime tmp = Files.getLastModifiedTime(path);
-	 	             		if (time.equals(tmp)) continue;
+	 	             		if (time.equals(tmp)) {
+	 	             			logger.debug("Time stamp not changed: "+path);
+	 	             			continue;
+	 	             		}
 	 	             		time  = tmp;
 	 	             		
 	 	             		try {
@@ -138,7 +146,7 @@ class FileMonitorSocket implements WebSocket {
 			                	connection.sendMessage(json);
 			                	
 	 	             		} catch (Exception ne) {
-	 	             			ne.printStackTrace();
+	 	             			logger.error("Exception getting data from "+path);
 	 	             			continue;
 	 	             		}
 		                	break;
@@ -146,11 +154,15 @@ class FileMonitorSocket implements WebSocket {
 	            		
              		} finally {
                     	key.reset();
+                    	
+                    	if (!connection.isOpen() || !connected) {
+                    		break;
+                    	}
              		}
                 }
                 
             } catch (Exception e) {
-                e.printStackTrace();
+            	logger.error("Exception monitoring "+path, e);
                 connection.close(403, e.getMessage());
             } 
         }

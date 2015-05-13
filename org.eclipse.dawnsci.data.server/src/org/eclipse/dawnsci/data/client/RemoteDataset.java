@@ -113,10 +113,14 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 		}
 
 		@Override
-		public synchronized void onMessage(String data) {			
-			DataEvent evt = DataEvent.decode(data);
-			if (evt.getShape()!=null) setShape(shape);
-			eventDelegate.fire(evt);
+		public synchronized void onMessage(String data) {	
+			try {
+				DataEvent evt = DataEvent.decode(data);
+				if (evt.getShape()!=null) setShapeInternal(true, evt.getShape());
+				eventDelegate.fire(evt);
+			} catch (Exception ne) {
+				logger.error("Cannot set shape of dataset!", ne);
+			}
 		}
 	}
 
