@@ -116,5 +116,5 @@ public class BasePlottingConstants {
 	/**
 	 * Used to enable/disable event tracking
 	 */
-	public static final String IS_TRACKER_ENABLED = "enable.event.tracking";
+	public static final String IS_TRACKER_ENABLED = "org.eclipse.dawnsci.enable.event.tracking";
 }
