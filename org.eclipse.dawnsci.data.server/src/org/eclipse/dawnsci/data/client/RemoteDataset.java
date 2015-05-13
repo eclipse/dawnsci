@@ -35,6 +35,20 @@ import org.slf4j.LoggerFactory;
  * RemoteDataset able to pass over HTTP with port 80 open for external data 
  * viewing too.
  * 
+ * 
+<usage><code>
+final IRemoteDataset data = new RemoteDataset("localhost", 8080);
+data.setPath(h5File.getAbsolutePath());
+data.setDataset("image"); // We just get the first image in the PNG file.
+data.connect();
+
+try {
+    // Use it the same way as ILazyDataset
+} finally {
+    data.disconnect();
+}
+</code></usage>
+ * 
  * @author Matthew Gerring
  *
  */
@@ -52,6 +66,23 @@ public class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	 */
 	private static final long serialVersionUID = -9031675045219778735L;
 
+	/**
+	 * 
+		<usage><code>
+		final IRemoteDataset data = new RemoteDataset("localhost", 8080);<br>
+		data.setPath(h5File.getAbsolutePath());<br>
+		data.setDataset("image"); // We just get the first image in the PNG file.<br>
+		data.connect();<br>
+		<br>
+		try {<br>
+		    // Use it the same way as ILazyDataset<br>
+		} finally {<br>
+		    data.disconnect();<br>
+		}<br>
+		</code></usage>
+	 * @param serverName
+	 * @param port
+	 */
 	public RemoteDataset(String serverName, int port) {
 		super("unknown", Dataset.INT, new int[]{1}, null);
 		this.urlBuilder = new URLBuilder(serverName, port);
