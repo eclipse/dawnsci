@@ -12,7 +12,7 @@ package org.eclipse.dawnsci.analysis.api.tree;
 public class TreeUtils {
 
 	/**
-	 * Get the path
+	 * Get the path which ends with {@value Node#SEPARATOR} if it refers to a group
 	 * @param tree
 	 * @param node
 	 * @return path to node, return null if not found
@@ -22,7 +22,11 @@ public class TreeUtils {
 		if (g == node) {
 			return tree.getNodeLink().getFullName();
 		}
-		return getPathDepthFirst(tree.getGroupNode(), node);
+		String p = getPathDepthFirst(tree.getGroupNode(), node);
+		if (node instanceof GroupNode && !p.endsWith(Node.SEPARATOR)) {
+			p = p + Node.SEPARATOR;
+		}
+		return p;
 	}
 
 	private static String getPathDepthFirst(final GroupNode group, final Node node) {
