@@ -126,7 +126,7 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 			EventTracker tracker = EventTrackerServiceLoader.getService();
 			try {
 				if (tracker != null)
-					tracker.track("Tool/" + getTitle());
+					tracker.trackToolEvent(getTitle());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
