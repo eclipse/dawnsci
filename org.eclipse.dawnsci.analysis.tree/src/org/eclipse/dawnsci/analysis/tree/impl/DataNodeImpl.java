@@ -23,6 +23,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	protected static final long serialVersionUID = 9089016783319981598L;
 
+	private boolean unsigned = false;
 	private boolean string = false;
 	private boolean supported = false;
 	private boolean augmented = false;
@@ -38,6 +39,16 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	 */
 	public DataNodeImpl(long oid) {
 		super(oid);
+	}
+
+	@Override
+	public boolean isUnsigned() {
+		return unsigned;
+	}
+
+	@Override
+	public void setUnsigned(boolean isUnsigned) {
+		unsigned = isUnsigned;
 	}
 
 	@Override

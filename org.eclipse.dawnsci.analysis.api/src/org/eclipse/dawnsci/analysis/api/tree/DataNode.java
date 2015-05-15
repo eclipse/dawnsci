@@ -21,6 +21,16 @@ import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 public interface DataNode extends Node {
 
 	/**
+	 * @return true if data is unsigned
+	 */
+	public boolean isUnsigned();
+
+	/**
+	 * @param isUnsigned
+	 */
+	public void setUnsigned(boolean isUnsigned);
+
+	/**
 	 * @return true if data is string data
 	 */
 	public boolean isString();
