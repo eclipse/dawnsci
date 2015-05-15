@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.data.server.test;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
@@ -20,12 +21,19 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.FileStoreEditorInput;
 
 public class TestUtils {
 
@@ -184,6 +192,29 @@ public class TestUtils {
 	}
 
 	
+	public static IEditorPart openExternalEditor(String filename) throws PartInitException {
+		return openExternalEditor(getExternalFileStoreEditorInput(filename), filename);
+	}
+		
+	/**
+	 * Opens an external editor on an IEditorInput containing the file having filePath
+	 * @param editorInput
+	 * @param filePath
+	 * @throws PartInitException
+	 */
+	public static IEditorPart openExternalEditor(IEditorInput editorInput, String filePath) throws PartInitException {
+		//TODO Maybe this method could be improved by omitting filepath which comes from editorInput, but "how?" should be defined here
+		final IWorkbenchPage page = getPage();
+		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(filePath);
+		if (desc == null) desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(filePath+".txt");
+		return page.openEditor(editorInput, desc.getId());
+	}
+	
+	public static IEditorInput getExternalFileStoreEditorInput(String filename) {
+		final IFileStore externalFile = EFS.getLocalFileSystem().fromLocalFile(new File(filename));
+		return new FileStoreEditorInput(externalFile);
+	}
+
 	public static void recursiveDelete(Path directory) throws IOException {
 		Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
 			@Override
