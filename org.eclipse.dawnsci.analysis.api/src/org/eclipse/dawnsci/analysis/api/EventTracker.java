@@ -28,4 +28,31 @@ public interface EventTracker {
 	 *            Name
 	 */
 	public void track(String id, String label) throws Exception;
+
+	/**
+	 * This method is used to track tool creation events given a tool name. It will track the event name with the prefix
+	 * "/Tool/"
+	 * 
+	 * @param name
+	 * @throws Exception
+	 */
+	public void trackToolEvent(String name) throws Exception;
+
+	/**
+	 * This method is used to track perspective launch events given a perspective name. It will track the event name
+	 * with the prefix "/perspective/".
+	 * 
+	 * @param name
+	 * @throws Exception
+	 */
+	public void trackPerspectiveEvent(String name) throws Exception;
+
+	/**
+	 * This method is used to track action events like a user click on a "run" button given the action's name. It will
+	 * track the event name with the prefix "/Action/".
+	 * 
+	 * @param name
+	 * @throws Exception
+	 */
+	public void trackActionEvent(String name) throws Exception;
 }
