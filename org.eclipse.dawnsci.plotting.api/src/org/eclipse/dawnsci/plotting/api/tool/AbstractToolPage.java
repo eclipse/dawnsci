@@ -21,11 +21,9 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.dawnsci.analysis.api.EventTracker;
 import org.eclipse.dawnsci.plotting.api.EventTrackerServiceLoader;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
-import org.eclipse.dawnsci.plotting.api.preferences.BasePlottingConstants;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineStackTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IPaletteTrace;
@@ -40,7 +38,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.part.Page;
-import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,18 +115,13 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 	 */
 	@Override
 	public void createControl(Composite parent) {
-		//TODO put the plugin id somewhere else and not here where it is hardcoded
-		ScopedPreferenceStore store = new ScopedPreferenceStore(InstanceScope.INSTANCE, "org.dawb.common.ui");
-		boolean isTrackingEnabled = store.getBoolean(BasePlottingConstants.IS_TRACKER_ENABLED);
-		if (isTrackingEnabled) {
-			// track Tool launch with tool name
-			EventTracker tracker = EventTrackerServiceLoader.getService();
-			try {
-				if (tracker != null)
-					tracker.trackToolEvent(getTitle());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		// track Tool launch with tool name
+		EventTracker tracker = EventTrackerServiceLoader.getService();
+		try {
+			if (tracker != null)
+				tracker.trackToolEvent(getTitle());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
