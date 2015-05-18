@@ -19,11 +19,11 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
 
 /**
- * 
+ *
  * This interface is ready for use from now onwards and is to be used for
  * 3D plotting operations. Use IImageTrace normally for images.
- * 
- * 
+ *
+ *
  * @author Matthew Gerring
  *
  */
@@ -33,16 +33,17 @@ public interface ISurfaceTrace extends IImage3DTrace, IWindowTrace {
 	 * Set the data of the plot, will replot if called on an active plot.
 	 * @param data
 	 * @param axes
+	 * @return true if data has been successfully set
 	 * @throws Exception
 	 */
-	public void setData(final IDataset data, final List<? extends IDataset> axes);
+	public boolean setData(final IDataset data, final List<IDataset> axes);
 
 	/**
-	 * 
+	 *
 	 * @return the region of the window, usually a SurfacePlotROI or a RectangularROI
 	 */
 	public IROI getWindow();
-	
+
 	/**
 	 * Set the window to be used as a SurfacePlotROI or RectangularROI
 	 * @param window

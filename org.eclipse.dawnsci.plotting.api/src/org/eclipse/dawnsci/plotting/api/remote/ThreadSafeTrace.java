@@ -43,23 +43,23 @@ import org.eclipse.swt.graphics.PaletteData;
  * If the user tries to call a method that does not reflect into python, they
  * will get a stack trace saying that the method does not exist.
  */
-class ThreadSafeTrace extends ThreadSafeObject implements ITrace, 
+class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
                                                           ILineTrace,
-                                                          IImageTrace, 
-                                                          IVectorTrace, 
-                                                          ISurfaceTrace, 
-                                                          IIsosurfaceTrace, 
-                                                          IMulti2DTrace, 
-                                                          ILineStackTrace, 
-                                                          IScatter3DTrace, 
-                                                          IImageStackTrace, 
+                                                          IImageTrace,
+                                                          IVectorTrace,
+                                                          ISurfaceTrace,
+                                                          IIsosurfaceTrace,
+                                                          IMulti2DTrace,
+                                                          ILineStackTrace,
+                                                          IScatter3DTrace,
+                                                          IImageStackTrace,
                                                           Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -2704054519627538121L;
-	
+
 	private ITrace trace;
 
 	public ThreadSafeTrace(ITrace delegate) {
@@ -108,7 +108,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	}
 
 	public void setUserObject(Object userObject) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), userObject);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), userObject);
 	}
 
 	public boolean is3DTrace() {
@@ -116,7 +116,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	}
 
 	public void dispose() {
-		call(getMethodName(Thread.currentThread().getStackTrace()));	
+		call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
 	public int getRank() {
@@ -126,42 +126,42 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	ITrace getDelegate() {
 		return trace;
 	}
-	
-	
+
+
 	//////////////////////////////////////////////////////////////////////////
 	// LineTrace stuff
 	//////////////////////////////////////////////////////////////////////////
-	
+
 	public int getErrorBarWidth() {
-		return (Integer)call(getMethodName(Thread.currentThread().getStackTrace()));	
+		return (Integer)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
 	public void setErrorBarWidth(int errorBarCapWidth) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), errorBarCapWidth);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), errorBarCapWidth);
 	}
 
 	public Color getTraceColor() {
-		return (Color)call(getMethodName(Thread.currentThread().getStackTrace()));	
+		return (Color)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
 	public void setTraceColor(Color traceColor) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), traceColor);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), traceColor);
 	}
 
 	public TraceType getTraceType() {
-		return (TraceType)call(getMethodName(Thread.currentThread().getStackTrace()));	
+		return (TraceType)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
 	public void setTraceType(TraceType traceType) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), traceType);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), traceType);
 	}
 
 	public PointStyle getPointStyle() {
-		return (PointStyle)call(getMethodName(Thread.currentThread().getStackTrace()));	
+		return (PointStyle)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
 	public void setPointStyle(PointStyle pointStyle) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), pointStyle);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), pointStyle);
 	}
 
 	public int getLineWidth() {
@@ -169,7 +169,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	}
 
 	public void setLineWidth(int lineWidth) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), lineWidth);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), lineWidth);
 	}
 
 	public int getPointSize() {
@@ -177,7 +177,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	}
 
 	public void setPointSize(int pointSize) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), pointSize);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), pointSize);
 	}
 
 	public int getAreaAlpha() {
@@ -185,7 +185,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	}
 
 	public void setAreaAlpha(int areaAlpha) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), areaAlpha);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), areaAlpha);
 	}
 
 	public boolean isAntiAliasing() {
@@ -193,7 +193,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	}
 
 	public void setAntiAliasing(boolean antiAliasing) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), antiAliasing);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), antiAliasing);
 	}
 
 	public boolean isErrorBarEnabled() {
@@ -201,7 +201,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	}
 
 	public void setErrorBarEnabled(boolean errorBarEnabled) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), errorBarEnabled);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), errorBarEnabled);
 	}
 
 	public ErrorBarType getYErrorBarType() {
@@ -209,7 +209,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	}
 
 	public void setYErrorBarType(ErrorBarType errorBarType) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), errorBarType);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), errorBarType);
 	}
 
 	public ErrorBarType getXErrorBarType() {
@@ -217,7 +217,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	}
 
 	public void setXErrorBarType(ErrorBarType errorBarType) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), errorBarType);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), errorBarType);
 	}
 
 	public Color getErrorBarColor() {
@@ -225,7 +225,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	}
 
 	public void setErrorBarColor(Color errorBarColor) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), errorBarColor);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), errorBarColor);
 	}
 
 	public IDataset getYData() {
@@ -237,11 +237,11 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	}
 
 	public void setData(IDataset xData, IDataset yData) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), xData, yData);	
+		call(getMethodName(Thread.currentThread().getStackTrace()), xData, yData);
 	}
 
 	public void repaint() {
-		call(getMethodName(Thread.currentThread().getStackTrace()));	
+		call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
 	public IAxis getXAxis() {
@@ -252,7 +252,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 		return new ThreadSafeAxis(((ILineTrace)trace).getYAxis());
 	}
 
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// IVectorTrace stuff
 	//////////////////////////////////////////////////////////////////////////
@@ -314,7 +314,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 
 	@Override
 	public List<IDataset> getAxes() {
-		return (List<IDataset>)call(getMethodName(Thread.currentThread().getStackTrace()));
+		return (List<IDataset>) call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
 	@Override
@@ -331,7 +331,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	public ArrowHistogram getArrowHistogram() {
 		return (ArrowHistogram)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// ISurfaceTrace stuff
 	//////////////////////////////////////////////////////////////////////////
@@ -366,7 +366,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	public void setPaletteName(String paletteName) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), paletteName);
 	}
-	
+
 	@Override
 	public void setPalette(String paletteName) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), paletteName);
@@ -420,7 +420,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public void setMinCut(HistogramBound bound) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), bound);
-		
+
 	}
 
 	@Override
@@ -467,11 +467,11 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	// IIsosurfaceTrace stuff
 	//////////////////////////////////////////////////////////////////////////
 
-	@Override
-	public void setData(IDataset data, List<? extends IDataset> axes) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), axes);
-		
-	}
+//	@Override
+//	public void setData(IDataset data, List<? extends IDataset> axes) {
+//		call(getMethodName(Thread.currentThread().getStackTrace()), axes);
+//
+//	}
 
 	@Override
 	public IROI getWindow() {
@@ -487,7 +487,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	public void setData(IDataset points, IDataset textCoords, IDataset faces,
 			List<? extends IDataset> axes) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), points, textCoords, faces, axes);
-		
+
 	}
 
 	@Override
@@ -498,7 +498,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public void setCullFace(CullFace culling) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), culling);
-		
+
 	}
 
 	@Override
@@ -522,7 +522,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public void setData(List<? extends IDataset> axes, IDataset... s) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), axes, s);
-		
+
 	}
 
 	@Override
@@ -541,7 +541,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public void setWindow(IROI window) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), window);
-		
+
 	}
 
 	@Override
@@ -572,7 +572,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public void setAxes(List<? extends IDataset> axes, boolean performAutoScale) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), axes, performAutoScale);
-		
+
 	}
 
 	@Override
@@ -603,7 +603,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public void setImageUpdateActive(boolean b) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), b);
-		
+
 	}
 
 	@Override
@@ -634,7 +634,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public void sleep() {
 		call(getMethodName(Thread.currentThread().getStackTrace()));
-		
+
 	}
 
 	@Override
@@ -645,7 +645,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public void addDownsampleListener(IDownSampleListener l) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), l);
-		
+
 	}
 
 	@Override
@@ -672,7 +672,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public void setStack(ILazyDataset stack) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), stack);
-		
+
 	}
 
 	@Override
