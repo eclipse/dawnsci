@@ -17,7 +17,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -25,8 +29,6 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Methods for slicing data using visit patterns.
@@ -110,6 +112,7 @@ public class Slicer {
 		SliceViewIterator generator = new SliceViewIterator(lz, sampling, axes);
 		
 		while (generator.hasNext()) {
+
 			IDataset data = generator.getCurrentView().getSlice();
 			
 			if (visitor!=null) {
@@ -164,9 +167,13 @@ public class Slicer {
 	 */
 	public static void visitAllParallel(ILazyDataset lz, Map<Integer, String> sliceDimensions, String nameFragment, final SliceVisitor visitor, long timeout) throws Exception {
 
-		// Just farm out each slice to a different runnable.
-		final ForkJoinPool pool = new ForkJoinPool();
-		
+		//Can't just farm out each slice to a separate thread, need to block when thread pool full,
+		//other wise there is the potential run out of memory from loading all the data before any is processed
+		BlockingQueue<Runnable> blockingQueue = new ArrayBlockingQueue<Runnable>(Runtime.getRuntime().availableProcessors());
+	    RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.CallerRunsPolicy();
+	    final ExecutorService pool =  new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors(), 
+	        0L, TimeUnit.MILLISECONDS, blockingQueue, rejectedExecutionHandler);
+
 		final SliceVisitor parallel = new SliceVisitor() {
 
 			@Override
