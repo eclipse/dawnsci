@@ -26,4 +26,6 @@ public interface IProcessingConversionInfo {
 	
 	int getPoolSize();
 	
+	boolean isTryParallel();
+	
 }
