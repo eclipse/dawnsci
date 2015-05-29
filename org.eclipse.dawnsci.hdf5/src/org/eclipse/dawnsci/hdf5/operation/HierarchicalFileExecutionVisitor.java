@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
@@ -81,9 +82,9 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	private final String AUX_GROUP = "auxiliary";
 	private final String ENTRY = "entry";
 
-	private Map<IOperation, Boolean> firstNotifyMap;
+	private Map<IOperation, AtomicBoolean> firstNotifyMap;
 	private Map<IOperation, Integer> positionMap;
-	private boolean firstNonNullExecution = true;
+	private AtomicBoolean firstNonNullExecution = new AtomicBoolean(true);
 
 	private String results;
 	private String intermediate;
@@ -98,7 +99,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 
 	public HierarchicalFileExecutionVisitor(String filePath) {
 		this.filePath = filePath;
-		firstNotifyMap = new ConcurrentHashMap<IOperation, Boolean>();
+		firstNotifyMap = new ConcurrentHashMap<IOperation, AtomicBoolean>();
 		positionMap = new ConcurrentHashMap<IOperation, Integer>();
 	}
 
@@ -106,7 +107,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	public void init(IOperation<? extends IOperationModel, ? extends OperationData>[] series, ILazyDataset data) throws Exception {
 
 		for (int i = 0; i < series.length; i++) {
-			firstNotifyMap.put(series[i], true);
+			firstNotifyMap.put(series[i], new AtomicBoolean(true));
 			positionMap.put(series[i], i);
 		}
 
@@ -164,18 +165,21 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	@Override
 	public void executed(OperationData result, IMonitor monitor) throws Exception {
 		if (result == null) return;
+		//not threadsafe but closer
+		boolean fNNE = firstNonNullExecution.getAndSet(false);
 		if (results ==  null) initGroups();
+		
 		//Write data to file
 		final IDataset integrated = result.getData();
 		SliceFromSeriesMetadata metadata = integrated.getMetadata(SliceFromSeriesMetadata.class).get(0);
 		int[] dataDims = metadata.getDataDimensions();
 		int[] shape = metadata.getSubSampledShape();
 		Slice[] slices = metadata.getSliceInOutput();
-		updateAxes(integrated, slices, shape, dataDims, results,firstNonNullExecution);
+		updateAxes(integrated, slices, shape, dataDims, results,fNNE);
 		integrated.setName("data");
 		appendData(integrated,results, slices,shape, file);
-		if (firstNonNullExecution)file.setAttribute(results +"/" +integrated.getName(), "signal", String.valueOf(1));
-		firstNonNullExecution = false;
+		if (fNNE)file.setAttribute(results +"/" +integrated.getName(), "signal", String.valueOf(1));
+		
 
 	}
 
@@ -185,8 +189,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 
 		if (!intermeadiateData.isStoreOutput() && (data.getAuxData() == null || data.getAuxData()[0] == null)) return;
 
-		boolean first = firstNotifyMap.get(intermeadiateData);
-		if (first) firstNotifyMap.put(intermeadiateData, false);
+		boolean first = firstNotifyMap.get(intermeadiateData).getAndSet(false);
 
 		String position = String.valueOf(positionMap.get(intermeadiateData));
 
