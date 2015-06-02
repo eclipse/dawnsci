@@ -89,8 +89,10 @@ public class SummedAreaTable {
 	 */
 	public double getBoxSum(IRectangularROI box) throws Exception {
 
-		if (sum == null) createSummedTable();   
-		
+		if (sum.getRank()!=2) throw new Exception("You may only get sum of 2D data!");
+		if (box.getIntLength(0) % 2 == 0) throw new Exception("Box first dim is not odd!");
+		if (box.getIntLength(1) % 2 == 0) throw new Exception("Box second dim is not odd!");
+
 		return getBoxSum(box.getIntPoint()[0], 
 	               box.getIntPoint()[1], 
 	               box.getIntPoint()[0]+box.getIntLength(0), 
@@ -136,9 +138,8 @@ public class SummedAreaTable {
 	 * 
 	 * @param coords Coordinates of box: x1,y1,x2,y2
 	 * @return the sum of a region
-	 * @throws Exception
 	 */
-	private double getBoxSum(int... coords) throws Exception {
+	private double getBoxSum(int... coords) {
 
 		int minx = coords[0];
 		int miny = coords[1];
