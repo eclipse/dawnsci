@@ -27,4 +27,17 @@ public interface IRectangularROI extends IOrientableROI {
 	 * @return end
 	 */
 	public double[] getEndPoint();
+	
+	/**
+	 * 
+	 * @return lengths in integers
+	 */
+	public int[] getIntLengths();
+	
+	/**
+	 * 
+	 * @param index
+	 * @return length
+	 */
+	public int getIntLength(int index);
 }

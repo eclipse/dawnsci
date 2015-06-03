@@ -36,7 +36,7 @@ public interface IConversionContext {
 		AVI_FROM_3D(" video from image stack", true, 2,3,4,5),
 		STITCHED_FROM_IMAGEDIR(" stitched image from directory of images", true, false, 1, 2),
 		ALIGNED_FROM_3D(" align stack of images", true, false, 2, 3, 4, 5),
-		H5_FROM_IMAGEDIR(" nexus stack from directory of images", true, false, 2),
+		H5_FROM_IMAGEDIR(" nexus stack from directory of images", true, false, false, 2),
 		H5_FROM_1D(" nexus from 1D data",   true, false,  1),
 		CUSTOM_NCD(" ascii from NCD data",     true, 1,2,3,4,5,6),
 		CUSTOM_TOMO(" tiff from tomography nexus file(s) [nxtomo]",    true, 3),
@@ -47,17 +47,22 @@ public interface IConversionContext {
 		private final int[]   preferredRanks;
 		private final boolean userVisible;
 		private final boolean nexusOnly;
+		private boolean nexusSourceAllowed;
 
 		ConversionScheme(String uiLabel, boolean userVisible, int... preferredRanks) {
 			this(uiLabel, userVisible, true, preferredRanks);
 		}
 		ConversionScheme(String uiLabel, boolean userVisible, boolean nexusOnly, int... preferredRanks) {
+			this(uiLabel, userVisible, nexusOnly, true, preferredRanks);
+		}
+		ConversionScheme(String uiLabel, boolean userVisible, boolean nexusOnly, boolean nexusSourceAllowed, int... preferredRanks) {
 			this.uiLabel        = uiLabel;
 			this.userVisible    = userVisible;
 			this.nexusOnly      = nexusOnly;
+			this.nexusSourceAllowed     = nexusSourceAllowed;
 			this.preferredRanks = preferredRanks;
 		}
-
+		
 		public String getUiLabel() {
 			return uiLabel;
 		}
@@ -108,6 +113,9 @@ public interface IConversionContext {
 		}
 		public boolean isNexusOnly() {
 			return nexusOnly;
+		}
+		public boolean isNexusSourceAllowed() {
+			return nexusSourceAllowed;
 		}
 		
 		public String getDescription() {

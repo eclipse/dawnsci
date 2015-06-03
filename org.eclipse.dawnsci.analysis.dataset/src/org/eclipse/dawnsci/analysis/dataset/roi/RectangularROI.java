@@ -214,6 +214,10 @@ public class RectangularROI extends OrientableROIBase implements IRectangularROI
 	public double getLength(int index) {
 		return len[index];
 	}
+	@Override
+	public int getIntLength(int index) {
+		return (int)len[index];
+	}
 
 	/**
 	 * @return reference to the lengths
