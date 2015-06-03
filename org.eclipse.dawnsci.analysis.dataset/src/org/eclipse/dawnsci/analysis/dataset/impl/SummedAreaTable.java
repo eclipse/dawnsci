@@ -90,17 +90,35 @@ public class SummedAreaTable implements IDataset {
 		if (box.getIntLength(0) % 2 == 0) throw new Exception("Box first dim is not odd!");
 		if (box.getIntLength(1) % 2 == 0) throw new Exception("Box second dim is not odd!");
 
-		return getBoxSum(createCoords(box));
+		return getBoxSum(sum, createCoords(box));
 
 	}
 	
-	private int[] createCoords(IRectangularROI box) {
-		return new int[]{box.getIntPoint()[0], 
-				         box.getIntPoint()[1], 
-				         box.getIntPoint()[0]+box.getIntLength(0), 
-				         box.getIntPoint()[1]+box.getIntLength(1)};
+	/**
+	 * 
+	 * @param box
+	 * @return mean from the summed area table
+	 */
+	public double getBoxMean(IRectangularROI box) {
+		int[] coords = createCoords(box);
+		int[] bx     = getBox(coords);
+        return getBoxSum(sum, coords) / (bx[0]*bx[1]);
 	}
-	
+	/**
+	 * Get the variance for a given box.
+	 * 
+	 *  (1/n)(S2 - S1^2/n)
+     * 
+     * Where:
+     * S1 is sum of box ( D+A-B-C of sum )
+     * S2 is sum^2 of box ( D+A-B-C of sum )
+     * n  is number of pixels box covers
+     * 
+	 * @param box
+	 * @return variance
+	 * @throws Exception
+	 */
+
 	/**
 	 * Get the variance for a given box.
 	 * 
@@ -121,9 +139,22 @@ public class SummedAreaTable implements IDataset {
 		if (box.getIntLength(0) % 2 == 0) throw new Exception("Box first dim is not odd!");
 		if (box.getIntLength(1) % 2 == 0) throw new Exception("Box second dim is not odd!");
 
-		return getBoxVariance(createCoords(box));
+		int[] coords = createCoords(box);
+		return getBoxVariance(getBox(coords), coords);
 
 	}
+
+	private int[] getBox(int... coords) {
+		int minx = coords[0];
+		int miny = coords[1];
+		int maxx = coords[2];
+		int maxy = coords[3];
+		
+		int w = maxx-minx+1;
+		int h = maxy-miny+1;
+		return new int[]{w,h};
+	}
+
 
 	/**
 	 * 
@@ -133,32 +164,19 @@ public class SummedAreaTable implements IDataset {
 	 * @throws Exception
 	 */
 	public double getBoxSum(int[] point, int... box) throws Exception {
-
-		if (sum.getRank()!=2) throw new Exception("You may only get sum of 2D data!");
-		if (box[0] % 2 == 0) throw new Exception("Box first dim is not odd!");
-		if (box[1] % 2 == 0) throw new Exception("Box second dim is not odd!");
-	
-		int x = point[0];
-		int y = point[1];
-		int w = box[0];
-		int h = box[1];
-		
-		int r1 = (int)Math.floor(w/2d); // for instance 3->1, 5->2, 7->3 
-		int r2 = (int)Math.floor(h/2d); // for instance 3->1, 5->2, 7->3 
-		
-		int minx = x-r1;
-		if (minx<0) minx=0;		
-		int maxx = x+r1;
-		if (maxx>=sum.getShape()[0]) maxx = sum.getShape()[0]-1;
-		
-		int miny = y-r2;
-		if (miny<0) miny=0;		
-		int maxy = y+r2;
-		if (maxy>=sum.getShape()[1]) maxy = sum.getShape()[1]-1;
-	
-	    return getBoxSum(sum, minx, miny, maxx, maxy);
+	    return getBoxSum(sum, createCoords(point, box));
 	}
-
+	
+	/**
+	 * 
+	 * @param box
+	 * @return mean from the summed area table
+	 * @throws Exception
+	 */
+	public double getBoxMean(int[] point, int... box) throws Exception {
+		int[] coords = createCoords(point, box);
+        return getBoxSum(sum, coords) / (box[0]*box[1]);
+	}
 	/**
 	 * 
 	 * @param coords Coordinates of box: x1,y1,x2,y2
@@ -179,6 +197,8 @@ public class SummedAreaTable implements IDataset {
 		return (D+A-B-C);
 	}
 	
+	
+	
    /**
 	 * Get the variance for a given box.
 	 * 
@@ -191,29 +211,21 @@ public class SummedAreaTable implements IDataset {
      * @throws Exception 
      * 
     **/
-	private double getBoxVariance(int... coords) throws Exception {
-		
+	public double getBoxVariance(int[] point, int... box) throws Exception {
+
+		int [] coords = createCoords(point, box);
 		double s1 = getBoxSum(sum, coords);
 		
 		if (sum2==null) {
 			final IDataset image2 = Maths.power(image, 2d);
-			sum2 = createSummedTable(image2);
+			this.sum2 = createSummedTable(image2);
 		}
 		double s2 = getBoxSum(sum2, coords);
 		
-		int minx = coords[0];
-		int miny = coords[1];
-		int maxx = coords[2];
-		int maxy = coords[3];
+		double n  = box[0]*box[1];
 		
-		double w = maxx-minx+1;
-		double h = maxy-miny+1;
-
-		double n  = w*h;
-		
-		return (1/n)*(s2- Math.pow(s1, 2d)/n);
+		return (1/n)*(s2 - (Math.pow(s1, 2d)/n));
 	}
-
 
 	@Override
 	public int[] getShape() {
@@ -434,4 +446,39 @@ public class SummedAreaTable implements IDataset {
 		return sum.getError();
 	}
 	
+	
+	
+	private int[] createCoords(IRectangularROI box) {
+		return new int[]{box.getIntPoint()[0], 
+				         box.getIntPoint()[1], 
+				         box.getIntPoint()[0]+box.getIntLength(0), 
+				         box.getIntPoint()[1]+box.getIntLength(1)};
+	}
+
+	private int[] createCoords(int[] point, int[] box) throws Exception  {
+		
+		if (sum.getRank()!=2) throw new Exception("You may only get sum of 2D data!");
+		if (box[0] % 2 == 0) throw new Exception("Box first dim is not odd!");
+		if (box[1] % 2 == 0) throw new Exception("Box second dim is not odd!");
+		int x = point[0];
+		int y = point[1];
+		int w = box[0];
+		int h = box[1];
+		
+		int r1 = (int)Math.floor(w/2d); // for instance 3->1, 5->2, 7->3 
+		int r2 = (int)Math.floor(h/2d); // for instance 3->1, 5->2, 7->3 
+		
+		int minx = x-r1;
+		if (minx<0) minx=0;		
+		int maxx = x+r1;
+		if (maxx>=sum.getShape()[0]) maxx = sum.getShape()[0]-1;
+		
+		int miny = y-r2;
+		if (miny<0) miny=0;		
+		int maxy = y+r2;
+		if (maxy>=sum.getShape()[1]) maxy = sum.getShape()[1]-1;
+		
+		return new int[]{minx, miny, maxx, maxy};
+	}
+
 }
