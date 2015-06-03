@@ -9,7 +9,17 @@
 
 package org.eclipse.dawnsci.analysis.dataset.impl;
 
+import java.io.Serializable;
+import java.text.Format;
+import java.util.List;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.Slice;
+import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
+import org.eclipse.dawnsci.analysis.api.metadata.MetadataType;
+import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
 
 /**
@@ -25,10 +35,10 @@ import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
  *
  * @author Matthew Gerring
  */
-public class SummedAreaTable {
+public class SummedAreaTable implements IDataset {
 	
 	private IDataset image;
-	private IDataset sum;
+	private IDataset sum, sum2;
 
 	/**
 	 * Constructs the summed table.
@@ -37,15 +47,15 @@ public class SummedAreaTable {
 	 */
 	public SummedAreaTable(IDataset image) throws Exception {
 		this.image = image;
-		createSummedTable();
+		this.sum = createSummedTable(image);
 	}
 	
-	private void createSummedTable() throws Exception {
+	private static final IDataset createSummedTable(IDataset image) throws Exception {
 		
 		if (image.getRank()!=2) throw new Exception("You may only compute the summed image table of 2D data!");
 	    
 	    //Create integral
-	    sum = new DoubleDataset(image.getShape());
+		DoubleDataset sum = new DoubleDataset(image.getShape());
 	    
 	    // Create a position iterator
 	    final PositionIterator it = new PositionIterator(image.getShape());
@@ -64,20 +74,7 @@ public class SummedAreaTable {
 	        double val = image.getDouble(x,y) + sxm + sym - sxym;
 	        sum.set(val, pos);
 	    }
-
-	}
-
-	/**
-	 * Calculate a summed area table  I(x,y) = i(x,y) + I(x-1,y) + I(x,y-1) - I(x-1,y-1)
-	 * @see "http://en.wikipedia.org/wiki/Summed_area_table"
-	 * 
-	 * @return  I(x,y) = i(x,y) + I(x-1,y) + I(x,y-1) - I(x-1,y-1)
-	 * @throws Exception
-	 */
-	public IDataset getSummedTable() throws Exception {
-		if (sum == null) createSummedTable();    
-	    //Return the sum
-	    return sum;
+        return sum;
 	}
 	
 	/**
@@ -93,13 +90,41 @@ public class SummedAreaTable {
 		if (box.getIntLength(0) % 2 == 0) throw new Exception("Box first dim is not odd!");
 		if (box.getIntLength(1) % 2 == 0) throw new Exception("Box second dim is not odd!");
 
-		return getBoxSum(box.getIntPoint()[0], 
-	               box.getIntPoint()[1], 
-	               box.getIntPoint()[0]+box.getIntLength(0), 
-	               box.getIntPoint()[1]+box.getIntLength(1));
+		return getBoxSum(createCoords(box));
 
 	}
 	
+	private int[] createCoords(IRectangularROI box) {
+		return new int[]{box.getIntPoint()[0], 
+				         box.getIntPoint()[1], 
+				         box.getIntPoint()[0]+box.getIntLength(0), 
+				         box.getIntPoint()[1]+box.getIntLength(1)};
+	}
+	
+	/**
+	 * Get the variance for a given box.
+	 * 
+	 *  (1/n)(S2 - S1^2/n)
+     * 
+     * Where:
+     * S1 is sum of box ( D+A-B-C of sum )
+     * S2 is sum^2 of box ( D+A-B-C of sum )
+     * n  is number of pixels box covers
+     * 
+	 * @param box
+	 * @return variance
+	 * @throws Exception
+	 */
+	public double getBoxVariance(IRectangularROI box) throws Exception {
+
+		if (sum.getRank()!=2) throw new Exception("You may only get sum of 2D data!");
+		if (box.getIntLength(0) % 2 == 0) throw new Exception("Box first dim is not odd!");
+		if (box.getIntLength(1) % 2 == 0) throw new Exception("Box second dim is not odd!");
+
+		return getBoxVariance(createCoords(box));
+
+	}
+
 	/**
 	 * 
 	 * @param point
@@ -131,7 +156,7 @@ public class SummedAreaTable {
 		int maxy = y+r2;
 		if (maxy>=sum.getShape()[1]) maxy = sum.getShape()[1]-1;
 	
-	    return getBoxSum(minx, miny, maxx, maxy);
+	    return getBoxSum(sum, minx, miny, maxx, maxy);
 	}
 
 	/**
@@ -139,7 +164,7 @@ public class SummedAreaTable {
 	 * @param coords Coordinates of box: x1,y1,x2,y2
 	 * @return the sum of a region
 	 */
-	private double getBoxSum(int... coords) {
+	private static double getBoxSum(IDataset sum, int... coords) {
 
 		int minx = coords[0];
 		int miny = coords[1];
@@ -153,12 +178,260 @@ public class SummedAreaTable {
 		
 		return (D+A-B-C);
 	}
+	
+   /**
+	 * Get the variance for a given box.
+	 * 
+	 *  (1/n)(S2 - S1^2/n)
+     * 
+     * Where:
+     * S1 is sum of box ( D+A-B-C of sum )
+     * S2 is sum^2 of box ( D+A-B-C of sum2 )
+     * n  is number of pixels box covers
+     * @throws Exception 
+     * 
+    **/
+	private double getBoxVariance(int... coords) throws Exception {
+		
+		double s1 = getBoxSum(sum, coords);
+		
+		if (sum2==null) {
+			final IDataset image2 = Maths.power(image, 2d);
+			sum2 = createSummedTable(image2);
+		}
+		double s2 = getBoxSum(sum2, coords);
+		
+		int minx = coords[0];
+		int miny = coords[1];
+		int maxx = coords[2];
+		int maxy = coords[3];
+		
+		double w = maxx-minx+1;
+		double h = maxy-miny+1;
 
+		double n  = w*h;
+		
+		return (1/n)*(s2- Math.pow(s1, 2d)/n);
+	}
+
+
+	@Override
 	public int[] getShape() {
 		return sum.getShape();
 	}
 
-	public double getDouble(int x, int y) {
-		return sum.getDouble(x,y);
+	@Override
+	public String getName() {
+		return sum.getName();
 	}
+
+	@Override
+	public void setName(String name) {
+		sum.setName(name);
+	}
+
+	@Override
+	public void setStringFormat(Format format) {
+		sum.setStringFormat(format);
+	}
+
+	@Override
+	public int getItemsize() {
+		return sum.getItemsize();
+	}
+
+	@Override
+	public <T extends MetadataType> List<T> getMetadata(Class<T> clazz) throws Exception {
+		return sum.getMetadata(clazz);
+	}
+
+	@Override
+	public Object getObject(int... pos) {
+		return sum.getObject(pos);
+	}
+
+	@Override
+	public String getString(int... pos) {
+		return sum.getString(pos);
+	}
+
+	@Override
+	public Class<?> elementClass() {
+		return sum.elementClass();
+	}
+
+	@Override
+	public int getElementsPerItem() {
+		return sum.getElementsPerItem();
+	}
+
+	@Override
+	public double getDouble(int... pos) {
+		return sum.getDouble(pos);
+	}
+
+	@Override
+	public int getSize() {
+		return sum.getSize();
+	}
+
+	@Override
+	public long getLong(int... pos) {
+		return sum.getLong(pos);
+	}
+
+	@Override
+	public float getFloat(int... pos) {
+		return sum.getFloat(pos);
+	}
+
+	@Override
+	public int getInt(int... pos) {
+		return sum.getInt(pos);
+	}
+
+	@Override
+	public void setShape(int... shape) {
+		sum.setShape(shape);
+	}
+
+	@Override
+	public short getShort(int... pos) {
+		return sum.getShort(pos);
+	}
+
+	@Override
+	public byte getByte(int... pos) {
+		return sum.getByte(pos);
+	}
+
+	@Override
+	public int getRank() {
+		return sum.getRank();
+	}
+
+	@Override
+	public boolean getBoolean(int... pos) {
+		return sum.getBoolean(pos);
+	}
+
+	@Override
+	public void set(Object obj, int... pos) {
+		sum.set(obj, pos);
+	}
+
+	@Override
+	public IDataset getSlice(int[] start, int[] stop, int[] step) {
+		return sum.getSlice(start, stop, step);
+	}
+
+	@Override
+	public void resize(int... newShape) {
+		sum.resize(newShape);
+	}
+
+	@Override
+	public IDataset squeezeEnds() {
+		return sum.squeezeEnds();
+	}
+
+	@Override
+	public IDataset squeeze() {
+		return sum.squeeze();
+	}
+
+	@Override
+	public IDataset squeeze(boolean onlyFromEnds) {
+		return sum.squeeze(onlyFromEnds);
+	}
+
+	@Override
+	public Object mean(boolean... switches) {
+		return sum.mean(switches);
+	}
+
+	@Override
+	public IDataset getSlice(IMonitor monitor, int[] start, int[] stop, int[] step) throws Exception {
+		return sum.getSlice(monitor, start, stop, step);
+	}
+
+	@Override
+	public Number min(boolean... switches) {
+		return sum.min(switches);
+	}
+
+	@Override
+	public IDataset getSlice(Slice... slice) {
+		return sum.getSlice(slice);
+	}
+
+	
+	@Override public Number max(boolean... switches) {
+		return sum.max(switches);
+	}
+
+	@Override public IDataset getSlice(SliceND slice) {
+		return sum.getSlice(slice);
+	}
+
+	@Override public IDataset getSlice(IMonitor monitor, Slice... slice) throws Exception {
+		return sum.getSlice(monitor, slice);
+	}
+
+	@Override public int[] minPos() {
+		return sum.minPos();
+	}
+
+	@Override public int[] maxPos() {
+		return sum.maxPos();
+	}
+
+	@Override public IDataset clone() {
+		return sum.clone();
+	}
+
+	@Override public IDataset getSlice(IMonitor monitor, SliceND slice) throws Exception {
+		return sum.getSlice(monitor, slice);
+	}
+
+	@Override public IMetadata getMetadata() {
+		return sum.getMetadata();
+	}
+
+	@Override public IDataset getSliceView(int[] start, int[] stop, int[] step) {
+		return sum.getSliceView(start, stop, step);
+	}
+
+	@Override public IDataset getSliceView(Slice... slice) {
+		return sum.getSliceView(slice);
+	}
+
+	@Override public IDataset getSliceView(SliceND slice) {
+		return sum.getSliceView(slice);
+	}
+
+	@Override public ILazyDataset getTransposedView(int... axes) {
+		return sum.getTransposedView(axes);
+	}
+
+	@Override public <T extends MetadataType> void addMetadata(T metadata) {
+		sum.addMetadata(metadata);
+	}
+
+	@Override public <T extends MetadataType> void setMetadata(T metadata) {
+		sum.setMetadata(metadata);
+	}
+
+	@Override public <T extends MetadataType> void clearMetadata(Class<T> clazz) {
+		sum.clearMetadata(clazz);
+	}
+
+	@Override public void setError(Serializable errors) {
+		sum.setError(errors);
+	}
+
+	@Override public ILazyDataset getError() {
+		return sum.getError();
+	}
+	
 }
