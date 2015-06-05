@@ -63,12 +63,11 @@ public interface IImageStitchingProcess {
 	 *            in microns
 	 * @param translations
 	 *            X/Y expected translations in microns (mainly used if no feature association)
-	 * @param stitchingOptions boolean array<br>
-	 *            is True then feature association will be used to find the translation coordinates<br>
-	 *            is True then the source of the image input is a dat file
+	 * @param hasFeatureAssociation
+	 *            if True then feature association will be used to find the translation coordinates<br>
 	 * @return output stitched image
 	 */
 	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView, List<double[]> translations, 
-			boolean ...stitchingOptions);
+			boolean hasFeatureAssociation);
 
 }
