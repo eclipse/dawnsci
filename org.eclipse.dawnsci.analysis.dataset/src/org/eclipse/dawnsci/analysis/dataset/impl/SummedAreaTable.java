@@ -37,46 +37,114 @@ import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
  */
 public class SummedAreaTable implements IDataset {
 	
+	private int[] shape; // We cache shape for speed reasons (it is cloned in the dataset on getShape())
 	private IDataset image;
 	private IDataset sum, sum2;
 
 	/**
-	 * Constructs the summed table.
+	 * Calls SummedAreaTable(Image, false)
 	 * @param image
 	 * @throws Exception
 	 */
 	public SummedAreaTable(IDataset image) throws Exception {
+		this(image, false);
+	}
+
+	/**
+	 * Constructs the summed table.
+	 * @param image
+	 * @param willRequireVariance set to true if you know that you need fano or variance
+	 * @throws Exception
+	 */
+	public SummedAreaTable(IDataset image, boolean willRequireVariance) throws Exception {
 		this.image = image;
-		this.sum = createSummedTable(image);
+		this.shape = image.getShape();
+		createSummedTable(image, willRequireVariance);
 	}
 	
-	private static final IDataset createSummedTable(IDataset image) throws Exception {
+	/**
+	 * We mess about here with creating the sums in one pass for speed reasons.
+	 * The test SummedAreaTableTest should check if logic remains correct.
+	 * @param image
+	 * @param requireSum2
+	 * @throws Exception
+	 */
+	private void createSummedTable(IDataset image, boolean requireSum2) throws Exception {
 		
 		if (image.getRank()!=2) throw new Exception("You may only compute the summed image table of 2D data!");
 	    
+		if (sum!=null && sum2!=null)   return;
+		if (sum!=null && !requireSum2) return;
+		
 	    //Create integral
-		DoubleDataset sum = new DoubleDataset(image.getShape());
+		boolean requireSum = false;
+		if (sum == null) {
+			sum  = new DoubleDataset(image.getShape());
+			requireSum = true;
+		}
+		
+		IDataset image2 = null;
+		if (requireSum2 && sum2==null) {
+			image2 = Maths.power(image, 2d);
+			sum2 = new DoubleDataset(image.getShape());
+		}
 	    
 	    // Create a position iterator
 	    final PositionIterator it = new PositionIterator(image.getShape());
 	    while(it.hasNext()) {
-	    	
 	    	final int[] pos = it.getPos();
-	    	int x = pos[0];
-	    	int y = pos[1];
-	    	
-	        // I(x,y) = i(x,y) + I(x-1,y) + I(x,y-1) - I(x-1,y-1)
-	        //Calculate coefficients
-	        double sxm  = (x > 0)          ? sum.getDouble(x-1,y)   : 0;
-	        double sym  = (y > 0)          ? sum.getDouble(x,y-1)   : 0;
-	        double sxym = (x > 0 && y > 0) ? sum.getDouble(x-1,y-1) : 0;
-	        
-	        double val = image.getDouble(x,y) + sxm + sym - sxym;
-	        sum.set(val, pos);
+	        if (requireSum)  fill(image,  sum,  pos);
+	        if (requireSum2) fill(image2, sum2, pos);
 	    }
-        return sum;
 	}
+
+	private static final void fill(IDataset image, IDataset sum, int[] pos) {
+    	
+		int x = pos[0];
+    	int y = pos[1];
+    	
+        // I(x,y) = i(x,y) + I(x-1,y) + I(x,y-1) - I(x-1,y-1)
+        //Calculate coefficients
+        double sxm  = (x > 0)          ? sum.getDouble(x-1,y)   : 0;
+        double sym  = (y > 0)          ? sum.getDouble(x,y-1)   : 0;
+        double sxym = (x > 0 && y > 0) ? sum.getDouble(x-1,y-1) : 0;
+        
+        double val = image.getDouble(pos) + sxm + sym - sxym;
+        sum.set(val, pos);
+	}
+
 	
+	/**
+	 * Creates a fano image where each pixel is the fano factor
+	 * for a give box surrounding it.
+	 * 
+	 * This operation has improved speed because it uses the summed area table
+	 * to compute a fast mean and variance for a given box.
+	 * 
+	 * @param box
+	 * @return fano factor image using box passed in.
+	 * @throws Exception
+	 */
+	public IDataset getFanoImage(int... box) throws Exception {
+		
+		IDataset fano = DatasetFactory.zeros((Dataset)image);
+		final PositionIterator it = new PositionIterator(shape);
+		
+		int n = box[0]*box[1];
+
+		while(it.hasNext()) {
+			
+			int[] point   = it.getPos();
+			int [] coords = createCoords(point, box);
+			
+			// These save some floating points
+			double vari = getBoxVarianceInternal(coords, n);
+			double mean = getBoxMeanInternal(coords, n);
+			fano.set(vari/mean, point);
+		}
+		return fano;
+	}
+
 	/**
 	 * Give a point point, this will return the sum of a box around it.
 	 * The box should really be an odd number such that the point is in the center
@@ -175,8 +243,12 @@ public class SummedAreaTable implements IDataset {
 	 */
 	public double getBoxMean(int[] point, int... box) throws Exception {
 		int[] coords = createCoords(point, box);
-        return getBoxSum(sum, coords) / (box[0]*box[1]);
+        return getBoxMeanInternal(coords, box[0]*box[1]);
 	}
+	private double getBoxMeanInternal(int[] coords, int n) throws Exception {
+       return getBoxSum(sum, coords) / n;
+	}
+
 	/**
 	 * 
 	 * @param coords Coordinates of box: x1,y1,x2,y2
@@ -212,17 +284,18 @@ public class SummedAreaTable implements IDataset {
      * 
     **/
 	public double getBoxVariance(int[] point, int... box) throws Exception {
-
 		int [] coords = createCoords(point, box);
+		return getBoxVarianceInternal(coords, box[0]*box[1]);
+	}
+	
+	private double getBoxVarianceInternal(int[] coords, int n) throws Exception {
+
+		
 		double s1 = getBoxSum(sum, coords);
 		
-		if (sum2==null) {
-			final IDataset image2 = Maths.power(image, 2d);
-			this.sum2 = createSummedTable(image2);
-		}
-		double s2 = getBoxSum(sum2, coords);
+		if (sum2==null) createSummedTable(image, true);
 		
-		double n  = box[0]*box[1];
+		double s2 = getBoxSum(sum2, coords);
 		
 		return (1/n)*(s2 - (Math.pow(s1, 2d)/n));
 	}
@@ -471,12 +544,12 @@ public class SummedAreaTable implements IDataset {
 		int minx = x-r1;
 		if (minx<0) minx=0;		
 		int maxx = x+r1;
-		if (maxx>=sum.getShape()[0]) maxx = sum.getShape()[0]-1;
+		if (maxx>=shape[0]) maxx = shape[0]-1;
 		
 		int miny = y-r2;
 		if (miny<0) miny=0;		
 		int maxy = y+r2;
-		if (maxy>=sum.getShape()[1]) maxy = sum.getShape()[1]-1;
+		if (maxy>=shape[1]) maxy = shape[1]-1;
 		
 		return new int[]{minx, miny, maxx, maxy};
 	}
