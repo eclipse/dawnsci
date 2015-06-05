@@ -32,14 +32,19 @@ import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
  * do the calculation through that.
  * 
  * 	I(x,y) = i(x,y) + I(x-1,y) + I(x,y-1) - I(x-1,y-1)
+ * 
+ *  getDouble(...) and
+ *  set(Object, ...)
+ *  
+ *  On Dataset are slow. Therefore we have replaced these with absolute index.
  *
  * @author Matthew Gerring
  */
 public class SummedAreaTable implements IDataset {
 	
-	private int[] shape; // We cache shape for speed reasons (it is cloned in the dataset on getShape())
-	private Dataset image;
-	private Dataset sum, sum2;
+	private int[]         shape; // We cache shape for speed reasons (it is cloned in the dataset on getShape())
+	private Dataset       image;
+	private DoubleDataset sum, sum2; // Use concrete because use setAbs for speed up.
 
 	/**
 	 * Calls SummedAreaTable(Image, false)
@@ -93,8 +98,8 @@ public class SummedAreaTable implements IDataset {
 	    while(it.hasNext()) {
 	    	final int[]  pos   = it.getPos();	    	
 	    	final double value = image.getElementDoubleAbs(get1DIndex(pos[0], pos[1], shape));
-	        if (requireSum)  fill(value,  (DoubleDataset)sum,  pos, shape);
-	        if (requireSum2) fill(Math.pow(value, 2d), (DoubleDataset)sum2, pos, shape);
+	        if (requireSum)  fill(value,  sum,  pos, shape);
+	        if (requireSum2) fill(Math.pow(value, 2d), sum2, pos, shape);
 	    }
 	}
 
@@ -132,7 +137,7 @@ public class SummedAreaTable implements IDataset {
 	 * @return fano factor image using box passed in.
 	 * @throws Exception
 	 */
-	public IDataset getFanoImage(int... box) throws Exception {
+	public Dataset getFanoImage(int... box) throws Exception {
 		
 		if (box[0] % 2 == 0) throw new Exception("Box first dim is not odd!");
 		if (box[1] % 2 == 0) throw new Exception("Box second dim is not odd!");
