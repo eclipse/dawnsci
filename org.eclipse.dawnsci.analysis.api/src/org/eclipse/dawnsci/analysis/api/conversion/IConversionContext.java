@@ -34,7 +34,7 @@ public interface IConversionContext {
 		ASCII_FROM_2D(" ascii from 2D data",   false, 2), 
 		TIFF_FROM_3D(" image files from image stack", true, false, 2,3,4,5),
 		AVI_FROM_3D(" video from image stack", true, 2,3,4,5),
-		STITCHED_FROM_IMAGEDIR(" stitched image from directory of images", true, false, 1, 2),
+		STITCHED_FROM_IMAGEDIR(" stitched/mosaic image from directory of images", true, false, 1, 2),
 		ALIGNED_FROM_3D(" align stack of images", true, false, 2, 3, 4, 5),
 		H5_FROM_IMAGEDIR(" nexus stack from directory of images", true, false, false, 2),
 		H5_FROM_1D(" nexus from 1D data",   true, false,  1),
