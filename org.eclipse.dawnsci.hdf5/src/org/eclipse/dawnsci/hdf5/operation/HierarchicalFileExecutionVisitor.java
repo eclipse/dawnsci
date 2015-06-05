@@ -90,7 +90,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	private String intermediate;
 	private String auxiliary;
 
-	private Map<String,Map<Integer, String[]>> groupAxesNames = new HashMap<String,Map<Integer,String[]>>();
+	private ConcurrentHashMap<String,ConcurrentHashMap<Integer, String[]>> groupAxesNames = new ConcurrentHashMap<String,ConcurrentHashMap<Integer,String[]>>();
 	private String filePath;
 	IHierarchicalDataFile file;
 
@@ -167,7 +167,6 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 		if (result == null) return;
 		//not threadsafe but closer
 		boolean fNNE = firstNonNullExecution.getAndSet(false);
-		if (results ==  null) initGroups();
 		
 		//Write data to file
 		final IDataset integrated = result.getData();
@@ -256,14 +255,11 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 
 	private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataDims, String groupName, boolean first) throws Exception {
 
-		Map<Integer, String[]> axesNames = null;
+		ConcurrentHashMap<Integer, String[]> axesNames = new ConcurrentHashMap<Integer,String[]>();
 
-		if (groupAxesNames.containsKey(groupName)) {
-			axesNames = groupAxesNames.get(groupName);
-		} else {
-			axesNames = new HashMap<Integer,String[]>();
-			groupAxesNames.put(groupName, axesNames);
-		}
+		groupAxesNames.putIfAbsent(groupName, axesNames);
+		
+		axesNames = groupAxesNames.get(groupName);
 
 		Set<Integer> setDims = new HashSet<Integer>(dataDims.length);
 		for (int i = 0; i < dataDims.length; i++) {
@@ -292,30 +288,12 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 					for (int j = 0; j < axis.length; j++) {
 						ILazyDataset ax = axis[j];
 						if (ax == null) continue;
-						if (first) {
-							String name = ax.getName();
-
-							//assume only our slicing puts [ in a axis name!
-							if (name.contains("[")) {
-								name = name.split("\\[")[0];
-							}
-
-							if (name.contains("/")) {
-								name = name.replace("/", "_");
-							}
-
-							//sanitize - can't have an axis called data
-							if (name.isEmpty() || name.equals("data")) {
-								int n = 0;
-								while(groupAxesNames.containsKey("axis" + n)) n++;
-
-								name = "axis" +n;
-							}
-							names[j] = name;
-							axesNames.put(i, names);
-						}
+						String name = ax.getName();
+						names[j] = santiziseName(name);
+						axesNames.putIfAbsent(i, names);
+						name = axesNames.get(i)[j];
 						IDataset axDataset = ax.getSlice();
-						axDataset.setName(axesNames.get(i)[j]);
+						axDataset.setName(name);
 
 						if (setDims.contains(i)) {
 							if(first) {
@@ -349,6 +327,27 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 
 			}
 		}
+	}
+	
+	private String santiziseName(String name) {
+		//assume only our slicing puts [ in a axis name!
+		if (name.contains("[")) {
+			name = name.split("\\[")[0];
+		}
+
+		if (name.contains("/")) {
+			name = name.replace("/", "_");
+		}
+
+		//sanitize - can't have an axis called data
+		if (name.isEmpty() || name.equals("data")) {
+			int n = 0;
+			while(groupAxesNames.containsKey("axis" + n)) n++;
+
+			name = "axis" +n;
+		}
+		
+		return name;
 	}
 
 	private void appendSingleValueAxis(IDataset dataset, String group, Slice[] oSlice, int[] oShape, IHierarchicalDataFile file, int axisDim) throws Exception{
