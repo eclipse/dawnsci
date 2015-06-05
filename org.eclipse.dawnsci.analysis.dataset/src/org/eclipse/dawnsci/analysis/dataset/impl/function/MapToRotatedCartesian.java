@@ -20,6 +20,7 @@ import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.Maths;
 
 /**
@@ -108,11 +109,12 @@ public class MapToRotatedCartesian implements DatasetToDatasetFunction {
 			if (ids.getRank() != 2)
 				return null;
 
+			Dataset ds = DatasetUtils.convertToDataset(ids);
 			int[] os = new int[] { h, w };
 
 			// work out cosine and sine
 
-			Dataset newmap = DatasetFactory.zeros(os, AbstractDataset.getBestFloatDType(ids.elementClass()));
+			Dataset newmap = DatasetFactory.zeros(os, AbstractDataset.getBestFloatDType(ds.getDtype()));
 			Dataset unitmap = DatasetFactory.zeros(newmap);
 
 			double cx, cy;
@@ -123,7 +125,7 @@ public class MapToRotatedCartesian implements DatasetToDatasetFunction {
 					cx = ox + x * cp - y * sp;
 					cy = oy + x * sp + y * cp;
 
-					newmap.set(Maths.interpolate(ids, cy, cx), y, x);
+					newmap.set(Maths.interpolate(ds, cy, cx), y, x);
 				}
 			}
 

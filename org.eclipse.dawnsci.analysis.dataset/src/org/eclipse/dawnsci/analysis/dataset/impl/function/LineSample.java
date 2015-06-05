@@ -19,6 +19,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.Maths;
 
 /**
@@ -84,17 +85,18 @@ public class LineSample implements DatasetToDatasetFunction {
 			if (ids == null || ids.getRank() != 2)
 				return null;
 
+			Dataset ds = DatasetUtils.convertToDataset(ids);
 			int nr = ((int) Math.floor(rad / step)) + 1;
 
 			Dataset linsample = DatasetFactory.zeros(new int[] { nr },
-					AbstractDataset.getBestFloatDType(ids.elementClass()));
+					AbstractDataset.getBestFloatDType(ds.getDtype()));
 
 			double x, y;
 			for (int i = 0; i < nr; i++) {
 				final double r = step * i;
 				x = sx + r * cp;
 				y = sy + r * sp;
-				linsample.setObjectAbs(i, Maths.interpolate(ids, y, x));
+				linsample.setObjectAbs(i, Maths.interpolate(ds, y, x));
 			}
 
 			result.add(linsample);
