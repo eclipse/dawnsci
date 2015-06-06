@@ -156,10 +156,14 @@ public class SummedAreaTable {
 			
 			// Save FPO by calculating coords once per pixel and
 			// passing to getBoxVarianceInternal and getBoxMeanInternal
-			fillCoordsInternal(point, shape, radii, coords);
-						
-			// Call fano (variance/mean)
-			fano[i] = getBoxFanoFactorInternal(coords, n);
+			fillCoordsInternal(point, radii, coords);
+			
+			// These save some floating points
+			double vari = getBoxVarianceInternal(coords, n);
+			double mean = getBoxMeanInternal(coords, n);
+			
+			// Use concrete because fast
+			fano[i] = vari/mean;
 		}
 		return new DoubleDataset(fano, shape);
 	}
@@ -319,65 +323,13 @@ public class SummedAreaTable {
 		int [] coords = createCoords(point, box);
 		return getBoxVarianceInternal(coords, box[0]*box[1]);
 	}
+	
 	private double getBoxVarianceInternal(int[] coords, int n) {
 
 		double s1 = getBoxSumInternal(sum,  coords, shape);		
 		double s2 = getBoxSumInternal(sum2, coords, shape);
 		
 		return (1d/n)*(s2 - (Math.pow(s1, 2d)/n));
-	}
-
-	
-	/**
-	 * Get the variance for a given box.
-	 * 
-	 *  (1/n)(S2 - S1^2/n)
-     * 
-     * Where:
-     * S1 is sum of box ( D+A-B-C of sum )
-     * S2 is sum^2 of box ( D+A-B-C of sum )
-     * n  is number of pixels box covers
-     * 
-	 * @param box
-	 * @return variance
-	 * @throws Exception
-	 */
-	public double getBoxFanoFactor(IRectangularROI box) throws Exception {
-
-		if (box.getIntLength(0) % 2 == 0) throw new Exception("Box first dim is not odd!");
-		if (box.getIntLength(1) % 2 == 0) throw new Exception("Box second dim is not odd!");
-
-		if (sum2==null) createSummedTable(image, true);
-		int[] coords = createCoords(box);
-		return getBoxFanoFactor(getBox(coords), coords);
-
-	}
-
-	/**
-	 * Get the variance for a given box.
-	 * 
-	 *  (1/n)(S2 - S1^2/n)
-     * 
-     * Where:
-     * S1 is sum of box ( D+A-B-C of sum )
-     * S2 is sum^2 of box ( D+A-B-C of sum2 )
-     * n  is number of pixels box covers
-     * @throws Exception 
-     * 
-    **/
-	public double getBoxFanoFactor(int[] point, int... box) throws Exception {
-		if (sum2==null) createSummedTable(image, true);
-		int [] coords = createCoords(point, box);
-		return getBoxFanoFactorInternal(coords, box[0]*box[1]);
-	}
-	private double getBoxFanoFactorInternal(int[] coords, int n) {
-
-		double variance = getBoxVarianceInternal(coords, n);
-		double mean     = getBoxMeanInternal(coords, n);
-		double fano     = variance/mean;
-		if (!Double.isFinite(fano)) fano = 0d;
-		if (Double.isNaN(fano))     fano = 0d;
-		return fano;
 	}
 
 	
@@ -400,11 +352,11 @@ public class SummedAreaTable {
 		int r1 = (int)Math.floor(w/2d); // for instance 3->1, 5->2, 7->3 
 		int r2 = (int)Math.floor(h/2d); // for instance 3->1, 5->2, 7->3 
 		final int[] coords = new int[]{0,0,0,0};
-	    fillCoordsInternal(point, shape, new int[]{r1, r2}, coords);
+	    fillCoordsInternal(point, new int[]{r1, r2}, coords);
 	    return coords;
 	}
 	
-	private final static void fillCoordsInternal(int[] point, int[] shape, int[] radii, int[] coords)  {
+	private final void fillCoordsInternal(int[] point, int[] radii, int[] coords)  {
 
 		int x = point[0];
 		int y = point[1];
