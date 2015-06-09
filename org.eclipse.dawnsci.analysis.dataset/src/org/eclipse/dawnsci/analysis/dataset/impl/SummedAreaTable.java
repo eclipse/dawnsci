@@ -32,6 +32,10 @@ import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
 public class SummedAreaTable {
 	
 	private int[]         shape;     // We cache shape for speed reasons (it is cloned in the dataset on getShape())
+	
+	/**
+	 * Must be declared as Dataset because IDataset can cause the unwanted autoboxing problem.
+	 */
 	private Dataset       image;
 	private double[]      sum, sum2; // Use double[] because faster than Dataset
 
