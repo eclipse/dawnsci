@@ -13,7 +13,9 @@ package org.eclipse.dawnsci.plotting.api.filter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
@@ -30,16 +32,16 @@ import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
  */
 public abstract class AbstractPlottingFilter implements IPlottingFilter {
 	
-	protected List<OriginalData> cache;
-	protected boolean            active=true;
-	
+	protected List<OriginalData>  cache;
+	protected boolean             active=true;
+	protected Map<String, Object> configuration;
 
 	public AbstractPlottingFilter() {
 		this.cache = new ArrayList<OriginalData>(7);
 	}
 
 	@Override
-	public void filter(IPlottingSystem system, TraceWillPlotEvent evt) {
+	public void filter(IPlottingSystem system, TraceWillPlotEvent evt) throws Exception {
 		final ITrace trace = (ITrace)evt.getSource();
 		if (trace.getRank()!=getRank()) {
 			if (getRank()>0) return;
@@ -61,7 +63,7 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 	 * @param y
 	 * @return the new values (0=x, 1=y, x may be null)
 	 */
-	protected IDataset[] filter(IDataset x,    IDataset y) {
+	protected IDataset[] filter(IDataset x,    IDataset y) throws Exception {
 		return null;
 	}
 	
@@ -71,7 +73,7 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 	 * @param axes
 	 * @return Object[]{0=newData, 1=List<IDataset> axes, may be null}
 	 */
-	protected Object[] filter(IDataset data, List<IDataset> axes) {
+	protected Object[] filter(IDataset data, List<IDataset> axes) throws Exception {
 		return null;
 	}
 
@@ -188,6 +190,19 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 
 	@Override
 	public void dispose() {
-		
+		if (cache!=null) cache.clear();
+	}
+
+	public Map<String, Object> getConfiguration() {
+		if (configuration==null) configuration = new HashMap<String, Object>();
+		return configuration;
+	}
+
+	public void setConfiguration(Map<String, Object> configuration) {
+		this.configuration = configuration;
+	}
+
+	public void putConfiguration(String key, Object value) {
+		getConfiguration().put(key, value);
 	}
 }
