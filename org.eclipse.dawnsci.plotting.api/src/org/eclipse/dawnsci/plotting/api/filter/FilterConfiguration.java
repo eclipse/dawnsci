@@ -11,7 +11,6 @@ package org.eclipse.dawnsci.plotting.api.filter;
 
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 
 /**
  * Interface used to define user interface which configures a plotting filter.
@@ -28,5 +27,6 @@ public interface FilterConfiguration {
 	 * Called once at start to create user interface for setting the filter's properties.
 	 * @param parent
 	 */
-	public Control createControl(Composite parent);
+	public Composite createControl(Composite parent);
+	
 }

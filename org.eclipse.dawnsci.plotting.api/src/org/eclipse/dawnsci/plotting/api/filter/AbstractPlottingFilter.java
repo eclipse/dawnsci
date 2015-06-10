@@ -23,6 +23,7 @@ import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Please extend this class to define undoable filters.
@@ -33,8 +34,9 @@ import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
 public abstract class AbstractPlottingFilter implements IPlottingFilter {
 	
 	protected List<OriginalData>  cache;
-	protected boolean             active=true;
-	protected Map<String, Object> configuration;
+	private boolean             active=true;
+	private Map<String, Object> configuration;
+	private   List<IFilterListener> listeners;
 
 	public AbstractPlottingFilter() {
 		this.cache = new ArrayList<OriginalData>(7);
@@ -55,6 +57,7 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 			Object[] filtered = filter(evt.getImage(), evt.getAxes());
 			evt.setImageData((IDataset)filtered[0], (List<IDataset>)filtered[1]);
 		}
+		fireFilterApplied(new FilterEvent(this));
 	}
 	
 	/**
@@ -76,6 +79,51 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 	protected Object[] filter(IDataset data, List<IDataset> axes) throws Exception {
 		return null;
 	}
+	
+	public void addFilterListener(IFilterListener l) {
+		if (listeners==null) listeners = new ArrayList<IFilterListener>(3);
+		listeners.add(l);
+	}
+	
+	public void removeFilterListener(IFilterListener l) {
+		if (listeners==null) return;
+		listeners.remove(l);
+	}
+	
+	protected void fireFilterApplied(final FilterEvent evt) {
+		if (listeners==null) return;
+		
+		final Runnable runner = new Runnable() {
+			@Override
+			public void run() {
+				for (IFilterListener fl : listeners.toArray(new IFilterListener[listeners.size()])) {
+					fl.filterApplied(evt);
+				}
+			}
+		};
+		runInUI(runner);
+		
+	}
+	private void runInUI(Runnable runner) {
+		if (Display.getDefault().getThread()==Thread.currentThread()) {
+			runner.run();
+		} else {
+			Display.getDefault().syncExec(runner);
+		}
+	}
+
+	protected void fireFilterReset(final FilterEvent evt) {
+		if (listeners==null) return;
+		final Runnable runner = new Runnable() {
+			@Override
+			public void run() {
+				for (IFilterListener fl : listeners.toArray(new IFilterListener[listeners.size()])) {
+					fl.filterReset(evt);
+				}
+			}
+		};
+		runInUI(runner);
+	}
 
 	@Override
 	public final void reset() {
@@ -85,6 +133,7 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 		for (OriginalData data : tmpCache) {
 			data.reset();
 		}
+		fireFilterReset(new FilterEvent(this));
 	}
 
 	public List<ITrace> getFilteredTraces() {

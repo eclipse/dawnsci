@@ -72,4 +72,16 @@ public interface IPlottingFilter {
 	 */
 	public void dispose();
 
+	/**
+	 * Add a filter listener which is called after this filter runs.
+	 * @param l
+	 */
+	public void addFilterListener(IFilterListener l);
+	
+	/**
+	 * Add a filter listener which is called after this filter runs.
+	 * @param l
+	 */
+	public void removeFilterListener(IFilterListener l);
+
 }
