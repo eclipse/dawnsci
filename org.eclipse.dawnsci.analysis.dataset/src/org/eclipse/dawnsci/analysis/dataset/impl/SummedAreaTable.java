@@ -379,8 +379,8 @@ public class SummedAreaTable {
 		double variance = getBoxVarianceInternal(coords, n);
 		double mean     = getBoxMeanInternal(coords, n);
 		double fano     = variance/mean;
-		if (!Double.isFinite(fano)) fano = 0d;
-		if (Double.isNaN(fano))     fano = 0d;
+		if (Double.isInfinite(fano)) fano = 0d;
+		if (Double.isNaN(fano))      fano = 0d;
 		return fano;
 	}
 
