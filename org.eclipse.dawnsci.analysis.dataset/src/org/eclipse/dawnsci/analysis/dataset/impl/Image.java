@@ -386,6 +386,19 @@ public class Image {
 		result.iadd(convolutionFilter(input, kernel));
 		return result;
 	}
+	
+	/**
+	 * Compute the fano factor for a given box size
+	 * @param input
+	 * @param width  - must be odd number
+	 * @param height - must be odd number
+	 * @return fano factor image
+	 * @throws Exception
+	 */
+	public static Dataset fanoFilter(Dataset input, int width, int height) throws Exception {
+		final SummedAreaTable table = new SummedAreaTable(input, true);
+		return table.getFanoImage(width, height);
+	}
 
 	public static Dataset flip(Dataset input, boolean vertical) {
 		Dataset ret;
