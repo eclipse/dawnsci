@@ -393,12 +393,25 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	 * @throws Exception
 	 */
 	private void appendData(IDataset dataset, String group, Slice[] oSlice, int[] oShape, IHierarchicalDataFile file) throws Exception {
+		
+		if (AbstractDataset.squeezeShape(dataset.getShape(), false).length == 0) {
+			//padding slice and shape does not play nice with single values of rank != 0
+			dataset = dataset.getSliceView().squeeze();
+		}
+		
 		//determine the dimensions of the original data
 		int[] dd = getNonSingularDimensions(oSlice, oShape);
 		//update the slice to reflect the new data shape/rank
 		Slice[] sliceOut = getUpdatedSliceArray( oShape, dataset.getShape(), oSlice, dd);
 		//determine shape of full output dataset
 		long[] newShape = getNewShape(oShape, dataset.getShape(), dd);
+		
+		if (dataset.getRank() == 0) {
+			int[] shape = new int[newShape.length];
+			Arrays.fill(shape, 1);
+			dataset.setShape(shape);
+		}
+		
 		//write
 		H5Utils.insertDataset(file, group, dataset, sliceOut, newShape);
 
