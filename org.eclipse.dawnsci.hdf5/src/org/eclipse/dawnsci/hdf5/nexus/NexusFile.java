@@ -234,4 +234,11 @@ public interface NexusFile extends AutoCloseable {
 	 */
 	@Override
 	public void close() throws NexusException;
+
+	/**
+	 * Checks if a path within the file exists
+	 * @param path
+	 * @return true if path exists
+	 */
+	public boolean isPathValid(String path);
 }
