@@ -38,9 +38,12 @@ public abstract class AbstractDelayedFilter extends AbstractPlottingFilter  {
 
 	@Override
 	public void filter(IPlottingSystem system, TraceWillPlotEvent evt) throws Exception {
-		
-		if (job==null) this.job = new FilterJob(filterName);
 
+		if (job == null)
+			this.job = new FilterJob(filterName);
+
+		if (!job.getName().equals(filterName))
+			this.job = new FilterJob(filterName);
 		this.system = system;
 		final ITrace trace = (ITrace)evt.getSource();
 		if (trace.getRank()!=getRank()) {
@@ -84,6 +87,10 @@ public abstract class AbstractDelayedFilter extends AbstractPlottingFilter  {
 
 			return Status.OK_STATUS;
 		}
+	}
+
+	public boolean isFilterOn() {
+		return isOn;
 	}
 
 	public String getFilterName() {
