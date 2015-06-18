@@ -26,7 +26,7 @@ public interface IPeakFinder {
 	/**
 	 * Get the map of parameters which can be set for this method.
 	 * 
-	 * @return <String name, IParameter value> map of all parameters available 
+	 * @return <String name, Number value> map of all parameters available 
 	 * to control this IPeakFinder. 
 	 */
 	public Map<String, Number> getParameters();
@@ -49,10 +49,10 @@ public interface IPeakFinder {
 	
 	/**
 	 * An implementation of an algorithm capable of identifying a number peaks
-	 * within a one dimensional dataset. As it's input, this method takes the
+	 * within a one dimensional dataset. As its input, this method takes the
 	 * dataset and two optional arguments, the x-coordinate dataset and the
 	 * maximum number of peaks to find.
-	 * This algorithm may have a set of additional parameters to control it's
+	 * This algorithm may have a set of additional parameters to control its
 	 * behaviour, which may be accessed/changed using the getters/setters of 
 	 * this class.
 	 * 
@@ -61,7 +61,7 @@ public interface IPeakFinder {
 	 * @param nPeaks maximum number of peaks to find
 	 * @return A set containing all or a number of peaks found by this IPeakFinder
 	 */
-	//public List<Integer> findPeaks(IDataset xData, IDataset yData, Integer nPeaks);
+	//public Map<Integer, Double> findPeaks(IDataset xData, IDataset yData, Integer nPeaks);
 	public Set<Integer> findPeaks(IDataset xData, IDataset yData, Integer nPeaks);
 
 }
