@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
@@ -81,24 +82,24 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	private final String AUX_GROUP = "auxiliary";
 	private final String ENTRY = "entry";
 
-	private Map<IOperation, Boolean> firstNotifyMap;
+	private Map<IOperation, AtomicBoolean> firstNotifyMap;
 	private Map<IOperation, Integer> positionMap;
-	private boolean firstNonNullExecution = true;
+	private AtomicBoolean firstNonNullExecution = new AtomicBoolean(true);
 
 	private String results;
 	private String intermediate;
 	private String auxiliary;
 
-	private Map<String,Map<Integer, String[]>> groupAxesNames = new HashMap<String,Map<Integer,String[]>>();
+	private ConcurrentHashMap<String,ConcurrentHashMap<Integer, String[]>> groupAxesNames = new ConcurrentHashMap<String,ConcurrentHashMap<Integer,String[]>>();
 	private String filePath;
-	IHierarchicalDataFile file;
+	private IHierarchicalDataFile file;
 
 	private final static Logger logger = LoggerFactory.getLogger(HierarchicalFileExecutionVisitor.class);
 
 
 	public HierarchicalFileExecutionVisitor(String filePath) {
 		this.filePath = filePath;
-		firstNotifyMap = new ConcurrentHashMap<IOperation, Boolean>();
+		firstNotifyMap = new ConcurrentHashMap<IOperation, AtomicBoolean>();
 		positionMap = new ConcurrentHashMap<IOperation, Integer>();
 	}
 
@@ -106,7 +107,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	public void init(IOperation<? extends IOperationModel, ? extends OperationData>[] series, ILazyDataset data) throws Exception {
 
 		for (int i = 0; i < series.length; i++) {
-			firstNotifyMap.put(series[i], true);
+			firstNotifyMap.put(series[i], new AtomicBoolean(true));
 			positionMap.put(series[i], i);
 		}
 
@@ -124,6 +125,17 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 		}
 
 		initGroups();
+		boolean groupCreated = false;
+		for (int i = 0; i < series.length; i++) {
+			if (series[i].isStoreOutput()) {
+				if (!groupCreated){
+					createInterGroup();
+					groupCreated = true;
+				}
+				String group = file.group(i + "-" + series[i].getName(), intermediate);
+				file.setNexusAttribute(group, "NXdata");
+			}
+		}
 
 	}
 
@@ -154,8 +166,10 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	 */
 	private void createAuxGroup() {
 		try {
-			auxiliary = file.group(AUX_GROUP,ENTRY);
-			file.setNexusAttribute(auxiliary, "NXcollection");
+			synchronized (file) {
+				auxiliary = file.group(AUX_GROUP,ENTRY);
+				file.setNexusAttribute(auxiliary, "NXcollection");
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -164,19 +178,23 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	@Override
 	public void executed(OperationData result, IMonitor monitor) throws Exception {
 		if (result == null) return;
-		if (results ==  null) initGroups();
+		//not threadsafe but closer
+		boolean fNNE = firstNonNullExecution.getAndSet(false);
+		
 		//Write data to file
 		final IDataset integrated = result.getData();
 		SliceFromSeriesMetadata metadata = integrated.getMetadata(SliceFromSeriesMetadata.class).get(0);
 		int[] dataDims = metadata.getDataDimensions();
 		int[] shape = metadata.getSubSampledShape();
 		Slice[] slices = metadata.getSliceInOutput();
-		updateAxes(integrated, slices, shape, dataDims, results,firstNonNullExecution);
+		updateAxes(integrated, slices, shape, dataDims, results,fNNE);
 		integrated.setName("data");
 		appendData(integrated,results, slices,shape, file);
-		if (firstNonNullExecution)file.setAttribute(results +"/" +integrated.getName(), "signal", String.valueOf(1));
-		firstNonNullExecution = false;
-
+		if (fNNE){
+			synchronized (file) {
+				file.setAttribute(results +"/" +integrated.getName(), "signal", String.valueOf(1));
+			}
+		}
 	}
 
 	@Override
@@ -185,8 +203,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 
 		if (!intermeadiateData.isStoreOutput() && (data.getAuxData() == null || data.getAuxData()[0] == null)) return;
 
-		boolean first = firstNotifyMap.get(intermeadiateData);
-		if (first) firstNotifyMap.put(intermeadiateData, false);
+		boolean first = firstNotifyMap.get(intermeadiateData).getAndSet(false);
 
 		String position = String.valueOf(positionMap.get(intermeadiateData));
 
@@ -205,16 +222,16 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 
 		//if specified to save data, do it
 		if (intermeadiateData.isStoreOutput()) {
-			if (intermediate == null) createInterGroup();
-
 			try {
-
-				String group = file.group(position + "-" + intermeadiateData.getName(), intermediate);
-				file.setNexusAttribute(group, "NXdata");
+				String group = file.group(position + "-" + intermeadiateData.getName(), intermediate);				
 				IDataset d = data.getData();
 				d.setName("data");
 				appendData(d,group, slices,shape, file);
-				if (first)file.setAttribute(group +"/" +d.getName(), "signal", String.valueOf(1));
+				if (first){
+					synchronized (file) {
+						file.setAttribute(group +"/" +d.getName(), "signal", String.valueOf(1));
+					}
+				}
 				updateAxes(d, slices, shape, dataDims, group,first);
 
 			} catch (Exception e) {
@@ -229,19 +246,26 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 		if (auxData != null && auxData[0] != null) {
 			for (int i = 0; i < auxData.length; i++) {
 				if (auxData[i] instanceof IDataset) {
-					if (auxiliary == null) createAuxGroup();
+					
 					try {
-
 						IDataset ds = (IDataset)auxData[i];
-						String group = file.group(position + "-" + intermeadiateData.getName(), auxiliary);
-						file.setNexusAttribute(group, "NXCollection");
-
-						group = file.group(ds.getName(), group);
-						file.setNexusAttribute(group, "NXdata");
-
+						String group = "";
+						synchronized (file) {
+							if (auxiliary == null) createAuxGroup();
+							group = file.group(position + "-" + intermeadiateData.getName(), auxiliary);
+							file.setNexusAttribute(group, "NXCollection");
+							group = file.group(ds.getName(), group);
+							file.setNexusAttribute(group, "NXdata");
+						}
+						
 						ds.setName("data");
 						appendData(ds,group, slices,shape, file);
-						if (first)file.setAttribute(group +"/" +ds.getName(), "signal", String.valueOf(1));
+						if (first){
+							synchronized (file) {
+								file.setAttribute(group +"/" +ds.getName(), "signal", String.valueOf(1));
+							}
+						}
+						
 						updateAxes(ds, slices, shape, dataDims, group, first);
 					} catch (Exception e) {
 						logger.error(e.getMessage());
@@ -252,15 +276,12 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	}
 
 	private void updateAxes(IDataset data, Slice[] oSlice, int[] oShape, int[] dataDims, String groupName, boolean first) throws Exception {
+		
+		ConcurrentHashMap<Integer, String[]> axesNames = new ConcurrentHashMap<Integer,String[]>();
 
-		Map<Integer, String[]> axesNames = null;
-
-		if (groupAxesNames.containsKey(groupName)) {
-			axesNames = groupAxesNames.get(groupName);
-		} else {
-			axesNames = new HashMap<Integer,String[]>();
-			groupAxesNames.put(groupName, axesNames);
-		}
+		groupAxesNames.putIfAbsent(groupName, axesNames);
+		
+		axesNames = groupAxesNames.get(groupName);
 
 		Set<Integer> setDims = new HashSet<Integer>(dataDims.length);
 		for (int i = 0; i < dataDims.length; i++) {
@@ -289,48 +310,35 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 					for (int j = 0; j < axis.length; j++) {
 						ILazyDataset ax = axis[j];
 						if (ax == null) continue;
-						if (first) {
-							String name = ax.getName();
-
-							//assume only our slicing puts [ in a axis name!
-							if (name.contains("[")) {
-								name = name.split("\\[")[0];
-							}
-
-							if (name.contains("/")) {
-								name = name.replace("/", "_");
-							}
-
-							//sanitize - can't have an axis called data
-							if (name.isEmpty() || name.equals("data")) {
-								int n = 0;
-								while(groupAxesNames.containsKey("axis" + n)) n++;
-
-								name = "axis" +n;
-							}
-							names[j] = name;
-							axesNames.put(i, names);
-						}
+						String name = ax.getName();
+						names[j] = santiziseName(name);
+						axesNames.putIfAbsent(i, names);
+						name = axesNames.get(i)[j];
 						IDataset axDataset = ax.getSlice();
-						axDataset.setName(axesNames.get(i)[j]);
+						axDataset.setName(name);
 
 						if (setDims.contains(i)) {
 							if(first) {
-								String ds = file.createDataset(axDataset.getName(), axDataset.squeeze(), groupName);
-								file.setAttribute(ds, "axis", String.valueOf(i+1));
-
 								ILazyDataset error = axDataset.getError();
-
+								IDataset e = null;
 								if (error != null) {
-									IDataset e = error.getSlice().squeeze();
+									e = error.getSlice().squeeze();
 									e.setName(axDataset.getName() + "_errors");
-									file.createDataset(e.getName(), e.squeeze(), groupName);
 								}
-
+								
+								synchronized (file) {
+									String ds = file.createDataset(axDataset.getName(), axDataset.squeeze(), groupName);
+									file.setAttribute(ds, "axis", String.valueOf(i+1));
+									if (e != null) file.createDataset(e.getName(), e.squeeze(), groupName);
+								}
 							}
 						} else {
 							appendSingleValueAxis(axDataset,groupName, oSlice,oShape, file,i);
-							file.setAttribute(groupName +"/" +axDataset.getName(), "axis", String.valueOf(i+1));
+							if (first) {
+								synchronized (file) {
+									file.setAttribute(groupName +"/" +axDataset.getName(), "axis", String.valueOf(i+1));
+								}
+							}
 
 							ILazyDataset error = axDataset.getError();
 
@@ -346,6 +354,27 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 
 			}
 		}
+	}
+	
+	private String santiziseName(String name) {
+		//assume only our slicing puts [ in a axis name!
+		if (name.contains("[")) {
+			name = name.split("\\[")[0];
+		}
+
+		if (name.contains("/")) {
+			name = name.replace("/", "_");
+		}
+
+		//sanitize - can't have an axis called data
+		if (name.isEmpty() || name.equals("data")) {
+			int n = 0;
+			while(groupAxesNames.containsKey("axis" + n)) n++;
+
+			name = "axis" +n;
+		}
+		
+		return name;
 	}
 
 	private void appendSingleValueAxis(IDataset dataset, String group, Slice[] oSlice, int[] oShape, IHierarchicalDataFile file, int axisDim) throws Exception{
@@ -364,12 +393,25 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	 * @throws Exception
 	 */
 	private void appendData(IDataset dataset, String group, Slice[] oSlice, int[] oShape, IHierarchicalDataFile file) throws Exception {
+		
+		if (AbstractDataset.squeezeShape(dataset.getShape(), false).length == 0) {
+			//padding slice and shape does not play nice with single values of rank != 0
+			dataset = dataset.getSliceView().squeeze();
+		}
+		
 		//determine the dimensions of the original data
 		int[] dd = getNonSingularDimensions(oSlice, oShape);
 		//update the slice to reflect the new data shape/rank
 		Slice[] sliceOut = getUpdatedSliceArray( oShape, dataset.getShape(), oSlice, dd);
 		//determine shape of full output dataset
 		long[] newShape = getNewShape(oShape, dataset.getShape(), dd);
+		
+		if (dataset.getRank() == 0) {
+			int[] shape = new int[newShape.length];
+			Arrays.fill(shape, 1);
+			dataset.setShape(shape);
+		}
+		
 		//write
 		H5Utils.insertDataset(file, group, dataset, sliceOut, newShape);
 

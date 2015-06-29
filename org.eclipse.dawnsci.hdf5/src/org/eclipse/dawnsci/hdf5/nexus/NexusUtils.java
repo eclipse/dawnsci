@@ -123,6 +123,25 @@ public class NexusUtils {
 							return;
 						}
 						attributeExist = true;
+						if (type == ATTRIBUTE_TYPE.OVERWRITE) {
+							//Seems to be needed if you are overwriting a shorter attribute string
+							// to not get truncation
+							final int id = entry.open();
+							try {
+								entry.removeMetadata(a);
+								attrList.remove(a);
+								String[] classValue = {entryKey};
+								Datatype attrType = new H5Datatype(Datatype.CLASS_STRING, classValue[0].length()+1, -1, -1);
+								Attribute attr = new Attribute(name, attrType, new long[]{1});
+								attr.setValue(classValue);
+								entry.writeMetadata(attr);
+								
+							} finally {
+								entry.close(id);
+							}
+							return;
+						}
+						
 						break LOOP;
 					}
 				}
@@ -137,9 +156,9 @@ public class NexusUtils {
 			Datatype attrType = new H5Datatype(Datatype.CLASS_STRING, classValue[0].length()+1, -1, -1);
 			Attribute attr = new Attribute(name, attrType, new long[]{1});
 			attr.setValue(classValue);
-
+			
 			file.writeAttribute(entry, attr, attributeExist);
-
+			
 			if (entry instanceof Group) {
 				attrList.add(attr);
 				((Group)entry).writeMetadata(attrList);

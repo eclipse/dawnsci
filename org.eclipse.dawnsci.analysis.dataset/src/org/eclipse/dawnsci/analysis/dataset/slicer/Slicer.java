@@ -17,16 +17,19 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Methods for slicing data using visit patterns.
@@ -110,6 +113,7 @@ public class Slicer {
 		SliceViewIterator generator = new SliceViewIterator(lz, sampling, axes);
 		
 		while (generator.hasNext()) {
+
 			IDataset data = generator.getCurrentView().getSlice();
 			
 			if (visitor!=null) {
@@ -142,7 +146,7 @@ public class Slicer {
 	 * @throws Exception 
 	 */
 	public static void visitAllParallel(ILazyDataset lz, Map<Integer, String> sliceDimensions, String nameFragment, final SliceVisitor visitor) throws Exception {
-        visitAllParallel(lz, sliceDimensions, nameFragment, visitor, 5000);
+        visitAllParallel(lz, sliceDimensions, nameFragment, visitor, -1);
 	}
 
 	/**
@@ -164,9 +168,18 @@ public class Slicer {
 	 */
 	public static void visitAllParallel(ILazyDataset lz, Map<Integer, String> sliceDimensions, String nameFragment, final SliceVisitor visitor, long timeout) throws Exception {
 
-		// Just farm out each slice to a different runnable.
-		final ForkJoinPool pool = new ForkJoinPool();
+		//Can't just farm out each slice to a separate thread, need to block when thread pool full,
+		//other wise there is the potential run out of memory from loading all the data before any is processed
 		
+		//use one less thread than processors, as we are using one for the rejectedhandler
+		int nProcessors = Math.max(Runtime.getRuntime().availableProcessors()-1,1);
+		BlockingQueue<Runnable> blockingQueue = new ArrayBlockingQueue<Runnable>(nProcessors);
+	    RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.CallerRunsPolicy();
+	    final ExecutorService pool =  new ThreadPoolExecutor(nProcessors, nProcessors, 
+	        0L, TimeUnit.MILLISECONDS, blockingQueue, rejectedExecutionHandler);
+
+	    final AtomicLong time = new AtomicLong(-1);
+	    
 		final SliceVisitor parallel = new SliceVisitor() {
 
 			@Override
@@ -177,7 +190,14 @@ public class Slicer {
 					@Override
 					public void run() {
 						try {
+							
+							long start = System.currentTimeMillis();
+							
 						    visitor.visit(slice, slices, shape);
+						    
+						    long dif = System.currentTimeMillis() - start;
+						    time.compareAndSet(-1, dif);
+						    
 						} catch (Throwable ne) {
 							ne.printStackTrace();
 							// TODO Fix me - should runtime exception really be thrown back to Fork/Join?
@@ -194,6 +214,13 @@ public class Slicer {
 		};
 		
 		Slicer.visitAll(lz, sliceDimensions, nameFragment, parallel);
+		
+		while (time.get() == -1) {
+			Thread.sleep(100);
+		}
+		
+		//give it 100*the time to do one slice
+		if (timeout == -1) timeout = time.get()*100;
 		
 		pool.shutdown();
 		

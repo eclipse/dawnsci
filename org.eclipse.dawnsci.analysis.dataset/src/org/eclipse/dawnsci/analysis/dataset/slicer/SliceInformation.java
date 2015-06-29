@@ -105,6 +105,25 @@ public class SliceInformation {
 		sampling = new SliceND(sss,ss);
 	}
 	
+	public void reducedDimension(int dim, int size, int current) {
+		
+		Slice[] cs = output.convertToSlice();
+		int[] sss = sampling.getShape();
+		Slice[] ss = sampling.convertToSlice();
+		
+		sss[dim] = size;
+		cs[dim].setStart(current);
+		cs[dim].setStop(current+1);
+		cs[dim].setStep(1);
+		
+		ss[dim].setStart(0);
+		ss[dim].setStop(size);
+		ss[dim].setStep(1);
+		
+		output = new SliceND(sss, cs);
+		sampling = new SliceND(sss,ss);
+	}
+	
 	public SliceND getInputSliceWithoutDataDimensions() {
 		return removeDimensionsFromInputSlice(dataDimensions);
 	}

@@ -13,7 +13,9 @@ package org.eclipse.dawnsci.plotting.api.filter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
@@ -21,6 +23,7 @@ import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Please extend this class to define undoable filters.
@@ -30,16 +33,17 @@ import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
  */
 public abstract class AbstractPlottingFilter implements IPlottingFilter {
 	
-	protected List<OriginalData> cache;
-	protected boolean            active=true;
-	
+	protected List<OriginalData>  cache;
+	private boolean             active=true;
+	private Map<String, Object> configuration;
+	private   List<IFilterListener> listeners;
 
 	public AbstractPlottingFilter() {
 		this.cache = new ArrayList<OriginalData>(7);
 	}
 
 	@Override
-	public void filter(IPlottingSystem system, TraceWillPlotEvent evt) {
+	public void filter(IPlottingSystem system, TraceWillPlotEvent evt) throws Exception {
 		final ITrace trace = (ITrace)evt.getSource();
 		if (trace.getRank()!=getRank()) {
 			if (getRank()>0) return;
@@ -53,6 +57,7 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 			Object[] filtered = filter(evt.getImage(), evt.getAxes());
 			evt.setImageData((IDataset)filtered[0], (List<IDataset>)filtered[1]);
 		}
+		fireFilterApplied(new FilterEvent(this));
 	}
 	
 	/**
@@ -61,7 +66,7 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 	 * @param y
 	 * @return the new values (0=x, 1=y, x may be null)
 	 */
-	protected IDataset[] filter(IDataset x,    IDataset y) {
+	protected IDataset[] filter(IDataset x,    IDataset y) throws Exception {
 		return null;
 	}
 	
@@ -71,8 +76,53 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 	 * @param axes
 	 * @return Object[]{0=newData, 1=List<IDataset> axes, may be null}
 	 */
-	protected Object[] filter(IDataset data, List<IDataset> axes) {
+	protected Object[] filter(IDataset data, List<IDataset> axes) throws Exception {
 		return null;
+	}
+	
+	public void addFilterListener(IFilterListener l) {
+		if (listeners==null) listeners = new ArrayList<IFilterListener>(3);
+		listeners.add(l);
+	}
+	
+	public void removeFilterListener(IFilterListener l) {
+		if (listeners==null) return;
+		listeners.remove(l);
+	}
+	
+	protected void fireFilterApplied(final FilterEvent evt) {
+		if (listeners==null) return;
+		
+		final Runnable runner = new Runnable() {
+			@Override
+			public void run() {
+				for (IFilterListener fl : listeners.toArray(new IFilterListener[listeners.size()])) {
+					fl.filterApplied(evt);
+				}
+			}
+		};
+		runInUI(runner);
+		
+	}
+	private void runInUI(Runnable runner) {
+		if (Display.getDefault().getThread()==Thread.currentThread()) {
+			runner.run();
+		} else {
+			Display.getDefault().syncExec(runner);
+		}
+	}
+
+	protected void fireFilterReset(final FilterEvent evt) {
+		if (listeners==null) return;
+		final Runnable runner = new Runnable() {
+			@Override
+			public void run() {
+				for (IFilterListener fl : listeners.toArray(new IFilterListener[listeners.size()])) {
+					fl.filterReset(evt);
+				}
+			}
+		};
+		runInUI(runner);
 	}
 
 	@Override
@@ -83,6 +133,7 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 		for (OriginalData data : tmpCache) {
 			data.reset();
 		}
+		fireFilterReset(new FilterEvent(this));
 	}
 
 	public List<ITrace> getFilteredTraces() {
@@ -188,6 +239,19 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 
 	@Override
 	public void dispose() {
-		
+		if (cache!=null) cache.clear();
+	}
+
+	public Map<String, Object> getConfiguration() {
+		if (configuration==null) configuration = new HashMap<String, Object>();
+		return configuration;
+	}
+
+	public void setConfiguration(Map<String, Object> configuration) {
+		this.configuration = configuration;
+	}
+
+	public void putConfiguration(String key, Object value) {
+		getConfiguration().put(key, value);
 	}
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Dynamic Target" sequenceNumber="9">
+<?pde version="3.8"?><target name="Dynamic Target" sequenceNumber="11">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.mockito" version="1.9.5.v201311280930"/>
@@ -7,10 +7,10 @@
 </location>
 <location path="${project_loc:org.eclipse.dawnsci.targetplatform}" type="Directory"/>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="uk.ac.diamond.scisoft.peema.feature.feature.group" version="1.2.0.v20150202-1517"/>
-<unit id="uk.ac.diamond.dawn.product.feature.feature.group" version="1.9.0.v20150428-1629"/>
+<unit id="org.dawnsci.base.product.feature.feature.group" version="2.0.0.v20150619-1608"/>
+<unit id="uk.ac.diamond.dawn.product.feature.feature.group" version="2.0.0.v20150619-1608"/>
+<unit id="uk.ac.diamond.scisoft.peema.feature.feature.group" version="1.2.0.v20150518-1615"/>
 <unit id="org.eclipse.equinox.executable.feature.group" version="3.6.0.v20121119-201001-7P7OG2BFLWUl7UnqBnO8V4Of"/>
-<unit id="org.dawnsci.base.product.feature.feature.group" version="1.9.0.v20150428-1629"/>
 <repository location="http://opengda.org/DawnDiamond/master/updates/snapshot/"/>
 </location>
 </locations>

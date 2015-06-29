@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.filter.IFilterDecorator;
 import org.eclipse.dawnsci.plotting.api.filter.IPlottingFilter;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
@@ -22,6 +23,8 @@ import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITraceListener;
 import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is not intended to be accessed directly.
@@ -35,6 +38,8 @@ import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
 @internal
 **/
 class FilterDecoratorImpl implements IFilterDecorator {
+	
+	private static final Logger logger = LoggerFactory.getLogger(FilterDecoratorImpl.class);
 	
 	private IPlottingSystem        system;
 	private List<IPlottingFilter>  filters;
@@ -51,17 +56,29 @@ class FilterDecoratorImpl implements IFilterDecorator {
 		listener = new ITraceListener.Stub() {
 			@Override
 			public void traceWillPlot(TraceWillPlotEvent evt) {
+				
+				IDataset       xo  = evt.getXData();
+				IDataset       yo  = evt.getYData();
+				IDataset       imo = evt.getImage();
+				List<IDataset> axo = evt.getAxes();
+				
 				if (!filterActive)       return;
 				if (!processingAllowed)  return;
 				if (system.isDisposed()) return;
 				if (evt.getTrace() != null && !evt.getTrace().isUserTrace()) return;
-				process(evt);
+				try {
+					process(evt);
+				} catch (Exception e) {
+					logger.error("Exception processing filter in list! All filters removed.", e);
+					evt.setImageData(imo, axo);
+					evt.setLineData(xo, yo);
+				}
 			}
 		};
 		system.addTraceListener(listener);
 	}
 
-	protected void process(TraceWillPlotEvent evt) {
+	protected void process(TraceWillPlotEvent evt) throws Exception {
 		if (filters.isEmpty()) return;
 		for (IPlottingFilter filter : filters) {
 			final ITrace trace = (ITrace)evt.getSource();

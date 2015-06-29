@@ -24,7 +24,7 @@ public interface IPlottingFilter {
 	 * @param system
 	 * @param trace
 	 */
-	public void filter(IPlottingSystem system, TraceWillPlotEvent trace);
+	public void filter(IPlottingSystem system, TraceWillPlotEvent trace) throws Exception;
 	
 	/**
 	 * Replaces any filtered traces we have made with original data
@@ -71,5 +71,17 @@ public interface IPlottingFilter {
 	 * no longer active.
 	 */
 	public void dispose();
+
+	/**
+	 * Add a filter listener which is called after this filter runs.
+	 * @param l
+	 */
+	public void addFilterListener(IFilterListener l);
+	
+	/**
+	 * Add a filter listener which is called after this filter runs.
+	 * @param l
+	 */
+	public void removeFilterListener(IFilterListener l);
 
 }

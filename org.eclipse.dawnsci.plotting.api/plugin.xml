@@ -4,6 +4,7 @@
    <extension-point id="toolPageAction" name="Tool Page Action" schema="schema/toolPageAction.exsd"/>
    <extension-point id="plottingAction" name="plottingAction" schema="schema/plottingAction.exsd"/>
    <extension-point id="plottingViewer" name="Plotting viewer" schema="schema/plottingViewer.exsd"/>
+   <extension-point id="plottingFilter" name="Plotting Filter" schema="schema/plottingFilter.exsd"/>
    <extension
          point="org.eclipse.ui.views">
       <view

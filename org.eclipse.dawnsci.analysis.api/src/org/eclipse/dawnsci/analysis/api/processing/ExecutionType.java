@@ -15,7 +15,7 @@ package org.eclipse.dawnsci.analysis.api.processing;
  * Types of execution when IOperationService.execute is called.
  */
 public enum ExecutionType {
-	SERIES(-1), PARALLEL(5000), GRAPH(10*1000*60);
+	SERIES(-1), PARALLEL(-1), GRAPH(10*1000*60);
 	
 	private final long timeout;
 	ExecutionType(long timeout) {

@@ -18,8 +18,10 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.image.IImageFilterService;
 import org.eclipse.dawnsci.analysis.api.image.IImageTransform;
+import org.eclipse.dawnsci.analysis.api.roi.IROI;
 import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
 import org.eclipse.dawnsci.analysis.dataset.impl.function.MapToRotatedCartesian;
+import org.eclipse.dawnsci.analysis.dataset.roi.CircularROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.EllipticalROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
 import org.slf4j.Logger;
@@ -384,6 +386,19 @@ public class Image {
 		result.iadd(convolutionFilter(input, kernel));
 		return result;
 	}
+	
+	/**
+	 * Compute the fano factor for a given box size
+	 * @param input
+	 * @param width  - must be odd number
+	 * @param height - must be odd number
+	 * @return fano factor image
+	 * @throws Exception
+	 */
+	public static Dataset fanoFilter(Dataset input, int width, int height) throws Exception {
+		final SummedAreaTable table = new SummedAreaTable(input, true);
+		return table.getFanoImage(width, height);
+	}
 
 	public static Dataset flip(Dataset input, boolean vertical) {
 		Dataset ret;
@@ -597,17 +612,25 @@ public class Image {
 	 * Image cropped is a rectangle inside of the given ellipse
 	 * 
 	 * @param image
-	 * @param ellipse
+	 * @param roi
 	 * @return IDataset
 	 */
-	public static IDataset maxRectangleFromEllipticalImage(IDataset image, EllipticalROI ellipse) {
+	public static IDataset maxRectangleFromEllipticalImage(IDataset image, IROI roi) {
 		// TODO make it work for ellipses with non-null angle
-		RectangularROI boundingBox = ellipse.getBounds();
+		EllipticalROI myEllipse;
+		if (roi instanceof EllipticalROI) {
+			myEllipse = (EllipticalROI) roi;
+		} else if (roi instanceof CircularROI) {
+			myEllipse = new EllipticalROI((CircularROI)roi);
+		} else {
+			throw new IllegalArgumentException("This method takes either an EllipticalROI or a CircularROI");
+		}
+		RectangularROI boundingBox = myEllipse.getBounds();
 		double width = boundingBox.getLength(0);
 		double height = boundingBox.getLength(1);
-		int[] center = ellipse.getIntPoint();
-		double majorSemiAxis = ellipse.getSemiAxis(0);
-		double minorSemiAxis = ellipse.getSemiAxis(1);
+		int[] center = myEllipse.getIntPoint();
+		double majorSemiAxis = myEllipse.getSemiAxis(0);
+		double minorSemiAxis = myEllipse.getSemiAxis(1);
 		int x = center[0];
 		int y = center[1];
 		if (width >= height) {
