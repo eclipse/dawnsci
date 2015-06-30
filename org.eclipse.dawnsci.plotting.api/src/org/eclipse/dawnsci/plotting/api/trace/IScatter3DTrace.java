@@ -16,11 +16,11 @@ import java.util.List;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
- * 
+ *
  * This interface is ready for use from now onwards and is to be used for
  * 3D scatter plotting operations. Use IImageTrace normally for images.
- * 
- * 
+ *
+ *
  */
 public interface IScatter3DTrace extends IAxesTrace, IWindowTrace {
 
@@ -28,12 +28,13 @@ public interface IScatter3DTrace extends IAxesTrace, IWindowTrace {
 	 * Set the data of the plot, will replot if called on an active plot.
 	 * @param data
 	 * @param axes
+	 * @return true if data has been successfully set
 	 * @throws Exception
 	 */
-	public void setData(final IDataset data, final List<? extends IDataset> axes);
+	public boolean setData(final IDataset data, final List<IDataset> axes);
 
 	/**
-	 * 
+	 *
 	 * @param axesNames
 	 */
 	public void setAxesNames(List<String> axesNames);
