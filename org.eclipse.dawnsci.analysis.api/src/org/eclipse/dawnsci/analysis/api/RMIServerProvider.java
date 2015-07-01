@@ -8,14 +8,13 @@
  *
  * Contributors:
  *    Peter Chang - initial API and implementation and/or initial documentation
+ *    Simon Berriman
  *******************************************************************************/
 
 package org.eclipse.dawnsci.analysis.api;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.rmi.AccessException;
-import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -23,20 +22,31 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
- * A simple interface to Java RMI so that objects can be exported using the defaults encoded in this class.
+ * A wrapper on Java RMI, so that objects can be remotely exported easily.
  */
-public class RMIServerProvider extends ServerProvider{
-	private static final Logger logger = LoggerFactory.getLogger(RMIServerProvider.class);
+public class RMIServerProvider extends ServerProvider {
 
-	private static RMIServerProvider instance = new RMIServerProvider();
-	private int port = 0;
+	/** TCP port value indicating 'unset' or 'auto' */
+	public static final int UNSET_PORT = 0;
+	/** Minimum valid value for a TCP port */
+	public static final int MIN_VALID_PORT = 1;
+	/** Maximum valid value for a TCP port */
+	public static final int MAX_VALID_PORT = 65535;
+
+	/** SLF4J Logger */
+	private static final Logger LOGGER = LoggerFactory.getLogger(RMIServerProvider.class);
+	/** Singleton instance */
+	private static final RMIServerProvider INSTANCE = new RMIServerProvider();
+
+	private int port = UNSET_PORT;
 	private Registry serverRegistry = null;
 
 	/**
@@ -46,104 +56,183 @@ public class RMIServerProvider extends ServerProvider{
 	 * http://stackoverflow.com/questions/645208/java-rmi-nosuchobjectexception-no-such-object-in-table
 	 */
 	private Map<String, Remote> remotes = new HashMap<String, Remote>();
+	private Queue<String> waitingRemotes = null;
 
 	/**
 	 * Get Instance of provider
-	 * 
+	 *
 	 * @return instance
 	 */
 	public static RMIServerProvider getInstance() {
-		return instance;
+		return INSTANCE;
 	}
 
+	/** Singleton constructor */
 	private RMIServerProvider() {
+		// No operation
 	}
 
 	/**
-	 * Export the remote object given under the named service.
-	 * <p>
-	 * This is the method you call on the "server" to make an object available.
-	 * 
+	 * Export the remote object under a given name for access as a service. This is the method you call on the server
+	 * side to make an object available. The registry connection must have been initialised already with a call to
+	 * {@link #initServer()} for the bound object to be immediately available. Otherwise, the requested binding will be
+	 * queued until the registry connection is available.
+	 *
 	 * @param serviceName
 	 *            name of the service
 	 * @param object
-	 *            remote to export
-	 * @throws AlreadyBoundException
-	 * @throws IOException if automatic port selection fails
+	 *            object to export
+	 * @throws AccessException
+	 *             if the registry is available and local, and security restrictions prevent binding
+	 * @throws RemoteException
+	 *             if RMI is disabled entirely, or if object binding fails for a non-security related reason
 	 */
-	public synchronized void exportAndRegisterObject(String serviceName, Remote object) throws AlreadyBoundException, IOException {
+	public synchronized void exportAndRegisterObject(String serviceName, Remote object) throws AccessException,
+			RemoteException {
 
-		if (Boolean.getBoolean("uk.ac.diamond.scisoft.analysis.rmiserverprovider.disable")) {
-			throw new RemoteException("Analysis RPC Server disabled with property uk.ac.diamond.scisoft.analysis.rmiserverprovider.disable");
-		}
-			
-		if (port == 0) {
-			// Use ServerSocket method for obtaining random(ish) free port
-			ServerSocket s = null;
-			try {
-				s = new ServerSocket(0);
-				port = s.getLocalPort();
-				firePortListeners(port, true);
-				
-			} finally {
-				if (s != null) {
-					s.close();
-				}
-			}
-			if (port < 0) {
-				// The idea of this check is based on some code in PyDev which implies that ServerSocket
-				// can return -1 when a firewall configuration is causing a problem
-				throw new IOException("Unable to obtain free port, is a firewall running?");
-			}
-		}
+		disabledCheck();
 
-		Remote stub = UnicastRemoteObject.exportObject(object, port);
+		remotes.put(serviceName, object);
 
 		if (serverRegistry == null) {
-			serverRegistry = LocateRegistry.createRegistry(port);
-			logger.info("Starting RMI Server on port " + port);
+			LOGGER.info("Registry not initialised. Queuing " + serviceName);
+
+			if (waitingRemotes == null) {
+				waitingRemotes = new LinkedList<String>();
+			}
+
+			waitingRemotes.add(serviceName);
+
+		} else {
+			bindExportedObject(serviceName, object);
 		}
-		logger.info("Adding " + serviceName);
-		serverRegistry.rebind(serviceName, stub);
-		remotes.put(serviceName, object);
 	}
 
+	/**
+	 * Unbinds a service, if it is bound.
+	 *
+	 * @param name
+	 *            Service to unbind
+	 * @throws AccessException
+	 *             if the registry is local, and security restrictions prevent unbinding
+	 * @throws RemoteException
+	 *             if unbind fails for a non-security related reason
+	 */
+	public synchronized void unbind(String name) throws AccessException, RemoteException {
+		if (serverRegistry != null) {
+			try {
+				serverRegistry.unbind(name);
+			} catch (NotBoundException e) {
+				LOGGER.warn("Service '" + name + "' was not bound to unbind - ignoring");
+			}
+		}
 
-	public void unbind(String name) throws AccessException, RemoteException, NotBoundException {
-		if (serverRegistry == null) return;
-		serverRegistry.unbind(name);
+		if (waitingRemotes != null) {
+			waitingRemotes.remove(name);
+		}
 		remotes.remove(name);
 	}
 
 	/**
-	 * Provide a port number to use. Allows overriding the default, particularly useful if multiple instances of SDA are
-	 * run on the same machine.
-	 * 
+	 * Creates or connects to an existing RMI registry using previously set details. This includes a limited amount of
+	 * sanity checking. This method <b>must</b> be called from the application before RMI objects are attempted to be
+	 * used. If any objects have been queued for exporting, they will be exported by this method assuming a valid
+	 * registry is available to do so.
+	 *
+	 * @throws IllegalStateException
+	 *             if this method is attempted to be called more than once, or if a sanity check (i.e. invalid port
+	 *             number) fails.
+	 * @throws IOException
+	 *             if RMI is disabled by a system property, or the remote object store cannot be unmarshalled
+	 */
+	public synchronized void initServer() throws IllegalStateException, IOException {
+		disabledCheck();
+
+		if (serverRegistry != null) {
+			throw new IllegalStateException("RMI Server Provider has already been initialised");
+		}
+
+		if (port == UNSET_PORT) {
+			throw new IllegalStateException("Port has not been set.");
+		} else if (port <= MIN_VALID_PORT || port >= MAX_VALID_PORT) {
+			throw new IllegalStateException("Port is out of range.");
+		}
+
+		LOGGER.info("Creating RMI Server on port " + port);
+		serverRegistry = LocateRegistry.createRegistry(port);
+
+		if (waitingRemotes != null) {
+			for (String serviceName : waitingRemotes) {
+				bindExportedObject(serviceName, remotes.get(serviceName));
+			}
+
+			waitingRemotes = null;
+		}
+	}
+
+	/**
+	 * Checks if RMI is disabled, as specified by the system property
+	 * "uk.ac.diamond.scisoft.analysis.rmiserverprovider.disable". Either does nothing if RMI is allowed, or throws an
+	 * exception if its disabled.
+	 *
+	 * @throws RemoteException
+	 *             if RMI is disabled by the system property
+	 */
+	private void disabledCheck() throws RemoteException {
+		if (Boolean.getBoolean("uk.ac.diamond.scisoft.analysis.rmiserverprovider.disable")) {
+			throw new RemoteException(
+					"Analysis RPC Server disabled with property uk.ac.diamond.scisoft.analysis.rmiserverprovider.disable");
+		}
+	}
+
+	/**
+	 * Performs the actual task of binding an object to a service name in the RMI registry. Does nothing if the RMI
+	 * server has not been initialised.
+	 *
+	 * @param serviceName
+	 *            Name of service to publish
+	 * @param object
+	 *            Object to publish to RMI
+	 * @throws AccessException
+	 *             if the registry is local, and security restrictions prevent binding
+	 * @throws RemoteException
+	 *             if export or bind fails for a non-security related reason
+	 */
+	private void bindExportedObject(String serviceName, Remote object) throws AccessException, RemoteException {
+		if (serverRegistry != null) {
+			LOGGER.info("Adding RMI service " + serviceName);
+			serverRegistry.rebind(serviceName, UnicastRemoteObject.exportObject(object, 0));
+		}
+	}
+
+	/**
+	 * Provide a port number to use.
+	 *
 	 * @param rmiPortNumber
-	 *            new port number, or 0 to use default port
+	 *            new port number
 	 * @throws IllegalStateException
 	 *             if already serving on the previous port
 	 * @throws IllegalArgumentException
-	 *             if the port number is < 0
+	 *             if the port number is < 1 or > 65535
 	 */
-	public void setPort(int rmiPortNumber) throws IllegalStateException, IllegalArgumentException {
-		if (rmiPortNumber < 0)
-			throw new IllegalArgumentException("Port number must be >= 0");
+	public final void setPort(int rmiPortNumber) throws IllegalStateException, IllegalArgumentException {
+		if (rmiPortNumber < MIN_VALID_PORT || rmiPortNumber > MAX_VALID_PORT)
+			throw new IllegalArgumentException("Port number must be between " + MIN_VALID_PORT + " and "
+					+ MAX_VALID_PORT);
 		if (serverRegistry != null)
-			throw new IllegalStateException("RMI Server Provider has already used the existing port, "
-					+ "setPort must be called before any handlers are added.");
+			throw new IllegalStateException("RMI Server Provider has already been initialised, "
+					+ "'setPort' must be called before any handlers are added.");
 
 		port = rmiPortNumber;
 		firePortListeners(port, false);
 	}
 
 	/**
-	 * Return Port number in use
-	 * 
+	 * Return Port number in use, or 0 if not set
+	 *
 	 * @return port number
 	 */
 	public int getPort() {
 		return port;
 	}
-
 }
