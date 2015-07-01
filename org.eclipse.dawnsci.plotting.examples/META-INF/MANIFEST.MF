@@ -4,7 +4,7 @@ Bundle-Name: Examples
 Bundle-SymbolicName: org.eclipse.dawnsci.plotting.examples;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Diamond Light Source
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.ui;bundle-version="3.8.2",
  org.eclipse.ui.workbench,
  org.eclipse.core.runtime;bundle-version="3.8.0",
