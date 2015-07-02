@@ -71,7 +71,7 @@ public class DetectorProperties implements Serializable, Cloneable {
 	public DetectorProperties() {
 		normal = new Vector3d(0, 0, -1);
 	}
-	
+
 	/**
 	 * This assumes beam is along z-axis
 	 * 
@@ -168,7 +168,6 @@ public class DetectorProperties implements Serializable, Cloneable {
 		calcNormal(true);
 	}
 
-	
 	/**
 	 * @param origin
 	 *            The local origin of the detector plane relative to the reference frame. This origin indicates the top
@@ -636,6 +635,26 @@ public class DetectorProperties implements Serializable, Cloneable {
 		tb.rotY(beta);
 		tb.mul(ta);
 		invOrientation.rotZ(alpha);
+		invOrientation.mul(tb);
+		calcNormal(false);
+	}
+
+	/**
+	 * Set detector orientation using a set of (proper) Euler angles (in radians) in ZYZ order
+	 * 
+	 * @param alpha first angle about global x
+	 * @param beta second angle about local y
+	 * @param gamma third angle about local z
+	 */
+	public void setOrientationEulerXYZ(final double alpha, final double beta, final double gamma) {
+		if (invOrientation == null)
+			invOrientation = new Matrix3d();
+		Matrix3d ta = new Matrix3d();
+		Matrix3d tb = new Matrix3d();
+		ta.rotZ(gamma);
+		tb.rotY(beta);
+		tb.mul(ta);
+		invOrientation.rotX(alpha);
 		invOrientation.mul(tb);
 		calcNormal(false);
 	}
