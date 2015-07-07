@@ -256,11 +256,12 @@ public class HDF5Utils {
 					}
 					if (schunk == null || all) {
 						H5.H5Sselect_hyperslab(sid, HDF5Constants.H5S_SELECT_SET, sstart, sstride, dsize, null);
-						int length = 1;
-						for (int i = 0; i < rank; i++)
-							length *= count[i];
-
-						int msid = H5.H5Screate_simple(1, new long[] {length}, null);
+//						int length = 1;
+//						for (int i = 0; i < rank; i++)
+//							length *= count[i];
+//
+//						int msid = H5.H5Screate_simple(1, new long[] {length}, null);
+						int msid = H5.H5Screate_simple(rank, dsize, null);
 						H5.H5Sselect_all(msid);
 						data = DatasetFactory.zeros(isize, count, ldtype);
 						Object odata = data.getBuffer();
@@ -327,7 +328,8 @@ public class HDF5Utils {
 						} catch (OutOfMemoryError err) {
 							throw new ScanFileHolderException("Out Of Memory", err);
 						}
-						int msid = H5.H5Screate_simple(1, new long[] {length}, null);
+//						int msid = H5.H5Screate_simple(1, new long[] {length}, null);
+						int msid = H5.H5Screate_simple(rank, dsize, null);
 						H5.H5Sselect_all(msid);
 
 						PositionIterator it = data.getPositionIterator(axes);
