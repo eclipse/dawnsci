@@ -24,6 +24,10 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 
 	
 	private DataConnection<ShortDataset>            connection;
+
+
+	private boolean dynamicShape=true;
+	private int[] transShape;
 	
 	/**
 	 * 
@@ -64,7 +68,19 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 		
 		odata = buffer;
 		setData();
-		this.shape = sdata.getShape();
+		if (dynamicShape) {
+		    this.shape = sdata.getShape();
+		} else {
+			this.transShape = sdata.getShape();
+		}
+	}
+	
+	public void setShapeDynamic(boolean isDyn) {
+		dynamicShape  = isDyn;
+		if (dynamicShape && transShape!=null) {
+		    this.shape = transShape;
+		    transShape = null;
+		}
 	}
 	
 	@Override

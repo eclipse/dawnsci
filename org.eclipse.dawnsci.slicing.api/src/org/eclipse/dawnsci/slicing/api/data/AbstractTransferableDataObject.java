@@ -11,6 +11,10 @@ package org.eclipse.dawnsci.slicing.api.data;
 
 import java.util.List;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
+import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
+import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.plotting.api.expressions.IExpressionObject;
 import org.eclipse.dawnsci.plotting.api.expressions.IExpressionObjectService;
 import org.eclipse.dawnsci.plotting.api.expressions.IVariableManager;
@@ -266,6 +270,31 @@ public abstract class AbstractTransferableDataObject implements ITransferableDat
 
 	public boolean isTransientData() {
 		return transientData;
+	}
+
+	@Override
+	public boolean isDynamic() {
+		if (isExpression()) return false;
+		ILazyDataset lz = getLazyData(new IMonitor.Stub());
+		if (lz==null) return false;
+		if (lz instanceof IDynamicDataset) return true;
+		return false;
+	}
+	
+	@Override
+	public void addDataListener(IDataListener l) {
+		if (!isDynamic()) return;
+		IDynamicDataset dy = (IDynamicDataset)getLazyData(new IMonitor.Stub());
+		if (dy==null) return;
+		dy.addDataListener(l);
+	}
+
+	@Override
+	public void removeDataListener(IDataListener l){
+	    if (!isDynamic()) return;
+		IDynamicDataset dy = (IDynamicDataset)getLazyData(new IMonitor.Stub());
+		if (dy==null) return;
+		dy.removeDataListener(l);
 	}
 
 }

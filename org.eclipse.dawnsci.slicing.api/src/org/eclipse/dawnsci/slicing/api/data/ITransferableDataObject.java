@@ -13,6 +13,7 @@ package org.eclipse.dawnsci.slicing.api.data;
 
 import java.util.List;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
@@ -209,5 +210,23 @@ public interface ITransferableDataObject {
 	 * @return file path to data file, may be null.
 	 */
 	public String getFilePath();
+
+	/**
+	 * 
+	 * @return true if the dataset behind this transferable is dynamic
+	 */
+	public boolean isDynamic();
+	
+	/**
+	 * Add a data listener (if this is not a dynamic transferable, does nothing)
+	 * @param l
+	 */
+	public void addDataListener(IDataListener l);
+
+	/**
+	 * Add a data listener (if this is not a dynamic transferable, does nothing)
+	 * @param l
+	 */
+	public void removeDataListener(IDataListener l);
 
 }

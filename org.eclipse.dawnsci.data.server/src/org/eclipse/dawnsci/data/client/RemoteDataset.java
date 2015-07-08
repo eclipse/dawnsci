@@ -62,6 +62,9 @@ class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	// Web socket stuff
 	private Connection connection;
     private DataListenerDelegate eventDelegate;
+
+	private boolean dynamicShape = true;
+	private int[] transShape;
 	/**
 	 * 
 	 */
@@ -145,11 +148,25 @@ class RemoteDataset extends LazyDataset implements IRemoteDataset {
 		public synchronized void onMessage(String data) {	
 			try {
 				DataEvent evt = DataEvent.decode(data);
-				if (evt.getShape()!=null) setShapeInternal(true, evt.getShape());
-				eventDelegate.fire(evt);
+				if (evt.getShape()!=null) {
+					if (dynamicShape) {
+						setShapeInternal(true, evt.getShape());
+						eventDelegate.fire(evt);
+					} else {
+						RemoteDataset.this.transShape =  evt.getShape();
+					}
+				}
 			} catch (Exception ne) {
 				logger.error("Cannot set shape of dataset!", ne);
 			}
+		}
+	}
+	
+	public void setShapeDynamic(boolean isDyn) {
+		dynamicShape  = isDyn;
+		if (dynamicShape && transShape!=null) {
+		    this.shape = transShape;
+		    transShape = null;
 		}
 	}
 

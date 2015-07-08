@@ -36,6 +36,9 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 
 	private DataConnection<RGBDataset>            connection;
 	
+	private boolean dynamicShape=true;
+	private int[] transShape;
+
 	/**
 	 * 
 	 * @param client the client used to create the connection, for instance MJPG
@@ -74,7 +77,19 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 		Serializable buffer = ((Dataset)newData).getBuffer();	
 		odata = buffer;
 		setData();
-		this.shape = newData.getShape();
+		if (dynamicShape) {
+		    this.shape = newData.getShape();
+		} else {
+			this.transShape = newData.getShape();
+		}
+	}
+	
+	public void setShapeDynamic(boolean isDyn) {
+		dynamicShape  = isDyn;
+		if (dynamicShape && transShape!=null) {
+		    this.shape = transShape;
+		    transShape = null;
+		}
 	}
 	
 	@Override

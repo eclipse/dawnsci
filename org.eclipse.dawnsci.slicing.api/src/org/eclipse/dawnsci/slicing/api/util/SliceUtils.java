@@ -24,8 +24,10 @@ import java.util.Map;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDatasetMathsService;
+import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
+import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.io.SliceObject;
@@ -513,7 +515,19 @@ public class SliceUtils {
 		if (ld instanceof IDataset) {
 			slice = ((IDataset)ld).getSliceView(currentSlice.getSliceStart(), currentSlice.getSliceStop(), currentSlice.getSliceStep());
 		} else {
-			slice = ld.getSlice(currentSlice.getSliceStart(), currentSlice.getSliceStop(), currentSlice.getSliceStep());
+			try {
+				if (ld instanceof IDynamicDataset) {
+					((IDynamicDataset)ld).setShapeDynamic(false); // Stop the shape changing!
+				}
+				// This works in case where the ld is changing shape because it is dynamic
+				SliceND sliceND = SliceND.createSlice(ld, currentSlice.getSliceStart(), currentSlice.getSliceStop(), currentSlice.getSliceStep());
+				slice = ld.getSlice(new ProgressMonitorWrapper(monitor), sliceND);
+				
+			} finally {
+				if (ld instanceof IDynamicDataset) {
+					((IDynamicDataset)ld).setShapeDynamic(true); // Start the shape changing!
+				}
+			}
 		}
 		
 		slice.setName("Slice of "+currentSlice.getName()+" "+currentSlice.getShapeMessage());
