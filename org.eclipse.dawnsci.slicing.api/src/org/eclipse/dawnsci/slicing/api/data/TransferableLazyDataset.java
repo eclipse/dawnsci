@@ -15,7 +15,6 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.plotting.api.expressions.IExpressionObject;
 
 
 /**
@@ -28,6 +27,7 @@ public class TransferableLazyDataset extends AbstractTransferableDataObject {
 	public TransferableLazyDataset(ILazyDataset delegate) {
 		this.delegate = delegate;
 		this.name     = delegate.getName();
+		this.transientData = true;
 	}
 
 	@Override
@@ -80,11 +80,6 @@ public class TransferableLazyDataset extends AbstractTransferableDataObject {
 	@Override
 	public ITransferableDataObject clone() {
 		return new TransferableLazyDataset(delegate);
-	}
-
-	@Override
-	public boolean isTransientData() {
-		return true;
 	}
 
 	@Override

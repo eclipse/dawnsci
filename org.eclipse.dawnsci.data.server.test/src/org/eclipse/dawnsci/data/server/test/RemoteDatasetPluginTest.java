@@ -3,6 +3,7 @@ package org.eclipse.dawnsci.data.server.test;
 import java.io.File;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
+import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.data.server.ServiceHolder;
 import org.eclipse.dawnsci.slicing.api.data.ITransferableDataManager;
 import org.eclipse.dawnsci.slicing.api.data.TransferableLazyDataset;
@@ -27,7 +28,8 @@ public class RemoteDatasetPluginTest extends DataServerTest {
 			testIsRunning = true;
 			final File h5File = startHDF5WritingThread(); // This is an HDF5 file which is growing as a thread writes it.
 			
-			final IRemoteDataset data = ServiceHolder.getRemoteDatasetService().createRemoteDataset("localhost", 8080);
+			IRemoteDatasetService service = ServiceHolder.getRemoteDatasetService();
+			final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);
 			data.setPath(h5File.getAbsolutePath());
 			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
 			data.connect();
@@ -38,9 +40,12 @@ public class RemoteDatasetPluginTest extends DataServerTest {
 				// 2. plot data from it
                 IEditorPart  editor = TestUtils.openExternalEditor(testDir+"/export.h5");
                 ITransferableDataManager man = (ITransferableDataManager)editor.getAdapter(ITransferableDataManager.class);
+                
+				TestUtils.delay(1000); // Wait while plot sorts itself out
+
                 man.addData(new TransferableLazyDataset(data));
 				
-				TestUtils.delay(10000);
+				TestUtils.delay(20000);
 				
 			} finally {
 				data.disconnect();

@@ -19,6 +19,11 @@ import org.eclipse.ui.PlatformUI;
 public abstract class AbstractTransferableDataObject implements ITransferableDataObject {
 
 	protected IExpressionObjectService service;
+	/**
+	 * If it is a transient data set it will have been copied from 
+	 * one data view to another and the user may want to delete it.
+	 */
+	protected boolean           transientData=false;
 	
 	protected AbstractTransferableDataObject() {
 		this.service  = (IExpressionObjectService)PlatformUI.getWorkbench().getService(IExpressionObjectService.class);
@@ -259,5 +264,8 @@ public abstract class AbstractTransferableDataObject implements ITransferableDat
 		this.filterFile = filterFile;
 	}
 
+	public boolean isTransientData() {
+		return transientData;
+	}
 
 }
