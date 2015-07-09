@@ -65,6 +65,7 @@ class RemoteDataset extends LazyDataset implements IRemoteDataset {
 
 	private boolean dynamicShape = true;
 	private int[] transShape;
+	private int[] maxShape;
 	/**
 	 * 
 	 */
@@ -236,6 +237,17 @@ class RemoteDataset extends LazyDataset implements IRemoteDataset {
 
 	public void setDataset(String dataset) {
 		urlBuilder.setDataset(dataset);
+	}
+
+	@Override
+	public int[] getMaxShape() {
+		if (maxShape==null) return getShape();
+		return maxShape;
+	}
+
+	@Override
+	public void setMaxShape(int[] maxShape) {
+		this.maxShape = maxShape;
 	}
 
 }

@@ -5,6 +5,11 @@ import java.awt.image.BufferedImage;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.data.client.slice.SliceClient;
 
+/**
+ * Just for testing, not intended as API.
+ * @author fcp94556
+ *
+ */
 public class DynamicDatasetFactory {
 
 	/**

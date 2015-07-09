@@ -68,6 +68,10 @@ public class DataServerTest {
 	protected volatile boolean testIsRunning = false;
 
 	protected File startHDF5WritingThread() throws IOException, InterruptedException {
+		return startHDF5WritingThread(1000L);
+	}
+
+	protected File startHDF5WritingThread(final long sleepTime) throws IOException, InterruptedException {
 		
         final File ret = File.createTempFile("temp_transient_file", ".h5");
         ret.deleteOnExit();
@@ -89,7 +93,7 @@ public class DataServerTest {
         					file.group("/entry/data");
         					String path = file.appendDataset(rimage.getName(), rimage, "/entry/data");
 
-        					Thread.sleep(1000);
+        					Thread.sleep(sleepTime);
         					System.out.println(">> HDF5 wrote image to "+path);
 
         				} catch (Exception ne) {

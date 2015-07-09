@@ -515,21 +515,12 @@ public class SliceUtils {
 		if (ld instanceof IDataset) {
 			slice = ((IDataset)ld).getSliceView(currentSlice.getSliceStart(), currentSlice.getSliceStop(), currentSlice.getSliceStep());
 		} else {
-			try {
-				if (ld instanceof IDynamicDataset) {
-					((IDynamicDataset)ld).setShapeDynamic(false); // Stop the shape changing!
-				}
-				// This works in case where the ld is changing shape because it is dynamic
-				SliceND sliceND = SliceND.createSlice(ld, currentSlice.getSliceStart(), currentSlice.getSliceStop(), currentSlice.getSliceStep());
-				slice = ld.getSlice(new ProgressMonitorWrapper(monitor), sliceND);
-				
-			} finally {
-				if (ld instanceof IDynamicDataset) {
-					((IDynamicDataset)ld).setShapeDynamic(true); // Start the shape changing!
-				}
-			}
+
+			// This works in case where the ld is changing shape because it is dynamic
+			SliceND sliceND = SliceND.createSlice(ld, currentSlice.getSliceStart(), currentSlice.getSliceStop(), currentSlice.getSliceStep());
+			slice = ld.getSlice(new ProgressMonitorWrapper(monitor), sliceND);
 		}
-		
+
 		slice.setName("Slice of "+currentSlice.getName()+" "+currentSlice.getShapeMessage());
 		
 		final DimsDataList ddl = (DimsDataList)currentSlice.getDimensionalData();

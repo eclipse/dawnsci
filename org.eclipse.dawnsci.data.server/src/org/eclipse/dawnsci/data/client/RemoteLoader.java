@@ -28,7 +28,8 @@ class RemoteLoader implements ILazyLoader {
 	public IDataset getDataset(IMonitor unused, SliceND slice) throws Exception {
 		urlBuilder.setSlice(slice);
 		final SliceClient<IDataset> client = new SliceClient<IDataset>(urlBuilder);
-		return client.get();
+		IDataset ret = client.get();
+		return ret;
 	}
 
 }

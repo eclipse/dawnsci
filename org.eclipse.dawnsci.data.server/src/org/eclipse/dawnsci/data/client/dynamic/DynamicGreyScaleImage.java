@@ -28,6 +28,7 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 
 	private boolean dynamicShape=true;
 	private int[] transShape;
+	private int[] maxShape;
 	
 	/**
 	 * 
@@ -91,6 +92,15 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 	@Override
 	public void removeDataListener(IDataListener l) {
 		connection.removeDataListener(l);
+	}
+
+	public int[] getMaxShape() {
+		if (maxShape==null) return getShape();
+		return maxShape;
+	}
+
+	public void setMaxShape(int[] maxShape) {
+		this.maxShape = maxShape;
 	}
 	
 }
