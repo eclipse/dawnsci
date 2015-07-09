@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.data.server.ServiceHolder;
 import org.junit.Test;
 
@@ -20,6 +22,35 @@ import org.junit.Test;
  */
 public class RemoteDatasetTest extends DataServerTest {
 	
+	
+	@Test
+	public void testRemoteSlicingUsingSliceND() throws Exception {
+		
+		try {
+			testIsRunning = true;
+			final File h5File = startHDF5WritingThread(1000);
+			
+			final IRemoteDataset data = ServiceHolder.getRemoteDatasetService().createRemoteDataset("localhost", 8080);
+			data.setPath(h5File.getAbsolutePath());
+			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
+			data.connect();
+
+			Thread.sleep(2000); // Let it get going
+			
+			for (int i = 0; i < 10; i++) {
+				
+				SliceND sliceND = SliceND.createSlice(data, new int[]{i,0,0}, new int[]{i+1,1024,1024},new int[]{1,1,1});
+				IDataset slice = data.getSlice(sliceND);
+                if (!Arrays.equals(slice.getShape(), new int[]{1,1024,1024})) {
+                	throw new Exception("Incorrect remote slice! "+Arrays.toString(slice.getShape()));
+                }
+    			Thread.sleep(1000);
+			}
+			
+		} finally {
+			testIsRunning = false;
+		}
+	}
 
 	@Test
 	public void testHDF5FileMonitoring() throws Exception {
