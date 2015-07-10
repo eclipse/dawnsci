@@ -16,9 +16,11 @@ import java.io.Serializable;
 
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
+import org.eclipse.dawnsci.analysis.api.metadata.DimensionMetadata;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
+import org.eclipse.dawnsci.analysis.dataset.metadata.DimensionMetadataImpl;
 
 public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	protected static final long serialVersionUID = 9089016783319981598L;
@@ -29,6 +31,7 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	private boolean augmented = false;
 	private ILazyDataset dataset;
 	private long[] maxShape;
+	private long[] chunkShape;
 	private String text;
 	private String type;
 	private int maxTextLength = -1;
@@ -83,7 +86,23 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 
 	@Override
 	public void setMaxShape(long[] maxShape) {
+		if (maxShape != null && dataset != null && maxShape.length != dataset.getRank()) {
+			throw new IllegalArgumentException("Maximum shape must match rank of dataset");
+		}
 		this.maxShape = maxShape;
+	}
+
+	@Override
+	public long[] getChunkShape() {
+		return chunkShape;
+	}
+
+	@Override
+	public void setChunkShape(long[] chunkShape) {
+		if (chunkShape != null && dataset != null && chunkShape.length != dataset.getRank()) {
+			throw new IllegalArgumentException("Chunk shape must match rank of dataset");
+		}
+		this.chunkShape = chunkShape;
 	}
 
 	@Override
@@ -143,6 +162,26 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	@Override
 	public void setDataset(final ILazyDataset lazyDataset) {
 		dataset = lazyDataset;
+		int rank = dataset.getRank();
+		int[] mshape = null;
+		if (maxShape != null) {
+			mshape = new int[rank];
+			for (int i = 0; i < rank; i++) {
+				mshape[i] = (int) maxShape[i];
+			}
+		}
+		int[] cshape = null;
+		if (chunkShape != null) {
+			cshape = new int[rank];
+			for (int i = 0; i < rank; i++) {
+				cshape[i] = (int) chunkShape[i];
+			}
+		}
+		if (mshape != null || cshape != null) {
+			DimensionMetadata dmd = new DimensionMetadataImpl(dataset.getShape(), mshape, cshape);
+			dataset.addMetadata(dmd);
+		}
+
 		supported = true;
 		string = lazyDataset instanceof StringDataset || lazyDataset.elementClass() == String.class;
 	}
