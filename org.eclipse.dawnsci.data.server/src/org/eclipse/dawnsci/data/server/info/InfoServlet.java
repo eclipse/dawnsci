@@ -13,16 +13,17 @@ package org.eclipse.dawnsci.data.server.info;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
+import org.eclipse.dawnsci.analysis.api.metadata.DimensionMetadata;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.data.server.ServiceHolder;
@@ -100,6 +101,12 @@ public class InfoServlet extends HttpServlet {
 			response.getWriter().println(Arrays.toString(lz.getShape()));
 			response.getWriter().println(AbstractDataset.getDTypeFromClass(lz.elementClass()));
 			response.getWriter().println(lz.getElementsPerItem()); // Probably 1
+			List<DimensionMetadata> dmds = lz.getMetadata(DimensionMetadata.class);
+			if (dmds != null && dmds.size() > 0) {
+				DimensionMetadata dmd = dmds.get(0);
+				response.getWriter().println(Arrays.toString(dmd.getDataMaxDimensions()));
+				response.getWriter().println(Arrays.toString(dmd.getDataChunkDimensions()));
+			}
 		   
 		} catch (Exception e) {
 			e.printStackTrace();
