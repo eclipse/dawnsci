@@ -15,7 +15,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocket.Connection;
 import org.eclipse.jetty.websocket.WebSocketClient;
@@ -53,7 +53,7 @@ try {
  * @author Matthew Gerring
  *
  */
-class RemoteDataset extends LazyDataset implements IRemoteDataset {
+class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RemoteDataset.class);
 	
@@ -65,7 +65,7 @@ class RemoteDataset extends LazyDataset implements IRemoteDataset {
 
 	private boolean dynamicShape = true;
 	private int[] transShape;
-	private int[] maxShape;
+
 	/**
 	 * 
 	 */
@@ -90,7 +90,7 @@ class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	 * @param port
 	 */
 	public RemoteDataset(String serverName, int port) {
-		super("unknown", Dataset.INT, new int[]{1}, null);
+		super("unknown", Dataset.INT, new int[]{1}, null, null, null);
 		this.urlBuilder = new URLBuilder(serverName, port);
 		this.eventDelegate = new DataListenerDelegate();
 	}
@@ -151,7 +151,7 @@ class RemoteDataset extends LazyDataset implements IRemoteDataset {
 				DataEvent evt = DataEvent.decode(data);
 				if (evt.getShape()!=null) {
 					if (dynamicShape) {
-						setShapeInternal(true, evt.getShape());
+						resize(evt.getShape());
 						eventDelegate.fire(evt);
 					} else {
 						RemoteDataset.this.transShape =  evt.getShape();
@@ -184,11 +184,18 @@ class RemoteDataset extends LazyDataset implements IRemoteDataset {
 			size = AbstractDataset.calcLongSize(shape);
 		} catch (IllegalArgumentException e) {
 			size = Long.MAX_VALUE; // this indicates that the entire dataset cannot be read in! 
-		}	
+		}
+
+		if (info.size() > 4) {
+			setMaxShape(toIntArray(info.get(4)));
+			setChunking(toIntArray(info.get(5)));
+		}
 	}
 
 	private int[] toIntArray(String array) {
-		
+		if (array.equals("null"))
+			return null;
+
 		final String[] split = array.substring(1, array.length()-1).split(",");
 		final int[]    ret   = new int[split.length];
 		for (int i = 0; i < split.length; i++) {
@@ -238,16 +245,4 @@ class RemoteDataset extends LazyDataset implements IRemoteDataset {
 	public void setDataset(String dataset) {
 		urlBuilder.setDataset(dataset);
 	}
-
-	@Override
-	public int[] getMaxShape() {
-		if (maxShape==null) return getShape();
-		return maxShape;
-	}
-
-	@Override
-	public void setMaxShape(int[] maxShape) {
-		this.maxShape = maxShape;
-	}
-
 }
