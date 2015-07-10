@@ -202,4 +202,14 @@ public class SliceFromSeriesMetadata implements OriginMetadata {
 		
 		return ds.getSlice(slices);
 	}
+
+	@Override
+	public int[] getDataMaxDimensions() {
+		return null;
+	}
+
+	@Override
+	public int[] getDataChunkDimensions() {
+		return null;
+	}
 }
