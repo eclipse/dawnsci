@@ -63,6 +63,20 @@
             name="Region Example"
             restorable="true">
       </view>
+      <view
+            category="org.dawnsci.plotting.examples.category"
+            class="org.eclipse.dawnsci.plotting.examples.VectorExample"
+            id="org.dawnsci.plotting.examples.vectorExample"
+            name="Vector Example"
+            restorable="true">
+      </view>
+      <view
+            category="org.dawnsci.plotting.examples.category"
+            class="org.eclipse.dawnsci.plotting.examples.CompositeExample"
+            id="org.dawnsci.plotting.examples.compositeExample"
+            name="Composite Example"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">

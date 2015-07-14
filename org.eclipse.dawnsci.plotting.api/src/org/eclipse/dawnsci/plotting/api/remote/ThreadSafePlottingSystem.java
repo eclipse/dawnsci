@@ -29,6 +29,7 @@ import org.eclipse.dawnsci.plotting.api.region.IRegion;
 import org.eclipse.dawnsci.plotting.api.region.IRegion.RegionType;
 import org.eclipse.dawnsci.plotting.api.region.IRegionListener;
 import org.eclipse.dawnsci.plotting.api.trace.ColorOption;
+import org.eclipse.dawnsci.plotting.api.trace.ICompositeTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IImageStackTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IIsosurfaceTrace;
@@ -66,6 +67,11 @@ public class ThreadSafePlottingSystem extends ThreadSafeObject implements IPlott
 	@Override
 	public IImageTrace createImageTrace(String traceName) {
 		return new ThreadSafeTrace((IImageTrace)call(getMethodName(Thread.currentThread().getStackTrace()), traceName));
+	}
+
+	@Override
+	public ICompositeTrace createCompositeTrace(String traceName) {
+		return new ThreadSafeTrace((ICompositeTrace)call(getMethodName(Thread.currentThread().getStackTrace()), traceName));
 	}
 	
 	public Control setControl(Control alternative, boolean isToolbar) {

@@ -14,6 +14,8 @@ package org.eclipse.dawnsci.plotting.api;
 public enum PlotType {
 
 	IMAGE(2, 2),        // dimensions=2 X and Y
+	
+	COMPOSITE_IMAGE(2, 2),        // dimensions=2 X and Y
 
 	SURFACE(3, 2),      // dimensions=2 X and Y
 

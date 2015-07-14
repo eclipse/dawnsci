@@ -29,18 +29,19 @@ import org.eclipse.swt.graphics.PaletteData;
 public class ImageServiceBean {
 	
 	
-	private HistogramBound  maximumCutBound = HistogramBound.DEFAULT_MAXIMUM;
-	private HistogramBound  minimumCutBound = HistogramBound.DEFAULT_MINIMUM;
-	private HistogramBound  nanBound        = HistogramBound.DEFAULT_NAN;
-	private IDataset        image;
-	private IDataset        value; // values used to map colour
-	private IDataset        mask;
-	private PaletteData     palette;
-	private ImageOrigin     origin;
-	private Number          min;
-	private Number          max;
+	private HistogramBound   maximumCutBound = HistogramBound.DEFAULT_MAXIMUM;
+	private HistogramBound   minimumCutBound = HistogramBound.DEFAULT_MINIMUM;
+	private HistogramBound   nanBound        = HistogramBound.DEFAULT_NAN;
+	private IDataset         image;
+	private IDataset         value; // values used to map colour
+	private IDataset         mask;
+	private PaletteData      palette;
+	private ImageOrigin      origin;
+	private Number           min;
+	private Number           max;
+	private int              alpha=-1; // Meaning no alpha
 	private IProgressMonitor monitor;
-	private HistoType       histogramType = HistoType.MEAN;
+	private HistoType        histogramType = HistoType.MEAN;
 	
 	/** Either 8 or 24 usually. If function object !=null then 
         this is assumed to override the depth **/
@@ -71,6 +72,7 @@ public class ImageServiceBean {
 		ret.max             = (max == null) ? null : max.doubleValue();
 		ret.lo              = lo;
 		ret.hi              = hi;
+		ret.alpha           = alpha;
 		ret.histogramType   = histogramType;
 		ret.logColorScale   = logColorScale;
 		ret.logOffset       = logOffset;
@@ -541,6 +543,14 @@ public class ImageServiceBean {
 
 	public double getLogOffset() {
 		return logOffset;
+	}
+
+	public int getAlpha() {
+		return alpha;
+	}
+
+	public void setAlpha(int alpha) {
+		this.alpha = alpha;
 	}
 
 }

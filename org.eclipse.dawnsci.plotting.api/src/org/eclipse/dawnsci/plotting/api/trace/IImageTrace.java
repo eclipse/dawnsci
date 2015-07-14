@@ -214,4 +214,18 @@ public interface IImageTrace extends IPaletteTrace, IDownsampledTrace, ICoordina
 	 */
 	public void sleep();
 
+	/**
+	 * Set the transparency setting
+	 * The alpha value must be between 0 (transparent) and 255 (opaque).
+	 * A value of -1 is the default and means that no CPU is used for alpha.
+	 * @param alpha
+	 */
+	public void setAlpha(int alpha);
+	
+	/**
+	 * Return the transparency value of the image.
+	 * The alpha value must be between 0 (transparent) and 255 (opaque).
+	 * A value of -1 is the default and means that no CPU is used for alpha.
+	 */
+	public int getAlpha();
 }
