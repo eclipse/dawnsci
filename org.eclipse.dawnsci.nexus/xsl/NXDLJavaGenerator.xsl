@@ -11,7 +11,12 @@
  which accompanies this distribution, and is available at
  http://www.eclipse.org/legal/epl-v10.html
  -->
-
+<!--
+ To generate the Java interfaces and classes, download and install Saxon XSL processor
+ (version HE9-6-0-5J) from saxon.sf.net. Check out the NeXus format definitions from
+ github.com/nexusformat/definitions. Then execute the command
+   java -cp [/path/to/]saxon9he.jar net.sf.saxon.Transform -xsl:[/path/to/]NXDLJavaGenerator.xsl -it:generate-java nxdlDefinitionsPath=[/path/to/]nexus-definitions javaSourcePath=[/path/to/]src
+ -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
  xmlns:xs="http://www.w3.org/2001/XMLSchema"
  xmlns:nx="http://definition.nexusformat.org/nxdl/@NXDL_RELEASE@"
