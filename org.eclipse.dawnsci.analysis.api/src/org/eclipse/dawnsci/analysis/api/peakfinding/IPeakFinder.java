@@ -10,6 +10,7 @@
 package org.eclipse.dawnsci.analysis.api.peakfinding;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
@@ -28,15 +29,23 @@ public interface IPeakFinder {
 	 * @return <String name, Number value> map of all parameters available 
 	 * to control this IPeakFinder. 
 	 */
-	public Map<String, Number> getParameters();
+	public Set<IPeakFinderParameter> getParameters();
 	
 	/**
-	 * Get a named parameter from the map of parameters.
+	 * Get a named parameter from the set of parameters.
 	 * 
 	 * @param pName name of the parameter in the map
 	 * @return parameter value
 	 */
-	public Number getParameter(String pName) throws Exception;
+	public IPeakFinderParameter getParameter(String pName) throws Exception;
+	
+	/**
+	 * Gets the current numerical value of the named parameter
+	 * @param pName String name of parameter
+	 * @return Number value of the parameter
+	 * @throws Exception
+	 */
+	public Number getParameterValue(String pName) throws Exception;
 	
 	/**
 	 * Change the current state of a named parameter to the given state.
