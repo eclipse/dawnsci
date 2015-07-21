@@ -19,7 +19,7 @@ public enum PlotType {
 
 	SURFACE(3, 2),      // dimensions=2 X and Y
 
-	ISOSURFACE(3, 3),   // dimensions=2 X, Y, Z
+	ISOSURFACE(3, 3),   // dimensions=3 X, Y, Z
 
 	XY(1, 1),           // dimensions=1 X
 
