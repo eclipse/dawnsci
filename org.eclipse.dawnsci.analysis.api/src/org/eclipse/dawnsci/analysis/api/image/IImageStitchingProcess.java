@@ -70,4 +70,24 @@ public interface IImageStitchingProcess {
 	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView, List<double[]> translations, 
 			boolean hasFeatureAssociation);
 
+	/**
+	 * Stiches a list of images previously cropped with the given roi. Use the theoretical image position from the
+	 * metadata to stitch the images.
+	 * 
+	 * @param input
+	 * @param rows
+	 * @param columns
+	 * @param fieldOfView
+	 *            in microns
+	 * @param translations
+	 *            X/Y expected translations in microns (mainly used if no feature association)
+	 * @param hasFeatureAssociation
+	 *            if True then feature association will be used to find the translation coordinates<br>
+	 * @param originalShape
+	 *            if input data is cropped, original shape of data
+	 * @return output stitched image
+	 */
+	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView,
+			List<double[]> translations, boolean hasFeatureAssociation, int[] originalShape);
+
 }
