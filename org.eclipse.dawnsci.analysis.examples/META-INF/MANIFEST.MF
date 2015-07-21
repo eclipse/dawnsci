@@ -10,6 +10,6 @@ Require-Bundle: org.eclipse.dawnsci.analysis.api;bundle-version="1.0.0",
  org.apache.commons.math3;bundle-version="3.2.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
-Import-Package: org.junit;version="4.10.0",
+Import-Package: org.junit;version="[4.10.0,5.0.0)",
  org.osgi.framework;version="1.7.0"
 Service-Component: OSGI-INF/*.xml 
