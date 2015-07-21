@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Macro API
 Bundle-SymbolicName: org.eclipse.dawnsci.macro.api;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: DLS
+Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.dawnsci.macro.api
