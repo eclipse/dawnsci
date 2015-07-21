@@ -10,7 +10,6 @@
 package org.eclipse.dawnsci.analysis.api.peakfinding;
 
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
@@ -29,7 +28,7 @@ public interface IPeakFinder {
 	 * @return <String name, Number value> map of all parameters available 
 	 * to control this IPeakFinder. 
 	 */
-	public Set<IPeakFinderParameter> getParameters();
+	public Map<String, IPeakFinderParameter> getParameters();
 	
 	/**
 	 * Get a named parameter from the set of parameters.
@@ -48,12 +47,20 @@ public interface IPeakFinder {
 	public Number getParameterValue(String pName) throws Exception;
 	
 	/**
-	 * Change the current state of a named parameter to the given state.
+	 * Change the current value of a named parameter with a parameter
+	 * @param pName String name of parameter
+	 * @param param IPeakFinderParameter object
+	 * @throws Exception
+	 */
+	public void setParameter(String pName, IPeakFinderParameter param) throws Exception;
+	
+	/**
+	 * Change the current value of a named parameter to the given value.
 	 * 
 	 * @param pName name of the parameter to update
 	 * @param pValue parameter value
 	 */
-	public void setParameter(String pName, Number pValue) throws Exception;
+	public void setParameterValue(String pName, Number pValue) throws Exception;
 	
 	/**
 	 * An implementation of an algorithm capable of identifying a number peaks
@@ -70,4 +77,9 @@ public interface IPeakFinder {
 	 * @return A set containing all or a number of peaks found by this IPeakFinder
 	 */
 	public Map<Integer, Double> findPeaks(IDataset xData, IDataset yData, Integer nPeaks);
+	
+	/**
+	 * Restore peak finder parameters to the default values of this class
+	 */
+	public void resetParameters();
 }
