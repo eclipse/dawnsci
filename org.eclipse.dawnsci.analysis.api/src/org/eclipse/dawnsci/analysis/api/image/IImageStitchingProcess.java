@@ -14,6 +14,7 @@ package org.eclipse.dawnsci.analysis.api.image;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 
 /**
  * This service can be called to process IDataset using BoofCV stitching algorithms
@@ -27,9 +28,11 @@ public interface IImageStitchingProcess {
 	 * Stitches a list of images with a default matrix size and angle
 	 * 
 	 * @param input
+	 * @param monitor
+	 *            To monitor progress
 	 * @return output stitched image
 	 */
-	public IDataset stitch(List<IDataset> input);
+	public IDataset stitch(List<IDataset> input, IMonitor monitor);
 
 	/**
 	 * Stitches a list of images
@@ -37,9 +40,11 @@ public interface IImageStitchingProcess {
 	 * @param input
 	 * @param rows
 	 * @param columns
+	 * @param monitor
+	 *            To monitor progress
 	 * @return output stitched image
 	 */
-	public IDataset stitch(List<IDataset> input, int rows, int columns);
+	public IDataset stitch(List<IDataset> input, int rows, int columns, IMonitor monitor);
 
 	/**
 	 * Crops a list of images given a ROI then stitches them together
@@ -48,9 +53,11 @@ public interface IImageStitchingProcess {
 	 * @param rows
 	 * @param columns
 	 * @param fieldOfView
+	 * @param monitor
+	 *            To monitor progress
 	 * @return output stitched image
 	 */
-	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView);
+	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView, IMonitor monitor);
 
 	/**
 	 * Stiches a list of images previously cropped with the given roi. Use the theoretical image position from the
@@ -65,10 +72,12 @@ public interface IImageStitchingProcess {
 	 *            X/Y expected translations in microns (mainly used if no feature association)
 	 * @param hasFeatureAssociation
 	 *            if True then feature association will be used to find the translation coordinates<br>
+	 * @param monitor
+	 *            To monitor progress
 	 * @return output stitched image
 	 */
 	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView, List<double[]> translations, 
-			boolean hasFeatureAssociation);
+			boolean hasFeatureAssociation, IMonitor monitor);
 
 	/**
 	 * Stiches a list of images previously cropped with the given roi. Use the theoretical image position from the
@@ -85,9 +94,11 @@ public interface IImageStitchingProcess {
 	 *            if True then feature association will be used to find the translation coordinates<br>
 	 * @param originalShape
 	 *            if input data is cropped, original shape of data
+	 * @param monitor
+	 *            To monitor progress
 	 * @return output stitched image
 	 */
 	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView,
-			List<double[]> translations, boolean hasFeatureAssociation, int[] originalShape);
+			List<double[]> translations, boolean hasFeatureAssociation, int[] originalShape, IMonitor monitor);
 
 }
