@@ -25,12 +25,6 @@ public interface Attribute {
 	public String getName();
 
 	/**
-	 * Get full name of attribute including node and attribute name
-	 * @return name
-	 */
-	public String getFullName();
-
-	/**
 	 * @return true if attribute contains strings
 	 */
 	public boolean isString();
@@ -86,16 +80,4 @@ public interface Attribute {
 	 *            if true, interpret integer values as unsigned by increasing element bit width
 	 */
 	public void setValue(Object obj, boolean isUnsigned);
-
-	/**
-	 * Get node name
-	 * @return name
-	 */
-	public String getNodeName();
-
-	/**
-	 * Get tree
-	 * @return tree
-	 */
-	public Tree getTree();
 }

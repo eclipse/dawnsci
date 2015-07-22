@@ -15,8 +15,6 @@ package org.eclipse.dawnsci.analysis.tree.impl;
 import java.io.Serializable;
 
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
-import org.eclipse.dawnsci.analysis.api.tree.Node;
-import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
@@ -24,35 +22,25 @@ import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 public class AttributeImpl implements Attribute, Serializable {
 	protected static final long serialVersionUID = -5046142834233727039L;
 
-	private Tree tree;
-	private String node;
 	private String name;
 	private String type;
 	private Dataset value;
 
 	/**
 	 * Create an attribute with node, name
-	 * @param tree
-	 * @param nodeName
 	 * @param attrName
 	 */
-	public AttributeImpl(final Tree tree, final String nodeName, final String attrName) {
-		this.tree = tree;
-		node = nodeName;
+	public AttributeImpl(final String attrName) {
 		name = attrName;
 	}
 
 	/**
 	 * Create an attribute with node, name, value and sign
-	 * @param tree
-	 * @param nodeName
 	 * @param attrName
 	 * @param attrValue (usually, this is a Java array)
 	 * @param isUnsigned true if items are unsigned but held in signed primitives
 	 */
-	public AttributeImpl(final Tree tree, final String nodeName, final String attrName, final Object attrValue, final boolean isUnsigned) {
-		this.tree = tree;
-		node = nodeName;
+	public AttributeImpl(final String attrName, final Object attrValue, final boolean isUnsigned) {
 		name = attrName;
 		value = DatasetFactory.createFromObject(attrValue, isUnsigned);
 		if (value.getRank() == 0) {
@@ -63,11 +51,6 @@ public class AttributeImpl implements Attribute, Serializable {
 	@Override
 	public String getName() {
 		return name;
-	}
-
-	@Override
-	public String getFullName() {
-		return node + Node.ATTRIBUTE + name;
 	}
 
 	@Override
@@ -123,15 +106,5 @@ public class AttributeImpl implements Attribute, Serializable {
 	@Override
 	public void setValue(Object obj, boolean isUnsigned) {
 		value = DatasetFactory.createFromObject(obj, isUnsigned);
-	}
-
-	@Override
-	public String getNodeName() {
-		return node;
-	}
-
-	@Override
-	public Tree getTree() {
-		return tree;
 	}
 }

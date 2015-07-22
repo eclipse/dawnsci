@@ -33,25 +33,21 @@ public class TreeFactory {
 
 	/**
 	 * Create an attribute with node, name
-	 * @param tree
-	 * @param nodeName
 	 * @param attrName
 	 */
-	public static Attribute createAttribute(final Tree tree, final String nodeName, final String attrName) {
-		return new AttributeImpl(tree, nodeName, attrName);
+	public static Attribute createAttribute(final String attrName) {
+		return new AttributeImpl(attrName);
 	}
 
 
 	/**
 	 * Create an attribute with node, name, value and sign
-	 * @param tree
-	 * @param nodeName
 	 * @param attrName
 	 * @param attrValue (usually, this is a Java array)
 	 * @param isUnsigned true if items are unsigned but held in signed primitives
 	 */
-	public static Attribute createAttribute(final Tree tree, final String nodeName, final String attrName, final Object attrValue, final boolean isUnsigned) {
-		return new AttributeImpl(tree, nodeName, attrName, attrValue, isUnsigned);
+	public static Attribute createAttribute(final String attrName, final Object attrValue, final boolean isUnsigned) {
+		return new AttributeImpl(attrName, attrValue, isUnsigned);
 	}
 
 	/**
