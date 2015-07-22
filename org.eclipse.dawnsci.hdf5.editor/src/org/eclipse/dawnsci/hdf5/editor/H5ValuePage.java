@@ -30,6 +30,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
+import org.eclipse.dawnsci.analysis.api.tree.TreeAdaptable;
 import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf5.HierarchicalDataUtils;
 import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
@@ -212,16 +213,21 @@ public class H5ValuePage extends Page  implements ISelectionListener, IPartListe
 			} catch (Exception ne) {
 				logger.error(ne.getMessage()); // Not serious, no need for stack.
 			}
- 		} else if (sel instanceof NodeLink) {
- 			NodeLink nl = (NodeLink) sel;
- 			if (nl.isDestinationGroup())
- 				label.setText("Group name of '" + nl.getName() + "' children:");
- 			else if (nl.isDestinationData())
- 				label.setText("Dataset name of '" + nl.getName() + "' value:");
-
- 			sourceViewer.getTextWidget().setText(getNodeLinkValue(nl));
-		} else if (sel instanceof org.eclipse.dawnsci.analysis.api.tree.Attribute) { // Might be nexus part.
-			sourceViewer.getTextWidget().setText(sel.toString());
+ 		} else if (sel instanceof TreeAdaptable) {
+ 			NodeLink nl = ((TreeAdaptable) sel).getNodeLink();
+ 			if (nl != null) {
+	 			if (nl.isDestinationGroup())
+	 				label.setText("Group name of '" + nl.getName() + "' children:");
+	 			else if (nl.isDestinationData())
+	 				label.setText("Dataset name of '" + nl.getName() + "' value:");
+	
+	 			sourceViewer.getTextWidget().setText(getNodeLinkValue(nl));
+ 			} else {
+ 				org.eclipse.dawnsci.analysis.api.tree.Attribute a = ((TreeAdaptable) sel).getAttribute();
+	 			if (a != null) {
+	 				sourceViewer.getTextWidget().setText(a.toString());
+	 			}
+ 			}
 		}
 	}
 	
