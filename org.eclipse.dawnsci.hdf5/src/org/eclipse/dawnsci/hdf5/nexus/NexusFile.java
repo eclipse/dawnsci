@@ -185,19 +185,10 @@ public interface NexusFile extends AutoCloseable {
 
 	/**
 	 * Create attribute
-	 * @param nodeName name
 	 * @param attr
 	 * @return attribute
 	 */
-	public Attribute createAttribute(String nodeName, IDataset attr);
-
-	/**
-	 * Create attribute
-	 * @param node
-	 * @param attr
-	 * @return attribute
-	 */
-	public Attribute createAttribute(Node node, IDataset attr);
+	public Attribute createAttribute(IDataset attr);
 
 	/**
 	 * Add (and write) attribute(s) to given node
