@@ -57,9 +57,4 @@ public interface NodeLink {
 	 * @return full name 
 	 */
 	public String getFullName();
-
-	/**
-	 * @return top node
-	 */
-	public Tree getTree();
 }

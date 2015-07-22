@@ -19,7 +19,6 @@ import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
-import org.eclipse.dawnsci.analysis.api.tree.Tree;
 
 public class NodeLinkImpl implements NodeLink, Serializable {
 	protected static final long serialVersionUID = -8586668618966201973L;
@@ -28,22 +27,19 @@ public class NodeLinkImpl implements NodeLink, Serializable {
 	private Node to;
 	private String name;
 	private String path;
-	private Tree tree;
 
 	/**
 	 * A node link
-	 * @param tree
 	 * @param path to source
 	 * @param link name
 	 * @param source node which link starts from (can be null)
 	 * @param destination node which link points to
 	 */
-	public NodeLinkImpl(final Tree tree, final String path, final String link, final Node source, final Node destination) {
+	public NodeLinkImpl(final String path, final String link, final Node source, final Node destination) {
 		if (link == null || destination == null) {
 			throw new IllegalArgumentException("Path name, link name and destination must be defined");
 		}
 
-		this.tree = tree;
 		this.path = path == null ? "" : path;
 		name = link;
 		from = source;
@@ -93,10 +89,5 @@ public class NodeLinkImpl implements NodeLink, Serializable {
 	@Override
 	public String getFullName() {
 		return path + name;
-	}
-
-	@Override
-	public Tree getTree() {
-		return tree;
 	}
 }

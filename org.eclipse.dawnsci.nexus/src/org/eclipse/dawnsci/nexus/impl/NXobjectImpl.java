@@ -26,7 +26,6 @@ import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
-import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
@@ -45,7 +44,7 @@ public class NXobjectImpl extends GroupNodeImpl implements NXobject {
 
 	protected NXobjectImpl(long oid) {
 		super(oid);
-		Attribute a = TreeFactory.createAttribute(null, null, NX_CLASS);
+		Attribute a = TreeFactory.createAttribute(NX_CLASS);
 		String n = getNXclass().getName();
 		int i = n.lastIndexOf(".");
 		a.setValue(n.substring(i + 1));
@@ -102,7 +101,7 @@ public class NXobjectImpl extends GroupNodeImpl implements NXobject {
 				continue;
 			GroupNode g = (GroupNode) n.getDestination();
 			if (g.getClass().equals(nxClass)) {
-				addGroupNode(n.getTree(), n.getPath(), n.getName(), child);
+				addGroupNode(n.getPath(), n.getName(), child);
 				return;
 			}
 		}
@@ -110,7 +109,6 @@ public class NXobjectImpl extends GroupNodeImpl implements NXobject {
 
 	@SuppressWarnings("unchecked")
 	protected <N extends NXobject> void putChild(String name, N child) {
-		Tree tree = null;
 		String path = null;
 		if (containsGroupNode(name)) {
 			NodeLink n = getNodeLink(name);
@@ -119,32 +117,24 @@ public class NXobjectImpl extends GroupNodeImpl implements NXobject {
 			if (!g.getClass().equals(nxClass)) {
 				throw new IllegalArgumentException("There is a group of given name but of a different NX class");
 			}
-			tree = n.getTree();
 			path = n.getPath();
 		}
 
-		if (tree == null || path == null) {
+		if (path == null) {
 			for (NodeLink n : this) {
-				if (tree == null) {
-					tree = n.getTree();
-				}
 				if (path == null) {
 					path = n.getPath();
 				}
 			}
 		}
-		addGroupNode(tree, path, name, child);
+		addGroupNode(path, name, child);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <N extends NXobject> void setChildren(Map<String, N> map) {
 		map = new LinkedHashMap<>(map);
-		Tree tree = null;
 		String path = null;
 		for (NodeLink n : this) {
-			if (tree == null) {
-				tree = n.getTree();
-			}
 			if (path == null) {
 				path = n.getPath();
 			}
@@ -154,14 +144,14 @@ public class NXobjectImpl extends GroupNodeImpl implements NXobject {
 				N child = map.remove(n.getName());
 				GroupNode g = (GroupNode) n.getDestination();
 				if (g.getClass().equals(child.getClass())) {
-					addGroupNode(n.getTree(), n.getPath(), n.getName(), child);
+					addGroupNode(n.getPath(), n.getName(), child);
 					map.put(n.getName(), (N) g);
 				}
 			}
 		}
 		for (String n : map.keySet()) {
 			N child = map.get(n);
-			addGroupNode(tree, path, n, child);
+			addGroupNode(path, n, child);
 		}
 	}
 
@@ -305,7 +295,7 @@ public class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	 */
 	protected void setAttribute(String name, String attrName, Object attrValue) {
 		Node node = name == null ? this : getNode(name);
-		Attribute a = node.containsAttribute(attrName) ? node.getAttribute(attrName) : TreeFactory.createAttribute(null, name, attrName);
+		Attribute a = node.containsAttribute(attrName) ? node.getAttribute(attrName) : TreeFactory.createAttribute(attrName);
 		a.setValue(attrValue);
 		node.addAttribute(a);
 		cached.put(makeAttributeKey(name, attrName), DatasetUtils.convertToDataset(a.getValue()));

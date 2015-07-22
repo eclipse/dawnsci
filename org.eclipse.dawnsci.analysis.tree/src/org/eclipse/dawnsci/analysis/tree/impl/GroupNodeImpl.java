@@ -27,7 +27,6 @@ import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
-import org.eclipse.dawnsci.analysis.api.tree.Tree;
 
 public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	protected static final long serialVersionUID = 8830337783420707862L;
@@ -122,22 +121,21 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	/**
 	 * Add given node with given path and name
-	 * @param file
 	 * @param path
 	 * @param name
 	 * @param node
 	 */
 	@Override
-	public void addNode(final Tree file, final String path, final String name, final Node node) {
+	public void addNode(final String path, final String name, final Node node) {
 		if (node == null)
 			return;
 	
 		if (node instanceof SymbolicNode) {
-			addSymbolicNode(file, path, name, (SymbolicNode) node);
+			addSymbolicNode(path, name, (SymbolicNode) node);
 		} else if (node instanceof DataNode) {
-			addDataNode(file, path, name, (DataNode) node);
+			addDataNode(path, name, (DataNode) node);
 		} else if (node instanceof GroupNode) {
-			addGroupNode(file, path, name, (GroupNode) node);
+			addGroupNode(path, name, (GroupNode) node);
 		}
 	}
 
@@ -172,18 +170,17 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			if (n instanceof GroupNode)
 				return (GroupNode) n;
 		}
-	
+
 		throw new IllegalArgumentException("No such group of given name: " + name);
 	}
 
 	/**
 	 * Add (child) group with given path and name 
-	 * @param file
 	 * @param path
 	 * @param name
 	 * @param g group
 	 */
-	public void addGroupNode(final Tree file, final String path, final String name, final GroupNode g) {
+	public void addGroupNode(final String path, final String name, final GroupNode g) {
 		synchronized (nodes) {
 			if (nodes.containsKey(name)) {
 				Node n = nodes.get(name).getDestination();
@@ -195,7 +192,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			} else {
 				groups++;
 			}
-			nodes.put(name, createNodeLink(file, path, name, g));
+			nodes.put(name, createNodeLink(path, name, g));
 			populated = true;
 		}
 	}
@@ -273,13 +270,12 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	/**
 	 * Add given dataset with given path and name 
-	 * @param file
 	 * @param path
 	 * @param name
 	 * @param d dataset
 	 */
 	@Override
-	public void addDataNode(final Tree file, final String path, final String name, final DataNode d) {
+	public void addDataNode(final String path, final String name, final DataNode d) {
 		synchronized (nodes) {
 			if (nodes.containsKey(name)) {
 				Node n = nodes.get(name).getDestination();
@@ -291,13 +287,13 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			} else {
 				datasets++;
 			}
-			nodes.put(name, createNodeLink(file, path, name, d));
+			nodes.put(name, createNodeLink(path, name, d));
 			populated = true;
 		}
 	}
 
-	protected NodeLink createNodeLink(final Tree file, final String path, final String name, final Node n) {
-		return new NodeLinkImpl(file, path, name, this, n);
+	protected NodeLink createNodeLink(final String path, final String name, final Node n) {
+		return new NodeLinkImpl(path, name, this, n);
 	}
 
 	/**
@@ -338,13 +334,12 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	/**
 	 * Add linked node with given path and name
-	 * @param file
 	 * @param path
 	 * @param name
 	 * @param s symbolic node
 	 */
 	@Override
-	public void addSymbolicNode(final Tree file, final String path, final String name, final SymbolicNode s) {
+	public void addSymbolicNode(final String path, final String name, final SymbolicNode s) {
 		synchronized (nodes) {
 			if (nodes.containsKey(name)) {
 				Node n = nodes.get(name).getDestination();
@@ -358,7 +353,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 					groups++;
 				}
 			}
-			nodes.put(name, createNodeLink(file, path, name, s));
+			nodes.put(name, createNodeLink(path, name, s));
 		}
 	}
 
