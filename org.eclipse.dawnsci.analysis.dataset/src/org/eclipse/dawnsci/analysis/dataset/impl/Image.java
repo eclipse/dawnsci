@@ -18,6 +18,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.image.IImageFilterService;
 import org.eclipse.dawnsci.analysis.api.image.IImageTransform;
+import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
 import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
 import org.eclipse.dawnsci.analysis.dataset.impl.function.MapToRotatedCartesian;
@@ -449,7 +450,7 @@ public class Image {
 			IDataset data = input.getSlice(new Slice(i, size[0], size[1]));
 			images.add(data.squeeze());
 		}
-		List<IDataset> aligned = transformService.align(images);
+		List<IDataset> aligned = transformService.align(images, new IMonitor.Stub());
 		Dataset[] alignedData = new Dataset[aligned.size()];
 		for (int i = 0; i < aligned.size(); i ++) {
 			IDataset dat = aligned.get(i);

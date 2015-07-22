@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.analysis.api.image;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 
 /**
  * This service can be called to process IDataset using BoofCV transform algorithms
@@ -54,9 +55,11 @@ public interface IImageTransform {
 	 * 
 	 * @param images
 	 *            stack of images
+	 * @param monitor
+	 *            progress monitor
 	 * @return aligned stack of images
 	 * @throws Exception
 	 */
-	public List<IDataset> align(List<IDataset> images) throws Exception;
+	public List<IDataset> align(List<IDataset> images, IMonitor monitor) throws Exception;
 
 }
