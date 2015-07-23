@@ -278,6 +278,7 @@ public class Image {
 	}
 
 	private static Dataset filter(Dataset input, int[] kernel, FilterType type) {
+		input.squeeze();
 		// check to see if the kernel shape in the correct dimensionality.
 		int[] shape = input.getShape();
 		if (kernel.length != shape.length)
@@ -324,6 +325,7 @@ public class Image {
 	 * @return filtered data
 	 */
 	public static Dataset backgroundFilter(Dataset input, int radius) {
+		input.squeeze();
 		Dataset median1 = filter(input, 1, FilterType.MEDIAN);
 		Dataset min = filter(median1, new int[] {radius*2 + 1, radius * 2 + 1}, FilterType.MIN);
 		Dataset max = filter(min, new int[] {radius*2 + 1, radius*2 + 1}, FilterType.MAX);
@@ -332,6 +334,7 @@ public class Image {
 	}
 
 	public static Dataset convolutionFilter(Dataset input, Dataset kernel) {
+		input.squeeze();
 		// check to see if the kernel shape in the correct dimensionality.
 		int[] shape = input.getShape();
 		int[] kShape = kernel.getShape();
@@ -379,6 +382,7 @@ public class Image {
 	}
 	
 	public static Dataset sobelFilter(Dataset input) {
+		input.squeeze();
 		//TODO should be extended for Nd but 2D is all that is required for now.
 		if(input.getShape().length != 2) throw new IllegalArgumentException("The sobel filter only works on 2D datasets");
 		DoubleDataset kernel = new DoubleDataset(new double[] {-1,0,1,-2,0,2,-1,0,1}, 3 ,3);
