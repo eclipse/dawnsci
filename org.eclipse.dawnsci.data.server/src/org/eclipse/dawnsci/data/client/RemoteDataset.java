@@ -90,7 +90,7 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	 * @param port
 	 */
 	public RemoteDataset(String serverName, int port) {
-		super("unknown", Dataset.INT, new int[]{1}, null, null, null);
+		super("unknown", Dataset.INT, new int[]{1}, new int[]{-1,-1,-1,-1,-1}, null, null);
 		this.urlBuilder = new URLBuilder(serverName, port);
 		this.eventDelegate = new DataListenerDelegate();
 	}
