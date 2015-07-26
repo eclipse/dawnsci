@@ -30,7 +30,7 @@ public interface IPeakFinderParameter {
 	public boolean isInt();
 	
 	/**
-	 * Gert value of the parameter
+	 * Get value of the parameter
 	 * @return Number value of the parameter
 	 */
 	public Number getValue();
@@ -39,7 +39,7 @@ public interface IPeakFinderParameter {
 	 * Set the value of the parameter, checking whether the supplied type is
 	 * consistent with the expected isInt value
 	 * @param value New value of the parameter
-	 * @throws Exception If a double was supplied when an integer was expected
+	 * @throws IllegalArgumentException if value is not correct type (Integer/Double)
 	 */
-	public void setValue(Number value) throws Exception;
+	public void setValue(Number value);
 }
