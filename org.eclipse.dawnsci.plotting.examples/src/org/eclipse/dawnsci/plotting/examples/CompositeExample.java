@@ -12,12 +12,17 @@
 package org.eclipse.dawnsci.plotting.examples;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.Slice;
+import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Maths;
+import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.trace.ICompositeTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
@@ -38,58 +43,58 @@ public class CompositeExample extends PlotExample {
 	
 	public void createExampleContent(Composite parent) {
 		try {
-			// We create a basic plot
+			
+//			 We create a basic plot
 			system.createPlotPart(parent, "Composite Example", getViewSite().getActionBars(), PlotType.IMAGE, this);
 
-			// We read an image
 			final File loc = new File(BundleUtils.getBundleLocation(Activator.PLUGIN_ID), getFileName());
-			final IDataset image = service.getDataset(loc.getAbsolutePath(), new IMonitor.Stub());
-			// NOTE IMonitor is an alternative to IProgressMonitor which cannot be seen in the data layer.
+
+			String fp = loc.getAbsolutePath();
+			IDataHolder dh = service.getData(fp, true, null);
+			IDataset micro = dh.getLazyDataset("/microscope1/image/data").getSlice();
+			IDataset microx = dh.getLazyDataset("/microscope1/image/x").getSlice();
+			IDataset microy = dh.getLazyDataset("/microscope1/image/y").getSlice();
+			RGBDataset microrgb = new RGBDataset((Dataset)micro.getSlice(new Slice(0,1),null,null).squeeze(),
+												 (Dataset)micro.getSlice(new Slice(1,2),null,null).squeeze(),
+												 (Dataset)micro.getSlice(new Slice(2,3),null,null).squeeze());
+
+			IDataset map = dh.getLazyDataset("/map1/map/data").getSlice();
+			IDataset mapx = dh.getLazyDataset("/map1/map/x").getSlice();
+			IDataset mapy = dh.getLazyDataset("/map1/map/y").getSlice();
 			
-			final IDataset sub = image.getSlice(null,null,new int[]{4,4});
-			
+			//Nudge co-ordinates
+			((Dataset)mapx).iadd(5);
+			((Dataset)mapy).isubtract(20);
+
+			//Make the composite trace to hold all the images
 			ICompositeTrace comp = system.createCompositeTrace("composite1");
 			IImageTrace     back = system.createImageTrace(getFileName());
-			
-			IDataset x = Maths.add(AbstractDataset.arange(sub.getShape()[1], AbstractDataset.FLOAT), 0).imultiply(4).iadd(100);
-			IDataset y = Maths.add(AbstractDataset.arange(sub.getShape()[0], AbstractDataset.FLOAT), 0).imultiply(4).iadd(100);
-			
-			back.setData(sub, Arrays.asList(x,y), false);
-			
+
+			//Set RGB as background
+			back.setData(microrgb, Arrays.asList(microx,((Dataset)microy)), false);
 			comp.add(back, 0);
-			
-			IDataset med = image.getSlice(new int[]{424,494},new int[]{1357,1084},new int[]{2,2});
-			x = AbstractDataset.arange(med.getShape()[1], AbstractDataset.FLOAT).imultiply(2).iadd(494).iadd(100);
-			y = AbstractDataset.arange(med.getShape()[0], AbstractDataset.FLOAT).imultiply(2).iadd(424).iadd(100);
+
+			//Make a low resolution image by slicing out every other point
+			IDataset lowMap = map.getSlice(null,null,new int[]{2,2});
+			IDataset lowx = mapx.getSlice(null,null,new int[]{2});
+			IDataset lowy = mapy.getSlice(null,null,new int[]{2});
 			IImageTrace    mid = system.createImageTrace("mid");
-			mid.setData(med, Arrays.asList(x,y), false);
-			mid.setAlpha(255);
-			comp.add(mid, 1);
+			mid.setData(lowMap, Arrays.asList(((Dataset)lowx),((Dataset)lowy)), false);
+			mid.setAlpha(90);
+			comp.add(mid,1);
 			
+			//Make a partial high resolution area of the map by taking one 64*64 block
+			IDataset highMap = map.getSlice(new int[]{64,0},new int[]{128,64} ,null);
+			IDataset highx = mapx.getSlice(new int[]{0},new int[]{64},null);
+			IDataset highy = mapy.getSlice(new int[]{64},new int[]{128},null);
+			IImageTrace    top = system.createImageTrace("top");
+			top.setData(highMap, Arrays.asList(highx,highy), false);
+			top.setAlpha(150);
 			
-			// Now we overlay a random image at a location
-			IDataset small = image.getSlice(new int[]{424,494},new int[]{831,1475},new int[]{1,1});
-//			final IDataset small = image.getSlice(new int[]{494,424},new int[]{1475,831},new int[]{1,1});
-			IImageTrace    front = system.createImageTrace("rand");
-			x = AbstractDataset.arange(small.getShape()[1], AbstractDataset.FLOAT).iadd(494).iadd(100);
-			y = AbstractDataset.arange(small.getShape()[0], AbstractDataset.FLOAT).iadd(424).iadd(100);
-			front.setData(small, Arrays.asList(x,y), false);
-			front.setAlpha(255);
-			comp.add(front, 2);
-			
-			// Add Duke
-//			final File loc1 = new File(BundleUtils.getBundleLocation(Activator.PLUGIN_ID), "duke_football.jpg");
-//			final IDataset dduke = service.getDataset(loc1.getAbsolutePath(), new IMonitor.Stub());
-//
-//			IImageTrace    duke = system.createImageTrace("duke");
-//			IDataset x = Maths.add(AbstractDataset.arange(dduke.getShape()[1], AbstractDataset.FLOAT), 100);
-//			IDataset y = Maths.add(AbstractDataset.arange(dduke.getShape()[0], AbstractDataset.FLOAT), 200);
-//			duke.setData(dduke, Arrays.asList(x,y), false);
-//			duke.setAlpha(120);
-//			comp.add(duke, 2);
-			
-		
+			comp.add(top, 2);
+
 			system.addTrace(comp);
+			
 			
 		} catch (Throwable ne) {
 			ne.printStackTrace(); // Or your favourite logging.
@@ -97,7 +102,7 @@ public class CompositeExample extends PlotExample {
     }
 	
 	protected String getFileName() {
-		return "pow_M99S5_1_0001.cbf";
+		return "composite.nxs";
 	}
 
 }
