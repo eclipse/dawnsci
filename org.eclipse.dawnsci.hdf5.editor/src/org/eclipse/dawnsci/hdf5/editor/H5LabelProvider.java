@@ -17,12 +17,6 @@ import java.util.Arrays;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-import ncsa.hdf.hdf5lib.exceptions.HDF5Exception;
-import ncsa.hdf.object.Dataset;
-import ncsa.hdf.object.Group;
-import ncsa.hdf.object.HObject;
-import ncsa.hdf.object.h5.H5Datatype;
-
 import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf5.HierarchicalDataUtils;
 import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
@@ -31,6 +25,10 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ncsa.hdf.object.Dataset;
+import ncsa.hdf.object.Group;
+import ncsa.hdf.object.HObject;
 
 public class H5LabelProvider extends ColumnLabelProvider implements ITableLabelProvider {
 
