@@ -756,7 +756,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 			                     final boolean overwrite) throws Exception {
 		
 		Group parent = _group(parentPath);
-		final int id = parent.open();
+		final long id = parent.open();
 		try {
 			if (!overwrite) {
 			    name = getUnique(name, parent, Dataset.class);
@@ -784,7 +784,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 	public String createStringDataset(final String name, final int size, final String parentPath) throws Exception {
 		
 		Group parent = _group(parentPath);
-		final int id = parent.open();
+		final long id = parent.open();
 		try {
 
 			final String  fullPath = parent.getFullName();
@@ -854,7 +854,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 		}
 
 		Group parent = createGroup(parentPath, true);
-		final int id = parent.open();
+		final long id = parent.open();
 		try {
 			if (!overwrite) {
 				name = getUnique(name, parent, Dataset.class);
@@ -889,7 +889,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 	public void delete(String fullPath) throws Exception {
 		final HObject object = getData(fullPath);
 		if (object==null) return;
-		int id = object.open();
+		long id = object.open();
 		try {
 		    file.delete(object);
 		} finally {
@@ -928,7 +928,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 	
 		
 		Group parent = _group(parentGroupPath);
-		final int id = parent.open();
+		final long id = parent.open();
 		
 		try {
 			final HObject o = checkExists(name, parent, Dataset.class);
@@ -1038,7 +1038,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 		
 		Datatype dtype = H5Utils.getDatatype(data);
 		final Group parent = createGroup(parentPath, true);
-		final int id = parent.open();
+		final long id = parent.open();
 		
 		try {
 			

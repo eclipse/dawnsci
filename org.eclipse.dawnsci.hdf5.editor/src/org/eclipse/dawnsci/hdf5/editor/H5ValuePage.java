@@ -276,7 +276,7 @@ public class H5ValuePage extends Page  implements ISelectionListener, IPartListe
 			final StringBuilder buf = new StringBuilder();
 			if (dType!=null && dType.getDatatypeClass()==Datatype.CLASS_STRING) {
 				label.setText("Dataset name of '"+set.getName()+"' value:");
-				final int id = set.open();
+				final long id = set.open();
 				try {
 					final String[] value = (String[])set.read();
 					buf.append(value[0]);

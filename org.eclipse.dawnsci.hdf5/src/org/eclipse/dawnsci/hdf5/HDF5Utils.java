@@ -148,7 +148,7 @@ public class HDF5Utils {
 			logger.error("Could not get canonical path", e);
 			throw new ScanFileHolderException("Could not get canonical path", e);
 		}
-		int fid = -1;
+		long fid = -1;
 		try {
 			HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
 			fid = H5.H5Fopen(fileName, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
@@ -165,7 +165,9 @@ public class HDF5Utils {
 				return data;
 			}
 
-			int did = -1, tid = -1, tclass = -1;
+			long did = -1;
+			long tid = -1;
+			int tclass = -1;
 			try {
 				did = H5.H5Dopen(fid, node, HDF5Constants.H5P_DEFAULT);
 				tid = H5.H5Dget_type(did);
@@ -173,14 +175,14 @@ public class HDF5Utils {
 				tclass = H5.H5Tget_class(tid);
 				if (tclass == HDF5Constants.H5T_ARRAY || tclass == HDF5Constants.H5T_VLEN) {
 					// for ARRAY, the type is determined by the base type
-					int btid = H5.H5Tget_super(tid);
+					long btid = H5.H5Tget_super(tid);
 					tclass = H5.H5Tget_class(btid);
 					try {
 						H5.H5Tclose(btid);
 					} catch (HDF5Exception ex) {
 					}
 				}
-				int sid = -1, pid = -1;
+				long sid = -1, pid = -1;
 				int rank;
 				boolean isText, isVLEN; //, isUnsigned = false;
 //				boolean isEnum, isRegRef, isNativeDatatype;
@@ -256,12 +258,12 @@ public class HDF5Utils {
 					}
 					if (schunk == null || all) {
 						H5.H5Sselect_hyperslab(sid, HDF5Constants.H5S_SELECT_SET, sstart, sstride, dsize, null);
-//						int length = 1;
+//						long length = 1;
 //						for (int i = 0; i < rank; i++)
 //							length *= count[i];
 //
-//						int msid = H5.H5Screate_simple(1, new long[] {length}, null);
-						int msid = H5.H5Screate_simple(rank, dsize, null);
+//						long msid = H5.H5Screate_simple(1, new long[] {length}, null);
+						long msid = H5.H5Screate_simple(rank, dsize, null);
 						H5.H5Sselect_all(msid);
 						data = DatasetFactory.zeros(isize, count, ldtype);
 						Object odata = data.getBuffer();
@@ -328,8 +330,8 @@ public class HDF5Utils {
 						} catch (OutOfMemoryError err) {
 							throw new ScanFileHolderException("Out Of Memory", err);
 						}
-//						int msid = H5.H5Screate_simple(1, new long[] {length}, null);
-						int msid = H5.H5Screate_simple(rank, dsize, null);
+//						long msid = H5.H5Screate_simple(1, new long[] {length}, null);
+						long msid = H5.H5Screate_simple(rank, dsize, null);
 						H5.H5Sselect_all(msid);
 
 						PositionIterator it = data.getPositionIterator(axes);

@@ -126,7 +126,7 @@ public class NexusUtils {
 						if (type == ATTRIBUTE_TYPE.OVERWRITE) {
 							//Seems to be needed if you are overwriting a shorter attribute string
 							// to not get truncation
-							final int id = entry.open();
+							final long id = entry.open();
 							try {
 								entry.removeMetadata(a);
 								attrList.remove(a);
@@ -150,7 +150,7 @@ public class NexusUtils {
 		if (type==ATTRIBUTE_TYPE.OVERWRITE & !attributeExist) {
 			return;
 		}
-		final int id = entry.open();
+		final long id = entry.open();
 		try {
 			String[] classValue = {entryKey};
 			Datatype attrType = new H5Datatype(Datatype.CLASS_STRING, classValue[0].length()+1, -1, -1);
@@ -196,7 +196,7 @@ public class NexusUtils {
 			}
 		}
 		
-		final int id = entry.open();
+		final long id = entry.open();
 		try {
 	        Datatype attrType = new H5Datatype(Datatype.CLASS_INTEGER, 1, -1, -1);
 	        Attribute attr = new Attribute(name, attrType, new long[]{1});
@@ -253,7 +253,7 @@ public class NexusUtils {
 			}
 		}
 		
-		final int id = entry.open();
+		final long id = entry.open();
 		try {
 	        Attribute attr = new Attribute(name, dtype, shape);
 	        attr.setValue(buffer);

@@ -94,7 +94,7 @@ public class Hdf5Test {
 	public void testOpenFile() throws Exception {
 
 
-		int id = -1;
+		long id = -1;
 		try {
 			id = H5.H5Fopen(TestFileAbsolutePath,
 				            HDF5Constants.H5F_ACC_RDWR,
@@ -161,8 +161,8 @@ public class Hdf5Test {
 	//@Test
 	public void testReadWriteDataset() {
 
-		int file_id = -1;
-		int dataset_id = -1;
+		long file_id = -1;
+		long dataset_id = -1;
 		int[][] dset_data = new int[DIM_X][DIM_Y];
 
 		// Initialize the dataset.
@@ -182,7 +182,7 @@ public class Hdf5Test {
 		// Open an existing dataset.
 		try {
 			if (file_id >= 0)
-				dataset_id = H5.H5Dopen(file_id, "/" + DATASETNAME);
+				dataset_id = H5.H5Dopen(file_id, "/" + DATASETNAME, HDF5Constants.H5P_DEFAULT);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
