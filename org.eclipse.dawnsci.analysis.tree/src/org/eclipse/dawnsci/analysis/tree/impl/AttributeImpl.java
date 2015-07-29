@@ -42,10 +42,7 @@ public class AttributeImpl implements Attribute, Serializable {
 	 */
 	public AttributeImpl(final String attrName, final Object attrValue, final boolean isUnsigned) {
 		name = attrName;
-		value = DatasetFactory.createFromObject(attrValue, isUnsigned);
-		if (value.getRank() == 0) {
-			value.setShape(1);
-		}
+		setValue(attrValue, isUnsigned);
 	}
 
 	@Override
@@ -106,5 +103,8 @@ public class AttributeImpl implements Attribute, Serializable {
 	@Override
 	public void setValue(Object obj, boolean isUnsigned) {
 		value = DatasetFactory.createFromObject(obj, isUnsigned);
+		if (value.getRank() == 0) {
+			value.setShape(1);
+		}
 	}
 }
