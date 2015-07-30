@@ -7,7 +7,6 @@ import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.data.server.ServiceHolder;
 import org.eclipse.dawnsci.slicing.api.data.ITransferableDataManager;
 import org.eclipse.dawnsci.slicing.api.data.TransferableLazyDataset;
-import org.eclipse.dawnsci.slicing.api.system.DimsDataList;
 import org.eclipse.dawnsci.slicing.api.system.ISliceSystem;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
