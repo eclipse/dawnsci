@@ -151,5 +151,12 @@ public interface ILoaderService {
 	 * @throws Exception
 	 */
 	public AxesMetadata getAxesMetadata(ILazyDataset parent, String path, Map<Integer, String> axesNames) throws Exception;
-	
+
+	/**
+	 * Get class that can load files of given extension
+	 * 
+	 * @param extension
+	 * @return loader class
+	 */
+	public Class<? extends IFileLoader> getLoaderClass(String extension);
 }
