@@ -19,6 +19,7 @@ import ncsa.hdf.hdf5lib.H5;
 import ncsa.hdf.hdf5lib.HDF5Constants;
 import ncsa.hdf.hdf5lib.HDFNativeData;
 import ncsa.hdf.hdf5lib.exceptions.HDF5Exception;
+import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
 import ncsa.hdf.hdf5lib.structs.H5O_info_t;
 import ncsa.hdf.object.Datatype;
 import ncsa.hdf.object.h5.H5Datatype;
@@ -478,5 +479,52 @@ public class HDF5Utils {
 			out[i] = in[i];
 		}
 		return out;
+	}
+
+	/**
+	 * FIXME remove once upstream as fixed broken backward compatibility
+	 * Wrapper to fix super block status flag issue
+	 * @param filePath
+	 * @param flags
+	 * @param fapl
+	 * @return file ID
+	 * @throws HDF5LibraryException
+	 * @throws NullPointerException
+	 */
+	public static long H5Fopen(String filePath, int flags, long fapl) throws HDF5LibraryException, NullPointerException {
+		long fid = -1;
+		try {
+			fid = H5.H5Fopen(filePath, flags, fapl);
+		} catch (HDF5LibraryException e) {
+			boolean isAccessDefault = fapl == HDF5Constants.H5P_DEFAULT;
+			if (isAccessDefault) {
+				fapl = -1;
+				try {
+					fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
+				} catch (HDF5LibraryException ex) {
+					logger.error("Could not create file access property list");
+					throw ex;
+				}
+			}
+			try {
+				H5.H5Pset(fapl, "clear_status_flags", 1);
+			} catch (HDF5LibraryException ex) {
+				logger.warn("Could not clear status flag but continuing to open file");
+			}
+	
+			fid = H5.H5Fopen(filePath, flags, fapl);
+	
+			if (isAccessDefault) {
+				if (fapl != -1) {
+					try {
+						H5.H5Pclose(fapl);
+					} catch (HDF5LibraryException ex) {
+						logger.error("Could not close file access property list");
+						throw ex;
+					}
+				}
+			}
+		}
+		return fid;
 	}
 }
