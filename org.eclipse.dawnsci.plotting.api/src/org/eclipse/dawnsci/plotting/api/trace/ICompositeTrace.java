@@ -37,6 +37,13 @@ public interface ICompositeTrace extends ITrace {
 	 * @return the axes which enclose all data
 	 */
 	public List<IDataset> getAxes();
+	
+	/**
+	 * Set the colormap for the non-rgb datasets in the composite
+	 * 
+	 * @param name
+	 */
+	public void setPalette(String name);
 
 	
 }
