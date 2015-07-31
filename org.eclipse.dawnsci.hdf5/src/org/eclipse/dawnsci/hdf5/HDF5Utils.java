@@ -152,7 +152,7 @@ public class HDF5Utils {
 		long fid = -1;
 		try {
 			HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
-			fid = H5.H5Fopen(fileName, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
+			fid = H5Fopen(fileName, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
 
 			try {
 				H5O_info_t info = H5.H5Oget_info_by_name(fid, node, HDF5Constants.H5P_DEFAULT);

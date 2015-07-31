@@ -96,7 +96,7 @@ public class Hdf5Test {
 
 		long id = -1;
 		try {
-			id = H5.H5Fopen(TestFileAbsolutePath,
+			id = HDF5Utils.H5Fopen(TestFileAbsolutePath,
 				            HDF5Constants.H5F_ACC_RDWR,
 					        HDF5Constants.H5P_DEFAULT);
 
@@ -172,7 +172,7 @@ public class Hdf5Test {
 
 		// Open an existing file.
 		try {
-			file_id = H5.H5Fopen(FILENAME, HDF5Constants.H5F_ACC_RDWR,
+			file_id = HDF5Utils.H5Fopen(FILENAME, HDF5Constants.H5F_ACC_RDWR,
 					HDF5Constants.H5P_DEFAULT);
 		}
 		catch (Exception e) {
