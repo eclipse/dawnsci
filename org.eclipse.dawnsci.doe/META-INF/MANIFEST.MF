@@ -5,5 +5,5 @@ Bundle-SymbolicName: org.eclipse.dawnsci.doe
 Bundle-Version: 1.2.0.qualifier
 Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Require-Bundle: org.apache.commons.beanutils;bundle-version="[1.9.1,1.9.2)"
+Require-Bundle: org.apache.commons.beanutils;bundle-version="1.9.1"
 Export-Package: org.eclipse.dawnsci.doe
