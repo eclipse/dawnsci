@@ -14,7 +14,8 @@ package org.eclipse.dawnsci.hdf5;
 import ncsa.hdf.object.FileFormat;
 
 /**
- * Internal use only.
+ * Internal use only. Do not use this interface externally to the plugin
+ * TODO Create an internal package and move interface to it.
  * 
  * @author Matthew Gerring
  *
