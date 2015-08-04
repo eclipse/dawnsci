@@ -1,0 +1,64 @@
+<project name="generate-java" default="generate-validators">
+
+	<!-- These properties can be overridden by passing them in, either on the command line or the Eclipse run configuration
+	that invokes this build file. -->
+	<property name="xslt-classpath" location="/scratch/opt/saxon9/saxon9he.jar"/>
+	<property name="java-source-path" location="src"/>
+	<property name="gda-version" value="gda_8.47a"/>
+	<property name="nxdl-definitions-path" location="/scratch/dls_sw/all-dls/software/gda_versions/gda_8.47a/workspace_git/definitions"/>
+	
+	<target name="delete-generated-classes">
+		<delete>
+			<fileset dir="${java-source-path}">
+				<include name="**/NX*.java"/>
+				<exclude name="**/NXobject*.java"/>
+				<exclude name="**/NXApplicationValidator.java"/>
+				<exclude name="**/NX*Example.java"/>
+			</fileset>
+		</delete>
+	</target>
+	
+	<target name="delete-generated-validators">
+		<delete>
+			<fileset dir="${java-source-path}/org/eclipse/dawnsci/nexus/validation">
+				<include name="NX*.java"/>
+				<exclude name="NXApplicationValidator.java"/>
+				<exclude name="NX*Example.java"/>
+			</fileset>
+		</delete>
+	</target>
+	
+	<!-- Generate Java classes from the Nexus base class definitions -->
+	<target name="generate-java">
+		 <!-- Note: in and out are not used, nxdlDefinitionsPath and javaSourcePath are used as the source and output dirs instead.
+		 They are given dummy values as the XSLT ant task requires them. -->
+		<xslt
+			in="xsl/NXDLJavaGenerator.xsl"
+			out="${java-source-path}/out.xml"
+			style="xsl/NXDLJavaGenerator.xsl"
+			classpath="${xslt-classpath}">
+			<param name="nxdlDefinitionsPath" expression="${nxdl-definitions-path}"/>
+			<param name="javaSourcePath" expression="${java-source-path}"/>
+			<factory name="net.sf.saxon.TransformerFactoryImpl">
+				<attribute name="http://saxon.sf.net/feature/initialTemplate" value="generate-java"/>
+			</factory>
+		</xslt>
+		
+		<!-- Delete the dummy output file -->
+		<delete file="${java-source-path}/out.xml"/>
+	</target>
+	
+	<!-- Generate Java validator from the Nexus application definitions -->
+	<target name="generate-validators">
+		<xslt
+			in="xsl/NXDLValidatorGenerator.xsl"
+			out="${java-source-path}"
+			style="xsl/NXDLValidatorGenerator.xsl"
+			classpath="${xslt-classpath}">
+			<param name="nxdlDefinitionsPath" expression="${nxdl-definitions-path}"/>
+			<param name="javaSourcePath" expression="${java-source-path}"/>
+				<attribute name="http://saxon.sf.net/feature/initialTemplate" value="generate-java-validators"/>
+		</xslt>
+	</target>
+
+</project>
