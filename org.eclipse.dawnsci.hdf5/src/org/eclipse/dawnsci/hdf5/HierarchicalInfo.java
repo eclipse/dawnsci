@@ -18,6 +18,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Information for the H5Loader. H5Loader is not normally active as it is superseded by HDF5Loader
+ */
 public class HierarchicalInfo {
 	
 	public static final String NAPIMOUNT = "napimount";
