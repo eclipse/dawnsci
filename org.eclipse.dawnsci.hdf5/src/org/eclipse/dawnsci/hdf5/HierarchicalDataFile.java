@@ -23,6 +23,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
+import ncsa.hdf.hdf5lib.H5;
+import ncsa.hdf.hdf5lib.HDF5Constants;
 import ncsa.hdf.object.Attribute;
 import ncsa.hdf.object.Dataset;
 import ncsa.hdf.object.Datatype;
@@ -30,6 +32,7 @@ import ncsa.hdf.object.FileFormat;
 import ncsa.hdf.object.Group;
 import ncsa.hdf.object.HObject;
 import ncsa.hdf.object.h5.H5Datatype;
+import ncsa.hdf.object.h5.H5File;
 import ncsa.hdf.object.h5.H5ScalarDS;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
@@ -199,14 +202,39 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 		try {
 		    file.open();
 		} catch (ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException ne) {
-			fileFormat = FileFormat.getFileFormat(FileFormat.FILE_TYPE_HDF4);
-			
-			this.file = fileFormat.createInstance(path, openType);
-			if (file == null) throw new Exception("Failed to open file: "+path);
-			
-		    file.open();
-		    
-		    logger.error("The file "+path+" is HDF4, it will open but plotting features are disabled.");
+			long fapl = -1; // FIXME revert once upstream has fixed broken backward compatibility
+			try {
+				fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
+			} catch (ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException e) {
+				logger.error("Could not create file access property list");
+				throw e;
+			}
+			try {
+				H5.H5Pset(fapl, "clear_status_flags", 1);
+			} catch (ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException e) {
+				logger.warn("Could not clear status flag but continuing to open file");
+			}
+			try {
+			    ((H5File) file).open(fapl);
+
+				if (fapl != -1) {
+					try {
+						H5.H5Pclose(fapl);
+					} catch (ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException e2) {
+						logger.error("Could not close file access property list");
+						throw e2;
+					}
+				}
+				} catch (ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException ex) {
+				fileFormat = FileFormat.getFileFormat(FileFormat.FILE_TYPE_HDF4);
+				
+				this.file = fileFormat.createInstance(path, openType);
+				if (file == null) throw new Exception("Failed to open file: "+path);
+				
+			    file.open();
+			    
+			    logger.error("The file "+path+" is HDF4, it will open but plotting features are disabled.");
+			}
 		}
 		
 		if (openType == FileFormat.WRITE || openType == FileFormat.CREATE) {
