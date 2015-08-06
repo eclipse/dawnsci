@@ -16,6 +16,7 @@ import java.io.Serializable;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.IDatasetChangeChecker;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.data.client.slice.SliceClient;
@@ -111,5 +112,13 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 		this.maxShape = maxShape;
 	}
 
+	@Override
+	public void fireDataListeners() {
+		// TODO add method to DataConnection
+	}
+
+	@Override
+	public void startUpdateChecker(int milliseconds, IDatasetChangeChecker checker) {
+	}
 
 }
