@@ -195,7 +195,7 @@ public class Image {
 	}
 
 	public static enum FilterType {
-		MEDIAN, MIN, MAX, MEAN
+		MEDIAN, MIN, MAX, MEAN, GAUSSIAN_BLUR
 	}
 
 	/**
@@ -264,6 +264,10 @@ public class Image {
 		return filter(input, radius, FilterType.MEAN);
 	}
 
+	public static Dataset gaussianBlurFilter(Dataset input, int radius) {
+		return filter(input, radius, FilterType.GAUSSIAN_BLUR);
+	}
+
 	private static Dataset filter(Dataset input, int radius, FilterType type) {
 		if (type == FilterType.MEDIAN) {
 			return DatasetUtils.convertToDataset(filterService.filterMedian(input, radius));
@@ -273,6 +277,8 @@ public class Image {
 			return DatasetUtils.convertToDataset(filterService.filterMax(input, radius));
 		} else if (type == FilterType.MEAN) {
 			return DatasetUtils.convertToDataset(filterService.filterMean(input, radius));
+		} else if (type == FilterType.GAUSSIAN_BLUR) {
+			return DatasetUtils.convertToDataset(filterService.filterGaussianBlur(input, 0, radius));
 		}
 		return null;
 	}
@@ -311,26 +317,28 @@ public class Image {
 				result.set(slice.max(), pos);
 			} else if (type == FilterType.MEAN) {
 				result.set(slice.mean(), pos);
+			} else if (type == FilterType.GAUSSIAN_BLUR) {
+				logger.error("Filter not implemented:", new Exception("Filter not available"));
 			}
 		}
 		return result;
 	}
 
 	/**
-	 * Applies a background filter by first applying a median filter of radius 1, then a minimum and maximum filter and
-	 * finally another median filter with the given radius
+	 * Applies a background filter by subtracting the pseudo-flat field of the image from the original image. The
+	 * pseudo-flat field is found by performing a large-kernel filter (Gaussian blur) on the image to be corrected.
 	 * 
 	 * @param input
 	 * @param radius
+	 *            radius/kernel used for the Gaussian blur filter, needs to be about 60% of the data size in order to
+	 *            give good results
 	 * @return filtered data
 	 */
 	public static Dataset backgroundFilter(Dataset input, int radius) {
 		input.squeeze();
-		Dataset median1 = filter(input, 1, FilterType.MEDIAN);
-		Dataset min = filter(median1, new int[] {radius*2 + 1, radius * 2 + 1}, FilterType.MIN);
-		Dataset max = filter(min, new int[] {radius*2 + 1, radius*2 + 1}, FilterType.MAX);
-		Dataset median2 = filter(max, radius, FilterType.MEDIAN);
-		return Maths.subtract(input, median2);
+		Dataset gauss = gaussianBlurFilter(input, radius);
+		Dataset backgroundFiltered = Maths.subtract(input, gauss, null);
+		return backgroundFiltered;
 	}
 
 	public static Dataset convolutionFilter(Dataset input, Dataset kernel) {
