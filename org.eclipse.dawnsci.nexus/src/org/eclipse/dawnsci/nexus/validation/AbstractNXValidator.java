@@ -1,6 +1,9 @@
 package org.eclipse.dawnsci.nexus.validation;
 
+import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.measure.unit.Unit;
 
@@ -10,9 +13,12 @@ import org.eclipse.dawnsci.analysis.api.metadata.UnitMetadata;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
-import org.eclipse.dawnsci.nexus.NXentry;
 
 public abstract class AbstractNXValidator {
+	
+	private Map<String, Integer> globalDimensionPlaceholderValues = new HashMap<>();
+	
+	private Map<String, Integer> localGroupDimensionPlaceholderValues = new HashMap<>();
 	
 	protected void failValidation(final String message) throws NexusValidationException {
 		if (message == null) {
@@ -35,7 +41,7 @@ public abstract class AbstractNXValidator {
 		validateNotNull((groupName == null ? "The unnamed group " : "The group '" + groupName + "' ") + "of type " + typeName + " must not be null", groupNode);
 	}
 	
-	public void validateDatasetFieldNotNull(String fieldName, IDataset dataset) throws NexusValidationException {
+	public void validateFieldNotNull(String fieldName, IDataset dataset) throws NexusValidationException {
 		validateNotNull("The field " + fieldName + " must be set", dataset);
 	}
 	
@@ -46,11 +52,9 @@ public abstract class AbstractNXValidator {
 		validateNotNull("The dataset for the attribute " + attributeName + " must be set", attribute);
 	}
 	
-	public void validateEnumerationField(String fieldName, IDataset dataset, String... permittedValues) throws NexusValidationException {
-		// a field with an enumeration cannot be null
-		validateDatasetFieldNotNull(fieldName, dataset);
-		// TODO: we assume that enumerations must be strings: is this correct?
-		validateDatasetFieldType(fieldName, dataset, NexusDataType.NX_CHAR);
+	public void validateFieldEnumeration(String fieldName, IDataset dataset, String... permittedValues) throws NexusValidationException {
+		// TODO: we assume that enumerations must be strings: is this always correct?
+		validateFieldType(fieldName, dataset, NexusDataType.NX_CHAR);
 		
 		if (dataset.getRank() > 0) {
 			failValidation("The enumeration field " + fieldName + " must have a rank of 0");
@@ -77,39 +81,11 @@ public abstract class AbstractNXValidator {
 		}
 	}
 	
-	public void validateDatasetField(final String fieldName, IDataset dataset, final NexusDataType type) throws NexusValidationException {
-		validateDatasetFieldNotNull(fieldName, dataset);
-		validateDatasetFieldType(fieldName, dataset, type);
-	}
-	
-	public void validateDatasetField(final String fieldName, IDataset dataset, final NexusDataType type, final NexusUnitCategory unitCategory) throws Exception {
-		validateDatasetFieldNotNull(fieldName, dataset);
-		validateDatasetFieldType(fieldName, dataset, type);
-		validateDatasetFieldUnit(fieldName, dataset, unitCategory);
-	}
-	
-	public void validateDatasetField(final String fieldName, IDataset dataset, final NexusUnitCategory unitCategory) throws Exception {
-		validateDatasetFieldNotNull(fieldName, dataset);
-		validateDatasetFieldUnit(fieldName, dataset, unitCategory);
-	}
-	
-	public void validateDatasetField(final String fieldName, IDataset dataset, final NexusDataType type, final NexusUnitCategory unitCategory, int rank) throws Exception {
-		validateDatasetField(fieldName, dataset, type, unitCategory);
-		validateRank(fieldName, dataset, rank);
-	}
-
-	private void validateRank(final String fieldName, IDataset dataset, int rank)
-			throws NexusValidationException {
-		if (dataset.getRank() != rank) {
-			throw new NexusValidationException("The field " + fieldName + " has a rank of " + dataset.getRank() + ", expected " + rank); 
-		}
-	}
-	
-	private void validateDatasetFieldType(final String fieldName, final IDataset dataset, final NexusDataType type) throws NexusValidationException {
+	public void validateFieldType(final String fieldName, final IDataset dataset, final NexusDataType type) throws NexusValidationException {
 		type.validate(fieldName, dataset);
 	}
 
-	private void validateDatasetFieldUnit(final String fieldName, IDataset dataset,
+	public void validateFieldUnits(final String fieldName, final IDataset dataset,
 			final NexusUnitCategory unitCategory) throws Exception,
 			NexusValidationException {
 		List<? extends MetadataType> metadata = dataset.getMetadata(UnitMetadata.class);
@@ -127,6 +103,37 @@ public abstract class AbstractNXValidator {
 			failValidation("Unit " + unit + " is not compatible with the unit category " + unitCategory);
 		}
 	}
-	
 
+	public void validateFieldRank(final String fieldName, final IDataset dataset, final int rank)
+			throws NexusValidationException {
+		if (dataset.getRank() != rank) {
+			failValidation("The field " + fieldName + " has a rank of " + dataset.getRank() + ", expected " + rank); 
+		}
+	}
+	
+	public void validateFieldDimensions(final String fieldName, final IDataset dataset, String localGroup, String... symbols) throws NexusValidationException {
+		final int[] shape = dataset.getShape();
+		if (localGroup != null) {
+			for (int i = 0; i < symbols.length; i++) {
+				final Integer dimensionSize = localGroupDimensionPlaceholderValues.get(fieldName);
+				if (dimensionSize == null) {
+					localGroupDimensionPlaceholderValues.put(fieldName, shape[i]);
+				} else if (shape[i] != dimensionSize.intValue()) {
+					failValidation(MessageFormat.format("The dimension with index {0} of field ''{1}'' expected to have size {2} according to symbol ''{3}'' within group {4}, was {5}",
+							(i + 1), fieldName, dimensionSize, symbols[i], localGroup, shape[i]));
+				}
+			}
+		} else {
+			for (int i = 0; i < symbols.length; i++) {
+				final Integer dimensionSize = globalDimensionPlaceholderValues.get(fieldName);
+				if (dimensionSize == null) {
+					globalDimensionPlaceholderValues.put(fieldName, shape[i]);
+				} else if (shape[i] != dimensionSize.intValue()) {
+					failValidation(MessageFormat.format("The dimension with index {0} of field ''{1}'' expected to have size {2} according to symbol ''{3}'', was {4}",
+							(i + 1), fieldName, dimensionSize, symbols[i], shape[i]));
+				}
+			}
+		}
+	}
+	
 }

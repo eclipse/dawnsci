@@ -44,21 +44,27 @@
 			</factory>
 		</xslt>
 		
-		<!-- Delete the dummy output file -->
-		<delete file="${java-source-path}/out.xml"/>
 	</target>
 	
 	<!-- Generate Java validator from the Nexus application definitions -->
 	<target name="generate-validators">
+		 <!-- Note: in and out are not used, nxdlDefinitionsPath and javaSourcePath are used as the source and output dirs instead.
+		 They are given dummy values as the XSLT ant task requires them. -->
 		<xslt
 			in="xsl/NXDLValidatorGenerator.xsl"
-			out="${java-source-path}"
+			out="${java-source-path}/out.xml"
 			style="xsl/NXDLValidatorGenerator.xsl"
 			classpath="${xslt-classpath}">
 			<param name="nxdlDefinitionsPath" expression="${nxdl-definitions-path}"/>
 			<param name="javaSourcePath" expression="${java-source-path}"/>
-				<attribute name="http://saxon.sf.net/feature/initialTemplate" value="generate-java-validators"/>
+			<factory name="net.sf.saxon.TransformerFactoryImpl">
+				<attribute name="http://saxon.sf.net/feature/initialTemplate" value="generate-validators"/>
+			</factory>
 		</xslt>
+		
+		<!-- Delete the dummy output file -->
+		<delete file="${java-source-path}/out.xml"/>
+
 	</target>
 
 </project>

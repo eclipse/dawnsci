@@ -79,6 +79,22 @@ public class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		return (N) g;
 	}
 
+	@Override
+	public IDataset getDataset(String name) {
+		if (!containsDataNode(name)) {
+			return null;
+		}
+		return getCached(name);
+	}
+
+	@Override
+	public void setDataset(String name, IDataset value) {
+		if (containsDataNode(name)) {
+			DataNodeImpl n = getDataNode(name);
+			n.setDataset(value);
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	protected <N extends NXobject> Map<String, N> getChildren(Class<N> nxClass) {
 		Map<String, N> map = new LinkedHashMap<>();
@@ -169,20 +185,6 @@ public class NXobjectImpl extends GroupNodeImpl implements NXobject {
 				throw new IllegalArgumentException("Node is not a string");
 			}
 			n.setString(value);
-		}
-	}
-
-	protected IDataset getDataset(String name) {
-		if (!containsDataNode(name)) {
-			return null;
-		}
-		return getCached(name);
-	}
-
-	protected void setDataset(String name, IDataset value) {
-		if (containsDataNode(name)) {
-			DataNodeImpl n = getDataNode(name);
-			n.setDataset(value);
 		}
 	}
 

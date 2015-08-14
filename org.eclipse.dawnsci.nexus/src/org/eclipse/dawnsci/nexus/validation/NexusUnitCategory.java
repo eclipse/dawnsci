@@ -16,6 +16,7 @@ import javax.measure.quantity.Length;
 import javax.measure.quantity.Mass;
 import javax.measure.quantity.Power;
 import javax.measure.quantity.Pressure;
+import javax.measure.quantity.SolidAngle;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Volume;
 import javax.measure.unit.BaseUnit;
@@ -27,14 +28,14 @@ public enum NexusUnitCategory {
 	
 	NX_ANGLE(Angle.UNIT),
 	
-	// TODO: check standard unit for this unit category
+	// TODO: check standard unit for this unit category (perhaps any units are ok?)
 	NX_ANY(Dimensionless.UNIT),
 	
 	NX_AREA(Area.UNIT),
 	
 	NX_CHARGE(ElectricCharge.UNIT),
 	
-	NX_CROSS_SECTION(Area.UNIT), // TODO is this correct?
+	NX_CROSS_SECTION(Area.UNIT),
 	
 	NX_CURRENT(ElectricCurrent.UNIT),
 	
@@ -78,16 +79,13 @@ public enum NexusUnitCategory {
 	
 	/**
 	 * Alias to NX_NUMBER
-	 * TODO check unit for this category
+	 * TODO check unit for this category - could use sub-interface of Dimensionless
 	 */
 	NX_PULSES(Dimensionless.UNIT),
 	
 	NX_SCATTERING_LENGTH_DENSITY(Area.UNIT.inverse()),
 	
-	/**
-	 * TODO: check the units of solid angles. Steradians are dimensionless, but so are radians
-	 */
-	NX_SOLID_ANGLE(Dimensionless.UNIT),
+	NX_SOLID_ANGLE(SolidAngle.UNIT),
 	
 	NX_TEMPERATURE(Temperature.UNIT),
 	
@@ -99,7 +97,7 @@ public enum NexusUnitCategory {
 	NX_TIME_OF_FLIGHT(Duration.UNIT),
 	
 	/**
-	 * TODO, what units for unitless?
+	 * TODO, what units for unitless? could we use a subinterface of Dimensionless?
 	 */
 	NX_UNITLESS(null),
 	
