@@ -55,4 +55,13 @@ public interface EventTracker {
 	 * @throws Exception
 	 */
 	public void trackActionEvent(String name) throws Exception;
+
+	/**
+	 * This method is used to track conversion events. It will track the conversion name event with the prefix
+	 * "/Conversion/"
+	 * 
+	 * @param name
+	 * @throws Exception
+	 */
+	public void trackConversionEvent(String name) throws Exception;
 }
