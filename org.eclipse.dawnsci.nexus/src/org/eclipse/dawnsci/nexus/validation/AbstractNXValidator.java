@@ -13,47 +13,94 @@ import org.eclipse.dawnsci.analysis.api.metadata.UnitMetadata;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.nexus.NXobject;
 
+/**
+ * Abstract superclass for Nexus application definition validators.
+ *
+ */
 public abstract class AbstractNXValidator {
 	
 	private Map<String, Integer> globalDimensionPlaceholderValues = new HashMap<>();
 	
 	private Map<String, Integer> localGroupDimensionPlaceholderValues = new HashMap<>();
 	
+	/**
+	 * Throw an {@link NexusValidationException} with the given message.
+	 * @param message message
+	 * @throws NexusValidationException always
+	 */
 	protected void failValidation(final String message) throws NexusValidationException {
 		if (message == null) {
 			throw new NexusValidationException(message);
 		}
 	}
 	
-	public void validate(String message, boolean condition) throws NexusValidationException {
+	/**
+	 * Validates that the given condition holds, throwing an {@link NexusValidationException} with the given message otherwise
+	 * @param message message
+	 * @param condition condition to check
+	 * @throws NexusValidationException if the condition does not hold
+	 */
+	protected void validate(String message, boolean condition) throws NexusValidationException {
 		if (!condition) {
 			failValidation(message);
 		}
 	}
 	
-	
-	public void validateNotNull(String message, Object object) throws NexusValidationException {
+	/**
+	 * Validates that the given object is not <code>null</code>.
+	 * @param message message
+	 * @param object object to check for <code>null</code>
+	 * @throws NexusValidationException if the given object is <code>null</code>
+	 */
+	protected void validateNotNull(String message, Object object) throws NexusValidationException {
 		validate(message, object != null);
 	}
 	
-	public void validateGroupNotNull(String groupName, String typeName, GroupNode groupNode) throws NexusValidationException {
-		validateNotNull((groupName == null ? "The unnamed group " : "The group '" + groupName + "' ") + "of type " + typeName + " must not be null", groupNode);
+	/**
+	 * Validates that the given group is not null.
+	 * @param groupName name of group
+	 * @param type type of group
+	 * @param groupNode group node
+	 * @throws NexusValidationException
+	 */
+	protected void validateGroupNotNull(String groupName, Class<? extends NXobject> type, GroupNode groupNode) throws NexusValidationException {
+		validateNotNull((groupName == null ? "The unnamed group " : "The group '" + groupName + "' ") + "of type " + type.getSimpleName() + " must not be null", groupNode);
 	}
 	
-	public void validateFieldNotNull(String fieldName, IDataset dataset) throws NexusValidationException {
+	/**
+	 * Validates that the given field value is not <code>null</code>.
+	 * @param fieldName name of field
+	 * @param dataset the field value, an {@link IDataset}
+	 * @throws NexusValidationException if the field is <code>null</code>
+	 */
+	protected void validateFieldNotNull(String fieldName, IDataset dataset) throws NexusValidationException {
 		validateNotNull("The field " + fieldName + " must be set", dataset);
 	}
 	
-	public void validateAttributeNotNull(String attributeName, Node node) throws NexusValidationException {
+	/**
+	 * Validates that the given attribute node is not <code>null</code>.
+	 * @param attributeName name of attribute
+	 * @param node attribute node
+	 * @throws NexusValidationException if the attribute is <code>null</code>
+	 */
+	protected void validateAttributeNotNull(String attributeName, Node node) throws NexusValidationException {
 		Attribute attribute = node.getAttribute(attributeName);
 		validateNotNull("The attribute " + attributeName + " must be set", attribute);
-		// TODO check the line below: does the dataset have to be non-null?
 		validateNotNull("The dataset for the attribute " + attributeName + " must be set", attribute);
 	}
 	
-	public void validateFieldEnumeration(String fieldName, IDataset dataset, String... permittedValues) throws NexusValidationException {
-		// TODO: we assume that enumerations must be strings: is this always correct?
+	/**
+	 * Validates that an enumeration field has one of the given permitted values.
+	 * @param fieldName name of the field
+	 * @param dataset the field value, a {@link Dataset}
+	 * @param permittedValues the permitted values
+	 * @throws NexusValidationException if the value of the field is not one of the permitted values
+	 */
+	protected void validateFieldEnumeration(String fieldName, IDataset dataset, String... permittedValues) throws NexusValidationException {
+		// note that this method assumes that the enumeration values are always strings
 		validateFieldType(fieldName, dataset, NexusDataType.NX_CHAR);
 		
 		if (dataset.getRank() > 0) {
@@ -81,15 +128,31 @@ public abstract class AbstractNXValidator {
 		}
 	}
 	
-	public void validateFieldType(final String fieldName, final IDataset dataset, final NexusDataType type) throws NexusValidationException {
+	/**
+	 * Validates that the type of the given field is that given.
+	 * @param fieldName field name
+	 * @param dataset field value, an {@link IDataset}
+	 * @param type expected type
+	 * @throws NexusValidationException if the type of the field is not that given
+	 */
+	protected void validateFieldType(final String fieldName, final IDataset dataset, final NexusDataType type) throws NexusValidationException {
 		type.validate(fieldName, dataset);
 	}
 
-	public void validateFieldUnits(final String fieldName, final IDataset dataset,
+	/**
+	 * Validates that the given field has units consistent with the given unit category.
+	 * 
+	 * @param fieldName field name
+	 * @param dataset field value, an {@link IDataset}
+	 * @param unitCategory expected unit category
+	 * @throws Exception if an unexpected exception occurs
+	 * @throws NexusValidationException if the field's units are not consistent with the given unit category
+	 */
+	protected void validateFieldUnits(final String fieldName, final IDataset dataset,
 			final NexusUnitCategory unitCategory) throws Exception,
 			NexusValidationException {
 		List<? extends MetadataType> metadata = dataset.getMetadata(UnitMetadata.class);
-		// TODO why does getMetadata return a list? Can I assume I'm only interested in the first element>
+		// TODO why does getMetadata return a list? Can I assume I'm only interested in the first element?
 		if (metadata == null || metadata.isEmpty() || !metadata.get(0).getClass().equals(UnitMetadata.class)) {
 			failValidation("No unit metadata for field '" + fieldName + "', expected " + unitCategory);
 		}
@@ -104,36 +167,101 @@ public abstract class AbstractNXValidator {
 		}
 	}
 
-	public void validateFieldRank(final String fieldName, final IDataset dataset, final int rank)
+	/**
+	 * Validates that the given field has the expected rank.
+	 * @param fieldName field name
+	 * @param dataset field value, an {@link IDataset}
+	 * @param rank expected rank
+	 * @throws NexusValidationException if the field does not have the expected rank
+	 */
+	protected void validateFieldRank(final String fieldName, final IDataset dataset, final int rank)
 			throws NexusValidationException {
 		if (dataset.getRank() != rank) {
 			failValidation("The field " + fieldName + " has a rank of " + dataset.getRank() + ", expected " + rank); 
 		}
 	}
 	
-	public void validateFieldDimensions(final String fieldName, final IDataset dataset, String localGroup, String... symbols) throws NexusValidationException {
+	/**
+	 * Validate the dimensions of the given field.
+	 * @param fieldName field name
+	 * @param dataset dataset to validate
+	 * @param groupName the name of the group
+	 * @param dimensions the dimensions, each value must be either an integer, interpreted as the expected size of
+	 *    that dimension, or a placeholder string, in which case the size of this dimension will be validated
+	 *    against any previous dimension with the same placeholder string
+	 * @throws NexusValidationException if a dimension did not have the expected size
+	 */
+	protected void validateFieldDimensions(final String fieldName,
+			final IDataset dataset, String groupName, Object... dimensions)
+			throws NexusValidationException {
 		final int[] shape = dataset.getShape();
-		if (localGroup != null) {
-			for (int i = 0; i < symbols.length; i++) {
-				final Integer dimensionSize = localGroupDimensionPlaceholderValues.get(fieldName);
-				if (dimensionSize == null) {
-					localGroupDimensionPlaceholderValues.put(fieldName, shape[i]);
-				} else if (shape[i] != dimensionSize.intValue()) {
-					failValidation(MessageFormat.format("The dimension with index {0} of field ''{1}'' expected to have size {2} according to symbol ''{3}'' within group {4}, was {5}",
-							(i + 1), fieldName, dimensionSize, symbols[i], localGroup, shape[i]));
+
+		for (int i = 0; i < dimensions.length; i++) {
+			if (dimensions[i] instanceof Integer) {
+				// the dimension value to validate against in an integer specifying exactly the expected dimension size to check
+				if (shape[i] != ((Integer) dimensions[i]).intValue()) {
+					failValidation(MessageFormat.format("The dimension with index {0} of field ''{1}'' expected to have size {2} was {3}", 
+							(i + 1), fieldName, dimensions[i], shape[i]));
 				}
-			}
-		} else {
-			for (int i = 0; i < symbols.length; i++) {
-				final Integer dimensionSize = globalDimensionPlaceholderValues.get(fieldName);
-				if (dimensionSize == null) {
-					globalDimensionPlaceholderValues.put(fieldName, shape[i]);
-				} else if (shape[i] != dimensionSize.intValue()) {
-					failValidation(MessageFormat.format("The dimension with index {0} of field ''{1}'' expected to have size {2} according to symbol ''{3}'', was {4}",
-							(i + 1), fieldName, dimensionSize, symbols[i], shape[i]));
+			} else if (dimensions[i] instanceof String) {
+				// the dimension value to validate against is a string placeholder
+				// if the name of the group is specified, then this is defined in the NXDL for the base class for that group type
+				// otherwise the placeholder is global across the whole application
+				
+				// we need to check that all dimensions (across the group or application depending on whether there is a group name)
+				// have the same size. To do this, if this is the first time we've seen this placeholder we store the size of the
+				// current dimension. On subsequent encounters, we check that the current dimension has the same size as this
+				// stored value
+				final String dimensionPlaceholder = (String) dimensions[i];
+				Integer expectedSize = getDimensionPlaceholderValue(dimensionPlaceholder, groupName != null, shape[i]);
+				if (expectedSize != null && shape[i] == expectedSize.intValue()) {
+					if (groupName != null) {
+						failValidation(MessageFormat.format("The dimension with index {0} of field ''{1}'' expected to have size {2} according to symbol ''{3}'' within group {4}, was {5}",
+								(i + 1), fieldName, expectedSize, dimensions[i], groupName, shape[i]));
+					} else {
+						failValidation(MessageFormat.format("The dimension with index {0} of field ''{1}'' expected to have size {2} according to symbol ''{3}'', was {4}",
+								(i + 1), fieldName, expectedSize, dimensions[i], shape[i]));
+					}
 				}
+			} else {
+				failValidation("Dimension size value must be an Integer or String, was: " + dimensions[i].getClass().getName());
 			}
 		}
+	}
+	
+	/**
+	 * A helper method to get the actual dimension size for the given placeholder string, if it exists.
+	 * If this is the first occurrence of this placeholder, 
+	 * @param placeholder
+	 * @param local
+	 * @param actualDimensionSize
+	 * @return
+	 */
+	private Integer getDimensionPlaceholderValue(String placeholder, boolean local, int actualDimensionSize) {
+		final Integer dimensionPlaceholderValue;
+		if (local) {
+			dimensionPlaceholderValue = localGroupDimensionPlaceholderValues.get(placeholder);
+			if (dimensionPlaceholderValue == null) {
+				localGroupDimensionPlaceholderValues.put(placeholder, actualDimensionSize);
+			} else {
+				
+			}
+		} else {
+			dimensionPlaceholderValue = globalDimensionPlaceholderValues.get(placeholder);
+			if (dimensionPlaceholderValue == null) {
+				globalDimensionPlaceholderValues.put(placeholder, actualDimensionSize);
+			}
+		}
+		
+		return dimensionPlaceholderValue;
+	}
+	
+	
+	/**
+	 * Clears the map of values of dimension placeholders, as these are local only to the current group.
+	 */
+	protected void clearLocalGroupDimensionPlaceholderValues() {
+		localGroupDimensionPlaceholderValues = new HashMap<String, Integer>();
 	}
 	
 }
