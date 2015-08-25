@@ -49,6 +49,14 @@ public interface IPersistenceService {
 	public Object unmarshal(String json) throws Exception;
 
 	/**
+	 * Returns an object of class clazz given a JSon String and the objects class
+	 * @param json
+	 * @param clazz
+	 * @return T
+	 */
+	public <T extends Object> T unmarshal(String json, Class<T> clazz) throws Exception;
+	
+	/**
 	 * Returns a JSON string given an Object bean
 	 * @param obj
 	 * @return string
