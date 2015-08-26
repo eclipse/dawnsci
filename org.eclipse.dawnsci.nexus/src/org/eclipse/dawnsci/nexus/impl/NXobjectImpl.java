@@ -96,7 +96,7 @@ public class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <N extends NXobject> Map<String, N> getChildren(Class<N> nxClass) {
+	public <N extends NXobject> Map<String, N> getChildren(Class<N> nxClass) {
 		Map<String, N> map = new LinkedHashMap<>();
 		for (NodeLink n : this) {
 			if (!n.isDestinationGroup())

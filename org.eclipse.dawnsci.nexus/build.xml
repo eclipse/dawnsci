@@ -44,6 +44,9 @@
 			</factory>
 		</xslt>
 		
+		<!-- Delete the dummy output file -->
+		<delete file="${java-source-path}/out.xml"/>
+		
 	</target>
 	
 	<!-- Generate Java validator from the Nexus application definitions -->

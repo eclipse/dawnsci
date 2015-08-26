@@ -12,6 +12,8 @@
 
 package org.eclipse.dawnsci.nexus;
 
+import java.util.Map;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.tree.impl.DataNodeImpl;
@@ -27,17 +29,27 @@ public interface NXobject extends GroupNode {
 	public Class<? extends NXobject> getNXclass();
 
 	/**
-	 * @param nxClass
-	 * @return first child NXobject of given Nexus class or null if not found
+	 * Returns the first child of the given class
+	 * @param nxClass class of child
+	 * @return first child NXobject of given Nexus class or <code>null</code> if none
 	 */
 	public <N extends NXobject> N getFirstChild(Class<N> nxClass);
 
 	/**
+	 * Returns the child of this node of the given type with the given name.
 	 * @param name of child
-	 * @param nxClass
-	 * @return named child NXobject of given Nexus class or null if not found
+	 * @param nxClass class of child
+	 * @return named child NXobject of given Nexus class or <code>null</code> if none
 	 */
 	public <N extends NXobject> N getChild(String name, Class<N> nxClass);
+	
+	/**
+	 * Returns a map containing all the children of this node of the given class. The keys of the
+	 * map are the names of the child nodes.
+	 * @param nxClass class of children.
+	 * @return map of children, key is child node's name
+	 */
+	public <N extends NXobject> Map<String, N> getChildren(Class<N> nxClass);
 
 	/**
 	 * Sets the dataset for the field with the given name

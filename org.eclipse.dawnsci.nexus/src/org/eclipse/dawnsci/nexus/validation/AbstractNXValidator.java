@@ -15,6 +15,7 @@ import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.nexus.NXobject;
+import org.eclipse.dawnsci.nexus.NXtransformations;
 
 /**
  * Abstract superclass for Nexus application definition validators.
@@ -227,6 +228,26 @@ public abstract class AbstractNXValidator {
 				failValidation("Dimension size value must be an Integer or String, was: " + dimensions[i].getClass().getName());
 			}
 		}
+	}
+	
+	/**
+	 * Validate the given transformations. Transformations have an order, whereby the initial dependsOnStr
+	 * identifies the first transformation, and thereafter each transformation is identified by the
+	 * value of the <code>depends_on</code> attribute of the previous transformation. The 
+	 * final transformation is identified by having <code>"."</code> as the value of its depends_on attribute. 
+	 * @param transformations transformations
+	 * @param dependsOnStr the name of the first transformation
+	 * @throws NexusValidationException if an expected transformation does not exist
+	 */
+	protected void validateTransformations(final Map<String, NXtransformations> transformations, String dependsOnStr) throws NexusValidationException {
+		do {
+			final NXtransformations transformation = transformations.get(dependsOnStr);
+			if (transformation == null) {
+				failValidation("No such transformation: " + dependsOnStr);
+			}
+			Attribute dependsOnAttr = transformation.getAttribute("depends_on");
+			dependsOnStr = (dependsOnAttr == null ? null : dependsOnAttr.getFirstElement());
+		} while (dependsOnStr != null && !dependsOnStr.equals(".")); // "." marks the final transformation
 	}
 	
 	/**
