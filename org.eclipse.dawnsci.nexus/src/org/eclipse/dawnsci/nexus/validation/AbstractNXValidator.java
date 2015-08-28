@@ -2,8 +2,10 @@ package org.eclipse.dawnsci.nexus.validation;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.measure.unit.Unit;
 
@@ -12,7 +14,6 @@ import org.eclipse.dawnsci.analysis.api.metadata.MetadataType;
 import org.eclipse.dawnsci.analysis.api.metadata.UnitMetadata;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
-import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXtransformations;
@@ -34,6 +35,8 @@ public abstract class AbstractNXValidator {
 	 */
 	protected void failValidation(final String message) throws NexusValidationException {
 		if (message == null) {
+			throw new NexusValidationException(null);
+		} else {
 			throw new NexusValidationException(message);
 		}
 	}
@@ -84,11 +87,10 @@ public abstract class AbstractNXValidator {
 	/**
 	 * Validates that the given attribute node is not <code>null</code>.
 	 * @param attributeName name of attribute
-	 * @param node attribute node
+	 * @param attribute attribute 
 	 * @throws NexusValidationException if the attribute is <code>null</code>
 	 */
-	protected void validateAttributeNotNull(String attributeName, Node node) throws NexusValidationException {
-		Attribute attribute = node.getAttribute(attributeName);
+	protected void validateAttributeNotNull(String attributeName, Attribute attribute) throws NexusValidationException {
 		validateNotNull("The attribute " + attributeName + " must be set", attribute);
 		validateNotNull("The dataset for the attribute " + attributeName + " must be set", attribute);
 	}
@@ -101,11 +103,9 @@ public abstract class AbstractNXValidator {
 	 * @throws NexusValidationException if the value of the field is not one of the permitted values
 	 */
 	protected void validateFieldEnumeration(String fieldName, IDataset dataset, String... permittedValues) throws NexusValidationException {
-		// note that this method assumes that the enumeration values are always strings
-		validateFieldType(fieldName, dataset, NexusDataType.NX_CHAR);
-		
-		if (dataset.getRank() > 0) {
-			failValidation("The enumeration field " + fieldName + " must have a rank of 0");
+		// note: this method assumes that the enumeration values are always strings
+		if (dataset.getRank() != 1) { // TODO confirm rank for enums: 0 or 1?
+			failValidation("The enumeration field " + fieldName + " must have a rank of 1");
 		}
 		
 		// the size of the field must be 1
@@ -215,7 +215,7 @@ public abstract class AbstractNXValidator {
 				// stored value
 				final String dimensionPlaceholder = (String) dimensions[i];
 				Integer expectedSize = getDimensionPlaceholderValue(dimensionPlaceholder, groupName != null, shape[i]);
-				if (expectedSize != null && shape[i] == expectedSize.intValue()) {
+				if (expectedSize != null && shape[i] != expectedSize.intValue()) {
 					if (groupName != null) {
 						failValidation(MessageFormat.format("The dimension with index {0} of field ''{1}'' expected to have size {2} according to symbol ''{3}'' within group {4}, was {5}",
 								(i + 1), fieldName, expectedSize, dimensions[i], groupName, shape[i]));
@@ -240,11 +240,22 @@ public abstract class AbstractNXValidator {
 	 * @throws NexusValidationException if an expected transformation does not exist
 	 */
 	protected void validateTransformations(final Map<String, NXtransformations> transformations, String dependsOnStr) throws NexusValidationException {
+		final Set<String> encounteredTransformationNames = new HashSet<String>();
 		do {
+			// get the tranformation with the given name
 			final NXtransformations transformation = transformations.get(dependsOnStr);
+			
+			// check that the transformation exists
 			if (transformation == null) {
 				failValidation("No such transformation: " + dependsOnStr);
 			}
+			
+			// check we haven't already encountered this transformation, if so the
+			// transformations have a circular dependency
+			if (encounteredTransformationNames.contains(dependsOnStr)) {
+				failValidation("Circular dependency detected in transformations, transformation '" + dependsOnStr + "' encountered for second time.");
+			}
+			encounteredTransformationNames.add(dependsOnStr);
 			Attribute dependsOnAttr = transformation.getAttribute("depends_on");
 			dependsOnStr = (dependsOnAttr == null ? null : dependsOnAttr.getFirstElement());
 		} while (dependsOnStr != null && !dependsOnStr.equals(".")); // "." marks the final transformation
@@ -256,7 +267,7 @@ public abstract class AbstractNXValidator {
 	 * @param placeholder
 	 * @param local
 	 * @param actualDimensionSize
-	 * @return
+	 * @return the dimension placeholder value
 	 */
 	private Integer getDimensionPlaceholderValue(String placeholder, boolean local, int actualDimensionSize) {
 		final Integer dimensionPlaceholderValue;

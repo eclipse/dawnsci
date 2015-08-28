@@ -33,12 +33,23 @@ public class AttributeImpl implements Attribute, Serializable {
 	public AttributeImpl(final String attrName) {
 		name = attrName;
 	}
+	
+	/**
+	 * Create an attribute with node, name. The value is treated as a signed for applicable value types.
+	 * @param attrName attribute name
+	 * @param attrValue attribute value
+	 */
+	public AttributeImpl(final String attrName, final Object attrValue) {
+		name = attrName;
+		setValue(attrValue, false);
+	}
 
 	/**
-	 * Create an attribute with node, name, value and sign
+	 * Create an attribute with node, name, value and a flag indicating whether value is unsigned
 	 * @param attrName
 	 * @param attrValue (usually, this is a Java array)
-	 * @param isUnsigned true if items are unsigned but held in signed primitives
+	 * @param isUnsigned <code>true</code> if items are unsigned but held in signed primitives,
+	 *   <code>false</code> otherwise
 	 */
 	public AttributeImpl(final String attrName, final Object attrValue, final boolean isUnsigned) {
 		name = attrName;

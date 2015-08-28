@@ -6,6 +6,7 @@ import static org.eclipse.dawnsci.nexus.validation.NexusUnitCategory.*;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXentry;
@@ -15,6 +16,13 @@ import org.eclipse.dawnsci.nexus.NXroot;
 import org.eclipse.dawnsci.nexus.NXsample;
 import org.eclipse.dawnsci.nexus.NXsource;
 
+/**
+ * TODO: This example validator class was created as a template for the output to be generated
+ * by the NXDLValidatorGenerator XSLT transformation. It should not be used,
+ * and can be deleted when no longer required. 
+ * 
+ * @author Matthew Dickie
+ */
 public class NXarpesValidatorExample extends AbstractNXValidator implements NXApplicationValidator {
 
 	@Override
@@ -27,7 +35,8 @@ public class NXarpesValidatorExample extends AbstractNXValidator implements NXAp
 	 */
 	private void validateGroup_NXentry(NXentry group) throws Exception {
 		// validate attribute 'entry'
-		validateAttributeNotNull("entry", group);
+		final Attribute entryAttr = group.getAttribute("entry");  
+		validateAttributeNotNull("entry", entryAttr);
 		
 		// validate field 'title', type NX_CHAR
 		final IDataset title = group.getTitle();
