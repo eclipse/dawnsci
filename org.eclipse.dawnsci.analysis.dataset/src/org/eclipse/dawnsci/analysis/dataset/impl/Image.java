@@ -264,6 +264,13 @@ public class Image {
 		return filter(input, radius, FilterType.MEAN);
 	}
 
+	/**
+	 * Applies a gaussian blur filter given a radius size
+	 * 
+	 * @param input
+	 * @param radius
+	 * @return gaussian blurred image
+	 */
 	public static Dataset gaussianBlurFilter(Dataset input, int radius) {
 		return filter(input, radius, FilterType.GAUSSIAN_BLUR);
 	}
@@ -388,7 +395,13 @@ public class Image {
 
 		return result;
 	}
-	
+
+	public static Dataset derivativeSobelFilter(Dataset input, boolean isXaxis) {
+		input.squeeze();
+		if(input.getShape().length != 2) throw new IllegalArgumentException("The sobel filter only works on 2D datasets");
+		return DatasetUtils.convertToDataset(filterService.filterDerivativeSobel(input, isXaxis));
+	}
+
 	public static Dataset sobelFilter(Dataset input) {
 		input.squeeze();
 		//TODO should be extended for Nd but 2D is all that is required for now.

@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.analysis.api.image;
 
-import java.util.List;
-
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
@@ -72,10 +70,13 @@ public interface IImageFilterService {
 	/**
 	 * Computes the derivative in the X and Y direction using an integer Sobel edge detector.
 	 *
-	 * @param orig   Input image.  Not modified.
-	 * @return Output list containing the image derivative along the x-axis and y-axis 
+	 * @param orig
+	 *            Input image. Not modified.
+	 * @param isXaxis
+	 *            if true the image derivative will be along the XAxis, if false, along the yaxis
+	 * @return the image derivative along the x-axis or y-axis
 	 */
-	public List<IDataset> filterDerivativeSobel(IDataset orig);
+	public IDataset filterDerivativeSobel(IDataset orig, boolean isXaxis);
 
 	/**
 	 * <p>
