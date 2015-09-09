@@ -88,4 +88,48 @@ public class GridROIBean extends ROIBean{
 				type, name, Arrays.toString(startPoint), Arrays.toString(getEndPoint()), getAngle());
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(angle);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + Arrays.hashCode(endPoint);
+		result = prime * result + (gridLinesOn ? 1231 : 1237);
+		result = prime * result + Arrays.hashCode(lengths);
+		result = prime * result + (midPointOn ? 1231 : 1237);
+		temp = Double.doubleToLongBits(xSpacing);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(ySpacing);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GridROIBean other = (GridROIBean) obj;
+		if (Double.doubleToLongBits(angle) != Double.doubleToLongBits(other.angle))
+			return false;
+		if (!Arrays.equals(endPoint, other.endPoint))
+			return false;
+		if (gridLinesOn != other.gridLinesOn)
+			return false;
+		if (!Arrays.equals(lengths, other.lengths))
+			return false;
+		if (midPointOn != other.midPointOn)
+			return false;
+		if (Double.doubleToLongBits(xSpacing) != Double.doubleToLongBits(other.xSpacing))
+			return false;
+		if (Double.doubleToLongBits(ySpacing) != Double.doubleToLongBits(other.ySpacing))
+			return false;
+		return true;
+	}
+
 }
