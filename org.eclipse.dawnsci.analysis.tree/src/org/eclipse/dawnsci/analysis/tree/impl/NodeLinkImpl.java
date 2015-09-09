@@ -78,9 +78,4 @@ public class NodeLinkImpl implements NodeLink, Serializable {
 	public String toString() {
 		return name + '\n' + to.toString();
 	}
-
-	@Override
-	public String getFullName() {
-		return name;
-	}
 }

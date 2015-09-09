@@ -47,9 +47,4 @@ public interface NodeLink {
 	 * @return name of node link
 	 */
 	public String getName();
-
-	/**
-	 * @return full name 
-	 */
-	public String getFullName();
 }
