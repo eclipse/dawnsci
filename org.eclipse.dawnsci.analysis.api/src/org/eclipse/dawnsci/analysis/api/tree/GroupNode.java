@@ -60,11 +60,10 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 
 	/**
 	 * Add given node with given path and name
-	 * @param path
 	 * @param name
 	 * @param node
 	 */
-	public void addNode(String path, String name, Node node);
+	public void addNode(String name, Node node);
 
 	/**
 	 * @return number of child groups in group
@@ -87,12 +86,11 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 
 	/**
 	 * Add (child) group node with given path and name 
-	 * @param path
 	 * @param name
 	 * @param g group
 	 * @throws IllegalArgumentException if a data node of same name already exists
 	 */
-	public void addGroupNode(String path, String name, GroupNode g);
+	public void addGroupNode(String name, GroupNode g);
 
 	/**
 	 * Remove group node of given name
@@ -129,12 +127,11 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 
 	/**
 	 * Add given data node with given path and name 
-	 * @param path
 	 * @param name
 	 * @param d dataset
 	 * @throws IllegalArgumentException if a group node of same name already exists
 	 */
-	public void addDataNode(String path, String name, DataNode d);
+	public void addDataNode(String name, DataNode d);
 
 	/**
 	 * Remove dataset of given name
@@ -152,11 +149,10 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 
 	/**
 	 * Add linked node with given path and name
-	 * @param path
 	 * @param name
 	 * @param s symbolic link
 	 */
-	public void addSymbolicNode(String path, String name, SymbolicNode s);
+	public void addSymbolicNode(String name, SymbolicNode s);
 
 	/**
 	 * Find name of node linked to this group

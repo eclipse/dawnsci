@@ -22,7 +22,7 @@ public class VanillaPlottingSystemView extends ViewPart implements IAdaptable {
 	public void createPartControl(Composite parent) {
 		
 		try {
-		    system = PlottingFactory.createPlottingSystem();
+		    system = PlottingFactory.createPlottingSystem(); // TODO Change to service
 		    system.createPlotPart(parent, getPartName(), getViewSite().getActionBars(), PlotType.IMAGE, this);
 		    		    
 		} catch (Exception ne) {

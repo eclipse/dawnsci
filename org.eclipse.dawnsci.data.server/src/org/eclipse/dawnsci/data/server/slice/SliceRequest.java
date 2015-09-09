@@ -71,7 +71,7 @@ import org.eclipse.swt.graphics.RGB;
  *              by default no downsampling is done
  *              
  *    format` - One of Format.values():
- *              DATA - zipped slice, binary (default)
+ *              DATA - Serialized slice, binary (default)
  *              JPG  - JPG made using IImageService to make the image
  *              PNG  - PNG made using IImageService to make the image
  *              MJPG:<dim> e.g. MJPG:0 to send the first dimension as slices in a series. NOTE slice mist be set in this case.

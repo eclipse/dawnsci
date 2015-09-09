@@ -29,7 +29,7 @@ public class SimpleNexusFileTest {
 		
 		IDataset newCountsData = DatasetFactory.ones(new int[] { 15 }, AbstractDataset.INT);
 
-		data.addDataNode(null, "counts", new DataNodeImpl(4l));
+		data.addDataNode("counts", new DataNodeImpl(4l));
 		ILazyWriteableDataset counts = data.getDataNode("counts").getWriteableDataset();
 		counts.setShape(15);
 		counts.setSlice(null, newCountsData, new int[] { 0 }, new int[] { 15 }, new int[] { 1 });
