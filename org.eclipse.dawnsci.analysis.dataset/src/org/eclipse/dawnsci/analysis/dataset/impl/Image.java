@@ -344,6 +344,33 @@ public class Image {
 	public static Dataset backgroundFilter(Dataset input, int radius) {
 		input.squeeze();
 		Dataset gauss = gaussianBlurFilter(input, radius);
+		if (input instanceof CompoundDataset) {
+			CompoundDataset cd = (CompoundDataset) input;
+			int elements = cd.getElementsPerItem();
+			Dataset[] pseudoFlatFielded = new Dataset[elements];
+			for (int i = 0; i < elements; i++) {
+				pseudoFlatFielded[i] = Maths.subtract(cd.getElements(i), ((CompoundDataset)gauss).getElements(i));
+			}
+			if (pseudoFlatFielded.length == 3) {
+				RGBDataset rgb = new RGBDataset(pseudoFlatFielded[0], pseudoFlatFielded[1], pseudoFlatFielded[2]);
+				return rgb;
+			}
+			int type = AbstractDataset.getDType(pseudoFlatFielded[0]);
+			switch (type) {
+			case Dataset.INT8:
+				return new CompoundByteDataset(pseudoFlatFielded);
+			case Dataset.INT16:
+				return new CompoundShortDataset(pseudoFlatFielded);
+			case Dataset.INT32:
+				return new CompoundIntegerDataset(pseudoFlatFielded);
+			case Dataset.INT64:
+				return new CompoundLongDataset(pseudoFlatFielded);
+			case Dataset.FLOAT32:
+				return new CompoundFloatDataset(pseudoFlatFielded);
+			case Dataset.FLOAT64:
+				return new CompoundDoubleDataset(pseudoFlatFielded);
+			}
+		}
 		Dataset backgroundFiltered = Maths.subtract(input, gauss, null);
 		return backgroundFiltered;
 	}
@@ -422,8 +449,23 @@ public class Image {
 	 * @throws Exception
 	 */
 	public static Dataset fanoFilter(Dataset input, int width, int height) throws Exception {
+		int[] box = new int[] {width, height};
+		if (input instanceof CompoundDataset && ((CompoundDataset)input).getElementsPerItem() == 3) {
+			CompoundDataset cpd = (CompoundDataset) input;
+			Dataset rData = cpd.getElements(0);
+			Dataset gData = cpd.getElements(1);
+			Dataset bData = cpd.getElements(2);
+			SummedAreaTable rTable = new SummedAreaTable(rData, true);
+			Dataset rFano = rTable.getFanoImage(box);
+			SummedAreaTable gTable = new SummedAreaTable(gData, true);
+			Dataset gFano = gTable.getFanoImage(box);
+			SummedAreaTable bTable = new SummedAreaTable(bData, true);
+			Dataset bFano = bTable.getFanoImage(box);
+			RGBDataset fanoRgb = new RGBDataset(rFano, gFano, bFano);
+			return fanoRgb;
+		}
 		final SummedAreaTable table = new SummedAreaTable(input, true);
-		return table.getFanoImage(width, height);
+		return table.getFanoImage(box);
 	}
 
 	public static Dataset flip(Dataset input, boolean vertical) {
