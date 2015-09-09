@@ -49,11 +49,6 @@ public interface NodeLink {
 	public String getName();
 
 	/**
-	 * @return path of node link
-	 */
-	public String getPath();
-
-	/**
 	 * @return full name 
 	 */
 	public String getFullName();

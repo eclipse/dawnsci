@@ -26,21 +26,18 @@ public class NodeLinkImpl implements NodeLink, Serializable {
 	private Node from;
 	private Node to;
 	private String name;
-	private String path;
 
 	/**
 	 * A node link
-	 * @param path to source
 	 * @param link name
 	 * @param source node which link starts from (can be null)
 	 * @param destination node which link points to
 	 */
-	public NodeLinkImpl(final String path, final String link, final Node source, final Node destination) {
+	public NodeLinkImpl(final String link, final Node source, final Node destination) {
 		if (link == null || destination == null) {
 			throw new IllegalArgumentException("Path name, link name and destination must be defined");
 		}
 
-		this.path = path == null ? "" : path;
 		name = link;
 		from = source;
 		to   = destination;
@@ -76,18 +73,14 @@ public class NodeLinkImpl implements NodeLink, Serializable {
 		return name;
 	}
 
-	@Override
-	public String getPath() {
-		return path;
-	}
 
 	@Override
 	public String toString() {
-		return path + name + '\n' + to.toString();
+		return name + '\n' + to.toString();
 	}
 
 	@Override
 	public String getFullName() {
-		return path + name;
+		return name;
 	}
 }

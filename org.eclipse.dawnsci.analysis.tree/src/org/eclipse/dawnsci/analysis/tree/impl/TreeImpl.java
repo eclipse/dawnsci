@@ -40,7 +40,7 @@ public class TreeImpl implements Tree, Serializable {
 		source = uri;
 		host = uri == null ? null : uri.getHost(); // this can return null for "file:/blah"
 		
-		link = new NodeLinkImpl(null, ROOT, null, new GroupNodeImpl(oid));
+		link = new NodeLinkImpl(ROOT, null, new GroupNodeImpl(oid));
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class TreeImpl implements Tree, Serializable {
 
 	@Override
 	public void setGroupNode(GroupNode g) {
-		link = new NodeLinkImpl(null, ROOT, null, g);
+		link = new NodeLinkImpl(ROOT, null, g);
 	}
 
 	@Override

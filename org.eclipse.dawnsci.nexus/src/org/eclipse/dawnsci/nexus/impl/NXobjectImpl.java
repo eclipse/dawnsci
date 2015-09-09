@@ -117,7 +117,7 @@ public class NXobjectImpl extends GroupNodeImpl implements NXobject {
 				continue;
 			GroupNode g = (GroupNode) n.getDestination();
 			if (g.getClass().equals(nxClass)) {
-				addGroupNode(n.getPath(), n.getName(), child);
+				addGroupNode(n.getName(), child);
 				return;
 			}
 		}
@@ -125,7 +125,6 @@ public class NXobjectImpl extends GroupNodeImpl implements NXobject {
 
 	@SuppressWarnings("unchecked")
 	protected <N extends NXobject> void putChild(String name, N child) {
-		String path = null;
 		if (containsGroupNode(name)) {
 			NodeLink n = getNodeLink(name);
 			GroupNode g = (GroupNode) n.getDestination();
@@ -133,41 +132,29 @@ public class NXobjectImpl extends GroupNodeImpl implements NXobject {
 			if (!g.getClass().equals(nxClass)) {
 				throw new IllegalArgumentException("There is a group of given name but of a different NX class");
 			}
-			path = n.getPath();
 		}
 
-		if (path == null) {
-			for (NodeLink n : this) {
-				if (path == null) {
-					path = n.getPath();
-				}
-			}
-		}
-		addGroupNode(path, name, child);
+		addGroupNode(name, child);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <N extends NXobject> void setChildren(Map<String, N> map) {
 		map = new LinkedHashMap<>(map);
-		String path = null;
 		for (NodeLink n : this) {
-			if (path == null) {
-				path = n.getPath();
-			}
 			if (!n.isDestinationGroup())
 				continue;
 			if (map.containsKey(n.getName())) {
 				N child = map.remove(n.getName());
 				GroupNode g = (GroupNode) n.getDestination();
 				if (g.getClass().equals(child.getClass())) {
-					addGroupNode(n.getPath(), n.getName(), child);
+					addGroupNode(n.getName(), child);
 					map.put(n.getName(), (N) g);
 				}
 			}
 		}
 		for (String n : map.keySet()) {
 			N child = map.get(n);
-			addGroupNode(path, n, child);
+			addGroupNode(n, child);
 		}
 	}
 
