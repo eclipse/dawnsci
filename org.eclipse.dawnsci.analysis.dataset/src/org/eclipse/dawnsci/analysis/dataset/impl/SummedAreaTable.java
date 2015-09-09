@@ -120,7 +120,23 @@ public class SummedAreaTable {
         sum[index] = val;  // Fast
  	}
 
-	
+	/**
+	 * Creates a fano image where each pixel is the fano factor
+	 * for a give box surrounding it.
+	 * 
+	 * This operation has improved speed because it uses the summed area table
+	 * to compute a fast mean and variance for a given square.
+	 * 
+	 * @param radius
+	 * @return fano factor image using box passed in.
+	 * @throws Exception
+	 */
+	public Dataset getFanoImage(int radius) throws Exception {
+		int kernelEdge = (radius * 2) + 1;
+		int[] box = new int[] { kernelEdge, kernelEdge };
+		return getFanoImage(box);
+	}
+
 	/**
 	 * Creates a fano image where each pixel is the fano factor
 	 * for a give box surrounding it.
