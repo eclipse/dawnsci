@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -278,20 +278,20 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 
 	@Override
 	public NXgeometry getGeometry() {
-		return getFirstChild(NXgeometry.class);
+		return getChild("geometry", NXgeometry.class);
 	}
 
 	public void setGeometry(NXgeometry geometry) {
-		putChild(geometry);
+		putChild("geometry", geometry);
 	}
 
 	@Override
 	public NXbeam getBeam() {
-		return getFirstChild(NXbeam.class);
+		return getChild("beam", NXbeam.class);
 	}
 
 	public void setBeam(NXbeam beam) {
-		putChild(beam);
+		putChild("beam", beam);
 	}
 
 	@Override
@@ -404,47 +404,47 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 
 	@Override
 	public NXdata getTransmission() {
-		return getFirstChild(NXdata.class);
+		return getChild("transmission", NXdata.class);
 	}
 
 	public void setTransmission(NXdata transmission) {
-		putChild(transmission);
+		putChild("transmission", transmission);
 	}
 
 	@Override
 	public NXlog getTemperature_log() {
-		return getFirstChild(NXlog.class);
+		return getChild("temperature_log", NXlog.class);
 	}
 
 	public void setTemperature_log(NXlog temperature_log) {
-		putChild(temperature_log);
+		putChild("temperature_log", temperature_log);
 	}
 
 	@Override
 	public NXenvironment getTemperature_env() {
-		return getFirstChild(NXenvironment.class);
+		return getChild("temperature_env", NXenvironment.class);
 	}
 
 	public void setTemperature_env(NXenvironment temperature_env) {
-		putChild(temperature_env);
+		putChild("temperature_env", temperature_env);
 	}
 
 	@Override
 	public NXlog getMagnetic_field_log() {
-		return getFirstChild(NXlog.class);
+		return getChild("magnetic_field_log", NXlog.class);
 	}
 
 	public void setMagnetic_field_log(NXlog magnetic_field_log) {
-		putChild(magnetic_field_log);
+		putChild("magnetic_field_log", magnetic_field_log);
 	}
 
 	@Override
 	public NXenvironment getMagnetic_field_env() {
-		return getFirstChild(NXenvironment.class);
+		return getChild("magnetic_field_env", NXenvironment.class);
 	}
 
 	public void setMagnetic_field_env(NXenvironment magnetic_field_env) {
-		putChild(magnetic_field_env);
+		putChild("magnetic_field_env", magnetic_field_env);
 	}
 
 	@Override
@@ -458,11 +458,11 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 
 	@Override
 	public NXlog getExternal_ADC() {
-		return getFirstChild(NXlog.class);
+		return getChild("external_ADC", NXlog.class);
 	}
 
 	public void setExternal_ADC(NXlog external_ADC) {
-		putChild(external_ADC);
+		putChild("external_ADC", external_ADC);
 	}
 
 	@Override
@@ -503,11 +503,11 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 
 	@Override
 	public NXpositioner getPositioner() {
-		return getFirstChild(NXpositioner.class);
+		return getChild("positioner", NXpositioner.class);
 	}
 
 	public void setPositioner(NXpositioner positioner) {
-		putChild(positioner);
+		putChild("positioner", positioner);
 	}
 
 	@Override

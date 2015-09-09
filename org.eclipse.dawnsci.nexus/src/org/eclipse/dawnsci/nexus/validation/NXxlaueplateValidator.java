@@ -17,6 +17,7 @@ public class NXxlaueplateValidator extends AbstractNXValidator implements NXAppl
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate child group 'entry' of type NXentry
+// $groupNameInBaseClass = entry
 		validateGroup_entry(root.getEntry());
 	}
 
@@ -34,6 +35,7 @@ public class NXxlaueplateValidator extends AbstractNXValidator implements NXAppl
 				"NXxlaueplate");
 
 		// validate child group 'instrument' of type NXinstrument
+// $groupNameInBaseClass = instrument
 		validateGroup_entry_instrument(group.getInstrument());
 	}
 
@@ -45,6 +47,7 @@ public class NXxlaueplateValidator extends AbstractNXValidator implements NXAppl
 		validateGroupNotNull("instrument", NXinstrument.class, group);
 
 		// validate child group 'detector' of type NXdetector
+// $groupNameInBaseClass = detector
 		validateGroup_entry_instrument_detector(group.getDetector());
 	}
 

@@ -19,6 +19,7 @@ public class NXdirecttofValidator extends AbstractNXValidator implements NXAppli
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate child group 'entry' of type NXentry
+// $groupNameInBaseClass = entry
 		validateGroup_entry(root.getEntry());
 	}
 
@@ -45,6 +46,7 @@ public class NXdirecttofValidator extends AbstractNXValidator implements NXAppli
 				"NXdirecttof");
 
 		// validate unnamed child group of type NXinstrument (possibly multiple)
+// $groupNameInBaseClass = instrument
 		final Map<String, NXinstrument> allInstrument = group.getAllInstrument();
 		for (final NXinstrument instrument : allInstrument.values()) {
 			validateGroup_entry_NXinstrument(instrument);
@@ -59,6 +61,7 @@ public class NXdirecttofValidator extends AbstractNXValidator implements NXAppli
 		validateGroupNotNull(null, NXinstrument.class, group);
 
 		// validate child group 'fermi_chopper' of type NXfermi_chopper
+// $groupNameInBaseClass = fermi_chopper
 		validateGroup_entry_NXinstrument_fermi_chopper(group.getFermi_chopper());
 	}
 

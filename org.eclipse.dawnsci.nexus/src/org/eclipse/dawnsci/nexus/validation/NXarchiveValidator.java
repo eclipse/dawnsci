@@ -22,6 +22,7 @@ public class NXarchiveValidator extends AbstractNXValidator implements NXApplica
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate child group 'entry' of type NXentry
+// $groupNameInBaseClass = entry
 		validateGroup_entry(root.getEntry());
 	}
 
@@ -115,12 +116,15 @@ public class NXarchiveValidator extends AbstractNXValidator implements NXApplica
 		validateFieldUnits("release_date", release_date, NX_TIME);
 
 		// validate child group 'user' of type NXuser
+// $groupNameInBaseClass = user
 		validateGroup_entry_user(group.getUser());
 
 		// validate child group 'instrument' of type NXinstrument
+// $groupNameInBaseClass = instrument
 		validateGroup_entry_instrument(group.getInstrument());
 
 		// validate child group 'sample' of type NXsample
+// $groupNameInBaseClass = sample
 		validateGroup_entry_sample(group.getSample());
 	}
 
@@ -164,6 +168,7 @@ public class NXarchiveValidator extends AbstractNXValidator implements NXApplica
 		validateFieldNotNull("description)", description);
 		validateFieldType("description)", description, NX_CHAR);
 		// validate unnamed child group of type NXsource (possibly multiple)
+// $groupNameInBaseClass = source
 		final Map<String, NXsource> allSource = group.getAllSource();
 		for (final NXsource source : allSource.values()) {
 			validateGroup_entry_instrument_NXsource(source);

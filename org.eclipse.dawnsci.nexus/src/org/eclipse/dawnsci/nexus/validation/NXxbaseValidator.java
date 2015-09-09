@@ -25,6 +25,7 @@ public class NXxbaseValidator extends AbstractNXValidator implements NXApplicati
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate child group 'entry' of type NXentry
+// $groupNameInBaseClass = entry
 		validateGroup_entry(root.getEntry());
 	}
 
@@ -51,15 +52,19 @@ public class NXxbaseValidator extends AbstractNXValidator implements NXApplicati
 				"NXxbase");
 
 		// validate child group 'instrument' of type NXinstrument
+// $groupNameInBaseClass = instrument
 		validateGroup_entry_instrument(group.getInstrument());
 
 		// validate child group 'sample' of type NXsample
+// $groupNameInBaseClass = sample
 		validateGroup_entry_sample(group.getSample());
 
 		// validate child group 'control' of type NXmonitor
+// $groupNameInBaseClass = monitor
 		validateGroup_entry_control(group.getMonitor());
 
 		// validate unnamed child group of type NXdata (possibly multiple)
+// $groupNameInBaseClass = data
 		final Map<String, NXdata> allData = group.getAllData();
 		for (final NXdata data : allData.values()) {
 			validateGroup_entry_NXdata(data);
@@ -74,12 +79,15 @@ public class NXxbaseValidator extends AbstractNXValidator implements NXApplicati
 		validateGroupNotNull("instrument", NXinstrument.class, group);
 
 		// validate child group 'source' of type NXsource
+// $groupNameInBaseClass = source
 		validateGroup_entry_instrument_source(group.getSource());
 
 		// validate child group 'monochromator' of type NXmonochromator
+// $groupNameInBaseClass = monochromator
 		validateGroup_entry_instrument_monochromator(group.getMonochromator());
 
 		// validate child group 'detector' of type NXdetector
+// $groupNameInBaseClass = detector
 		validateGroup_entry_instrument_detector(group.getDetector());
 	}
 

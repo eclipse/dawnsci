@@ -28,8 +28,13 @@
 <!-- The path containing the Java source tree to write to -->
 <xsl:param name="javaSourcePath" select="'.'"/>
 
-<xsl:output name="text-format" method="text" omit-xml-declaration="yes" indent="no"/>
+<!-- Find the NeXus classes to generate Java for. -->
+<xsl:variable name="base-classes" select="collection(concat($nxdlDefinitionsPath, '/base_classes?select=*.nxdl.xml'))/nx:definition[@name!='NXobject']"/>
+<xsl:variable name="appdef-classes" select="collection(concat($nxdlDefinitionsPath, '/applications?select=*.nxdl.xml'))/nx:definition[not(nx:group[@type='NXentry'])]"/>
+<xsl:variable name="contributed-classes" select="collection(concat($nxdlDefinitionsPath, '/contributed_definitions?select=*.nxdl.xml'))/nx:definition[not(nx:group[@type='NXentry'])]"/>
+<xsl:variable name="nexus-classes" select="$base-classes, $appdef-classes, $contributed-classes"/>
 
+<xsl:output name="text-format" method="text" omit-xml-declaration="yes" indent="no"/>
 
 <!-- Used for running with any XML input file -->
 <xsl:template match="/">
@@ -38,12 +43,15 @@
 
 <!-- Direct entry point -->
 <xsl:template name="generate-java">
-	<xsl:apply-templates mode="interface" select="collection(concat($nxdlDefinitionsPath, '/base_classes?select=*.nxdl.xml'))/nx:definition[@name!='NXobject']"/>
-	<xsl:apply-templates mode="interface" select="collection(concat($nxdlDefinitionsPath, '/applications?select=*.nxdl.xml'))/nx:definition[not(nx:group[@type='NXentry'])]"/>
-	<xsl:apply-templates mode="interface" select="collection(concat($nxdlDefinitionsPath, '/contributed_definitions?select=*.nxdl.xml'))/nx:definition[not(nx:group[@type='NXentry'])]"/>
-	<xsl:apply-templates mode="class" select="collection(concat($nxdlDefinitionsPath, '/base_classes?select=*.nxdl.xml'))/nx:definition[@name!='NXobject']"/>
-	<xsl:apply-templates mode="class" select="collection(concat($nxdlDefinitionsPath, '/applications?select=*.nxdl.xml'))/nx:definition[not(nx:group[@type='NXentry'])]"/>
-	<xsl:apply-templates mode="class" select="collection(concat($nxdlDefinitionsPath, '/contributed_definitions?select=*.nxdl.xml'))/nx:definition[not(nx:group[@type='NXentry'])]"/>
+
+	<!-- Generate a Java interface for each NeXus class -->
+	<xsl:apply-templates mode="interface" select="$nexus-classes"/>
+
+	<!-- Generate a concrete Java class implementing that interface for each NeXus class -->
+	<xsl:apply-templates mode="class" select="$nexus-classes"/>
+	
+	<xsl:call-template name="factory-class"/>
+	
 </xsl:template>
 
 
@@ -267,7 +275,8 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 
 <xsl:template mode="getMethod" match="nx:group">
 	<xsl:param name="fieldLabel"/>
-		return getFirstChild(<xsl:apply-templates mode="fieldType" select="."/>.class);</xsl:template>
+	<xsl:param name="fieldName"/>
+		return getChild("<xsl:value-of select="$fieldName"/>", <xsl:apply-templates mode="fieldType" select="."/>.class);</xsl:template>
 
 <xsl:template mode="getMethod" match="nx:definition/nx:attribute">
 	<xsl:param name="fieldLabel"/>
@@ -318,7 +327,7 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 <xsl:template mode="setMethod" match="nx:group">
 	<xsl:param name="fieldName"/>
 	<xsl:param name="fieldLabel"/>
-		putChild(<xsl:value-of select="$fieldName"/>);</xsl:template>
+		putChild("<xsl:value-of select="$fieldName"/>", <xsl:value-of select="$fieldName"/>);</xsl:template>
 
 
 <!-- Unprocessed -->
@@ -469,6 +478,44 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;</xsl:if>
 		<xsl:with-param name="fieldName"><xsl:apply-templates mode="fieldName" select=".."/></xsl:with-param>
 	</xsl:apply-templates>Attribute<xsl:value-of select="dawnsci:capitalise-first($fieldName)"/></xsl:template>
 
+
+<!-- The NeXus factory class for creating instances of the generated classes.-->
+<xsl:template name="factory-class">
+
+	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/impl/NXobjectFactory.java" format="text-format">
+	<xsl:text>package org.eclipse.dawnsci.nexus.impl;
+
+/**
+ * Factory class for creating instances of NeXus base classes.
+ */
+public class NXobjectFactory {
+	
+	private long nextOid = 1l;
+	
+</xsl:text>
+	
+	<xsl:apply-templates mode="factory-method" select="$nexus-classes"/>
+	
+	<xsl:text>}&#10;</xsl:text>
+	
+	</xsl:result-document>
+
+</xsl:template>
+
+<!-- Template to create the factory method for a NeXus class -->
+<xsl:template mode="factory-method" match="nx:definition">
+
+	<xsl:text>	/**&#10;</xsl:text>
+	<xsl:text>	 * Create a new </xsl:text><xsl:value-of select="@name"/><xsl:text>.&#10;</xsl:text>
+	<xsl:text>	 */&#10;</xsl:text>
+	<xsl:text>	public </xsl:text><xsl:value-of select="@name"/><xsl:text>Impl</xsl:text>
+	<xsl:text> create</xsl:text><xsl:value-of select="@name"/><xsl:text>() {&#10;</xsl:text>
+	<xsl:text>		return new </xsl:text>
+	<xsl:value-of select="@name"/><xsl:text>Impl(nextOid++);&#10;</xsl:text>
+	<xsl:text>	}&#10;</xsl:text>
+	<xsl:text>&#10;</xsl:text>
+
+</xsl:template>
 
 <!-- Java identifier transform functions -->
 

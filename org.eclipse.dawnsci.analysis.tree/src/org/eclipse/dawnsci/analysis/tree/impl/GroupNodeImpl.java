@@ -135,7 +135,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		} else if (node instanceof DataNode) {
 			addDataNode(path, name, (DataNode) node);
 		} else if (node instanceof GroupNode) {
-			addGroupNode(path, name, (GroupNode) node);
+			addGroupNode(name, (GroupNode) node);
 		}
 	}
 
@@ -176,12 +176,12 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	/**
 	 * Add (child) group with given path and name 
-	 * @param path
 	 * @param name
 	 * @param g group
 	 */
-	public void addGroupNode(final String path, final String name, final GroupNode g) {
+	public void addGroupNode(final String name, final GroupNode g) {
 		synchronized (nodes) {
+			// check that there is not an existing data node with the same name
 			if (nodes.containsKey(name)) {
 				Node n = nodes.get(name).getDestination();
 				if (n instanceof SymbolicNode)
@@ -192,7 +192,8 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			} else {
 				groups++;
 			}
-			nodes.put(name, createNodeLink(path, name, g));
+			// add the new node
+			nodes.put(name, createNodeLink(name, g));
 			populated = true;
 		}
 	}
@@ -287,13 +288,13 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			} else {
 				datasets++;
 			}
-			nodes.put(name, createNodeLink(path, name, d));
+			nodes.put(name, createNodeLink(name, d));
 			populated = true;
 		}
 	}
 
-	protected NodeLink createNodeLink(final String path, final String name, final Node n) {
-		return new NodeLinkImpl(path, name, this, n);
+	protected NodeLink createNodeLink(final String name, final Node n) {
+		return new NodeLinkImpl(name, this, n);
 	}
 
 	/**
@@ -353,7 +354,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 					groups++;
 				}
 			}
-			nodes.put(name, createNodeLink(path, name, s));
+			nodes.put(name, createNodeLink(name, s));
 		}
 	}
 

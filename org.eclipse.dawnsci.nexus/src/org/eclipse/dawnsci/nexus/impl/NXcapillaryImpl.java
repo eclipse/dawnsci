@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -81,20 +81,20 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 
 	@Override
 	public NXdata getGain() {
-		return getFirstChild(NXdata.class);
+		return getChild("gain", NXdata.class);
 	}
 
 	public void setGain(NXdata gain) {
-		putChild(gain);
+		putChild("gain", gain);
 	}
 
 	@Override
 	public NXdata getTransmission() {
-		return getFirstChild(NXdata.class);
+		return getChild("transmission", NXdata.class);
 	}
 
 	public void setTransmission(NXdata transmission) {
-		putChild(transmission);
+		putChild("transmission", transmission);
 	}
 
 	@Override

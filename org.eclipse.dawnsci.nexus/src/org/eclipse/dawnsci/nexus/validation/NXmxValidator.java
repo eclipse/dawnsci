@@ -29,6 +29,7 @@ public class NXmxValidator extends AbstractNXValidator implements NXApplicationV
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate unnamed child group of type NXentry (possibly multiple)
+// $groupNameInBaseClass = entry
 		final Map<String, NXentry> allEntry = root.getAllEntry();
 		for (final NXentry entry : allEntry.values()) {
 			validateGroup_NXentry(entry);
@@ -67,18 +68,21 @@ public class NXmxValidator extends AbstractNXValidator implements NXApplicationV
 				"NXmx");
 
 		// validate unnamed child group of type NXinstrument (possibly multiple)
+// $groupNameInBaseClass = instrument
 		final Map<String, NXinstrument> allInstrument = group.getAllInstrument();
 		for (final NXinstrument instrument : allInstrument.values()) {
 			validateGroup_NXentry_NXinstrument(instrument);
 		}
 
 		// validate unnamed child group of type NXsample (possibly multiple)
+// $groupNameInBaseClass = sample
 		final Map<String, NXsample> allSample = group.getAllSample();
 		for (final NXsample sample : allSample.values()) {
 			validateGroup_NXentry_NXsample(sample);
 		}
 
 		// validate unnamed child group of type NXdata (possibly multiple)
+// $groupNameInBaseClass = data
 		final Map<String, NXdata> allData = group.getAllData();
 		for (final NXdata data : allData.values()) {
 			validateGroup_NXentry_NXdata(data);
@@ -93,12 +97,14 @@ public class NXmxValidator extends AbstractNXValidator implements NXApplicationV
 		validateGroupNotNull(null, NXinstrument.class, group);
 
 		// validate unnamed child group of type NXattenuator (possibly multiple)
+// $groupNameInBaseClass = attenuator
 		final Map<String, NXattenuator> allAttenuator = group.getAllAttenuator();
 		for (final NXattenuator attenuator : allAttenuator.values()) {
 			validateGroup_NXentry_NXinstrument_NXattenuator(attenuator);
 		}
 
 		// validate unnamed child group of type NXdetector (possibly multiple)
+// $groupNameInBaseClass = detector
 		final Map<String, NXdetector> allDetector = group.getAllDetector();
 		for (final NXdetector detector : allDetector.values()) {
 			validateGroup_NXentry_NXinstrument_NXdetector(detector);
@@ -317,12 +323,14 @@ public class NXmxValidator extends AbstractNXValidator implements NXApplicationV
 		validateTransformations(allTransformations, depends_on.getString(0));
 
 		// validate unnamed child group of type NXcollection (possibly multiple)
+// $groupNameInBaseClass = collection
 		final Map<String, NXcollection> allCollection = group.getAllCollection();
 		for (final NXcollection collection : allCollection.values()) {
 			validateGroup_NXentry_NXinstrument_NXdetector_NXcollection(collection);
 		}
 
 		// validate unnamed child group of type NXdetector_module (possibly multiple)
+// $groupNameInBaseClass = detector_module
 		final Map<String, NXdetector_module> allDetector_module = group.getAllDetector_module();
 		for (final NXdetector_module detector_module : allDetector_module.values()) {
 			validateGroup_NXentry_NXinstrument_NXdetector_NXdetector_module(detector_module);
@@ -403,6 +411,7 @@ public class NXmxValidator extends AbstractNXValidator implements NXApplicationV
 		}
 
 		// validate unnamed child group of type NXbeam (possibly multiple)
+// $groupNameInBaseClass = beam
 		final Map<String, NXbeam> allBeam = group.getAllBeam();
 		for (final NXbeam beam : allBeam.values()) {
 			validateGroup_NXentry_NXsample_NXbeam(beam);
@@ -446,6 +455,7 @@ public class NXmxValidator extends AbstractNXValidator implements NXApplicationV
 			validateFieldDimensions("incident_polarisation_stokes", incident_polarisation_stokes, null, "np", 4);
 		}
 		// validate optional child group 'incident_wavelength_spectrum' of type NXdata
+// $groupNameInBaseClass = data
 		if (group.getData() != null) {
 			validateGroup_NXentry_NXsample_NXbeam_incident_wavelength_spectrum(group.getData());
 		}

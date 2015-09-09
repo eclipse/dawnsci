@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -59,11 +59,11 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 
 	@Override
 	public NXgeometry getGeometry() {
-		return getFirstChild(NXgeometry.class);
+		return getChild("geometry", NXgeometry.class);
 	}
 
 	public void setGeometry(NXgeometry geometry) {
-		putChild(geometry);
+		putChild("geometry", geometry);
 	}
 
 	@Override
@@ -113,11 +113,11 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 
 	@Override
 	public NXdata getReflectivity() {
-		return getFirstChild(NXdata.class);
+		return getChild("reflectivity", NXdata.class);
 	}
 
 	public void setReflectivity(NXdata reflectivity) {
-		putChild(reflectivity);
+		putChild("reflectivity", reflectivity);
 	}
 
 	@Override
@@ -266,20 +266,20 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 
 	@Override
 	public NXshape getShape() {
-		return getFirstChild(NXshape.class);
+		return getChild("shape", NXshape.class);
 	}
 
 	public void setShape(NXshape shape) {
-		putChild(shape);
+		putChild("shape", shape);
 	}
 
 	@Override
 	public NXdata getFigure_data() {
-		return getFirstChild(NXdata.class);
+		return getChild("figure_data", NXdata.class);
 	}
 
 	public void setFigure_data(NXdata figure_data) {
-		putChild(figure_data);
+		putChild("figure_data", figure_data);
 	}
 
 }

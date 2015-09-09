@@ -87,12 +87,11 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 
 	/**
 	 * Add (child) group node with given path and name 
-	 * @param path
 	 * @param name
 	 * @param g group
 	 * @throws IllegalArgumentException if a data node of same name already exists
 	 */
-	public void addGroupNode(String path, String name, GroupNode g);
+	public void addGroupNode(String name, GroupNode g);
 
 	/**
 	 * Remove group node of given name

@@ -25,6 +25,7 @@ public class NXiqprocValidator extends AbstractNXValidator implements NXApplicat
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate unnamed child group of type NXentry (possibly multiple)
+// $groupNameInBaseClass = entry
 		final Map<String, NXentry> allEntry = root.getAllEntry();
 		for (final NXentry entry : allEntry.values()) {
 			validateGroup_NXentry(entry);
@@ -53,18 +54,22 @@ public class NXiqprocValidator extends AbstractNXValidator implements NXApplicat
 				"NXiqproc");
 
 		// validate child group 'instrument' of type NXinstrument
+// $groupNameInBaseClass = instrument
 		validateGroup_NXentry_instrument(group.getInstrument());
 
 		// validate unnamed child group of type NXsample (possibly multiple)
+// $groupNameInBaseClass = sample
 		final Map<String, NXsample> allSample = group.getAllSample();
 		for (final NXsample sample : allSample.values()) {
 			validateGroup_NXentry_NXsample(sample);
 		}
 
 		// validate child group 'reduction' of type NXprocess
+// $groupNameInBaseClass = process
 		validateGroup_NXentry_reduction(group.getProcess());
 
 		// validate unnamed child group of type NXdata (possibly multiple)
+// $groupNameInBaseClass = data
 		final Map<String, NXdata> allData = group.getAllData();
 		for (final NXdata data : allData.values()) {
 			validateGroup_NXentry_NXdata(data);
@@ -83,6 +88,7 @@ public class NXiqprocValidator extends AbstractNXValidator implements NXApplicat
 		validateFieldNotNull("name)", name);
 		validateFieldType("name)", name, NX_CHAR);
 		// validate unnamed child group of type NXsource (possibly multiple)
+// $groupNameInBaseClass = source
 		final Map<String, NXsource> allSource = group.getAllSource();
 		for (final NXsource source : allSource.values()) {
 			validateGroup_NXentry_instrument_NXsource(source);
@@ -157,10 +163,12 @@ public class NXiqprocValidator extends AbstractNXValidator implements NXApplicat
 		validateFieldType("version)", version, NX_CHAR);
 
 		// validate child group 'input' of type NXparameters
-		validateGroup_NXentry_reduction_input(group.getFirstChild(NXparameters.class));
+// $groupNameInBaseClass = parameters
+		validateGroup_NXentry_reduction_input(group.getChild("input", NXparameters.class));
 
 		// validate child group 'output' of type NXparameters
-		validateGroup_NXentry_reduction_output(group.getFirstChild(NXparameters.class));
+// $groupNameInBaseClass = parameters
+		validateGroup_NXentry_reduction_output(group.getChild("output", NXparameters.class));
 	}
 
 	/**

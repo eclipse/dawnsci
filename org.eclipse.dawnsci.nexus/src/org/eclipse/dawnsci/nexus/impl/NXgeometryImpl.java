@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -50,11 +50,11 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 
 	@Override
 	public NXshape getShape() {
-		return getFirstChild(NXshape.class);
+		return getChild("shape", NXshape.class);
 	}
 
 	public void setShape(NXshape shape) {
-		putChild(shape);
+		putChild("shape", shape);
 	}
 
 	@Override
@@ -77,11 +77,11 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 
 	@Override
 	public NXtranslation getTranslation() {
-		return getFirstChild(NXtranslation.class);
+		return getChild("translation", NXtranslation.class);
 	}
 
 	public void setTranslation(NXtranslation translation) {
-		putChild(translation);
+		putChild("translation", translation);
 	}
 
 	@Override
@@ -104,11 +104,11 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 
 	@Override
 	public NXorientation getOrientation() {
-		return getFirstChild(NXorientation.class);
+		return getChild("orientation", NXorientation.class);
 	}
 
 	public void setOrientation(NXorientation orientation) {
-		putChild(orientation);
+		putChild("orientation", orientation);
 	}
 
 	@Override
