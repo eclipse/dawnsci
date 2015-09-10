@@ -48,8 +48,4 @@ public interface NodeLink {
 	 */
 	public String getName();
 
-	/**
-	 * @return full name 
-	 */
-	public String getFullName();
 }

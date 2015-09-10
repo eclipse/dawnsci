@@ -196,7 +196,7 @@ public class H5ValuePage extends Page  implements ISelectionListener, IPartListe
 			}
  		} else if (sel instanceof H5Path) { // Might be nexus part.
 			try {
-				final String path   = ((H5Path)sel).getPath();
+				final String path   = ((H5Path) sel).getPath();
 				final IEditorPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 				if (part instanceof IH5Editor) {
 					final String filePath = ((IH5Editor)part).getFilePath();

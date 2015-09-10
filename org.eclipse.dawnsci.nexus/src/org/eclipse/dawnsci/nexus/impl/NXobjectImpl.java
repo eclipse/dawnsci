@@ -102,7 +102,6 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 
 	@SuppressWarnings("unchecked")
 	protected <N extends NXobject> void putChild(String name, N child) {
-		// check that there is not an existing child node of the same name but with different NXclass
 		if (containsGroupNode(name)) {
 			NodeLink n = getNodeLink(name);
 			GroupNode g = (GroupNode) n.getDestination();

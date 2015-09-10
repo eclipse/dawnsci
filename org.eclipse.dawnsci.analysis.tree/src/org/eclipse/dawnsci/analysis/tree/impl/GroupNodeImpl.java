@@ -121,19 +121,18 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	/**
 	 * Add given node with given path and name
-	 * @param path
 	 * @param name
 	 * @param node
 	 */
 	@Override
-	public void addNode(final String path, final String name, final Node node) {
+	public void addNode(final String name, final Node node) {
 		if (node == null)
 			return;
 	
 		if (node instanceof SymbolicNode) {
-			addSymbolicNode(path, name, (SymbolicNode) node);
+			addSymbolicNode(name, (SymbolicNode) node);
 		} else if (node instanceof DataNode) {
-			addDataNode(path, name, (DataNode) node);
+			addDataNode(name, (DataNode) node);
 		} else if (node instanceof GroupNode) {
 			addGroupNode(name, (GroupNode) node);
 		}
@@ -271,12 +270,11 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	/**
 	 * Add given dataset with given path and name 
-	 * @param path
 	 * @param name
 	 * @param d dataset
 	 */
 	@Override
-	public void addDataNode(final String path, final String name, final DataNode d) {
+	public void addDataNode(final String name, final DataNode d) {
 		synchronized (nodes) {
 			if (nodes.containsKey(name)) {
 				Node n = nodes.get(name).getDestination();
@@ -335,12 +333,11 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	/**
 	 * Add linked node with given path and name
-	 * @param path
 	 * @param name
 	 * @param s symbolic node
 	 */
 	@Override
-	public void addSymbolicNode(final String path, final String name, final SymbolicNode s) {
+	public void addSymbolicNode(final String name, final SymbolicNode s) {
 		synchronized (nodes) {
 			if (nodes.containsKey(name)) {
 				Node n = nodes.get(name).getDestination();

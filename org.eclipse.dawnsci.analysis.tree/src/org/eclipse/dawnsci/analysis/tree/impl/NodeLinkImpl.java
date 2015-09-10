@@ -26,7 +26,6 @@ public class NodeLinkImpl implements NodeLink, Serializable {
 	private Node from;
 	private Node to;
 	private String name;
-	private String path;
 
 	/**
 	 * A node link
@@ -39,7 +38,6 @@ public class NodeLinkImpl implements NodeLink, Serializable {
 			throw new IllegalArgumentException("Path name, link name and destination must be defined");
 		}
 
-		this.path = path == null ? "" : path;
 		name = link;
 		from = source;
 		to   = destination;
@@ -77,11 +75,6 @@ public class NodeLinkImpl implements NodeLink, Serializable {
 
 	@Override
 	public String toString() {
-		return path + name + '\n' + to.toString();
-	}
-
-	@Override
-	public String getFullName() {
-		return path + name;
+		return name + '\n' + to.toString();
 	}
 }

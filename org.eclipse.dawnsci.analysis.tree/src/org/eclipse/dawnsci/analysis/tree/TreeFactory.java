@@ -57,7 +57,7 @@ public class TreeFactory {
 	 * @param source node which link starts from (can be null)
 	 * @param destination node which link points to
 	 */
-	public static NodeLink createNodeLink(final String path, final String link, final Node source, final Node destination) {
+	public static NodeLink createNodeLink(final String link, final Node source, final Node destination) {
 		return new NodeLinkImpl(link, source, destination);
 	}
 

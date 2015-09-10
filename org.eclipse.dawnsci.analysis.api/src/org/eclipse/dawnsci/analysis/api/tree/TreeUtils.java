@@ -20,21 +20,22 @@ public class TreeUtils {
 	public static String getPath(Tree tree, Node node) {
 		GroupNode g = tree.getGroupNode();
 		if (g == node) {
-			return tree.getNodeLink().getFullName();
+			return Tree.ROOT;
 		}
-		String p = getPathDepthFirst(tree.getGroupNode(), node);
+		String p = getPathDepthFirst(Tree.ROOT, tree.getGroupNode(), node);
 		if (node instanceof GroupNode && !p.endsWith(Node.SEPARATOR)) {
 			p = p + Node.SEPARATOR;
 		}
 		return p;
 	}
 
-	private static String getPathDepthFirst(final GroupNode group, final Node node) {
+	private static String getPathDepthFirst(final String parent, final GroupNode group, final Node node) {
 		for (NodeLink l : group) {
+			String current = parent + l.getName();
 			if (l.getDestination() == node) {
-				return l.getFullName();
+				return current;
 			} else if (l.isDestinationGroup()) {
-				String p = getPathDepthFirst((GroupNode) l.getDestination(), node);
+				String p = getPathDepthFirst(current + Node.SEPARATOR, (GroupNode) l.getDestination(), node);
 				if (p != null)
 					return p;
 			}
