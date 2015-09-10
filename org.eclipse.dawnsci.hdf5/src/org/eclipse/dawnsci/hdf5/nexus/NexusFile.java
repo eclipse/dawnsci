@@ -125,6 +125,23 @@ public interface NexusFile extends AutoCloseable {
 	public DataNode getData(GroupNode group, String name) throws NexusException;
 
 	/**
+	 * Add node to given path. This will recursively add other nodes if the given node is a group node.
+	 * @param path
+	 * @param node
+	 * @throws NexusException if node already exists at given path or parts of path does not exist
+	 */
+	public void addNode(String path, Node node) throws NexusException;
+
+	/**
+	 * Add node to group. This will recursively add other nodes if the given node is a group node.
+	 * @param group
+	 * @param name
+	 * @param node
+	 * @throws NexusException if node already exists in group with name
+	 */
+	public void addNode(GroupNode group, String name, Node node) throws NexusException;
+
+	/**
 	 * Create data node with given path to its group and create path if necessary
 	 * @param path to group
 	 * @param data
