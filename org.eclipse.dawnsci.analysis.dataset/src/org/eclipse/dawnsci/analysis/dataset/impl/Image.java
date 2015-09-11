@@ -351,13 +351,8 @@ public class Image {
 			
 			for (int i = 0; i < elements; i++) {
 				pseudoFlatFielded[i] = Maths.subtract(cd.getElements(i), ((CompoundDataset)gauss).getElements(i));
-				//replace x<0 by 0
-				for (int j = 0; j < pseudoFlatFielded[i].getSize(); j++) {
-					Double val = pseudoFlatFielded[i].getElementDoubleAbs(j);
-					if (val < 0) {
-						((AbstractDataset)pseudoFlatFielded[i]).setObjectAbs(j, 0);
-					}
-				}
+				// clip negative values
+				Maths.clip(pseudoFlatFielded[i], pseudoFlatFielded[i], 0, Double.POSITIVE_INFINITY);
 			}
 			if (pseudoFlatFielded.length == 3) {
 				RGBDataset rgb = new RGBDataset(pseudoFlatFielded[0], pseudoFlatFielded[1], pseudoFlatFielded[2]);
