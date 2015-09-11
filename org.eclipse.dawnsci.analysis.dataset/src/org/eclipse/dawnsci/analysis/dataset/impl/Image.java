@@ -332,24 +332,32 @@ public class Image {
 	}
 
 	/**
-	 * Applies a background filter by subtracting the pseudo-flat field of the image from the original image. The
+	 * Applies a filter by subtracting the pseudo-flat field of the image from the original image. The
 	 * pseudo-flat field is found by performing a large-kernel filter (Gaussian blur) on the image to be corrected.
 	 * 
 	 * @param input
 	 * @param radius
-	 *            radius/kernel used for the Gaussian blur filter, needs to be about 60% of the data size in order to
+	 *            radius/kernel used for the Gaussian blur filter, needs to be about 15% of the data size in order to
 	 *            give good results
 	 * @return filtered data
 	 */
-	public static Dataset backgroundFilter(Dataset input, int radius) {
+	public static Dataset pseudoFlatFieldFilter(Dataset input, int radius) {
 		input.squeeze();
 		Dataset gauss = gaussianBlurFilter(input, radius);
 		if (input instanceof CompoundDataset) {
 			CompoundDataset cd = (CompoundDataset) input;
 			int elements = cd.getElementsPerItem();
 			Dataset[] pseudoFlatFielded = new Dataset[elements];
+			
 			for (int i = 0; i < elements; i++) {
 				pseudoFlatFielded[i] = Maths.subtract(cd.getElements(i), ((CompoundDataset)gauss).getElements(i));
+				//replace x<0 by 0
+				for (int j = 0; j < pseudoFlatFielded[i].getSize(); j++) {
+					Double val = pseudoFlatFielded[i].getElementDoubleAbs(j);
+					if (val < 0) {
+						((AbstractDataset)pseudoFlatFielded[i]).setObjectAbs(j, 0);
+					}
+				}
 			}
 			if (pseudoFlatFielded.length == 3) {
 				RGBDataset rgb = new RGBDataset(pseudoFlatFielded[0], pseudoFlatFielded[1], pseudoFlatFielded[2]);
@@ -371,7 +379,7 @@ public class Image {
 				return new CompoundDoubleDataset(pseudoFlatFielded);
 			}
 		}
-		Dataset backgroundFiltered = Maths.subtract(input, gauss, null);
+		Dataset backgroundFiltered = Maths.subtract(input, gauss);
 		return backgroundFiltered;
 	}
 
