@@ -348,13 +348,12 @@ public class Image {
 			CompoundDataset cd = (CompoundDataset) input;
 			int elements = cd.getElementsPerItem();
 			Dataset[] pseudoFlatFielded = new Dataset[elements];
-			
-			for (int i = 0; i < elements; i++) {
-				pseudoFlatFielded[i] = Maths.subtract(cd.getElements(i), ((CompoundDataset)gauss).getElements(i));
-				// clip negative values
-				Maths.clip(pseudoFlatFielded[i], pseudoFlatFielded[i], 0, Double.POSITIVE_INFINITY);
-			}
 			if (pseudoFlatFielded.length == 3) {
+				for (int i = 0; i < elements; i++) {
+					pseudoFlatFielded[i] = Maths.subtract(cd.getElements(i), ((CompoundDataset) gauss).getElements(i));
+					// clip negative values
+					Maths.clip(pseudoFlatFielded[i], pseudoFlatFielded[i], 0, Double.POSITIVE_INFINITY);
+				}
 				RGBDataset rgb = new RGBDataset(pseudoFlatFielded[0], pseudoFlatFielded[1], pseudoFlatFielded[2]);
 				return rgb;
 			}
