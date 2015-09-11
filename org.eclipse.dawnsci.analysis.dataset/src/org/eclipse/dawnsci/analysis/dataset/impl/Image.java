@@ -254,7 +254,7 @@ public class Image {
 	}
 
 	/**
-	 * Applies a mean filter (faster)
+	 * Applies a mean filter, using BoofCV mean filter and its integral image implementation
 	 * 
 	 * @param input
 	 * @param radius
@@ -265,7 +265,7 @@ public class Image {
 	}
 
 	/**
-	 * Applies a mean filter (faster, faster)
+	 * Applies a mean filter using the SummedAreaTable implementation in Dawn 
 	 * 
 	 * @param input
 	 * @param radius
