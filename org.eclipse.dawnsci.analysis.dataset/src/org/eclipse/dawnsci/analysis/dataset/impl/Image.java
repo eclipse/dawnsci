@@ -195,7 +195,7 @@ public class Image {
 	}
 
 	public static enum FilterType {
-		MEDIAN, MIN, MAX, MEAN, GAUSSIAN_BLUR
+		MEDIAN, MIN, MAX, MEAN, GAUSSIAN_BLUR, FANO
 	}
 
 	/**
@@ -262,6 +262,33 @@ public class Image {
 	 */
 	public static Dataset meanFilter(Dataset input, int radius) {
 		return filter(input, radius, FilterType.MEAN);
+	}
+
+	/**
+	 * Applies a mean filter (faster, faster)
+	 * 
+	 * @param input
+	 * @param radius
+	 * @return filtered data
+	 * @throws Exception 
+	 */
+	public static Dataset meanSummedAreaFilter(Dataset input, int radius) throws Exception {
+		if (input instanceof CompoundDataset && ((CompoundDataset)input).getElementsPerItem() == 3) {
+			CompoundDataset cpd = (CompoundDataset) input;
+			Dataset rData = cpd.getElements(0);
+			Dataset gData = cpd.getElements(1);
+			Dataset bData = cpd.getElements(2);
+			SummedAreaTable rTable = new SummedAreaTable(rData, true);
+			Dataset rMean = rTable.getMeanImage(radius);
+			SummedAreaTable gTable = new SummedAreaTable(gData, true);
+			Dataset gMean = gTable.getMeanImage(radius);
+			SummedAreaTable bTable = new SummedAreaTable(bData, true);
+			Dataset bMean = bTable.getMeanImage(radius);
+			RGBDataset meanRgb = new RGBDataset(rMean, gMean, bMean);
+			return meanRgb;
+		}
+		final SummedAreaTable table = new SummedAreaTable(input, true);
+		return table.getMeanImage(radius);
 	}
 
 	/**
