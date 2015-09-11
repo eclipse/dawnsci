@@ -23,11 +23,14 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.DataNodeImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
@@ -81,9 +84,23 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 			DataNodeImpl n = getDataNode(name);
 			n.setDataset(value);
 		} else {
-//			DataNodeImpl n = new DataNodeImpl(
-			
+			createDataNode(name, value);
 		}
+		// update the cache
+		if (value instanceof Dataset) {
+			cached.put(name, (Dataset) value);
+		} else {
+			// if this is a lazy dataset only, only clear the old value
+			// the new value will be calculated when required
+			cached.remove(name);
+		}
+	}
+
+	private void createDataNode(String name, IDataset value) {
+		int oid = 31 * name.hashCode() + value.hashCode();
+		DataNode n = TreeFactory.createDataNode(oid);
+		addDataNode(name, n);
+		n.setDataset(value);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -149,6 +166,12 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 				throw new IllegalArgumentException("Node is not a string");
 			}
 			n.setString(value);
+		} else {
+			// create a new dataset, create a new DataNode containing that dataset
+			StringDataset dataset = StringDataset.createFromObject(value);
+			createDataNode(name, dataset);
+			// add the new dataset to the cache
+			cached.put(name, dataset);
 		}
 	}
 
@@ -174,37 +197,40 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 
 	private Dataset getCached(String name) {
 		if (!cached.containsKey(name)) {
-			DataNodeImpl dn = getDataNode(name);
-			ILazyDataset lazy = dn.getDataset();
-			if (!(lazy instanceof IDataset)) {
-				int size = lazy.getSize();
-				if (size > CACHE_LIMIT) {
-					int rank = lazy.getRank();
-					int[] shape = lazy.getShape();
-					// build up slice from last dimension
-					int[] stop = new int[rank];
-					int t = 1;
-					int i = rank - 1;
-					do {
-						stop[i] = shape[i];
-						t *= shape[i];
-					} while (t < CACHE_LIMIT);
-					while (i >= 0) {
-						stop[i--] = 1;
+			DataNodeImpl dataNode = getDataNode(name);
+			if (dataNode != null) {
+				ILazyDataset lazy = dataNode.getDataset();
+				if (!(lazy instanceof IDataset)) {
+					// if this is a lazy dataset, set the slice on it
+					int size = lazy.getSize();
+					if (size > CACHE_LIMIT) {
+						int rank = lazy.getRank();
+						int[] shape = lazy.getShape();
+						// build up slice from last dimension
+						int[] stop = new int[rank];
+						int t = 1;
+						int i = rank - 1;
+						do {
+							stop[i] = shape[i];
+							t *= shape[i];
+						} while (t < CACHE_LIMIT);
+						while (i >= 0) {
+							stop[i--] = 1;
+						}
+						lazy = lazy.getSliceView(new SliceND(shape, null, stop, null));
+					} else {
+						lazy = lazy.getSlice();
 					}
-					lazy = lazy.getSliceView(new SliceND(shape, null, stop, null));
-				} else {
-					lazy = lazy.getSlice();
 				}
+				cached.put(name, DatasetUtils.convertToDataset((IDataset) lazy));
 			}
-			cached.put(name, DatasetUtils.convertToDataset((IDataset) lazy));
 		}
 		return cached.get(name);
 	}
 
 	protected boolean getBoolean(String name) {
 		Dataset d = getCached(name);
-		return d.getElementLongAbs(0) != 0;
+		return d.getElementBooleanAbs(0);
 	}
 
 	protected long getLong(String name) {
@@ -233,8 +259,15 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	}
 
 	protected void set(String name, Object value) {
-		Dataset d = getCached(name);
-		d.setObjectAbs(0, value);
+		if (containsDataNode(name)) {
+			// create a new dataset, new DataNode and update the cache
+			Dataset dataset = getCached(name);
+			dataset.setObjectAbs(0, value);
+		} else {
+			Dataset dataset = DatasetFactory.createFromObject(value);
+			createDataNode(name, dataset);
+			cached.put(name, dataset);
+		}
 	}
 
 	protected void setDate(String name, Date date) {
@@ -305,7 +338,11 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 
 	protected Number getAttrNumber(String name, String attrName) {
 		Dataset d = getCachedAttribute(name, attrName);
-		return d.hasFloatingPointElements() ? d.getElementDoubleAbs(0) : d.getElementLongAbs(0);
+		if (d.hasFloatingPointElements()) {
+			return d.getElementDoubleAbs(0);
+		}
+		
+		return d.getElementLongAbs(0);
 	}
 
 	protected Date getAttrDate(String name, String attrName) {
