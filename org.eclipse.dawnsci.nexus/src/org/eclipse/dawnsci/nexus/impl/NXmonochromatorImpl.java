@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -86,29 +86,29 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 
 	@Override
 	public NXdata getDistribution() {
-		return getFirstChild(NXdata.class);
+		return getChild("distribution", NXdata.class);
 	}
 
 	public void setDistribution(NXdata distribution) {
-		putChild(distribution);
+		putChild("distribution", distribution);
 	}
 
 	@Override
 	public NXgeometry getGeometry() {
-		return getFirstChild(NXgeometry.class);
+		return getChild("geometry", NXgeometry.class);
 	}
 
 	public void setGeometry(NXgeometry geometry) {
-		putChild(geometry);
+		putChild("geometry", geometry);
 	}
 
 	@Override
 	public NXcrystal getCrystal() {
-		return getFirstChild(NXcrystal.class);
+		return getChild("crystal", NXcrystal.class);
 	}
 
 	public void setCrystal(NXcrystal crystal) {
-		putChild(crystal);
+		putChild("crystal", crystal);
 	}
 
 	@Override
@@ -131,11 +131,11 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 
 	@Override
 	public NXvelocity_selector getVelocity_selector() {
-		return getFirstChild(NXvelocity_selector.class);
+		return getChild("velocity_selector", NXvelocity_selector.class);
 	}
 
 	public void setVelocity_selector(NXvelocity_selector velocity_selector) {
-		putChild(velocity_selector);
+		putChild("velocity_selector", velocity_selector);
 	}
 
 	@Override
@@ -158,11 +158,11 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 
 	@Override
 	public NXgrating getGrating() {
-		return getFirstChild(NXgrating.class);
+		return getChild("grating", NXgrating.class);
 	}
 
 	public void setGrating(NXgrating grating) {
-		putChild(grating);
+		putChild("grating", grating);
 	}
 
 	@Override

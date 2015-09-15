@@ -99,8 +99,9 @@
 	
 	<!-- Get the definition for this group in the base class, if it exists. -->
 	<xsl:variable name="baseClassGroupDef" select="$baseClass/nx:group[@type=current()/@type]"/>
-	<!-- The group name is the name in the baseclass, if it exists, else the type without the NX prefix -->
-	<xsl:variable name="groupName" select="if ($baseClassGroupDef/@name) then @name else substring(@type, 3)"/>
+	<!-- The group name is the name in the baseclass, if it exists, else the type without the NX prefix.
+	     This name, prefixed by 'get' is the name of the method in the method in the base class to use. -->
+	<xsl:variable name="groupNameInBaseClass" select="if ($baseClassGroupDef/@name) then @name else substring(@type, 3)"/>
 	<!-- True if there can be multiple occurrences of this group. -->
 	<xsl:variable name="multiple" select="not(@name) and not(@maxOccurs='1')"/>
 	<!-- True if this group is optional (false if group is multiple) -->
@@ -113,25 +114,27 @@
 	<xsl:text> of type </xsl:text><xsl:value-of select="@type"/>
 	<xsl:if test="$multiple"> (possibly multiple)</xsl:if>
 	<xsl:text>&#10;</xsl:text>
+	<xsl:text>// $groupNameInBaseClass = </xsl:text><xsl:value-of select="concat($groupNameInBaseClass, '&#10;')"/>
 
 	<!-- Variable for method call to get group (or just group name if multiple), used in invocation of validateGroupXXX method -->
 	<xsl:variable name="group">
 		<xsl:choose>
 			<!-- Just use the group name when multiple groups, this will be a variable in the for loop above, which gets the groups as a map -->
 			<xsl:when test="$multiple">
-				<xsl:value-of select="$groupName"/>
+				<xsl:value-of select="$groupNameInBaseClass"/>
 			</xsl:when>
-			<!-- When the base class does not include the group, just use getFirstChild(<@type>.class)-->
+			<!-- When the base class does not include the group, just use getChild("@name", @type.class)-->
 			<xsl:when test="not($baseClassGroupDef)">
 				<xsl:value-of select="$parentGroupVariableName"/>
-				<xsl:text>.getFirstChild(</xsl:text>
+				<xsl:text>.getChild(</xsl:text>
+				<xsl:text>"</xsl:text><xsl:value-of select="@name"/><xsl:text>", </xsl:text>
 				<xsl:value-of select="@type"/>
 				<xsl:text>.class)</xsl:text>
 			</xsl:when>
 			<!-- In the general case, just do parentGroupName.getChildGroupName() -->
 			<xsl:otherwise>
 				<xsl:value-of select="$parentGroupVariableName"/>
-				<xsl:text>.get</xsl:text><xsl:value-of select="dawnsci:capitalise-first($groupName)"/>
+				<xsl:text>.get</xsl:text><xsl:value-of select="dawnsci:capitalise-first($groupNameInBaseClass)"/>
 				<xsl:text>()</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -142,15 +145,15 @@
 		<!-- Line to get the map of all groups of the given type, e.g. final Map<String, NXSample> allSample = group.getAllSample() -->
 		<xsl:value-of select="dawnsci:tabs(2)"/>
 		<xsl:text>final Map&lt;String, </xsl:text><xsl:value-of select="@type"/>
-		<xsl:text>&gt; all</xsl:text><xsl:value-of select="dawnsci:capitalise-first($groupName)"/>
+		<xsl:text>&gt; all</xsl:text><xsl:value-of select="dawnsci:capitalise-first($groupNameInBaseClass)"/>
 		<xsl:text> = </xsl:text><xsl:value-of select="$parentGroupVariableName"/>
-		<xsl:text>.getAll</xsl:text><xsl:value-of select="dawnsci:capitalise-first($groupName)"/>
+		<xsl:text>.getAll</xsl:text><xsl:value-of select="dawnsci:capitalise-first($groupNameInBaseClass)"/>
 		<xsl:text>();&#10;</xsl:text>
 
 		<!-- For loop over values -->
 		<xsl:value-of select="dawnsci:tabs(2)"/>
-		<xsl:text>for (final </xsl:text><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="$groupName"/>
-		<xsl:text> : all</xsl:text><xsl:value-of select="dawnsci:capitalise-first($groupName)"/>
+		<xsl:text>for (final </xsl:text><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="$groupNameInBaseClass"/>
+		<xsl:text> : all</xsl:text><xsl:value-of select="dawnsci:capitalise-first($groupNameInBaseClass)"/>
 		<xsl:text>.values()) {&#10;</xsl:text>
 	</xsl:if>
 	

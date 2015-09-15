@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -68,20 +68,20 @@ public class NXquadrupole_magnetImpl extends NXobjectImpl implements NXquadrupol
 
 	@Override
 	public NXlog getRead_current() {
-		return getFirstChild(NXlog.class);
+		return getChild("read_current", NXlog.class);
 	}
 
 	public void setRead_current(NXlog read_current) {
-		putChild(read_current);
+		putChild("read_current", read_current);
 	}
 
 	@Override
 	public NXlog getRead_voltage() {
-		return getFirstChild(NXlog.class);
+		return getChild("read_voltage", NXlog.class);
 	}
 
 	public void setRead_voltage(NXlog read_voltage) {
-		putChild(read_voltage);
+		putChild("read_voltage", read_voltage);
 	}
 
 }

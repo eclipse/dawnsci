@@ -5,10 +5,7 @@ import static org.junit.Assert.fail;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.measure.unit.Unit;
-
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.metadata.UnitMetadata;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
@@ -18,7 +15,7 @@ import org.eclipse.dawnsci.analysis.tree.impl.AttributeImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
 import org.eclipse.dawnsci.nexus.NXsample;
 import org.eclipse.dawnsci.nexus.NXtransformations;
-import org.eclipse.dawnsci.nexus.impl.NexusFactory;
+import org.eclipse.dawnsci.nexus.impl.NXobjectFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -232,9 +229,10 @@ public class AbstractNXValidatorTest {
 	public void testValidateTransformations() throws Exception {
 		final Map<String, NXtransformations> transformations = new HashMap<>();
 		
-		transformations.put("one", NexusFactory.createNXtransformations());
-		transformations.put("two", NexusFactory.createNXtransformations());
-		transformations.put("three", NexusFactory.createNXtransformations());
+		NXobjectFactory nxObjectFactory = new NXobjectFactory();
+		transformations.put("one", nxObjectFactory.createNXtransformations());
+		transformations.put("two", nxObjectFactory.createNXtransformations());
+		transformations.put("three", nxObjectFactory.createNXtransformations());
 		
 		transformations.get("one").addAttribute(new AttributeImpl("depends_on", "two"));
 		transformations.get("two").addAttribute(new AttributeImpl("depends_on", "three"));
@@ -247,9 +245,10 @@ public class AbstractNXValidatorTest {
 	public void testValidateTransformations_missingFirstTransformation() throws Exception {
 		final Map<String, NXtransformations> transformations = new HashMap<>();
 		
-		transformations.put("one", NexusFactory.createNXtransformations());
-		transformations.put("two", NexusFactory.createNXtransformations());
-		transformations.put("three", NexusFactory.createNXtransformations());
+		NXobjectFactory nxObjectFactory = new NXobjectFactory();
+		transformations.put("one", nxObjectFactory.createNXtransformations());
+		transformations.put("two", nxObjectFactory.createNXtransformations());
+		transformations.put("three", nxObjectFactory.createNXtransformations());
 		
 		transformations.get("one").addAttribute(new AttributeImpl("depends_on", "two"));
 		transformations.get("two").addAttribute(new AttributeImpl("depends_on", "three"));
@@ -262,9 +261,10 @@ public class AbstractNXValidatorTest {
 	public void testValidateTransformations_missingTransformation() throws Exception {
 		final Map<String, NXtransformations> transformations = new HashMap<>();
 		
-		transformations.put("one", NexusFactory.createNXtransformations());
-		transformations.put("two", NexusFactory.createNXtransformations());
-		transformations.put("three", NexusFactory.createNXtransformations());
+		NXobjectFactory nxObjectFactory = new NXobjectFactory();
+		transformations.put("one", nxObjectFactory.createNXtransformations());
+		transformations.put("two", nxObjectFactory.createNXtransformations());
+		transformations.put("three", nxObjectFactory.createNXtransformations());
 		
 		transformations.get("one").addAttribute(new AttributeImpl("depends_on", "two"));
 		transformations.get("two").addAttribute(new AttributeImpl("depends_on", "three"));
@@ -277,9 +277,10 @@ public class AbstractNXValidatorTest {
 	public void testValidateTransformations_circularDependency() throws Exception {
 		final Map<String, NXtransformations> transformations = new HashMap<>();
 		
-		transformations.put("one", NexusFactory.createNXtransformations());
-		transformations.put("two", NexusFactory.createNXtransformations());
-		transformations.put("three", NexusFactory.createNXtransformations());
+		NXobjectFactory nxObjectFactory = new NXobjectFactory();
+		transformations.put("one", nxObjectFactory.createNXtransformations());
+		transformations.put("two", nxObjectFactory.createNXtransformations());
+		transformations.put("three", nxObjectFactory.createNXtransformations());
 		
 		transformations.get("one").addAttribute(new AttributeImpl("depends_on", "two"));
 		transformations.get("two").addAttribute(new AttributeImpl("depends_on", "three"));

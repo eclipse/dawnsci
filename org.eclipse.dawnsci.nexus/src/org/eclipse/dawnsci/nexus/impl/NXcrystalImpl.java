@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -85,11 +85,11 @@ public class NXcrystalImpl extends NXobjectImpl implements NXcrystal {
 
 	@Override
 	public NXgeometry getGeometry() {
-		return getFirstChild(NXgeometry.class);
+		return getChild("geometry", NXgeometry.class);
 	}
 
 	public void setGeometry(NXgeometry geometry) {
-		putChild(geometry);
+		putChild("geometry", geometry);
 	}
 
 	@Override
@@ -454,38 +454,38 @@ public class NXcrystalImpl extends NXobjectImpl implements NXcrystal {
 
 	@Override
 	public NXlog getTemperature_log() {
-		return getFirstChild(NXlog.class);
+		return getChild("temperature_log", NXlog.class);
 	}
 
 	public void setTemperature_log(NXlog temperature_log) {
-		putChild(temperature_log);
+		putChild("temperature_log", temperature_log);
 	}
 
 	@Override
 	public NXdata getReflectivity() {
-		return getFirstChild(NXdata.class);
+		return getChild("reflectivity", NXdata.class);
 	}
 
 	public void setReflectivity(NXdata reflectivity) {
-		putChild(reflectivity);
+		putChild("reflectivity", reflectivity);
 	}
 
 	@Override
 	public NXdata getTransmission() {
-		return getFirstChild(NXdata.class);
+		return getChild("transmission", NXdata.class);
 	}
 
 	public void setTransmission(NXdata transmission) {
-		putChild(transmission);
+		putChild("transmission", transmission);
 	}
 
 	@Override
 	public NXshape getShape() {
-		return getFirstChild(NXshape.class);
+		return getChild("shape", NXshape.class);
 	}
 
 	public void setShape(NXshape shape) {
-		putChild(shape);
+		putChild("shape", shape);
 	}
 
 }

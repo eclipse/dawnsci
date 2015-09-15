@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -342,11 +342,11 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 
 	@Override
 	public NXgeometry getGeometry() {
-		return getFirstChild(NXgeometry.class);
+		return getChild("geometry", NXgeometry.class);
 	}
 
 	public void setGeometry(NXgeometry geometry) {
-		putChild(geometry);
+		putChild("geometry", geometry);
 	}
 
 	@Override
@@ -486,11 +486,11 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 
 	@Override
 	public NXdata getEfficiency() {
-		return getFirstChild(NXdata.class);
+		return getChild("efficiency", NXdata.class);
 	}
 
 	public void setEfficiency(NXdata efficiency) {
-		putChild(efficiency);
+		putChild("efficiency", efficiency);
 	}
 
 	@Override
@@ -504,11 +504,11 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 
 	@Override
 	public NXnote getCalibration_method() {
-		return getFirstChild(NXnote.class);
+		return getChild("calibration_method", NXnote.class);
 	}
 
 	public void setCalibration_method(NXnote calibration_method) {
-		putChild(calibration_method);
+		putChild("calibration_method", calibration_method);
 	}
 
 	@Override
@@ -531,22 +531,22 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 
 	@Override
 	public NXnote getData_file() {
-		return getFirstChild(NXnote.class);
+		return getChild("data_file", NXnote.class);
 	}
 
 	public void setData_file(NXnote data_file) {
-		putChild(data_file);
+		putChild("data_file", data_file);
 	}
 
 	@Override
 	@Deprecated
 	public NXcharacterization getCharacterization() {
-		return getFirstChild(NXcharacterization.class);
+		return getChild("characterization", NXcharacterization.class);
 	}
 
 	@Deprecated
 	public void setCharacterization(NXcharacterization characterization) {
-		putChild(characterization);
+		putChild("characterization", characterization);
 	}
 
 	@Override
@@ -573,11 +573,11 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 
 	@Override
 	public NXcollection getCollection() {
-		return getFirstChild(NXcollection.class);
+		return getChild("collection", NXcollection.class);
 	}
 
 	public void setCollection(NXcollection collection) {
-		putChild(collection);
+		putChild("collection", collection);
 	}
 
 	@Override
@@ -825,11 +825,11 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 
 	@Override
 	public NXdetector_module getDetector_module() {
-		return getFirstChild(NXdetector_module.class);
+		return getChild("detector_module", NXdetector_module.class);
 	}
 
 	public void setDetector_module(NXdetector_module detector_module) {
-		putChild(detector_module);
+		putChild("detector_module", detector_module);
 	}
 
 	@Override

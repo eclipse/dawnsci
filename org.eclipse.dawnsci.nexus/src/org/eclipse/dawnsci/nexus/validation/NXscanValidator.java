@@ -22,6 +22,7 @@ public class NXscanValidator extends AbstractNXValidator implements NXApplicatio
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate unnamed child group of type NXentry (possibly multiple)
+// $groupNameInBaseClass = entry
 		final Map<String, NXentry> allEntry = root.getAllEntry();
 		for (final NXentry entry : allEntry.values()) {
 			validateGroup_NXentry(entry);
@@ -57,24 +58,28 @@ public class NXscanValidator extends AbstractNXValidator implements NXApplicatio
 				"NXscan");
 
 		// validate unnamed child group of type NXinstrument (possibly multiple)
+// $groupNameInBaseClass = instrument
 		final Map<String, NXinstrument> allInstrument = group.getAllInstrument();
 		for (final NXinstrument instrument : allInstrument.values()) {
 			validateGroup_NXentry_NXinstrument(instrument);
 		}
 
 		// validate unnamed child group of type NXsample (possibly multiple)
+// $groupNameInBaseClass = sample
 		final Map<String, NXsample> allSample = group.getAllSample();
 		for (final NXsample sample : allSample.values()) {
 			validateGroup_NXentry_NXsample(sample);
 		}
 
 		// validate unnamed child group of type NXmonitor (possibly multiple)
+// $groupNameInBaseClass = monitor
 		final Map<String, NXmonitor> allMonitor = group.getAllMonitor();
 		for (final NXmonitor monitor : allMonitor.values()) {
 			validateGroup_NXentry_NXmonitor(monitor);
 		}
 
 		// validate unnamed child group of type NXdata (possibly multiple)
+// $groupNameInBaseClass = data
 		final Map<String, NXdata> allData = group.getAllData();
 		for (final NXdata data : allData.values()) {
 			validateGroup_NXentry_NXdata(data);
@@ -89,6 +94,7 @@ public class NXscanValidator extends AbstractNXValidator implements NXApplicatio
 		validateGroupNotNull(null, NXinstrument.class, group);
 
 		// validate unnamed child group of type NXdetector (possibly multiple)
+// $groupNameInBaseClass = detector
 		final Map<String, NXdetector> allDetector = group.getAllDetector();
 		for (final NXdetector detector : allDetector.values()) {
 			validateGroup_NXentry_NXinstrument_NXdetector(detector);

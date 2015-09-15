@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -180,11 +180,11 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 
 	@Override
 	public NXtransformations getTransformations() {
-		return getFirstChild(NXtransformations.class);
+		return getChild("transformations", NXtransformations.class);
 	}
 
 	public void setTransformations(NXtransformations transformations) {
-		putChild(transformations);
+		putChild("transformations", transformations);
 	}
 
 	@Override

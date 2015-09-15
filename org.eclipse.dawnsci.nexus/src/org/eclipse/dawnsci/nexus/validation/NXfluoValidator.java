@@ -24,6 +24,7 @@ public class NXfluoValidator extends AbstractNXValidator implements NXApplicatio
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate child group 'entry' of type NXentry
+// $groupNameInBaseClass = entry
 		validateGroup_entry(root.getEntry());
 	}
 
@@ -50,24 +51,28 @@ public class NXfluoValidator extends AbstractNXValidator implements NXApplicatio
 				"NXfluo");
 
 		// validate unnamed child group of type NXinstrument (possibly multiple)
+// $groupNameInBaseClass = instrument
 		final Map<String, NXinstrument> allInstrument = group.getAllInstrument();
 		for (final NXinstrument instrument : allInstrument.values()) {
 			validateGroup_entry_NXinstrument(instrument);
 		}
 
 		// validate unnamed child group of type NXsample (possibly multiple)
+// $groupNameInBaseClass = sample
 		final Map<String, NXsample> allSample = group.getAllSample();
 		for (final NXsample sample : allSample.values()) {
 			validateGroup_entry_NXsample(sample);
 		}
 
 		// validate unnamed child group of type NXmonitor (possibly multiple)
+// $groupNameInBaseClass = monitor
 		final Map<String, NXmonitor> allMonitor = group.getAllMonitor();
 		for (final NXmonitor monitor : allMonitor.values()) {
 			validateGroup_entry_NXmonitor(monitor);
 		}
 
 		// validate child group 'data' of type NXdata
+// $groupNameInBaseClass = data
 		validateGroup_entry_data(group.getData());
 	}
 
@@ -79,15 +84,18 @@ public class NXfluoValidator extends AbstractNXValidator implements NXApplicatio
 		validateGroupNotNull(null, NXinstrument.class, group);
 
 		// validate unnamed child group of type NXsource (possibly multiple)
+// $groupNameInBaseClass = source
 		final Map<String, NXsource> allSource = group.getAllSource();
 		for (final NXsource source : allSource.values()) {
 			validateGroup_entry_NXinstrument_NXsource(source);
 		}
 
 		// validate child group 'monochromator' of type NXmonochromator
+// $groupNameInBaseClass = monochromator
 		validateGroup_entry_NXinstrument_monochromator(group.getMonochromator());
 
 		// validate child group 'fluorescence' of type NXdetector
+// $groupNameInBaseClass = detector
 		validateGroup_entry_NXinstrument_fluorescence(group.getDetector());
 	}
 

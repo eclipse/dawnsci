@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -69,20 +69,20 @@ public class NXseparatorImpl extends NXobjectImpl implements NXseparator {
 
 	@Override
 	public NXlog getRead_Bfield_current() {
-		return getFirstChild(NXlog.class);
+		return getChild("read_Bfield_current", NXlog.class);
 	}
 
 	public void setRead_Bfield_current(NXlog read_Bfield_current) {
-		putChild(read_Bfield_current);
+		putChild("read_Bfield_current", read_Bfield_current);
 	}
 
 	@Override
 	public NXlog getRead_Bfield_voltage() {
-		return getFirstChild(NXlog.class);
+		return getChild("read_Bfield_voltage", NXlog.class);
 	}
 
 	public void setRead_Bfield_voltage(NXlog read_Bfield_voltage) {
-		putChild(read_Bfield_voltage);
+		putChild("read_Bfield_voltage", read_Bfield_voltage);
 	}
 
 	@Override
@@ -96,20 +96,20 @@ public class NXseparatorImpl extends NXobjectImpl implements NXseparator {
 
 	@Override
 	public NXlog getRead_Efield_current() {
-		return getFirstChild(NXlog.class);
+		return getChild("read_Efield_current", NXlog.class);
 	}
 
 	public void setRead_Efield_current(NXlog read_Efield_current) {
-		putChild(read_Efield_current);
+		putChild("read_Efield_current", read_Efield_current);
 	}
 
 	@Override
 	public NXlog getRead_Efield_voltage() {
-		return getFirstChild(NXlog.class);
+		return getChild("read_Efield_voltage", NXlog.class);
 	}
 
 	public void setRead_Efield_voltage(NXlog read_Efield_voltage) {
-		putChild(read_Efield_voltage);
+		putChild("read_Efield_voltage", read_Efield_voltage);
 	}
 
 }
