@@ -28,6 +28,7 @@ public class NXsasValidator extends AbstractNXValidator implements NXApplication
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate unnamed child group of type NXentry (possibly multiple)
+// $groupNameInBaseClass = entry
 		final Map<String, NXentry> allEntry = root.getAllEntry();
 		for (final NXentry entry : allEntry.values()) {
 			validateGroup_NXentry(entry);
@@ -66,15 +67,19 @@ public class NXsasValidator extends AbstractNXValidator implements NXApplication
 				"NXsas");
 
 		// validate child group 'instrument' of type NXinstrument
+// $groupNameInBaseClass = instrument
 		validateGroup_NXentry_instrument(group.getInstrument());
 
 		// validate child group 'sample' of type NXsample
+// $groupNameInBaseClass = sample
 		validateGroup_NXentry_sample(group.getSample());
 
 		// validate child group 'control' of type NXmonitor
+// $groupNameInBaseClass = monitor
 		validateGroup_NXentry_control(group.getMonitor());
 
 		// validate child group 'data' of type NXdata
+// $groupNameInBaseClass = data
 		validateGroup_NXentry_data(group.getData());
 	}
 
@@ -90,15 +95,19 @@ public class NXsasValidator extends AbstractNXValidator implements NXApplication
 		validateFieldNotNull("name)", name);
 		validateFieldType("name)", name, NX_CHAR);
 		// validate child group 'source' of type NXsource
+// $groupNameInBaseClass = source
 		validateGroup_NXentry_instrument_source(group.getSource());
 
 		// validate child group 'monochromator' of type NXmonochromator
+// $groupNameInBaseClass = monochromator
 		validateGroup_NXentry_instrument_monochromator(group.getMonochromator());
 
 		// validate child group 'collimator' of type NXcollimator
+// $groupNameInBaseClass = collimator
 		validateGroup_NXentry_instrument_collimator(group.getCollimator());
 
 		// validate child group 'detector' of type NXdetector
+// $groupNameInBaseClass = detector
 		validateGroup_NXentry_instrument_detector(group.getDetector());
 	}
 
@@ -165,6 +174,7 @@ public class NXsasValidator extends AbstractNXValidator implements NXApplication
 		validateGroupNotNull("collimator", NXcollimator.class, group);
 
 		// validate child group 'geometry' of type NXgeometry
+// $groupNameInBaseClass = geometry
 		validateGroup_NXentry_instrument_collimator_geometry(group.getGeometry());
 	}
 
@@ -176,6 +186,7 @@ public class NXsasValidator extends AbstractNXValidator implements NXApplication
 		validateGroupNotNull("geometry", NXgeometry.class, group);
 
 		// validate child group 'shape' of type NXshape
+// $groupNameInBaseClass = shape
 		validateGroup_NXentry_instrument_collimator_geometry_shape(group.getShape());
 	}
 

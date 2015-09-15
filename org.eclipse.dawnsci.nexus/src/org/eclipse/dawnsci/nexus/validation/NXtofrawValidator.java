@@ -23,6 +23,7 @@ public class NXtofrawValidator extends AbstractNXValidator implements NXApplicat
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate child group 'entry' of type NXentry
+// $groupNameInBaseClass = entry
 		validateGroup_entry(root.getEntry());
 	}
 
@@ -66,24 +67,29 @@ public class NXtofrawValidator extends AbstractNXValidator implements NXApplicat
 		validateFieldUnits("pre_sample_flightpath", pre_sample_flightpath, NX_LENGTH);
 
 		// validate child group 'user' of type NXuser
+// $groupNameInBaseClass = user
 		validateGroup_entry_user(group.getUser());
 
 		// validate child group 'instrument' of type NXinstrument
+// $groupNameInBaseClass = instrument
 		validateGroup_entry_instrument(group.getInstrument());
 
 		// validate unnamed child group of type NXsample (possibly multiple)
+// $groupNameInBaseClass = sample
 		final Map<String, NXsample> allSample = group.getAllSample();
 		for (final NXsample sample : allSample.values()) {
 			validateGroup_entry_NXsample(sample);
 		}
 
 		// validate unnamed child group of type NXmonitor (possibly multiple)
+// $groupNameInBaseClass = monitor
 		final Map<String, NXmonitor> allMonitor = group.getAllMonitor();
 		for (final NXmonitor monitor : allMonitor.values()) {
 			validateGroup_entry_NXmonitor(monitor);
 		}
 
 		// validate child group 'data' of type NXdata
+// $groupNameInBaseClass = data
 		validateGroup_entry_data(group.getData());
 	}
 
@@ -108,6 +114,7 @@ public class NXtofrawValidator extends AbstractNXValidator implements NXApplicat
 		validateGroupNotNull("instrument", NXinstrument.class, group);
 
 		// validate child group 'detector' of type NXdetector
+// $groupNameInBaseClass = detector
 		validateGroup_entry_instrument_detector(group.getDetector());
 	}
 

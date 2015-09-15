@@ -1,4 +1,4 @@
-<project name="generate-java" default="generate-validators">
+<project name="generate-java" default="generate-both">
 
 	<!-- These properties can be overridden by passing them in, either on the command line or the Eclipse run configuration
 	that invokes this build file. -->
@@ -7,7 +7,8 @@
 	<property name="gda-version" value="gda_8.47a"/>
 	<property name="nxdl-definitions-path" location="/scratch/dls_sw/all-dls/software/gda_versions/gda_8.47a/workspace_git/definitions"/>
 	
-	<target name="delete-generated-classes">
+	<!-- Delete the generated Java base classes -->
+	<target name="delete-generated-base-classes">
 		<delete>
 			<fileset dir="${java-source-path}">
 				<include name="**/NX*.java"/>
@@ -18,6 +19,7 @@
 		</delete>
 	</target>
 	
+	<!-- Delete the generated Java validators for NeXus application definitions -->
 	<target name="delete-generated-validators">
 		<delete>
 			<fileset dir="${java-source-path}/org/eclipse/dawnsci/nexus/validation">
@@ -28,8 +30,11 @@
 		</delete>
 	</target>
 	
+	<!-- Delete both base classes and application definitions -->
+	<target name="delete-both" depends="delete-generated-base-classes, delete-generated-validators"/>
+	
 	<!-- Generate Java classes from the Nexus base class definitions -->
-	<target name="generate-java">
+	<target name="generate-base-classes">
 		 <!-- Note: in and out are not used, nxdlDefinitionsPath and javaSourcePath are used as the source and output dirs instead.
 		 They are given dummy values as the XSLT ant task requires them. -->
 		<xslt
@@ -49,7 +54,7 @@
 		
 	</target>
 	
-	<!-- Generate Java validator from the Nexus application definitions -->
+	<!-- Generate Java validators from the NeXus application definitions -->
 	<target name="generate-validators">
 		 <!-- Note: in and out are not used, nxdlDefinitionsPath and javaSourcePath are used as the source and output dirs instead.
 		 They are given dummy values as the XSLT ant task requires them. -->
@@ -69,5 +74,8 @@
 		<delete file="${java-source-path}/out.xml"/>
 
 	</target>
+	
+	<!-- Target to generate both Java base classes and validators from application definitions-->
+	<target name="generate-both" depends="generate-base-classes, generate-validators"/>
 
 </project>

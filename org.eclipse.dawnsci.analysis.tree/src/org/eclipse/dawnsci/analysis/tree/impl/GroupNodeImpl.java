@@ -180,6 +180,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	 */
 	public void addGroupNode(final String name, final GroupNode g) {
 		synchronized (nodes) {
+			// check that there is not an existing data node with the same name
 			if (nodes.containsKey(name)) {
 				Node n = nodes.get(name).getDestination();
 				if (n instanceof SymbolicNode)
@@ -190,6 +191,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			} else {
 				groups++;
 			}
+			// add the new node
 			nodes.put(name, createNodeLink(name, g));
 			populated = true;
 		}

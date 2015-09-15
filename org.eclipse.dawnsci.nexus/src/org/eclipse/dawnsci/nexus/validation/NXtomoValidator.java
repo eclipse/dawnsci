@@ -21,6 +21,7 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate child group 'entry' of type NXentry
+// $groupNameInBaseClass = entry
 		validateGroup_entry(root.getEntry());
 	}
 
@@ -55,17 +56,21 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 				"NXtomo");
 
 		// validate child group 'instrument' of type NXinstrument
+// $groupNameInBaseClass = instrument
 		validateGroup_entry_instrument(group.getInstrument());
 
 		// validate child group 'sample' of type NXsample
+// $groupNameInBaseClass = sample
 		validateGroup_entry_sample(group.getSample());
 
 		// validate optional child group 'control' of type NXmonitor
+// $groupNameInBaseClass = monitor
 		if (group.getMonitor() != null) {
 			validateGroup_entry_control(group.getMonitor());
 		}
 
 		// validate child group 'data' of type NXdata
+// $groupNameInBaseClass = data
 		validateGroup_entry_data(group.getData());
 	}
 
@@ -77,11 +82,13 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 		validateGroupNotNull("instrument", NXinstrument.class, group);
 
 		// validate optional unnamed child group of type NXsource
+// $groupNameInBaseClass = source
 		if (group.getSource() != null) {
 			validateGroup_entry_instrument_NXsource(group.getSource());
 		}
 
 		// validate child group 'detector' of type NXdetector
+// $groupNameInBaseClass = detector
 		validateGroup_entry_instrument_detector(group.getDetector());
 	}
 

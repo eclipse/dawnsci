@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -80,11 +80,11 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 
 	@Override
 	public NXnote getCylinder_orientation() {
-		return getFirstChild(NXnote.class);
+		return getChild("cylinder_orientation", NXnote.class);
 	}
 
 	public void setCylinder_orientation(NXnote cylinder_orientation) {
-		putChild(cylinder_orientation);
+		putChild("cylinder_orientation", cylinder_orientation);
 	}
 
 	@Override

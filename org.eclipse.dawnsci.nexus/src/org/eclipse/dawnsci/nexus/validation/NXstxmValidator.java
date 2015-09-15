@@ -27,6 +27,7 @@ public class NXstxmValidator extends AbstractNXValidator implements NXApplicatio
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate unnamed child group of type NXentry (possibly multiple)
+// $groupNameInBaseClass = entry
 		final Map<String, NXentry> allEntry = root.getAllEntry();
 		for (final NXentry entry : allEntry.values()) {
 			validateGroup_NXentry(entry);
@@ -62,21 +63,25 @@ public class NXstxmValidator extends AbstractNXValidator implements NXApplicatio
 				"NXstxm");
 
 		// validate unnamed child group of type NXinstrument
+// $groupNameInBaseClass = instrument
 		validateGroup_NXentry_NXinstrument(group.getInstrument());
 
 		// validate unnamed child group of type NXsample (possibly multiple)
+// $groupNameInBaseClass = sample
 		final Map<String, NXsample> allSample = group.getAllSample();
 		for (final NXsample sample : allSample.values()) {
 			validateGroup_NXentry_NXsample(sample);
 		}
 
 		// validate unnamed child group of type NXdata (possibly multiple)
+// $groupNameInBaseClass = data
 		final Map<String, NXdata> allData = group.getAllData();
 		for (final NXdata data : allData.values()) {
 			validateGroup_NXentry_NXdata(data);
 		}
 
 		// validate optional child group 'control' of type NXmonitor
+// $groupNameInBaseClass = monitor
 		if (group.getMonitor() != null) {
 			validateGroup_NXentry_control(group.getMonitor());
 		}
@@ -90,28 +95,34 @@ public class NXstxmValidator extends AbstractNXValidator implements NXApplicatio
 		validateGroupNotNull(null, NXinstrument.class, group);
 
 		// validate unnamed child group of type NXsource
+// $groupNameInBaseClass = source
 		validateGroup_NXentry_NXinstrument_NXsource(group.getSource());
 
 		// validate child group 'monochromator' of type NXmonochromator
+// $groupNameInBaseClass = monochromator
 		validateGroup_NXentry_NXinstrument_monochromator(group.getMonochromator());
 
 		// validate unnamed child group of type NXdetector (possibly multiple)
+// $groupNameInBaseClass = detector
 		final Map<String, NXdetector> allDetector = group.getAllDetector();
 		for (final NXdetector detector : allDetector.values()) {
 			validateGroup_NXentry_NXinstrument_NXdetector(detector);
 		}
 
 		// validate optional child group 'sample_x' of type NXdetector
+// $groupNameInBaseClass = detector
 		if (group.getDetector() != null) {
 			validateGroup_NXentry_NXinstrument_sample_x(group.getDetector());
 		}
 
 		// validate optional child group 'sample_y' of type NXdetector
+// $groupNameInBaseClass = detector
 		if (group.getDetector() != null) {
 			validateGroup_NXentry_NXinstrument_sample_y(group.getDetector());
 		}
 
 		// validate optional child group 'sample_z' of type NXdetector
+// $groupNameInBaseClass = detector
 		if (group.getDetector() != null) {
 			validateGroup_NXentry_NXinstrument_sample_z(group.getDetector());
 		}

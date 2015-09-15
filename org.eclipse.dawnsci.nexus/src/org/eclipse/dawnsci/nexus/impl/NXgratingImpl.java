@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -180,29 +180,29 @@ public class NXgratingImpl extends NXobjectImpl implements NXgrating {
 
 	@Override
 	public NXshape getShape() {
-		return getFirstChild(NXshape.class);
+		return getChild("shape", NXshape.class);
 	}
 
 	public void setShape(NXshape shape) {
-		putChild(shape);
+		putChild("shape", shape);
 	}
 
 	@Override
 	public NXdata getFigure_data() {
-		return getFirstChild(NXdata.class);
+		return getChild("figure_data", NXdata.class);
 	}
 
 	public void setFigure_data(NXdata figure_data) {
-		putChild(figure_data);
+		putChild("figure_data", figure_data);
 	}
 
 	@Override
 	public NXtransformations getTransformations() {
-		return getFirstChild(NXtransformations.class);
+		return getChild("transformations", NXtransformations.class);
 	}
 
 	public void setTransformations(NXtransformations transformations) {
-		putChild(transformations);
+		putChild("transformations", transformations);
 	}
 
 	@Override

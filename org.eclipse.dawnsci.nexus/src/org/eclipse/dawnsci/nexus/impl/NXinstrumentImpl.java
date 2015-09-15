@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -65,11 +65,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXaperture getAperture() {
-		return getFirstChild(NXaperture.class);
+		return getChild("aperture", NXaperture.class);
 	}
 
 	public void setAperture(NXaperture aperture) {
-		putChild(aperture);
+		putChild("aperture", aperture);
 	}
 
 	@Override
@@ -92,11 +92,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXattenuator getAttenuator() {
-		return getFirstChild(NXattenuator.class);
+		return getChild("attenuator", NXattenuator.class);
 	}
 
 	public void setAttenuator(NXattenuator attenuator) {
-		putChild(attenuator);
+		putChild("attenuator", attenuator);
 	}
 
 	@Override
@@ -119,11 +119,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXbeam getBeam() {
-		return getFirstChild(NXbeam.class);
+		return getChild("beam", NXbeam.class);
 	}
 
 	public void setBeam(NXbeam beam) {
-		putChild(beam);
+		putChild("beam", beam);
 	}
 
 	@Override
@@ -146,11 +146,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXbeam_stop getBeam_stop() {
-		return getFirstChild(NXbeam_stop.class);
+		return getChild("beam_stop", NXbeam_stop.class);
 	}
 
 	public void setBeam_stop(NXbeam_stop beam_stop) {
-		putChild(beam_stop);
+		putChild("beam_stop", beam_stop);
 	}
 
 	@Override
@@ -173,11 +173,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXbending_magnet getBending_magnet() {
-		return getFirstChild(NXbending_magnet.class);
+		return getChild("bending_magnet", NXbending_magnet.class);
 	}
 
 	public void setBending_magnet(NXbending_magnet bending_magnet) {
-		putChild(bending_magnet);
+		putChild("bending_magnet", bending_magnet);
 	}
 
 	@Override
@@ -200,11 +200,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXcollimator getCollimator() {
-		return getFirstChild(NXcollimator.class);
+		return getChild("collimator", NXcollimator.class);
 	}
 
 	public void setCollimator(NXcollimator collimator) {
-		putChild(collimator);
+		putChild("collimator", collimator);
 	}
 
 	@Override
@@ -227,11 +227,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXcollection getCollection() {
-		return getFirstChild(NXcollection.class);
+		return getChild("collection", NXcollection.class);
 	}
 
 	public void setCollection(NXcollection collection) {
-		putChild(collection);
+		putChild("collection", collection);
 	}
 
 	@Override
@@ -254,11 +254,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXcapillary getCapillary() {
-		return getFirstChild(NXcapillary.class);
+		return getChild("capillary", NXcapillary.class);
 	}
 
 	public void setCapillary(NXcapillary capillary) {
-		putChild(capillary);
+		putChild("capillary", capillary);
 	}
 
 	@Override
@@ -281,11 +281,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXcrystal getCrystal() {
-		return getFirstChild(NXcrystal.class);
+		return getChild("crystal", NXcrystal.class);
 	}
 
 	public void setCrystal(NXcrystal crystal) {
-		putChild(crystal);
+		putChild("crystal", crystal);
 	}
 
 	@Override
@@ -308,11 +308,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXdetector getDetector() {
-		return getFirstChild(NXdetector.class);
+		return getChild("detector", NXdetector.class);
 	}
 
 	public void setDetector(NXdetector detector) {
-		putChild(detector);
+		putChild("detector", detector);
 	}
 
 	@Override
@@ -335,11 +335,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXdetector_group getDetector_group() {
-		return getFirstChild(NXdetector_group.class);
+		return getChild("detector_group", NXdetector_group.class);
 	}
 
 	public void setDetector_group(NXdetector_group detector_group) {
-		putChild(detector_group);
+		putChild("detector_group", detector_group);
 	}
 
 	@Override
@@ -362,11 +362,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXdisk_chopper getDisk_chopper() {
-		return getFirstChild(NXdisk_chopper.class);
+		return getChild("disk_chopper", NXdisk_chopper.class);
 	}
 
 	public void setDisk_chopper(NXdisk_chopper disk_chopper) {
-		putChild(disk_chopper);
+		putChild("disk_chopper", disk_chopper);
 	}
 
 	@Override
@@ -389,11 +389,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXevent_data getEvent_data() {
-		return getFirstChild(NXevent_data.class);
+		return getChild("event_data", NXevent_data.class);
 	}
 
 	public void setEvent_data(NXevent_data event_data) {
-		putChild(event_data);
+		putChild("event_data", event_data);
 	}
 
 	@Override
@@ -416,11 +416,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXfermi_chopper getFermi_chopper() {
-		return getFirstChild(NXfermi_chopper.class);
+		return getChild("fermi_chopper", NXfermi_chopper.class);
 	}
 
 	public void setFermi_chopper(NXfermi_chopper fermi_chopper) {
-		putChild(fermi_chopper);
+		putChild("fermi_chopper", fermi_chopper);
 	}
 
 	@Override
@@ -443,11 +443,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXfilter getFilter() {
-		return getFirstChild(NXfilter.class);
+		return getChild("filter", NXfilter.class);
 	}
 
 	public void setFilter(NXfilter filter) {
-		putChild(filter);
+		putChild("filter", filter);
 	}
 
 	@Override
@@ -470,11 +470,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXflipper getFlipper() {
-		return getFirstChild(NXflipper.class);
+		return getChild("flipper", NXflipper.class);
 	}
 
 	public void setFlipper(NXflipper flipper) {
-		putChild(flipper);
+		putChild("flipper", flipper);
 	}
 
 	@Override
@@ -497,11 +497,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXguide getGuide() {
-		return getFirstChild(NXguide.class);
+		return getChild("guide", NXguide.class);
 	}
 
 	public void setGuide(NXguide guide) {
-		putChild(guide);
+		putChild("guide", guide);
 	}
 
 	@Override
@@ -524,11 +524,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXinsertion_device getInsertion_device() {
-		return getFirstChild(NXinsertion_device.class);
+		return getChild("insertion_device", NXinsertion_device.class);
 	}
 
 	public void setInsertion_device(NXinsertion_device insertion_device) {
-		putChild(insertion_device);
+		putChild("insertion_device", insertion_device);
 	}
 
 	@Override
@@ -551,11 +551,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXmirror getMirror() {
-		return getFirstChild(NXmirror.class);
+		return getChild("mirror", NXmirror.class);
 	}
 
 	public void setMirror(NXmirror mirror) {
-		putChild(mirror);
+		putChild("mirror", mirror);
 	}
 
 	@Override
@@ -578,11 +578,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXmoderator getModerator() {
-		return getFirstChild(NXmoderator.class);
+		return getChild("moderator", NXmoderator.class);
 	}
 
 	public void setModerator(NXmoderator moderator) {
-		putChild(moderator);
+		putChild("moderator", moderator);
 	}
 
 	@Override
@@ -605,11 +605,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXmonochromator getMonochromator() {
-		return getFirstChild(NXmonochromator.class);
+		return getChild("monochromator", NXmonochromator.class);
 	}
 
 	public void setMonochromator(NXmonochromator monochromator) {
-		putChild(monochromator);
+		putChild("monochromator", monochromator);
 	}
 
 	@Override
@@ -632,11 +632,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXpolarizer getPolarizer() {
-		return getFirstChild(NXpolarizer.class);
+		return getChild("polarizer", NXpolarizer.class);
 	}
 
 	public void setPolarizer(NXpolarizer polarizer) {
-		putChild(polarizer);
+		putChild("polarizer", polarizer);
 	}
 
 	@Override
@@ -659,11 +659,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXpositioner getPositioner() {
-		return getFirstChild(NXpositioner.class);
+		return getChild("positioner", NXpositioner.class);
 	}
 
 	public void setPositioner(NXpositioner positioner) {
-		putChild(positioner);
+		putChild("positioner", positioner);
 	}
 
 	@Override
@@ -686,11 +686,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXsource getSource() {
-		return getFirstChild(NXsource.class);
+		return getChild("source", NXsource.class);
 	}
 
 	public void setSource(NXsource source) {
-		putChild(source);
+		putChild("source", source);
 	}
 
 	@Override
@@ -713,11 +713,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXvelocity_selector getVelocity_selector() {
-		return getFirstChild(NXvelocity_selector.class);
+		return getChild("velocity_selector", NXvelocity_selector.class);
 	}
 
 	public void setVelocity_selector(NXvelocity_selector velocity_selector) {
-		putChild(velocity_selector);
+		putChild("velocity_selector", velocity_selector);
 	}
 
 	@Override
@@ -740,11 +740,11 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 
 	@Override
 	public NXxraylens getXraylens() {
-		return getFirstChild(NXxraylens.class);
+		return getChild("xraylens", NXxraylens.class);
 	}
 
 	public void setXraylens(NXxraylens xraylens) {
-		putChild(xraylens);
+		putChild("xraylens", xraylens);
 	}
 
 	@Override

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -218,20 +218,20 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 
 	@Override
 	public NXnote getNotes() {
-		return getFirstChild(NXnote.class);
+		return getChild("notes", NXnote.class);
 	}
 
 	public void setNotes(NXnote notes) {
-		putChild(notes);
+		putChild("notes", notes);
 	}
 
 	@Override
 	public NXdata getBunch_pattern() {
-		return getFirstChild(NXdata.class);
+		return getChild("bunch_pattern", NXdata.class);
 	}
 
 	public void setBunch_pattern(NXdata bunch_pattern) {
-		putChild(bunch_pattern);
+		putChild("bunch_pattern", bunch_pattern);
 	}
 
 	@Override
@@ -272,11 +272,11 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 
 	@Override
 	public NXdata getPulse_shape() {
-		return getFirstChild(NXdata.class);
+		return getChild("pulse_shape", NXdata.class);
 	}
 
 	public void setPulse_shape(NXdata pulse_shape) {
-		putChild(pulse_shape);
+		putChild("pulse_shape", pulse_shape);
 	}
 
 	@Override
@@ -317,20 +317,20 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 
 	@Override
 	public NXgeometry getGeometry() {
-		return getFirstChild(NXgeometry.class);
+		return getChild("geometry", NXgeometry.class);
 	}
 
 	public void setGeometry(NXgeometry geometry) {
-		putChild(geometry);
+		putChild("geometry", geometry);
 	}
 
 	@Override
 	public NXdata getDistribution() {
-		return getFirstChild(NXdata.class);
+		return getChild("distribution", NXdata.class);
 	}
 
 	public void setDistribution(NXdata distribution) {
-		putChild(distribution);
+		putChild("distribution", distribution);
 	}
 
 }

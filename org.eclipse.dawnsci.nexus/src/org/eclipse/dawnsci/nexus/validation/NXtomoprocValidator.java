@@ -24,6 +24,7 @@ public class NXtomoprocValidator extends AbstractNXValidator implements NXApplic
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate child group 'entry' of type NXentry
+// $groupNameInBaseClass = entry
 		validateGroup_entry(root.getEntry());
 	}
 
@@ -45,21 +46,25 @@ public class NXtomoprocValidator extends AbstractNXValidator implements NXApplic
 				"NXtomoproc");
 
 		// validate unnamed child group of type NXinstrument (possibly multiple)
+// $groupNameInBaseClass = instrument
 		final Map<String, NXinstrument> allInstrument = group.getAllInstrument();
 		for (final NXinstrument instrument : allInstrument.values()) {
 			validateGroup_entry_NXinstrument(instrument);
 		}
 
 		// validate unnamed child group of type NXsample (possibly multiple)
+// $groupNameInBaseClass = sample
 		final Map<String, NXsample> allSample = group.getAllSample();
 		for (final NXsample sample : allSample.values()) {
 			validateGroup_entry_NXsample(sample);
 		}
 
 		// validate child group 'reconstruction' of type NXprocess
+// $groupNameInBaseClass = process
 		validateGroup_entry_reconstruction(group.getProcess());
 
 		// validate child group 'data' of type NXdata
+// $groupNameInBaseClass = data
 		validateGroup_entry_data(group.getData());
 	}
 
@@ -71,6 +76,7 @@ public class NXtomoprocValidator extends AbstractNXValidator implements NXApplic
 		validateGroupNotNull(null, NXinstrument.class, group);
 
 		// validate unnamed child group of type NXsource (possibly multiple)
+// $groupNameInBaseClass = source
 		final Map<String, NXsource> allSource = group.getAllSource();
 		for (final NXsource source : allSource.values()) {
 			validateGroup_entry_NXinstrument_NXsource(source);
@@ -150,7 +156,8 @@ public class NXtomoprocValidator extends AbstractNXValidator implements NXApplic
 		validateFieldType("date)", date, NX_DATE_TIME);
 
 		// validate child group 'parameters' of type NXparameters
-		validateGroup_entry_reconstruction_parameters(group.getFirstChild(NXparameters.class));
+// $groupNameInBaseClass = parameters
+		validateGroup_entry_reconstruction_parameters(group.getChild("parameters", NXparameters.class));
 	}
 
 	/**

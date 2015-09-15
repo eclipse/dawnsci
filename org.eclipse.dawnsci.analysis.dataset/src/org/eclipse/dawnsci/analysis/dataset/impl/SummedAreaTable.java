@@ -10,7 +10,6 @@
 package org.eclipse.dawnsci.analysis.dataset.impl;
 
 import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
-import org.eclipse.dawnsci.analysis.dataset.impl.Image.FilterType;
 
 /**
  * This code is based on:
@@ -150,62 +149,39 @@ public class SummedAreaTable {
 	 * @throws Exception
 	 */
 	public Dataset getFanoImage(int... box) throws Exception {
-		return getImage(box, FilterType.FANO);
-	}
+		
+		if (box[0] % 2 == 0) throw new Exception("Box first dim is not odd!");
+		if (box[1] % 2 == 0) throw new Exception("Box second dim is not odd!");
 
-	/**
-	 * Creates a mean image where each pixel is the mean
-	 * for a give box surrounding it.
-	 * 
-	 * This operation has improved speed because it uses the summed area table
-	 * to compute a fast mean and variance for a given square.
-	 * 
-	 * @param radius
-	 * @return mean image using box passed in.
-	 * @throws Exception
-	 */
-	public Dataset getMeanImage(int radius) throws Exception {
-		int kernelEdge = (radius * 2) + 1;
-		int[] box = new int[] { kernelEdge, kernelEdge };
-		return getMeanImage(box);
-	}
-
-	public Dataset getMeanImage(int... box) throws Exception {
-		return getImage(box, FilterType.MEAN);
-	}
-
-	private Dataset getImage(int[] box, FilterType type) throws Exception {
-		if (box[0] % 2 == 0)
-			throw new Exception("Box first dim is not odd!");
-		if (box[1] % 2 == 0)
-			throw new Exception("Box second dim is not odd!");
+		
 		// Compute some things to save FPOs
 		int n = box[0]*box[1]; // Save a FPO inside loop.
-		final double[] filter = new double[shape[0]*shape[1]];
-
+		
+		final double[] fano = new double[shape[0]*shape[1]];
+		
 		int r1 = (int)Math.floor(box[0]/2d); // for instance 3->1, 5->2, 7->3 
 		int r2 = (int)Math.floor(box[1]/2d); // for instance 3->1, 5->2, 7->3 
-		int[] radii = new int[]{r1, r2};
+        int[] radii = new int[]{r1, r2};
+
 
 		if (sum2==null) createSummedTable(image, true);
 
 		int[] point  = new int[]{0,0};
 		int[] coords = new int[]{0,0,0,0};
 		
-		for (int i = 0; i < filter.length; i++) {
+		for (int i = 0; i < fano.length; i++) {
+			
 			// Point from the iterator
 			fillNDPositionFromShape(i, shape, point);
-
+			
 			// Save FPO by calculating coords once per pixel and
 			// passing to getBoxVarianceInternal and getBoxMeanInternal
 			fillCoordsInternal(point, shape, radii, coords);
+						
 			// Call fano (variance/mean)
-			if (type == FilterType.MEAN)
-				filter[i] = getBoxFanoFactorInternal(coords, n);
-			else if (type == FilterType.FANO)
-				filter[i] = getBoxMeanInternal(coords, n);
+			fano[i] = getBoxFanoFactorInternal(coords, n);
 		}
-		return new DoubleDataset(filter, shape);
+		return new DoubleDataset(fano, shape);
 	}
 
 	/**
@@ -223,13 +199,13 @@ public class SummedAreaTable {
 		return getBoxSumInternal(sum, createCoords(box), shape);
 
 	}
-
+	
 	/**
 	 * 
 	 * @param box
 	 * @return mean from the summed area table
 	 */
-	public double getBoxMean(IRectangularROI box) throws Exception {
+	public double getBoxMean(IRectangularROI box)  throws Exception {
 		if (box.getIntLength(0) % 2 == 0) throw new Exception("Box first dim is not odd!");
 		if (box.getIntLength(1) % 2 == 0) throw new Exception("Box second dim is not odd!");
 		int[] coords = createCoords(box);
@@ -253,6 +229,7 @@ public class SummedAreaTable {
 		return new int[]{w,h};
 	}
 
+
 	/**
 	 * 
 	 * @param point
@@ -263,7 +240,7 @@ public class SummedAreaTable {
 	public double getBoxSum(int[] point, int... box) throws Exception {
 		if (box[0] % 2 == 0) throw new Exception("Box first dim is not odd!");
 		if (box[1] % 2 == 0) throw new Exception("Box second dim is not odd!");
-		return getBoxSumInternal(sum, createCoords(point, box), shape);
+	    return getBoxSumInternal(sum, createCoords(point, box), shape);
 	}
 	
 	/**
@@ -276,11 +253,10 @@ public class SummedAreaTable {
 		if (box[0] % 2 == 0) throw new Exception("Box first dim is not odd!");
 		if (box[1] % 2 == 0) throw new Exception("Box second dim is not odd!");
 		int[] coords = createCoords(point, box);
-		return getBoxMeanInternal(coords, box[0]*box[1]);
+        return getBoxMeanInternal(coords, box[0]*box[1]);
 	}
-
 	private double getBoxMeanInternal(int[] coords, int n) {
-		return getBoxSumInternal(sum, coords, shape) / n;
+       return getBoxSumInternal(sum, coords, shape) / n;
 	}
 
 	/**

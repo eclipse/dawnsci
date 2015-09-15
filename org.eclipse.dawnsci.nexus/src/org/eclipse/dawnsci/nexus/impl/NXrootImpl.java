@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -129,11 +129,11 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 
 	@Override
 	public NXentry getEntry() {
-		return getFirstChild(NXentry.class);
+		return getChild("entry", NXentry.class);
 	}
 
 	public void setEntry(NXentry entry) {
-		putChild(entry);
+		putChild("entry", entry);
 	}
 
 	@Override

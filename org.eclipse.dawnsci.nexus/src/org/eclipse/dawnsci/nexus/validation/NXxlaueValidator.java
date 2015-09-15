@@ -18,6 +18,7 @@ public class NXxlaueValidator extends AbstractNXValidator implements NXApplicati
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate child group 'entry' of type NXentry
+// $groupNameInBaseClass = entry
 		validateGroup_entry(root.getEntry());
 	}
 
@@ -35,6 +36,7 @@ public class NXxlaueValidator extends AbstractNXValidator implements NXApplicati
 				"NXxlaue");
 
 		// validate child group 'instrument' of type NXinstrument
+// $groupNameInBaseClass = instrument
 		validateGroup_entry_instrument(group.getInstrument());
 	}
 
@@ -46,6 +48,7 @@ public class NXxlaueValidator extends AbstractNXValidator implements NXApplicati
 		validateGroupNotNull("instrument", NXinstrument.class, group);
 
 		// validate child group 'source' of type NXsource
+// $groupNameInBaseClass = source
 		validateGroup_entry_instrument_source(group.getSource());
 	}
 
@@ -57,6 +60,7 @@ public class NXxlaueValidator extends AbstractNXValidator implements NXApplicati
 		validateGroupNotNull("source", NXsource.class, group);
 
 		// validate child group 'distribution' of type NXdata
+// $groupNameInBaseClass = distribution
 		validateGroup_entry_instrument_source_distribution(group.getDistribution());
 	}
 

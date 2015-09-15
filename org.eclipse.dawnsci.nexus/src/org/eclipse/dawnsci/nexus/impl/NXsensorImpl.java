@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -88,11 +88,11 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 
 	@Override
 	public NXgeometry getGeometry() {
-		return getFirstChild(NXgeometry.class);
+		return getChild("geometry", NXgeometry.class);
 	}
 
 	public void setGeometry(NXgeometry geometry) {
-		putChild(geometry);
+		putChild("geometry", geometry);
 	}
 
 	@Override
@@ -169,29 +169,29 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 
 	@Override
 	public NXlog getValue_log() {
-		return getFirstChild(NXlog.class);
+		return getChild("value_log", NXlog.class);
 	}
 
 	public void setValue_log(NXlog value_log) {
-		putChild(value_log);
+		putChild("value_log", value_log);
 	}
 
 	@Override
 	public NXlog getValue_deriv1_log() {
-		return getFirstChild(NXlog.class);
+		return getChild("value_deriv1_log", NXlog.class);
 	}
 
 	public void setValue_deriv1_log(NXlog value_deriv1_log) {
-		putChild(value_deriv1_log);
+		putChild("value_deriv1_log", value_deriv1_log);
 	}
 
 	@Override
 	public NXlog getValue_deriv2_log() {
-		return getFirstChild(NXlog.class);
+		return getChild("value_deriv2_log", NXlog.class);
 	}
 
 	public void setValue_deriv2_log(NXlog value_deriv2_log) {
-		putChild(value_deriv2_log);
+		putChild("value_deriv2_log", value_deriv2_log);
 	}
 
 	@Override
@@ -205,11 +205,11 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 
 	@Override
 	public NXorientation getExternal_field_full() {
-		return getFirstChild(NXorientation.class);
+		return getChild("external_field_full", NXorientation.class);
 	}
 
 	public void setExternal_field_full(NXorientation external_field_full) {
-		putChild(external_field_full);
+		putChild("external_field_full", external_field_full);
 	}
 
 }

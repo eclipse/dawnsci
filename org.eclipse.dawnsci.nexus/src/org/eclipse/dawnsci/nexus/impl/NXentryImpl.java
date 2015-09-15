@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-08-28T15:05:14.853+01:00
+ * Generated at: 2015-09-09T16:50:16.8+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -67,11 +67,11 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 
 	@Override
 	public NXdata getData() {
-		return getFirstChild(NXdata.class);
+		return getChild("data", NXdata.class);
 	}
 
 	public void setData(NXdata data) {
-		putChild(data);
+		putChild("data", data);
 	}
 
 	@Override
@@ -139,11 +139,11 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 
 	@Override
 	public NXnote getExperiment_documentation() {
-		return getFirstChild(NXnote.class);
+		return getChild("experiment_documentation", NXnote.class);
 	}
 
 	public void setExperiment_documentation(NXnote experiment_documentation) {
-		putChild(experiment_documentation);
+		putChild("experiment_documentation", experiment_documentation);
 	}
 
 	@Override
@@ -330,29 +330,29 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 
 	@Override
 	public NXnote getNotes() {
-		return getFirstChild(NXnote.class);
+		return getChild("notes", NXnote.class);
 	}
 
 	public void setNotes(NXnote notes) {
-		putChild(notes);
+		putChild("notes", notes);
 	}
 
 	@Override
 	public NXnote getThumbnail() {
-		return getFirstChild(NXnote.class);
+		return getChild("thumbnail", NXnote.class);
 	}
 
 	public void setThumbnail(NXnote thumbnail) {
-		putChild(thumbnail);
+		putChild("thumbnail", thumbnail);
 	}
 
 	@Override
 	public NXcharacterization getCharacterization() {
-		return getFirstChild(NXcharacterization.class);
+		return getChild("characterization", NXcharacterization.class);
 	}
 
 	public void setCharacterization(NXcharacterization characterization) {
-		putChild(characterization);
+		putChild("characterization", characterization);
 	}
 
 	@Override
@@ -375,11 +375,11 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 
 	@Override
 	public NXuser getUser() {
-		return getFirstChild(NXuser.class);
+		return getChild("user", NXuser.class);
 	}
 
 	public void setUser(NXuser user) {
-		putChild(user);
+		putChild("user", user);
 	}
 
 	@Override
@@ -402,11 +402,11 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 
 	@Override
 	public NXsample getSample() {
-		return getFirstChild(NXsample.class);
+		return getChild("sample", NXsample.class);
 	}
 
 	public void setSample(NXsample sample) {
-		putChild(sample);
+		putChild("sample", sample);
 	}
 
 	@Override
@@ -429,11 +429,11 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 
 	@Override
 	public NXinstrument getInstrument() {
-		return getFirstChild(NXinstrument.class);
+		return getChild("instrument", NXinstrument.class);
 	}
 
 	public void setInstrument(NXinstrument instrument) {
-		putChild(instrument);
+		putChild("instrument", instrument);
 	}
 
 	@Override
@@ -456,11 +456,11 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 
 	@Override
 	public NXcollection getCollection() {
-		return getFirstChild(NXcollection.class);
+		return getChild("collection", NXcollection.class);
 	}
 
 	public void setCollection(NXcollection collection) {
-		putChild(collection);
+		putChild("collection", collection);
 	}
 
 	@Override
@@ -483,11 +483,11 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 
 	@Override
 	public NXmonitor getMonitor() {
-		return getFirstChild(NXmonitor.class);
+		return getChild("monitor", NXmonitor.class);
 	}
 
 	public void setMonitor(NXmonitor monitor) {
-		putChild(monitor);
+		putChild("monitor", monitor);
 	}
 
 	@Override
@@ -510,11 +510,11 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 
 	@Override
 	public NXparameters getParameters() {
-		return getFirstChild(NXparameters.class);
+		return getChild("parameters", NXparameters.class);
 	}
 
 	public void setParameters(NXparameters parameters) {
-		putChild(parameters);
+		putChild("parameters", parameters);
 	}
 
 	@Override
@@ -537,11 +537,11 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 
 	@Override
 	public NXprocess getProcess() {
-		return getFirstChild(NXprocess.class);
+		return getChild("process", NXprocess.class);
 	}
 
 	public void setProcess(NXprocess process) {
-		putChild(process);
+		putChild("process", process);
 	}
 
 	@Override
@@ -564,11 +564,11 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 
 	@Override
 	public NXsubentry getSubentry() {
-		return getFirstChild(NXsubentry.class);
+		return getChild("subentry", NXsubentry.class);
 	}
 
 	public void setSubentry(NXsubentry subentry) {
-		putChild(subentry);
+		putChild("subentry", subentry);
 	}
 
 	@Override

@@ -22,6 +22,7 @@ public class NXxasprocValidator extends AbstractNXValidator implements NXApplica
 @Override
 	public void validate(NXroot root) throws Exception {
 		// validate unnamed child group of type NXentry (possibly multiple)
+// $groupNameInBaseClass = entry
 		final Map<String, NXentry> allEntry = root.getAllEntry();
 		for (final NXentry entry : allEntry.values()) {
 			validateGroup_NXentry(entry);
@@ -50,15 +51,18 @@ public class NXxasprocValidator extends AbstractNXValidator implements NXApplica
 				"NXxasproc");
 
 		// validate unnamed child group of type NXsample (possibly multiple)
+// $groupNameInBaseClass = sample
 		final Map<String, NXsample> allSample = group.getAllSample();
 		for (final NXsample sample : allSample.values()) {
 			validateGroup_NXentry_NXsample(sample);
 		}
 
 		// validate child group 'XAS_data_reduction' of type NXprocess
+// $groupNameInBaseClass = process
 		validateGroup_NXentry_XAS_data_reduction(group.getProcess());
 
 		// validate unnamed child group of type NXdata (possibly multiple)
+// $groupNameInBaseClass = data
 		final Map<String, NXdata> allData = group.getAllData();
 		for (final NXdata data : allData.values()) {
 			validateGroup_NXentry_NXdata(data);
@@ -101,7 +105,8 @@ public class NXxasprocValidator extends AbstractNXValidator implements NXApplica
 		validateFieldType("date)", date, NX_DATE_TIME);
 
 		// validate child group 'parameters' of type NXparameters
-		validateGroup_NXentry_XAS_data_reduction_parameters(group.getFirstChild(NXparameters.class));
+// $groupNameInBaseClass = parameters
+		validateGroup_NXentry_XAS_data_reduction_parameters(group.getChild("parameters", NXparameters.class));
 	}
 
 	/**
