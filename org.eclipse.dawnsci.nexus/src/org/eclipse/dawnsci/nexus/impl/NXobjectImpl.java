@@ -258,7 +258,14 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		}
 	}
 
-	protected void set(String name, Object value) {
+	/**
+	 * Set the value of the given field to the given value. The
+	 * value may be an atomic value (e.g. primitive wrapper, object or string),
+	 * or a dataset.
+	 * @param name name
+	 * @param value value
+	 */
+	public void setField(String name, Object value) {
 		if (containsDataNode(name)) {
 			// create a new dataset, new DataNode and update the cache
 			Dataset dataset = getCached(name);
@@ -288,11 +295,13 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	}
 
 	/**
+	 * Set the value of the given attribute. If the first argument is not <code>null</code>
+	 * then the attribute is set on the field or child group with this name
 	 * @param name name of node (if null then current group)
 	 * @param attrName
 	 * @param attrValue
 	 */
-	protected void setAttribute(String name, String attrName, Object attrValue) {
+	public void setAttribute(String name, String attrName, Object attrValue) {
 		Node node = name == null ? this : getNode(name);
 		Attribute a = node.containsAttribute(attrName) ? node.getAttribute(attrName) : TreeFactory.createAttribute(attrName);
 		a.setValue(attrValue);

@@ -485,12 +485,42 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;</xsl:if>
 	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/impl/NXobjectFactory.java" format="text-format">
 	<xsl:text>package org.eclipse.dawnsci.nexus.impl;
 
+import java.net.URI;
+
+import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
+import org.eclipse.dawnsci.analysis.tree.impl.TreeImpl;
+
 /**
  * Factory class for creating instances of NeXus base classes.
  */
 public class NXobjectFactory {
 	
 	private long nextOid = 1l;
+	
+	/**
+	 * Create a new tree with given URI
+	 * @param uri
+	 */
+	public TreeImpl createTree(final URI uri) {
+		return new TreeImpl(nextOid++, uri);
+	}
+	
+	/**
+	 * Create a new tree file with given URI
+	 * @param uri uri
+	 */
+	public TreeFileImpl createTreeFile(final URI uri) {
+		return new TreeFileImpl(nextOid++, uri);
+	}
+	
+	/**
+	 * Create a new tree file with given file name
+	 * @param filename filename
+	 * @return
+	 */
+	public TreeFileImpl createTreeFile(final String fileName) {
+		return new TreeFileImpl(nextOid++, fileName);
+	}
 	
 </xsl:text>
 	
