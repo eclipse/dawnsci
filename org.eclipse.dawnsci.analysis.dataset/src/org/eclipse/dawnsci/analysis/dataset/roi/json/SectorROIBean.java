@@ -76,4 +76,32 @@ public class SectorROIBean extends RingROIBean {
 				type, name, Arrays.toString(startPoint), Arrays.toString(angles), symmetry, Arrays.toString(radii), dpp);
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Arrays.hashCode(angles);
+		result = prime * result + (combineSymmetry ? 1231 : 1237);
+		result = prime * result + symmetry;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SectorROIBean other = (SectorROIBean) obj;
+		if (!Arrays.equals(angles, other.angles))
+			return false;
+		if (combineSymmetry != other.combineSymmetry)
+			return false;
+		if (symmetry != other.symmetry)
+			return false;
+		return true;
+	}
+
 }

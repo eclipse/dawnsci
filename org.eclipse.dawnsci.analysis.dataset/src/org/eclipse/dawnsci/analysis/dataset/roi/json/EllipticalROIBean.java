@@ -58,4 +58,31 @@ public class EllipticalROIBean extends ROIBean {
 		return super.toString() + String.format("point=%s, semiaxes=%s, angle=%g", Arrays.toString(getStartPoint()), Arrays.toString(semiAxes), getAngle());
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		long temp;
+		temp = Double.doubleToLongBits(angle);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + Arrays.hashCode(semiAxes);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EllipticalROIBean other = (EllipticalROIBean) obj;
+		if (Double.doubleToLongBits(angle) != Double.doubleToLongBits(other.angle))
+			return false;
+		if (!Arrays.equals(semiAxes, other.semiAxes))
+			return false;
+		return true;
+	}
+
 }

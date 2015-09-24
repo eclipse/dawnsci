@@ -55,4 +55,36 @@ public class HyperbolicROIBean extends ROIBean {
 				Arrays.toString(startPoint), semi, eccentricity, angle);
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		long temp;
+		temp = Double.doubleToLongBits(angle);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(eccentricity);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(semi);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		HyperbolicROIBean other = (HyperbolicROIBean) obj;
+		if (Double.doubleToLongBits(angle) != Double.doubleToLongBits(other.angle))
+			return false;
+		if (Double.doubleToLongBits(eccentricity) != Double.doubleToLongBits(other.eccentricity))
+			return false;
+		if (Double.doubleToLongBits(semi) != Double.doubleToLongBits(other.semi))
+			return false;
+		return true;
+	}
+
 }

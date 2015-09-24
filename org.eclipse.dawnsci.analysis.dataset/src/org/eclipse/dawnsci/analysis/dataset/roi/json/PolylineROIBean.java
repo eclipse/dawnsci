@@ -42,4 +42,29 @@ public class PolylineROIBean extends ROIBean{
 				type, name, Arrays.toString(startPoint), Arrays.toString(points.toArray()));
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((points == null) ? 0 : points.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PolylineROIBean other = (PolylineROIBean) obj;
+		if (points == null) {
+			if (other.points != null)
+				return false;
+		} else if (!points.equals(other.points))
+			return false;
+		return true;
+	}
+
 }

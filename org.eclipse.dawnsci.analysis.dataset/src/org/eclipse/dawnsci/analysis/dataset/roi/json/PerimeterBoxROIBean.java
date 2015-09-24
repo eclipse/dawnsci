@@ -79,4 +79,34 @@ public class PerimeterBoxROIBean extends ROIBean {
 				type, name, Arrays.toString(startPoint), Arrays.toString(endPoint), angle);
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		long temp;
+		temp = Double.doubleToLongBits(angle);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + Arrays.hashCode(endPoint);
+		result = prime * result + Arrays.hashCode(lengths);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PerimeterBoxROIBean other = (PerimeterBoxROIBean) obj;
+		if (Double.doubleToLongBits(angle) != Double.doubleToLongBits(other.angle))
+			return false;
+		if (!Arrays.equals(endPoint, other.endPoint))
+			return false;
+		if (!Arrays.equals(lengths, other.lengths))
+			return false;
+		return true;
+	}
+
 }

@@ -52,4 +52,32 @@ public class ParabolicROIBean extends ROIBean {
 				getFocalParameter(), getAngle());
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		long temp;
+		temp = Double.doubleToLongBits(angle);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(focalParameter);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ParabolicROIBean other = (ParabolicROIBean) obj;
+		if (Double.doubleToLongBits(angle) != Double.doubleToLongBits(other.angle))
+			return false;
+		if (Double.doubleToLongBits(focalParameter) != Double.doubleToLongBits(other.focalParameter))
+			return false;
+		return true;
+	}
+
 }

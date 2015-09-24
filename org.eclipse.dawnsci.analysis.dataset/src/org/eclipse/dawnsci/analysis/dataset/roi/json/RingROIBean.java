@@ -83,5 +83,38 @@ public class RingROIBean extends ROIBean {
 				type, name, Arrays.toString(startPoint), Arrays.toString(radii), dpp);
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + (averageArea ? 1231 : 1237);
+		result = prime * result + (clippingCompensation ? 1231 : 1237);
+		long temp;
+		temp = Double.doubleToLongBits(dpp);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + Arrays.hashCode(radii);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RingROIBean other = (RingROIBean) obj;
+		if (averageArea != other.averageArea)
+			return false;
+		if (clippingCompensation != other.clippingCompensation)
+			return false;
+		if (Double.doubleToLongBits(dpp) != Double.doubleToLongBits(other.dpp))
+			return false;
+		if (!Arrays.equals(radii, other.radii))
+			return false;
+		return true;
+	}
+
 }
 

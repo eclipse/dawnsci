@@ -9,6 +9,7 @@
 
 package org.eclipse.dawnsci.analysis.dataset.roi.json;
 
+import java.util.Arrays;
 
 public class LinearROIBean extends ROIBean {
 
@@ -40,6 +41,37 @@ public class LinearROIBean extends ROIBean {
 
 	public void setEndPoint(double[] endPoint) {
 		this.endPoint = endPoint;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		long temp;
+		temp = Double.doubleToLongBits(ang);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + Arrays.hashCode(endPoint);
+		temp = Double.doubleToLongBits(len);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LinearROIBean other = (LinearROIBean) obj;
+		if (Double.doubleToLongBits(ang) != Double.doubleToLongBits(other.ang))
+			return false;
+		if (!Arrays.equals(endPoint, other.endPoint))
+			return false;
+		if (Double.doubleToLongBits(len) != Double.doubleToLongBits(other.len))
+			return false;
+		return true;
 	}
 
 }

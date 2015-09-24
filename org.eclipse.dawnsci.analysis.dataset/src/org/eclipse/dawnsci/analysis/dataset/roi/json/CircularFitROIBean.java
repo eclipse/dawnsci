@@ -57,4 +57,34 @@ public class CircularFitROIBean extends ROIBean {
 		return points;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((points == null) ? 0 : points.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(radius);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CircularFitROIBean other = (CircularFitROIBean) obj;
+		if (points == null) {
+			if (other.points != null)
+				return false;
+		} else if (!points.equals(other.points))
+			return false;
+		if (Double.doubleToLongBits(radius) != Double.doubleToLongBits(other.radius))
+			return false;
+		return true;
+	}
+
 }
