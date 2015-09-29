@@ -11,3 +11,5 @@ Import-Package: javax.measure.quantity,
  javax.measure.unit,
  org.eclipse.dawnsci.hdf5.nexus,
  org.junit;version="4.10.0"
+Export-Package: org.eclipse.dawnsci.nexus,
+ org.eclipse.dawnsci.nexus.impl

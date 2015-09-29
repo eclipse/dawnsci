@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-18T11:52:16.514+01:00
+ * Generated at: 2015-09-29T13:43:53.722+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -61,6 +61,11 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXsource.class;
+	}
+	
+	@Override
+	public NXbaseClass getNXbaseClass() {
+		return NXbaseClass.NX_SOURCE;
 	}
 
 	@Override

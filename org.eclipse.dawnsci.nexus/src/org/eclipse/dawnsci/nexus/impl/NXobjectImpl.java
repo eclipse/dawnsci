@@ -58,6 +58,8 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	public Class<? extends NXobject> getNXclass() {
 		return NXobject.class;
 	}
+	
+	public abstract NXbaseClass getNXbaseClass();
 
 	@SuppressWarnings("unchecked")
 	@Override
