@@ -16,7 +16,7 @@ public interface NxDevice<D extends NXobject> {
 	
 	/**
 	 * The {@link Class} of the NeXus object returned by
-	 * {@link #getNewBaseClassInstance()}, a
+	 * {@link #createBaseClassInstance()}, a
 	 * subclass of {@link NXobject}.
 	 * 
 	 * @return NeXus base class
@@ -29,7 +29,7 @@ public interface NxDevice<D extends NXobject> {
 	 * 
 	 * @return new instance of NeXus base class
 	 */
-	public D getNewBaseClassInstance();
+	public D createBaseClassInstance();
 	
 	public DeviceType getDeviceType();
 	
