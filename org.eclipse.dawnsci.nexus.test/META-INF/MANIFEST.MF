@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Nexus Test
+Bundle-SymbolicName: org.eclipse.dawnsci.nexus.test
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Fragment-Host: org.eclipse.dawnsci.nexus
+Require-Bundle: org.junit;bundle-version="4.10.0"
+Import-Package: org.eclipse.dawnsci.hdf5.nexus
+Bundle-ClassPath: .
+
