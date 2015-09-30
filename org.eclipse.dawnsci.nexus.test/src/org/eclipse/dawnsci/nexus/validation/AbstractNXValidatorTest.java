@@ -182,7 +182,7 @@ public class AbstractNXValidatorTest {
 		validator.validateFieldDimensions("field", dataset, null, "size", "size");
 	}
 	
-	@Test
+	@Test(expected = NexusValidationException.class)
 	public void testValidateDimensionsPlaceholders_oneDataset_yDimensionWrongSize() throws Exception {
 		int size = 10;
 		

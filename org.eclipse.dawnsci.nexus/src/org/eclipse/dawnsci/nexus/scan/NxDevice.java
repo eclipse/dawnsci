@@ -10,6 +10,10 @@ import org.eclipse.dawnsci.nexus.NXobject;
  */
 public interface NxDevice<D extends NXobject> {
 	
+	public enum DeviceType {
+		INSTRUMENT, SAMPLE
+	}
+	
 	/**
 	 * The {@link Class} of the NeXus object returned by
 	 * {@link #getNewBaseClassInstance()}, a
@@ -26,5 +30,9 @@ public interface NxDevice<D extends NXobject> {
 	 * @return new instance of NeXus base class
 	 */
 	public D getNewBaseClassInstance();
+	
+	public DeviceType getDeviceType();
+	
+	public String getName();
 	
 }

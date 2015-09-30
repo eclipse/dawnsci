@@ -50,6 +50,8 @@
 	<!-- Generate a concrete Java class implementing that interface for each NeXus class -->
 	<xsl:apply-templates mode="class" select="$nexus-classes"/>
 	
+	<xsl:call-template name="base-class-enum"/>
+	
 	<xsl:call-template name="factory-class"/>
 	
 </xsl:template>
@@ -163,6 +165,11 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 	@Override
 	public Class&lt;? extends NXobject> getNXclass() {
 		return <xsl:value-of select="$interfaceName"/>.class;
+	}
+	
+	@Override
+	public NXbaseClass getNXbaseClass() {
+		return NXbaseClass.<xsl:value-of select="dawnsci:base-class-enum-name(@name)"/>;
 	}
 <xsl:apply-templates mode="class" select="*[not(self::nx:doc)][not(self::nx:symbols)]"/>
 }
@@ -479,11 +486,66 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;</xsl:if>
 	</xsl:apply-templates>Attribute<xsl:value-of select="dawnsci:capitalise-first($fieldName)"/></xsl:template>
 
 
-<!-- The NeXus factory class for creating instances of the generated classes.-->
+<!-- Template to generate an enumeration of NeXus base classes -->
+<xsl:template name="base-class-enum">
+
+	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/impl/NXbaseClass.java" format="text-format">
+		<xsl:text>package org.eclipse.dawnsci.nexus.impl;
+	
+/**
+ * Eumeration of NeXus base classes.
+ */
+public enum NXbaseClass {
+
+</xsl:text>
+
+	<xsl:apply-templates mode="base-class-enum" select="$nexus-classes"/>
+
+	<xsl:text>
+	private String name;
+
+	private NXbaseClass(final String name) {
+		this.name = name;
+	}
+	
+	public String toString() {
+		return name;
+	}
+	
+	/**
+	 * Returns the nexus base class constant for the given name string.
+	 */
+	public static NXbaseClass getBaseClassForName(final String name) {
+		// Note: this method will not work correctly if any base classes include
+		// capital letters in their name (excluding the initial 'NX')
+		final String enumName = name.substring(0, 2) + '_' + name.substring(2).toUpperCase();
+		return NXbaseClass.valueOf(enumName);
+	}
+
+}&#10;</xsl:text>
+	</xsl:result-document>
+	
+
+</xsl:template>
+
+<!-- The enum value -->
+<xsl:template mode="base-class-enum" match="nx:definition">
+	<xsl:text>	</xsl:text><xsl:value-of select="dawnsci:base-class-enum-name(@name)"/>
+	<xsl:text>("</xsl:text><xsl:value-of select="@name"/><xsl:text>")</xsl:text>
+	<xsl:value-of select="if (position()=last()) then ';' else ','"/><xsl:text>&#10;</xsl:text>
+</xsl:template>
+
+
+<!-- Template to generate The NeXus factory class for creating instances of the generated classes.-->
 <xsl:template name="factory-class">
 
 	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/impl/NXobjectFactory.java" format="text-format">
-	<xsl:text>package org.eclipse.dawnsci.nexus.impl;
+		<xsl:text>package org.eclipse.dawnsci.nexus.impl;
+
+import java.net.URI;
+
+import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
+import org.eclipse.dawnsci.analysis.tree.impl.TreeImpl;
 
 /**
  * Factory class for creating instances of NeXus base classes.
@@ -491,27 +553,84 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;</xsl:if>
 public class NXobjectFactory {
 	
 	private long nextOid = 1l;
+
+</xsl:text>
+
+	<xsl:text>	public static NXobjectImpl createNXobjectForClass(String baseClassName, long oid) {
+		final NXbaseClass baseClass = NXbaseClass.getBaseClassForName(baseClassName);
+		return createNXobjectForClass(baseClass, oid);
+	}
+	
+	public static NXobjectImpl createNXobjectForClass(NXbaseClass baseClass, long oid) {
+		switch (baseClass) {&#10;</xsl:text>
+	<xsl:for-each select="$nexus-classes">
+		<xsl:text>			case </xsl:text><xsl:value-of select="dawnsci:base-class-enum-name(@name)"/><xsl:text>:&#10;</xsl:text>
+		<xsl:text>				return create</xsl:text><xsl:value-of select="@name"/><xsl:text>(oid);&#10;</xsl:text>
+	</xsl:for-each>
+	
+	<xsl:text>		}&#10;</xsl:text>
+	<xsl:text>		throw new IllegalArgumentException("Unknown base class: " + baseClass);</xsl:text>
+	<xsl:text>	}&#10;</xsl:text>
+	
+	<xsl:text>/**
+	 * Create a new tree with given URI
+	 * @param uri
+	 */
+	public TreeImpl createTree(final URI uri) {
+		return new TreeImpl(nextOid++, uri);
+	}
+	
+	/**
+	 * Create a new tree file with given URI
+	 * @param uri uri
+	 */
+	public TreeFileImpl createTreeFile(final URI uri) {
+		return new TreeFileImpl(nextOid++, uri);
+	}
+	
+	/**
+	 * Create a new tree file with given file name
+	 * @param filename filename
+	 * @return
+	 */
+	public TreeFileImpl createTreeFile(final String fileName) {
+		return new TreeFileImpl(nextOid++, fileName);
+	}
 	
 </xsl:text>
 	
-	<xsl:apply-templates mode="factory-method" select="$nexus-classes"/>
-	
-	<xsl:text>}&#10;</xsl:text>
+		<xsl:apply-templates mode="factory-methods" select="$nexus-classes"/>
+		<xsl:text>}&#10;</xsl:text>
 	
 	</xsl:result-document>
 
 </xsl:template>
 
+<xsl:template mode="factory-methods" match="nx:definition">
+	<xsl:apply-templates mode="factory-method" select=".">
+		<xsl:with-param name="has-oid-param" select="true()"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates mode="factory-method" select=".">
+		<xsl:with-param name="has-oid-param" select="false()"/>
+	</xsl:apply-templates>
+</xsl:template>
+
 <!-- Template to create the factory method for a NeXus class -->
 <xsl:template mode="factory-method" match="nx:definition">
+	<xsl:param name="has-oid-param"/>
 
 	<xsl:text>	/**&#10;</xsl:text>
-	<xsl:text>	 * Create a new </xsl:text><xsl:value-of select="@name"/><xsl:text>.&#10;</xsl:text>
+	<xsl:text>	 * Create a new </xsl:text><xsl:value-of select="@name"/>
+	<xsl:if test="$has-oid-param"><xsl:text> with the given oid</xsl:text></xsl:if>
+	<xsl:text>.&#10;</xsl:text>
 	<xsl:text>	 */&#10;</xsl:text>
-	<xsl:text>	public </xsl:text><xsl:value-of select="@name"/><xsl:text>Impl</xsl:text>
-	<xsl:text> create</xsl:text><xsl:value-of select="@name"/><xsl:text>() {&#10;</xsl:text>
+	<xsl:text>	public </xsl:text><xsl:if test="$has-oid-param">static </xsl:if>
+	<xsl:value-of select="@name"/><xsl:text>Impl</xsl:text>
+	<xsl:text> create</xsl:text><xsl:value-of select="@name"/>
+	<xsl:value-of select="if ($has-oid-param) then '(long oid)' else '()'"/><xsl:text> {&#10;</xsl:text>
 	<xsl:text>		return new </xsl:text>
-	<xsl:value-of select="@name"/><xsl:text>Impl(nextOid++);&#10;</xsl:text>
+	<xsl:value-of select="@name"/><xsl:text>Impl(</xsl:text>
+	<xsl:value-of select="if ($has-oid-param) then 'oid' else 'nextOid++'"/><xsl:text>);&#10;</xsl:text>
 	<xsl:text>	}&#10;</xsl:text>
 	<xsl:text>&#10;</xsl:text>
 
@@ -532,6 +651,11 @@ public class NXobjectFactory {
 <xsl:function name="dawnsci:class-name" as="xs:string?">
 	<xsl:param name="arg" as="xs:string?"/>
 	<xsl:sequence select="concat($arg, 'Impl')"/>
+</xsl:function>
+
+<xsl:function name="dawnsci:base-class-enum-name" as="xs:string">
+	<xsl:param name="arg" as="xs:string"/>
+	<xsl:sequence select="concat(substring($arg, 1, 2), '_', upper-case(substring($arg, 3)))"/>
 </xsl:function>
 
 </xsl:stylesheet>
