@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-09T16:50:16.8+01:00
+ * Generated at: 2015-09-29T13:43:53.722+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -52,6 +52,11 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXpositioner.class;
+	}
+	
+	@Override
+	public NXbaseClass getNXbaseClass() {
+		return NXbaseClass.NX_POSITIONER;
 	}
 
 	@Override

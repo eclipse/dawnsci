@@ -12,7 +12,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.nexus.NXaperture;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXentry;
@@ -133,11 +132,11 @@ public class NXobjectImplTest {
 	public void testSetGetBoolean() {
 		boolean angularCalibrationApplied = true; 
 		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
-		detector.set(NXdetectorImpl.NX_ANGULAR_CALIBRATION_APPLIED, angularCalibrationApplied);
+		detector.setField(NXdetectorImpl.NX_ANGULAR_CALIBRATION_APPLIED, angularCalibrationApplied);
 		assertEquals(angularCalibrationApplied, detector.getBoolean(NXdetectorImpl.NX_ANGULAR_CALIBRATION_APPLIED));
 
 		angularCalibrationApplied = false; 
-		detector.set(NXdetectorImpl.NX_ANGULAR_CALIBRATION_APPLIED, angularCalibrationApplied);
+		detector.setField(NXdetectorImpl.NX_ANGULAR_CALIBRATION_APPLIED, angularCalibrationApplied);
 		assertEquals(angularCalibrationApplied, detector.getBoolean(NXdetectorImpl.NX_ANGULAR_CALIBRATION_APPLIED));
 	}
 	
@@ -145,7 +144,7 @@ public class NXobjectImplTest {
 	public void testSetGetLong() {
 		NXsensorImpl sensor = nxObjectFactory.createNXsensor();
 		final long value = 1234567890l;
-		sensor.set(NXsensorImpl.NX_HIGH_TRIP_VALUE, value); 
+		sensor.setField(NXsensorImpl.NX_HIGH_TRIP_VALUE, value); 
 		assertEquals(value, sensor.getLong(NXsensorImpl.NX_HIGH_TRIP_VALUE)); 
 	}
 	
@@ -153,7 +152,7 @@ public class NXobjectImplTest {
 	public void testSetGetDouble() {
 		final double distance = 2.4;
 		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
-		detector.set(NXdetectorImpl.NX_DISTANCE, distance);
+		detector.setField(NXdetectorImpl.NX_DISTANCE, distance);
 		
 		assertEquals(distance, detector.getDouble(NXdetectorImpl.NX_DISTANCE), 0.0); 
 	}
@@ -162,7 +161,7 @@ public class NXobjectImplTest {
 	public void testSetGetNumber_floatingPoint() {
 		final double distance = 2.4;
 		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
-		detector.set(NXdetectorImpl.NX_DISTANCE, distance);
+		detector.setField(NXdetectorImpl.NX_DISTANCE, distance);
 		
 		assertEquals(Double.valueOf(distance), detector.getNumber(NXdetectorImpl.NX_DISTANCE)); 
 	}
@@ -171,7 +170,7 @@ public class NXobjectImplTest {
 	public void testSetGetNumber_integer() {
 		final int frameStartNumber = 12;
 		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
-		detector.set(NXdetectorImpl.NX_FRAME_START_NUMBER, frameStartNumber); 
+		detector.setField(NXdetectorImpl.NX_FRAME_START_NUMBER, frameStartNumber); 
 		// all integers stored as Java longs
 		assertEquals(Long.valueOf(frameStartNumber), detector.getNumber(NXdetectorImpl.NX_FRAME_START_NUMBER));
 	}
