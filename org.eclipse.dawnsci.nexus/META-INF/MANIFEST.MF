@@ -6,7 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.dawnsci.analysis.api;bundle-version="1.0.0",
  org.eclipse.dawnsci.analysis.dataset;bundle-version="1.0.0",
- org.eclipse.dawnsci.analysis.tree;bundle-version="1.0.0",
- uk.ac.diamond.org.jscience4;bundle-version="4.3.1",
- org.junit
-Import-Package: org.eclipse.dawnsci.hdf5.nexus
+ org.eclipse.dawnsci.analysis.tree;bundle-version="1.0.0"
+Import-Package: javax.measure.quantity,
+ javax.measure.unit,
+ org.eclipse.dawnsci.hdf5.nexus,
+ org.junit;version="4.10.0"
