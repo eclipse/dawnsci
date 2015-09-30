@@ -143,6 +143,7 @@ public interface NexusFile extends AutoCloseable {
 
 	/**
 	 * Create data node with given path to its group and create path if necessary
+	 * The name of the dataset is used as the name of the data node within the parent group.
 	 * @param path to group
 	 * @param data
 	 * @param createPathIfNecessary
@@ -152,20 +153,43 @@ public interface NexusFile extends AutoCloseable {
 	public DataNode createData(String path, ILazyWriteableDataset data, boolean createPathIfNecessary) throws NexusException;
 
 	/**
-	 * Create data node with given path to its group and create path if necessary
-	 * @param path to group
+	 * Create data node with given name and path to its group and create path if necessary.
+	 * @param path to parent group
+	 * @param name name within parent group
 	 * @param data
+	 * @param createPathIfNecessary
+	 * @return node or null if data does not exist at specified path
+	 * @throws NexusException when node already exists
+	 */
+	public DataNode createData(String path, String name, ILazyWriteableDataset data, boolean createPathIfNecessary) throws NexusException;
+
+	/**
+	 * Create data node with given path to its group and create path if necessary
+	 * @param path to parent group
+	 * @param data daata
 	 * @param compression
 	 * @param createPathIfNecessary
 	 * @return node or null if data does not exist at specified path
 	 * @throws NexusException when node already exists
 	 */
 	public DataNode createData(String path, ILazyWriteableDataset data, int compression, boolean createPathIfNecessary) throws NexusException;
+	
+	/**
+	 * Create data node with given name and path to its group and create path if necessary
+	 * @param path to parent group
+	 * @param name name within parent group
+	 * @param data dataset
+	 * @param compression
+	 * @param createPathIfNecessary
+	 * @return node or null if data does not exist at specified path
+	 * @throws NexusException when node already exists
+	 */
+	public DataNode createData(String path, String name, ILazyWriteableDataset data, int compression, boolean createPathIfNecessary) throws NexusException;
 
 	/**
 	 * Create data node with given path to its group and create path if necessary
 	 * @param path to group
-	 * @param data
+	 * @param data dataset
 	 * @param createPathIfNecessary
 	 * @return node or null if data does not exist at specified path
 	 * @throws NexusException when node already exists
@@ -173,13 +197,34 @@ public interface NexusFile extends AutoCloseable {
 	public DataNode createData(String path, IDataset data, boolean createPathIfNecessary) throws NexusException;
 
 	/**
+	 * Create data node with given path to its group and create path if necessary
+	 * @param path to group
+	 * @param name name within parent group
+	 * @param data dataset
+	 * @param createPathIfNecessary
+	 * @return node or null if data does not exist at specified path
+	 * @throws NexusException when node already exists
+	 */
+	public DataNode createData(String path, String name, IDataset data, boolean createPathIfNecessary) throws NexusException;
+
+	/**
 	 * Create data node in given group
-	 * @param group
-	 * @param data
+	 * @param group parent group
+	 * @param data dataset
 	 * @return node
 	 * @throws NexusException when node already exists
 	 */
 	public DataNode createData(GroupNode group, ILazyWriteableDataset data) throws NexusException;
+
+	/**
+	 * Create data node with given name in given group
+	 * @param group parent group
+	 * @param name name within group
+	 * @param data dataset
+	 * @return node
+	 * @throws NexusException when node already exists
+	 */
+	public DataNode createData(GroupNode group, String name, ILazyWriteableDataset data) throws NexusException;
 
 	/**
 	 * Create data node in given group
@@ -192,13 +237,33 @@ public interface NexusFile extends AutoCloseable {
 	public DataNode createData(GroupNode group, ILazyWriteableDataset data, int compression) throws NexusException;
 
 	/**
+	 * Create data node with given name in given group
+	 * @param group parent group
+	 * @param data dataset
+	 * @param compression
+	 * @return node
+	 * @throws NexusException when node already exists
+	 */
+	public DataNode createData(GroupNode group, String name, ILazyWriteableDataset data, int compression) throws NexusException;
+
+	/**
 	 * Create data node in given group
-	 * @param group
-	 * @param data
+	 * @param group parent group
+	 * @param data dataset
 	 * @return node
 	 * @throws NexusException when node already exists
 	 */
 	public DataNode createData(GroupNode group, IDataset data) throws NexusException;
+	
+	/**
+	 * Create data node with given name in given group
+	 * @param group parent group
+	 * @param name name within group
+	 * @param data dataset
+	 * @return
+	 * @throws NexusException
+	 */
+	public DataNode createData(GroupNode group, String name, IDataset data) throws NexusException;
 
 	/**
 	 * Create attribute

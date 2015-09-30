@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-09T16:50:16.8+01:00
+ * Generated at: 2015-09-29T13:43:53.722+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -47,6 +47,11 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXdisk_chopper.class;
+	}
+	
+	@Override
+	public NXbaseClass getNXbaseClass() {
+		return NXbaseClass.NX_DISK_CHOPPER;
 	}
 
 	@Override
