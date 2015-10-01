@@ -1,4 +1,4 @@
-package org.eclipse.dawnsci.remotedataset.server.test;
+package org.eclipse.dawnsci.remotedataset.test.server;
 
 import java.net.URI;
 import java.util.concurrent.Future;

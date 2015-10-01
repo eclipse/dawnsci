@@ -9,7 +9,7 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.remotedataset.server.test;
+package org.eclipse.dawnsci.remotedataset.test.server;
 
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
