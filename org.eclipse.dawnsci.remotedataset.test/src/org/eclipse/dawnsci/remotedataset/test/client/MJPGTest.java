@@ -10,6 +10,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
@@ -49,6 +50,7 @@ public class MJPGTest {
 	public void testMJPGEPICS() throws Exception {
 	
 		IDataset set = service.createMJPGDataset(new URL("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg"), 250, 10);
+		((IRemoteDataset)set).connect();
 		
 		final List<Integer> count = new ArrayList<>(1);
 		count.add(0);
@@ -61,8 +63,12 @@ public class MJPGTest {
 			}
 		});
 		
+		
 		Thread.sleep(5000);
 		
 		if (count.get(0)<10) throw new Exception("Less images than expected from stream! "+count.get(0));
+		
+		((IRemoteDataset)set).disconnect();
+
 	}
 }

@@ -2,6 +2,7 @@ package org.eclipse.dawnsci.remotedataset.client.dyn;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 
 /**
  * NON-API DO NOT USE OUTSIDE THIS BUNDLE
@@ -17,7 +18,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
  * @author fcp94556
  *
  */
-public interface IDynamicMonitorDataset extends IDataset, IDynamicDataset {
+public interface IDynamicMonitorDataset extends IDataset, IDynamicDataset, IRemoteDataset {
 	/**
 	 * Internal use only. When the dataset changes, the internal API may update the 
 	 * underlying data which the dataset is linked to.

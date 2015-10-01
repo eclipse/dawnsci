@@ -46,9 +46,9 @@ public interface IRemoteDatasetService {
 	
 	/**
 	 * Create an MJPG dataset at the given stream. The Dataset returned will be updated
-	 * as the stream changes. The Dataset will be an RBG Image and implement IDynamicDataset,
-	 * therefore it may be passed straight to the plotting which will update as the stream
-	 * of data changes.
+	 * as the stream changes. The Dataset will be an RBG Image and implements IDynamicDataset and IRemoteDataset
+	 * You must cast the IDataset to IRemoteDataset and then call connect() to start the monitor thread.
+     *
 	 * 
 	 * @param url to MJPG stream for instance http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg
 	 * @param sleepTime - time to sleep between image reads, we don't want to use all CPU

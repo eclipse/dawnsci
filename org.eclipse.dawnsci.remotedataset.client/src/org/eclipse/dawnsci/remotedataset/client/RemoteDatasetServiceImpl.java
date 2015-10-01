@@ -31,22 +31,7 @@ public class RemoteDatasetServiceImpl implements IRemoteDatasetService {
     	client.setSleep(sleepTime);     
     	
 		final IDynamicMonitorDataset rgb = DynamicDatasetFactory.createRGBImage(client);
-		
-		// TODO Do we need a way of stopping this thread?
-		final Thread imageMonitor = new Thread(new Runnable() {
-			public void run() {
-				try {
-					rgb.start(); // Just keep going until we are interrupted...
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		imageMonitor.setName("Monitor "+url);
-		imageMonitor.setDaemon(true);
-		imageMonitor.setPriority(Thread.MIN_PRIORITY); // TODO Is that right?
-		imageMonitor.start();
- 
+		 
     	return rgb;
 	}
 
