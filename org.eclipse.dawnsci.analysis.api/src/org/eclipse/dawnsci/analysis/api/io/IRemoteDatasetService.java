@@ -9,10 +9,17 @@
 
 package org.eclipse.dawnsci.analysis.api.io;
 
+import java.net.URL;
+
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 
 /**
  * A service used to create connections to remote datasets.
+ * The Remote Datasets created will be in connection with the DataServer running in the acquisition server.
+ * There is also a facility to create a DynamicDataset directly. In this case a connection is
+ * made to an MJPG stream at a given URL.
+ * 
  */
 public interface IRemoteDatasetService {
 
@@ -35,4 +42,20 @@ public interface IRemoteDatasetService {
 	 * @return dataset
 	 */
 	public IRemoteDataset createRemoteDataset(String serverName, int port);
+
+	
+	/**
+	 * Create an MJPG dataset at the given stream. The Dataset returned will be updated
+	 * as the stream changes. The Dataset will be an RBG Image and implement IDynamicDataset,
+	 * therefore it may be passed straight to the plotting which will update as the stream
+	 * of data changes.
+	 * 
+	 * @param url to MJPG stream for instance http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg
+	 * @param sleepTime - time to sleep between image reads, we don't want to use all CPU
+	 * @param cacheSize - size of image cache. If image cache grows too large, they are DROPPED.
+	 * 
+	 * @return A DynasmicDataset for instance one looking at a changing data source like
+	 * an MJPG stream
+	 */
+	public IDataset createMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception;
 }
