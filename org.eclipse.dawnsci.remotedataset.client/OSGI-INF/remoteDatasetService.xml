@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="false" name="Remote Dataset Service">
+   <implementation class="org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl"/>
+   <service>
+      <provide interface="org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService"/>
+   </service>
+</scr:component>
