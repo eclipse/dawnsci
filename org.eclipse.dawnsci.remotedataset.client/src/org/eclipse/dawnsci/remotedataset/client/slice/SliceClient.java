@@ -17,8 +17,8 @@ import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 
-import org.eclipse.dawnsci.analysis.api.IClassLoaderService;
 import org.eclipse.dawnsci.remotedataset.Format;
+import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.URLBuilder;
 import org.eclipse.dawnsci.remotedataset.client.streamer.IStreamer;
 import org.eclipse.dawnsci.remotedataset.client.streamer.StreamerFactory;
@@ -82,10 +82,6 @@ import org.eclipse.dawnsci.remotedataset.client.streamer.StreamerFactory;
  */
 public class SliceClient<T> {
 
-	private static IClassLoaderService classService;
-	public static void setClassLoaderService(IClassLoaderService service) {
-		classService = service;
-	}
 	public SliceClient() {
 
 	}
@@ -96,14 +92,28 @@ public class SliceClient<T> {
 	// Private data, not getter/setter
 	private IStreamer<T> streamer;
 	
-    private URLBuilder urlBuilder;	
+    private URLBuilder urlBuilder;
 
+    /**
+     * Used for DataServer connections.
+     * 
+     * @param serverName
+     * @param port
+     */
 	public SliceClient(String serverName, int port) {
 		this.urlBuilder = new URLBuilder(serverName, port);
 	}
 	
 	public SliceClient(URLBuilder urlBuilder) {
 		this.urlBuilder = urlBuilder;
+	}
+	
+	/**
+	 * Used for MJPG streams
+	 * @param url
+	 */
+	public SliceClient(URL url) {
+		this.urlBuilder = new URLBuilder(url);
 	}
 
 	/**
@@ -124,7 +134,7 @@ public class SliceClient<T> {
 		if (isFinished()) throw new Exception("Client has infinished reading images!");
 		if (streamer==null) {
 			this.isFinished = false;
-	        this.streamer = (IStreamer<T>)StreamerFactory.getStreamer(new URL(urlBuilder.getSliceURL()), getSleep(), imageCache, format);
+	        this.streamer = (IStreamer<T>)StreamerFactory.getStreamer(urlBuilder.getSliceURL(), getSleep(), imageCache, format);
 	        streamer.start(); // Runs thread to add to queue
 		}
 		
@@ -175,7 +185,7 @@ public class SliceClient<T> {
 				throw new Exception("Cannot get image with format set to "+format);
 			}
 
-			final URL url = new URL(urlBuilder.getSliceURL());
+			final URL url = urlBuilder.getSliceURL();
 			URLConnection  conn = url.openConnection();
 			conn.setDoInput(true);
 			conn.setDoOutput(true);
@@ -193,14 +203,14 @@ public class SliceClient<T> {
 		try {
 			// We are getting into serializing and deserializing IDataset which
 			// might come with some fruity 
-			if (classService!=null) classService.setDataAnalysisClassLoaderActive(true);
+			if (ServiceHolder.getClassLoaderService()!=null) ServiceHolder.getClassLoaderService().setDataAnalysisClassLoaderActive(true);
 
 			Format format = urlBuilder.getFormat();
 			if (format!=null && format!=Format.DATA) {
 				throw new Exception("Cannot get data with format set to "+format);
 			}
 			
-			final URL url = new URL(urlBuilder.getSliceURL());
+			final URL url = urlBuilder.getSliceURL();
 			URLConnection  conn = url.openConnection();
 	        conn.setDoInput(true);
 	        conn.setDoOutput(true);
@@ -215,7 +225,7 @@ public class SliceClient<T> {
 				if (oin!=null) oin.close();
 	 		}
 		} finally {
-			if (classService!=null) classService.setDataAnalysisClassLoaderActive(false);
+			if (ServiceHolder.getClassLoaderService()!=null) ServiceHolder.getClassLoaderService().setDataAnalysisClassLoaderActive(false);
 			isFinished = true;
 		}
 

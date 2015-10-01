@@ -9,7 +9,7 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.remotedataset.test.client.dyn;
+package org.eclipse.dawnsci.remotedataset.client.dyn;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -75,7 +75,7 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 	@Override
 	public void setData(IDataset newData) {
 		
-		Serializable buffer = ((Dataset)newData).getBuffer();	
+		Serializable buffer = ((Dataset)newData).getBuffer();
 		odata = buffer;
 		setData();
 		if (dynamicShape) {
@@ -114,7 +114,7 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 
 	@Override
 	public void fireDataListeners() {
-		// TODO add method to DataConnection
+		
 	}
 
 	@Override

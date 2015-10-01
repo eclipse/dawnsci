@@ -26,7 +26,7 @@ import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.metadata.DimensionMetadata;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.remotedataset.server.ServiceHolder;
+import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 
 /**
  * The handler for incoming requests. No work should be done here

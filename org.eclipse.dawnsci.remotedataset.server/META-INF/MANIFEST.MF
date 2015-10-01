@@ -23,7 +23,6 @@ Import-Package: org.apache.log4j,
  org.eclipse.swt.widgets,
  org.osgi.framework;version="1.7.0",
  org.slf4j;version="1.7.6"
-Service-Component: OSGI-INF/*.xml
 Eclipse-RegisterBuddy:  org.eclipse.jetty.websocket.server, org.eclipse.jetty.websocket.servlet
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.dawnsci.remotedataset.server

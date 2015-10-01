@@ -1,6 +1,7 @@
 package org.eclipse.dawnsci.remotedataset.client;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
@@ -16,6 +17,7 @@ public class URLBuilder {
 
 	// Http
 	private boolean    get = true;
+	private URL        url;	
 
 	// Server and port
 	private final String serverName;
@@ -32,13 +34,28 @@ public class URLBuilder {
 	private String path;
 	private String dataset;
 
+	/**
+	 * Used to override the slice URL, for instance for MJPG streams.
+	 * @param url
+	 */
+	public URLBuilder(URL url) {
+		this(url.getHost(), url.getPort());
+		this.url = url;
+	}
+
+	/**
+	 * Normal usage
+	 * @param serverName
+	 * @param port
+	 */
 	public URLBuilder(String serverName, int port) {
 		this.serverName = serverName;
 		this.port       = port;
 	}
 
-	public String getSliceURL() throws Exception {
-		return getURL("http", "/slice/", true);
+	public URL getSliceURL() throws Exception {
+		if (url!=null) return url;
+		return new URL(getURL("http", "/slice/", true));
 	}
 	
 	public String getEventURL() throws Exception {

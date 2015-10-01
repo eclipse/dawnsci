@@ -45,7 +45,7 @@ import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.HistoType;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.ImageOrigin;
 import org.eclipse.dawnsci.remotedataset.Constants;
 import org.eclipse.dawnsci.remotedataset.Format;
-import org.eclipse.dawnsci.remotedataset.server.ServiceHolder;
+import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.RGB;

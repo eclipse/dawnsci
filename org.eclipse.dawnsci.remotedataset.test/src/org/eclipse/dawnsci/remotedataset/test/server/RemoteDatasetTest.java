@@ -10,7 +10,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.remotedataset.server.ServiceHolder;
+import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.junit.Test;
 
 /**
