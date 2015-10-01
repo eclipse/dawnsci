@@ -361,7 +361,7 @@ public class TestSWMR {
 
 		H5.H5Fclose(fileID);
 
-		fileID = H5.H5Fopen("test-scratch/testLinks.h5", HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
+		fileID = H5.H5Fopen("test-scratch/missinglink.h5", HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
 
 //		H5L_info_t info = H5.H5Lget_info(fileID, "/ext", HDF5Constants.H5P_DEFAULT);
 		String[] linkName = new String[2]; // file name and file path
