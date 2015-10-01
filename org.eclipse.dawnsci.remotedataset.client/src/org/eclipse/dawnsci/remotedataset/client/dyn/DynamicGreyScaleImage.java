@@ -1,4 +1,4 @@
-package org.eclipse.dawnsci.remotedataset.test.client.dyn;
+package org.eclipse.dawnsci.remotedataset.client.dyn;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;

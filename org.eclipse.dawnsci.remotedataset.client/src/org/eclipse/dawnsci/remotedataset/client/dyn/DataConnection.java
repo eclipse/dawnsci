@@ -1,4 +1,4 @@
-package org.eclipse.dawnsci.remotedataset.test.client.dyn;
+package org.eclipse.dawnsci.remotedataset.client.dyn;
 
 import java.awt.image.BufferedImage;
 
@@ -9,10 +9,8 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
-import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
+import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
-import org.eclipse.dawnsci.remotedataset.server.ServiceHolder;
-import org.eclipse.swt.widgets.Display;
 
 class DataConnection<T extends IDataset> {
 	
@@ -44,7 +42,7 @@ class DataConnection<T extends IDataset> {
 			Dataset rgb = (Dataset)ServiceHolder.getPlotImageService().createDataset(image);
 			if (greyScale) rgb = ((RGBDataset)rgb).getRedView();
 			
-			IDataset set = rgb.cast(dType);
+			IDataset set = rgb.cast(dType);			
 			dataset.setData((T)set);
 			delegate.fire(new DataEvent(set.getName(), set.getShape()));
 			
@@ -63,38 +61,8 @@ class DataConnection<T extends IDataset> {
 		this.client = client;
 	}
 
-	public static void delay(long waitTimeMillis) {
-		
-		if (Display.getDefault() != null) {
-
-			Display display = Display.getDefault();
-
-			// If this is the UI thread,
-			// then process input.
-			long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
-			while (System.currentTimeMillis() < endTimeMillis) {
-				try {
-					if (!display.readAndDispatch()) {
-						display.sleep();
-					}
-				} catch (Exception ne) {
-					try {
-						Thread.sleep(waitTimeMillis);
-					} catch (InterruptedException e) {
-						// Ignored
-					}
-					break;
-				}
-			}
-			display.update();
-			
-		} else {
-			try {
-				Thread.sleep(waitTimeMillis);
-			} catch (InterruptedException e) {
-				// Ignored.
-			}
-		}
+	public static void delay(long waitTimeMillis) throws InterruptedException {
+		Thread.sleep(waitTimeMillis);
 	}
 
 	public void addDataListener(IDataListener l) {

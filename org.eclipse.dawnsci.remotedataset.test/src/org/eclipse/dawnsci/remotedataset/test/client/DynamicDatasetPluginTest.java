@@ -9,21 +9,25 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.remotedataset.test.server;
+package org.eclipse.dawnsci.remotedataset.test.client;
 
 import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.Collection;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
-import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace.DownsampleType;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.remotedataset.Format;
+import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.dawnsci.remotedataset.client.dyn.DynamicDatasetFactory;
+import org.eclipse.dawnsci.remotedataset.client.dyn.IDynamicMonitorDataset;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
-import org.eclipse.dawnsci.remotedataset.test.client.dyn.DynamicDatasetFactory;
+import org.eclipse.dawnsci.remotedataset.test.server.DataServerTest;
+import org.eclipse.dawnsci.remotedataset.test.server.TestUtils;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -55,11 +59,6 @@ Tom Cobb
  * 
  */
 public class DynamicDatasetPluginTest extends DataServerTest {
-
-	private static IPlotImageService plotService;
-	public static void setPlotImageService(IPlotImageService service) {
-		plotService = service;
-	}
 	
 	/**
 	 * Test opens stream in plotting system.
@@ -70,7 +69,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 	public void testDynamicDatasetEPICSGreyScale() throws Exception {
 		
 		// Requires an EPICS stream to connect to, not for general overnight testing!
-		SliceClient<BufferedImage> client = new SliceClient<BufferedImage>("ws157.diamond.ac.uk", 8080);
+		SliceClient<BufferedImage> client = new SliceClient<BufferedImage>(new URL("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg"));
 		client.setGet(false);
     	client.setFormat(Format.MJPG);
     	client.setImageCache(10); // More than we will send...
@@ -79,11 +78,12 @@ public class DynamicDatasetPluginTest extends DataServerTest {
     	IWorkbenchPart part = openView();
 		
 		final IPlottingSystem sys  = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
-		final IDataset        grey = DynamicDatasetFactory.createGreyScaleImage(client);
+		
+		final IDynamicMonitorDataset   grey = DynamicDatasetFactory.createGreyScaleImage(client);
 		IImageTrace trace = (IImageTrace)sys.createPlot2D(grey, null, null);
 		trace.setDownsampleType(DownsampleType.POINT); // Fast!
 
-		DynamicDatasetFactory.start(grey, 100); // blocks until 100 images received.
+		grey.start(100); // blocks until 100 images received.
 		
 		System.out.println("Received images = "+client.getReceivedImageCount());
 		System.out.println("Dropped images = "+client.getDroppedImageCount());
@@ -98,22 +98,23 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 	@Test
 	public void testDynamicDatasetEPICS() throws Exception {
 		
-		// Requires an EPICS stream to connect to, not for general overight testing!
-		SliceClient<BufferedImage> client = new SliceClient<BufferedImage>("ws157.diamond.ac.uk", 8080);
+		// Requires an EPICS stream to connect to, not for general overnight testing!
+		SliceClient<BufferedImage> client = new SliceClient<BufferedImage>(new URL("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg"));
 		client.setGet(false);
     	client.setFormat(Format.MJPG);
-    	client.setImageCache(10); // More than we will send...
+    	client.setImageCache(10);
     	client.setSleep(80);     
-
+    	
     	IWorkbenchPart part = openView();
 		 
 		final IPlottingSystem   sys = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
-		final IDataset rgb = DynamicDatasetFactory.createRGBImage(client);
+		final IDynamicMonitorDataset rgb = DynamicDatasetFactory.createRGBImage(client);
+		
 		IImageTrace trace = (IImageTrace)sys.createPlot2D(rgb, null, null);
 		trace.setDownsampleType(DownsampleType.POINT); // Fast!
 		trace.setRescaleHistogram(false); // Fast! Comes from RGBData anyway though
 
-		DynamicDatasetFactory.start(rgb, 100); // blocks until 100 images received.
+		rgb.start(100); // blocks until 100 images received.
 		
 		System.out.println("Received images = "+client.getReceivedImageCount());
 		System.out.println("Dropped images = "+client.getDroppedImageCount());
@@ -137,10 +138,10 @@ public class DynamicDatasetPluginTest extends DataServerTest {
     	IWorkbenchPart part = openView();
 		 
 		final IPlottingSystem sys = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
-		final IDataset rgb = DynamicDatasetFactory.createRGBImage(client);
+		final IDynamicMonitorDataset rgb = DynamicDatasetFactory.createRGBImage(client);
 		sys.createPlot2D(rgb, null, null);
 
-		DynamicDatasetFactory.start(rgb, 100); // blocks until 100 images received.
+		rgb.start(100); // blocks until 100 images received.
 	}
 	
 	/**
@@ -179,7 +180,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 	    		final BufferedImage image = client.take();
 	    		if (image==null) break;
 	    		
-	    		final IDataset set = plotService.createDataset(image);
+	    		final IDataset set = ServiceHolder.getPlotImageService().createDataset(image);
 	    		
 	    		Display.getDefault().syncExec(new Runnable() {
 	    			public void run() {
@@ -232,7 +233,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 	    		final BufferedImage image = client.take();
 	    		if (image==null) break;
 	    		
-	    		final IDataset set = plotService.createDataset(image);
+	    		final IDataset set = ServiceHolder.getPlotImageService().createDataset(image);
 	    		
 	    		Display.getDefault().syncExec(new Runnable() {
 	    			public void run() {

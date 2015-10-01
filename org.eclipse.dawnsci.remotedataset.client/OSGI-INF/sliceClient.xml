@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="DAWNSci Slice Client">
-   <implementation class="org.eclipse.dawnsci.remotedataset.client.slice.SliceClient"/>
-   <reference bind="setClassLoaderService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.IClassLoaderService" name="IClassLoaderService" policy="static"/>
-</scr:component>

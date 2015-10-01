@@ -9,8 +9,9 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.remotedataset.server;
+package org.eclipse.dawnsci.remotedataset;
 
+import org.eclipse.dawnsci.analysis.api.IClassLoaderService;
 import org.eclipse.dawnsci.analysis.api.downsample.IDownsampleService;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
@@ -27,7 +28,16 @@ public class ServiceHolder {
 	private static IDownsampleService downService;
 	private static IPlotImageService plotImageService;
     private static IRemoteDatasetService remoteDatasetService;
+    private static IClassLoaderService classLoaderService;
 	
+	public static IClassLoaderService getClassLoaderService() {
+		return classLoaderService;
+	}
+
+	public static void setClassLoaderService(IClassLoaderService classLoaderService) {
+		ServiceHolder.classLoaderService = classLoaderService;
+	}
+
 	public static IDownsampleService getDownService() {
 		return downService;
 	}
