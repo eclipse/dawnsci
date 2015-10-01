@@ -23,7 +23,7 @@ import org.eclipse.dawnsci.plotting.api.trace.IImageTrace.DownsampleType;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.remotedataset.Format;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
-import org.eclipse.dawnsci.remotedataset.dynamic.DynamicDatasetFactory;
+import org.eclipse.dawnsci.remotedataset.test.client.dyn.DynamicDatasetFactory;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;

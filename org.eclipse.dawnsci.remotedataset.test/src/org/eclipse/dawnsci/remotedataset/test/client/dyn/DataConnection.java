@@ -1,4 +1,4 @@
-package org.eclipse.dawnsci.remotedataset.dynamic;
+package org.eclipse.dawnsci.remotedataset.test.client.dyn;
 
 import java.awt.image.BufferedImage;
 

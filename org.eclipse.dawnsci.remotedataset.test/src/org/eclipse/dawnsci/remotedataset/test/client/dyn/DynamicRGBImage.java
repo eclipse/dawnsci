@@ -9,7 +9,7 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.remotedataset.dynamic;
+package org.eclipse.dawnsci.remotedataset.test.client.dyn;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
