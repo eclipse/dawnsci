@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension
+         id="dataServer"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="*"
+            thread="any"
+            visible="true">
+         <run
+               class="org.eclipse.dawnsci.remotedataset.server.DataServer">
+            <parameter
+                  name="optimize"
+                  value="true">
+            </parameter>
+         </run>
+      </application>
+   </extension>
+
+
+</plugin>

@@ -19,16 +19,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.eclipse.dawnsci.plotting.examples.util.BundleUtils;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.part.ViewPart;
 
 
@@ -77,6 +76,9 @@ public abstract class SourceCodeView extends ViewPart {
 		spec.grabExcessVerticalSpace = true;
 		text.setLayoutData(spec);
 		text.addLineStyleListener(lineStyler);
+		// Use a monospaced font, which is not as easy as it might be.
+		// http://stackoverflow.com/questions/221568/swt-os-agnostic-way-to-get-monospaced-font
+		text.setFont(JFaceResources.getTextFont());
 		text.setEditable(false);
 		
 		// Providing that they run this from a debug session:
