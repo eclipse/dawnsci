@@ -117,8 +117,52 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 		
 	}
 
+
 	@Override
 	public void startUpdateChecker(int milliseconds, IDatasetChangeChecker checker) {
+		throw new IllegalArgumentException("Method not implemented. Use connect() instread!");
 	}
 
+	@Override
+	public String getPath() {
+		return connection.getClient().getPath();
+	}
+
+	@Override
+	public void setPath(String path) {
+		connection.getClient().setPath(path);
+	}
+
+	@Override
+	public String getDataset() {
+		return 	connection.getClient().getDataset();
+	}
+
+	@Override
+	public void setDataset(String dataset) {
+		connection.getClient().setDataset(dataset);
+	}
+
+	@Override
+	public void connect() throws Exception {
+		
+		final Thread imageMonitor = new Thread(new Runnable() {
+			public void run() {
+				try {
+					start(); // Just keep going until we are interrupted...
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		imageMonitor.setName("Monitor "+getName());
+		imageMonitor.setDaemon(true);
+		imageMonitor.setPriority(Thread.MIN_PRIORITY); // TODO Is that right?
+		imageMonitor.start();
+	}
+
+	@Override
+	public void disconnect() throws Exception {
+		connection.getClient().setFinished(true);
+	}
 }
