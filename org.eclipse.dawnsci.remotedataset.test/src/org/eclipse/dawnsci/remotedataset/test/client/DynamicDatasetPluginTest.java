@@ -117,7 +117,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 			trace.setDownsampleType(DownsampleType.POINT); // Fast!
 			trace.setRescaleHistogram(false); // Fast! Comes from RGBData anyway though
 			
-			Thread.sleep(10000);
+			delay(10000);
 			
 		} finally {
 			set.disconnect();

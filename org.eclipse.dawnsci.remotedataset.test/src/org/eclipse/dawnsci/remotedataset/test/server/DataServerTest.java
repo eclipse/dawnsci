@@ -18,6 +18,8 @@ import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.eclipse.dawnsci.remotedataset.server.DataServer;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -179,5 +181,63 @@ public class DataServerTest {
         return ret;
 	}
 	
+	/**
+	 * Process UI input but do not return for the specified time interval.
+	 * 
+	 * @param waitTimeMillis
+	 *            the number of milliseconds
+	 */
+	public static void delay(long waitTimeMillis) {
+		delay(waitTimeMillis, false);
+	}
+
+	/**
+	 * Process UI input but do not return for the specified time interval.
+	 * 
+	 * @param waitTimeMillis
+	 *            the number of milliseconds
+	 * @param returnInsteadOfSleep
+	 *            Once there is nothing left to do return instead of sleep. In practice this means that async messages
+	 *            should be complete before this method returns (unless it times out first)
+	 */
+	public static void delay(long waitTimeMillis, boolean returnInsteadOfSleep) {
+		
+		if (PlatformUI.isWorkbenchRunning()) {
+
+			Display display = PlatformUI.getWorkbench().getDisplay();
+
+			// If this is the UI thread,
+			// then process input.
+			long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
+			while (System.currentTimeMillis() < endTimeMillis) {
+				try {
+					if (!display.readAndDispatch()) {
+						if (returnInsteadOfSleep)
+							return;
+						display.sleep();
+					}
+				} catch (Exception ne) {
+					if (returnInsteadOfSleep)
+						return;
+					try {
+						Thread.sleep(waitTimeMillis);
+					} catch (InterruptedException e) {
+						// Ignored
+					}
+					break;
+				}
+			}
+			display.update();
+			
+		} else {
+			if (returnInsteadOfSleep)
+				return;
+			try {
+				Thread.sleep(waitTimeMillis);
+			} catch (InterruptedException e) {
+				// Ignored.
+			}
+		}
+	}
 
 }
