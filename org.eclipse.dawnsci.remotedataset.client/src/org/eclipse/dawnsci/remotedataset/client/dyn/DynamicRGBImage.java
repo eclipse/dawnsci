@@ -40,6 +40,8 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 	private int[] transShape;
 	private int[] maxShape;
 
+	private Thread imageMonitor;
+
 	/**
 	 * 
 	 * @param client the client used to create the connection, for instance MJPG
@@ -146,7 +148,11 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 	@Override
 	public void connect() throws Exception {
 		
-		final Thread imageMonitor = new Thread(new Runnable() {
+		if (imageMonitor!=null) throw new Exception("Cannot reconnect to already running dataset!");
+		
+		connection.getClient().setFinished(false);
+		
+		this.imageMonitor = new Thread(new Runnable() {
 			public void run() {
 				try {
 					start(); // Just keep going until we are interrupted...
@@ -163,6 +169,7 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 
 	@Override
 	public void disconnect() throws Exception {
-		connection.getClient().setFinished(true);
+		if (imageMonitor==null) return;	
+		imageMonitor = null;
 	}
 }

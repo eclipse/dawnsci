@@ -3,7 +3,6 @@ package org.eclipse.dawnsci.remotedataset.client;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.remotedataset.Format;
@@ -22,7 +21,7 @@ public class RemoteDatasetServiceImpl implements IRemoteDatasetService {
 	}
 	
 	@Override
-	public IDataset createMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception {
+	public IRemoteDataset createMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception {
 		
 		SliceClient<BufferedImage> client = new SliceClient<BufferedImage>(url);
 		client.setGet(false);

@@ -14,8 +14,12 @@ package org.eclipse.dawnsci.remotedataset.test.client;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
+import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
+import org.eclipse.dawnsci.analysis.api.metadata.DynamicConnectionInfo;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
@@ -99,25 +103,33 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 	public void testDynamicDatasetEPICS() throws Exception {
 		
 		// Requires an EPICS stream to connect to, not for general overnight testing!
-		SliceClient<BufferedImage> client = new SliceClient<BufferedImage>(new URL("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg"));
-		client.setGet(false);
-    	client.setFormat(Format.MJPG);
-    	client.setImageCache(10);
-    	client.setSleep(80);     
+		IRemoteDatasetService service = ServiceHolder.getRemoteDatasetService();
+		IRemoteDataset set = service.createMJPGDataset(new URL("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg"), 250, 10);
+		
+		try {
+			set.connect();
+			
+		   	IWorkbenchPart part = openView();
+			 
+			final IPlottingSystem   sys = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
+			
+			IImageTrace trace = (IImageTrace)sys.createPlot2D((IDataset)set, null, null);
+			trace.setDownsampleType(DownsampleType.POINT); // Fast!
+			trace.setRescaleHistogram(false); // Fast! Comes from RGBData anyway though
+			
+			Thread.sleep(10000);
+			
+		} finally {
+			set.disconnect();
+			
+			List<DynamicConnectionInfo> linfo = set.getMetadata(DynamicConnectionInfo.class);
+			DynamicConnectionInfo info = linfo.get(0);
+			
+			System.out.println("Received images = "+info.getReceivedCount());
+			System.out.println("Dropped images = "+info.getDroppedCount());
+		}
     	
-    	IWorkbenchPart part = openView();
-		 
-		final IPlottingSystem   sys = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
-		final IDynamicMonitorDataset rgb = DynamicDatasetFactory.createRGBImage(client);
-		
-		IImageTrace trace = (IImageTrace)sys.createPlot2D(rgb, null, null);
-		trace.setDownsampleType(DownsampleType.POINT); // Fast!
-		trace.setRescaleHistogram(false); // Fast! Comes from RGBData anyway though
-
-		rgb.start(100); // blocks until 100 images received.
-		
-		System.out.println("Received images = "+client.getReceivedImageCount());
-		System.out.println("Dropped images = "+client.getDroppedImageCount());
+ 		
 
 	}
 

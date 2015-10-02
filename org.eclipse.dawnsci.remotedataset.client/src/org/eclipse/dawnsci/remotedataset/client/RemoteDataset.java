@@ -13,9 +13,11 @@ import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
 import org.eclipse.dawnsci.analysis.api.dataset.DataListenerDelegate;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
+import org.eclipse.dawnsci.analysis.api.metadata.DynamicConnectionInfo;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
+import org.eclipse.dawnsci.remotedataset.client.slice.DynamicConnectionInfoExt;
 import org.eclipse.jetty.websocket.WebSocket.Connection;
 import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocketClient;
@@ -104,6 +106,14 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		this.loader = new RemoteLoader(urlBuilder);
 		createInfo();
 		createFileListener();
+		
+		// TODO Does this cause a memory leak?
+		// If multiple connect/disconnect are called will this break things?
+		addMetadata(new DynamicConnectionInfo() {
+			public boolean isConnected() {
+				return connection.isOpen();
+			}
+		});
     }
     
     public void disconnect() throws Exception {

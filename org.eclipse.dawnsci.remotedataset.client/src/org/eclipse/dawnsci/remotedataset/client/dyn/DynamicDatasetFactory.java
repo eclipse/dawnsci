@@ -2,7 +2,7 @@ package org.eclipse.dawnsci.remotedataset.client.dyn;
 
 import java.awt.image.BufferedImage;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.remotedataset.client.slice.DynamicConnectionInfoExt;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 
 /**
@@ -11,7 +11,7 @@ import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
  * Instead if you need an MJPG Dataset use:
  * 
  * IRemoteDatasetService service = ... // OSGi
- * IDataset rgb = service.createMJPGDataset(...)
+ * IRemoteDataset rgb = service.createMJPGDataset(...)
  * 
  * then plot RGB
  * 
@@ -27,7 +27,9 @@ public class DynamicDatasetFactory {
 	 * @return
 	 */
 	public static IDynamicMonitorDataset createGreyScaleImage(SliceClient<BufferedImage> client, int... shape) {
-		return new DynamicGreyScaleImage(client, shape);
+		DynamicGreyScaleImage ret = new DynamicGreyScaleImage(client, shape);
+		prepare(ret, client);
+		return ret;
 	}
 	
 	/**
@@ -37,6 +39,14 @@ public class DynamicDatasetFactory {
 	 * @return
 	 */
 	public static IDynamicMonitorDataset createRGBImage(SliceClient<BufferedImage> client, int... shape) {
-		return new DynamicRGBImage(client, shape);
+		DynamicRGBImage ret = new DynamicRGBImage(client, shape);
+		prepare(ret, client);
+		return ret;
 	}
+
+	private static void prepare(IDynamicMonitorDataset ret, SliceClient<BufferedImage> client) {
+		ret.addMetadata(new DynamicConnectionInfoExt(client));
+	}
+
 }
+

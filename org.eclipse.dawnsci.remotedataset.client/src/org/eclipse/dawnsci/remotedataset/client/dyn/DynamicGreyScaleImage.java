@@ -29,6 +29,9 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 	private boolean dynamicShape=true;
 	private int[] transShape;
 	private int[] maxShape;
+
+
+	private Thread imageMonitor;
 	
 	/**
 	 * 
@@ -133,10 +136,13 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 		connection.getClient().setDataset(dataset);
 	}
 
+
 	@Override
 	public void connect() throws Exception {
 		
-		final Thread imageMonitor = new Thread(new Runnable() {
+		if (imageMonitor!=null) throw new Exception("Cannot reconnect to already running dataset!");
+		
+		this.imageMonitor = new Thread(new Runnable() {
 			public void run() {
 				try {
 					start(); // Just keep going until we are interrupted...
@@ -154,5 +160,7 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 	@Override
 	public void disconnect() throws Exception {
 		connection.getClient().setFinished(true);
+		imageMonitor = null;
 	}
+
 }
