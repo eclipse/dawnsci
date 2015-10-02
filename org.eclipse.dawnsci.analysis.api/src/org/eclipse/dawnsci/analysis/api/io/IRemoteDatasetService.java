@@ -54,8 +54,8 @@ public interface IRemoteDatasetService {
 	 * @param sleepTime - time to sleep between image reads, we don't want to use all CPU
 	 * @param cacheSize - size of image cache. If image cache grows too large, they are DROPPED.
 	 * 
-	 * @return A DynasmicDataset for instance one looking at a changing data source like
-	 * an MJPG stream
+	 * @return A DynamicDataset for instance one looking at a changing data source like
+	 * an MJPG stream. This dataset is loaded data unlike the one above. It may be cast with impunity to IDataset
 	 */
-	public IDataset createMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception;
+	public IRemoteDataset createMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception;
 }

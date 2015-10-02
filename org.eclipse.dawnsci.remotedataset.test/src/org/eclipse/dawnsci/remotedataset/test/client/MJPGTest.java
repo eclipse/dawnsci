@@ -49,26 +49,29 @@ public class MJPGTest {
 	@Test
 	public void testMJPGEPICS() throws Exception {
 	
-		IDataset set = service.createMJPGDataset(new URL("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg"), 250, 10);
-		((IRemoteDataset)set).connect();
+		IRemoteDataset set = service.createMJPGDataset(new URL("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg"), 250, 10);
+		set.connect();
 		
-		final List<Integer> count = new ArrayList<>(1);
-		count.add(0);
+		try {
+			final List<Integer> count = new ArrayList<>(1);
+			count.add(0);
+			
+			set.addDataListener(new IDataListener() {	
+				@Override
+				public void dataChangePerformed(DataEvent evt) {
+					System.out.println(count.get(0)+" images recevied!");
+					count.set(0, count.get(0).intValue()+1);
+				}
+			});
+			
+			
+			Thread.sleep(5000);
+			
+			if (count.get(0)<10) throw new Exception("Less images than expected from stream! "+count.get(0));
 		
-		((IDynamicDataset)set).addDataListener(new IDataListener() {	
-			@Override
-			public void dataChangePerformed(DataEvent evt) {
-				System.out.println(count.get(0)+" images recevied!");
-				count.set(0, count.get(0).intValue()+1);
-			}
-		});
-		
-		
-		Thread.sleep(5000);
-		
-		if (count.get(0)<10) throw new Exception("Less images than expected from stream! "+count.get(0));
-		
-		((IRemoteDataset)set).disconnect();
+		} finally {
+		    set.disconnect();
+		}
 
 	}
 }
