@@ -64,35 +64,6 @@ Tom Cobb
  */
 public class DynamicDatasetPluginTest extends DataServerTest {
 	
-	/**
-	 * Test opens stream in plotting system.
-	 * NEED TO Start IOC on ws197 to run this test
-	 * @throws Exception
-	 */
-	//@Test
-	public void testDynamicDatasetEPICSGreyScale() throws Exception {
-		
-		// Requires an EPICS stream to connect to, not for general overnight testing!
-		SliceClient<BufferedImage> client = new SliceClient<BufferedImage>(new URL("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg"));
-		client.setGet(false);
-    	client.setFormat(Format.MJPG);
-    	client.setImageCache(10); // More than we will send...
-    	client.setSleep(80);
-
-    	IWorkbenchPart part = openView();
-		
-		final IPlottingSystem sys  = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
-		
-		final IDynamicMonitorDataset   grey = DynamicDatasetFactory.createGreyScaleImage(client);
-		IImageTrace trace = (IImageTrace)sys.createPlot2D(grey, null, null);
-		trace.setDownsampleType(DownsampleType.POINT); // Fast!
-
-		grey.start(100); // blocks until 100 images received.
-		
-		System.out.println("Received images = "+client.getReceivedImageCount());
-		System.out.println("Dropped images = "+client.getDroppedImageCount());
-
-	}
 
 	/**
 	 * Test opens stream in plotting system.
@@ -117,7 +88,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 			trace.setDownsampleType(DownsampleType.POINT); // Fast!
 			trace.setRescaleHistogram(false); // Fast! Comes from RGBData anyway though
 			
-			delay(10000);
+			TestUtils.delay(10000);
 			
 		} finally {
 			set.disconnect();
@@ -129,19 +100,20 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 			System.out.println("Dropped images = "+info.getDroppedCount());
 		}
     	
- 		
-
 	}
 
 	/**
 	 * Test opens stream in plotting system.
+	 * 
+	 * Uses the lower level (non-API) objects directly so that we can return after 100 images.
+	 * 
 	 * @throws Exception
 	 */
 	@Test
 	public void testDynamicDataset() throws Exception {
 		
 		SliceClient<BufferedImage> client = new SliceClient<BufferedImage>("localhost", 8080);
-    	client.setPath("RANDOM:512x512");
+     	client.setPath("RANDOM:512x512");
     	client.setFormat(Format.MJPG);
     	client.setHisto("MEAN");
     	client.setImageCache(10); // More than we will send...
@@ -153,7 +125,31 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 		final IDynamicMonitorDataset rgb = DynamicDatasetFactory.createRGBImage(client);
 		sys.createPlot2D(rgb, null, null);
 
-		rgb.start(100); // blocks until 100 images received.
+		Thread runner = new Thread(new Runnable() {
+			public void run() {
+				try {
+					rgb.start(100);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} // blocks until 100 images received.
+			}
+		});
+		runner.setDaemon(true);
+		runner.setPriority(Thread.MIN_PRIORITY);
+		runner.setName("Test image transfer worker");
+		runner.start();
+		
+		TestUtils.delay(20000); // Should easily allow the 100 images to be transfered.
+		
+		List<DynamicConnectionInfo> linfo = rgb.getMetadata(DynamicConnectionInfo.class);
+		DynamicConnectionInfo info = linfo.get(0);
+		
+		System.out.println("Received images = "+info.getReceivedCount());
+		System.out.println("Dropped images = "+info.getDroppedCount());
+		
+		if (info.getReceivedCount()<100) throw new Exception("Less than 100 images were received!");
+
 	}
 	
 	/**
@@ -182,7 +178,6 @@ public class DynamicDatasetPluginTest extends DataServerTest {
     	client.setHisto("MEDIAN");
     	client.setImageCache(25); // More than we will send...
     	client.setSleep(100); // Default anyway is 100ms
-
 
     	try {
     		
