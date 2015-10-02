@@ -101,7 +101,7 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	 * Call to read the dataset, set current shape and create event connnection for
 	 * IDynamicDataset part of the dataset
 	 */
-    public void connect() throws Exception {
+    public String connect() throws Exception {
     	
 		this.loader = new RemoteLoader(urlBuilder);
 		createInfo();
@@ -114,6 +114,8 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 				return connection.isOpen();
 			}
 		});
+		
+		return null;
     }
     
     public void disconnect() throws Exception {

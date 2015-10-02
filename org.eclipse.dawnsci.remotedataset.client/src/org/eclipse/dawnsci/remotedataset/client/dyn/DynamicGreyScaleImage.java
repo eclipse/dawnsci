@@ -138,7 +138,7 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 
 
 	@Override
-	public void connect() throws Exception {
+	public String connect() throws Exception {
 		
 		if (imageMonitor!=null) throw new Exception("Cannot reconnect to already running dataset!");
 		
@@ -155,6 +155,8 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 		imageMonitor.setDaemon(true);
 		imageMonitor.setPriority(Thread.MIN_PRIORITY); // TODO Is that right?
 		imageMonitor.start();
+		
+		return imageMonitor.getName(); // So that you can know if the runner is going.
 	}
 
 	@Override

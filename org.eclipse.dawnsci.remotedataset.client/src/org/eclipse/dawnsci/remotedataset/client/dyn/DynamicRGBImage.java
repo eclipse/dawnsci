@@ -146,7 +146,7 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 	}
 
 	@Override
-	public void connect() throws Exception {
+	public String connect() throws Exception {
 		
 		if (imageMonitor!=null) throw new Exception("Cannot reconnect to already running dataset!");
 		
@@ -165,6 +165,8 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 		imageMonitor.setDaemon(true);
 		imageMonitor.setPriority(Thread.MIN_PRIORITY); // TODO Is that right?
 		imageMonitor.start();
+		
+		return imageMonitor.getName(); // So that you can know if the runner is going.
 	}
 
 	@Override
