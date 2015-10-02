@@ -12,6 +12,7 @@
 package org.eclipse.dawnsci.hdf5;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -61,15 +62,33 @@ public class HierarchicalDataFactory {
 	public static IHierarchicalDataFile getReader(final String absolutePath) throws Exception {
 		return  HierarchicalDataFactory.getReader(absolutePath, false);
 	}
+
+	/**
+	 * Canonicalise path so that we can use it as a standard key
+	 * @param absolutePath
+	 * @return
+	 * @throws IOException
+	 */
+	public static String canonicalisePath(String absolutePath) throws IOException {
+		try {
+			return new File(absolutePath).getCanonicalPath();
+		} catch (IOException e) {
+			logger.error("Could not get canonical path: {}", absolutePath);
+			throw e;
+		}
+	}
+
 	
 	/**
 	 * Get the reader, optionally waiting if a low level API call is blocking reading the file.
-	 * @param absolutePath
+	 * @param path absolute path
 	 * @param waitForLowLevel
 	 * @return
 	 * @throws Exception
 	 */
-	public static IHierarchicalDataFile getReader(final String absolutePath, boolean waitForLowLevel) throws Exception {
+	public static IHierarchicalDataFile getReader(final String path, boolean waitForLowLevel) throws Exception {
+		String absolutePath = canonicalisePath(path);
+
 		if (lowLevelLocks.containsKey(absolutePath)) {
 			if (!waitForLowLevel) {
 				throw new Exception("The low level API is currently reading from "+absolutePath);
@@ -115,12 +134,14 @@ public class HierarchicalDataFactory {
 	 * Call this method to get a reference to a HierarchicalDataFile
 	 * opened for writing use.
 	 * 
-	 * @param absolutePath
+	 * @param path absolute path
 	 * @param waitForAvailability if false and in use, exception thrown, if true will wait for lock in high level API. If a lock of the low level API is active, throws exception regardless.
 	 * @return
 	 * @throws Exception
 	 */
-	public static IHierarchicalDataFile getWriter(final String absolutePath, boolean waitForAvailability) throws Exception {
+	public static IHierarchicalDataFile getWriter(final String path, boolean waitForAvailability) throws Exception {
+		String absolutePath = canonicalisePath(path);
+
 		if (!(new File(absolutePath)).exists()) {
 			create(absolutePath);
 		}
@@ -192,11 +213,12 @@ public class HierarchicalDataFactory {
 	 * Expert use only. acquireLowLevelReadingAccess and releaseLowLevelReadingAccess
 	 * must be used in a try{} finally{} block.
 	 * 
-	 * @param absolutePath
+	 * @param path absolute path
 	 */
-	public static void acquireLowLevelReadingAccess(final String absolutePath) throws Exception {
-		
-		accessLock.lock();		
+	public static void acquireLowLevelReadingAccess(final String path) throws Exception {
+		String absolutePath = canonicalisePath(path);
+
+		accessLock.lock();
 		ReentrantLock l;
 		try {
 			// If the high level has the lock, we attempt to close it
@@ -246,9 +268,16 @@ public class HierarchicalDataFactory {
 	 * Expert use only. acquireLowLevelReadingAccess and releaseLowLevelReadingAccess
 	 * must be used in a try{} finally{} block.
 	 *
-	 * @param absolutePath
+	 * @param path absolute path
 	 */
-	public static void releaseLowLevelReadingAccess(final String absolutePath) {
+	public static void releaseLowLevelReadingAccess(final String path) {
+		String absolutePath;
+		try {
+			absolutePath = canonicalisePath(path);
+		} catch (IOException e) {
+			logger.error("Ignoring exception whilst releasing read lock", e);
+			return;
+		}
 		
 		accessLock.lock();
 		try {
@@ -269,6 +298,4 @@ public class HierarchicalDataFactory {
 			accessLock.unlock();
 		}
 	}
-
-
 }

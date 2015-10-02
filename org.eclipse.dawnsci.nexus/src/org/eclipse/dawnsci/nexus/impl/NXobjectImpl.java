@@ -308,7 +308,9 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		Attribute a = node.containsAttribute(attrName) ? node.getAttribute(attrName) : TreeFactory.createAttribute(attrName);
 		a.setValue(attrValue);
 		node.addAttribute(a);
-		cached.put(makeAttributeKey(name, attrName), DatasetUtils.convertToDataset(a.getValue()));
+		Dataset d = DatasetUtils.convertToDataset(a.getValue());
+		d.setName(attrName);
+		cached.put(makeAttributeKey(name, attrName), d);
 	}
 
 	private Dataset getCachedAttribute(String name, String attrName) {
