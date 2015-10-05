@@ -223,10 +223,12 @@ public class HDF5Utils {
 		} catch (Throwable le) {
 			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
 		} finally {
-			try {
-				H5.H5Fclose(fid);
-			} catch (Throwable e) {
-				logger.error("Could not close HDF5 file: {}", fileName, e);
+			if (fid != -1) {
+				try {
+					H5.H5Fclose(fid);
+				} catch (Throwable e) {
+					logger.error("Could not close HDF5 file: {}", fileName, e);
+				}
 			}
 			HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
 		}
@@ -261,7 +263,7 @@ public class HDF5Utils {
 		} catch (Throwable le) {
 			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
 		} finally {
-			if (fid >= 0) {
+			if (fid != -1) {
 				try {
 					H5.H5Fclose(fid);
 				} catch (Throwable e) {
@@ -308,7 +310,7 @@ public class HDF5Utils {
 					}
 					return new int[][] { shape, mshape}; 
 				} finally {
-					if (hdfDataspaceId >= 0) {
+					if (hdfDataspaceId != -1) {
 						try {
 							H5.H5Sclose(hdfDataspaceId);
 						} catch (HDF5Exception ex) {
@@ -316,7 +318,7 @@ public class HDF5Utils {
 					}
 				}
 			} finally {
-				if (hdfDatasetId >= 0) {
+				if (hdfDatasetId != -1) {
 					try {
 						H5.H5Dclose(hdfDatasetId);
 					} catch (HDF5Exception ex) {
@@ -579,13 +581,13 @@ public class HDF5Utils {
 				logger.error("Could not get data space information", ex);
 				return data;
 			} finally {
-				if (sid >= 0) {
+				if (sid != -1) {
 					try {
 						H5.H5Sclose(sid);
 					} catch (HDF5Exception ex2) {
 					}
 				}
-				if (pid >= 0) {
+				if (pid != -1) {
 					try {
 						H5.H5Pclose(pid);
 					} catch (HDF5Exception ex) {
@@ -597,13 +599,13 @@ public class HDF5Utils {
 			logger.error("Could not open dataset", ex);
 			throw new NexusException("Could not open dataset", ex);
 		} finally {
-			if (tid >= 0) {
+			if (tid != -1) {
 				try {
 					H5.H5Tclose(tid);
 				} catch (HDF5Exception ex) {
 				}
 			}
-			if (did >= 0) {
+			if (did != -1) {
 				try {
 					H5.H5Dclose(did);
 				} catch (HDF5Exception ex) {
@@ -676,10 +678,12 @@ public class HDF5Utils {
 		} catch (Throwable le) {
 			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
 		} finally {
-			try {
-				H5.H5Fclose(fid);
-			} catch (Throwable e) {
-				logger.error("Could not close HDF5 file: {}", fileName, e);
+			if (fid != -1) {
+				try {
+					H5.H5Fclose(fid);
+				} catch (Throwable e) {
+					logger.error("Could not close HDF5 file: {}", fileName, e);
+				}
 			}
 			HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
 		}
@@ -697,13 +701,13 @@ public class HDF5Utils {
 			logger.error("Could not create destination", e);
 			throw e;
 		} finally {
-			if (gid >= 0) {
+			if (gid != -1) {
 				try {
 					H5.H5Gclose(gid);
 				} catch (HDF5Exception ex) {
 				}
 			}
-			if (gcpid >= 0) {
+			if (gcpid != -1) {
 				try {
 					H5.H5Pclose(gcpid);
 				} catch (HDF5Exception ex) {
@@ -770,7 +774,7 @@ public class HDF5Utils {
 					hdfDatasetId = H5.H5Dcreate(fileID, dataPath, hdfDatatypeId, hdfDataspaceId,
 						HDF5Constants.H5P_DEFAULT, hdfPropertiesId, HDF5Constants.H5P_DEFAULT);
 				} finally {
-					if (hdfDatasetId >= 0) {
+					if (hdfDatasetId != -1) {
 						try {
 							H5.H5Dclose(hdfDatasetId);
 						} catch (HDF5Exception ex) {
@@ -778,19 +782,19 @@ public class HDF5Utils {
 					}
 				}
 			} finally {
-				if (hdfPropertiesId >= 0) {
+				if (hdfPropertiesId != -1) {
 					try {
 						H5.H5Pclose(hdfPropertiesId);
 					} catch (HDF5Exception ex) {
 					}
 				}
-				if (hdfDataspaceId >= 0) {
+				if (hdfDataspaceId != -1) {
 					try {
 						H5.H5Sclose(hdfDataspaceId);
 					} catch (HDF5Exception ex) {
 					}
 				}
-				if (hdfDatatypeId >= 0) {
+				if (hdfDatatypeId != -1) {
 					try {
 						H5.H5Tclose(hdfDatatypeId);
 					} catch (HDF5Exception ex) {
@@ -847,7 +851,7 @@ public class HDF5Utils {
 						H5.H5Dwrite(hdfDatasetId, hdfDatatypeId, HDF5Constants.H5S_ALL, HDF5Constants.H5S_ALL, HDF5Constants.H5P_DEFAULT, buffer);
 					}
 				} finally {
-					if (hdfDatasetId >= 0) {
+					if (hdfDatasetId != -1) {
 						try {
 							H5.H5Dclose(hdfDatasetId);
 						} catch (HDF5Exception ex) {
@@ -855,19 +859,19 @@ public class HDF5Utils {
 					}
 				}
 			} finally {
-				if (hdfPropertiesId >= 0) {
+				if (hdfPropertiesId != -1) {
 					try {
 						H5.H5Pclose(hdfPropertiesId);
 					} catch (HDF5Exception ex) {
 					}
 				}
-				if (hdfDataspaceId >= 0) {
+				if (hdfDataspaceId != -1) {
 					try {
 						H5.H5Sclose(hdfDataspaceId);
 					} catch (HDF5Exception ex) {
 					}
 				}
-				if (hdfDatatypeId >= 0) {
+				if (hdfDatatypeId != -1) {
 					try {
 						H5.H5Tclose(hdfDatatypeId);
 					} catch (HDF5Exception ex) {
@@ -914,10 +918,12 @@ public class HDF5Utils {
 		} catch (Throwable le) {
 			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
 		} finally {
-			try {
-				H5.H5Fclose(fid);
-			} catch (Throwable e) {
-				logger.error("Could not close HDF5 file: {}", fileName, e);
+			if (fid != -1) {
+				try {
+					H5.H5Fclose(fid);
+				} catch (Throwable e) {
+					logger.error("Could not close HDF5 file: {}", fileName, e);
+				}
 			}
 			HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
 		}
@@ -986,19 +992,19 @@ public class HDF5Utils {
 						H5.H5Dwrite(hdfDatasetId, memtype, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, buffer);
 					}
 				} finally {
-					if (hdfDatatypeId >= 0) {
+					if (hdfDatatypeId != -1) {
 						try {
 							H5.H5Tclose(hdfDatatypeId);
 						} catch (HDF5Exception ex) {
 						}
 					}
-					if (hdfMemspaceId >= 0) {
+					if (hdfMemspaceId != -1) {
 						try {
 							H5.H5Sclose(hdfMemspaceId);
 						} catch (HDF5Exception ex) {
 						}
 					}
-					if (hdfDataspaceId >= 0) {
+					if (hdfDataspaceId != -1) {
 						try {
 							H5.H5Sclose(hdfDataspaceId);
 						} catch (HDF5Exception ex) {
@@ -1006,7 +1012,7 @@ public class HDF5Utils {
 					}
 				}
 			} finally {
-				if (hdfDatasetId >= 0) {
+				if (hdfDatasetId != -1) {
 					try {
 						H5.H5Dclose(hdfDatasetId);
 					} catch (HDF5Exception ex) {
