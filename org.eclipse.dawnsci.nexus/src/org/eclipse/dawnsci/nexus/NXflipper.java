@@ -13,7 +13,6 @@
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of a beamline spin flipper.

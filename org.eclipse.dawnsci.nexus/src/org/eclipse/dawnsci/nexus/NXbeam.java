@@ -15,7 +15,6 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of the state of the neutron or X-ray beam at any location. It will be referenced
