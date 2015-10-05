@@ -235,6 +235,101 @@ public class HDF5Utils {
 	}
 
 	/**
+	 * Get dataset shape information from given file
+	 * @param fileName
+	 * @param dataPath
+	 * @return null for when there's no data; two empty arrays for a zero-rank dataset;
+	 *  shape, max shape otherwise
+	 * @throws NexusException
+	 */
+	public static int[][] getDatasetShape(final String fileName, final String node)
+			throws ScanFileHolderException {
+
+		final String cPath;
+		try {
+			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
+		} catch (IOException e) {
+			throw new ScanFileHolderException("Problem canonicalising path", e);
+		}
+
+		long fid = -1;
+		try {
+			HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
+			fid = H5Fopen(fileName, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
+
+			return readDatasetShape(fid, node);
+		} catch (Throwable le) {
+			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
+		} finally {
+			if (fid >= 0) {
+				try {
+					H5.H5Fclose(fid);
+				} catch (Throwable e) {
+					logger.error("Could not close HDF5 file: {}", fileName, e);
+				}
+			}
+			HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
+		}
+	}
+
+	/**
+	 * Read shape information from a dataset
+	 * @param fileID
+	 * @param dataPath
+	 * @return null for when there's no data; two empty arrays for a zero-rank dataset;
+	 *  shape, max shape otherwise
+	 * @throws NexusException
+	 */
+	public static int[][] readDatasetShape(long fileID, String dataPath) throws NexusException {
+		long hdfDatasetId = -1;
+		try {
+			try {
+				hdfDatasetId = H5.H5Dopen(fileID, dataPath, HDF5Constants.H5P_DEFAULT);
+	
+				long hdfDataspaceId = -1;
+				try {
+					hdfDataspaceId = H5.H5Dget_space(hdfDatasetId);
+					int type = H5.H5Sget_simple_extent_type(hdfDataspaceId);
+					if (type == HDF5Constants.H5S_NULL) {
+						return null;
+					} else if (type == HDF5Constants.H5S_SCALAR) {
+						return new int[][] {new int[0], new int[0]};
+					}
+					int rank = H5.H5Sget_simple_extent_ndims(hdfDataspaceId);
+					long[] dims = new long[rank];
+					long[] mdims = new long[rank];
+					H5.H5Sget_simple_extent_dims(hdfDataspaceId, dims, mdims);
+	
+					int[] shape = new int[rank];
+					int[] mshape = new int[rank];
+					for (int i = 0; i < rank; i++) {
+						shape[i] = (int) dims[i];
+						mshape[i] = (int) mdims[i];
+					}
+					return new int[][] { shape, mshape}; 
+				} finally {
+					if (hdfDataspaceId >= 0) {
+						try {
+							H5.H5Sclose(hdfDataspaceId);
+						} catch (HDF5Exception ex) {
+						}
+					}
+				}
+			} finally {
+				if (hdfDatasetId >= 0) {
+					try {
+						H5.H5Dclose(hdfDatasetId);
+					} catch (HDF5Exception ex) {
+					}
+				}
+			}
+		} catch (HDF5Exception e) {
+			logger.error("Could not read dataset shape", e);
+			throw new NexusException("Could not read dataset shape", e);
+		}
+	}
+
+	/**
 	 * Read dataset from given file ID
 	 * @param fid
 	 * @param node
