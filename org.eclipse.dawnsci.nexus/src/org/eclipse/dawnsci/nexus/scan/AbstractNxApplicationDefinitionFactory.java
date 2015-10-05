@@ -7,8 +7,6 @@ import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXobject;
-import org.eclipse.dawnsci.nexus.NXpositioner;
-import org.eclipse.dawnsci.nexus.validation.NXarpesValidator;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 
 public class AbstractNxApplicationDefinitionFactory implements

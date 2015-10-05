@@ -12,7 +12,6 @@
 package org.eclipse.dawnsci.plotting.examples;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
