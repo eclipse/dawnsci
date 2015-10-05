@@ -19,7 +19,6 @@ import java.net.URISyntaxException;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 
 public class Activator implements BundleActivator {
 	

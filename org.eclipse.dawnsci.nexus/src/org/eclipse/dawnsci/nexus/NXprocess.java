@@ -12,11 +12,9 @@
 
 package org.eclipse.dawnsci.nexus;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Document an event of data processing, reconstruction, or analysis for this data.

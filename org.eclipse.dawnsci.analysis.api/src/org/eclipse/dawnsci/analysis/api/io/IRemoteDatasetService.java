@@ -11,7 +11,6 @@ package org.eclipse.dawnsci.analysis.api.io;
 
 import java.net.URL;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 
 /**

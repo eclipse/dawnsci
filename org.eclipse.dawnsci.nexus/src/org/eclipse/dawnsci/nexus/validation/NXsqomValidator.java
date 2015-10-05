@@ -14,7 +14,6 @@ import org.eclipse.dawnsci.nexus.NXsource;
 import org.eclipse.dawnsci.nexus.NXsample;
 import org.eclipse.dawnsci.nexus.NXprocess;
 import org.eclipse.dawnsci.nexus.NXparameters;
-import org.eclipse.dawnsci.nexus.NXparameters;
 import org.eclipse.dawnsci.nexus.NXdata;
 
 /**

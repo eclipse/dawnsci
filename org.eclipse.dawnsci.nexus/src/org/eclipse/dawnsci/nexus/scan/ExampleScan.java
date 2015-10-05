@@ -23,6 +23,7 @@ public class ExampleScan {
 		NXinstrumentImpl instrument = factory.createNXinstrument();
 		entry.setInstrument(instrument);
 //		
+		@SuppressWarnings("null") // remove this line for production code
 		NXdetector detector = detectorDevice.getNewBaseClassInstance();
 		instrument.setDetector(detector);
 		
