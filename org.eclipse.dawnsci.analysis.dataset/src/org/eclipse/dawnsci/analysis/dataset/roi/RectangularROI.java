@@ -229,6 +229,7 @@ public class RectangularROI extends OrientableROIBase implements IRectangularROI
 	/**
 	 * @return integer lengths
 	 */
+	@Override
 	public int[] getIntLengths() {
 		return new int[] { (int) len[0], (int) len[1] };
 	}

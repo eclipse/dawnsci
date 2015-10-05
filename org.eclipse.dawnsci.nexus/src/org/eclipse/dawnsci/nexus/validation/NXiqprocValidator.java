@@ -1,6 +1,5 @@
 package org.eclipse.dawnsci.nexus.validation;
 import static org.eclipse.dawnsci.nexus.validation.NexusDataType.*;
-import static org.eclipse.dawnsci.nexus.validation.NexusUnitCategory.*;
 
 import java.util.Map;
 
@@ -13,7 +12,6 @@ import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXsource;
 import org.eclipse.dawnsci.nexus.NXsample;
 import org.eclipse.dawnsci.nexus.NXprocess;
-import org.eclipse.dawnsci.nexus.NXparameters;
 import org.eclipse.dawnsci.nexus.NXparameters;
 import org.eclipse.dawnsci.nexus.NXdata;
 

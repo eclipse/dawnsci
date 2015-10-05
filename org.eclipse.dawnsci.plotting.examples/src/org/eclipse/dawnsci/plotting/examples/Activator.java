@@ -14,7 +14,6 @@ package org.eclipse.dawnsci.plotting.examples;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 
 public class Activator extends AbstractUIPlugin {
 
