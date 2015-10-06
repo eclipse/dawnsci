@@ -14,6 +14,7 @@ package org.eclipse.dawnsci.nexus.impl;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
@@ -30,6 +32,7 @@ import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.DataNodeImpl;
@@ -79,6 +82,18 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		}
 		return getCached(name);
 	}
+	
+	@Override
+	public ILazyWriteableDataset getLazyWritableDataset(String name) {
+		if (containsDataNode(name)) {
+			ILazyDataset dataset = getDataNode(name).getDataset();
+			if (dataset instanceof ILazyWriteableDataset) {
+				return (ILazyWriteableDataset) dataset;
+			}
+		}
+		
+		return null;
+	}
 
 	@Override
 	public void setDataset(String name, IDataset value) {
@@ -96,6 +111,20 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 			// the new value will be calculated when required
 			cached.remove(name);
 		}
+	}
+
+	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, int dtype) {
+		int oid = 31 * name.hashCode();
+		DataNode dataNode = TreeFactory.createDataNode(oid);
+		
+		int[] shape = new int[rank];
+		Arrays.fill(shape, ILazyWriteableDataset.UNLIMITED);
+		
+		ILazyWriteableDataset dataset = new LazyWriteableDataset(name, dtype, shape, null, null, null);
+		dataNode.setDataset(dataset);
+		addDataNode(name, dataNode);
+		
+		return dataset;
 	}
 
 	private void createDataNode(String name, IDataset value) {
