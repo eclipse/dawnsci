@@ -19,8 +19,6 @@ import javax.measure.quantity.Pressure;
 import javax.measure.quantity.SolidAngle;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Volume;
-import javax.measure.unit.BaseUnit;
-import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
 
 

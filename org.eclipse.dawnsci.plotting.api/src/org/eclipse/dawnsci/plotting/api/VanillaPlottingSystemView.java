@@ -18,19 +18,24 @@ public class VanillaPlottingSystemView extends ViewPart implements IAdaptable {
 	
 	protected IPlottingSystem     system;
 
-	@Override
-	public void createPartControl(Composite parent) {
-		
+	public VanillaPlottingSystemView() {
 		try {
-		    system = PlottingFactory.createPlottingSystem(); // TODO Change to service
-		    system.createPlotPart(parent, getPartName(), getViewSite().getActionBars(), PlotType.IMAGE, this);
-		    		    
+			system = PlottingFactory.createPlottingSystem(); // TODO Change to service
+
 		} catch (Exception ne) {
 			throw new RuntimeException(ne); // Lazy
 		}
-		
+
+	}
+
+	@Override
+	public void createPartControl(Composite parent) {
+
+		system.createPlotPart(parent, getPartName(), getViewSite().getActionBars(), PlotType.IMAGE, this);  
+
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
 		if (IPlottingSystem.class == adapter) return system;

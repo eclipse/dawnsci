@@ -10,6 +10,7 @@
 package org.eclipse.dawnsci.analysis.dataset.impl;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
@@ -171,7 +172,16 @@ public class LazyWriteableDataset extends LazyDynamicDataset implements ILazyWri
 			throw new IOException("Cannot write to file!");
 		}
 
+		int[] dshape = data instanceof Dataset ? ((Dataset) data).getShapeRef() : data.getShape();
+		if (dshape.length == 0) { // fix zero-rank case
+			dshape = new int[] {1};
+		}
+		if (!Arrays.equals(slice.getShape(), dshape)) {
+			throw new IllegalArgumentException("Slice shape does not match input data shape");
+		}
+
 		SliceND nslice = calcTrueSlice(slice);
+		data = transformInput(data);
 
 		if (base != null) {
 			((ILazyWriteableDataset) base).setSlice(monitor, data, nslice);

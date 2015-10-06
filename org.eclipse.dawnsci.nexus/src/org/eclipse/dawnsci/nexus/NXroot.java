@@ -12,7 +12,6 @@
 
 package org.eclipse.dawnsci.nexus;
 
-import java.util.Date;
 import java.util.Map;
 
 /**

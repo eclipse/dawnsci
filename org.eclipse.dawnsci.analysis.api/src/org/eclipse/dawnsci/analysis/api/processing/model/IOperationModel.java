@@ -12,8 +12,6 @@
 
 package org.eclipse.dawnsci.analysis.api.processing.model;
 
-import java.util.Collection;
-
 
 /**
  * A model to use with operations. Do not put JSON stuff in here.
