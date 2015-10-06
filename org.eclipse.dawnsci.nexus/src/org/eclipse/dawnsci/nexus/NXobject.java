@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 
 /**
@@ -56,4 +57,19 @@ public interface NXobject extends GroupNode {
 	 * @return the dataset for the field with the given name, or <code>null</code> if the no such dataset exists
 	 */
 	public abstract IDataset getDataset(String name);
+	
+	/**
+	 * @param name
+	 * @param rank
+	 * @param dtype
+	 * @return
+	 */
+	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, int dtype);
+
+	/**
+	 * @param name
+	 * @return
+	 */
+	public ILazyWriteableDataset getLazyWritableDataset(String name);
+
 }
