@@ -140,6 +140,7 @@ public class PlottingSystemsView extends ViewPart {
 	 * Initialize the toolbar.
 	 */
 	private void initializeToolBar() {
+		@SuppressWarnings("unused")
 		IToolBarManager toolbarManager = getViewSite().getActionBars()
 				.getToolBarManager();
 	}
@@ -148,6 +149,7 @@ public class PlottingSystemsView extends ViewPart {
 	 * Initialize the menu.
 	 */
 	private void initializeMenu() {
+		@SuppressWarnings("unused")
 		IMenuManager menuManager = getViewSite().getActionBars()
 				.getMenuManager();
 	}

@@ -129,7 +129,7 @@ public class RemotePlottingSystem implements IRemotePlottingSystem {
 		return delegate.createVectorTrace(traceName);
 	}
 
-	public Object getAdapter(Class adapter) throws RemoteException {
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) throws RemoteException {
 		return delegate.getAdapter(adapter);
 	}
 

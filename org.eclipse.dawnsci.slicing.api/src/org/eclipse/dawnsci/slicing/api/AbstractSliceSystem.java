@@ -78,7 +78,7 @@ public abstract class AbstractSliceSystem implements ISliceSystem {
 	protected RangeMode       rangeMode=RangeMode.NO_RANGES;
 	protected Action          advanced;
 	
-	protected Enum        sliceType=PlotType.IMAGE;
+	protected Enum<?>        sliceType=PlotType.IMAGE;
 	protected IToolBarManager sliceToolbar;
 	
 	@Override
@@ -136,7 +136,7 @@ public abstract class AbstractSliceSystem implements ISliceSystem {
 				
 		final IConfigurationElement[] eles = Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.dawnsci.slicing.api.slicingTool");
 
-  		plotTypeActions= new HashMap<Enum, IAction>();
+  		plotTypeActions= new HashMap<Enum<?>, IAction>();
   		this.sliceTools= new LinkedHashMap<String, ISlicingTool>(17);
 
 		for (IConfigurationElement e : eles) {
@@ -209,7 +209,7 @@ public abstract class AbstractSliceSystem implements ISliceSystem {
 		activeTool = slicingTool;
 		
 		// check the correct actions
-		for (Enum key : plotTypeActions.keySet()) {
+		for (Enum<?> key : plotTypeActions.keySet()) {
 			final IAction action = plotTypeActions.get(key);
 			action.setChecked(key==sliceType);
 		}
@@ -289,7 +289,7 @@ public abstract class AbstractSliceSystem implements ISliceSystem {
 	}
 
 
-	protected int getDimensions(Enum st)  {
+	protected int getDimensions(Enum<?> st)  {
 		
 		try {
 			final Method dimCountMethod = st.getClass().getMethod("getDimensions");
@@ -301,7 +301,7 @@ public abstract class AbstractSliceSystem implements ISliceSystem {
 		}
 	}
 
-	private  Map<Enum, IAction> plotTypeActions;
+	private  Map<Enum<?>, IAction> plotTypeActions;
 	protected IAction getActionByPlotType(Object plotType) {
 		if (plotTypeActions==null) return null;
 		return plotTypeActions.get(plotType);
@@ -434,12 +434,12 @@ public abstract class AbstractSliceSystem implements ISliceSystem {
 
 
 	@Override
-	public Enum getSliceType() {
+	public Enum<?> getSliceType() {
 		return sliceType;
 	}
 
 	@Override
-	public void setSliceType(Enum plotType) {
+	public void setSliceType(@SuppressWarnings("rawtypes") Enum plotType) {
 		this.sliceType = plotType;
 		setSliceTypeInfo(null, null);
 		checkToolDimenionsOk();
@@ -452,7 +452,7 @@ public abstract class AbstractSliceSystem implements ISliceSystem {
 	protected void checkToolDimenionsOk() {
 		
 		final int rank = getData().getLazySet().getRank();
-        for (Enum type : plotTypeActions.keySet()) {
+        for (Enum<?> type : plotTypeActions.keySet()) {
         	
         	int dims = getDimensions(type);
         	
@@ -477,21 +477,22 @@ public abstract class AbstractSliceSystem implements ISliceSystem {
 		sliceToolbar.update(true);
 		
 		if (plotTypeActions!=null) {
-			if (sliceActionEnabledMap==null) sliceActionEnabledMap = new HashMap<Enum, Boolean>();
-			for (Enum type : plotTypeActions.keySet()) sliceActionEnabledMap.put(type, false);
+			if (sliceActionEnabledMap==null) sliceActionEnabledMap = new HashMap<Enum<?>, Boolean>();
+			for (Enum<?> type : plotTypeActions.keySet()) sliceActionEnabledMap.put(type, false);
 		}
 
 	}
 	
-	private Map<Enum, Boolean> sliceActionEnabledMap;
+	private Map<Enum<?>, Boolean> sliceActionEnabledMap;
 	/**
 	 * Throws an NPE if the action is not there.
 	 */
-	public void setSliceActionEnabled(Enum type, boolean enabled) {
+	@Override
+	public void setSliceActionEnabled(@SuppressWarnings("rawtypes") Enum type, boolean enabled) {
 		final IAction action = getActionByPlotType(type);
 		action.setEnabled(enabled);
 		if (sliceToolbar!=null) sliceToolbar.update(true);
-		if (sliceActionEnabledMap==null) sliceActionEnabledMap = new HashMap<Enum, Boolean>();
+		if (sliceActionEnabledMap==null) sliceActionEnabledMap = new HashMap<Enum<?>, Boolean>();
 		sliceActionEnabledMap.put(type, enabled);
 	}
 

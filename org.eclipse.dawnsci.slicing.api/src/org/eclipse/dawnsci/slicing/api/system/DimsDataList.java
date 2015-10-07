@@ -338,7 +338,7 @@ public class DimsDataList implements Serializable {
 	
 	private final boolean processAxis(AxisType axis, AxisType... ignoredAxes) {
 		
-		final List ignored = asList(ignoredAxes);
+		final List<Object> ignored = asList(ignoredAxes);
 		for (DimsData dd : iterable()) {
 			if (!dd.getPlotAxis().hasValue() && !ignored.contains(dd.getPlotAxis())) {
 			    dd.setPlotAxis(axis);
@@ -358,7 +358,7 @@ public class DimsDataList implements Serializable {
 	
 	/**
 	 * Convert a primitive array to a list.
-	 * @param array - an array of peimitives
+	 * @param array - an array of primitives
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")

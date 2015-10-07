@@ -330,7 +330,7 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractOperation other = (AbstractOperation) obj;
+		AbstractOperation<?, ?> other = (AbstractOperation<?, ?>) obj;
 		if (description == null) {
 			if (other.description != null)
 				return false;

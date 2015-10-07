@@ -245,7 +245,7 @@ public abstract class AbstractOperationModel implements IOperationModel {
 								// See if there will different signature
 								for (Method m : methods) {
 									if (m.getName().equals(setterName) && m.getParameterTypes().length==1) {
-										Class clazz = m.getParameterTypes()[0];
+										Class<?> clazz = m.getParameterTypes()[0];
 										if (clazz.isAssignableFrom(value.getClass())) {
 											set = m;
 											break;
@@ -345,7 +345,7 @@ public abstract class AbstractOperationModel implements IOperationModel {
         	return Arrays.toString((Object[])value);
         
         } else if (value instanceof Enum) {
-        	return "'"+((Enum)value).name()+"'";
+        	return "'"+((Enum<?>)value).name()+"'";
         	
         } 
 

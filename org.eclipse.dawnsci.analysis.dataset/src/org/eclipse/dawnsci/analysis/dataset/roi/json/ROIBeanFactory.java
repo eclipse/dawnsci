@@ -224,7 +224,7 @@ public class ROIBeanFactory {
 	public static IROI decapsulate(Object object) throws Exception {
 		
 		final ROIBean bean = (ROIBean)object;
-		final Class beanClass = bean.getClass();
+		final Class<? extends ROIBean> beanClass = bean.getClass();
 		
 		if (beanClass == PointROIBean.class){
 			PointROI proi = new PointROI();

@@ -13,8 +13,6 @@ public class AbstractNxApplicationDefinitionFactory implements
 		NxApplicationDefinitionFactory {
 	
 	private Map<String, String> linkPaths = new HashMap<>();
-	
-	private Map<String, Node> linkNodes = new HashMap<>();
 
 	@Override
 	public void addLink(String fromPath, String toPath) {

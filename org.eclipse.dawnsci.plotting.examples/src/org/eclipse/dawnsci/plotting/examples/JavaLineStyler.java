@@ -36,7 +36,7 @@ class JavaLineStyler implements LineStyleListener {
 
   Color[] colors;
 
-  Vector blockComments = new Vector();
+  Vector<int[]> blockComments = new Vector<int[]>();
 
   public static final int EOF = -1;
 
@@ -114,19 +114,19 @@ class JavaLineStyler implements LineStyleListener {
    * (output) LineStyleEvent.background line background color (output)
    */
   public void lineGetStyle(LineStyleEvent event) {
-    Vector styles = new Vector();
-    int token;
-    StyleRange lastStyle;
     // If the line is part of a block comment, create one style for the
     // entire line.
     if (inBlockComment(event.lineOffset, event.lineOffset
         + event.lineText.length())) {
-      styles.addElement(new StyleRange(event.lineOffset, event.lineText
-          .length(), getColor(COMMENT), null));
-      event.styles = new StyleRange[styles.size()];
-      styles.copyInto(event.styles);
+      event.styles = new StyleRange[1];
+      event.styles[0] = new StyleRange(event.lineOffset, 
+    		  event.lineText.length(), getColor(COMMENT), null);
       return;
     }
+
+    Vector<StyleRange> styles = new Vector<StyleRange>();
+    int token;
+    StyleRange lastStyle;
     Color defaultFgColor = ((Control) event.widget).getForeground();
     scanner.setRange(event.lineText);
     token = scanner.nextToken();
@@ -137,8 +137,7 @@ class JavaLineStyler implements LineStyleListener {
         Color color = getColor(token);
         // Only create a style if the token color is different than the
         // widget's default foreground color and the token's style is
-        // not
-        // bold. Keywords are bolded.
+        // not bold. Keywords are bolded.
         if ((!color.equals(defaultFgColor)) || (token == KEY)) {
           StyleRange style = new StyleRange(scanner.getStartOffset()
               + event.lineOffset, scanner.getLength(), color,
@@ -180,7 +179,7 @@ class JavaLineStyler implements LineStyleListener {
   }
 
   public void parseBlockComments(String text) {
-    blockComments = new Vector();
+    blockComments = new Vector<int[]>();
     StringReader buffer = new StringReader(text);
     int ch;
     boolean blkComment = false;
@@ -241,7 +240,7 @@ class JavaLineStyler implements LineStyleListener {
    */
   public class JavaScanner {
 
-    protected Hashtable fgKeys = null;
+    protected Hashtable<String, Integer> fgKeys = null;
 
     protected StringBuffer fBuffer = new StringBuffer();
 
@@ -279,7 +278,7 @@ class JavaLineStyler implements LineStyleListener {
      * Initialize the lookup table.
      */
     void initialize() {
-      fgKeys = new Hashtable();
+      fgKeys = new Hashtable<String, Integer>();
       Integer k = new Integer(KEY);
       for (int i = 0; i < fgKeywords.length; i++)
         fgKeys.put(fgKeywords[i], k);
@@ -316,8 +315,8 @@ class JavaLineStyler implements LineStyleListener {
             unread(c);
           }
           return OTHER;
-        case '\'': // char const
-          character: for (;;) {
+        case '\'': // char const, character
+          for (;;) {
             c = read();
             switch (c) {
             case '\'':
@@ -332,7 +331,7 @@ class JavaLineStyler implements LineStyleListener {
           }
 
         case '"': // string
-          string: for (;;) {
+          for (;;) {
             c = read();
             switch (c) {
             case '"':

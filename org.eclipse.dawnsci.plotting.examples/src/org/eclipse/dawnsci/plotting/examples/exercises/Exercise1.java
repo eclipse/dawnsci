@@ -145,7 +145,7 @@ public class Exercise1 extends ViewPart { // Yes I know inheritance is bad and i
 	}
 	
 	@Override
-	public Object getAdapter(Class clazz) {
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class clazz) {
 		if (system.getAdapter(clazz)!=null) return system.getAdapter(clazz);
 		return super.getAdapter(clazz);
 	}
