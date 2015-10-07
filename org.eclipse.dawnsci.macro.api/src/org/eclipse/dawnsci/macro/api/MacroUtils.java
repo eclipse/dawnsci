@@ -83,7 +83,7 @@ public class MacroUtils {
         	return Arrays.toString((Object[])value);
         	
         } else if (value instanceof Enum) {
-        	return "'"+((Enum)value).name()+"'";
+        	return "'"+((Enum<?>)value).name()+"'";
         }
         
         return value.toString();

@@ -26,11 +26,12 @@ public abstract class AbstractMacroGenerator<T> {
 	 */
 	public MacroEventObject generate(MacroEventObject evt) {
 		
-        final Object source = evt.getSource();        
-        String cmd = getPythonCommand((T)source);
+        @SuppressWarnings("unchecked")
+	final T source = (T) evt.getSource();
+        String cmd = getPythonCommand(source);
         if (cmd!=null) evt.setPythonCommand(cmd);
         
-        cmd = getJythonCommand((T)source);
+        cmd = getJythonCommand(source);
         if (cmd!=null) evt.setJythonCommand(cmd);
        
         return evt;

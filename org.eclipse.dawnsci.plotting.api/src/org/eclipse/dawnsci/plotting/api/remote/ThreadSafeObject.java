@@ -67,7 +67,7 @@ class ThreadSafeObject {
 						METHOD_LOOP: for (Method m : delegate.getClass().getMethods()) {
 							if (m.getName().equals(methodName) && m.getParameterTypes().length==classes.length) {
 								for (int i = 0; i < m.getParameterTypes().length; i++) {
-									Class type = m.getParameterTypes()[i];
+									Class<?> type = m.getParameterTypes()[i];
 									if (!type.isAssignableFrom(classes[i])) {
 										
 										if (type.isPrimitive()) {

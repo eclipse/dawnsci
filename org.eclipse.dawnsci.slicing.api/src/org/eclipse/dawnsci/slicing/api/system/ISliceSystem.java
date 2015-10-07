@@ -173,6 +173,7 @@ public interface ISliceSystem {
 	 * @param xy
 	 * @param b
 	 */
+	@SuppressWarnings("rawtypes")
 	public void setSliceActionEnabled(Enum sliceType, boolean b);
 
 	/**
@@ -252,12 +253,14 @@ public interface ISliceSystem {
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public Enum getSliceType();
 
 	/**
 	 * Normally one of the PlotType enums
 	 * @param plotType
 	 */
+	@SuppressWarnings("rawtypes")
 	public void setSliceType(Enum type);
 	
 	/**

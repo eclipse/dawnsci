@@ -64,7 +64,7 @@ public interface ISlicingTool extends IAdaptable {
 	 * @return the plot type which will be some kind of enum but 
 	 *         can be a custom defined one.
 	 */
-	public Enum getSliceType();
+	public Enum<?> getSliceType();
 	
 	/**
 	 * The id of this tool as set in the extension point

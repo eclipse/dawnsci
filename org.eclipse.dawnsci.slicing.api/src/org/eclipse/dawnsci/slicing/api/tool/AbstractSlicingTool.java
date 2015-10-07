@@ -82,6 +82,7 @@ public abstract class AbstractSlicingTool implements ISlicingTool {
 		
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class clazz) {
         return null;
