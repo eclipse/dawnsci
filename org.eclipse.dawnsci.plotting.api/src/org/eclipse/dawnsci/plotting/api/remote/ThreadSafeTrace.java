@@ -22,7 +22,6 @@ import org.eclipse.dawnsci.plotting.api.histogram.HistogramBound;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.HistoType;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.ImageOrigin;
-import org.eclipse.dawnsci.plotting.api.trace.ICompositeTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IDownSampleListener;
 import org.eclipse.dawnsci.plotting.api.trace.IImageStackTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
@@ -47,7 +46,6 @@ import org.eclipse.swt.graphics.PaletteData;
 class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
                                                           ILineTrace,
                                                           IImageTrace,
-                                                          ICompositeTrace,
                                                           IVectorTrace,
                                                           ISurfaceTrace,
                                                           IIsosurfaceTrace,
@@ -710,16 +708,6 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public int getAlpha() {
 		return (Integer)call(getMethodName(Thread.currentThread().getStackTrace()));
-	}
-
-	@Override
-	public void add(ITrace trace, int index) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), trace, index);
-	}
-
-	@Override
-	public void removeImage(String name) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), name);
 	}
 
 	@Override
