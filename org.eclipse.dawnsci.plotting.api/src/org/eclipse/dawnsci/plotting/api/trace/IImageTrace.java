@@ -228,4 +228,6 @@ public interface IImageTrace extends IPaletteTrace, IDownsampledTrace, ICoordina
 	 * A value of -1 is the default and means that no CPU is used for alpha.
 	 */
 	public int getAlpha();
+	
+	public void setGlobalRange(double[] globalRange);
 }

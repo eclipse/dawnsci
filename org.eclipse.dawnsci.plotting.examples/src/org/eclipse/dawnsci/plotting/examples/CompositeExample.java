@@ -63,12 +63,17 @@ public class CompositeExample extends PlotExample {
 			((Dataset)mapy).isubtract(20);
 
 			//Make the composite trace to hold all the images
-			ICompositeTrace comp = system.createCompositeTrace("composite1");
 			IImageTrace     back = system.createImageTrace(getFileName());
 
+			double[] globalRange = new double[4];
+			globalRange[0] =microx.min().doubleValue();
+			globalRange[1] =microx.max().doubleValue();
+			globalRange[2] =microy.min().doubleValue();
+			globalRange[3] =microy.max().doubleValue();
+			
 			//Set RGB as background
 			back.setData(microrgb, Arrays.asList(microx,((Dataset)microy)), false);
-			comp.add(back, 0);
+			back.setGlobalRange(globalRange);
 
 			//Make a low resolution image by slicing out every other point
 			IDataset lowMap = map.getSlice(null,null,new int[]{2,2});
@@ -77,7 +82,7 @@ public class CompositeExample extends PlotExample {
 			IImageTrace    mid = system.createImageTrace("mid");
 			mid.setData(lowMap, Arrays.asList(((Dataset)lowx),((Dataset)lowy)), false);
 			mid.setAlpha(90);
-			comp.add(mid,1);
+			mid.setGlobalRange(globalRange);
 			
 			//Make a partial high resolution area of the map by taking one 64*64 block
 			IDataset highMap = map.getSlice(new int[]{64,0},new int[]{128,64} ,null);
@@ -86,10 +91,12 @@ public class CompositeExample extends PlotExample {
 			IImageTrace    top = system.createImageTrace("top");
 			top.setData(highMap, Arrays.asList(highx,highy), false);
 			top.setAlpha(150);
+			top.setGlobalRange(globalRange);
 			
-			comp.add(top, 2);
-
-			system.addTrace(comp);
+			system.addTrace(back);
+			system.addTrace(mid);
+			system.addTrace(top);			
+			system.autoscaleAxes();
 			
 			
 		} catch (Throwable ne) {

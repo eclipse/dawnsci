@@ -722,4 +722,10 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 		call(getMethodName(Thread.currentThread().getStackTrace()), name);
 	}
 
+	@Override
+	public void setGlobalRange(double[] globalRange) {
+		call(getMethodName(Thread.currentThread().getStackTrace()), globalRange);
+		
+	}
+
 }
