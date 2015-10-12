@@ -643,6 +643,18 @@ public interface IPlottingSystemViewer extends IAxisSystem, IRegionSystem, IAnno
 			// TODO Auto-generated method stub
 			
 		}
+
+		@Override
+		public boolean isGridSnap() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public void setGridSnap(boolean isGridSnap) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 	}
 
