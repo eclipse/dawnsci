@@ -16,6 +16,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.vecmath.Matrix3d;
+
 import org.eclipse.dawnsci.analysis.api.diffraction.DiffractionCrystalEnvironmentEvent.EventType;
 
 /**
@@ -34,6 +36,7 @@ public class DiffractionCrystalEnvironment implements Serializable, Cloneable {
 	private double exposureTime; // in seconds
 	private double oscGap;       // in degrees
 	private boolean fire = true;
+	private Matrix3d orientation;
 
 	// TODO move controller away from model?
 	private transient Set<IDiffractionCrystalEnvironmentListener> diffCrystEnvListeners; 
@@ -234,11 +237,28 @@ public class DiffractionCrystalEnvironment implements Serializable, Cloneable {
 		this.oscGap = oscGap;
 	}
 
+	/**
+	 * Set the orientation of the crystal
+	 * @param orientation
+	 */
+	public void setOrientation(Matrix3d orientation) {
+		this.orientation = orientation;
+	}
+
+	/**
+	 * Get the orientation of the crystal
+	 * @return orientation
+	 */
+	public Matrix3d getOrientation() {
+		return orientation;
+	}
+
 	public void addDiffractionCrystalEnvironmentListener(IDiffractionCrystalEnvironmentListener l) {
 		if (diffCrystEnvListeners==null) 
 			diffCrystEnvListeners = new HashSet<IDiffractionCrystalEnvironmentListener>(5);
 		diffCrystEnvListeners.add(l);
 	}
+
 	/**
 	 * Call from dispose of part listening to diffraction crystal environment changing
 	 * @param l
