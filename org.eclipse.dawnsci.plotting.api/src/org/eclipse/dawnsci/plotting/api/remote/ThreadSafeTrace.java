@@ -716,4 +716,9 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 		
 	}
 
+	@Override
+	public boolean hasTrueAxes() {
+		return (boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
+	}
+
 }
