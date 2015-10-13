@@ -19,13 +19,9 @@ import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
  * There is also a facility to create a DynamicDataset directly. In this case a connection is
  * made to an MJPG stream at a given URL.
  * 
- */
-public interface IRemoteDatasetService {
-
-	/**
-		<usage><code>
+ * 		<usage><code>
 		final IRemoteDatasetService service = ...
-		final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);<br>
+		final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);
 		data.setPath(h5File.getAbsolutePath());
 		data.setDataset("image"); // We just get the first image in the PNG file.
 		data.connect();
@@ -36,6 +32,12 @@ public interface IRemoteDatasetService {
 		    data.disconnect();
 		}
 		</code></usage>
+ * 
+ */
+public interface IRemoteDatasetService {
+
+	/**
+     * 
 	 * @param serverName
 	 * @param port
 	 * @return dataset
