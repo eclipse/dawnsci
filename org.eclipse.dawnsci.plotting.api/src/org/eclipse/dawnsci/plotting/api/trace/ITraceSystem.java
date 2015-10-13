@@ -31,14 +31,6 @@ public interface ITraceSystem {
 	 */
 	public IImageTrace createImageTrace(String traceName);
 	
-	/**
-	 * Creates a line trace used for 1D plotting. This does not add the trace
-	 * or give it any data.
-	 * 
-	 * @param traceName
-	 * @return
-	 */
-	public ICompositeTrace createCompositeTrace(String traceName);
 
 	/**
 	 * Creates a line trace used for 1D plotting. This does not add the trace

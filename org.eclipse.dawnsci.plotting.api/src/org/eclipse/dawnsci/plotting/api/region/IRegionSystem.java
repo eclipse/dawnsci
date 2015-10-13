@@ -102,4 +102,5 @@ public interface IRegionSystem {
 	 * collection of regions is updated properly. No event will be fired.
 	 */
 	public void renameRegion(IRegion region, String name);
+
 }

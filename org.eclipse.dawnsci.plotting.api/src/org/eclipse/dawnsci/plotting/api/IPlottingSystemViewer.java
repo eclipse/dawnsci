@@ -643,9 +643,5 @@ public interface IPlottingSystemViewer extends IAxisSystem, IRegionSystem, IAnno
 			// TODO Auto-generated method stub
 			
 		}
-		
 	}
-
-
-
 }

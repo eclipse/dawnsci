@@ -41,6 +41,11 @@ public class BasePlottingConstants {
 	public static final String ASPECT = "org.dawb.plotting.system.aspectRatio";
 
 	/**
+	 * true when the selection figures of the plotting system should snap to grid, otherwise it won't.
+	 */
+	public static final String SNAP_TO_GRID = "org.dawnsci.plotting.system.snapToGrid";
+
+	/**
 	 * true when zooming should rehistogram, also rehistograms when pressed.
 	 */
 	public static final String HISTO = "org.dawb.plotting.system.rehistogram";

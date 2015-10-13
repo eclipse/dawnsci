@@ -404,4 +404,9 @@ public interface IRegion {
 	 *         set to false by default
 	 */
 	public void setFromServer(boolean isFromServer);
+
+	/**
+	 * Snaps the region to Grid (Pixel values)
+	 */
+	public void snapToGrid();
 }
