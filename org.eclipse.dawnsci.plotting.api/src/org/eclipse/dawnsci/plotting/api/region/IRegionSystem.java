@@ -103,17 +103,4 @@ public interface IRegionSystem {
 	 */
 	public void renameRegion(IRegion region, String name);
 
-	/**
-	 * 
-	 * @return true if regions/selections are snapped to grid
-	 */
-	public boolean isGridSnap();
-
-	/**
-	 * Sets the snap to grid option on regions/selections
-	 * 
-	 * @param isGridSnap
-	 */
-	public void setGridSnap(boolean isGridSnap);
-
 }

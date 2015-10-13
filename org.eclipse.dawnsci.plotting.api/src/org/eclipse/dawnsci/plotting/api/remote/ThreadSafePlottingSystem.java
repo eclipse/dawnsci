@@ -631,15 +631,4 @@ public class ThreadSafePlottingSystem extends ThreadSafeObject implements IPlott
 	public void moveTrace(String oldName, String name) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), oldName, name);
 	}
-
-	@Override
-	public boolean isGridSnap() {
-		return (Boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
-	}
-
-	@Override
-	public void setGridSnap(boolean isGridSnap) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), new Class[] { boolean.class }, isGridSnap);
-	}
-
 }
