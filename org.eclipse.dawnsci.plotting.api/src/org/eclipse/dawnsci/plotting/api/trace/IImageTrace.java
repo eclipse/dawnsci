@@ -229,5 +229,20 @@ public interface IImageTrace extends IPaletteTrace, IDownsampledTrace, ICoordina
 	 */
 	public int getAlpha();
 	
+	/**
+	 * Set a global axis range associated with the image.
+	 * This parameter is used to mark an image trace as part of a collection which will be plotted
+	 * on true linear axes (in the same style as XY data), potentially with multiple other traces
+	 * @param alpha
+	 */
 	public void setGlobalRange(double[] globalRange);
+	
+	/**
+	 * If true the image is plotted against a true linear axis rather than indicies.
+	 * Only true if a global range is set.
+	 * 
+	 * @return trueAxes
+	 */
+	public boolean hasTrueAxes();
+	
 }
