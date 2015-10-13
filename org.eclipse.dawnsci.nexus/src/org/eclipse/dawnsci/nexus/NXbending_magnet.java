@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * description for a bending magnet
@@ -31,7 +32,17 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCritical_energy();
+	public IDataset getCritical_energy();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ENERGY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarCritical_energy();
 
 	/**
 	 * <p>
@@ -41,7 +52,17 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getBending_radius();
+	public IDataset getBending_radius();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarBending_radius();
 
 	/**
 	 * strength of magnetic field of dipole magnets
@@ -52,7 +73,18 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getMagnetic_field();
+	public IDataset getMagnetic_field();	
+
+	/**
+	 * strength of magnetic field of dipole magnets
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_CURRENT
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarMagnetic_field();
 
 	/**
 	 * An array of four numbers giving X+, X-, Y+ and Y- half divergence
@@ -63,7 +95,18 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAccepted_photon_beam_divergence();
+	public IDataset getAccepted_photon_beam_divergence();	
+
+	/**
+	 * An array of four numbers giving X+, X-, Y+ and Y- half divergence
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarAccepted_photon_beam_divergence();
 
 	/**
 	 * Distance of source point from particle beam waist in X (horizontal) direction.
@@ -74,7 +117,18 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSource_distance_x();
+	public IDataset getSource_distance_x();	
+
+	/**
+	 * Distance of source point from particle beam waist in X (horizontal) direction.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSource_distance_x();
 
 	/**
 	 * Distance of source point from particle beam waist in Y (vertical) direction.
@@ -85,7 +139,18 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSource_distance_y();
+	public IDataset getSource_distance_y();	
+
+	/**
+	 * Distance of source point from particle beam waist in Y (vertical) direction.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSource_distance_y();
 
 	/**
 	 * Accepted photon beam divergence in X+ (horizontal outboard) direction.
@@ -97,7 +162,19 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDivergence_x_plus();
+	public IDataset getDivergence_x_plus();	
+
+	/**
+	 * Accepted photon beam divergence in X+ (horizontal outboard) direction.
+	 * Note that divergence_x_plus+divergence_x_minus is the total horizontal beam divergence.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDivergence_x_plus();
 
 	/**
 	 * Accepted photon beam divergence in X- (horizontal inboard) direction.
@@ -109,7 +186,19 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDivergence_x_minus();
+	public IDataset getDivergence_x_minus();	
+
+	/**
+	 * Accepted photon beam divergence in X- (horizontal inboard) direction.
+	 * Note that divergence_x_plus+divergence_x_minus is the total horizontal beam divergence.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDivergence_x_minus();
 
 	/**
 	 * Accepted photon beam divergence in Y+ (vertical upward) direction.
@@ -121,7 +210,19 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDivergence_y_plus();
+	public IDataset getDivergence_y_plus();	
+
+	/**
+	 * Accepted photon beam divergence in Y+ (vertical upward) direction.
+	 * Note that divergence_y_plus+divergence_y_minus is the total vertical beam divergence.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDivergence_y_plus();
 
 	/**
 	 * Accepted photon beam divergence in Y- (vertical downward) direction.
@@ -133,21 +234,33 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDivergence_y_minus();
+	public IDataset getDivergence_y_minus();	
+
+	/**
+	 * Accepted photon beam divergence in Y- (vertical downward) direction.
+	 * Note that divergence_y_plus+divergence_y_minus is the total vertical beam divergence.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDivergence_y_minus();
 
 	/**
 	 * bending magnet spectrum
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getSpectrum();
+	public NXdata getSpectrum();	
 
 	/**
 	 * "Engineering" position of bending magnet
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();
+	public NXgeometry getGeometry();	
   
 	/**
 	 * Get a NXgeometry node by name:

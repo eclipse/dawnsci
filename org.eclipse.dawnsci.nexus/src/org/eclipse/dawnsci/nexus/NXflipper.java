@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of a beamline spin flipper.
@@ -30,7 +31,18 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();
+	public IDataset getType();	
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>coil</b> </li>
+	 * <li><b>current-sheet</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarType();
 
 	/**
 	 * Linear density of turns (such as number of turns/cm) in flipping field coils
@@ -41,7 +53,18 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFlip_turns();
+	public IDataset getFlip_turns();	
+
+	/**
+	 * Linear density of turns (such as number of turns/cm) in flipping field coils
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_PER_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarFlip_turns();
 
 	/**
 	 * Linear density of turns (such as number of turns/cm) in compensating field coils
@@ -52,7 +75,18 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getComp_turns();
+	public IDataset getComp_turns();	
+
+	/**
+	 * Linear density of turns (such as number of turns/cm) in compensating field coils
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_PER_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarComp_turns();
 
 	/**
 	 * Linear density of turns (such as number of turns/cm) in guide field coils
@@ -63,7 +97,18 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getGuide_turns();
+	public IDataset getGuide_turns();	
+
+	/**
+	 * Linear density of turns (such as number of turns/cm) in guide field coils
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_PER_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarGuide_turns();
 
 	/**
 	 * Flipping field coil current in "on" state"
@@ -74,7 +119,18 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFlip_current();
+	public IDataset getFlip_current();	
+
+	/**
+	 * Flipping field coil current in "on" state"
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_CURRENT
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarFlip_current();
 
 	/**
 	 * Compensating field coil current in "on" state"
@@ -85,7 +141,18 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getComp_current();
+	public IDataset getComp_current();	
+
+	/**
+	 * Compensating field coil current in "on" state"
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_CURRENT
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarComp_current();
 
 	/**
 	 * Guide field coil current in "on" state"
@@ -96,7 +163,18 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getGuide_current();
+	public IDataset getGuide_current();	
+
+	/**
+	 * Guide field coil current in "on" state"
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_CURRENT
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarGuide_current();
 
 	/**
 	 * thickness along path of neutron travel
@@ -107,6 +185,17 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getThickness();
+	public IDataset getThickness();	
+
+	/**
+	 * thickness along path of neutron travel
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarThickness();
 
 }

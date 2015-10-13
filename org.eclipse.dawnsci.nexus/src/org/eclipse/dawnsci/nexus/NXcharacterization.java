@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Note: This base class may be removed in future releases of NXDL.
@@ -29,37 +30,43 @@ public interface NXcharacterization extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeSource();
+	public String getAttributeSource();	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeLocation();
+	public String getAttributeLocation();	
 
 	/**
 	 * If missing, the source file is NAPI readable
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeMime_type();
+	public String getAttributeMime_type();	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDefinition();
+	public IDataset getDefinition();	
+
+	/**
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarDefinition();
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public String getDefinitionAttributeVersion();
+	public String getDefinitionAttributeVersion();	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public String getDefinitionAttributeURL();
+	public String getDefinitionAttributeURL();	
 
 }

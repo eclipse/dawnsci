@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of instrument descriptions comprising various beamline components.
@@ -33,20 +34,27 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getName();
+	public IDataset getName();	
+
+	/**
+	 * Name of instrument
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarName();
 
 	/**
 	 * short name for instrument, perhaps the acronym
 	 * 
 	 * @return  the value.
 	 */
-	public String getNameAttributeShort_name();
+	public String getNameAttributeShort_name();	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXaperture getAperture();
+	public NXaperture getAperture();	
   
 	/**
 	 * Get a NXaperture node by name:
@@ -73,7 +81,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXattenuator getAttenuator();
+	public NXattenuator getAttenuator();	
   
 	/**
 	 * Get a NXattenuator node by name:
@@ -100,7 +108,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXbeam getBeam();
+	public NXbeam getBeam();	
   
 	/**
 	 * Get a NXbeam node by name:
@@ -127,7 +135,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXbeam_stop getBeam_stop();
+	public NXbeam_stop getBeam_stop();	
   
 	/**
 	 * Get a NXbeam_stop node by name:
@@ -154,7 +162,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXbending_magnet getBending_magnet();
+	public NXbending_magnet getBending_magnet();	
   
 	/**
 	 * Get a NXbending_magnet node by name:
@@ -181,7 +189,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXcollimator getCollimator();
+	public NXcollimator getCollimator();	
   
 	/**
 	 * Get a NXcollimator node by name:
@@ -208,7 +216,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXcollection getCollection();
+	public NXcollection getCollection();	
   
 	/**
 	 * Get a NXcollection node by name:
@@ -235,7 +243,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXcapillary getCapillary();
+	public NXcapillary getCapillary();	
   
 	/**
 	 * Get a NXcapillary node by name:
@@ -262,7 +270,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXcrystal getCrystal();
+	public NXcrystal getCrystal();	
   
 	/**
 	 * Get a NXcrystal node by name:
@@ -289,7 +297,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXdetector getDetector();
+	public NXdetector getDetector();	
   
 	/**
 	 * Get a NXdetector node by name:
@@ -316,7 +324,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXdetector_group getDetector_group();
+	public NXdetector_group getDetector_group();	
   
 	/**
 	 * Get a NXdetector_group node by name:
@@ -343,7 +351,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXdisk_chopper getDisk_chopper();
+	public NXdisk_chopper getDisk_chopper();	
   
 	/**
 	 * Get a NXdisk_chopper node by name:
@@ -370,7 +378,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXevent_data getEvent_data();
+	public NXevent_data getEvent_data();	
   
 	/**
 	 * Get a NXevent_data node by name:
@@ -397,7 +405,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXfermi_chopper getFermi_chopper();
+	public NXfermi_chopper getFermi_chopper();	
   
 	/**
 	 * Get a NXfermi_chopper node by name:
@@ -424,7 +432,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXfilter getFilter();
+	public NXfilter getFilter();	
   
 	/**
 	 * Get a NXfilter node by name:
@@ -451,7 +459,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXflipper getFlipper();
+	public NXflipper getFlipper();	
   
 	/**
 	 * Get a NXflipper node by name:
@@ -478,7 +486,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXguide getGuide();
+	public NXguide getGuide();	
   
 	/**
 	 * Get a NXguide node by name:
@@ -505,7 +513,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXinsertion_device getInsertion_device();
+	public NXinsertion_device getInsertion_device();	
   
 	/**
 	 * Get a NXinsertion_device node by name:
@@ -532,7 +540,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXmirror getMirror();
+	public NXmirror getMirror();	
   
 	/**
 	 * Get a NXmirror node by name:
@@ -559,7 +567,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXmoderator getModerator();
+	public NXmoderator getModerator();	
   
 	/**
 	 * Get a NXmoderator node by name:
@@ -586,7 +594,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXmonochromator getMonochromator();
+	public NXmonochromator getMonochromator();	
   
 	/**
 	 * Get a NXmonochromator node by name:
@@ -613,7 +621,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXpolarizer getPolarizer();
+	public NXpolarizer getPolarizer();	
   
 	/**
 	 * Get a NXpolarizer node by name:
@@ -640,7 +648,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXpositioner getPositioner();
+	public NXpositioner getPositioner();	
   
 	/**
 	 * Get a NXpositioner node by name:
@@ -667,7 +675,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXsource getSource();
+	public NXsource getSource();	
   
 	/**
 	 * Get a NXsource node by name:
@@ -694,7 +702,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXvelocity_selector getVelocity_selector();
+	public NXvelocity_selector getVelocity_selector();	
   
 	/**
 	 * Get a NXvelocity_selector node by name:
@@ -721,7 +729,7 @@ public interface NXinstrument extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXxraylens getXraylens();
+	public NXxraylens getXraylens();	
   
 	/**
 	 * Get a NXxraylens node by name:

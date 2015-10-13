@@ -7,12 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+
 import org.eclipse.dawnsci.nexus.*;
 
 /**
@@ -36,10 +38,14 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 	public static final String NX_EMAIL = "email";
 	public static final String NX_FACILITY_USER_ID = "facility_user_id";
 
-	protected NXuserImpl(long oid) {
-		super(oid);
+	protected NXuserImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXuserImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXuser.class;
@@ -55,8 +61,17 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getDataset(NX_NAME);
 	}
 
+	@Override
+	public String getScalarName() {
+		return getString(NX_NAME);
+	}
+
 	public void setName(IDataset name) {
 		setDataset(NX_NAME, name);
+	}
+
+	public void setScalarName(String name) {
+		setString(NX_NAME, name);
 	}
 
 	@Override
@@ -64,8 +79,17 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getDataset(NX_ROLE);
 	}
 
+	@Override
+	public String getScalarRole() {
+		return getString(NX_ROLE);
+	}
+
 	public void setRole(IDataset role) {
 		setDataset(NX_ROLE, role);
+	}
+
+	public void setScalarRole(String role) {
+		setString(NX_ROLE, role);
 	}
 
 	@Override
@@ -73,8 +97,17 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getDataset(NX_AFFILIATION);
 	}
 
+	@Override
+	public String getScalarAffiliation() {
+		return getString(NX_AFFILIATION);
+	}
+
 	public void setAffiliation(IDataset affiliation) {
 		setDataset(NX_AFFILIATION, affiliation);
+	}
+
+	public void setScalarAffiliation(String affiliation) {
+		setString(NX_AFFILIATION, affiliation);
 	}
 
 	@Override
@@ -82,8 +115,17 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getDataset(NX_ADDRESS);
 	}
 
+	@Override
+	public String getScalarAddress() {
+		return getString(NX_ADDRESS);
+	}
+
 	public void setAddress(IDataset address) {
 		setDataset(NX_ADDRESS, address);
+	}
+
+	public void setScalarAddress(String address) {
+		setString(NX_ADDRESS, address);
 	}
 
 	@Override
@@ -91,8 +133,17 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getDataset(NX_TELEPHONE_NUMBER);
 	}
 
+	@Override
+	public String getScalarTelephone_number() {
+		return getString(NX_TELEPHONE_NUMBER);
+	}
+
 	public void setTelephone_number(IDataset telephone_number) {
 		setDataset(NX_TELEPHONE_NUMBER, telephone_number);
+	}
+
+	public void setScalarTelephone_number(String telephone_number) {
+		setString(NX_TELEPHONE_NUMBER, telephone_number);
 	}
 
 	@Override
@@ -100,8 +151,17 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getDataset(NX_FAX_NUMBER);
 	}
 
+	@Override
+	public String getScalarFax_number() {
+		return getString(NX_FAX_NUMBER);
+	}
+
 	public void setFax_number(IDataset fax_number) {
 		setDataset(NX_FAX_NUMBER, fax_number);
+	}
+
+	public void setScalarFax_number(String fax_number) {
+		setString(NX_FAX_NUMBER, fax_number);
 	}
 
 	@Override
@@ -109,8 +169,17 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getDataset(NX_EMAIL);
 	}
 
+	@Override
+	public String getScalarEmail() {
+		return getString(NX_EMAIL);
+	}
+
 	public void setEmail(IDataset email) {
 		setDataset(NX_EMAIL, email);
+	}
+
+	public void setScalarEmail(String email) {
+		setString(NX_EMAIL, email);
 	}
 
 	@Override
@@ -118,8 +187,17 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getDataset(NX_FACILITY_USER_ID);
 	}
 
+	@Override
+	public String getScalarFacility_user_id() {
+		return getString(NX_FACILITY_USER_ID);
+	}
+
 	public void setFacility_user_id(IDataset facility_user_id) {
 		setDataset(NX_FACILITY_USER_ID, facility_user_id);
+	}
+
+	public void setScalarFacility_user_id(String facility_user_id) {
+		setString(NX_FACILITY_USER_ID, facility_user_id);
 	}
 
 }

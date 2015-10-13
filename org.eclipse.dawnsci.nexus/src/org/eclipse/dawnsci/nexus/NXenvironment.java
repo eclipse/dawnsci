@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * This class describes an external condition applied to the sample
@@ -28,49 +29,84 @@ public interface NXenvironment extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getName();
+	public IDataset getName();	
+
+	/**
+	 * Apparatus identification code/model number; e.g. OC100 011
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarName();
 
 	/**
 	 * Alternative short name, perhaps for dashboard display like a present Seblock name
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getShort_name();
+	public IDataset getShort_name();	
+
+	/**
+	 * Alternative short name, perhaps for dashboard display like a present Seblock name
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarShort_name();
 
 	/**
 	 * Type of apparatus. This could be the SE codes in scheduling database; e.g. OC/100
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();
+	public IDataset getType();	
+
+	/**
+	 * Type of apparatus. This could be the SE codes in scheduling database; e.g. OC/100
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarType();
 
 	/**
 	 * Description of the apparatus; e.g. 100mm bore orange cryostat with Roots pump
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDescription();
+	public IDataset getDescription();	
+
+	/**
+	 * Description of the apparatus; e.g. 100mm bore orange cryostat with Roots pump
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarDescription();
 
 	/**
 	 * Program controlling the apparatus; e.g. LabView VI name
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getProgram();
+	public IDataset getProgram();	
+
+	/**
+	 * Program controlling the apparatus; e.g. LabView VI name
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarProgram();
 
 	/**
 	 * The position and orientation of the apparatus
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getPosition();
+	public NXgeometry getPosition();	
 
 	/**
 	 * Additional information, LabView logs, digital photographs, etc
 	 * 
 	 * @return  the value.
 	 */
-	public NXnote getNote();
+	public NXnote getNote();	
   
 	/**
 	 * Get a NXnote node by name:
@@ -99,7 +135,7 @@ public interface NXenvironment extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXsensor getSensor();
+	public NXsensor getSensor();	
   
 	/**
 	 * Get a NXsensor node by name:

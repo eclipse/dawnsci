@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Description for a diffraction grating, as could be used in a soft X-ray monochromator
@@ -33,7 +34,19 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAngles();
+	public IDataset getAngles();	
+
+	/**
+	 * Blaze or trapezoidal angles, with the angle of the upstream facing edge listed first. Blazed gratings can be identified by the low value of the first-listed angle.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * <b>Dimensions:</b> 1: 2;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarAngles();
 
 	/**
 	 * List of polynomial coefficients describing the spatial separation of lines/grooves as a function of position along the grating, in increasing powers of position. Gratings which do not have variable line spacing will only have a single coefficient (constant).
@@ -45,7 +58,19 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPeriod();
+	public IDataset getPeriod();	
+
+	/**
+	 * List of polynomial coefficients describing the spatial separation of lines/grooves as a function of position along the grating, in increasing powers of position. Gratings which do not have variable line spacing will only have a single coefficient (constant).
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarPeriod();
 
 	/**
 	 * <p>
@@ -55,7 +80,17 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDuty_cycle();
+	public IDataset getDuty_cycle();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_UNITLESS
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDuty_cycle();
 
 	/**
 	 * <p>
@@ -65,7 +100,17 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDepth();
+	public IDataset getDepth();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDepth();
 
 	/**
 	 * <p>
@@ -75,7 +120,17 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDiffraction_order();
+	public IDataset getDiffraction_order();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Units:</b> NX_UNITLESS
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarDiffraction_order();
 
 	/**
 	 * Angle between the incident beam and the utilised outgoing beam.
@@ -86,7 +141,18 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDeflection_angle();
+	public IDataset getDeflection_angle();	
+
+	/**
+	 * Angle between the incident beam and the utilised outgoing beam.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDeflection_angle();
 
 	/**
 	 * <p>
@@ -98,13 +164,31 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getInterior_atmosphere();
+	public IDataset getInterior_atmosphere();	
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>vacuum</b> </li>
+	 * <li><b>helium</b> </li>
+	 * <li><b>argon</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarInterior_atmosphere();
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSubstrate_material();
+	public IDataset getSubstrate_material();	
+
+	/**
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarSubstrate_material();
 
 	/**
 	 * <p>
@@ -114,7 +198,17 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSubstrate_density();
+	public IDataset getSubstrate_density();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_MASS_DENSITY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSubstrate_density();
 
 	/**
 	 * <p>
@@ -124,13 +218,29 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSubstrate_thickness();
+	public IDataset getSubstrate_thickness();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSubstrate_thickness();
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCoating_material();
+	public IDataset getCoating_material();	
+
+	/**
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarCoating_material();
 
 	/**
 	 * <p>
@@ -140,7 +250,17 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSubstrate_roughness();
+	public IDataset getSubstrate_roughness();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSubstrate_roughness();
 
 	/**
 	 * <p>
@@ -150,7 +270,17 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCoating_roughness();
+	public IDataset getCoating_roughness();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarCoating_roughness();
 
 	/**
 	 * An array describing the thickness of each layer
@@ -161,28 +291,39 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getLayer_thickness();
+	public IDataset getLayer_thickness();	
+
+	/**
+	 * An array describing the thickness of each layer
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarLayer_thickness();
 
 	/**
 	 * A NXshape group describing the shape of the mirror
 	 * 
 	 * @return  the value.
 	 */
-	public NXshape getShape();
+	public NXshape getShape();	
 
 	/**
 	 * Numerical description of the surface figure of the mirror.
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getFigure_data();
+	public NXdata getFigure_data();	
 
 	/**
 	 * "Engineering" position of the grating
 	 * 
 	 * @return  the value.
 	 */
-	public NXtransformations getTransformations();
+	public NXtransformations getTransformations();	
   
 	/**
 	 * Get a NXtransformations node by name:

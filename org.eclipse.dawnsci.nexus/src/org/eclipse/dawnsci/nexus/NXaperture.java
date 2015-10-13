@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of a beamline aperture.
@@ -34,7 +35,7 @@ public interface NXaperture extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();
+	public NXgeometry getGeometry();	
   
 	/**
 	 * Get a NXgeometry node by name:
@@ -80,21 +81,35 @@ public interface NXaperture extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getMaterial();
+	public IDataset getMaterial();	
+
+	/**
+	 * Absorbing material of the aperture
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarMaterial();
 
 	/**
 	 * Description of aperture
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDescription();
+	public IDataset getDescription();	
+
+	/**
+	 * Description of aperture
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarDescription();
 
 	/**
 	 * describe an additional information in a note*
 	 * 
 	 * @return  the value.
 	 */
-	public NXnote getNote();
+	public NXnote getNote();	
   
 	/**
 	 * Get a NXnote node by name:

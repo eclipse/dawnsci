@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template for specifying the state of band pass filters.
@@ -31,7 +32,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();
+	public NXgeometry getGeometry();	
   
 	/**
 	 * Get a NXgeometry node by name:
@@ -66,7 +67,19 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDescription();
+	public IDataset getDescription();	
+
+	/**
+	 * Composition of the filter. Chemical formula can be specified separately.
+	 * This field was changed (2010-11-17) from an enumeration to
+	 * a string since common usage showed a wider variety of use
+	 * than a simple list. These are the items in the list at
+	 * the time of the change: Beryllium | Pyrolytic Graphite |
+	 * Graphite | Sapphire | Silicon | Supermirror.
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarDescription();
 
 	/**
 	 * position with respect to in or out of the beam (choice of only "in" or "out")
@@ -80,14 +93,28 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getStatus();
+	public IDataset getStatus();	
+
+	/**
+	 * position with respect to in or out of the beam (choice of only "in" or "out")
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>in</b> 
+	 * in the beam</li>
+	 * <li><b>out</b> 
+	 * out of the beam</li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarStatus();
 
 	/**
 	 * Wavelength transmission profile of filter
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getTransmission();
+	public NXdata getTransmission();	
 
 	/**
 	 * average/nominal filter temperature
@@ -98,14 +125,25 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTemperature();
+	public IDataset getTemperature();	
+
+	/**
+	 * average/nominal filter temperature
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TEMPERATURE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarTemperature();
 
 	/**
 	 * Linked temperature_log for the filter
 	 * 
 	 * @return  the value.
 	 */
-	public NXlog getTemperature_log();
+	public NXlog getTemperature_log();	
 
 	/**
 	 * Thickness of the filter
@@ -116,7 +154,18 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getThickness();
+	public IDataset getThickness();	
+
+	/**
+	 * Thickness of the filter
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarThickness();
 
 	/**
 	 * mass density of the filter
@@ -127,7 +176,18 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDensity();
+	public IDataset getDensity();	
+
+	/**
+	 * mass density of the filter
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_MASS_DENSITY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarDensity();
 
 	/**
 	 * The chemical formula specified using CIF conventions.
@@ -148,14 +208,35 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getChemical_formula();
+	public IDataset getChemical_formula();	
+
+	/**
+	 * The chemical formula specified using CIF conventions.
+	 * Abbreviated version of CIF standard:
+	 * * Only recognized element symbols may be used.
+	 * * Each element symbol is followed by a 'count' number. A count of '1' may be omitted.
+	 * * A space or parenthesis must separate each cluster of (element symbol + count).
+	 * * Where a group of elements is enclosed in parentheses, the multiplier for the
+	 * group must follow the closing parentheses. That is, all element and group
+	 * multipliers are assumed to be printed as subscripted numbers.
+	 * * Unless the elements are ordered in a manner that corresponds to their chemical
+	 * structure, the order of the elements within any group or moiety depends on
+	 * whether or not carbon is present.
+	 * * If carbon is present, the order should be:
+	 * * C, then H, then the other elements in alphabetical order of their symbol.
+	 * * If carbon is not present, the elements are listed purely in alphabetic order of their symbol.
+	 * * This is the *Hill* system used by Chemical Abstracts.
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarChemical_formula();
 
 	/**
 	 * Sensor(s)used to monitor the filter temperature
 	 * 
 	 * @return  the value.
 	 */
-	public NXsensor getSensor_type();
+	public NXsensor getSensor_type();	
 
 	/**
 	 * Unit cell lattice parameter: length of side a
@@ -166,7 +247,18 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_a();
+	public IDataset getUnit_cell_a();	
+
+	/**
+	 * Unit cell lattice parameter: length of side a
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_a();
 
 	/**
 	 * Unit cell lattice parameter: length of side b
@@ -177,7 +269,18 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_b();
+	public IDataset getUnit_cell_b();	
+
+	/**
+	 * Unit cell lattice parameter: length of side b
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_b();
 
 	/**
 	 * Unit cell lattice parameter: length of side c
@@ -188,7 +291,18 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_c();
+	public IDataset getUnit_cell_c();	
+
+	/**
+	 * Unit cell lattice parameter: length of side c
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_c();
 
 	/**
 	 * Unit cell lattice parameter: angle alpha
@@ -199,7 +313,18 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_alpha();
+	public IDataset getUnit_cell_alpha();	
+
+	/**
+	 * Unit cell lattice parameter: angle alpha
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_alpha();
 
 	/**
 	 * Unit cell lattice parameter: angle beta
@@ -210,7 +335,18 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_beta();
+	public IDataset getUnit_cell_beta();	
+
+	/**
+	 * Unit cell lattice parameter: angle beta
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_beta();
 
 	/**
 	 * Unit cell lattice parameter: angle gamma
@@ -221,7 +357,18 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_gamma();
+	public IDataset getUnit_cell_gamma();	
+
+	/**
+	 * Unit cell lattice parameter: angle gamma
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_gamma();
 
 	/**
 	 * Unit cell
@@ -233,7 +380,19 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_volume();
+	public IDataset getUnit_cell_volume();	
+
+	/**
+	 * Unit cell
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_VOLUME
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_volume();
 
 	/**
 	 * Orientation matrix of single crystal filter using Busing-Levy convention
@@ -244,7 +403,18 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getOrientation_matrix();
+	public IDataset getOrientation_matrix();	
+
+	/**
+	 * Orientation matrix of single crystal filter using Busing-Levy convention
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Dimensions:</b> 1: n_comp; 2: 3; 3: 3;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarOrientation_matrix();
 
 	/**
 	 * m value of supermirror filter
@@ -255,14 +425,32 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getM_value();
+	public IDataset getM_value();	
+
+	/**
+	 * m value of supermirror filter
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_DIMENSIONLESS
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarM_value();
 
 	/**
 	 * substrate material of supermirror filter
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSubstrate_material();
+	public IDataset getSubstrate_material();	
+
+	/**
+	 * substrate material of supermirror filter
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarSubstrate_material();
 
 	/**
 	 * substrate thickness of supermirror filter
@@ -273,14 +461,32 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSubstrate_thickness();
+	public IDataset getSubstrate_thickness();	
+
+	/**
+	 * substrate thickness of supermirror filter
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSubstrate_thickness();
 
 	/**
 	 * coating material of supermirror filter
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCoating_material();
+	public IDataset getCoating_material();	
+
+	/**
+	 * coating material of supermirror filter
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarCoating_material();
 
 	/**
 	 * substrate roughness (RMS) of supermirror filter
@@ -291,7 +497,18 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSubstrate_roughness();
+	public IDataset getSubstrate_roughness();	
+
+	/**
+	 * substrate roughness (RMS) of supermirror filter
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSubstrate_roughness();
 
 	/**
 	 * coating roughness (RMS) of supermirror filter
@@ -303,6 +520,18 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCoating_roughness();
+	public IDataset getCoating_roughness();	
+
+	/**
+	 * coating roughness (RMS) of supermirror filter
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: nsurf;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarCoating_roughness();
 
 }

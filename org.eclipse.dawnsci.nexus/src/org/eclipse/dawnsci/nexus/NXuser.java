@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of user's contact information. The format allows more
@@ -29,7 +30,14 @@ public interface NXuser extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getName();
+	public IDataset getName();	
+
+	/**
+	 * Name of user responsible for this entry
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarName();
 
 	/**
 	 * Role of user responsible for this entry.
@@ -38,42 +46,86 @@ public interface NXuser extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getRole();
+	public IDataset getRole();	
+
+	/**
+	 * Role of user responsible for this entry.
+	 * Suggested roles are "local_contact",
+	 * "principal_investigator", and "proposer"
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarRole();
 
 	/**
 	 * Affiliation of user
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAffiliation();
+	public IDataset getAffiliation();	
+
+	/**
+	 * Affiliation of user
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarAffiliation();
 
 	/**
 	 * Address of user
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAddress();
+	public IDataset getAddress();	
+
+	/**
+	 * Address of user
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarAddress();
 
 	/**
 	 * Telephone number of user
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTelephone_number();
+	public IDataset getTelephone_number();	
+
+	/**
+	 * Telephone number of user
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarTelephone_number();
 
 	/**
 	 * Fax number of user
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFax_number();
+	public IDataset getFax_number();	
+
+	/**
+	 * Fax number of user
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarFax_number();
 
 	/**
 	 * Email of user
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEmail();
+	public IDataset getEmail();	
+
+	/**
+	 * Email of user
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarEmail();
 
 	/**
 	 * facility based unique identifier for this person
@@ -82,6 +134,15 @@ public interface NXuser extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFacility_user_id();
+	public IDataset getFacility_user_id();	
+
+	/**
+	 * facility based unique identifier for this person
+	 * e.g. their identification code on the facility
+	 * address/contact database
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarFacility_user_id();
 
 }

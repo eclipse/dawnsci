@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of a crystal monochromator or analyzer. Permits double bent
@@ -41,7 +42,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();
+	public NXgeometry getGeometry();	
   
 	/**
 	 * Get a NXgeometry node by name:
@@ -99,7 +100,42 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUsage();
+	public IDataset getUsage();	
+
+	/**
+	 * How this crystal is used. Choices are in the list.
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>Bragg</b> 
+	 * reflection geometry</li>
+	 * <li><b>Laue</b> 
+	 * The chemical formula specified using CIF conventions.
+	 * Abbreviated version of CIF standard:
+	 * * Only recognized element symbols may be used.
+	 * * Each element symbol is followed by a 'count' number. A count of '1' may be omitted.
+	 * * A space or parenthesis must separate each cluster of (element symbol + count).
+	 * * Where a group of elements is enclosed in parentheses, the multiplier for the
+	 * group must follow the closing parentheses. That is, all element and group
+	 * multipliers are assumed to be printed as subscripted numbers.
+	 * * Unless the elements are ordered in a manner that corresponds to their chemical
+	 * structure, the order of the elements within any group or moiety depends on
+	 * whether or not carbon is present.
+	 * * If carbon is present, the order should be:
+	 * C, then H, then the other elements in alphabetical order of their symbol.
+	 * If carbon is not present, the elements are listed purely in alphabetic
+	 * order of their symbol.
+	 * This is the *Hill* system used by Chemical Abstracts.
+	 * See, for example:
+	 * http://www.iucr.org/__data/iucr/cif/standard/cifstd15.html,
+	 * http://www.cas.org/training/stneasytips/subinforformula1.html,
+	 * or
+	 * http://www.indiana.edu/~cheminfo/courses/471cnfs.html.</li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarUsage();
 
 	/**
 	 * Type or material of monochromating substance.
@@ -115,7 +151,23 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();
+	public IDataset getType();	
+
+	/**
+	 * Type or material of monochromating substance.
+	 * Chemical formula can be specified separately.
+	 * Use the "reflection" field to indicate the (hkl) orientation.
+	 * Use the "d_spacing" field to record the lattice plane spacing.
+	 * This field was changed (2010-11-17) from an enumeration to
+	 * a string since common usage showed a wider variety of use
+	 * than a simple list. These are the items in the list at
+	 * the time of the change: PG (Highly Oriented Pyrolytic Graphite) |
+	 * Ge | Si | Cu | Fe3Si | CoFe | Cu2MnAl (Heusler) | Multilayer |
+	 * Diamond.
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarType();
 
 	/**
 	 * The chemical formula specified using CIF conventions.
@@ -137,7 +189,29 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getChemical_formula();
+	public IDataset getChemical_formula();	
+
+	/**
+	 * The chemical formula specified using CIF conventions.
+	 * Abbreviated version of CIF standard:
+	 * * Only recognized element symbols may be used.
+	 * * Each element symbol is followed by a 'count' number. A count of '1' may be omitted.
+	 * * A space or parenthesis must separate each cluster of (element symbol + count).
+	 * * Where a group of elements is enclosed in parentheses, the multiplier for the
+	 * group must follow the closing parentheses. That is, all element and group
+	 * multipliers are assumed to be printed as subscripted numbers.
+	 * * Unless the elements are ordered in a manner that corresponds to their chemical
+	 * structure, the order of the elements within any group or moiety depends on
+	 * whether or not carbon is present.
+	 * * If carbon is present, the order should be:
+	 * C, then H, then the other elements in alphabetical order of their symbol.
+	 * If carbon is not present, the elements are listed purely in alphabetic
+	 * order of their symbol.
+	 * * This is the *Hill* system used by Chemical Abstracts.
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarChemical_formula();
 
 	/**
 	 * A number which describes if this is the first, second,..
@@ -148,7 +222,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getOrder_no();
+	public IDataset getOrder_no();	
+
+	/**
+	 * A number which describes if this is the first, second,..
+	 * :math:`n^{th}` crystal in a multi crystal monochromator
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarOrder_no();
 
 	/**
 	 * Cut angle of reflecting Bragg plane and plane of crystal surface
@@ -159,14 +244,32 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCut_angle();
+	public IDataset getCut_angle();	
+
+	/**
+	 * Cut angle of reflecting Bragg plane and plane of crystal surface
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarCut_angle();
 
 	/**
 	 * Space group of crystal structure
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSpace_group();
+	public IDataset getSpace_group();	
+
+	/**
+	 * Space group of crystal structure
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarSpace_group();
 
 	/**
 	 * Unit cell parameters (lengths and angles)
@@ -178,7 +281,19 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell();
+	public IDataset getUnit_cell();	
+
+	/**
+	 * Unit cell parameters (lengths and angles)
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: n_comp; 2: 6;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell();
 
 	/**
 	 * Unit cell lattice parameter: length of side a
@@ -189,7 +304,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_a();
+	public IDataset getUnit_cell_a();	
+
+	/**
+	 * Unit cell lattice parameter: length of side a
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_a();
 
 	/**
 	 * Unit cell lattice parameter: length of side b
@@ -200,7 +326,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_b();
+	public IDataset getUnit_cell_b();	
+
+	/**
+	 * Unit cell lattice parameter: length of side b
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_b();
 
 	/**
 	 * Unit cell lattice parameter: length of side c
@@ -211,7 +348,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_c();
+	public IDataset getUnit_cell_c();	
+
+	/**
+	 * Unit cell lattice parameter: length of side c
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_c();
 
 	/**
 	 * Unit cell lattice parameter: angle alpha
@@ -222,7 +370,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_alpha();
+	public IDataset getUnit_cell_alpha();	
+
+	/**
+	 * Unit cell lattice parameter: angle alpha
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_alpha();
 
 	/**
 	 * Unit cell lattice parameter: angle beta
@@ -233,7 +392,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_beta();
+	public IDataset getUnit_cell_beta();	
+
+	/**
+	 * Unit cell lattice parameter: angle beta
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_beta();
 
 	/**
 	 * Unit cell lattice parameter: angle gamma
@@ -244,7 +414,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_gamma();
+	public IDataset getUnit_cell_gamma();	
+
+	/**
+	 * Unit cell lattice parameter: angle gamma
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_gamma();
 
 	/**
 	 * Volume of the unit cell
@@ -255,7 +436,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_volume();
+	public IDataset getUnit_cell_volume();	
+
+	/**
+	 * Volume of the unit cell
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_VOLUME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_volume();
 
 	/**
 	 * Orientation matrix of single crystal sample using Busing-Levy convention
@@ -266,7 +458,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getOrientation_matrix();
+	public IDataset getOrientation_matrix();	
+
+	/**
+	 * Orientation matrix of single crystal sample using Busing-Levy convention
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Dimensions:</b> 1: 3; 2: 3;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarOrientation_matrix();
 
 	/**
 	 * Optimum diffracted wavelength
@@ -278,7 +481,19 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getWavelength();
+	public IDataset getWavelength();	
+
+	/**
+	 * Optimum diffracted wavelength
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_WAVELENGTH
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarWavelength();
 
 	/**
 	 * spacing between crystal planes of the reflection
@@ -289,7 +504,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getD_spacing();
+	public IDataset getD_spacing();	
+
+	/**
+	 * spacing between crystal planes of the reflection
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarD_spacing();
 
 	/**
 	 * Scattering vector, Q, of nominal reflection
@@ -300,7 +526,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getScattering_vector();
+	public IDataset getScattering_vector();	
+
+	/**
+	 * Scattering vector, Q, of nominal reflection
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_WAVENUMBER
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarScattering_vector();
 
 	/**
 	 * Miller indices (hkl) values of nominal reflection
@@ -312,7 +549,19 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getReflection();
+	public IDataset getReflection();	
+
+	/**
+	 * Miller indices (hkl) values of nominal reflection
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Units:</b> NX_UNITLESS
+	 * <b>Dimensions:</b> 1: 3;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarReflection();
 
 	/**
 	 * Thickness of the crystal. (Required for Laue orientations - see "usage" field)
@@ -323,7 +572,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getThickness();
+	public IDataset getThickness();	
+
+	/**
+	 * Thickness of the crystal. (Required for Laue orientations - see "usage" field)
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarThickness();
 
 	/**
 	 * mass density of the crystal
@@ -334,7 +594,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDensity();
+	public IDataset getDensity();	
+
+	/**
+	 * mass density of the crystal
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_MASS_DENSITY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarDensity();
 
 	/**
 	 * Horizontal width of individual segment
@@ -345,7 +616,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSegment_width();
+	public IDataset getSegment_width();	
+
+	/**
+	 * Horizontal width of individual segment
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSegment_width();
 
 	/**
 	 * Vertical height of individual segment
@@ -356,7 +638,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSegment_height();
+	public IDataset getSegment_height();	
+
+	/**
+	 * Vertical height of individual segment
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSegment_height();
 
 	/**
 	 * Thickness of individual segment
@@ -367,7 +660,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSegment_thickness();
+	public IDataset getSegment_thickness();	
+
+	/**
+	 * Thickness of individual segment
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSegment_thickness();
 
 	/**
 	 * Typical gap between adjacent segments
@@ -378,7 +682,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSegment_gap();
+	public IDataset getSegment_gap();	
+
+	/**
+	 * Typical gap between adjacent segments
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSegment_gap();
 
 	/**
 	 * number of segment columns in horizontal direction
@@ -389,7 +704,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSegment_columns();
+	public IDataset getSegment_columns();	
+
+	/**
+	 * number of segment columns in horizontal direction
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSegment_columns();
 
 	/**
 	 * number of segment rows in vertical direction
@@ -400,7 +726,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSegment_rows();
+	public IDataset getSegment_rows();	
+
+	/**
+	 * number of segment rows in vertical direction
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSegment_rows();
 
 	/**
 	 * horizontal mosaic Full Width Half Maximum
@@ -411,7 +748,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getMosaic_horizontal();
+	public IDataset getMosaic_horizontal();	
+
+	/**
+	 * horizontal mosaic Full Width Half Maximum
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarMosaic_horizontal();
 
 	/**
 	 * vertical mosaic Full Width Half Maximum
@@ -422,7 +770,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getMosaic_vertical();
+	public IDataset getMosaic_vertical();	
+
+	/**
+	 * vertical mosaic Full Width Half Maximum
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarMosaic_vertical();
 
 	/**
 	 * Horizontal curvature of focusing crystal
@@ -433,7 +792,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCurvature_horizontal();
+	public IDataset getCurvature_horizontal();	
+
+	/**
+	 * Horizontal curvature of focusing crystal
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarCurvature_horizontal();
 
 	/**
 	 * Vertical curvature of focusing crystal
@@ -444,7 +814,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCurvature_vertical();
+	public IDataset getCurvature_vertical();	
+
+	/**
+	 * Vertical curvature of focusing crystal
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarCurvature_vertical();
 
 	/**
 	 * Is this crystal bent cylindrically?
@@ -454,7 +835,17 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getIs_cylindrical();
+	public IDataset getIs_cylindrical();	
+
+	/**
+	 * Is this crystal bent cylindrically?
+	 * <p>
+	 * <b>Type:</b> NX_BOOLEAN
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public boolean getScalarIs_cylindrical();
 
 	/**
 	 * If cylindrical: cylinder orientation angle
@@ -465,7 +856,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCylindrical_orientation_angle();
+	public IDataset getCylindrical_orientation_angle();	
+
+	/**
+	 * If cylindrical: cylinder orientation angle
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarCylindrical_orientation_angle();
 
 	/**
 	 * Polar (scattering) angle at which crystal assembly is positioned.
@@ -478,7 +880,20 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPolar_angle();
+	public IDataset getPolar_angle();	
+
+	/**
+	 * Polar (scattering) angle at which crystal assembly is positioned.
+	 * Note: some instrument geometries call this term 2theta.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarPolar_angle();
 
 	/**
 	 * Azimuthal angle at which crystal assembly is positioned
@@ -490,7 +905,19 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAzimuthal_angle();
+	public IDataset getAzimuthal_angle();	
+
+	/**
+	 * Azimuthal angle at which crystal assembly is positioned
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarAzimuthal_angle();
 
 	/**
 	 * Bragg angle of nominal reflection
@@ -502,7 +929,19 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getBragg_angle();
+	public IDataset getBragg_angle();	
+
+	/**
+	 * Bragg angle of nominal reflection
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarBragg_angle();
 
 	/**
 	 * average/nominal crystal temperature
@@ -513,7 +952,18 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTemperature();
+	public IDataset getTemperature();	
+
+	/**
+	 * average/nominal crystal temperature
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TEMPERATURE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarTemperature();
 
 	/**
 	 * how lattice parameter changes with temperature
@@ -524,34 +974,45 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTemperature_coefficient();
+	public IDataset getTemperature_coefficient();	
+
+	/**
+	 * how lattice parameter changes with temperature
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarTemperature_coefficient();
 
 	/**
 	 * log file of crystal temperature
 	 * 
 	 * @return  the value.
 	 */
-	public NXlog getTemperature_log();
+	public NXlog getTemperature_log();	
 
 	/**
 	 * crystal reflectivity versus wavelength
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getReflectivity();
+	public NXdata getReflectivity();	
 
 	/**
 	 * crystal transmission versus wavelength
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getTransmission();
+	public NXdata getTransmission();	
 
 	/**
 	 * A NXshape group describing the shape of the crystal arrangement
 	 * 
 	 * @return  the value.
 	 */
-	public NXshape getShape();
+	public NXshape getShape();	
 
 }

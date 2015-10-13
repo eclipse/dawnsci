@@ -7,14 +7,16 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -32,10 +34,14 @@ public class NXprocessImpl extends NXobjectImpl implements NXprocess {
 	public static final String NX_VERSION = "version";
 	public static final String NX_DATE = "date";
 
-	protected NXprocessImpl(long oid) {
-		super(oid);
+	protected NXprocessImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXprocessImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXprocess.class;
@@ -51,8 +57,17 @@ public class NXprocessImpl extends NXobjectImpl implements NXprocess {
 		return getDataset(NX_PROGRAM);
 	}
 
+	@Override
+	public String getScalarProgram() {
+		return getString(NX_PROGRAM);
+	}
+
 	public void setProgram(IDataset program) {
 		setDataset(NX_PROGRAM, program);
+	}
+
+	public void setScalarProgram(String program) {
+		setString(NX_PROGRAM, program);
 	}
 
 	@Override
@@ -60,8 +75,17 @@ public class NXprocessImpl extends NXobjectImpl implements NXprocess {
 		return getDataset(NX_SEQUENCE_INDEX);
 	}
 
+	@Override
+	public long getScalarSequence_index() {
+		return getLong(NX_SEQUENCE_INDEX);
+	}
+
 	public void setSequence_index(IDataset sequence_index) {
 		setDataset(NX_SEQUENCE_INDEX, sequence_index);
+	}
+
+	public void setScalarSequence_index(long sequence_index) {
+		setField(NX_SEQUENCE_INDEX, sequence_index);
 	}
 
 	@Override
@@ -69,8 +93,17 @@ public class NXprocessImpl extends NXobjectImpl implements NXprocess {
 		return getDataset(NX_VERSION);
 	}
 
+	@Override
+	public String getScalarVersion() {
+		return getString(NX_VERSION);
+	}
+
 	public void setVersion(IDataset version) {
 		setDataset(NX_VERSION, version);
+	}
+
+	public void setScalarVersion(String version) {
+		setString(NX_VERSION, version);
 	}
 
 	@Override
@@ -78,8 +111,17 @@ public class NXprocessImpl extends NXobjectImpl implements NXprocess {
 		return getDataset(NX_DATE);
 	}
 
+	@Override
+	public Date getScalarDate() {
+		return getDate(NX_DATE);
+	}
+
 	public void setDate(IDataset date) {
 		setDataset(NX_DATE, date);
+	}
+
+	public void setScalarDate(Date date) {
+		setDate(NX_DATE, date);
 	}
 
 	@Override

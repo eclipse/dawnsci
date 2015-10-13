@@ -7,12 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+
 import org.eclipse.dawnsci.nexus.*;
 
 /**
@@ -28,10 +30,14 @@ public class NXpinholeImpl extends NXobjectImpl implements NXpinhole {
 	public static final String NX_DEPENDS_ON = "depends_on";
 	public static final String NX_DIAMETER = "diameter";
 
-	protected NXpinholeImpl(long oid) {
-		super(oid);
+	protected NXpinholeImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXpinholeImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXpinhole.class;
@@ -47,8 +53,17 @@ public class NXpinholeImpl extends NXobjectImpl implements NXpinhole {
 		return getDataset(NX_DEPENDS_ON);
 	}
 
+	@Override
+	public String getScalarDepends_on() {
+		return getString(NX_DEPENDS_ON);
+	}
+
 	public void setDepends_on(IDataset depends_on) {
 		setDataset(NX_DEPENDS_ON, depends_on);
+	}
+
+	public void setScalarDepends_on(String depends_on) {
+		setString(NX_DEPENDS_ON, depends_on);
 	}
 
 	@Override
@@ -56,8 +71,17 @@ public class NXpinholeImpl extends NXobjectImpl implements NXpinhole {
 		return getDataset(NX_DIAMETER);
 	}
 
+	@Override
+	public Number getScalarDiameter() {
+		return getNumber(NX_DIAMETER);
+	}
+
 	public void setDiameter(IDataset diameter) {
 		setDataset(NX_DIAMETER, diameter);
+	}
+
+	public void setScalarDiameter(Number diameter) {
+		setField(NX_DIAMETER, diameter);
 	}
 
 }

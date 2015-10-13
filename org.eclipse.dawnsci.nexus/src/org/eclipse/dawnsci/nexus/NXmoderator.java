@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * This is the description for a general moderator
@@ -28,7 +29,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();
+	public NXgeometry getGeometry();	
   
 	/**
 	 * Get a NXgeometry node by name:
@@ -62,7 +63,18 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDistance();
+	public IDataset getDistance();	
+
+	/**
+	 * Effective distance as seen by measuring radiation
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDistance();
 
 	/**
 	 * <p>
@@ -80,7 +92,25 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();
+	public IDataset getType();	
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>H20</b> </li>
+	 * <li><b>D20</b> </li>
+	 * <li><b>Liquid H2</b> </li>
+	 * <li><b>Liquid CH4</b> </li>
+	 * <li><b>Liquid D2</b> </li>
+	 * <li><b>Solid D2</b> </li>
+	 * <li><b>C</b> </li>
+	 * <li><b>Solid CH4</b> </li>
+	 * <li><b>Solid H2</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarType();
 
 	/**
 	 * <p>
@@ -90,7 +120,17 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPoison_depth();
+	public IDataset getPoison_depth();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarPoison_depth();
 
 	/**
 	 * whether the moderator is coupled
@@ -100,14 +140,31 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCoupled();
+	public IDataset getCoupled();	
+
+	/**
+	 * whether the moderator is coupled
+	 * <p>
+	 * <b>Type:</b> NX_BOOLEAN
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public boolean getScalarCoupled();
 
 	/**
 	 * The material used for coupling. Usually Cd.
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCoupling_material();
+	public IDataset getCoupling_material();	
+
+	/**
+	 * The material used for coupling. Usually Cd.
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarCoupling_material();
 
 	/**
 	 * <p>
@@ -118,7 +175,18 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPoison_material();
+	public IDataset getPoison_material();	
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>Gd</b> </li>
+	 * <li><b>Cd</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarPoison_material();
 
 	/**
 	 * average/nominal moderator temperature
@@ -129,20 +197,31 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTemperature();
+	public IDataset getTemperature();	
+
+	/**
+	 * average/nominal moderator temperature
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TEMPERATURE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarTemperature();
 
 	/**
 	 * log file of moderator temperature
 	 * 
 	 * @return  the value.
 	 */
-	public NXlog getTemperature_log();
+	public NXlog getTemperature_log();	
 
 	/**
 	 * moderator pulse shape
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getPulse_shape();
+	public NXdata getPulse_shape();	
 
 }

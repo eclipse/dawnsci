@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+
 import org.eclipse.dawnsci.nexus.*;
 
 /**
@@ -34,10 +36,14 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 	public static final String NX_NAME = "name";
 	public static final String NX_NAME_ATTRIBUTE_SHORT_NAME = "short_name";
 
-	protected NXinstrumentImpl(long oid) {
-		super(oid);
+	protected NXinstrumentImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXinstrumentImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXinstrument.class;
@@ -53,8 +59,17 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 		return getDataset(NX_NAME);
 	}
 
+	@Override
+	public String getScalarName() {
+		return getString(NX_NAME);
+	}
+
 	public void setName(IDataset name) {
 		setDataset(NX_NAME, name);
+	}
+
+	public void setScalarName(String name) {
+		setString(NX_NAME, name);
 	}
 
 	@Override

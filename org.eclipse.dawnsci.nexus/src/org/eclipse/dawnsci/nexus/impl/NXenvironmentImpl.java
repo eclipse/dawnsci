@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -33,10 +34,14 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 	public static final String NX_DESCRIPTION = "description";
 	public static final String NX_PROGRAM = "program";
 
-	protected NXenvironmentImpl(long oid) {
-		super(oid);
+	protected NXenvironmentImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXenvironmentImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXenvironment.class;
@@ -52,8 +57,17 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getDataset(NX_NAME);
 	}
 
+	@Override
+	public String getScalarName() {
+		return getString(NX_NAME);
+	}
+
 	public void setName(IDataset name) {
 		setDataset(NX_NAME, name);
+	}
+
+	public void setScalarName(String name) {
+		setString(NX_NAME, name);
 	}
 
 	@Override
@@ -61,8 +75,17 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getDataset(NX_SHORT_NAME);
 	}
 
+	@Override
+	public String getScalarShort_name() {
+		return getString(NX_SHORT_NAME);
+	}
+
 	public void setShort_name(IDataset short_name) {
 		setDataset(NX_SHORT_NAME, short_name);
+	}
+
+	public void setScalarShort_name(String short_name) {
+		setString(NX_SHORT_NAME, short_name);
 	}
 
 	@Override
@@ -70,8 +93,17 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getDataset(NX_TYPE);
 	}
 
+	@Override
+	public String getScalarType() {
+		return getString(NX_TYPE);
+	}
+
 	public void setType(IDataset type) {
 		setDataset(NX_TYPE, type);
+	}
+
+	public void setScalarType(String type) {
+		setString(NX_TYPE, type);
 	}
 
 	@Override
@@ -79,8 +111,17 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getDataset(NX_DESCRIPTION);
 	}
 
+	@Override
+	public String getScalarDescription() {
+		return getString(NX_DESCRIPTION);
+	}
+
 	public void setDescription(IDataset description) {
 		setDataset(NX_DESCRIPTION, description);
+	}
+
+	public void setScalarDescription(String description) {
+		setString(NX_DESCRIPTION, description);
 	}
 
 	@Override
@@ -88,8 +129,17 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getDataset(NX_PROGRAM);
 	}
 
+	@Override
+	public String getScalarProgram() {
+		return getString(NX_PROGRAM);
+	}
+
 	public void setProgram(IDataset program) {
 		setDataset(NX_PROGRAM, program);
+	}
+
+	public void setScalarProgram(String program) {
+		setString(NX_PROGRAM, program);
 	}
 
 	@Override

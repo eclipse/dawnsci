@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -35,10 +36,14 @@ public class NXcharacterizationImpl extends NXobjectImpl implements NXcharacteri
 	public static final String NX_DEFINITION_ATTRIBUTE_VERSION = "version";
 	public static final String NX_DEFINITION_ATTRIBUTE_URL = "URL";
 
-	protected NXcharacterizationImpl(long oid) {
-		super(oid);
+	protected NXcharacterizationImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXcharacterizationImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXcharacterization.class;
@@ -81,8 +86,17 @@ public class NXcharacterizationImpl extends NXobjectImpl implements NXcharacteri
 		return getDataset(NX_DEFINITION);
 	}
 
+	@Override
+	public String getScalarDefinition() {
+		return getString(NX_DEFINITION);
+	}
+
 	public void setDefinition(IDataset definition) {
 		setDataset(NX_DEFINITION, definition);
+	}
+
+	public void setScalarDefinition(String definition) {
+		setString(NX_DEFINITION, definition);
 	}
 
 	@Override

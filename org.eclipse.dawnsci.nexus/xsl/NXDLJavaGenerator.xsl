@@ -98,7 +98,17 @@ public interface <xsl:value-of select="$interfaceName"/><xsl:apply-templates mod
 	 * <xsl:apply-templates select="@deprecated"/>
 	 * @return  the value.
 	 */<xsl:apply-templates mode="methodAnnotations" select="."/>
-	public <xsl:value-of select="$fieldType"/> get<xsl:value-of select="$methodNameSuffix"/>();
+	public <xsl:value-of select="$fieldType"/> get<xsl:value-of select="$methodNameSuffix"/>();	
+<xsl:if test="self::nx:field[not(nx:scalar)]">
+	<xsl:variable name="scalarFieldType"><xsl:apply-templates select="." mode="scalarFieldType"/></xsl:variable>
+	/**<xsl:apply-templates select="nx:doc"/><xsl:if test="self::nx:field/@type|@units|nx:dimensions|nx:enumeration">
+	 * &lt;p><xsl:apply-templates select="self::nx:field/@type|@units|nx:dimensions|nx:enumeration"/>
+	 * &lt;/p></xsl:if>
+	 * <xsl:apply-templates select="@deprecated"/>
+	 * @return  the value
+	 */<xsl:apply-templates mode="methodAnnotations" select="."/>
+	 public <xsl:value-of select="$scalarFieldType"/> getScalar<xsl:value-of select="$methodNameSuffix"/>();
+</xsl:if>
 <xsl:if test="self::nx:field[@nameType = 'any']">  <!-- All fields with nameType="any" -->
 	/**
 	 * Get all <xsl:value-of select="$methodNameSuffix"/> fields:
@@ -158,10 +168,14 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 <xsl:apply-templates mode="classFields" select="*"/>
 
-	protected <xsl:value-of select="$className"/>(long oid) {
-		super(oid);
+	protected <xsl:value-of select="$className"/>(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected <xsl:value-of select="$className"/>(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class&lt;? extends NXobject> getNXclass() {
 		return <xsl:value-of select="$interfaceName"/>.class;
@@ -228,12 +242,30 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 		<xsl:with-param name="fieldType" select="$fieldType"/>
 	</xsl:apply-templates>
 	}
+<xsl:if test="self::nx:field[not(nx:scalar)]">
+	<xsl:variable name="scalarFieldType"><xsl:apply-templates select="." mode="scalarFieldType"/></xsl:variable>
+	@Override<xsl:apply-templates mode="methodAnnotations" select="."/>
+	public <xsl:value-of select="$scalarFieldType"/> getScalar<xsl:value-of select="$methodNameSuffix"/>() {<xsl:apply-templates select="." mode="getScalarMethod">
+		<xsl:with-param name="fieldName" select="$fieldName"/>
+		<xsl:with-param name="fieldLabel" select="$fieldLabel"/>
+		<xsl:with-param name="fieldType" select="$scalarFieldType"/>
+	</xsl:apply-templates>
+	}
+</xsl:if>
 <xsl:apply-templates mode="methodAnnotations" select="."/>
 	public void set<xsl:value-of select="$methodNameSuffix"/>(<xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$validJavaFieldName"/>) {<xsl:apply-templates select="." mode="setMethod">
 		<xsl:with-param name="fieldName" select="$validJavaFieldName"/>
 		<xsl:with-param name="fieldLabel" select="$fieldLabel"/>
 	</xsl:apply-templates>
 	}
+<xsl:if test="self::nx:field[not(nx:scalar)]">
+	<xsl:variable name="scalarFieldType"><xsl:apply-templates select="." mode="scalarFieldType"/></xsl:variable>
+	public void setScalar<xsl:value-of select="$methodNameSuffix"/>(<xsl:value-of select="$scalarFieldType"/><xsl:text> </xsl:text><xsl:value-of select="$validJavaFieldName"/>) {<xsl:apply-templates select="." mode="setScalarMethod">
+		<xsl:with-param name="fieldName" select="$validJavaFieldName"/>
+		<xsl:with-param name="fieldLabel" select="$fieldLabel"/>
+	</xsl:apply-templates>
+	}
+</xsl:if>
 <xsl:if test="self::nx:field[@nameType='any']">
 	@Override<xsl:apply-templates mode="methodAnnotations" select="."/>
 	public Map&lt;String, Dataset> getAll<xsl:value-of select="$methodNameSuffix"/>() {
@@ -295,6 +327,16 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 	<xsl:param name="fieldType"/>
 		return getAttr<xsl:value-of select="dawnsci:capitalise-first($fieldType)"/>(<xsl:apply-templates mode="fieldLabel" select=".."/>, <xsl:value-of select="$fieldLabel"/>);</xsl:template>
 
+<!-- Get method bodies for getScalar methods for non scalar fields -->
+<xsl:template mode="getScalarMethod" match="nx:field[@type='NX_BINARY']">
+	<xsl:param name="fieldLabel"/>
+		return getDataNode(<xsl:value-of select="$fieldLabel"/>).getDataset();</xsl:template>
+		
+<xsl:template mode="getScalarMethod" match="nx:field">
+	<xsl:param name="fieldLabel"/>
+	<xsl:param name="fieldType"/>
+		return get<xsl:value-of select="dawnsci:capitalise-first($fieldType)"/>(<xsl:value-of select="$fieldLabel"/>);</xsl:template>
+
 <!-- Set method bodies -->
 <xsl:template mode="setMethod" match="nx:field[not(nx:scalar)]">
 	<xsl:param name="fieldName"/>
@@ -314,7 +356,7 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 <xsl:template mode="setMethod" match="nx:field[nx:scalar][matches(@type, 'NX_(INT|POSINT|UINT|FLOAT|NUMBER|BOOLEAN)')]">
 	<xsl:param name="fieldName"/>
 	<xsl:param name="fieldLabel"/>
-		set(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
+		setField(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
 
 <xsl:template mode="setMethod" match="nx:field[nx:scalar][@type='NX_BINARY']">
 	<xsl:param name="fieldName"/>
@@ -336,6 +378,26 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 	<xsl:param name="fieldLabel"/>
 		putChild("<xsl:value-of select="$fieldName"/>", <xsl:value-of select="$fieldName"/>);</xsl:template>
 
+<!-- Set method bodies for setScalar methods for non scalar fields -->
+<xsl:template mode="setScalarMethod" match="nx:field[@type='NX_DATE_TIME' or @type='ISO8601']">
+	<xsl:param name="fieldName"/>
+	<xsl:param name="fieldLabel"/>
+		setDate(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
+		
+<xsl:template mode="setScalarMethod" match="nx:field[@type='NX_CHAR' or not (@type)]">
+	<xsl:param name="fieldName"/>
+	<xsl:param name="fieldLabel"/>
+		setString(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
+		
+<xsl:template mode="setScalarMethod" match="nx:field[matches(@type, 'NX_(INT|POSINT|UNIT|FLOAT|NUMBER|BOOLEAN)')]">
+	<xsl:param name="fieldName"/>
+	<xsl:param name="fieldLabel"/>
+		setField(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
+		
+<xsl:template mode="setScalarMethod" match="nx:field[@type='NX_BINARY']">
+	<xsl:param name="fieldName"/>
+	<xsl:param name="fieldLabel"/>
+		getDataNode(<xsl:value-of select="$fieldLabel"/>).setDataset(DatasetFactory.createFromObject(<xsl:value-of select="$fieldName"/>));</xsl:template>
 
 <!-- Unprocessed -->
 
@@ -415,6 +477,7 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 <xsl:template mode="imports" match="nx:definition">
 	<xsl:variable name="types">
 		<xsl:apply-templates select="descendant::*" mode="fieldType"/>
+		<xsl:apply-templates select="descendant::*" mode="scalarFieldType"/>
 		<xsl:if test="descendant::nx:group[not(@name)] | descendant::nx:field[@nameType='any']">Map</xsl:if>
 	</xsl:variable>
 <xsl:if test="contains($types, 'Date')">
@@ -456,6 +519,15 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;</xsl:if>
 <xsl:template mode="fieldType" match="nx:field[nx:scalar][@type='NX_BINARY']">Object</xsl:template>
 <xsl:template mode="fieldType" match="nx:group"><xsl:value-of select="dawnsci:interface-name(@type)"/></xsl:template>
 <xsl:template mode="extendedFieldType" match="nx:field[not(nx:scalar)]">? extends IDataset</xsl:template>
+
+<!-- Scalar field types. This is useful where we want to get/set a field as a scalar that is not (yet) marked with nx:scalar -->
+<xsl:template mode="scalarFieldType" match="nx:field[@type='NX_DATE_TIME' or @type='ISO8601']">Date</xsl:template>
+<xsl:template mode="scalarFieldType" match="nx:field[matches(@type, 'NX_(INT|POSINT|UNIT)')]">long</xsl:template>
+<xsl:template mode="scalarFieldType" match="nx:field[@type='NX_FLOAT']">double</xsl:template>
+<xsl:template mode="scalarFieldType" match="nx:field[@type='NX_NUMBER']">Number</xsl:template>
+<xsl:template mode="scalarFieldType" match="nx:field[@type='NX_BOOLEAN']">boolean</xsl:template>
+<xsl:template mode="scalarFieldType" match="nx:field[@type='NX_CHAR' or not(@type)]">String</xsl:template>
+<xsl:template mode="scalarFieldType" match="nx:field[@type='NX_BINARY']">Object</xsl:template>
 
 <!-- Field names in Java -->
 <xsl:template mode="fieldName" match="nx:attribute|nx:field|nx:group[@name]"><xsl:value-of select="@name"/></xsl:template>
@@ -539,18 +611,20 @@ public enum NXbaseClass {
 <!-- Template to generate The NeXus factory class for creating instances of the generated classes.-->
 <xsl:template name="factory-class">
 
-	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/impl/NXobjectFactory.java" format="text-format">
+	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/impl/NexusNodeFactory.java" format="text-format">
 		<xsl:text>package org.eclipse.dawnsci.nexus.impl;
 
 import java.net.URI;
 
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeImpl;
 
 /**
  * Factory class for creating instances of NeXus base classes.
  */
-public class NXobjectFactory {
+public class NexusNodeFactory {
 	
 	private long nextOid = 1l;
 
@@ -572,12 +646,17 @@ public class NXobjectFactory {
 	<xsl:text>		throw new IllegalArgumentException("Unknown base class: " + baseClass);</xsl:text>
 	<xsl:text>	}&#10;</xsl:text>
 	
-	<xsl:text>/**
+	<xsl:text>
+	protected long getNextOid() {
+		return nextOid++;
+	}
+	
+	/**
 	 * Create a new tree with given URI
 	 * @param uri
 	 */
 	public TreeImpl createTree(final URI uri) {
-		return new TreeImpl(nextOid++, uri);
+		return new TreeImpl(getNextOid(), uri);
 	}
 	
 	/**
@@ -585,7 +664,7 @@ public class NXobjectFactory {
 	 * @param uri uri
 	 */
 	public TreeFileImpl createTreeFile(final URI uri) {
-		return new TreeFileImpl(nextOid++, uri);
+		return new TreeFileImpl(getNextOid(), uri);
 	}
 	
 	/**
@@ -594,7 +673,14 @@ public class NXobjectFactory {
 	 * @return
 	 */
 	public TreeFileImpl createTreeFile(final String fileName) {
-		return new TreeFileImpl(nextOid++, fileName);
+		return new TreeFileImpl(getNextOid(), fileName);
+	}
+	
+	/**
+	 * Create a new data node.
+	 */
+	public DataNode createDataNode() {
+		return TreeFactory.createDataNode(getNextOid());
 	}
 	
 </xsl:text>
@@ -630,7 +716,7 @@ public class NXobjectFactory {
 	<xsl:value-of select="if ($has-oid-param) then '(long oid)' else '()'"/><xsl:text> {&#10;</xsl:text>
 	<xsl:text>		return new </xsl:text>
 	<xsl:value-of select="@name"/><xsl:text>Impl(</xsl:text>
-	<xsl:value-of select="if ($has-oid-param) then 'oid' else 'nextOid++'"/><xsl:text>);&#10;</xsl:text>
+	<xsl:value-of select="if ($has-oid-param) then 'oid' else 'this'"/><xsl:text>);&#10;</xsl:text>
 	<xsl:text>	}&#10;</xsl:text>
 	<xsl:text>&#10;</xsl:text>
 

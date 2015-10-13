@@ -47,9 +47,36 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	 * Name of attribute
 	 */
 	public static final String NX_CLASS = "NX_class";
+	
+	/**
+	 * Node factory for creating new nodes, so that oids don't clash.
+	 */
+	private final NexusNodeFactory nodeFactory;
 
+	/**
+	 * Creates a new NeXus group node. This constructor is used when
+	 * create a new NeXus file
+	 * @param nodeFactory
+	 */
+	protected NXobjectImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory.getNextOid());
+		this.nodeFactory = nodeFactory;
+		createNxClassAttribute();
+	}
+
+	/**
+	 * Creates a new NeXus group node. This constructor is used when loading
+	 * a new NeXus file. No further nodes should be added to a NeXus tree that has
+	 * been loaded from disk.
+	 * @param oid
+	 */
 	protected NXobjectImpl(long oid) {
 		super(oid);
+		this.nodeFactory = null;
+		createNxClassAttribute();
+	}
+
+	private void createNxClassAttribute() {
 		Attribute a = TreeFactory.createAttribute(NX_CLASS);
 		String n = getNXclass().getName();
 		int i = n.lastIndexOf(".");
@@ -74,7 +101,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		
 		return null;
 	}
-
+	
 	@Override
 	public IDataset getDataset(String name) {
 		if (!containsDataNode(name)) {
@@ -113,9 +140,11 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.dawnsci.nexus.NXobject#initializeLazyDataset(java.lang.String, int, int)
+	 */
 	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, int dtype) {
-		int oid = 31 * name.hashCode();
-		DataNode dataNode = TreeFactory.createDataNode(oid);
+		DataNode dataNode = nodeFactory.createDataNode();
 		
 		int[] shape = new int[rank];
 		Arrays.fill(shape, ILazyWriteableDataset.UNLIMITED);
@@ -128,10 +157,10 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	}
 
 	private void createDataNode(String name, IDataset value) {
-		int oid = 31 * name.hashCode() + value.hashCode();
-		DataNode n = TreeFactory.createDataNode(oid);
-		addDataNode(name, n);
-		n.setDataset(value);
+		// note that this method should only be used when creating a new NeXus tree
+		DataNode dataNode = nodeFactory.createDataNode();
+		addDataNode(name, dataNode);
+		dataNode.setDataset(value);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -352,7 +381,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 
 		return cached.get(key);
 	}
-
+	
 	protected Dataset getAttr(String name, String attrName) {
 		return getCachedAttribute(name, attrName);
 	}

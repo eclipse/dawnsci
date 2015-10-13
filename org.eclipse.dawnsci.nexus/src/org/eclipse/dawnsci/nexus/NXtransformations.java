@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Use ``NXtransformations`` to gather together any set of movable or fixed
@@ -32,7 +33,17 @@ public interface NXtransformations extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTransformation();
+	public IDataset getTransformation();	
+
+	/**
+	 * Units need to be appropriate for translation or rotation
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarTransformation();
   
 	/**
 	 * Get all Transformation fields:
@@ -55,34 +66,34 @@ public interface NXtransformations extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getTransformationAttributeTransformation_type();
+	public String getTransformationAttributeTransformation_type();	
 
 	/**
 	 * Three values that define the axis for this transformation
 	 * 
 	 * @return  the value.
 	 */
-	public Number getTransformationAttributeVector();
+	public Number getTransformationAttributeVector();	
 
 	/**
 	 * A fixed offset applied before the transformation (three vector components).
 	 * 
 	 * @return  the value.
 	 */
-	public Number getTransformationAttributeOffset();
+	public Number getTransformationAttributeOffset();	
 
 	/**
 	 * Units of the offset.
 	 * 
 	 * @return  the value.
 	 */
-	public String getTransformationAttributeOffset_units();
+	public String getTransformationAttributeOffset_units();	
 
 	/**
 	 * Points to the path of the next element in the geometry chain.
 	 * 
 	 * @return  the value.
 	 */
-	public String getTransformationAttributeDepends_on();
+	public String getTransformationAttributeDepends_on();	
 
 }

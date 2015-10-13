@@ -7,12 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+
 import org.eclipse.dawnsci.nexus.*;
 
 /**
@@ -29,10 +31,14 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 	public static final String NX_X_GAP = "x_gap";
 	public static final String NX_Y_GAP = "y_gap";
 
-	protected NXslitImpl(long oid) {
-		super(oid);
+	protected NXslitImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXslitImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXslit.class;
@@ -48,8 +54,17 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 		return getDataset(NX_DEPENDS_ON);
 	}
 
+	@Override
+	public String getScalarDepends_on() {
+		return getString(NX_DEPENDS_ON);
+	}
+
 	public void setDepends_on(IDataset depends_on) {
 		setDataset(NX_DEPENDS_ON, depends_on);
+	}
+
+	public void setScalarDepends_on(String depends_on) {
+		setString(NX_DEPENDS_ON, depends_on);
 	}
 
 	@Override
@@ -57,8 +72,17 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 		return getDataset(NX_X_GAP);
 	}
 
+	@Override
+	public Number getScalarX_gap() {
+		return getNumber(NX_X_GAP);
+	}
+
 	public void setX_gap(IDataset x_gap) {
 		setDataset(NX_X_GAP, x_gap);
+	}
+
+	public void setScalarX_gap(Number x_gap) {
+		setField(NX_X_GAP, x_gap);
 	}
 
 	@Override
@@ -66,8 +90,17 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 		return getDataset(NX_Y_GAP);
 	}
 
+	@Override
+	public Number getScalarY_gap() {
+		return getNumber(NX_Y_GAP);
+	}
+
 	public void setY_gap(IDataset y_gap) {
 		setDataset(NX_Y_GAP, y_gap);
+	}
+
+	public void setScalarY_gap(Number y_gap) {
+		setField(NX_Y_GAP, y_gap);
 	}
 
 }

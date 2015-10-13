@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -30,10 +31,14 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 	public static final String NX_MATERIAL = "material";
 	public static final String NX_DESCRIPTION = "description";
 
-	protected NXapertureImpl(long oid) {
-		super(oid);
+	protected NXapertureImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXapertureImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXaperture.class;
@@ -76,8 +81,17 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 		return getDataset(NX_MATERIAL);
 	}
 
+	@Override
+	public String getScalarMaterial() {
+		return getString(NX_MATERIAL);
+	}
+
 	public void setMaterial(IDataset material) {
 		setDataset(NX_MATERIAL, material);
+	}
+
+	public void setScalarMaterial(String material) {
+		setString(NX_MATERIAL, material);
 	}
 
 	@Override
@@ -85,8 +99,17 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 		return getDataset(NX_DESCRIPTION);
 	}
 
+	@Override
+	public String getScalarDescription() {
+		return getString(NX_DESCRIPTION);
+	}
+
 	public void setDescription(IDataset description) {
 		setDataset(NX_DESCRIPTION, description);
+	}
+
+	public void setScalarDescription(String description) {
+		setString(NX_DESCRIPTION, description);
 	}
 
 	@Override

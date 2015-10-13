@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * A class for a beamstop. Beamstops and their positions are important for SANS
@@ -29,7 +30,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();
+	public NXgeometry getGeometry();	
   
 	/**
 	 * Get a NXgeometry node by name:
@@ -64,7 +65,19 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDescription();
+	public IDataset getDescription();	
+
+	/**
+	 * description of beamstop
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>circular</b> </li>
+	 * <li><b>rectangular</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarDescription();
 
 	/**
 	 * size of beamstop
@@ -75,7 +88,18 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSize();
+	public IDataset getSize();	
+
+	/**
+	 * size of beamstop
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSize();
 
 	/**
 	 * x position of the beamstop in relation to the detector
@@ -86,7 +110,18 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getX();
+	public IDataset getX();	
+
+	/**
+	 * x position of the beamstop in relation to the detector
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarX();
 
 	/**
 	 * y position of the beamstop in relation to the detector
@@ -97,7 +132,18 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getY();
+	public IDataset getY();	
+
+	/**
+	 * y position of the beamstop in relation to the detector
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarY();
 
 	/**
 	 * distance of the beamstop to the detector
@@ -108,7 +154,18 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDistance_to_detector();
+	public IDataset getDistance_to_detector();	
+
+	/**
+	 * distance of the beamstop to the detector
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDistance_to_detector();
 
 	/**
 	 * <p>
@@ -119,6 +176,17 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getStatus();
+	public IDataset getStatus();	
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>in</b> </li>
+	 * <li><b>out</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarStatus();
 
 }

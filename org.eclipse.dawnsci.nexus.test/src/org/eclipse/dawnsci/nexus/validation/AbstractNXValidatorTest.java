@@ -15,10 +15,11 @@ import org.eclipse.dawnsci.analysis.tree.impl.AttributeImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
 import org.eclipse.dawnsci.nexus.NXsample;
 import org.eclipse.dawnsci.nexus.NXtransformations;
-import org.eclipse.dawnsci.nexus.impl.NXobjectFactory;
+import org.eclipse.dawnsci.nexus.impl.NexusNodeFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class AbstractNXValidatorTest {
@@ -135,19 +136,15 @@ public class AbstractNXValidatorTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testValidateFieldUnits_ok() throws Exception {
-//		DoubleDataset dataset = new DoubleDataset();
-		// TODO: how to create unit metadata
-//		validator.validateFieldUnits("unitsField", dataset, NexusUnitCategory.NX_CURRENT);
-
-		// TODO
-		Assert.fail("Test not yet written.");
+		// TODO test units - how to create unit metadata 
 	}
 	
 	@Test
+	@Ignore
 	public void testValidateFieldUnits_incompatibleUnits() throws Exception {
-		// TODO
-		Assert.fail("Test not yet written.");
+		// TODO test units
 	}
 	
 	@Test
@@ -229,7 +226,7 @@ public class AbstractNXValidatorTest {
 	public void testValidateTransformations() throws Exception {
 		final Map<String, NXtransformations> transformations = new HashMap<>();
 		
-		NXobjectFactory nxObjectFactory = new NXobjectFactory();
+		NexusNodeFactory nxObjectFactory = new NexusNodeFactory();
 		transformations.put("one", nxObjectFactory.createNXtransformations());
 		transformations.put("two", nxObjectFactory.createNXtransformations());
 		transformations.put("three", nxObjectFactory.createNXtransformations());
@@ -245,7 +242,7 @@ public class AbstractNXValidatorTest {
 	public void testValidateTransformations_missingFirstTransformation() throws Exception {
 		final Map<String, NXtransformations> transformations = new HashMap<>();
 		
-		NXobjectFactory nxObjectFactory = new NXobjectFactory();
+		NexusNodeFactory nxObjectFactory = new NexusNodeFactory();
 		transformations.put("one", nxObjectFactory.createNXtransformations());
 		transformations.put("two", nxObjectFactory.createNXtransformations());
 		transformations.put("three", nxObjectFactory.createNXtransformations());
@@ -261,7 +258,7 @@ public class AbstractNXValidatorTest {
 	public void testValidateTransformations_missingTransformation() throws Exception {
 		final Map<String, NXtransformations> transformations = new HashMap<>();
 		
-		NXobjectFactory nxObjectFactory = new NXobjectFactory();
+		NexusNodeFactory nxObjectFactory = new NexusNodeFactory();
 		transformations.put("one", nxObjectFactory.createNXtransformations());
 		transformations.put("two", nxObjectFactory.createNXtransformations());
 		transformations.put("three", nxObjectFactory.createNXtransformations());
@@ -277,7 +274,7 @@ public class AbstractNXValidatorTest {
 	public void testValidateTransformations_circularDependency() throws Exception {
 		final Map<String, NXtransformations> transformations = new HashMap<>();
 		
-		NXobjectFactory nxObjectFactory = new NXobjectFactory();
+		NexusNodeFactory nxObjectFactory = new NexusNodeFactory();
 		transformations.put("one", nxObjectFactory.createNXtransformations());
 		transformations.put("two", nxObjectFactory.createNXtransformations());
 		transformations.put("three", nxObjectFactory.createNXtransformations());

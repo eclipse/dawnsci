@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -36,10 +36,14 @@ public class NXtransformationsImpl extends NXobjectImpl implements NXtransformat
 	public static final String NX_TRANSFORMATION_ATTRIBUTE_OFFSET_UNITS = "offset_units";
 	public static final String NX_TRANSFORMATION_ATTRIBUTE_DEPENDS_ON = "depends_on";
 
-	protected NXtransformationsImpl(long oid) {
-		super(oid);
+	protected NXtransformationsImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXtransformationsImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXtransformations.class;
@@ -55,8 +59,17 @@ public class NXtransformationsImpl extends NXobjectImpl implements NXtransformat
 		return getDataset(NX_TRANSFORMATION);
 	}
 
+	@Override
+	public Number getScalarTransformation() {
+		return getNumber(NX_TRANSFORMATION);
+	}
+
 	public void setTransformation(IDataset transformation) {
 		setDataset(NX_TRANSFORMATION, transformation);
+	}
+
+	public void setScalarTransformation(Number transformation) {
+		setField(NX_TRANSFORMATION, transformation);
 	}
 
 	@Override

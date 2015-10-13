@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Date;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Definition of information that is recorded against time,
@@ -44,13 +45,25 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTime();
+	public IDataset getTime();	
+
+	/**
+	 * Time of logged entry. The times are relative to the "start" attribute
+	 * and in the units specified in the "units" attribute.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarTime();
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public Date getTimeAttributeStart();
+	public Date getTimeAttributeStart();	
 
 	/**
 	 * Array of logged value, such as temperature
@@ -61,7 +74,18 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getValue();
+	public IDataset getValue();	
+
+	/**
+	 * Array of logged value, such as temperature
+	 * <p>
+	 * <b>Units:</b> NX_ANY
+	 * <b>Type:</b> NX_NUMBER
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarValue();
 
 	/**
 	 * Array of raw information, such as thermocouple voltage
@@ -72,14 +96,32 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getRaw_value();
+	public IDataset getRaw_value();	
+
+	/**
+	 * Array of raw information, such as thermocouple voltage
+	 * <p>
+	 * <b>Units:</b> NX_ANY
+	 * <b>Type:</b> NX_NUMBER
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarRaw_value();
 
 	/**
 	 * Description of logged value
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDescription();
+	public IDataset getDescription();	
+
+	/**
+	 * Description of logged value
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarDescription();
 
 	/**
 	 * <p>
@@ -89,7 +131,17 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAverage_value();
+	public IDataset getAverage_value();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarAverage_value();
 
 	/**
 	 * estimated uncertainty (often used: standard deviation) of average_value
@@ -100,7 +152,18 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAverage_value_error();
+	public IDataset getAverage_value_error();	
+
+	/**
+	 * estimated uncertainty (often used: standard deviation) of average_value
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarAverage_value_error();
 
 	/**
 	 * <p>
@@ -110,7 +173,17 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getMinimum_value();
+	public IDataset getMinimum_value();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarMinimum_value();
 
 	/**
 	 * <p>
@@ -120,7 +193,17 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getMaximum_value();
+	public IDataset getMaximum_value();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarMaximum_value();
 
 	/**
 	 * Total time log was taken
@@ -131,6 +214,17 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDuration();
+	public IDataset getDuration();	
+
+	/**
+	 * Total time log was taken
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDuration();
 
 }

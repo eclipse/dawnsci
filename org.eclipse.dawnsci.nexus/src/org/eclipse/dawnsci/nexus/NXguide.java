@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * ``NXguide`` is used by neutron instruments to describe
@@ -53,7 +54,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();
+	public NXgeometry getGeometry();	
   
 	/**
 	 * Get a NXgeometry node by name:
@@ -83,7 +84,14 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDescription();
+	public IDataset getDescription();	
+
+	/**
+	 * A description of this particular instance of ``NXguide``.
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarDescription();
 
 	/**
 	 * TODO: documentation needed
@@ -94,14 +102,25 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getIncident_angle();
+	public IDataset getIncident_angle();	
+
+	/**
+	 * TODO: documentation needed
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarIncident_angle();
 
 	/**
 	 * Reflectivity as function of reflecting surface and wavelength
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getReflectivity();
+	public NXdata getReflectivity();	
 
 	/**
 	 * TODO: documentation needed
@@ -112,7 +131,18 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getBend_angle_x();
+	public IDataset getBend_angle_x();	
+
+	/**
+	 * TODO: documentation needed
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarBend_angle_x();
 
 	/**
 	 * TODO: documentation needed
@@ -123,7 +153,18 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getBend_angle_y();
+	public IDataset getBend_angle_y();	
+
+	/**
+	 * TODO: documentation needed
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarBend_angle_y();
 
 	/**
 	 * <p>
@@ -135,14 +176,33 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getInterior_atmosphere();
+	public IDataset getInterior_atmosphere();	
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>vacuum</b> </li>
+	 * <li><b>helium</b> </li>
+	 * <li><b>argon</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarInterior_atmosphere();
 
 	/**
 	 * external material outside substrate
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getExternal_material();
+	public IDataset getExternal_material();	
+
+	/**
+	 * external material outside substrate
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarExternal_material();
 
 	/**
 	 * The ``m`` value for a supermirror, which defines the supermirror
@@ -154,7 +214,19 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getM_value();
+	public IDataset getM_value();	
+
+	/**
+	 * The ``m`` value for a supermirror, which defines the supermirror
+	 * regime in multiples of the critical angle of Nickel.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Dimensions:</b> 1: nsurf;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarM_value();
 
 	/**
 	 * TODO: documentation needed
@@ -165,19 +237,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSubstrate_material();
-
-	/**
-	 * TODO: documentation needed
-	 * <p>
-	 * <b>Type:</b> NX_FLOAT
-	 * <b>Units:</b> NX_LENGTH
-	 * <b>Dimensions:</b> 1: nsurf;
-	 * </p>
-	 * 
-	 * @return  the value.
-	 */
-	public IDataset getSubstrate_thickness();
+	public IDataset getSubstrate_material();	
 
 	/**
 	 * TODO: documentation needed
@@ -186,21 +246,9 @@ public interface NXguide extends NXobject {
 	 * <b>Dimensions:</b> 1: nsurf;
 	 * </p>
 	 * 
-	 * @return  the value.
+	 * @return  the value
 	 */
-	public IDataset getCoating_material();
-
-	/**
-	 * TODO: documentation needed
-	 * <p>
-	 * <b>Type:</b> NX_FLOAT
-	 * <b>Units:</b> NX_LENGTH
-	 * <b>Dimensions:</b> 1: nsurf;
-	 * </p>
-	 * 
-	 * @return  the value.
-	 */
-	public IDataset getSubstrate_roughness();
+	 public double getScalarSubstrate_material();
 
 	/**
 	 * TODO: documentation needed
@@ -212,7 +260,89 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCoating_roughness();
+	public IDataset getSubstrate_thickness();	
+
+	/**
+	 * TODO: documentation needed
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: nsurf;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSubstrate_thickness();
+
+	/**
+	 * TODO: documentation needed
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Dimensions:</b> 1: nsurf;
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getCoating_material();	
+
+	/**
+	 * TODO: documentation needed
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Dimensions:</b> 1: nsurf;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarCoating_material();
+
+	/**
+	 * TODO: documentation needed
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: nsurf;
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getSubstrate_roughness();	
+
+	/**
+	 * TODO: documentation needed
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: nsurf;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSubstrate_roughness();
+
+	/**
+	 * TODO: documentation needed
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: nsurf;
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getCoating_roughness();	
+
+	/**
+	 * TODO: documentation needed
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: nsurf;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarCoating_roughness();
 
 	/**
 	 * number of substrate sections (also called ``nsurf`` as an
@@ -224,6 +354,18 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getNumber_sections();
+	public IDataset getNumber_sections();	
+
+	/**
+	 * number of substrate sections (also called ``nsurf`` as an
+	 * index in the ``NXguide`` specification)
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Units:</b> NX_UNITLESS
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarNumber_sections();
 
 }

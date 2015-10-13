@@ -7,14 +7,16 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of monitor data. It is similar to the NXdata groups containing
@@ -38,7 +40,20 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getMode();
+	public IDataset getMode();	
+
+	/**
+	 * Count to a preset value based on either clock time (timer)
+	 * or received monitor counts (monitor).
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>monitor</b> </li>
+	 * <li><b>timer</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarMode();
 
 	/**
 	 * Starting time of measurement
@@ -48,7 +63,17 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getStart_time();
+	public IDataset getStart_time();	
+
+	/**
+	 * Starting time of measurement
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Date getScalarStart_time();
 
 	/**
 	 * Ending time of measurement
@@ -58,7 +83,17 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEnd_time();
+	public IDataset getEnd_time();	
+
+	/**
+	 * Ending time of measurement
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Date getScalarEnd_time();
 
 	/**
 	 * preset value for time or monitor
@@ -69,7 +104,18 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPreset();
+	public IDataset getPreset();	
+
+	/**
+	 * preset value for time or monitor
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarPreset();
 
 	/**
 	 * Distance of monitor from sample
@@ -80,7 +126,18 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDistance();
+	public IDataset getDistance();	
+
+	/**
+	 * Distance of monitor from sample
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDistance();
 
 	/**
 	 * Range (X-axis, Time-of-flight, etc.) over which the integral was calculated
@@ -92,7 +149,19 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getRange();
+	public IDataset getRange();	
+
+	/**
+	 * Range (X-axis, Time-of-flight, etc.) over which the integral was calculated
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * <b>Dimensions:</b> 1: 2;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarRange();
 
 	/**
 	 * Nominal reading to be used for normalisation purposes.
@@ -103,7 +172,18 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getNominal();
+	public IDataset getNominal();	
+
+	/**
+	 * Nominal reading to be used for normalisation purposes.
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarNominal();
 
 	/**
 	 * Total integral monitor counts
@@ -114,14 +194,25 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getIntegral();
+	public IDataset getIntegral();	
+
+	/**
+	 * Total integral monitor counts
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarIntegral();
 
 	/**
 	 * Time variation of monitor counts
 	 * 
 	 * @return  the value.
 	 */
-	public NXlog getIntegral_log();
+	public NXlog getIntegral_log();	
 
 	/**
 	 * <p>
@@ -132,7 +223,18 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();
+	public IDataset getType();	
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>Fission Chamber</b> </li>
+	 * <li><b>Scintillator</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarType();
 
 	/**
 	 * Time-of-flight
@@ -144,7 +246,19 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTime_of_flight();
+	public IDataset getTime_of_flight();	
+
+	/**
+	 * Time-of-flight
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME_OF_FLIGHT
+	 * <b>Dimensions:</b> 1: ;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarTime_of_flight();
 
 	/**
 	 * Monitor efficiency
@@ -156,7 +270,19 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEfficiency();
+	public IDataset getEfficiency();	
+
+	/**
+	 * Monitor efficiency
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_DIMENSIONLESS
+	 * <b>Dimensions:</b> 1: ;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarEfficiency();
 
 	/**
 	 * Monitor data
@@ -174,21 +300,39 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getData();
+	public IDataset getData();	
+
+	/**
+	 * Monitor data
+	 * The signal and axes attributes take the same definitions as in :ref:`NXdata`:
+	 * :signal:
+	 * ``signal=1`` means this is the plottable data
+	 * :axes:
+	 * ``axes="names"`` where names are defined as a colon-delimited string
+	 * within this attribute in the C-order of the data array
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_ANY
+	 * <b>Dimensions:</b> 0: n;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarData();
 
 	/**
 	 * as defined for NXdata
 	 * 
 	 * @return  the value.
 	 */
-	public long getDataAttributeSignal();
+	public long getDataAttributeSignal();	
 
 	/**
 	 * as defined for NXdata
 	 * 
 	 * @return  the value.
 	 */
-	public String getDataAttributeAxes();
+	public String getDataAttributeAxes();	
 
 	/**
 	 * Proportion of incident beam sampled by the monitor (0<x<1)
@@ -199,14 +343,25 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSampled_fraction();
+	public IDataset getSampled_fraction();	
+
+	/**
+	 * Proportion of incident beam sampled by the monitor (0<x<1)
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_DIMENSIONLESS
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSampled_fraction();
 
 	/**
 	 * Geometry of the monitor
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();
+	public NXgeometry getGeometry();	
   
 	/**
 	 * Get a NXgeometry node by name:
@@ -243,6 +398,20 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCount_time();
+	public IDataset getCount_time();	
+
+	/**
+	 * Elapsed actual counting time, can be an array of size ``np``
+	 * when scanning. This is not the difference of the calendar time
+	 * but the time the instrument was really counting, without
+	 * pauses or times lost due beam unavailability
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarCount_time();
 
 }

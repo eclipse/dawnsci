@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * .. index:: plotting
@@ -83,14 +84,29 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getVariable();
+	public IDataset getVariable();	
+
+	/**
+	 * Dimension scale defining an axis of the data.
+	 * Client is responsible for defining the dimensions of the data.
+	 * The name of this field may be changed to fit the circumstances.
+	 * Standard NeXus client tools will use the attributes to determine
+	 * how to use this field.
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Dimensions:</b> 1: n;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarVariable();
 
 	/**
 	 * Axis label
 	 * 
 	 * @return  the value.
 	 */
-	public String getVariableAttributeLong_name();
+	public String getVariableAttributeLong_name();	
 
 	/**
 	 * ``0|false``: single value,
@@ -98,21 +114,21 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public boolean getVariableAttributeDistribution();
+	public boolean getVariableAttributeDistribution();	
 
 	/**
 	 * Index of first good value
 	 * 
 	 * @return  the value.
 	 */
-	public long getVariableAttributeFirst_good();
+	public long getVariableAttributeFirst_good();	
 
 	/**
 	 * Index of last good value
 	 * 
 	 * @return  the value.
 	 */
-	public long getVariableAttributeLast_good();
+	public long getVariableAttributeLast_good();	
 
 	/**
 	 * Index (positive integer) identifying this specific set of numbers.
@@ -122,7 +138,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getVariableAttributeAxis();
+	public long getVariableAttributeAxis();	
 
 	/**
 	 * Errors (uncertainties) associated with axis ``variable``
@@ -137,7 +153,22 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getVariable_errors();
+	public IDataset getVariable_errors();	
+
+	/**
+	 * Errors (uncertainties) associated with axis ``variable``
+	 * Client is responsible for defining the dimensions of the data.
+	 * The name of this field may be changed to fit the circumstances
+	 * but is matched with the *variable*
+	 * field with ``_errors`` appended.
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Dimensions:</b> 1: n;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarVariable_errors();
 
 	/**
 	 * .. index:: plotting
@@ -154,7 +185,24 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getData();
+	public IDataset getData();	
+
+	/**
+	 * .. index:: plotting
+	 * This field contains the data values to be used as the
+	 * NeXus *plottable data*.
+	 * Client is responsible for defining the dimensions of the data.
+	 * The name of this field may be changed to fit the circumstances.
+	 * Standard NeXus client tools will use the attributes to determine
+	 * how to use this field.
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Dimensions:</b> 0: n;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarData();
 
 	/**
 	 * .. index:: plotting
@@ -165,7 +213,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getDataAttributeSignal();
+	public long getDataAttributeSignal();	
 
 	/**
 	 * Defines the names of the dimension scales
@@ -177,7 +225,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getDataAttributeAxes();
+	public String getDataAttributeAxes();	
 
 	/**
 	 * Specify the names of the errors (uncertainties)
@@ -187,14 +235,14 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getDataAttributeUncertainties();
+	public String getDataAttributeUncertainties();	
 
 	/**
 	 * data label
 	 * 
 	 * @return  the value.
 	 */
-	public String getDataAttributeLong_name();
+	public String getDataAttributeLong_name();	
 
 	/**
 	 * Standard deviations of data values -
@@ -208,7 +256,21 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getErrors();
+	public IDataset getErrors();	
+
+	/**
+	 * Standard deviations of data values -
+	 * the data array is identified by the attribute ``signal=1``.
+	 * The ``errors`` array must have the same dimensions as ``data``.
+	 * Client is responsible for defining the dimensions of the data.
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Dimensions:</b> 0: n;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarErrors();
 
 	/**
 	 * The elements in data are usually float values really. For
@@ -222,7 +284,21 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getScaling_factor();
+	public IDataset getScaling_factor();	
+
+	/**
+	 * The elements in data are usually float values really. For
+	 * efficiency reasons these are usually stored as integers
+	 * after scaling with a scale factor. This value is the scale
+	 * factor. It is required to get the actual physical value,
+	 * when necessary.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarScaling_factor();
 
 	/**
 	 * An optional offset to apply to the values in data.
@@ -232,7 +308,17 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getOffset();
+	public IDataset getOffset();	
+
+	/**
+	 * An optional offset to apply to the values in data.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarOffset();
 
 	/**
 	 * This is an array holding the values to use for the x-axis of
@@ -245,7 +331,20 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getX();
+	public IDataset getX();	
+
+	/**
+	 * This is an array holding the values to use for the x-axis of
+	 * data. The units must be appropriate for the measurement.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * <b>Dimensions:</b> 1: nx;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarX();
 
 	/**
 	 * This is an array holding the values to use for the y-axis of
@@ -258,7 +357,20 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getY();
+	public IDataset getY();	
+
+	/**
+	 * This is an array holding the values to use for the y-axis of
+	 * data. The units must be appropriate for the measurement.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * <b>Dimensions:</b> 1: ny;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarY();
 
 	/**
 	 * This is an array holding the values to use for the z-axis of
@@ -271,6 +383,19 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getZ();
+	public IDataset getZ();	
+
+	/**
+	 * This is an array holding the values to use for the z-axis of
+	 * data. The units must be appropriate for the measurement.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * <b>Dimensions:</b> 1: nz;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarZ();
 
 }

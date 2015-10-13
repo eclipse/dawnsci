@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * This group describes a generic positioner
@@ -33,14 +34,28 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getName();
+	public IDataset getName();	
+
+	/**
+	 * symbolic or mnemonic name (one word)
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarName();
 
 	/**
 	 * description of positioner
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDescription();
+	public IDataset getDescription();	
+
+	/**
+	 * description of positioner
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarDescription();
 
 	/**
 	 * best known value of positioner - need [n] as may be scanned
@@ -52,7 +67,19 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getValue();
+	public IDataset getValue();	
+
+	/**
+	 * best known value of positioner - need [n] as may be scanned
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_ANY
+	 * <b>Dimensions:</b> 1: n;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarValue();
 
 	/**
 	 * raw value of positioner - need [n] as may be scanned
@@ -64,7 +91,19 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getRaw_value();
+	public IDataset getRaw_value();	
+
+	/**
+	 * raw value of positioner - need [n] as may be scanned
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_ANY
+	 * <b>Dimensions:</b> 1: n;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarRaw_value();
 
 	/**
 	 * targeted (commanded) value of positioner - need [n] as may be scanned
@@ -76,7 +115,19 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTarget_value();
+	public IDataset getTarget_value();	
+
+	/**
+	 * targeted (commanded) value of positioner - need [n] as may be scanned
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_ANY
+	 * <b>Dimensions:</b> 1: n;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarTarget_value();
 
 	/**
 	 * maximum allowable difference between target_value and value
@@ -88,7 +139,19 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTolerance();
+	public IDataset getTolerance();	
+
+	/**
+	 * maximum allowable difference between target_value and value
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_ANY
+	 * <b>Dimensions:</b> 1: n;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarTolerance();
 
 	/**
 	 * minimum allowed limit to set value
@@ -99,7 +162,18 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSoft_limit_min();
+	public IDataset getSoft_limit_min();	
+
+	/**
+	 * minimum allowed limit to set value
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarSoft_limit_min();
 
 	/**
 	 * maximum allowed limit to set value
@@ -110,7 +184,18 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSoft_limit_max();
+	public IDataset getSoft_limit_max();	
+
+	/**
+	 * maximum allowed limit to set value
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarSoft_limit_max();
 
 	/**
 	 * velocity of the positioner (distance moved per unit time)
@@ -121,7 +206,18 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getVelocity();
+	public IDataset getVelocity();	
+
+	/**
+	 * velocity of the positioner (distance moved per unit time)
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarVelocity();
 
 	/**
 	 * time to ramp the velocity up to full speed
@@ -132,13 +228,31 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAcceleration_time();
+	public IDataset getAcceleration_time();	
+
+	/**
+	 * time to ramp the velocity up to full speed
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarAcceleration_time();
 
 	/**
 	 * Hardware device record, e.g. EPICS process variable, taco/tango ...
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getController_record();
+	public IDataset getController_record();	
+
+	/**
+	 * Hardware device record, e.g. EPICS process variable, taco/tango ...
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarController_record();
 
 }

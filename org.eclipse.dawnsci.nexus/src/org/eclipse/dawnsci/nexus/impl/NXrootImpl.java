@@ -7,11 +7,12 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.dawnsci.nexus.*;
@@ -36,10 +37,14 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 	public static final String NX_ATTRIBUTE_CREATOR = "creator";
 	public static final String NX_ATTRIBUTE_DEFAULT = "default";
 
-	protected NXrootImpl(long oid) {
-		super(oid);
+	protected NXrootImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXrootImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXroot.class;

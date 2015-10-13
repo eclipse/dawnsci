@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Base interface of all Nexus group nodes
@@ -59,10 +60,12 @@ public interface NXobject extends GroupNode {
 	public abstract IDataset getDataset(String name);
 	
 	/**
-	 * @param name
-	 * @param rank
-	 * @param dtype
-	 * @return
+	 * Creates and adds a new {@link ILazyWriteableDataset} to this group for the given field name,
+	 * with the given rank (dimensionality) and of the given type (a constant from {@link Dataset}).
+	 * @param name field name
+	 * @param rank rank
+	 * @param dtype data type constant (from {@link Dataset})
+	 * @return new lazy writable dataset
 	 */
 	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, int dtype);
 

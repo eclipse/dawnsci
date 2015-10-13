@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.nexus.NXaperture;
@@ -24,11 +26,11 @@ import org.junit.Test;
 
 public class NXobjectImplTest {
 	
-	private NXobjectFactory nxObjectFactory;
+	private NexusNodeFactory nxObjectFactory;
 		
 	@Before
 	public void setUp() {
-		nxObjectFactory = new NXobjectFactory();
+		nxObjectFactory = new NexusNodeFactory();
 	}
 	
 	@After
@@ -118,6 +120,20 @@ public class NXobjectImplTest {
 		
 		assertNotNull(detector.getNumber_of_cycles());
 		assertSame(numberOfCycles, detector.getNumber_of_cycles());
+	}
+	
+	@Test
+	public void testInitializeLazyDataset() {
+		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		ILazyWriteableDataset dataset = detector.initializeLazyDataset(NXdetectorImpl.NX_DATA, 2, Dataset.FLOAT64);
+		assertNotNull(dataset);
+		assertEquals(2, dataset.getRank());
+		assertEquals(Double.class, dataset.elementClass());
+		
+		assertSame(dataset, detector.getLazyWritableDataset(NXdetectorImpl.NX_DATA));
+		DataNode dataNode = detector.getDataNode(NXdetectorImpl.NX_DATA);
+		assertNotNull(dataNode);
+		assertSame(dataset, dataNode.getDataset());
 	}
 	
 	@Test

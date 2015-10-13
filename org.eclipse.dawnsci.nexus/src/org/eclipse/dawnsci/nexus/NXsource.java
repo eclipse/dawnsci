@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Date;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of the neutron or x-ray source, insertion devices and/or moderators.
@@ -34,21 +35,41 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDistance();
+	public IDataset getDistance();	
+
+	/**
+	 * Effective distance from sample
+	 * Distance as seen by radiation from sample. This number should be negative
+	 * to signify that it is upstream of the sample.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDistance();
 
 	/**
 	 * Name of source
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getName();
+	public IDataset getName();	
+
+	/**
+	 * Name of source
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarName();
 
 	/**
 	 * short name for source, perhaps the acronym
 	 * 
 	 * @return  the value.
 	 */
-	public String getNameAttributeShort_name();
+	public String getNameAttributeShort_name();	
 
 	/**
 	 * type of radiation source (pick one from the enumerated list and spell exactly)
@@ -70,7 +91,29 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();
+	public IDataset getType();	
+
+	/**
+	 * type of radiation source (pick one from the enumerated list and spell exactly)
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>Spallation Neutron Source</b> </li>
+	 * <li><b>Pulsed Reactor Neutron Source</b> </li>
+	 * <li><b>Reactor Neutron Source</b> </li>
+	 * <li><b>Synchrotron X-ray Source</b> </li>
+	 * <li><b>Pulsed Muon Source</b> </li>
+	 * <li><b>Rotating Anode X-ray</b> </li>
+	 * <li><b>Fixed Tube X-ray</b> </li>
+	 * <li><b>UV Laser</b> </li>
+	 * <li><b>Free-Electron Laser</b> </li>
+	 * <li><b>Optical Laser</b> </li>
+	 * <li><b>Ion Source</b> </li>
+	 * <li><b>UV Plasma Source</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarType();
 
 	/**
 	 * type of radiation probe (pick one from the enumerated list and spell exactly)
@@ -88,7 +131,25 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getProbe();
+	public IDataset getProbe();	
+
+	/**
+	 * type of radiation probe (pick one from the enumerated list and spell exactly)
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>neutron</b> </li>
+	 * <li><b>x-ray</b> </li>
+	 * <li><b>muon</b> </li>
+	 * <li><b>electron</b> </li>
+	 * <li><b>ultraviolet</b> </li>
+	 * <li><b>visible light</b> </li>
+	 * <li><b>positron</b> </li>
+	 * <li><b>proton</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarProbe();
 
 	/**
 	 * Source power
@@ -99,7 +160,18 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPower();
+	public IDataset getPower();	
+
+	/**
+	 * Source power
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_POWER
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarPower();
 
 	/**
 	 * Source emittance (nm-rad) in X (horizontal) direction.
@@ -110,7 +182,18 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEmittance_x();
+	public IDataset getEmittance_x();	
+
+	/**
+	 * Source emittance (nm-rad) in X (horizontal) direction.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_EMITTANCE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarEmittance_x();
 
 	/**
 	 * Source emittance (nm-rad) in Y (horizontal) direction.
@@ -121,7 +204,18 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEmittance_y();
+	public IDataset getEmittance_y();	
+
+	/**
+	 * Source emittance (nm-rad) in Y (horizontal) direction.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_EMITTANCE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarEmittance_y();
 
 	/**
 	 * particle beam size in x
@@ -132,7 +226,18 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSigma_x();
+	public IDataset getSigma_x();	
+
+	/**
+	 * particle beam size in x
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSigma_x();
 
 	/**
 	 * particle beam size in y
@@ -143,7 +248,18 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSigma_y();
+	public IDataset getSigma_y();	
+
+	/**
+	 * particle beam size in y
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSigma_y();
 
 	/**
 	 * Source intensity/area (example: s-1 cm-2)
@@ -154,7 +270,18 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFlux();
+	public IDataset getFlux();	
+
+	/**
+	 * Source intensity/area (example: s-1 cm-2)
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_FLUX
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarFlux();
 
 	/**
 	 * Source energy.
@@ -167,7 +294,20 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEnergy();
+	public IDataset getEnergy();	
+
+	/**
+	 * Source energy.
+	 * For storage rings, this would be the particle beam energy.
+	 * For X-ray tubes, this would be the excitation voltage.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ENERGY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarEnergy();
 
 	/**
 	 * Accelerator, X-ray tube, or storage ring current
@@ -178,7 +318,18 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCurrent();
+	public IDataset getCurrent();	
+
+	/**
+	 * Accelerator, X-ray tube, or storage ring current
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_CURRENT
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarCurrent();
 
 	/**
 	 * Accelerator voltage
@@ -189,7 +340,18 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getVoltage();
+	public IDataset getVoltage();	
+
+	/**
+	 * Accelerator voltage
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_VOLTAGE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarVoltage();
 
 	/**
 	 * Frequency of pulsed source
@@ -200,7 +362,18 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFrequency();
+	public IDataset getFrequency();	
+
+	/**
+	 * Frequency of pulsed source
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_FREQUENCY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarFrequency();
 
 	/**
 	 * Period of pulsed source
@@ -211,7 +384,18 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPeriod();
+	public IDataset getPeriod();	
+
+	/**
+	 * Period of pulsed source
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_PERIOD
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarPeriod();
 
 	/**
 	 * Pulsed source target material
@@ -228,7 +412,24 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTarget_material();
+	public IDataset getTarget_material();	
+
+	/**
+	 * Pulsed source target material
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>Ta</b> </li>
+	 * <li><b>W</b> </li>
+	 * <li><b>depleted_U</b> </li>
+	 * <li><b>enriched_U</b> </li>
+	 * <li><b>Hg</b> </li>
+	 * <li><b>Pb</b> </li>
+	 * <li><b>C</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarTarget_material();
 
 	/**
 	 * any source/facility related messages/events that
@@ -236,7 +437,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXnote getNotes();
+	public NXnote getNotes();	
 
 	/**
 	 * For storage rings, description of the bunch pattern.
@@ -244,7 +445,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getBunch_pattern();
+	public NXdata getBunch_pattern();	
 
 	/**
 	 * For storage rings, the number of bunches in use.
@@ -254,7 +455,17 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getNumber_of_bunches();
+	public IDataset getNumber_of_bunches();	
+
+	/**
+	 * For storage rings, the number of bunches in use.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarNumber_of_bunches();
 
 	/**
 	 * For storage rings, temporal length of the bunch
@@ -265,7 +476,18 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getBunch_length();
+	public IDataset getBunch_length();	
+
+	/**
+	 * For storage rings, temporal length of the bunch
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarBunch_length();
 
 	/**
 	 * For storage rings, time between bunches
@@ -276,7 +498,18 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getBunch_distance();
+	public IDataset getBunch_distance();	
+
+	/**
+	 * For storage rings, time between bunches
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarBunch_distance();
 
 	/**
 	 * temporal width of source pulse
@@ -287,14 +520,25 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPulse_width();
+	public IDataset getPulse_width();	
+
+	/**
+	 * temporal width of source pulse
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarPulse_width();
 
 	/**
 	 * source pulse shape
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getPulse_shape();
+	public NXdata getPulse_shape();	
 
 	/**
 	 * source operating mode
@@ -308,7 +552,21 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getMode();
+	public IDataset getMode();	
+
+	/**
+	 * source operating mode
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>Single Bunch</b> 
+	 * for storage rings</li>
+	 * <li><b>Multi Bunch</b> 
+	 * for storage rings</li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarMode();
 
 	/**
 	 * Is the synchrotron operating in top_up mode?
@@ -318,7 +576,17 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTop_up();
+	public IDataset getTop_up();	
+
+	/**
+	 * Is the synchrotron operating in top_up mode?
+	 * <p>
+	 * <b>Type:</b> NX_BOOLEAN
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public boolean getScalarTop_up();
 
 	/**
 	 * For storage rings, the current at the end of the most recent injection.
@@ -329,27 +597,38 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getLast_fill();
+	public IDataset getLast_fill();	
+
+	/**
+	 * For storage rings, the current at the end of the most recent injection.
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * <b>Units:</b> NX_CURRENT
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Number getScalarLast_fill();
 
 	/**
 	 * date and time of the most recent injection.
 	 * 
 	 * @return  the value.
 	 */
-	public Date getLast_fillAttributeTime();
+	public Date getLast_fillAttributeTime();	
 
 	/**
 	 * "Engineering" location of source
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();
+	public NXgeometry getGeometry();	
 
 	/**
 	 * The wavelength or energy distribution of the source
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getDistribution();
+	public NXdata getDistribution();	
 
 }

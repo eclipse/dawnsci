@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of the state of the neutron or X-ray beam at any location. It will be referenced
@@ -38,7 +39,18 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDistance();
+	public IDataset getDistance();	
+
+	/**
+	 * Distance from sample
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDistance();
 
 	/**
 	 * Energy on entering beamline component
@@ -50,7 +62,19 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getIncident_energy();
+	public IDataset getIncident_energy();	
+
+	/**
+	 * Energy on entering beamline component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ENERGY
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarIncident_energy();
 
 	/**
 	 * Energy on leaving beamline component
@@ -62,7 +86,19 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFinal_energy();
+	public IDataset getFinal_energy();	
+
+	/**
+	 * Energy on leaving beamline component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ENERGY
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarFinal_energy();
 
 	/**
 	 * Energy change caused by beamline component
@@ -74,7 +110,19 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEnergy_transfer();
+	public IDataset getEnergy_transfer();	
+
+	/**
+	 * Energy change caused by beamline component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ENERGY
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarEnergy_transfer();
 
 	/**
 	 * Wavelength on entering beamline component
@@ -86,7 +134,19 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getIncident_wavelength();
+	public IDataset getIncident_wavelength();	
+
+	/**
+	 * Wavelength on entering beamline component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_WAVELENGTH
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarIncident_wavelength();
 
 	/**
 	 * Wavelength spread FWHM on entering component
@@ -98,7 +158,19 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getIncident_wavelength_spread();
+	public IDataset getIncident_wavelength_spread();	
+
+	/**
+	 * Wavelength spread FWHM on entering component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_WAVELENGTH
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarIncident_wavelength_spread();
 
 	/**
 	 * Divergence of beam entering this component
@@ -110,7 +182,19 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getIncident_beam_divergence();
+	public IDataset getIncident_beam_divergence();	
+
+	/**
+	 * Divergence of beam entering this component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * <b>Dimensions:</b> 1: 2; 2: j;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarIncident_beam_divergence();
 
 	/**
 	 * Wavelength on leaving beamline component
@@ -122,7 +206,19 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFinal_wavelength();
+	public IDataset getFinal_wavelength();	
+
+	/**
+	 * Wavelength on leaving beamline component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_WAVELENGTH
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarFinal_wavelength();
 
 	/**
 	 * Polarization vector on entering beamline component
@@ -134,7 +230,19 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getIncident_polarization();
+	public IDataset getIncident_polarization();	
+
+	/**
+	 * Polarization vector on entering beamline component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * <b>Dimensions:</b> 1: 2; 2: j;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarIncident_polarization();
 
 	/**
 	 * Polarization vector on leaving beamline component
@@ -146,7 +254,19 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFinal_polarization();
+	public IDataset getFinal_polarization();	
+
+	/**
+	 * Polarization vector on leaving beamline component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * <b>Dimensions:</b> 1: 2; 2: j;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarFinal_polarization();
 
 	/**
 	 * Wavelength spread FWHM of beam leaving this component
@@ -158,7 +278,19 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFinal_wavelength_spread();
+	public IDataset getFinal_wavelength_spread();	
+
+	/**
+	 * Wavelength spread FWHM of beam leaving this component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_WAVELENGTH
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarFinal_wavelength_spread();
 
 	/**
 	 * Divergence FWHM of beam leaving this component
@@ -170,7 +302,19 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFinal_beam_divergence();
+	public IDataset getFinal_beam_divergence();	
+
+	/**
+	 * Divergence FWHM of beam leaving this component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * <b>Dimensions:</b> 1: 2; 2: j;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarFinal_beam_divergence();
 
 	/**
 	 * flux incident on beam plane area
@@ -182,7 +326,19 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFlux();
+	public IDataset getFlux();	
+
+	/**
+	 * flux incident on beam plane area
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_FLUX
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarFlux();
 
 	/**
 	 * Distribution of beam with respect to relevant variable e.g. wavelength. This is mainly
@@ -191,7 +347,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getData();
+	public NXdata getData();	
   
 	/**
 	 * Get a NXdata node by name:

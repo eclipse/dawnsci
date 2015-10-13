@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -37,10 +38,14 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 	public static final String NX_ABSORBING_MATERIAL = "absorbing_material";
 	public static final String NX_TRANSMITTING_MATERIAL = "transmitting_material";
 
-	protected NXcollimatorImpl(long oid) {
-		super(oid);
+	protected NXcollimatorImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXcollimatorImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXcollimator.class;
@@ -83,8 +88,17 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDataset(NX_TYPE);
 	}
 
+	@Override
+	public String getScalarType() {
+		return getString(NX_TYPE);
+	}
+
 	public void setType(IDataset type) {
 		setDataset(NX_TYPE, type);
+	}
+
+	public void setScalarType(String type) {
+		setString(NX_TYPE, type);
 	}
 
 	@Override
@@ -92,8 +106,17 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDataset(NX_SOLLER_ANGLE);
 	}
 
+	@Override
+	public double getScalarSoller_angle() {
+		return getDouble(NX_SOLLER_ANGLE);
+	}
+
 	public void setSoller_angle(IDataset soller_angle) {
 		setDataset(NX_SOLLER_ANGLE, soller_angle);
+	}
+
+	public void setScalarSoller_angle(double soller_angle) {
+		setField(NX_SOLLER_ANGLE, soller_angle);
 	}
 
 	@Override
@@ -101,8 +124,17 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDataset(NX_DIVERGENCE_X);
 	}
 
+	@Override
+	public double getScalarDivergence_x() {
+		return getDouble(NX_DIVERGENCE_X);
+	}
+
 	public void setDivergence_x(IDataset divergence_x) {
 		setDataset(NX_DIVERGENCE_X, divergence_x);
+	}
+
+	public void setScalarDivergence_x(double divergence_x) {
+		setField(NX_DIVERGENCE_X, divergence_x);
 	}
 
 	@Override
@@ -110,8 +142,17 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDataset(NX_DIVERGENCE_Y);
 	}
 
+	@Override
+	public double getScalarDivergence_y() {
+		return getDouble(NX_DIVERGENCE_Y);
+	}
+
 	public void setDivergence_y(IDataset divergence_y) {
 		setDataset(NX_DIVERGENCE_Y, divergence_y);
+	}
+
+	public void setScalarDivergence_y(double divergence_y) {
+		setField(NX_DIVERGENCE_Y, divergence_y);
 	}
 
 	@Override
@@ -119,8 +160,17 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDataset(NX_FREQUENCY);
 	}
 
+	@Override
+	public double getScalarFrequency() {
+		return getDouble(NX_FREQUENCY);
+	}
+
 	public void setFrequency(IDataset frequency) {
 		setDataset(NX_FREQUENCY, frequency);
+	}
+
+	public void setScalarFrequency(double frequency) {
+		setField(NX_FREQUENCY, frequency);
 	}
 
 	@Override
@@ -137,8 +187,17 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDataset(NX_BLADE_THICKNESS);
 	}
 
+	@Override
+	public double getScalarBlade_thickness() {
+		return getDouble(NX_BLADE_THICKNESS);
+	}
+
 	public void setBlade_thickness(IDataset blade_thickness) {
 		setDataset(NX_BLADE_THICKNESS, blade_thickness);
+	}
+
+	public void setScalarBlade_thickness(double blade_thickness) {
+		setField(NX_BLADE_THICKNESS, blade_thickness);
 	}
 
 	@Override
@@ -146,8 +205,17 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDataset(NX_BLADE_SPACING);
 	}
 
+	@Override
+	public double getScalarBlade_spacing() {
+		return getDouble(NX_BLADE_SPACING);
+	}
+
 	public void setBlade_spacing(IDataset blade_spacing) {
 		setDataset(NX_BLADE_SPACING, blade_spacing);
+	}
+
+	public void setScalarBlade_spacing(double blade_spacing) {
+		setField(NX_BLADE_SPACING, blade_spacing);
 	}
 
 	@Override
@@ -155,8 +223,17 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDataset(NX_ABSORBING_MATERIAL);
 	}
 
+	@Override
+	public String getScalarAbsorbing_material() {
+		return getString(NX_ABSORBING_MATERIAL);
+	}
+
 	public void setAbsorbing_material(IDataset absorbing_material) {
 		setDataset(NX_ABSORBING_MATERIAL, absorbing_material);
+	}
+
+	public void setScalarAbsorbing_material(String absorbing_material) {
+		setString(NX_ABSORBING_MATERIAL, absorbing_material);
 	}
 
 	@Override
@@ -164,8 +241,17 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDataset(NX_TRANSMITTING_MATERIAL);
 	}
 
+	@Override
+	public String getScalarTransmitting_material() {
+		return getString(NX_TRANSMITTING_MATERIAL);
+	}
+
 	public void setTransmitting_material(IDataset transmitting_material) {
 		setDataset(NX_TRANSMITTING_MATERIAL, transmitting_material);
+	}
+
+	public void setScalarTransmitting_material(String transmitting_material) {
+		setString(NX_TRANSMITTING_MATERIAL, transmitting_material);
 	}
 
 }

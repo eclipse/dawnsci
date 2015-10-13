@@ -7,14 +7,16 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of the state of the sample. This could include scanned variables that
@@ -44,7 +46,14 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getName();
+	public IDataset getName();	
+
+	/**
+	 * Descriptive name of sample
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarName();
 
 	/**
 	 * The chemical formula specified using CIF conventions.
@@ -65,7 +74,28 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getChemical_formula();
+	public IDataset getChemical_formula();	
+
+	/**
+	 * The chemical formula specified using CIF conventions.
+	 * Abbreviated version of CIF standard:
+	 * * Only recognized element symbols may be used.
+	 * * Each element symbol is followed by a 'count' number. A count of '1' may be omitted.
+	 * * A space or parenthesis must separate each cluster of (element symbol + count).
+	 * * Where a group of elements is enclosed in parentheses, the multiplier for the
+	 * group must follow the closing parentheses. That is, all element and group
+	 * multipliers are assumed to be printed as subscripted numbers.
+	 * * Unless the elements are ordered in a manner that corresponds to their chemical
+	 * structure, the order of the elements within any group or moiety depends on
+	 * whether or not carbon is present.
+	 * * If carbon is present, the order should be:
+	 * - C, then H, then the other elements in alphabetical order of their symbol.
+	 * - If carbon is not present, the elements are listed purely in alphabetic order of their symbol.
+	 * * This is the *Hill* system used by Chemical Abstracts.
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarChemical_formula();
 
 	/**
 	 * Sample temperature. This could be a scanned variable
@@ -77,7 +107,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTemperature();
+	public IDataset getTemperature();	
+
+	/**
+	 * Sample temperature. This could be a scanned variable
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TEMPERATURE
+	 * <b>Dimensions:</b> 1: n_Temp;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarTemperature();
 
 	/**
 	 * Applied electric field
@@ -89,7 +131,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getElectric_field();
+	public IDataset getElectric_field();	
+
+	/**
+	 * Applied electric field
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_VOLTAGE
+	 * <b>Dimensions:</b> 1: n_eField;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarElectric_field();
 
 	/**
 	 * <p>
@@ -101,7 +155,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getElectric_fieldAttributeDirection();
+	public String getElectric_fieldAttributeDirection();	
 
 	/**
 	 * Applied magnetic field
@@ -113,7 +167,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getMagnetic_field();
+	public IDataset getMagnetic_field();	
+
+	/**
+	 * Applied magnetic field
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * <b>Dimensions:</b> 1: n_mField;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarMagnetic_field();
 
 	/**
 	 * <p>
@@ -125,7 +191,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getMagnetic_fieldAttributeDirection();
+	public String getMagnetic_fieldAttributeDirection();	
 
 	/**
 	 * Applied external stress field
@@ -137,7 +203,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getStress_field();
+	public IDataset getStress_field();	
+
+	/**
+	 * Applied external stress field
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * <b>Dimensions:</b> 1: n_sField;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarStress_field();
 
 	/**
 	 * <p>
@@ -149,7 +227,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getStress_fieldAttributeDirection();
+	public String getStress_fieldAttributeDirection();	
 
 	/**
 	 * Applied pressure
@@ -161,7 +239,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPressure();
+	public IDataset getPressure();	
+
+	/**
+	 * Applied pressure
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_PRESSURE
+	 * <b>Dimensions:</b> 1: n_pField;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarPressure();
 
 	/**
 	 * Sample changer position
@@ -172,7 +262,18 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getChanger_position();
+	public IDataset getChanger_position();	
+
+	/**
+	 * Sample changer position
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Units:</b> NX_UNITLESS
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarChanger_position();
 
 	/**
 	 * Unit cell parameters (lengths and angles)
@@ -184,7 +285,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell();
+	public IDataset getUnit_cell();	
+
+	/**
+	 * Unit cell parameters (lengths and angles)
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: n_comp; 2: 6;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell();
 
 	/**
 	 * Volume of the unit cell
@@ -196,7 +309,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_volume();
+	public IDataset getUnit_cell_volume();	
+
+	/**
+	 * Volume of the unit cell
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_VOLUME
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarUnit_cell_volume();
 
 	/**
 	 * This will follow the Busing and Levy convention from Acta.Crysta v22, p457 (1967)
@@ -208,7 +333,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSample_orientation();
+	public IDataset getSample_orientation();	
+
+	/**
+	 * This will follow the Busing and Levy convention from Acta.Crysta v22, p457 (1967)
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * <b>Dimensions:</b> 1: 3;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSample_orientation();
 
 	/**
 	 * Orientation matrix of single crystal sample.
@@ -220,7 +357,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getOrientation_matrix();
+	public IDataset getOrientation_matrix();	
+
+	/**
+	 * Orientation matrix of single crystal sample.
+	 * This will follow the Busing and Levy convention from Acta.Crysta v22, p457 (1967)
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Dimensions:</b> 1: n_comp; 2: 3; 3: 3;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarOrientation_matrix();
 
 	/**
 	 * Mass of sample
@@ -232,7 +381,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getMass();
+	public IDataset getMass();	
+
+	/**
+	 * Mass of sample
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_MASS
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarMass();
 
 	/**
 	 * Density of sample
@@ -244,7 +405,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDensity();
+	public IDataset getDensity();	
+
+	/**
+	 * Density of sample
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_MASS_DENSITY
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDensity();
 
 	/**
 	 * Relative Molecular Mass of sample
@@ -256,7 +429,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getRelative_molecular_mass();
+	public IDataset getRelative_molecular_mass();	
+
+	/**
+	 * Relative Molecular Mass of sample
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_MASS
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarRelative_molecular_mass();
 
 	/**
 	 * <p>
@@ -273,7 +458,24 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();
+	public IDataset getType();	
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>sample</b> </li>
+	 * <li><b>sample+can</b> </li>
+	 * <li><b>can</b> </li>
+	 * <li><b>calibration sample</b> </li>
+	 * <li><b>normalisation sample</b> </li>
+	 * <li><b>simulated data</b> </li>
+	 * <li><b>none</b> </li>
+	 * <li><b>sample environment</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarType();
 
 	/**
 	 * The atmosphere will be one of the components, which is where
@@ -292,14 +494,40 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSituation();
+	public IDataset getSituation();	
+
+	/**
+	 * The atmosphere will be one of the components, which is where
+	 * its details will be stored; the relevant components will be
+	 * indicated by the entry in the sample_component member.
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>air</b> </li>
+	 * <li><b>vacuum</b> </li>
+	 * <li><b>inert atmosphere</b> </li>
+	 * <li><b>oxidising atmosphere</b> </li>
+	 * <li><b>reducing atmosphere</b> </li>
+	 * <li><b>sealed can</b> </li>
+	 * <li><b>other</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarSituation();
 
 	/**
 	 * Description of the sample
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDescription();
+	public IDataset getDescription();	
+
+	/**
+	 * Description of the sample
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarDescription();
 
 	/**
 	 * Date of preparation of the sample
@@ -309,21 +537,31 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPreparation_date();
+	public IDataset getPreparation_date();	
+
+	/**
+	 * Date of preparation of the sample
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Date getScalarPreparation_date();
 
 	/**
 	 * The position and orientation of the center of mass of the sample
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();
+	public NXgeometry getGeometry();	
 
 	/**
 	 * Details of beam incident on sample - used to calculate sample/beam interaction point
 	 * 
 	 * @return  the value.
 	 */
-	public NXbeam getBeam();
+	public NXbeam getBeam();	
   
 	/**
 	 * Get a NXbeam node by name:
@@ -356,7 +594,17 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getComponent();
+	public IDataset getComponent();	
+
+	/**
+	 * Details of the component of the sample and/or can
+	 * <p>
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarComponent();
 
 	/**
 	 * Type of component
@@ -371,7 +619,22 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSample_component();
+	public IDataset getSample_component();	
+
+	/**
+	 * Type of component
+	 * <p>
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>sample</b> </li>
+	 * <li><b>can</b> </li>
+	 * <li><b>atmosphere</b> </li>
+	 * <li><b>kit</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarSample_component();
 
 	/**
 	 * Concentration of each component
@@ -383,7 +646,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getConcentration();
+	public IDataset getConcentration();	
+
+	/**
+	 * Concentration of each component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_MASS_DENSITY
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarConcentration();
 
 	/**
 	 * Volume fraction of each component
@@ -394,7 +669,18 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getVolume_fraction();
+	public IDataset getVolume_fraction();	
+
+	/**
+	 * Volume fraction of each component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarVolume_fraction();
 
 	/**
 	 * Scattering length density of each component
@@ -406,7 +692,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getScattering_length_density();
+	public IDataset getScattering_length_density();	
+
+	/**
+	 * Scattering length density of each component
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_SCATTERING_LENGTH_DENSITY
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarScattering_length_density();
 
 	/**
 	 * In case it is all we know and we want to record/document it
@@ -422,7 +720,23 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_class();
+	public IDataset getUnit_cell_class();	
+
+	/**
+	 * In case it is all we know and we want to record/document it
+	 * <p>
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>cubic</b> </li>
+	 * <li><b>tetragonal</b> </li>
+	 * <li><b>orthorhombic</b> </li>
+	 * <li><b>monoclinic</b> </li>
+	 * <li><b>triclinic</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarUnit_cell_class();
 
 	/**
 	 * Crystallographic point or space group
@@ -432,7 +746,17 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_group();
+	public IDataset getUnit_cell_group();	
+
+	/**
+	 * Crystallographic point or space group
+	 * <p>
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarUnit_cell_group();
 
 	/**
 	 * Path length through sample/can for simple case when
@@ -444,7 +768,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPath_length();
+	public IDataset getPath_length();	
+
+	/**
+	 * Path length through sample/can for simple case when
+	 * it does not vary with scattering direction
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarPath_length();
 
 	/**
 	 * Thickness of a beam entry/exit window on the can (mm)
@@ -456,7 +792,19 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPath_length_window();
+	public IDataset getPath_length_window();	
+
+	/**
+	 * Thickness of a beam entry/exit window on the can (mm)
+	 * - assumed same for entry and exit
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarPath_length_window();
 
 	/**
 	 * sample thickness
@@ -467,42 +815,53 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getThickness();
+	public IDataset getThickness();	
+
+	/**
+	 * sample thickness
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarThickness();
 
 	/**
 	 * As a function of Wavelength
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getTransmission();
+	public NXdata getTransmission();	
 
 	/**
 	 * temperature_log.value is a link to e.g. temperature_env.sensor1.value_log.value
 	 * 
 	 * @return  the value.
 	 */
-	public NXlog getTemperature_log();
+	public NXlog getTemperature_log();	
 
 	/**
 	 * Additional sample temperature environment information
 	 * 
 	 * @return  the value.
 	 */
-	public NXenvironment getTemperature_env();
+	public NXenvironment getTemperature_env();	
 
 	/**
 	 * magnetic_field_log.value is a link to e.g. magnetic_field_env.sensor1.value_log.value
 	 * 
 	 * @return  the value.
 	 */
-	public NXlog getMagnetic_field_log();
+	public NXlog getMagnetic_field_log();	
 
 	/**
 	 * Additional sample magnetic environment information
 	 * 
 	 * @return  the value.
 	 */
-	public NXenvironment getMagnetic_field_env();
+	public NXenvironment getMagnetic_field_env();	
 
 	/**
 	 * value sent to user's sample setup
@@ -513,21 +872,39 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getExternal_DAC();
+	public IDataset getExternal_DAC();	
+
+	/**
+	 * value sent to user's sample setup
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarExternal_DAC();
 
 	/**
 	 * logged value (or logic state) read from user's setup
 	 * 
 	 * @return  the value.
 	 */
-	public NXlog getExternal_ADC();
+	public NXlog getExternal_ADC();	
 
 	/**
 	 * 20 character fixed length sample description for legends
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getShort_title();
+	public IDataset getShort_title();	
+
+	/**
+	 * 20 character fixed length sample description for legends
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarShort_title();
 
 	/**
 	 * Optional rotation angle for the case when the powder diagram has
@@ -540,7 +917,20 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getRotation_angle();
+	public IDataset getRotation_angle();	
+
+	/**
+	 * Optional rotation angle for the case when the powder diagram has
+	 * been obtained through an omega-2theta scan like from a traditional
+	 * single detector powder diffractometer
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarRotation_angle();
 
 	/**
 	 * Translation of the sample along the X-direction of the laboratory coordinate system
@@ -551,7 +941,18 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getX_translation();
+	public IDataset getX_translation();	
+
+	/**
+	 * Translation of the sample along the X-direction of the laboratory coordinate system
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarX_translation();
 
 	/**
 	 * Translation of the sample along the Z-direction of the laboratory coordinate system
@@ -562,14 +963,25 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDistance();
+	public IDataset getDistance();	
+
+	/**
+	 * Translation of the sample along the Z-direction of the laboratory coordinate system
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarDistance();
 
 	/**
 	 * Any positioner (motor, PZT, ...) used to locate the sample
 	 * 
 	 * @return  the value.
 	 */
-	public NXpositioner getPositioner();
+	public NXpositioner getPositioner();	
   
 	/**
 	 * Get a NXpositioner node by name:

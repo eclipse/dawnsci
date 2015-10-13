@@ -7,14 +7,16 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Document an event of data processing, reconstruction, or analysis for this data.
@@ -31,7 +33,17 @@ public interface NXprocess extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getProgram();
+	public IDataset getProgram();	
+
+	/**
+	 * Name of the program used
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarProgram();
 
 	/**
 	 * Sequence index of processing,
@@ -43,7 +55,19 @@ public interface NXprocess extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSequence_index();
+	public IDataset getSequence_index();	
+
+	/**
+	 * Sequence index of processing,
+	 * for determining the order of multiple **NXprocess** steps.
+	 * Starts with 1.
+	 * <p>
+	 * <b>Type:</b> NX_POSINT
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarSequence_index();
 
 	/**
 	 * Version of the program used
@@ -53,7 +77,17 @@ public interface NXprocess extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getVersion();
+	public IDataset getVersion();	
+
+	/**
+	 * Version of the program used
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarVersion();
 
 	/**
 	 * Date and time of processing.
@@ -63,7 +97,17 @@ public interface NXprocess extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDate();
+	public IDataset getDate();	
+
+	/**
+	 * Date and time of processing.
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Date getScalarDate();
 
 	/**
 	 * The note will contain information about how the data was processed
@@ -74,7 +118,7 @@ public interface NXprocess extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXnote getNote();
+	public NXnote getNote();	
   
 	/**
 	 * Get a NXnote node by name:

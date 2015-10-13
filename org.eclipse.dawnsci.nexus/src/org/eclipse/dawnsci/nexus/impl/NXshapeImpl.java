@@ -7,12 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+
 import org.eclipse.dawnsci.nexus.*;
 
 /**
@@ -30,10 +32,14 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 	public static final String NX_SIZE = "size";
 	public static final String NX_DIRECTION = "direction";
 
-	protected NXshapeImpl(long oid) {
-		super(oid);
+	protected NXshapeImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXshapeImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXshape.class;
@@ -49,8 +55,17 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 		return getDataset(NX_SHAPE);
 	}
 
+	@Override
+	public String getScalarShape() {
+		return getString(NX_SHAPE);
+	}
+
 	public void setShape(IDataset shape) {
 		setDataset(NX_SHAPE, shape);
+	}
+
+	public void setScalarShape(String shape) {
+		setString(NX_SHAPE, shape);
 	}
 
 	@Override
@@ -58,8 +73,17 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 		return getDataset(NX_SIZE);
 	}
 
+	@Override
+	public double getScalarSize() {
+		return getDouble(NX_SIZE);
+	}
+
 	public void setSize(IDataset size) {
 		setDataset(NX_SIZE, size);
+	}
+
+	public void setScalarSize(double size) {
+		setField(NX_SIZE, size);
 	}
 
 	@Override
@@ -67,8 +91,17 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 		return getDataset(NX_DIRECTION);
 	}
 
+	@Override
+	public String getScalarDirection() {
+		return getString(NX_DIRECTION);
+	}
+
 	public void setDirection(IDataset direction) {
 		setDataset(NX_DIRECTION, direction);
+	}
+
+	public void setScalarDirection(String direction) {
+		setString(NX_DIRECTION, direction);
 	}
 
 }

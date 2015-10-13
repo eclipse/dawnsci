@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of a beamline spin polarizer.
@@ -27,14 +28,28 @@ public interface NXpolarizer extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();
+	public IDataset getType();	
+
+	/**
+	 * one of these values: "crystal", "supermirror", "3He"
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarType();
 
 	/**
 	 * description of the composition of the polarizing material
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getComposition();
+	public IDataset getComposition();	
+
+	/**
+	 * description of the composition of the polarizing material
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarComposition();
 
 	/**
 	 * [hkl] values of nominal reflection
@@ -46,7 +61,19 @@ public interface NXpolarizer extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getReflection();
+	public IDataset getReflection();	
+
+	/**
+	 * [hkl] values of nominal reflection
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Units:</b> NX_UNITLESS
+	 * <b>Dimensions:</b> 1: 3;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarReflection();
 
 	/**
 	 * polarizing efficiency
@@ -57,6 +84,17 @@ public interface NXpolarizer extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEfficiency();
+	public IDataset getEfficiency();	
+
+	/**
+	 * polarizing efficiency
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_DIMENSIONLESS
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarEfficiency();
 
 }

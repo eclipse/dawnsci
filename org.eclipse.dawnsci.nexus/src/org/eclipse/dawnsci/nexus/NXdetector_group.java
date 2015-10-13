@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * This class is used to allow a logical
@@ -38,7 +39,14 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getGroup_names();
+	public IDataset getGroup_names();	
+
+	/**
+	 * Comma separated list of name
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarGroup_names();
 
 	/**
 	 * Unique ID for group. A group_index array
@@ -50,7 +58,19 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getGroup_index();
+	public IDataset getGroup_index();	
+
+	/**
+	 * Unique ID for group. A group_index array
+	 * in ``NXdetector`` gives the base group for a detector element.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarGroup_index();
 
 	/**
 	 * Index of group parent in the hierarchy: -1 means no parent (i.e. a top level) group
@@ -61,7 +81,18 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getGroup_parent();
+	public IDataset getGroup_parent();	
+
+	/**
+	 * Index of group parent in the hierarchy: -1 means no parent (i.e. a top level) group
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Dimensions:</b> 1: ;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarGroup_parent();
 
 	/**
 	 * Code number for group type, e.g. bank=1, tube=2 etc.
@@ -72,6 +103,17 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getGroup_type();
+	public IDataset getGroup_type();	
+
+	/**
+	 * Code number for group type, e.g. bank=1, tube=2 etc.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Dimensions:</b> 1: ;
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarGroup_type();
 
 }

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+
 import org.eclipse.dawnsci.nexus.*;
 
 /**
@@ -34,10 +36,14 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	public static final String NX_POISON_MATERIAL = "poison_material";
 	public static final String NX_TEMPERATURE = "temperature";
 
-	protected NXmoderatorImpl(long oid) {
-		super(oid);
+	protected NXmoderatorImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXmoderatorImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXmoderator.class;
@@ -80,8 +86,17 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getDataset(NX_DISTANCE);
 	}
 
+	@Override
+	public double getScalarDistance() {
+		return getDouble(NX_DISTANCE);
+	}
+
 	public void setDistance(IDataset distance) {
 		setDataset(NX_DISTANCE, distance);
+	}
+
+	public void setScalarDistance(double distance) {
+		setField(NX_DISTANCE, distance);
 	}
 
 	@Override
@@ -89,8 +104,17 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getDataset(NX_TYPE);
 	}
 
+	@Override
+	public String getScalarType() {
+		return getString(NX_TYPE);
+	}
+
 	public void setType(IDataset type) {
 		setDataset(NX_TYPE, type);
+	}
+
+	public void setScalarType(String type) {
+		setString(NX_TYPE, type);
 	}
 
 	@Override
@@ -98,8 +122,17 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getDataset(NX_POISON_DEPTH);
 	}
 
+	@Override
+	public double getScalarPoison_depth() {
+		return getDouble(NX_POISON_DEPTH);
+	}
+
 	public void setPoison_depth(IDataset poison_depth) {
 		setDataset(NX_POISON_DEPTH, poison_depth);
+	}
+
+	public void setScalarPoison_depth(double poison_depth) {
+		setField(NX_POISON_DEPTH, poison_depth);
 	}
 
 	@Override
@@ -107,8 +140,17 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getDataset(NX_COUPLED);
 	}
 
+	@Override
+	public boolean getScalarCoupled() {
+		return getBoolean(NX_COUPLED);
+	}
+
 	public void setCoupled(IDataset coupled) {
 		setDataset(NX_COUPLED, coupled);
+	}
+
+	public void setScalarCoupled(boolean coupled) {
+		setField(NX_COUPLED, coupled);
 	}
 
 	@Override
@@ -116,8 +158,17 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getDataset(NX_COUPLING_MATERIAL);
 	}
 
+	@Override
+	public String getScalarCoupling_material() {
+		return getString(NX_COUPLING_MATERIAL);
+	}
+
 	public void setCoupling_material(IDataset coupling_material) {
 		setDataset(NX_COUPLING_MATERIAL, coupling_material);
+	}
+
+	public void setScalarCoupling_material(String coupling_material) {
+		setString(NX_COUPLING_MATERIAL, coupling_material);
 	}
 
 	@Override
@@ -125,8 +176,17 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getDataset(NX_POISON_MATERIAL);
 	}
 
+	@Override
+	public String getScalarPoison_material() {
+		return getString(NX_POISON_MATERIAL);
+	}
+
 	public void setPoison_material(IDataset poison_material) {
 		setDataset(NX_POISON_MATERIAL, poison_material);
+	}
+
+	public void setScalarPoison_material(String poison_material) {
+		setString(NX_POISON_MATERIAL, poison_material);
 	}
 
 	@Override
@@ -134,8 +194,17 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getDataset(NX_TEMPERATURE);
 	}
 
+	@Override
+	public double getScalarTemperature() {
+		return getDouble(NX_TEMPERATURE);
+	}
+
 	public void setTemperature(IDataset temperature) {
 		setDataset(NX_TEMPERATURE, temperature);
+	}
+
+	public void setScalarTemperature(double temperature) {
+		setField(NX_TEMPERATURE, temperature);
 	}
 
 	@Override

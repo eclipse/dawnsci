@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of a beamline mirror or supermirror.
@@ -27,7 +28,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();
+	public NXgeometry getGeometry();	
   
 	/**
 	 * Get a NXgeometry node by name:
@@ -61,14 +62,34 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();
+	public IDataset getType();	
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>single</b> 
+	 * mirror with a single material as a reflecting surface</li>
+	 * <li><b>multi</b> 
+	 * mirror with stacked, multiple layers as a reflecting surface</li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarType();
 
 	/**
 	 * description of this mirror
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDescription();
+	public IDataset getDescription();	
+
+	/**
+	 * description of this mirror
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarDescription();
 
 	/**
 	 * <p>
@@ -78,14 +99,24 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getIncident_angle();
+	public IDataset getIncident_angle();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarIncident_angle();
 
 	/**
 	 * Reflectivity as function of wavelength
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getReflectivity();
+	public NXdata getReflectivity();	
 
 	/**
 	 * <p>
@@ -95,7 +126,17 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getBend_angle_x();
+	public IDataset getBend_angle_x();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarBend_angle_x();
 
 	/**
 	 * <p>
@@ -105,7 +146,17 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getBend_angle_y();
+	public IDataset getBend_angle_y();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarBend_angle_y();
 
 	/**
 	 * <p>
@@ -117,14 +168,33 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getInterior_atmosphere();
+	public IDataset getInterior_atmosphere();	
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>vacuum</b> </li>
+	 * <li><b>helium</b> </li>
+	 * <li><b>argon</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarInterior_atmosphere();
 
 	/**
 	 * external material outside substrate
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getExternal_material();
+	public IDataset getExternal_material();	
+
+	/**
+	 * external material outside substrate
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarExternal_material();
 
 	/**
 	 * The m value for a supermirror, which defines the supermirror
@@ -136,13 +206,31 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getM_value();
+	public IDataset getM_value();	
+
+	/**
+	 * The m value for a supermirror, which defines the supermirror
+	 * regime in multiples of the critical angle of Nickel.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_UNITLESS
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarM_value();
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSubstrate_material();
+	public IDataset getSubstrate_material();	
+
+	/**
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarSubstrate_material();
 
 	/**
 	 * <p>
@@ -152,7 +240,17 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSubstrate_density();
+	public IDataset getSubstrate_density();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_MASS_DENSITY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSubstrate_density();
 
 	/**
 	 * <p>
@@ -162,13 +260,29 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSubstrate_thickness();
+	public IDataset getSubstrate_thickness();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSubstrate_thickness();
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCoating_material();
+	public IDataset getCoating_material();	
+
+	/**
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarCoating_material();
 
 	/**
 	 * <p>
@@ -178,7 +292,17 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSubstrate_roughness();
+	public IDataset getSubstrate_roughness();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSubstrate_roughness();
 
 	/**
 	 * <p>
@@ -188,13 +312,29 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCoating_roughness();
+	public IDataset getCoating_roughness();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarCoating_roughness();
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEven_layer_material();
+	public IDataset getEven_layer_material();	
+
+	/**
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarEven_layer_material();
 
 	/**
 	 * <p>
@@ -204,13 +344,29 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEven_layer_density();
+	public IDataset getEven_layer_density();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_MASS_DENSITY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarEven_layer_density();
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getOdd_layer_material();
+	public IDataset getOdd_layer_material();	
+
+	/**
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarOdd_layer_material();
 
 	/**
 	 * <p>
@@ -220,7 +376,17 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getOdd_layer_density();
+	public IDataset getOdd_layer_density();	
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_MASS_DENSITY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarOdd_layer_density();
 
 	/**
 	 * An array describing the thickness of each layer
@@ -231,20 +397,31 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getLayer_thickness();
+	public IDataset getLayer_thickness();	
+
+	/**
+	 * An array describing the thickness of each layer
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarLayer_thickness();
 
 	/**
 	 * A NXshape group describing the shape of the mirror
 	 * 
 	 * @return  the value.
 	 */
-	public NXshape getShape();
+	public NXshape getShape();	
 
 	/**
 	 * Numerical description of the surface figure of the mirror.
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getFigure_data();
+	public NXdata getFigure_data();	
 
 }

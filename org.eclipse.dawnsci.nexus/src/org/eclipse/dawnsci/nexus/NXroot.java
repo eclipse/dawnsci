@@ -7,11 +7,12 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -32,42 +33,42 @@ public interface NXroot extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeNX_class();
+	public String getAttributeNX_class();	
 
 	/**
 	 * Date and time file was originally created
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeFile_time();
+	public String getAttributeFile_time();	
 
 	/**
 	 * File name of original NeXus file
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeFile_name();
+	public String getAttributeFile_name();	
 
 	/**
 	 * Date and time of last file change at close
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeFile_update_time();
+	public String getAttributeFile_update_time();	
 
 	/**
 	 * Version of NeXus API used in writing the file
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeNeXus_version();
+	public String getAttributeNeXus_version();	
 
 	/**
 	 * Version of NeXus API used in writing the file
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeHDF_version();
+	public String getAttributeHDF_version();	
 
 	/**
 	 * Version of NeXus API used in writing the file.
@@ -76,28 +77,28 @@ public interface NXroot extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeHDF5_Version();
+	public String getAttributeHDF5_Version();	
 
 	/**
 	 * Version of NeXus API used in writing the file
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeXML_version();
+	public String getAttributeXML_version();	
 
 	/**
 	 * facility or program where file originated
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeCreator();
+	public String getAttributeCreator();	
 
 	/**
 	 * entries
 	 * 
 	 * @return  the value.
 	 */
-	public NXentry getEntry();
+	public NXentry getEntry();	
   
 	/**
 	 * Get a NXentry node by name:
@@ -127,6 +128,6 @@ public interface NXroot extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeDefault();
+	public String getAttributeDefault();	
 
 }

@@ -7,12 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+
 import org.eclipse.dawnsci.nexus.*;
 
 /**
@@ -41,10 +43,14 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 	public static final String NX_GROUP_PARENT = "group_parent";
 	public static final String NX_GROUP_TYPE = "group_type";
 
-	protected NXdetector_groupImpl(long oid) {
-		super(oid);
+	protected NXdetector_groupImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXdetector_groupImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXdetector_group.class;
@@ -60,8 +66,17 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 		return getDataset(NX_GROUP_NAMES);
 	}
 
+	@Override
+	public String getScalarGroup_names() {
+		return getString(NX_GROUP_NAMES);
+	}
+
 	public void setGroup_names(IDataset group_names) {
 		setDataset(NX_GROUP_NAMES, group_names);
+	}
+
+	public void setScalarGroup_names(String group_names) {
+		setString(NX_GROUP_NAMES, group_names);
 	}
 
 	@Override
@@ -69,8 +84,17 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 		return getDataset(NX_GROUP_INDEX);
 	}
 
+	@Override
+	public long getScalarGroup_index() {
+		return getLong(NX_GROUP_INDEX);
+	}
+
 	public void setGroup_index(IDataset group_index) {
 		setDataset(NX_GROUP_INDEX, group_index);
+	}
+
+	public void setScalarGroup_index(long group_index) {
+		setField(NX_GROUP_INDEX, group_index);
 	}
 
 	@Override
@@ -78,8 +102,17 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 		return getDataset(NX_GROUP_PARENT);
 	}
 
+	@Override
+	public long getScalarGroup_parent() {
+		return getLong(NX_GROUP_PARENT);
+	}
+
 	public void setGroup_parent(IDataset group_parent) {
 		setDataset(NX_GROUP_PARENT, group_parent);
+	}
+
+	public void setScalarGroup_parent(long group_parent) {
+		setField(NX_GROUP_PARENT, group_parent);
 	}
 
 	@Override
@@ -87,8 +120,17 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 		return getDataset(NX_GROUP_TYPE);
 	}
 
+	@Override
+	public long getScalarGroup_type() {
+		return getLong(NX_GROUP_TYPE);
+	}
+
 	public void setGroup_type(IDataset group_type) {
 		setDataset(NX_GROUP_TYPE, group_type);
+	}
+
+	public void setScalarGroup_type(long group_type) {
+		setField(NX_GROUP_TYPE, group_type);
 	}
 
 }

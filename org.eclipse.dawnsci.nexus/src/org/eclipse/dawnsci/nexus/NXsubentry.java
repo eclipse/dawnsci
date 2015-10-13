@@ -7,14 +7,16 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * ``NXsubentry`` is a base class virtually identical to ``NXentry``
@@ -42,14 +44,21 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeIDF_Version();
+	public String getAttributeIDF_Version();	
 
 	/**
 	 * Extended title for entry
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTitle();
+	public IDataset getTitle();	
+
+	/**
+	 * Extended title for entry
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarTitle();
 
 	/**
 	 * Unique identifier for the experiment, defined by
@@ -57,63 +66,106 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getExperiment_identifier();
+	public IDataset getExperiment_identifier();	
+
+	/**
+	 * Unique identifier for the experiment, defined by
+	 * the facility, possibly linked to the proposals
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarExperiment_identifier();
 
 	/**
 	 * Brief summary of the experiment, including key objectives.
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getExperiment_description();
+	public IDataset getExperiment_description();	
+
+	/**
+	 * Brief summary of the experiment, including key objectives.
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarExperiment_description();
 
 	/**
 	 * Description of the full experiment (document in pdf, latex, ...)
 	 * 
 	 * @return  the value.
 	 */
-	public NXnote getExperiment_documentation();
+	public NXnote getExperiment_documentation();	
 
 	/**
 	 * User or Data Acquisition defined group of NeXus files or NXentry
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCollection_identifier();
+	public IDataset getCollection_identifier();	
+
+	/**
+	 * User or Data Acquisition defined group of NeXus files or NXentry
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarCollection_identifier();
 
 	/**
 	 * Brief summary of the collection, including grouping criteria.
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCollection_description();
+	public IDataset getCollection_description();	
+
+	/**
+	 * Brief summary of the collection, including grouping criteria.
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarCollection_description();
 
 	/**
 	 * unique identifier for the measurement, defined by the facility.
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEntry_identifier();
+	public IDataset getEntry_identifier();	
+
+	/**
+	 * unique identifier for the measurement, defined by the facility.
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarEntry_identifier();
 
 	/**
 	 * Official NeXus NXDL schema to which this subentry conforms
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDefinition();
+	public IDataset getDefinition();	
+
+	/**
+	 * Official NeXus NXDL schema to which this subentry conforms
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarDefinition();
 
 	/**
 	 * NXDL version number
 	 * 
 	 * @return  the value.
 	 */
-	public String getDefinitionAttributeVersion();
+	public String getDefinitionAttributeVersion();	
 
 	/**
 	 * URL of NXDL file
 	 * 
 	 * @return  the value.
 	 */
-	public String getDefinitionAttributeURL();
+	public String getDefinitionAttributeURL();	
 
 	/**
 	 * Local NXDL schema extended from the subentry
@@ -123,21 +175,31 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDefinition_local();
+	public IDataset getDefinition_local();	
+
+	/**
+	 * Local NXDL schema extended from the subentry
+	 * specified in the ``definition`` field.
+	 * This contains any locally-defined,
+	 * additional fields in the subentry.
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarDefinition_local();
 
 	/**
 	 * NXDL version number
 	 * 
 	 * @return  the value.
 	 */
-	public String getDefinition_localAttributeVersion();
+	public String getDefinition_localAttributeVersion();	
 
 	/**
 	 * URL of NXDL file
 	 * 
 	 * @return  the value.
 	 */
-	public String getDefinition_localAttributeURL();
+	public String getDefinition_localAttributeURL();	
 
 	/**
 	 * Starting time of measurement
@@ -147,7 +209,17 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getStart_time();
+	public IDataset getStart_time();	
+
+	/**
+	 * Starting time of measurement
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Date getScalarStart_time();
 
 	/**
 	 * Ending time of measurement
@@ -157,7 +229,17 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEnd_time();
+	public IDataset getEnd_time();	
+
+	/**
+	 * Ending time of measurement
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public Date getScalarEnd_time();
 
 	/**
 	 * Duration of measurement
@@ -168,7 +250,18 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDuration();
+	public IDataset getDuration();	
+
+	/**
+	 * Duration of measurement
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarDuration();
 
 	/**
 	 * Time transpired actually collecting data i.e. taking out time when collection was
@@ -180,35 +273,61 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCollection_time();
+	public IDataset getCollection_time();	
+
+	/**
+	 * Time transpired actually collecting data i.e. taking out time when collection was
+	 * suspended due to e.g. temperature out of range
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarCollection_time();
 
 	/**
 	 * Such as "2007-3". Some user facilities organize their beam time into run cycles.
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getRun_cycle();
+	public IDataset getRun_cycle();	
+
+	/**
+	 * Such as "2007-3". Some user facilities organize their beam time into run cycles.
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarRun_cycle();
 
 	/**
 	 * Name of program used to generate this file
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getProgram_name();
+	public IDataset getProgram_name();	
+
+	/**
+	 * Name of program used to generate this file
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarProgram_name();
 
 	/**
 	 * Program version number
 	 * 
 	 * @return  the value.
 	 */
-	public String getProgram_nameAttributeVersion();
+	public String getProgram_nameAttributeVersion();	
 
 	/**
 	 * configuration of the program
 	 * 
 	 * @return  the value.
 	 */
-	public String getProgram_nameAttributeConfiguration();
+	public String getProgram_nameAttributeConfiguration();	
 
 	/**
 	 * Revision id of the file due to re-calibration, reprocessing, new analysis, new
@@ -216,13 +335,21 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getRevision();
+	public IDataset getRevision();	
+
+	/**
+	 * Revision id of the file due to re-calibration, reprocessing, new analysis, new
+	 * instrument definition format, ...
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarRevision();
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public String getRevisionAttributeComment();
+	public String getRevisionAttributeComment();	
 
 	/**
 	 * This is the flightpath before the sample position. This can be determined by a chopper,
@@ -236,14 +363,28 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPre_sample_flightpath();
+	public IDataset getPre_sample_flightpath();	
+
+	/**
+	 * This is the flightpath before the sample position. This can be determined by a chopper,
+	 * by the moderator or the source itself. In other words: it the distance to the component
+	 * which gives the T0 signal to the detector electronics. If another component in the
+	 * NXinstrument hierarchy provides this information, this should be a link.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarPre_sample_flightpath();
 
 	/**
 	 * Notes describing entry
 	 * 
 	 * @return  the value.
 	 */
-	public NXnote getNotes();
+	public NXnote getNotes();	
 
 	/**
 	 * A small image that is representative of the entry. An example of this is a 640x480
@@ -251,13 +392,13 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXnote getThumbnail();
+	public NXnote getThumbnail();	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXcharacterization getCharacterization();
+	public NXcharacterization getCharacterization();	
   
 	/**
 	 * Get a NXcharacterization node by name:
@@ -284,7 +425,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXuser getUser();
+	public NXuser getUser();	
   
 	/**
 	 * Get a NXuser node by name:
@@ -311,7 +452,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXsample getSample();
+	public NXsample getSample();	
   
 	/**
 	 * Get a NXsample node by name:
@@ -338,7 +479,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXinstrument getInstrument();
+	public NXinstrument getInstrument();	
   
 	/**
 	 * Get a NXinstrument node by name:
@@ -365,7 +506,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXcollection getCollection();
+	public NXcollection getCollection();	
   
 	/**
 	 * Get a NXcollection node by name:
@@ -392,7 +533,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXmonitor getMonitor();
+	public NXmonitor getMonitor();	
   
 	/**
 	 * Get a NXmonitor node by name:
@@ -419,7 +560,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getData();
+	public NXdata getData();	
   
 	/**
 	 * Get a NXdata node by name:
@@ -446,7 +587,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXparameters getParameters();
+	public NXparameters getParameters();	
   
 	/**
 	 * Get a NXparameters node by name:
@@ -473,7 +614,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXprocess getProcess();
+	public NXprocess getProcess();	
   
 	/**
 	 * Get a NXprocess node by name:

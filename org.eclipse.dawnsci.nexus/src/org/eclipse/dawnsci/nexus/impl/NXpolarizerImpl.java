@@ -7,12 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+
 import org.eclipse.dawnsci.nexus.*;
 
 /**
@@ -30,10 +32,14 @@ public class NXpolarizerImpl extends NXobjectImpl implements NXpolarizer {
 	public static final String NX_REFLECTION = "reflection";
 	public static final String NX_EFFICIENCY = "efficiency";
 
-	protected NXpolarizerImpl(long oid) {
-		super(oid);
+	protected NXpolarizerImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXpolarizerImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXpolarizer.class;
@@ -49,8 +55,17 @@ public class NXpolarizerImpl extends NXobjectImpl implements NXpolarizer {
 		return getDataset(NX_TYPE);
 	}
 
+	@Override
+	public String getScalarType() {
+		return getString(NX_TYPE);
+	}
+
 	public void setType(IDataset type) {
 		setDataset(NX_TYPE, type);
+	}
+
+	public void setScalarType(String type) {
+		setString(NX_TYPE, type);
 	}
 
 	@Override
@@ -58,8 +73,17 @@ public class NXpolarizerImpl extends NXobjectImpl implements NXpolarizer {
 		return getDataset(NX_COMPOSITION);
 	}
 
+	@Override
+	public String getScalarComposition() {
+		return getString(NX_COMPOSITION);
+	}
+
 	public void setComposition(IDataset composition) {
 		setDataset(NX_COMPOSITION, composition);
+	}
+
+	public void setScalarComposition(String composition) {
+		setString(NX_COMPOSITION, composition);
 	}
 
 	@Override
@@ -67,8 +91,17 @@ public class NXpolarizerImpl extends NXobjectImpl implements NXpolarizer {
 		return getDataset(NX_REFLECTION);
 	}
 
+	@Override
+	public long getScalarReflection() {
+		return getLong(NX_REFLECTION);
+	}
+
 	public void setReflection(IDataset reflection) {
 		setDataset(NX_REFLECTION, reflection);
+	}
+
+	public void setScalarReflection(long reflection) {
+		setField(NX_REFLECTION, reflection);
 	}
 
 	@Override
@@ -76,8 +109,17 @@ public class NXpolarizerImpl extends NXobjectImpl implements NXpolarizer {
 		return getDataset(NX_EFFICIENCY);
 	}
 
+	@Override
+	public double getScalarEfficiency() {
+		return getDouble(NX_EFFICIENCY);
+	}
+
 	public void setEfficiency(IDataset efficiency) {
 		setDataset(NX_EFFICIENCY, efficiency);
+	}
+
+	public void setScalarEfficiency(double efficiency) {
+		setField(NX_EFFICIENCY, efficiency);
 	}
 
 }

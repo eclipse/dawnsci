@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * This is the description for a (typically neutron) velocity selector
@@ -26,7 +27,14 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();
+	public IDataset getType();	
+
+	/**
+	 * velocity selector type
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarType();
 
 	/**
 	 * velocity selector rotation speed
@@ -37,7 +45,18 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getRotation_speed();
+	public IDataset getRotation_speed();	
+
+	/**
+	 * velocity selector rotation speed
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_FREQUENCY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarRotation_speed();
 
 	/**
 	 * radius at beam centre
@@ -48,7 +67,18 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getRadius();
+	public IDataset getRadius();	
+
+	/**
+	 * radius at beam centre
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarRadius();
 
 	/**
 	 * spoke width at beam centre
@@ -59,7 +89,18 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSpwidth();
+	public IDataset getSpwidth();	
+
+	/**
+	 * spoke width at beam centre
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarSpwidth();
 
 	/**
 	 * rotor length
@@ -70,7 +111,18 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getLength();
+	public IDataset getLength();	
+
+	/**
+	 * rotor length
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarLength();
 
 	/**
 	 * number of spokes/lamella
@@ -81,7 +133,18 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getNum();
+	public IDataset getNum();	
+
+	/**
+	 * number of spokes/lamella
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Units:</b> NX_UNITLESS
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarNum();
 
 	/**
 	 * twist angle along axis
@@ -92,7 +155,18 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTwist();
+	public IDataset getTwist();	
+
+	/**
+	 * twist angle along axis
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarTwist();
 
 	/**
 	 * offset vertical angle
@@ -103,7 +177,18 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTable();
+	public IDataset getTable();	
+
+	/**
+	 * offset vertical angle
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarTable();
 
 	/**
 	 * input beam height
@@ -114,7 +199,18 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getHeight();
+	public IDataset getHeight();	
+
+	/**
+	 * input beam height
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarHeight();
 
 	/**
 	 * input beam width
@@ -125,7 +221,18 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getWidth();
+	public IDataset getWidth();	
+
+	/**
+	 * input beam width
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarWidth();
 
 	/**
 	 * wavelength
@@ -136,7 +243,18 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getWavelength();
+	public IDataset getWavelength();	
+
+	/**
+	 * wavelength
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_WAVELENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarWavelength();
 
 	/**
 	 * deviation FWHM /Wavelength
@@ -147,12 +265,23 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getWavelength_spread();
+	public IDataset getWavelength_spread();	
+
+	/**
+	 * deviation FWHM /Wavelength
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_WAVELENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarWavelength_spread();
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();
+	public NXgeometry getGeometry();	
 
 }

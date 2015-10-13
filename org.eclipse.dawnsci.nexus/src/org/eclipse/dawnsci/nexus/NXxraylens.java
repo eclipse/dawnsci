@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * This is a dictionary of field names to use for
@@ -37,7 +38,22 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getLens_geometry();
+	public IDataset getLens_geometry();	
+
+	/**
+	 * Geometry of the lens
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>paraboloid</b> </li>
+	 * <li><b>spherical</b> </li>
+	 * <li><b>elliptical</b> </li>
+	 * <li><b>hyperbolical</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarLens_geometry();
 
 	/**
 	 * Is the device symmetric?
@@ -47,7 +63,17 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSymmetric();
+	public IDataset getSymmetric();	
+
+	/**
+	 * Is the device symmetric?
+	 * <p>
+	 * <b>Type:</b> NX_BOOLEAN
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public boolean getScalarSymmetric();
 
 	/**
 	 * Is the device cylindrical?
@@ -57,14 +83,24 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCylindrical();
+	public IDataset getCylindrical();	
+
+	/**
+	 * Is the device cylindrical?
+	 * <p>
+	 * <b>Type:</b> NX_BOOLEAN
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public boolean getScalarCylindrical();
 
 	/**
 	 * Orientation of the cylinder axis.
 	 * 
 	 * @return  the value.
 	 */
-	public NXnote getCylinder_orientation();
+	public NXnote getCylinder_orientation();	
 
 	/**
 	 * The type of focus of the lens
@@ -77,7 +113,20 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFocus_type();
+	public IDataset getFocus_type();	
+
+	/**
+	 * The type of focus of the lens
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>line</b> </li>
+	 * <li><b>point</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarFocus_type();
 
 	/**
 	 * Thickness of the lens
@@ -88,7 +137,18 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getLens_thickness();
+	public IDataset getLens_thickness();	
+
+	/**
+	 * Thickness of the lens
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarLens_thickness();
 
 	/**
 	 * Length of the lens
@@ -99,7 +159,18 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getLens_length();
+	public IDataset getLens_length();	
+
+	/**
+	 * Length of the lens
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarLens_length();
 
 	/**
 	 * Radius of the curvature as measured in the middle of the lens
@@ -110,7 +181,18 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCurvature();
+	public IDataset getCurvature();	
+
+	/**
+	 * Radius of the curvature as measured in the middle of the lens
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarCurvature();
 
 	/**
 	 * Diameter or radius of the lens.
@@ -121,7 +203,18 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAperture();
+	public IDataset getAperture();	
+
+	/**
+	 * Diameter or radius of the lens.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarAperture();
 
 	/**
 	 * Number of lenses that make up the compound lens.
@@ -131,7 +224,17 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getNumber_of_lenses();
+	public IDataset getNumber_of_lenses();	
+
+	/**
+	 * Number of lenses that make up the compound lens.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public long getScalarNumber_of_lenses();
 
 	/**
 	 * Material used to make the lens.
@@ -141,7 +244,17 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getLens_material();
+	public IDataset getLens_material();	
+
+	/**
+	 * Material used to make the lens.
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarLens_material();
 
 	/**
 	 * Gas used to fill the lens
@@ -151,7 +264,17 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getGas();
+	public IDataset getGas();	
+
+	/**
+	 * Gas used to fill the lens
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarGas();
 
 	/**
 	 * Gas pressure in the lens
@@ -162,6 +285,17 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getGas_pressure();
+	public IDataset getGas_pressure();	
+
+	/**
+	 * Gas pressure in the lens
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_PRESSURE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getScalarGas_pressure();
 
 }

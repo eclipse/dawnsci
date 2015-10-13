@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+
 import org.eclipse.dawnsci.nexus.*;
 
 /**
@@ -37,10 +39,14 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 	public static final String NX_DESCRIPTION = "description";
 	public static final String NX_COMPONENT_INDEX = "component_index";
 
-	protected NXgeometryImpl(long oid) {
-		super(oid);
+	protected NXgeometryImpl(final NexusNodeFactory nodeFactory) {
+		super(nodeFactory);
 	}
 
+	protected NXgeometryImpl(final long oid) {
+		super(oid);
+	}
+	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
 		return NXgeometry.class;
@@ -137,8 +143,17 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 		return getDataset(NX_DESCRIPTION);
 	}
 
+	@Override
+	public String getScalarDescription() {
+		return getString(NX_DESCRIPTION);
+	}
+
 	public void setDescription(IDataset description) {
 		setDataset(NX_DESCRIPTION, description);
+	}
+
+	public void setScalarDescription(String description) {
+		setString(NX_DESCRIPTION, description);
 	}
 
 	@Override
@@ -146,8 +161,17 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 		return getDataset(NX_COMPONENT_INDEX);
 	}
 
+	@Override
+	public long getScalarComponent_index() {
+		return getLong(NX_COMPONENT_INDEX);
+	}
+
 	public void setComponent_index(IDataset component_index) {
 		setDataset(NX_COMPONENT_INDEX, component_index);
+	}
+
+	public void setScalarComponent_index(long component_index) {
+		setField(NX_COMPONENT_INDEX, component_index);
 	}
 
 }

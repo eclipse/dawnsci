@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-12T11:55:04.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Container for parameters, usually used in processing or analysis.
@@ -29,12 +30,22 @@ public interface NXparameters extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTerm();
+	public IDataset getTerm();	
+
+	/**
+	 * A parameter (also known as a term) that is used in or results from processing.
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getScalarTerm();
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public String getTermAttributeUnits();
+	public String getTermAttributeUnits();	
 
 }
