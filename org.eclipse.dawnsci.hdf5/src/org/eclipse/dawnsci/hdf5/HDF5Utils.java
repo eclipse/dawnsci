@@ -807,6 +807,48 @@ public class HDF5Utils {
 	}
 
 	/**
+	 * write a dataset in HDF5 file. Create the file if necessary
+	 * @param fileName
+	 * @param parentPath path to group containing dataset
+	 * @param data
+	 * @throws ScanFileHolderException 
+	 */
+	public static void writeDataset(String fileName, String parentPath, IDataset data) throws ScanFileHolderException {
+		final String cPath;
+		try {
+			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
+		} catch (IOException e) {
+			throw new ScanFileHolderException("Problem canonicalising path", e);
+		}
+
+		long fid = -1;
+		try {
+			HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
+
+			if (new File(cPath).exists()) {
+				fid = H5Fopen(fileName, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
+			} else {
+				fid = H5.H5Fcreate(fileName, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
+				createDestination(fid, parentPath);
+			}
+
+			String dataPath = absolutePathToData(parentPath, data.getName());
+			writeDataset(fid, dataPath, data);
+		} catch (Throwable le) {
+			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
+		} finally {
+			if (fid != -1) {
+				try {
+					H5.H5Fclose(fid);
+				} catch (Throwable e) {
+					logger.error("Could not close HDF5 file: {}", fileName, e);
+				}
+			}
+			HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
+		}
+	}
+
+	/**
 	 * Write a dataset in given file ID
 	 * @param fileID
 	 * @param dataPath
