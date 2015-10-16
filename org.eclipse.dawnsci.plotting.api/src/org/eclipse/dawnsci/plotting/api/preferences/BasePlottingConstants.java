@@ -127,4 +127,10 @@ public class BasePlottingConstants {
 	 * Property used to store analytics tracking code
 	 */
 	public static final String ANALYTICS_TRACK_CODE = "org.eclipse.dawnsci.analytics.tracking.code";
+
+	/**
+	 * Property used to enable/disable the label zoom on images that displays
+	 * the pixel intensity past a certain zoom level.
+	 */
+	public static final String LABEL_ZOOM_ENABLED = "org.eclipse.dawnsci.analytics.label.zoom.enabled";
 }
