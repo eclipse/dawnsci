@@ -97,7 +97,7 @@ public class Hdf5Test {
 		long id = -1;
 		try {
 			id = HDF5Utils.H5Fopen(TestFileAbsolutePath,
-				            HDF5Constants.H5F_ACC_RDWR,
+				            HDF5Constants.H5F_ACC_RDONLY,
 					        HDF5Constants.H5P_DEFAULT);
 
 
