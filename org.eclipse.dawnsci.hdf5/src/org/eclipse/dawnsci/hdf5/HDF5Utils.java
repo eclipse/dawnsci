@@ -746,7 +746,7 @@ public class HDF5Utils {
 
 
 				if (stringDataset) {
-//					H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8); // XXX does not work...
+					H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
 					H5.H5Tset_size(hdfDatatypeId, HDF5Constants.H5T_VARIABLE);
 				} else if (fillValue != null) {
 					// Strings must not have a fill value set
@@ -836,7 +836,7 @@ public class HDF5Utils {
 				hdfPropertiesId = H5.H5Pcreate(HDF5Constants.H5P_DATASET_CREATE);
 
 				if (stringDataset) {
-//					H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8); // XXX does not work...
+					H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
 					H5.H5Tset_size(hdfDatatypeId, HDF5Constants.H5T_VARIABLE);
 				}
 				long hdfDatasetId = -1;
@@ -985,7 +985,7 @@ public class HDF5Utils {
 					hdfMemspaceId = H5.H5Screate_simple(1, new long[] {data.getSize()}, null);
 					if (dtype == Dataset.STRING) {
 						hdfDatatypeId = H5.H5Tcopy(memtype);
-//						H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8); // XXX does not work...
+						H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
 						H5.H5Tset_size(hdfDatatypeId, HDF5Constants.H5T_VARIABLE);
 						H5.H5DwriteString(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, (String[]) buffer);
 					} else {
