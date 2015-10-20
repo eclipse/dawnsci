@@ -33,6 +33,7 @@ public class HDF5FileFactory {
 	static class FileAccess {
 		long id;   // HDF5 low level ID
 		long time; // time of release
+		int count; // number of accessors
 		boolean writeable; // if true then can write
 	}
 
@@ -79,15 +80,14 @@ public class HDF5FileFactory {
 						while (iter.hasNext()) {
 							String f = iter.next();
 							FileAccess a = IDS.get(f);
-							if (a.time != 0) {
+							if (a.time != 0 && a.count == 0) {
 								if (a.time <= now) {
-									IDS.remove(f);
 									try {
 										H5.H5Fclose(a.id);
+										IDS.remove(f);
+										HierarchicalDataFactory.releaseLowLevelReadingAccess(f);
 									} catch (HDF5LibraryException e) {
 										logger.error("Could not close file {}", f, e);
-									} finally {
-										HierarchicalDataFactory.releaseLowLevelReadingAccess(f);
 									}
 								} else if (a.time < next) {
 									next = a.time; // reduce waiting to next earliest between now and next
@@ -133,11 +133,13 @@ public class HDF5FileFactory {
 						logger.error("Cannot get file {} in writeable state as it has been opened read-only", cPath);
 						throw new ScanFileHolderException("Cannot get file in writeable state as it has been opened read-only");
 					}
+					access.count++;
 					fid = access.id;
 				} else {
 					HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
 					access = new FileAccess();
 					access.writeable = true;
+					access.count = 1;
 					if (asNew) {
 						fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_TRUNC, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
 					} else {
@@ -221,18 +223,20 @@ public class HDF5FileFactory {
 		
 			try {
 				FileAccess access = IDS.get(cPath);
-				if (close) {
-					IDS.remove(cPath);
-					try {
-						H5.H5Fclose(access.id);
-					} catch (HDF5LibraryException e) {
-						logger.error("Could not close file", e);
-						throw e;
-					} finally {
-						HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
+				access.count--;
+				if (access.count == 0) {
+					if (close) {
+						try {
+							H5.H5Fclose(access.id);
+							IDS.remove(cPath);
+							HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
+						} catch (HDF5LibraryException e) {
+							logger.error("Could not close file", e);
+							throw e;
+						}
+					} else {
+						access.time = System.currentTimeMillis() + heldPeriod; // update release time
 					}
-				} else {
-					access.time = System.currentTimeMillis() + heldPeriod; // update release time
 				}
 			} catch (Throwable le) {
 				logger.error("Problem releasing access to file: {}", cPath, le);
