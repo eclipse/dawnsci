@@ -41,7 +41,7 @@ import ncsa.hdf.object.Datatype;
 import ncsa.hdf.object.h5.H5Datatype;
 
 public class HDF5Utils {
-	protected static final Logger logger = LoggerFactory.getLogger(HDF5Utils.class);
+	private static final Logger logger = LoggerFactory.getLogger(HDF5Utils.class);
 
 	/**
 	 * Create a dataset from the given data object
@@ -201,7 +201,7 @@ public class HDF5Utils {
 	 * @return dataset
 	 * @throws Exception
 	 */
-	public static Dataset loadDataset(final String fileName, final String node,
+	public static Dataset loadDatasetWithClose(final String fileName, final String node,
 				final int[] start, final int[] count, final int[] step,
 				final int dtype, final int isize, final boolean extend)
 				throws ScanFileHolderException {
@@ -213,14 +213,16 @@ public class HDF5Utils {
 			throw new ScanFileHolderException("Problem canonicalising path", e);
 		}
 
-		long fid = -1;
 		Dataset data = null;
+		long fid = -1;
 		try {
 			HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
-			fid = H5Fopen(fileName, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
+
+			fid = HDF5FileFactory.H5Fopen(cPath, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
 
 			data = readDataset(fid, node, start, count, step, dtype, isize, extend);
 		} catch (Throwable le) {
+			logger.error("Problem loading dataset in file: {}", fileName, le);
 			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
 		} finally {
 			if (fid != -1) {
@@ -237,40 +239,58 @@ public class HDF5Utils {
 	}
 
 	/**
+	 * Load dataset from given file
+	 * @param fileName
+	 * @param node
+	 * @param start
+	 * @param count
+	 * @param step
+	 * @param dtype
+	 * @param isize
+	 * @param extend
+	 * @return dataset
+	 * @throws Exception
+	 */
+	public static Dataset loadDataset(final String fileName, final String node,
+				final int[] start, final int[] count, final int[] step,
+				final int dtype, final int isize, final boolean extend)
+				throws ScanFileHolderException {
+
+		Dataset data = null;
+		try {
+			long fid = HDF5FileFactory.acquireFile(fileName, false);
+
+			data = readDataset(fid, node, start, count, step, dtype, isize, extend);
+		} catch (Throwable le) {
+			logger.error("Problem loading dataset in file: {}", fileName, le);
+			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
+		} finally {
+			HDF5FileFactory.releaseFile(fileName);
+		}
+
+		return data;
+	}
+
+	/**
 	 * Get dataset shape information from given file
 	 * @param fileName
 	 * @param dataPath
 	 * @return null for when there's no data; two empty arrays for a zero-rank dataset;
 	 *  shape, max shape otherwise
-	 * @throws NexusException
+	 * @throws ScanFileHolderException
 	 */
 	public static int[][] getDatasetShape(final String fileName, final String node)
 			throws ScanFileHolderException {
 
-		final String cPath;
 		try {
-			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
-		} catch (IOException e) {
-			throw new ScanFileHolderException("Problem canonicalising path", e);
-		}
-
-		long fid = -1;
-		try {
-			HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
-			fid = H5Fopen(fileName, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
+			long fid = HDF5FileFactory.acquireFile(fileName, false);
 
 			return readDatasetShape(fid, node);
 		} catch (Throwable le) {
+			logger.error("Problem loading dataset shape in file: {}", fileName, le);
 			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
 		} finally {
-			if (fid != -1) {
-				try {
-					H5.H5Fclose(fid);
-				} catch (Throwable e) {
-					logger.error("Could not close HDF5 file: {}", fileName, e);
-				}
-			}
-			HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
+			HDF5FileFactory.releaseFile(fileName);
 		}
 	}
 
@@ -524,6 +544,7 @@ public class HDF5Utils {
 					try {
 						odata = H5Datatype.allocateArray(tid, length);
 					} catch (OutOfMemoryError err) {
+						logger.error("Out of memory", err);
 						throw new NexusException("Out Of Memory", err);
 					}
 //						long msid = H5.H5Screate_simple(1, new long[] {length}, null);
@@ -655,6 +676,40 @@ public class HDF5Utils {
 	 */
 	public static void createDataset(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned) throws ScanFileHolderException {
 
+		try {
+			boolean exists = new File(fileName).exists();
+
+			long fid = HDF5FileFactory.acquireFile(fileName, true);
+
+			if (!exists) {
+				createDestination(fid, parentPath);
+			}
+
+			String dataPath = absolutePathToData(parentPath, name);
+			createDataset(fid, NexusFile.COMPRESSION_NONE, dataPath, dtype, initialShape, maxShape, chunking, fill);
+		} catch (Throwable le) {
+			logger.error("Problem creating dataset in file: {}", fileName, le);
+			throw new ScanFileHolderException("Problem creating dataset in file: " + fileName, le);
+		} finally {
+			HDF5FileFactory.releaseFile(fileName);
+		}
+	}
+
+	/**
+	 * Create a dataset in HDF5 file. Create the file if necessary
+	 * @param fileName
+	 * @param parentPath path to group containing dataset
+	 * @param name name of dataset
+	 * @param initialShape
+	 * @param maxShape
+	 * @param chunking
+	 * @param dtype dataset type
+	 * @param fill
+	 * @param asUnsigned
+	 * @throws ScanFileHolderException
+	 */
+	public static void createDatasetWithClose(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned) throws ScanFileHolderException {
+
 		final String cPath;
 		try {
 			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
@@ -667,7 +722,7 @@ public class HDF5Utils {
 			HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
 
 			if (new File(cPath).exists()) {
-				fid = H5Fopen(fileName, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
+				fid = HDF5FileFactory.H5Fopen(fileName, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
 			} else {
 				fid = H5.H5Fcreate(fileName, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
 				createDestination(fid, parentPath);
@@ -676,7 +731,8 @@ public class HDF5Utils {
 			String dataPath = absolutePathToData(parentPath, name);
 			createDataset(fid, NexusFile.COMPRESSION_NONE, dataPath, dtype, initialShape, maxShape, chunking, fill);
 		} catch (Throwable le) {
-			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
+			logger.error("Problem creating dataset in file: {}", fileName, le);
+			throw new ScanFileHolderException("Problem creating dataset in file: " + fileName, le);
 		} finally {
 			if (fid != -1) {
 				try {
@@ -802,7 +858,6 @@ public class HDF5Utils {
 				}
 			}
 		} catch (HDF5Exception e) {
-//			e.printStackTrace();
 			logger.error("Could not create dataset", e);
 			throw new NexusException("Could not create dataset", e);
 		}
@@ -893,7 +948,7 @@ public class HDF5Utils {
 	 * @param value
 	 * @throws ScanFileHolderException
 	 */
-	public static void setDatasetSlice(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
+	public static void setDatasetSliceWithClose(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
 		final String cPath;
 		try {
 			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
@@ -911,12 +966,13 @@ public class HDF5Utils {
 				}
 				createDataset(fileName, parentPath, name, slice.getStart(), mshape, slice.getShape(), AbstractDataset.getDType(value), null, false);
 			}
-			fid = H5Fopen(fileName, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
+			fid = HDF5FileFactory.H5Fopen(fileName, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
 
 			String dataPath = absolutePathToData(parentPath, name);
 			writeDatasetSlice(fid, dataPath, slice, value);
 		} catch (Throwable le) {
-			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
+			logger.error("Problem setting slice of dataset in file: {}", fileName, le);
+			throw new ScanFileHolderException("Problem setting slice of dataset in file: " + fileName, le);
 		} finally {
 			if (fid != -1) {
 				try {
@@ -926,6 +982,41 @@ public class HDF5Utils {
 				}
 			}
 			HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
+		}
+	}
+
+	/**
+	 * Set slice of dataset in HDF5 file. Create file if necessary
+	 * @param fileName
+	 * @param parentPath
+	 * @param name
+	 * @param slice
+	 * @param value
+	 * @throws ScanFileHolderException
+	 */
+	public static void setDatasetSlice(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
+		try {
+			prepareFile(fileName, parentPath, name, slice, value);
+			long fid = HDF5FileFactory.acquireFile(fileName, true);
+
+			String dataPath = absolutePathToData(parentPath, name);
+			writeDatasetSlice(fid, dataPath, slice, value);
+		} catch (Throwable le) {
+			logger.error("Problem setting slice of dataset in file: {}", fileName, le);
+			throw new ScanFileHolderException("Problem setting slice of dataset in file: " + fileName, le);
+		} finally {
+			HDF5FileFactory.releaseFile(fileName);
+		}
+	}
+
+	private static void prepareFile(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value) throws Exception {
+		if (!new File(fileName).exists()) {
+			int[] mshape = slice.getMaxShape();
+			if (mshape == null) {
+				mshape = slice.getShape();
+			}
+			createDataset(fileName, parentPath, name, slice.getStart(), mshape, slice.getShape(),
+					AbstractDataset.getDType(value), null, false);
 		}
 	}
 
@@ -1036,7 +1127,6 @@ public class HDF5Utils {
 	}
 
 	/**
-	 * FIXME remove once upstream as fixed broken backward compatibility
 	 * Wrapper to fix super block status flag issue
 	 * @param filePath
 	 * @param flags
@@ -1044,41 +1134,9 @@ public class HDF5Utils {
 	 * @return file ID
 	 * @throws HDF5LibraryException
 	 * @throws NullPointerException
+	 * @deprecated Use {@link HDF5FileFactory#H5Fopen(String,int,long)} instead
 	 */
 	public static long H5Fopen(String filePath, int flags, long fapl) throws HDF5LibraryException, NullPointerException {
-		long fid = -1;
-		try {
-			fid = H5.H5Fopen(filePath, flags, fapl);
-		} catch (HDF5LibraryException e) {
-			boolean isAccessDefault = fapl == HDF5Constants.H5P_DEFAULT;
-			if (isAccessDefault) {
-				fapl = -1;
-				try {
-					fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
-				} catch (HDF5LibraryException ex) {
-					logger.error("Could not create file access property list");
-					throw ex;
-				}
-			}
-			try {
-				H5.H5Pset(fapl, "clear_status_flags", 1);
-			} catch (HDF5LibraryException ex) {
-				logger.warn("Could not clear status flag but continuing to open file");
-			}
-	
-			fid = H5.H5Fopen(filePath, flags, fapl);
-	
-			if (isAccessDefault) {
-				if (fapl != -1) {
-					try {
-						H5.H5Pclose(fapl);
-					} catch (HDF5LibraryException ex) {
-						logger.error("Could not close file access property list");
-						throw ex;
-					}
-				}
-			}
-		}
-		return fid;
+		return HDF5FileFactory.H5Fopen(filePath, flags, fapl);
 	}
 }
