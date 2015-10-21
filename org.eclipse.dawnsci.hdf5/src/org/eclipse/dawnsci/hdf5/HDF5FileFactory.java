@@ -10,6 +10,7 @@
 package org.eclipse.dawnsci.hdf5;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -138,9 +139,9 @@ public class HDF5FileFactory {
 				} else {
 					HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
 					access = new FileAccess();
-					access.writeable = true;
 					access.count = 1;
 					if (asNew) {
+						access.writeable = true;
 						fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_TRUNC, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
 					} else {
 						access = new FileAccess();
@@ -149,7 +150,7 @@ public class HDF5FileFactory {
 							fid = HDF5FileFactory.H5Fopen(cPath, writeable ? HDF5Constants.H5F_ACC_RDWR : HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
 						} else if (!writeable) {
 							logger.error("File {} does not exist!", cPath);
-							throw new ScanFileHolderException("File does not exist!");
+							throw new FileNotFoundException("File does not exist!");
 						} else {
 							fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
 						}
@@ -187,7 +188,7 @@ public class HDF5FileFactory {
 	 * @throws ScanFileHolderException
 	 */
 	public static long acquireFileAsNew(String fileName) throws ScanFileHolderException {
-		return acquireFile(fileName, false, true);
+		return acquireFile(fileName, true, true);
 	}
 
 	/**
