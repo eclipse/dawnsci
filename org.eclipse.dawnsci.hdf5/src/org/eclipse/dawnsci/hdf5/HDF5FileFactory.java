@@ -80,7 +80,7 @@ public class HDF5FileFactory {
 						while (iter.hasNext()) {
 							String f = iter.next();
 							FileAccess a = IDS.get(f);
-							if (a.time != 0 && a.count == 0) {
+							if (a.count == 0) {
 								if (a.time <= now) {
 									try {
 										H5.H5Fclose(a.id);
@@ -157,7 +157,6 @@ public class HDF5FileFactory {
 					access.id = fid;
 					IDS.put(cPath, access);
 				}
-				access.time = 0; // denotes it is being used
 			} catch (Throwable le) {
 				if (!IDS.containsKey(cPath)) {
 					HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
@@ -224,7 +223,7 @@ public class HDF5FileFactory {
 			try {
 				FileAccess access = IDS.get(cPath);
 				access.count--;
-				if (access.count == 0) {
+				if (access.count <= 0) {
 					if (close) {
 						try {
 							H5.H5Fclose(access.id);
