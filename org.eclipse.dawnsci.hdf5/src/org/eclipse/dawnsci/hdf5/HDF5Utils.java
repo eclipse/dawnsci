@@ -677,14 +677,9 @@ public class HDF5Utils {
 	public static void createDataset(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned) throws ScanFileHolderException {
 
 		try {
-			boolean exists = new File(fileName).exists();
-
 			long fid = HDF5FileFactory.acquireFile(fileName, true);
 
-			if (!exists) {
-				createDestination(fid, parentPath);
-			}
-
+			requireDestination(fid, parentPath);
 			String dataPath = absolutePathToData(parentPath, name);
 			createDataset(fid, NexusFile.COMPRESSION_NONE, dataPath, dtype, initialShape, maxShape, chunking, fill);
 		} catch (Throwable le) {
@@ -725,9 +720,9 @@ public class HDF5Utils {
 				fid = HDF5FileFactory.H5Fopen(fileName, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
 			} else {
 				fid = H5.H5Fcreate(fileName, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
-				createDestination(fid, parentPath);
 			}
 
+			requireDestination(fid, parentPath);
 			String dataPath = absolutePathToData(parentPath, name);
 			createDataset(fid, NexusFile.COMPRESSION_NONE, dataPath, dtype, initialShape, maxShape, chunking, fill);
 		} catch (Throwable le) {
@@ -745,17 +740,19 @@ public class HDF5Utils {
 		}
 	}
 
-	private static void createDestination(long fileID, String group) throws HDF5Exception {
-		long gcpid = -1;
+	private static void requireDestination(long fileID, String group) throws HDF5Exception {
+		boolean exists = false;
 		long gid = -1;
-
 		try {
-			gcpid = H5.H5Pcreate (HDF5Constants.H5P_LINK_CREATE);
-			H5.H5Pset_create_intermediate_group(gcpid, true);
-			gid = H5.H5Gcreate(fileID, group, gcpid, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
-		} catch (HDF5Exception e) {
-			logger.error("Could not create destination", e);
-			throw e;
+			try {
+				gid = H5.H5Gopen(fileID, group, HDF5Constants.H5P_DEFAULT);
+				exists = true;
+			} catch (Exception e) {
+			} finally {
+				if (!exists) {
+					gid = createDestination(fileID, group);
+				}
+			}
 		} finally {
 			if (gid != -1) {
 				try {
@@ -763,6 +760,21 @@ public class HDF5Utils {
 				} catch (HDF5Exception ex) {
 				}
 			}
+		}
+	}
+
+	private static long createDestination(long fileID, String group) throws HDF5Exception {
+		long gcpid = -1;
+		long gid = -1;
+
+		try {
+			gcpid = H5.H5Pcreate(HDF5Constants.H5P_LINK_CREATE);
+			H5.H5Pset_create_intermediate_group(gcpid, true);
+			gid = H5.H5Gcreate(fileID, group, gcpid, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
+		} catch (HDF5Exception e) {
+			logger.error("Could not create destination", e);
+			throw e;
+		} finally {
 			if (gcpid != -1) {
 				try {
 					H5.H5Pclose(gcpid);
@@ -770,6 +782,8 @@ public class HDF5Utils {
 				}
 			}
 		}
+
+		return gid;
 	}
 
 	/**
@@ -799,7 +813,6 @@ public class HDF5Utils {
 				hdfDatatypeId = H5.H5Tcopy(hdfType);
 				hdfDataspaceId = H5.H5Screate_simple(shape.length, shape, maxShape);
 				hdfPropertiesId = H5.H5Pcreate(HDF5Constants.H5P_DATASET_CREATE);
-
 
 				if (stringDataset) {
 					H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
