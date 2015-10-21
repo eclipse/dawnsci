@@ -144,7 +144,6 @@ public class HDF5FileFactory {
 						access.writeable = true;
 						fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_TRUNC, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
 					} else {
-						access = new FileAccess();
 						access.writeable = writeable;
 						if (new File(cPath).exists()) {
 							fid = HDF5FileFactory.H5Fopen(cPath, writeable ? HDF5Constants.H5F_ACC_RDWR : HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
