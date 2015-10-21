@@ -80,7 +80,7 @@ public class HDF5FileFactory {
 						while (iter.hasNext()) {
 							String f = iter.next();
 							FileAccess a = IDS.get(f);
-							if (a.count == 0) {
+							if (a.count <= 0) {
 								if (a.time <= now) {
 									try {
 										H5.H5Fclose(a.id);
