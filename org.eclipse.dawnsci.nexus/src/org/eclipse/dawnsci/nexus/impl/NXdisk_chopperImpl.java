@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -64,7 +64,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public String getScalarType() {
+	public String getTypeScalar() {
 		return getString(NX_TYPE);
 	}
 
@@ -72,7 +72,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		setDataset(NX_TYPE, type);
 	}
 
-	public void setScalarType(String type) {
+	public void setTypeScalar(String type) {
 		setString(NX_TYPE, type);
 	}
 
@@ -82,7 +82,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getScalarRotation_speed() {
+	public double getRotation_speedScalar() {
 		return getDouble(NX_ROTATION_SPEED);
 	}
 
@@ -90,7 +90,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		setDataset(NX_ROTATION_SPEED, rotation_speed);
 	}
 
-	public void setScalarRotation_speed(double rotation_speed) {
+	public void setRotation_speedScalar(double rotation_speed) {
 		setField(NX_ROTATION_SPEED, rotation_speed);
 	}
 
@@ -100,7 +100,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public long getScalarSlits() {
+	public long getSlitsScalar() {
 		return getLong(NX_SLITS);
 	}
 
@@ -108,7 +108,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		setDataset(NX_SLITS, slits);
 	}
 
-	public void setScalarSlits(long slits) {
+	public void setSlitsScalar(long slits) {
 		setField(NX_SLITS, slits);
 	}
 
@@ -118,7 +118,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getScalarSlit_angle() {
+	public double getSlit_angleScalar() {
 		return getDouble(NX_SLIT_ANGLE);
 	}
 
@@ -126,7 +126,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		setDataset(NX_SLIT_ANGLE, slit_angle);
 	}
 
-	public void setScalarSlit_angle(double slit_angle) {
+	public void setSlit_angleScalar(double slit_angle) {
 		setField(NX_SLIT_ANGLE, slit_angle);
 	}
 
@@ -136,7 +136,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getScalarPair_separation() {
+	public double getPair_separationScalar() {
 		return getDouble(NX_PAIR_SEPARATION);
 	}
 
@@ -144,7 +144,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		setDataset(NX_PAIR_SEPARATION, pair_separation);
 	}
 
-	public void setScalarPair_separation(double pair_separation) {
+	public void setPair_separationScalar(double pair_separation) {
 		setField(NX_PAIR_SEPARATION, pair_separation);
 	}
 
@@ -154,7 +154,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getScalarRadius() {
+	public double getRadiusScalar() {
 		return getDouble(NX_RADIUS);
 	}
 
@@ -162,7 +162,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		setDataset(NX_RADIUS, radius);
 	}
 
-	public void setScalarRadius(double radius) {
+	public void setRadiusScalar(double radius) {
 		setField(NX_RADIUS, radius);
 	}
 
@@ -172,7 +172,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getScalarSlit_height() {
+	public double getSlit_heightScalar() {
 		return getDouble(NX_SLIT_HEIGHT);
 	}
 
@@ -180,7 +180,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		setDataset(NX_SLIT_HEIGHT, slit_height);
 	}
 
-	public void setScalarSlit_height(double slit_height) {
+	public void setSlit_heightScalar(double slit_height) {
 		setField(NX_SLIT_HEIGHT, slit_height);
 	}
 
@@ -190,7 +190,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getScalarPhase() {
+	public double getPhaseScalar() {
 		return getDouble(NX_PHASE);
 	}
 
@@ -198,7 +198,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		setDataset(NX_PHASE, phase);
 	}
 
-	public void setScalarPhase(double phase) {
+	public void setPhaseScalar(double phase) {
 		setField(NX_PHASE, phase);
 	}
 
@@ -208,7 +208,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public long getScalarRatio() {
+	public long getRatioScalar() {
 		return getLong(NX_RATIO);
 	}
 
@@ -216,7 +216,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		setDataset(NX_RATIO, ratio);
 	}
 
-	public void setScalarRatio(long ratio) {
+	public void setRatioScalar(long ratio) {
 		setField(NX_RATIO, ratio);
 	}
 
@@ -226,7 +226,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getScalarDistance() {
+	public double getDistanceScalar() {
 		return getDouble(NX_DISTANCE);
 	}
 
@@ -234,7 +234,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		setDataset(NX_DISTANCE, distance);
 	}
 
-	public void setScalarDistance(double distance) {
+	public void setDistanceScalar(double distance) {
 		setField(NX_DISTANCE, distance);
 	}
 
@@ -244,7 +244,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getScalarWavelength_range() {
+	public double getWavelength_rangeScalar() {
 		return getDouble(NX_WAVELENGTH_RANGE);
 	}
 
@@ -252,7 +252,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		setDataset(NX_WAVELENGTH_RANGE, wavelength_range);
 	}
 
-	public void setScalarWavelength_range(double wavelength_range) {
+	public void setWavelength_rangeScalar(double wavelength_range) {
 		setField(NX_WAVELENGTH_RANGE, wavelength_range);
 	}
 

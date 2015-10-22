@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -55,7 +55,7 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 	}
 
 	@Override
-	public String getScalarDepends_on() {
+	public String getDepends_onScalar() {
 		return getString(NX_DEPENDS_ON);
 	}
 
@@ -63,7 +63,7 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 		setDataset(NX_DEPENDS_ON, depends_on);
 	}
 
-	public void setScalarDepends_on(String depends_on) {
+	public void setDepends_onScalar(String depends_on) {
 		setString(NX_DEPENDS_ON, depends_on);
 	}
 
@@ -73,7 +73,7 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 	}
 
 	@Override
-	public Number getScalarX_gap() {
+	public Number getX_gapScalar() {
 		return getNumber(NX_X_GAP);
 	}
 
@@ -81,7 +81,7 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 		setDataset(NX_X_GAP, x_gap);
 	}
 
-	public void setScalarX_gap(Number x_gap) {
+	public void setX_gapScalar(Number x_gap) {
 		setField(NX_X_GAP, x_gap);
 	}
 
@@ -91,7 +91,7 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 	}
 
 	@Override
-	public Number getScalarY_gap() {
+	public Number getY_gapScalar() {
 		return getNumber(NX_Y_GAP);
 	}
 
@@ -99,7 +99,7 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 		setDataset(NX_Y_GAP, y_gap);
 	}
 
-	public void setScalarY_gap(Number y_gap) {
+	public void setY_gapScalar(Number y_gap) {
 		setField(NX_Y_GAP, y_gap);
 	}
 

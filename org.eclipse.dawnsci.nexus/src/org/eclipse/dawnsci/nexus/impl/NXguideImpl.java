@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -113,7 +113,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 	}
 
 	@Override
-	public String getScalarDescription() {
+	public String getDescriptionScalar() {
 		return getString(NX_DESCRIPTION);
 	}
 
@@ -121,7 +121,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setScalarDescription(String description) {
+	public void setDescriptionScalar(String description) {
 		setString(NX_DESCRIPTION, description);
 	}
 
@@ -131,7 +131,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 	}
 
 	@Override
-	public double getScalarIncident_angle() {
+	public double getIncident_angleScalar() {
 		return getDouble(NX_INCIDENT_ANGLE);
 	}
 
@@ -139,7 +139,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		setDataset(NX_INCIDENT_ANGLE, incident_angle);
 	}
 
-	public void setScalarIncident_angle(double incident_angle) {
+	public void setIncident_angleScalar(double incident_angle) {
 		setField(NX_INCIDENT_ANGLE, incident_angle);
 	}
 
@@ -158,7 +158,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 	}
 
 	@Override
-	public double getScalarBend_angle_x() {
+	public double getBend_angle_xScalar() {
 		return getDouble(NX_BEND_ANGLE_X);
 	}
 
@@ -166,7 +166,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		setDataset(NX_BEND_ANGLE_X, bend_angle_x);
 	}
 
-	public void setScalarBend_angle_x(double bend_angle_x) {
+	public void setBend_angle_xScalar(double bend_angle_x) {
 		setField(NX_BEND_ANGLE_X, bend_angle_x);
 	}
 
@@ -176,7 +176,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 	}
 
 	@Override
-	public double getScalarBend_angle_y() {
+	public double getBend_angle_yScalar() {
 		return getDouble(NX_BEND_ANGLE_Y);
 	}
 
@@ -184,7 +184,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		setDataset(NX_BEND_ANGLE_Y, bend_angle_y);
 	}
 
-	public void setScalarBend_angle_y(double bend_angle_y) {
+	public void setBend_angle_yScalar(double bend_angle_y) {
 		setField(NX_BEND_ANGLE_Y, bend_angle_y);
 	}
 
@@ -194,7 +194,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 	}
 
 	@Override
-	public String getScalarInterior_atmosphere() {
+	public String getInterior_atmosphereScalar() {
 		return getString(NX_INTERIOR_ATMOSPHERE);
 	}
 
@@ -202,7 +202,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		setDataset(NX_INTERIOR_ATMOSPHERE, interior_atmosphere);
 	}
 
-	public void setScalarInterior_atmosphere(String interior_atmosphere) {
+	public void setInterior_atmosphereScalar(String interior_atmosphere) {
 		setString(NX_INTERIOR_ATMOSPHERE, interior_atmosphere);
 	}
 
@@ -212,7 +212,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 	}
 
 	@Override
-	public String getScalarExternal_material() {
+	public String getExternal_materialScalar() {
 		return getString(NX_EXTERNAL_MATERIAL);
 	}
 
@@ -220,7 +220,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		setDataset(NX_EXTERNAL_MATERIAL, external_material);
 	}
 
-	public void setScalarExternal_material(String external_material) {
+	public void setExternal_materialScalar(String external_material) {
 		setString(NX_EXTERNAL_MATERIAL, external_material);
 	}
 
@@ -230,7 +230,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 	}
 
 	@Override
-	public double getScalarM_value() {
+	public double getM_valueScalar() {
 		return getDouble(NX_M_VALUE);
 	}
 
@@ -238,7 +238,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		setDataset(NX_M_VALUE, m_value);
 	}
 
-	public void setScalarM_value(double m_value) {
+	public void setM_valueScalar(double m_value) {
 		setField(NX_M_VALUE, m_value);
 	}
 
@@ -248,7 +248,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 	}
 
 	@Override
-	public double getScalarSubstrate_material() {
+	public double getSubstrate_materialScalar() {
 		return getDouble(NX_SUBSTRATE_MATERIAL);
 	}
 
@@ -256,7 +256,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		setDataset(NX_SUBSTRATE_MATERIAL, substrate_material);
 	}
 
-	public void setScalarSubstrate_material(double substrate_material) {
+	public void setSubstrate_materialScalar(double substrate_material) {
 		setField(NX_SUBSTRATE_MATERIAL, substrate_material);
 	}
 
@@ -266,7 +266,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 	}
 
 	@Override
-	public double getScalarSubstrate_thickness() {
+	public double getSubstrate_thicknessScalar() {
 		return getDouble(NX_SUBSTRATE_THICKNESS);
 	}
 
@@ -274,7 +274,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		setDataset(NX_SUBSTRATE_THICKNESS, substrate_thickness);
 	}
 
-	public void setScalarSubstrate_thickness(double substrate_thickness) {
+	public void setSubstrate_thicknessScalar(double substrate_thickness) {
 		setField(NX_SUBSTRATE_THICKNESS, substrate_thickness);
 	}
 
@@ -284,7 +284,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 	}
 
 	@Override
-	public double getScalarCoating_material() {
+	public double getCoating_materialScalar() {
 		return getDouble(NX_COATING_MATERIAL);
 	}
 
@@ -292,7 +292,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		setDataset(NX_COATING_MATERIAL, coating_material);
 	}
 
-	public void setScalarCoating_material(double coating_material) {
+	public void setCoating_materialScalar(double coating_material) {
 		setField(NX_COATING_MATERIAL, coating_material);
 	}
 
@@ -302,7 +302,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 	}
 
 	@Override
-	public double getScalarSubstrate_roughness() {
+	public double getSubstrate_roughnessScalar() {
 		return getDouble(NX_SUBSTRATE_ROUGHNESS);
 	}
 
@@ -310,7 +310,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		setDataset(NX_SUBSTRATE_ROUGHNESS, substrate_roughness);
 	}
 
-	public void setScalarSubstrate_roughness(double substrate_roughness) {
+	public void setSubstrate_roughnessScalar(double substrate_roughness) {
 		setField(NX_SUBSTRATE_ROUGHNESS, substrate_roughness);
 	}
 
@@ -320,7 +320,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 	}
 
 	@Override
-	public double getScalarCoating_roughness() {
+	public double getCoating_roughnessScalar() {
 		return getDouble(NX_COATING_ROUGHNESS);
 	}
 
@@ -328,7 +328,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		setDataset(NX_COATING_ROUGHNESS, coating_roughness);
 	}
 
-	public void setScalarCoating_roughness(double coating_roughness) {
+	public void setCoating_roughnessScalar(double coating_roughness) {
 		setField(NX_COATING_ROUGHNESS, coating_roughness);
 	}
 
@@ -338,7 +338,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 	}
 
 	@Override
-	public long getScalarNumber_sections() {
+	public long getNumber_sectionsScalar() {
 		return getLong(NX_NUMBER_SECTIONS);
 	}
 
@@ -346,7 +346,7 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		setDataset(NX_NUMBER_SECTIONS, number_sections);
 	}
 
-	public void setScalarNumber_sections(long number_sections) {
+	public void setNumber_sectionsScalar(long number_sections) {
 		setField(NX_NUMBER_SECTIONS, number_sections);
 	}
 

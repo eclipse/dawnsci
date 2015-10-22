@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -59,7 +59,7 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 	}
 
 	@Override
-	public long getScalarTime_of_flight() {
+	public long getTime_of_flightScalar() {
 		return getLong(NX_TIME_OF_FLIGHT);
 	}
 
@@ -67,7 +67,7 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 		setDataset(NX_TIME_OF_FLIGHT, time_of_flight);
 	}
 
-	public void setScalarTime_of_flight(long time_of_flight) {
+	public void setTime_of_flightScalar(long time_of_flight) {
 		setField(NX_TIME_OF_FLIGHT, time_of_flight);
 	}
 
@@ -77,7 +77,7 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 	}
 
 	@Override
-	public long getScalarPixel_number() {
+	public long getPixel_numberScalar() {
 		return getLong(NX_PIXEL_NUMBER);
 	}
 
@@ -85,7 +85,7 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 		setDataset(NX_PIXEL_NUMBER, pixel_number);
 	}
 
-	public void setScalarPixel_number(long pixel_number) {
+	public void setPixel_numberScalar(long pixel_number) {
 		setField(NX_PIXEL_NUMBER, pixel_number);
 	}
 
@@ -95,7 +95,7 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 	}
 
 	@Override
-	public long getScalarPulse_time() {
+	public long getPulse_timeScalar() {
 		return getLong(NX_PULSE_TIME);
 	}
 
@@ -103,7 +103,7 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 		setDataset(NX_PULSE_TIME, pulse_time);
 	}
 
-	public void setScalarPulse_time(long pulse_time) {
+	public void setPulse_timeScalar(long pulse_time) {
 		setField(NX_PULSE_TIME, pulse_time);
 	}
 
@@ -122,7 +122,7 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 	}
 
 	@Override
-	public long getScalarEvents_per_pulse() {
+	public long getEvents_per_pulseScalar() {
 		return getLong(NX_EVENTS_PER_PULSE);
 	}
 
@@ -130,7 +130,7 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 		setDataset(NX_EVENTS_PER_PULSE, events_per_pulse);
 	}
 
-	public void setScalarEvents_per_pulse(long events_per_pulse) {
+	public void setEvents_per_pulseScalar(long events_per_pulse) {
 		setField(NX_EVENTS_PER_PULSE, events_per_pulse);
 	}
 
@@ -140,7 +140,7 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 	}
 
 	@Override
-	public double getScalarPulse_height() {
+	public double getPulse_heightScalar() {
 		return getDouble(NX_PULSE_HEIGHT);
 	}
 
@@ -148,7 +148,7 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 		setDataset(NX_PULSE_HEIGHT, pulse_height);
 	}
 
-	public void setScalarPulse_height(double pulse_height) {
+	public void setPulse_heightScalar(double pulse_height) {
 		setField(NX_PULSE_HEIGHT, pulse_height);
 	}
 

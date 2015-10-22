@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -41,7 +41,7 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarName();
+	 public String getNameScalar();
 
 	/**
 	 * description of positioner
@@ -55,7 +55,7 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDescription();
+	 public String getDescriptionScalar();
 
 	/**
 	 * best known value of positioner - need [n] as may be scanned
@@ -79,7 +79,7 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarValue();
+	 public Number getValueScalar();
 
 	/**
 	 * raw value of positioner - need [n] as may be scanned
@@ -103,7 +103,7 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarRaw_value();
+	 public Number getRaw_valueScalar();
 
 	/**
 	 * targeted (commanded) value of positioner - need [n] as may be scanned
@@ -127,7 +127,7 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarTarget_value();
+	 public Number getTarget_valueScalar();
 
 	/**
 	 * maximum allowable difference between target_value and value
@@ -151,7 +151,7 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarTolerance();
+	 public Number getToleranceScalar();
 
 	/**
 	 * minimum allowed limit to set value
@@ -173,7 +173,7 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarSoft_limit_min();
+	 public Number getSoft_limit_minScalar();
 
 	/**
 	 * maximum allowed limit to set value
@@ -195,7 +195,7 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarSoft_limit_max();
+	 public Number getSoft_limit_maxScalar();
 
 	/**
 	 * velocity of the positioner (distance moved per unit time)
@@ -217,7 +217,7 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarVelocity();
+	 public Number getVelocityScalar();
 
 	/**
 	 * time to ramp the velocity up to full speed
@@ -239,7 +239,7 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarAcceleration_time();
+	 public Number getAcceleration_timeScalar();
 
 	/**
 	 * Hardware device record, e.g. EPICS process variable, taco/tango ...
@@ -253,6 +253,6 @@ public interface NXpositioner extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarController_record();
+	 public String getController_recordScalar();
 
 }

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -50,7 +50,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDistance();
+	 public double getDistanceScalar();
 
 	/**
 	 * Energy on entering beamline component
@@ -74,7 +74,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarIncident_energy();
+	 public double getIncident_energyScalar();
 
 	/**
 	 * Energy on leaving beamline component
@@ -98,7 +98,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFinal_energy();
+	 public double getFinal_energyScalar();
 
 	/**
 	 * Energy change caused by beamline component
@@ -122,7 +122,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarEnergy_transfer();
+	 public double getEnergy_transferScalar();
 
 	/**
 	 * Wavelength on entering beamline component
@@ -146,7 +146,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarIncident_wavelength();
+	 public double getIncident_wavelengthScalar();
 
 	/**
 	 * Wavelength spread FWHM on entering component
@@ -170,7 +170,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarIncident_wavelength_spread();
+	 public double getIncident_wavelength_spreadScalar();
 
 	/**
 	 * Divergence of beam entering this component
@@ -194,7 +194,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarIncident_beam_divergence();
+	 public double getIncident_beam_divergenceScalar();
 
 	/**
 	 * Wavelength on leaving beamline component
@@ -218,7 +218,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFinal_wavelength();
+	 public double getFinal_wavelengthScalar();
 
 	/**
 	 * Polarization vector on entering beamline component
@@ -242,7 +242,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarIncident_polarization();
+	 public double getIncident_polarizationScalar();
 
 	/**
 	 * Polarization vector on leaving beamline component
@@ -266,7 +266,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFinal_polarization();
+	 public double getFinal_polarizationScalar();
 
 	/**
 	 * Wavelength spread FWHM of beam leaving this component
@@ -290,7 +290,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFinal_wavelength_spread();
+	 public double getFinal_wavelength_spreadScalar();
 
 	/**
 	 * Divergence FWHM of beam leaving this component
@@ -314,7 +314,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFinal_beam_divergence();
+	 public double getFinal_beam_divergenceScalar();
 
 	/**
 	 * flux incident on beam plane area
@@ -338,7 +338,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFlux();
+	 public double getFluxScalar();
 
 	/**
 	 * Distribution of beam with respect to relevant variable e.g. wavelength. This is mainly

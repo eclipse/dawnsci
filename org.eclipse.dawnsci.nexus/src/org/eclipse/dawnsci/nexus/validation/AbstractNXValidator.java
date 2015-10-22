@@ -15,6 +15,7 @@ import org.eclipse.dawnsci.analysis.api.metadata.UnitMetadata;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.hdf5.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXtransformations;
 
@@ -22,7 +23,7 @@ import org.eclipse.dawnsci.nexus.NXtransformations;
  * Abstract superclass for Nexus application definition validators.
  *
  */
-public abstract class AbstractNXValidator {
+public abstract class AbstractNXValidator implements NXApplicationValidator {
 	
 	private Map<String, Integer> globalDimensionPlaceholderValues = new HashMap<>();
 	
@@ -150,9 +151,13 @@ public abstract class AbstractNXValidator {
 	 * @throws NexusValidationException if the field's units are not consistent with the given unit category
 	 */
 	protected void validateFieldUnits(final String fieldName, final IDataset dataset,
-			final NexusUnitCategory unitCategory) throws Exception,
-			NexusValidationException {
-		List<? extends MetadataType> metadata = dataset.getMetadata(UnitMetadata.class);
+			final NexusUnitCategory unitCategory) throws NexusValidationException {
+		List<? extends MetadataType> metadata;
+		try {
+			metadata = dataset.getMetadata(UnitMetadata.class);
+		} catch (Exception e) {
+			throw new NexusValidationException("Could not get unit metadata for field '" + fieldName + "'", e);
+		}
 		// TODO why does getMetadata return a list? Can I assume I'm only interested in the first element?
 		if (metadata == null || metadata.isEmpty() || !metadata.get(0).getClass().equals(UnitMetadata.class)) {
 			failValidation("No unit metadata for field '" + fieldName + "', expected " + unitCategory);

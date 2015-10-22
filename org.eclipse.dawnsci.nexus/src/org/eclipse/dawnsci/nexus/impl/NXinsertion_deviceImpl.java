@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -65,7 +65,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public String getScalarType() {
+	public String getTypeScalar() {
 		return getString(NX_TYPE);
 	}
 
@@ -73,7 +73,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		setDataset(NX_TYPE, type);
 	}
 
-	public void setScalarType(String type) {
+	public void setTypeScalar(String type) {
 		setString(NX_TYPE, type);
 	}
 
@@ -83,7 +83,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getScalarGap() {
+	public double getGapScalar() {
 		return getDouble(NX_GAP);
 	}
 
@@ -91,7 +91,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		setDataset(NX_GAP, gap);
 	}
 
-	public void setScalarGap(double gap) {
+	public void setGapScalar(double gap) {
 		setField(NX_GAP, gap);
 	}
 
@@ -101,7 +101,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getScalarTaper() {
+	public double getTaperScalar() {
 		return getDouble(NX_TAPER);
 	}
 
@@ -109,7 +109,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		setDataset(NX_TAPER, taper);
 	}
 
-	public void setScalarTaper(double taper) {
+	public void setTaperScalar(double taper) {
 		setField(NX_TAPER, taper);
 	}
 
@@ -119,7 +119,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getScalarPhase() {
+	public double getPhaseScalar() {
 		return getDouble(NX_PHASE);
 	}
 
@@ -127,7 +127,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		setDataset(NX_PHASE, phase);
 	}
 
-	public void setScalarPhase(double phase) {
+	public void setPhaseScalar(double phase) {
 		setField(NX_PHASE, phase);
 	}
 
@@ -137,7 +137,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public long getScalarPoles() {
+	public long getPolesScalar() {
 		return getLong(NX_POLES);
 	}
 
@@ -145,7 +145,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		setDataset(NX_POLES, poles);
 	}
 
-	public void setScalarPoles(long poles) {
+	public void setPolesScalar(long poles) {
 		setField(NX_POLES, poles);
 	}
 
@@ -155,7 +155,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getScalarMagnetic_wavelength() {
+	public double getMagnetic_wavelengthScalar() {
 		return getDouble(NX_MAGNETIC_WAVELENGTH);
 	}
 
@@ -163,7 +163,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		setDataset(NX_MAGNETIC_WAVELENGTH, magnetic_wavelength);
 	}
 
-	public void setScalarMagnetic_wavelength(double magnetic_wavelength) {
+	public void setMagnetic_wavelengthScalar(double magnetic_wavelength) {
 		setField(NX_MAGNETIC_WAVELENGTH, magnetic_wavelength);
 	}
 
@@ -173,7 +173,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getScalarK() {
+	public double getKScalar() {
 		return getDouble(NX_K);
 	}
 
@@ -181,7 +181,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		setDataset(NX_K, k);
 	}
 
-	public void setScalarK(double k) {
+	public void setKScalar(double k) {
 		setField(NX_K, k);
 	}
 
@@ -191,7 +191,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getScalarLength() {
+	public double getLengthScalar() {
 		return getDouble(NX_LENGTH);
 	}
 
@@ -199,7 +199,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		setDataset(NX_LENGTH, length);
 	}
 
-	public void setScalarLength(double length) {
+	public void setLengthScalar(double length) {
 		setField(NX_LENGTH, length);
 	}
 
@@ -209,7 +209,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getScalarPower() {
+	public double getPowerScalar() {
 		return getDouble(NX_POWER);
 	}
 
@@ -217,7 +217,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		setDataset(NX_POWER, power);
 	}
 
-	public void setScalarPower(double power) {
+	public void setPowerScalar(double power) {
 		setField(NX_POWER, power);
 	}
 
@@ -227,7 +227,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getScalarEnergy() {
+	public double getEnergyScalar() {
 		return getDouble(NX_ENERGY);
 	}
 
@@ -235,7 +235,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		setDataset(NX_ENERGY, energy);
 	}
 
-	public void setScalarEnergy(double energy) {
+	public void setEnergyScalar(double energy) {
 		setField(NX_ENERGY, energy);
 	}
 
@@ -245,7 +245,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getScalarBandwidth() {
+	public double getBandwidthScalar() {
 		return getDouble(NX_BANDWIDTH);
 	}
 
@@ -253,7 +253,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		setDataset(NX_BANDWIDTH, bandwidth);
 	}
 
-	public void setScalarBandwidth(double bandwidth) {
+	public void setBandwidthScalar(double bandwidth) {
 		setField(NX_BANDWIDTH, bandwidth);
 	}
 
@@ -263,7 +263,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public long getScalarHarmonic() {
+	public long getHarmonicScalar() {
 		return getLong(NX_HARMONIC);
 	}
 
@@ -271,7 +271,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		setDataset(NX_HARMONIC, harmonic);
 	}
 
-	public void setScalarHarmonic(long harmonic) {
+	public void setHarmonicScalar(long harmonic) {
 		setField(NX_HARMONIC, harmonic);
 	}
 

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -63,7 +63,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 	}
 
 	@Override
-	public double getScalarWavelength() {
+	public double getWavelengthScalar() {
 		return getDouble(NX_WAVELENGTH);
 	}
 
@@ -71,7 +71,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 		setDataset(NX_WAVELENGTH, wavelength);
 	}
 
-	public void setScalarWavelength(double wavelength) {
+	public void setWavelengthScalar(double wavelength) {
 		setField(NX_WAVELENGTH, wavelength);
 	}
 
@@ -81,7 +81,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 	}
 
 	@Override
-	public double getScalarWavelength_error() {
+	public double getWavelength_errorScalar() {
 		return getDouble(NX_WAVELENGTH_ERROR);
 	}
 
@@ -89,7 +89,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 		setDataset(NX_WAVELENGTH_ERROR, wavelength_error);
 	}
 
-	public void setScalarWavelength_error(double wavelength_error) {
+	public void setWavelength_errorScalar(double wavelength_error) {
 		setField(NX_WAVELENGTH_ERROR, wavelength_error);
 	}
 
@@ -99,7 +99,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 	}
 
 	@Override
-	public double getScalarEnergy() {
+	public double getEnergyScalar() {
 		return getDouble(NX_ENERGY);
 	}
 
@@ -107,7 +107,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 		setDataset(NX_ENERGY, energy);
 	}
 
-	public void setScalarEnergy(double energy) {
+	public void setEnergyScalar(double energy) {
 		setField(NX_ENERGY, energy);
 	}
 
@@ -117,7 +117,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 	}
 
 	@Override
-	public double getScalarEnergy_error() {
+	public double getEnergy_errorScalar() {
 		return getDouble(NX_ENERGY_ERROR);
 	}
 
@@ -125,7 +125,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 		setDataset(NX_ENERGY_ERROR, energy_error);
 	}
 
-	public void setScalarEnergy_error(double energy_error) {
+	public void setEnergy_errorScalar(double energy_error) {
 		setField(NX_ENERGY_ERROR, energy_error);
 	}
 

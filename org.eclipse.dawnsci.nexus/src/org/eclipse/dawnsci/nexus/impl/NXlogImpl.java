@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -74,7 +74,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 	}
 
 	@Override
-	public double getScalarTime() {
+	public double getTimeScalar() {
 		return getDouble(NX_TIME);
 	}
 
@@ -82,7 +82,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		setDataset(NX_TIME, time);
 	}
 
-	public void setScalarTime(double time) {
+	public void setTimeScalar(double time) {
 		setField(NX_TIME, time);
 	}
 
@@ -101,7 +101,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 	}
 
 	@Override
-	public Number getScalarValue() {
+	public Number getValueScalar() {
 		return getNumber(NX_VALUE);
 	}
 
@@ -109,7 +109,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		setDataset(NX_VALUE, value);
 	}
 
-	public void setScalarValue(Number value) {
+	public void setValueScalar(Number value) {
 		setField(NX_VALUE, value);
 	}
 
@@ -119,7 +119,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 	}
 
 	@Override
-	public Number getScalarRaw_value() {
+	public Number getRaw_valueScalar() {
 		return getNumber(NX_RAW_VALUE);
 	}
 
@@ -127,7 +127,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		setDataset(NX_RAW_VALUE, raw_value);
 	}
 
-	public void setScalarRaw_value(Number raw_value) {
+	public void setRaw_valueScalar(Number raw_value) {
 		setField(NX_RAW_VALUE, raw_value);
 	}
 
@@ -137,7 +137,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 	}
 
 	@Override
-	public String getScalarDescription() {
+	public String getDescriptionScalar() {
 		return getString(NX_DESCRIPTION);
 	}
 
@@ -145,7 +145,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setScalarDescription(String description) {
+	public void setDescriptionScalar(String description) {
 		setString(NX_DESCRIPTION, description);
 	}
 
@@ -155,7 +155,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 	}
 
 	@Override
-	public double getScalarAverage_value() {
+	public double getAverage_valueScalar() {
 		return getDouble(NX_AVERAGE_VALUE);
 	}
 
@@ -163,7 +163,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		setDataset(NX_AVERAGE_VALUE, average_value);
 	}
 
-	public void setScalarAverage_value(double average_value) {
+	public void setAverage_valueScalar(double average_value) {
 		setField(NX_AVERAGE_VALUE, average_value);
 	}
 
@@ -173,7 +173,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 	}
 
 	@Override
-	public double getScalarAverage_value_error() {
+	public double getAverage_value_errorScalar() {
 		return getDouble(NX_AVERAGE_VALUE_ERROR);
 	}
 
@@ -181,7 +181,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		setDataset(NX_AVERAGE_VALUE_ERROR, average_value_error);
 	}
 
-	public void setScalarAverage_value_error(double average_value_error) {
+	public void setAverage_value_errorScalar(double average_value_error) {
 		setField(NX_AVERAGE_VALUE_ERROR, average_value_error);
 	}
 
@@ -191,7 +191,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 	}
 
 	@Override
-	public double getScalarMinimum_value() {
+	public double getMinimum_valueScalar() {
 		return getDouble(NX_MINIMUM_VALUE);
 	}
 
@@ -199,7 +199,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		setDataset(NX_MINIMUM_VALUE, minimum_value);
 	}
 
-	public void setScalarMinimum_value(double minimum_value) {
+	public void setMinimum_valueScalar(double minimum_value) {
 		setField(NX_MINIMUM_VALUE, minimum_value);
 	}
 
@@ -209,7 +209,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 	}
 
 	@Override
-	public double getScalarMaximum_value() {
+	public double getMaximum_valueScalar() {
 		return getDouble(NX_MAXIMUM_VALUE);
 	}
 
@@ -217,7 +217,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		setDataset(NX_MAXIMUM_VALUE, maximum_value);
 	}
 
-	public void setScalarMaximum_value(double maximum_value) {
+	public void setMaximum_valueScalar(double maximum_value) {
 		setField(NX_MAXIMUM_VALUE, maximum_value);
 	}
 
@@ -227,7 +227,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 	}
 
 	@Override
-	public double getScalarDuration() {
+	public double getDurationScalar() {
 		return getDouble(NX_DURATION);
 	}
 
@@ -235,7 +235,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		setDataset(NX_DURATION, duration);
 	}
 
-	public void setScalarDuration(double duration) {
+	public void setDurationScalar(double duration) {
 		setField(NX_DURATION, duration);
 	}
 

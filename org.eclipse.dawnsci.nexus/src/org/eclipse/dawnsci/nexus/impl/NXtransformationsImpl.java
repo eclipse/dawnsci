@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -60,7 +60,7 @@ public class NXtransformationsImpl extends NXobjectImpl implements NXtransformat
 	}
 
 	@Override
-	public Number getScalarTransformation() {
+	public Number getTransformationScalar() {
 		return getNumber(NX_TRANSFORMATION);
 	}
 
@@ -68,7 +68,7 @@ public class NXtransformationsImpl extends NXobjectImpl implements NXtransformat
 		setDataset(NX_TRANSFORMATION, transformation);
 	}
 
-	public void setScalarTransformation(Number transformation) {
+	public void setTransformationScalar(Number transformation) {
 		setField(NX_TRANSFORMATION, transformation);
 	}
 

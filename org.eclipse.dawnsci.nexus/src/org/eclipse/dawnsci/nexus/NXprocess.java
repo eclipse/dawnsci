@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -43,7 +43,7 @@ public interface NXprocess extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarProgram();
+	 public String getProgramScalar();
 
 	/**
 	 * Sequence index of processing,
@@ -67,7 +67,7 @@ public interface NXprocess extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarSequence_index();
+	 public long getSequence_indexScalar();
 
 	/**
 	 * Version of the program used
@@ -87,7 +87,7 @@ public interface NXprocess extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarVersion();
+	 public String getVersionScalar();
 
 	/**
 	 * Date and time of processing.
@@ -107,7 +107,7 @@ public interface NXprocess extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Date getScalarDate();
+	 public Date getDateScalar();
 
 	/**
 	 * The note will contain information about how the data was processed

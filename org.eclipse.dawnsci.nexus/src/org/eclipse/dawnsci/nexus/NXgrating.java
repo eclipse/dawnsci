@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -46,7 +46,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarAngles();
+	 public double getAnglesScalar();
 
 	/**
 	 * List of polynomial coefficients describing the spatial separation of lines/grooves as a function of position along the grating, in increasing powers of position. Gratings which do not have variable line spacing will only have a single coefficient (constant).
@@ -70,7 +70,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPeriod();
+	 public double getPeriodScalar();
 
 	/**
 	 * <p>
@@ -90,7 +90,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDuty_cycle();
+	 public double getDuty_cycleScalar();
 
 	/**
 	 * <p>
@@ -110,7 +110,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDepth();
+	 public double getDepthScalar();
 
 	/**
 	 * <p>
@@ -130,7 +130,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarDiffraction_order();
+	 public long getDiffraction_orderScalar();
 
 	/**
 	 * Angle between the incident beam and the utilised outgoing beam.
@@ -152,7 +152,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDeflection_angle();
+	 public double getDeflection_angleScalar();
 
 	/**
 	 * <p>
@@ -176,7 +176,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarInterior_atmosphere();
+	 public String getInterior_atmosphereScalar();
 
 	/**
 	 * 
@@ -188,7 +188,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarSubstrate_material();
+	 public String getSubstrate_materialScalar();
 
 	/**
 	 * <p>
@@ -208,7 +208,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSubstrate_density();
+	 public double getSubstrate_densityScalar();
 
 	/**
 	 * <p>
@@ -228,7 +228,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSubstrate_thickness();
+	 public double getSubstrate_thicknessScalar();
 
 	/**
 	 * 
@@ -240,7 +240,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarCoating_material();
+	 public String getCoating_materialScalar();
 
 	/**
 	 * <p>
@@ -260,7 +260,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSubstrate_roughness();
+	 public double getSubstrate_roughnessScalar();
 
 	/**
 	 * <p>
@@ -280,7 +280,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCoating_roughness();
+	 public double getCoating_roughnessScalar();
 
 	/**
 	 * An array describing the thickness of each layer
@@ -302,7 +302,7 @@ public interface NXgrating extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarLayer_thickness();
+	 public double getLayer_thicknessScalar();
 
 	/**
 	 * A NXshape group describing the shape of the mirror

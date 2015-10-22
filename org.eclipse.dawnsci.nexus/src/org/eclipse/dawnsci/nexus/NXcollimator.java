@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -78,7 +78,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * Angular divergence of Soller collimator
@@ -100,7 +100,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSoller_angle();
+	 public double getSoller_angleScalar();
 
 	/**
 	 * divergence of collimator in local x direction
@@ -122,7 +122,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDivergence_x();
+	 public double getDivergence_xScalar();
 
 	/**
 	 * divergence of collimator in local y direction
@@ -144,7 +144,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDivergence_y();
+	 public double getDivergence_yScalar();
 
 	/**
 	 * Frequency of oscillating collimator
@@ -166,7 +166,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFrequency();
+	 public double getFrequencyScalar();
 
 	/**
 	 * Log of frequency
@@ -195,7 +195,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarBlade_thickness();
+	 public double getBlade_thicknessScalar();
 
 	/**
 	 * blade spacing
@@ -217,7 +217,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarBlade_spacing();
+	 public double getBlade_spacingScalar();
 
 	/**
 	 * name of absorbing material
@@ -231,7 +231,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarAbsorbing_material();
+	 public String getAbsorbing_materialScalar();
 
 	/**
 	 * name of transmitting material
@@ -245,6 +245,6 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarTransmitting_material();
+	 public String getTransmitting_materialScalar();
 
 }

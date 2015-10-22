@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -75,7 +75,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 	}
 
 	@Override
-	public long getScalarData_origin() {
+	public long getData_originScalar() {
 		return getLong(NX_DATA_ORIGIN);
 	}
 
@@ -83,7 +83,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 		setDataset(NX_DATA_ORIGIN, data_origin);
 	}
 
-	public void setScalarData_origin(long data_origin) {
+	public void setData_originScalar(long data_origin) {
 		setField(NX_DATA_ORIGIN, data_origin);
 	}
 
@@ -93,7 +93,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 	}
 
 	@Override
-	public long getScalarData_size() {
+	public long getData_sizeScalar() {
 		return getLong(NX_DATA_SIZE);
 	}
 
@@ -101,7 +101,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 		setDataset(NX_DATA_SIZE, data_size);
 	}
 
-	public void setScalarData_size(long data_size) {
+	public void setData_sizeScalar(long data_size) {
 		setField(NX_DATA_SIZE, data_size);
 	}
 
@@ -111,7 +111,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 	}
 
 	@Override
-	public Number getScalarModule_offset() {
+	public Number getModule_offsetScalar() {
 		return getNumber(NX_MODULE_OFFSET);
 	}
 
@@ -119,7 +119,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 		setDataset(NX_MODULE_OFFSET, module_offset);
 	}
 
-	public void setScalarModule_offset(Number module_offset) {
+	public void setModule_offsetScalar(Number module_offset) {
 		setField(NX_MODULE_OFFSET, module_offset);
 	}
 
@@ -174,7 +174,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 	}
 
 	@Override
-	public Number getScalarFast_pixel_direction() {
+	public Number getFast_pixel_directionScalar() {
 		return getNumber(NX_FAST_PIXEL_DIRECTION);
 	}
 
@@ -182,7 +182,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 		setDataset(NX_FAST_PIXEL_DIRECTION, fast_pixel_direction);
 	}
 
-	public void setScalarFast_pixel_direction(Number fast_pixel_direction) {
+	public void setFast_pixel_directionScalar(Number fast_pixel_direction) {
 		setField(NX_FAST_PIXEL_DIRECTION, fast_pixel_direction);
 	}
 
@@ -237,7 +237,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 	}
 
 	@Override
-	public Number getScalarSlow_pixel_direction() {
+	public Number getSlow_pixel_directionScalar() {
 		return getNumber(NX_SLOW_PIXEL_DIRECTION);
 	}
 
@@ -245,7 +245,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 		setDataset(NX_SLOW_PIXEL_DIRECTION, slow_pixel_direction);
 	}
 
-	public void setScalarSlow_pixel_direction(Number slow_pixel_direction) {
+	public void setSlow_pixel_directionScalar(Number slow_pixel_direction) {
 		setField(NX_SLOW_PIXEL_DIRECTION, slow_pixel_direction);
 	}
 

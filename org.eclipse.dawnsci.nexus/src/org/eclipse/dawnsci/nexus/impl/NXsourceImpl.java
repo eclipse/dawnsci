@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -78,7 +78,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarDistance() {
+	public double getDistanceScalar() {
 		return getDouble(NX_DISTANCE);
 	}
 
@@ -86,7 +86,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_DISTANCE, distance);
 	}
 
-	public void setScalarDistance(double distance) {
+	public void setDistanceScalar(double distance) {
 		setField(NX_DISTANCE, distance);
 	}
 
@@ -96,7 +96,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public String getScalarName() {
+	public String getNameScalar() {
 		return getString(NX_NAME);
 	}
 
@@ -104,7 +104,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_NAME, name);
 	}
 
-	public void setScalarName(String name) {
+	public void setNameScalar(String name) {
 		setString(NX_NAME, name);
 	}
 
@@ -123,7 +123,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public String getScalarType() {
+	public String getTypeScalar() {
 		return getString(NX_TYPE);
 	}
 
@@ -131,7 +131,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_TYPE, type);
 	}
 
-	public void setScalarType(String type) {
+	public void setTypeScalar(String type) {
 		setString(NX_TYPE, type);
 	}
 
@@ -141,7 +141,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public String getScalarProbe() {
+	public String getProbeScalar() {
 		return getString(NX_PROBE);
 	}
 
@@ -149,7 +149,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_PROBE, probe);
 	}
 
-	public void setScalarProbe(String probe) {
+	public void setProbeScalar(String probe) {
 		setString(NX_PROBE, probe);
 	}
 
@@ -159,7 +159,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarPower() {
+	public double getPowerScalar() {
 		return getDouble(NX_POWER);
 	}
 
@@ -167,7 +167,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_POWER, power);
 	}
 
-	public void setScalarPower(double power) {
+	public void setPowerScalar(double power) {
 		setField(NX_POWER, power);
 	}
 
@@ -177,7 +177,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarEmittance_x() {
+	public double getEmittance_xScalar() {
 		return getDouble(NX_EMITTANCE_X);
 	}
 
@@ -185,7 +185,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_EMITTANCE_X, emittance_x);
 	}
 
-	public void setScalarEmittance_x(double emittance_x) {
+	public void setEmittance_xScalar(double emittance_x) {
 		setField(NX_EMITTANCE_X, emittance_x);
 	}
 
@@ -195,7 +195,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarEmittance_y() {
+	public double getEmittance_yScalar() {
 		return getDouble(NX_EMITTANCE_Y);
 	}
 
@@ -203,7 +203,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_EMITTANCE_Y, emittance_y);
 	}
 
-	public void setScalarEmittance_y(double emittance_y) {
+	public void setEmittance_yScalar(double emittance_y) {
 		setField(NX_EMITTANCE_Y, emittance_y);
 	}
 
@@ -213,7 +213,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarSigma_x() {
+	public double getSigma_xScalar() {
 		return getDouble(NX_SIGMA_X);
 	}
 
@@ -221,7 +221,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_SIGMA_X, sigma_x);
 	}
 
-	public void setScalarSigma_x(double sigma_x) {
+	public void setSigma_xScalar(double sigma_x) {
 		setField(NX_SIGMA_X, sigma_x);
 	}
 
@@ -231,7 +231,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarSigma_y() {
+	public double getSigma_yScalar() {
 		return getDouble(NX_SIGMA_Y);
 	}
 
@@ -239,7 +239,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_SIGMA_Y, sigma_y);
 	}
 
-	public void setScalarSigma_y(double sigma_y) {
+	public void setSigma_yScalar(double sigma_y) {
 		setField(NX_SIGMA_Y, sigma_y);
 	}
 
@@ -249,7 +249,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarFlux() {
+	public double getFluxScalar() {
 		return getDouble(NX_FLUX);
 	}
 
@@ -257,7 +257,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_FLUX, flux);
 	}
 
-	public void setScalarFlux(double flux) {
+	public void setFluxScalar(double flux) {
 		setField(NX_FLUX, flux);
 	}
 
@@ -267,7 +267,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarEnergy() {
+	public double getEnergyScalar() {
 		return getDouble(NX_ENERGY);
 	}
 
@@ -275,7 +275,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_ENERGY, energy);
 	}
 
-	public void setScalarEnergy(double energy) {
+	public void setEnergyScalar(double energy) {
 		setField(NX_ENERGY, energy);
 	}
 
@@ -285,7 +285,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarCurrent() {
+	public double getCurrentScalar() {
 		return getDouble(NX_CURRENT);
 	}
 
@@ -293,7 +293,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_CURRENT, current);
 	}
 
-	public void setScalarCurrent(double current) {
+	public void setCurrentScalar(double current) {
 		setField(NX_CURRENT, current);
 	}
 
@@ -303,7 +303,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarVoltage() {
+	public double getVoltageScalar() {
 		return getDouble(NX_VOLTAGE);
 	}
 
@@ -311,7 +311,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_VOLTAGE, voltage);
 	}
 
-	public void setScalarVoltage(double voltage) {
+	public void setVoltageScalar(double voltage) {
 		setField(NX_VOLTAGE, voltage);
 	}
 
@@ -321,7 +321,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarFrequency() {
+	public double getFrequencyScalar() {
 		return getDouble(NX_FREQUENCY);
 	}
 
@@ -329,7 +329,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_FREQUENCY, frequency);
 	}
 
-	public void setScalarFrequency(double frequency) {
+	public void setFrequencyScalar(double frequency) {
 		setField(NX_FREQUENCY, frequency);
 	}
 
@@ -339,7 +339,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarPeriod() {
+	public double getPeriodScalar() {
 		return getDouble(NX_PERIOD);
 	}
 
@@ -347,7 +347,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_PERIOD, period);
 	}
 
-	public void setScalarPeriod(double period) {
+	public void setPeriodScalar(double period) {
 		setField(NX_PERIOD, period);
 	}
 
@@ -357,7 +357,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public String getScalarTarget_material() {
+	public String getTarget_materialScalar() {
 		return getString(NX_TARGET_MATERIAL);
 	}
 
@@ -365,7 +365,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_TARGET_MATERIAL, target_material);
 	}
 
-	public void setScalarTarget_material(String target_material) {
+	public void setTarget_materialScalar(String target_material) {
 		setString(NX_TARGET_MATERIAL, target_material);
 	}
 
@@ -393,7 +393,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public long getScalarNumber_of_bunches() {
+	public long getNumber_of_bunchesScalar() {
 		return getLong(NX_NUMBER_OF_BUNCHES);
 	}
 
@@ -401,7 +401,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_NUMBER_OF_BUNCHES, number_of_bunches);
 	}
 
-	public void setScalarNumber_of_bunches(long number_of_bunches) {
+	public void setNumber_of_bunchesScalar(long number_of_bunches) {
 		setField(NX_NUMBER_OF_BUNCHES, number_of_bunches);
 	}
 
@@ -411,7 +411,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarBunch_length() {
+	public double getBunch_lengthScalar() {
 		return getDouble(NX_BUNCH_LENGTH);
 	}
 
@@ -419,7 +419,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_BUNCH_LENGTH, bunch_length);
 	}
 
-	public void setScalarBunch_length(double bunch_length) {
+	public void setBunch_lengthScalar(double bunch_length) {
 		setField(NX_BUNCH_LENGTH, bunch_length);
 	}
 
@@ -429,7 +429,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarBunch_distance() {
+	public double getBunch_distanceScalar() {
 		return getDouble(NX_BUNCH_DISTANCE);
 	}
 
@@ -437,7 +437,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_BUNCH_DISTANCE, bunch_distance);
 	}
 
-	public void setScalarBunch_distance(double bunch_distance) {
+	public void setBunch_distanceScalar(double bunch_distance) {
 		setField(NX_BUNCH_DISTANCE, bunch_distance);
 	}
 
@@ -447,7 +447,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public double getScalarPulse_width() {
+	public double getPulse_widthScalar() {
 		return getDouble(NX_PULSE_WIDTH);
 	}
 
@@ -455,7 +455,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_PULSE_WIDTH, pulse_width);
 	}
 
-	public void setScalarPulse_width(double pulse_width) {
+	public void setPulse_widthScalar(double pulse_width) {
 		setField(NX_PULSE_WIDTH, pulse_width);
 	}
 
@@ -474,7 +474,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public String getScalarMode() {
+	public String getModeScalar() {
 		return getString(NX_MODE);
 	}
 
@@ -482,7 +482,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_MODE, mode);
 	}
 
-	public void setScalarMode(String mode) {
+	public void setModeScalar(String mode) {
 		setString(NX_MODE, mode);
 	}
 
@@ -492,7 +492,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public boolean getScalarTop_up() {
+	public boolean getTop_upScalar() {
 		return getBoolean(NX_TOP_UP);
 	}
 
@@ -500,7 +500,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_TOP_UP, top_up);
 	}
 
-	public void setScalarTop_up(boolean top_up) {
+	public void setTop_upScalar(boolean top_up) {
 		setField(NX_TOP_UP, top_up);
 	}
 
@@ -510,7 +510,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 
 	@Override
-	public Number getScalarLast_fill() {
+	public Number getLast_fillScalar() {
 		return getNumber(NX_LAST_FILL);
 	}
 
@@ -518,7 +518,7 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 		setDataset(NX_LAST_FILL, last_fill);
 	}
 
-	public void setScalarLast_fill(Number last_fill) {
+	public void setLast_fillScalar(Number last_fill) {
 		setField(NX_LAST_FILL, last_fill);
 	}
 

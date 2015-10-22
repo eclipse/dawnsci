@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -56,7 +56,7 @@ public class NXpolarizerImpl extends NXobjectImpl implements NXpolarizer {
 	}
 
 	@Override
-	public String getScalarType() {
+	public String getTypeScalar() {
 		return getString(NX_TYPE);
 	}
 
@@ -64,7 +64,7 @@ public class NXpolarizerImpl extends NXobjectImpl implements NXpolarizer {
 		setDataset(NX_TYPE, type);
 	}
 
-	public void setScalarType(String type) {
+	public void setTypeScalar(String type) {
 		setString(NX_TYPE, type);
 	}
 
@@ -74,7 +74,7 @@ public class NXpolarizerImpl extends NXobjectImpl implements NXpolarizer {
 	}
 
 	@Override
-	public String getScalarComposition() {
+	public String getCompositionScalar() {
 		return getString(NX_COMPOSITION);
 	}
 
@@ -82,7 +82,7 @@ public class NXpolarizerImpl extends NXobjectImpl implements NXpolarizer {
 		setDataset(NX_COMPOSITION, composition);
 	}
 
-	public void setScalarComposition(String composition) {
+	public void setCompositionScalar(String composition) {
 		setString(NX_COMPOSITION, composition);
 	}
 
@@ -92,7 +92,7 @@ public class NXpolarizerImpl extends NXobjectImpl implements NXpolarizer {
 	}
 
 	@Override
-	public long getScalarReflection() {
+	public long getReflectionScalar() {
 		return getLong(NX_REFLECTION);
 	}
 
@@ -100,7 +100,7 @@ public class NXpolarizerImpl extends NXobjectImpl implements NXpolarizer {
 		setDataset(NX_REFLECTION, reflection);
 	}
 
-	public void setScalarReflection(long reflection) {
+	public void setReflectionScalar(long reflection) {
 		setField(NX_REFLECTION, reflection);
 	}
 
@@ -110,7 +110,7 @@ public class NXpolarizerImpl extends NXobjectImpl implements NXpolarizer {
 	}
 
 	@Override
-	public double getScalarEfficiency() {
+	public double getEfficiencyScalar() {
 		return getDouble(NX_EFFICIENCY);
 	}
 
@@ -118,7 +118,7 @@ public class NXpolarizerImpl extends NXobjectImpl implements NXpolarizer {
 		setDataset(NX_EFFICIENCY, efficiency);
 	}
 
-	public void setScalarEfficiency(double efficiency) {
+	public void setEfficiencyScalar(double efficiency) {
 		setField(NX_EFFICIENCY, efficiency);
 	}
 

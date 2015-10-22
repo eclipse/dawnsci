@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -144,7 +144,7 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 	}
 
 	@Override
-	public String getScalarDescription() {
+	public String getDescriptionScalar() {
 		return getString(NX_DESCRIPTION);
 	}
 
@@ -152,7 +152,7 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 		setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setScalarDescription(String description) {
+	public void setDescriptionScalar(String description) {
 		setString(NX_DESCRIPTION, description);
 	}
 
@@ -162,7 +162,7 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 	}
 
 	@Override
-	public long getScalarComponent_index() {
+	public long getComponent_indexScalar() {
 		return getLong(NX_COMPONENT_INDEX);
 	}
 
@@ -170,7 +170,7 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 		setDataset(NX_COMPONENT_INDEX, component_index);
 	}
 
-	public void setScalarComponent_index(long component_index) {
+	public void setComponent_indexScalar(long component_index) {
 		setField(NX_COMPONENT_INDEX, component_index);
 	}
 

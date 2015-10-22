@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -47,7 +47,7 @@ public interface NXcite extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDescription();
+	 public String getDescriptionScalar();
 
 	/**
 	 * URL referencing the document or data.
@@ -67,7 +67,7 @@ public interface NXcite extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarUrl();
+	 public String getUrlScalar();
 
 	/**
 	 * DOI referencing the document or data.
@@ -87,7 +87,7 @@ public interface NXcite extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDoi();
+	 public String getDoiScalar();
 
 	/**
 	 * Bibliographic reference data in EndNote format.
@@ -107,7 +107,7 @@ public interface NXcite extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarEndnote();
+	 public String getEndnoteScalar();
 
 	/**
 	 * Bibliographic reference data in BibTeX format.
@@ -127,6 +127,6 @@ public interface NXcite extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarBibtex();
+	 public String getBibtexScalar();
 
 }

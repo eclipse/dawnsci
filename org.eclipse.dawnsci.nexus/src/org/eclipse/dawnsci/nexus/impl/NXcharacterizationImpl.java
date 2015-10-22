@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -87,7 +87,7 @@ public class NXcharacterizationImpl extends NXobjectImpl implements NXcharacteri
 	}
 
 	@Override
-	public String getScalarDefinition() {
+	public String getDefinitionScalar() {
 		return getString(NX_DEFINITION);
 	}
 
@@ -95,7 +95,7 @@ public class NXcharacterizationImpl extends NXobjectImpl implements NXcharacteri
 		setDataset(NX_DEFINITION, definition);
 	}
 
-	public void setScalarDefinition(String definition) {
+	public void setDefinitionScalar(String definition) {
 		setString(NX_DEFINITION, definition);
 	}
 

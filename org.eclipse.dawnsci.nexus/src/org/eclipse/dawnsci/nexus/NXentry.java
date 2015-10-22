@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -83,7 +83,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarTitle();
+	 public String getTitleScalar();
 
 	/**
 	 * Unique identifier for the experiment,
@@ -101,7 +101,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarExperiment_identifier();
+	 public String getExperiment_identifierScalar();
 
 	/**
 	 * Brief summary of the experiment, including key objectives.
@@ -115,7 +115,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarExperiment_description();
+	 public String getExperiment_descriptionScalar();
 
 	/**
 	 * Description of the full experiment (document in pdf, latex, ...)
@@ -136,7 +136,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarCollection_identifier();
+	 public String getCollection_identifierScalar();
 
 	/**
 	 * Brief summary of the collection, including grouping criteria.
@@ -150,7 +150,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarCollection_description();
+	 public String getCollection_descriptionScalar();
 
 	/**
 	 * unique identifier for the measurement, defined by the facility.
@@ -164,7 +164,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarEntry_identifier();
+	 public String getEntry_identifierScalar();
 
 	/**
 	 * (alternate use: see same field in :ref:`NXsubentry` for preferred)
@@ -188,7 +188,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDefinition();
+	 public String getDefinitionScalar();
 
 	/**
 	 * NXDL version number
@@ -226,7 +226,7 @@ public interface NXentry extends NXobject {
 	 * @return  the value
 	 */
 	@Deprecated
-	 public String getScalarDefinition_local();
+	 public String getDefinition_localScalar();
 
 	/**
 	 * NXDL version number
@@ -260,7 +260,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Date getScalarStart_time();
+	 public Date getStart_timeScalar();
 
 	/**
 	 * Ending time of measurement
@@ -280,7 +280,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Date getScalarEnd_time();
+	 public Date getEnd_timeScalar();
 
 	/**
 	 * Duration of measurement
@@ -302,7 +302,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarDuration();
+	 public long getDurationScalar();
 
 	/**
 	 * Time transpired actually collecting data i.e. taking out time when collection was
@@ -326,7 +326,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCollection_time();
+	 public double getCollection_timeScalar();
 
 	/**
 	 * Such as "2007-3". Some user facilities organize their beam time into run cycles.
@@ -340,7 +340,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarRun_cycle();
+	 public String getRun_cycleScalar();
 
 	/**
 	 * Name of program used to generate this file
@@ -354,7 +354,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarProgram_name();
+	 public String getProgram_nameScalar();
 
 	/**
 	 * Program version number
@@ -384,7 +384,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarRevision();
+	 public String getRevisionScalar();
 
 	/**
 	 * 
@@ -418,7 +418,7 @@ public interface NXentry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPre_sample_flightpath();
+	 public double getPre_sample_flightpathScalar();
 
 	/**
 	 * Notes describing entry

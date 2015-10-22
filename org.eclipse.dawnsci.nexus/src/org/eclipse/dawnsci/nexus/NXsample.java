@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -53,7 +53,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarName();
+	 public String getNameScalar();
 
 	/**
 	 * The chemical formula specified using CIF conventions.
@@ -95,7 +95,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarChemical_formula();
+	 public String getChemical_formulaScalar();
 
 	/**
 	 * Sample temperature. This could be a scanned variable
@@ -119,7 +119,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarTemperature();
+	 public double getTemperatureScalar();
 
 	/**
 	 * Applied electric field
@@ -143,7 +143,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarElectric_field();
+	 public double getElectric_fieldScalar();
 
 	/**
 	 * <p>
@@ -179,7 +179,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarMagnetic_field();
+	 public double getMagnetic_fieldScalar();
 
 	/**
 	 * <p>
@@ -215,7 +215,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarStress_field();
+	 public double getStress_fieldScalar();
 
 	/**
 	 * <p>
@@ -251,7 +251,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPressure();
+	 public double getPressureScalar();
 
 	/**
 	 * Sample changer position
@@ -273,7 +273,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarChanger_position();
+	 public long getChanger_positionScalar();
 
 	/**
 	 * Unit cell parameters (lengths and angles)
@@ -297,7 +297,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell();
+	 public double getUnit_cellScalar();
 
 	/**
 	 * Volume of the unit cell
@@ -321,7 +321,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_volume();
+	 public double getUnit_cell_volumeScalar();
 
 	/**
 	 * This will follow the Busing and Levy convention from Acta.Crysta v22, p457 (1967)
@@ -345,7 +345,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSample_orientation();
+	 public double getSample_orientationScalar();
 
 	/**
 	 * Orientation matrix of single crystal sample.
@@ -369,7 +369,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarOrientation_matrix();
+	 public double getOrientation_matrixScalar();
 
 	/**
 	 * Mass of sample
@@ -393,7 +393,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarMass();
+	 public double getMassScalar();
 
 	/**
 	 * Density of sample
@@ -417,7 +417,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDensity();
+	 public double getDensityScalar();
 
 	/**
 	 * Relative Molecular Mass of sample
@@ -441,7 +441,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarRelative_molecular_mass();
+	 public double getRelative_molecular_massScalar();
 
 	/**
 	 * <p>
@@ -475,7 +475,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * The atmosphere will be one of the components, which is where
@@ -513,7 +513,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarSituation();
+	 public String getSituationScalar();
 
 	/**
 	 * Description of the sample
@@ -527,7 +527,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDescription();
+	 public String getDescriptionScalar();
 
 	/**
 	 * Date of preparation of the sample
@@ -547,7 +547,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Date getScalarPreparation_date();
+	 public Date getPreparation_dateScalar();
 
 	/**
 	 * The position and orientation of the center of mass of the sample
@@ -604,7 +604,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarComponent();
+	 public String getComponentScalar();
 
 	/**
 	 * Type of component
@@ -634,7 +634,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarSample_component();
+	 public String getSample_componentScalar();
 
 	/**
 	 * Concentration of each component
@@ -658,7 +658,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarConcentration();
+	 public double getConcentrationScalar();
 
 	/**
 	 * Volume fraction of each component
@@ -680,7 +680,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarVolume_fraction();
+	 public double getVolume_fractionScalar();
 
 	/**
 	 * Scattering length density of each component
@@ -704,7 +704,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarScattering_length_density();
+	 public double getScattering_length_densityScalar();
 
 	/**
 	 * In case it is all we know and we want to record/document it
@@ -736,7 +736,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarUnit_cell_class();
+	 public String getUnit_cell_classScalar();
 
 	/**
 	 * Crystallographic point or space group
@@ -756,7 +756,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarUnit_cell_group();
+	 public String getUnit_cell_groupScalar();
 
 	/**
 	 * Path length through sample/can for simple case when
@@ -780,7 +780,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPath_length();
+	 public double getPath_lengthScalar();
 
 	/**
 	 * Thickness of a beam entry/exit window on the can (mm)
@@ -804,7 +804,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPath_length_window();
+	 public double getPath_length_windowScalar();
 
 	/**
 	 * sample thickness
@@ -826,7 +826,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarThickness();
+	 public double getThicknessScalar();
 
 	/**
 	 * As a function of Wavelength
@@ -883,7 +883,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarExternal_DAC();
+	 public double getExternal_DACScalar();
 
 	/**
 	 * logged value (or logic state) read from user's setup
@@ -904,7 +904,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarShort_title();
+	 public String getShort_titleScalar();
 
 	/**
 	 * Optional rotation angle for the case when the powder diagram has
@@ -930,7 +930,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarRotation_angle();
+	 public double getRotation_angleScalar();
 
 	/**
 	 * Translation of the sample along the X-direction of the laboratory coordinate system
@@ -952,7 +952,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarX_translation();
+	 public double getX_translationScalar();
 
 	/**
 	 * Translation of the sample along the Z-direction of the laboratory coordinate system
@@ -974,7 +974,7 @@ public interface NXsample extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDistance();
+	 public double getDistanceScalar();
 
 	/**
 	 * Any positioner (motor, PZT, ...) used to locate the sample

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -79,7 +79,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDescription();
+	 public String getDescriptionScalar();
 
 	/**
 	 * position with respect to in or out of the beam (choice of only "in" or "out")
@@ -107,7 +107,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarStatus();
+	 public String getStatusScalar();
 
 	/**
 	 * Wavelength transmission profile of filter
@@ -136,7 +136,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarTemperature();
+	 public double getTemperatureScalar();
 
 	/**
 	 * Linked temperature_log for the filter
@@ -165,7 +165,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarThickness();
+	 public double getThicknessScalar();
 
 	/**
 	 * mass density of the filter
@@ -187,7 +187,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarDensity();
+	 public Number getDensityScalar();
 
 	/**
 	 * The chemical formula specified using CIF conventions.
@@ -229,7 +229,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarChemical_formula();
+	 public String getChemical_formulaScalar();
 
 	/**
 	 * Sensor(s)used to monitor the filter temperature
@@ -258,7 +258,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_a();
+	 public double getUnit_cell_aScalar();
 
 	/**
 	 * Unit cell lattice parameter: length of side b
@@ -280,7 +280,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_b();
+	 public double getUnit_cell_bScalar();
 
 	/**
 	 * Unit cell lattice parameter: length of side c
@@ -302,7 +302,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_c();
+	 public double getUnit_cell_cScalar();
 
 	/**
 	 * Unit cell lattice parameter: angle alpha
@@ -324,7 +324,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_alpha();
+	 public double getUnit_cell_alphaScalar();
 
 	/**
 	 * Unit cell lattice parameter: angle beta
@@ -346,7 +346,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_beta();
+	 public double getUnit_cell_betaScalar();
 
 	/**
 	 * Unit cell lattice parameter: angle gamma
@@ -368,7 +368,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_gamma();
+	 public double getUnit_cell_gammaScalar();
 
 	/**
 	 * Unit cell
@@ -392,7 +392,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_volume();
+	 public double getUnit_cell_volumeScalar();
 
 	/**
 	 * Orientation matrix of single crystal filter using Busing-Levy convention
@@ -414,7 +414,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarOrientation_matrix();
+	 public double getOrientation_matrixScalar();
 
 	/**
 	 * m value of supermirror filter
@@ -436,7 +436,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarM_value();
+	 public double getM_valueScalar();
 
 	/**
 	 * substrate material of supermirror filter
@@ -450,7 +450,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarSubstrate_material();
+	 public String getSubstrate_materialScalar();
 
 	/**
 	 * substrate thickness of supermirror filter
@@ -472,7 +472,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSubstrate_thickness();
+	 public double getSubstrate_thicknessScalar();
 
 	/**
 	 * coating material of supermirror filter
@@ -486,7 +486,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarCoating_material();
+	 public String getCoating_materialScalar();
 
 	/**
 	 * substrate roughness (RMS) of supermirror filter
@@ -508,7 +508,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSubstrate_roughness();
+	 public double getSubstrate_roughnessScalar();
 
 	/**
 	 * coating roughness (RMS) of supermirror filter
@@ -532,6 +532,6 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCoating_roughness();
+	 public double getCoating_roughnessScalar();
 
 }

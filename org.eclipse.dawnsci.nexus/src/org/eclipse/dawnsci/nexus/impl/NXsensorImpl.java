@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -65,7 +65,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public String getScalarModel() {
+	public String getModelScalar() {
 		return getString(NX_MODEL);
 	}
 
@@ -73,7 +73,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		setDataset(NX_MODEL, model);
 	}
 
-	public void setScalarModel(String model) {
+	public void setModelScalar(String model) {
 		setString(NX_MODEL, model);
 	}
 
@@ -83,7 +83,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public String getScalarName() {
+	public String getNameScalar() {
 		return getString(NX_NAME);
 	}
 
@@ -91,7 +91,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		setDataset(NX_NAME, name);
 	}
 
-	public void setScalarName(String name) {
+	public void setNameScalar(String name) {
 		setString(NX_NAME, name);
 	}
 
@@ -101,7 +101,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public String getScalarShort_name() {
+	public String getShort_nameScalar() {
 		return getString(NX_SHORT_NAME);
 	}
 
@@ -109,7 +109,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		setDataset(NX_SHORT_NAME, short_name);
 	}
 
-	public void setScalarShort_name(String short_name) {
+	public void setShort_nameScalar(String short_name) {
 		setString(NX_SHORT_NAME, short_name);
 	}
 
@@ -119,7 +119,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public String getScalarAttached_to() {
+	public String getAttached_toScalar() {
 		return getString(NX_ATTACHED_TO);
 	}
 
@@ -127,7 +127,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		setDataset(NX_ATTACHED_TO, attached_to);
 	}
 
-	public void setScalarAttached_to(String attached_to) {
+	public void setAttached_toScalar(String attached_to) {
 		setString(NX_ATTACHED_TO, attached_to);
 	}
 
@@ -146,7 +146,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public String getScalarMeasurement() {
+	public String getMeasurementScalar() {
 		return getString(NX_MEASUREMENT);
 	}
 
@@ -154,7 +154,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		setDataset(NX_MEASUREMENT, measurement);
 	}
 
-	public void setScalarMeasurement(String measurement) {
+	public void setMeasurementScalar(String measurement) {
 		setString(NX_MEASUREMENT, measurement);
 	}
 
@@ -164,7 +164,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public String getScalarType() {
+	public String getTypeScalar() {
 		return getString(NX_TYPE);
 	}
 
@@ -172,7 +172,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		setDataset(NX_TYPE, type);
 	}
 
-	public void setScalarType(String type) {
+	public void setTypeScalar(String type) {
 		setString(NX_TYPE, type);
 	}
 
@@ -182,7 +182,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public boolean getScalarRun_control() {
+	public boolean getRun_controlScalar() {
 		return getBoolean(NX_RUN_CONTROL);
 	}
 
@@ -190,7 +190,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		setDataset(NX_RUN_CONTROL, run_control);
 	}
 
-	public void setScalarRun_control(boolean run_control) {
+	public void setRun_controlScalar(boolean run_control) {
 		setField(NX_RUN_CONTROL, run_control);
 	}
 
@@ -200,7 +200,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public double getScalarHigh_trip_value() {
+	public double getHigh_trip_valueScalar() {
 		return getDouble(NX_HIGH_TRIP_VALUE);
 	}
 
@@ -208,7 +208,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		setDataset(NX_HIGH_TRIP_VALUE, high_trip_value);
 	}
 
-	public void setScalarHigh_trip_value(double high_trip_value) {
+	public void setHigh_trip_valueScalar(double high_trip_value) {
 		setField(NX_HIGH_TRIP_VALUE, high_trip_value);
 	}
 
@@ -218,7 +218,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public double getScalarLow_trip_value() {
+	public double getLow_trip_valueScalar() {
 		return getDouble(NX_LOW_TRIP_VALUE);
 	}
 
@@ -226,7 +226,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		setDataset(NX_LOW_TRIP_VALUE, low_trip_value);
 	}
 
-	public void setScalarLow_trip_value(double low_trip_value) {
+	public void setLow_trip_valueScalar(double low_trip_value) {
 		setField(NX_LOW_TRIP_VALUE, low_trip_value);
 	}
 
@@ -236,7 +236,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public double getScalarValue() {
+	public double getValueScalar() {
 		return getDouble(NX_VALUE);
 	}
 
@@ -244,7 +244,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		setDataset(NX_VALUE, value);
 	}
 
-	public void setScalarValue(double value) {
+	public void setValueScalar(double value) {
 		setField(NX_VALUE, value);
 	}
 
@@ -254,7 +254,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public double getScalarValue_deriv1() {
+	public double getValue_deriv1Scalar() {
 		return getDouble(NX_VALUE_DERIV1);
 	}
 
@@ -262,7 +262,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		setDataset(NX_VALUE_DERIV1, value_deriv1);
 	}
 
-	public void setScalarValue_deriv1(double value_deriv1) {
+	public void setValue_deriv1Scalar(double value_deriv1) {
 		setField(NX_VALUE_DERIV1, value_deriv1);
 	}
 
@@ -272,7 +272,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public double getScalarValue_deriv2() {
+	public double getValue_deriv2Scalar() {
 		return getDouble(NX_VALUE_DERIV2);
 	}
 
@@ -280,7 +280,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		setDataset(NX_VALUE_DERIV2, value_deriv2);
 	}
 
-	public void setScalarValue_deriv2(double value_deriv2) {
+	public void setValue_deriv2Scalar(double value_deriv2) {
 		setField(NX_VALUE_DERIV2, value_deriv2);
 	}
 
@@ -317,7 +317,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public String getScalarExternal_field_brief() {
+	public String getExternal_field_briefScalar() {
 		return getString(NX_EXTERNAL_FIELD_BRIEF);
 	}
 
@@ -325,7 +325,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		setDataset(NX_EXTERNAL_FIELD_BRIEF, external_field_brief);
 	}
 
-	public void setScalarExternal_field_brief(String external_field_brief) {
+	public void setExternal_field_briefScalar(String external_field_brief) {
 		setString(NX_EXTERNAL_FIELD_BRIEF, external_field_brief);
 	}
 

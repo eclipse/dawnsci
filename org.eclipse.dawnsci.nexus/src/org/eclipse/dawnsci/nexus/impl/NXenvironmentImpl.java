@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -58,7 +58,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 	}
 
 	@Override
-	public String getScalarName() {
+	public String getNameScalar() {
 		return getString(NX_NAME);
 	}
 
@@ -66,7 +66,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		setDataset(NX_NAME, name);
 	}
 
-	public void setScalarName(String name) {
+	public void setNameScalar(String name) {
 		setString(NX_NAME, name);
 	}
 
@@ -76,7 +76,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 	}
 
 	@Override
-	public String getScalarShort_name() {
+	public String getShort_nameScalar() {
 		return getString(NX_SHORT_NAME);
 	}
 
@@ -84,7 +84,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		setDataset(NX_SHORT_NAME, short_name);
 	}
 
-	public void setScalarShort_name(String short_name) {
+	public void setShort_nameScalar(String short_name) {
 		setString(NX_SHORT_NAME, short_name);
 	}
 
@@ -94,7 +94,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 	}
 
 	@Override
-	public String getScalarType() {
+	public String getTypeScalar() {
 		return getString(NX_TYPE);
 	}
 
@@ -102,7 +102,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		setDataset(NX_TYPE, type);
 	}
 
-	public void setScalarType(String type) {
+	public void setTypeScalar(String type) {
 		setString(NX_TYPE, type);
 	}
 
@@ -112,7 +112,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 	}
 
 	@Override
-	public String getScalarDescription() {
+	public String getDescriptionScalar() {
 		return getString(NX_DESCRIPTION);
 	}
 
@@ -120,7 +120,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setScalarDescription(String description) {
+	public void setDescriptionScalar(String description) {
 		setString(NX_DESCRIPTION, description);
 	}
 
@@ -130,7 +130,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 	}
 
 	@Override
-	public String getScalarProgram() {
+	public String getProgramScalar() {
 		return getString(NX_PROGRAM);
 	}
 
@@ -138,7 +138,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		setDataset(NX_PROGRAM, program);
 	}
 
-	public void setScalarProgram(String program) {
+	public void setProgramScalar(String program) {
 		setString(NX_PROGRAM, program);
 	}
 

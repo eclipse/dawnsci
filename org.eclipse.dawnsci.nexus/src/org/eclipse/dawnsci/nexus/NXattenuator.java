@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -47,7 +47,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDistance();
+	 public double getDistanceScalar();
 
 	/**
 	 * Type or composition of attenuator, e.g. polythene
@@ -61,7 +61,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * Thickness of attenuator along beam direction
@@ -83,7 +83,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarThickness();
+	 public double getThicknessScalar();
 
 	/**
 	 * Scattering cross section (coherent+incoherent)
@@ -105,7 +105,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarScattering_cross_section();
+	 public double getScattering_cross_sectionScalar();
 
 	/**
 	 * Absorption cross section
@@ -127,7 +127,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarAbsorption_cross_section();
+	 public double getAbsorption_cross_sectionScalar();
 
 	/**
 	 * The nominal amount of the beam that gets through
@@ -151,7 +151,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarAttenuator_transmission();
+	 public double getAttenuator_transmissionScalar();
 
 	/**
 	 * In or out or moving of the beam
@@ -177,7 +177,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarStatus();
+	 public String getStatusScalar();
 
 	/**
 	 * time stamp for this observation

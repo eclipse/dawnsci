@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -42,7 +42,7 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCritical_energy();
+	 public double getCritical_energyScalar();
 
 	/**
 	 * <p>
@@ -62,7 +62,7 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarBending_radius();
+	 public double getBending_radiusScalar();
 
 	/**
 	 * strength of magnetic field of dipole magnets
@@ -84,7 +84,7 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarMagnetic_field();
+	 public double getMagnetic_fieldScalar();
 
 	/**
 	 * An array of four numbers giving X+, X-, Y+ and Y- half divergence
@@ -106,7 +106,7 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarAccepted_photon_beam_divergence();
+	 public double getAccepted_photon_beam_divergenceScalar();
 
 	/**
 	 * Distance of source point from particle beam waist in X (horizontal) direction.
@@ -128,7 +128,7 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSource_distance_x();
+	 public double getSource_distance_xScalar();
 
 	/**
 	 * Distance of source point from particle beam waist in Y (vertical) direction.
@@ -150,7 +150,7 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSource_distance_y();
+	 public double getSource_distance_yScalar();
 
 	/**
 	 * Accepted photon beam divergence in X+ (horizontal outboard) direction.
@@ -174,7 +174,7 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDivergence_x_plus();
+	 public double getDivergence_x_plusScalar();
 
 	/**
 	 * Accepted photon beam divergence in X- (horizontal inboard) direction.
@@ -198,7 +198,7 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDivergence_x_minus();
+	 public double getDivergence_x_minusScalar();
 
 	/**
 	 * Accepted photon beam divergence in Y+ (vertical upward) direction.
@@ -222,7 +222,7 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDivergence_y_plus();
+	 public double getDivergence_y_plusScalar();
 
 	/**
 	 * Accepted photon beam divergence in Y- (vertical downward) direction.
@@ -246,7 +246,7 @@ public interface NXbending_magnet extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDivergence_y_minus();
+	 public double getDivergence_y_minusScalar();
 
 	/**
 	 * bending magnet spectrum

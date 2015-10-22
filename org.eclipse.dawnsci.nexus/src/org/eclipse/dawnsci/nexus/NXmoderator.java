@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -74,7 +74,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDistance();
+	 public double getDistanceScalar();
 
 	/**
 	 * <p>
@@ -110,7 +110,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * <p>
@@ -130,7 +130,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPoison_depth();
+	 public double getPoison_depthScalar();
 
 	/**
 	 * whether the moderator is coupled
@@ -150,7 +150,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public boolean getScalarCoupled();
+	 public boolean getCoupledScalar();
 
 	/**
 	 * The material used for coupling. Usually Cd.
@@ -164,7 +164,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarCoupling_material();
+	 public String getCoupling_materialScalar();
 
 	/**
 	 * <p>
@@ -186,7 +186,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarPoison_material();
+	 public String getPoison_materialScalar();
 
 	/**
 	 * average/nominal moderator temperature
@@ -208,7 +208,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarTemperature();
+	 public double getTemperatureScalar();
 
 	/**
 	 * log file of moderator temperature

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -135,7 +135,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarUsage();
+	 public String getUsageScalar();
 
 	/**
 	 * Type or material of monochromating substance.
@@ -167,7 +167,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * The chemical formula specified using CIF conventions.
@@ -211,7 +211,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarChemical_formula();
+	 public String getChemical_formulaScalar();
 
 	/**
 	 * A number which describes if this is the first, second,..
@@ -233,7 +233,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarOrder_no();
+	 public long getOrder_noScalar();
 
 	/**
 	 * Cut angle of reflecting Bragg plane and plane of crystal surface
@@ -255,7 +255,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCut_angle();
+	 public double getCut_angleScalar();
 
 	/**
 	 * Space group of crystal structure
@@ -269,7 +269,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarSpace_group();
+	 public String getSpace_groupScalar();
 
 	/**
 	 * Unit cell parameters (lengths and angles)
@@ -293,7 +293,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell();
+	 public double getUnit_cellScalar();
 
 	/**
 	 * Unit cell lattice parameter: length of side a
@@ -315,7 +315,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_a();
+	 public double getUnit_cell_aScalar();
 
 	/**
 	 * Unit cell lattice parameter: length of side b
@@ -337,7 +337,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_b();
+	 public double getUnit_cell_bScalar();
 
 	/**
 	 * Unit cell lattice parameter: length of side c
@@ -359,7 +359,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_c();
+	 public double getUnit_cell_cScalar();
 
 	/**
 	 * Unit cell lattice parameter: angle alpha
@@ -381,7 +381,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_alpha();
+	 public double getUnit_cell_alphaScalar();
 
 	/**
 	 * Unit cell lattice parameter: angle beta
@@ -403,7 +403,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_beta();
+	 public double getUnit_cell_betaScalar();
 
 	/**
 	 * Unit cell lattice parameter: angle gamma
@@ -425,7 +425,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_gamma();
+	 public double getUnit_cell_gammaScalar();
 
 	/**
 	 * Volume of the unit cell
@@ -447,7 +447,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarUnit_cell_volume();
+	 public double getUnit_cell_volumeScalar();
 
 	/**
 	 * Orientation matrix of single crystal sample using Busing-Levy convention
@@ -469,7 +469,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarOrientation_matrix();
+	 public double getOrientation_matrixScalar();
 
 	/**
 	 * Optimum diffracted wavelength
@@ -493,7 +493,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarWavelength();
+	 public double getWavelengthScalar();
 
 	/**
 	 * spacing between crystal planes of the reflection
@@ -515,7 +515,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarD_spacing();
+	 public double getD_spacingScalar();
 
 	/**
 	 * Scattering vector, Q, of nominal reflection
@@ -537,7 +537,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarScattering_vector();
+	 public double getScattering_vectorScalar();
 
 	/**
 	 * Miller indices (hkl) values of nominal reflection
@@ -561,7 +561,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarReflection();
+	 public long getReflectionScalar();
 
 	/**
 	 * Thickness of the crystal. (Required for Laue orientations - see "usage" field)
@@ -583,7 +583,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarThickness();
+	 public double getThicknessScalar();
 
 	/**
 	 * mass density of the crystal
@@ -605,7 +605,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarDensity();
+	 public Number getDensityScalar();
 
 	/**
 	 * Horizontal width of individual segment
@@ -627,7 +627,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSegment_width();
+	 public double getSegment_widthScalar();
 
 	/**
 	 * Vertical height of individual segment
@@ -649,7 +649,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSegment_height();
+	 public double getSegment_heightScalar();
 
 	/**
 	 * Thickness of individual segment
@@ -671,7 +671,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSegment_thickness();
+	 public double getSegment_thicknessScalar();
 
 	/**
 	 * Typical gap between adjacent segments
@@ -693,7 +693,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSegment_gap();
+	 public double getSegment_gapScalar();
 
 	/**
 	 * number of segment columns in horizontal direction
@@ -715,7 +715,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSegment_columns();
+	 public double getSegment_columnsScalar();
 
 	/**
 	 * number of segment rows in vertical direction
@@ -737,7 +737,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSegment_rows();
+	 public double getSegment_rowsScalar();
 
 	/**
 	 * horizontal mosaic Full Width Half Maximum
@@ -759,7 +759,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarMosaic_horizontal();
+	 public double getMosaic_horizontalScalar();
 
 	/**
 	 * vertical mosaic Full Width Half Maximum
@@ -781,7 +781,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarMosaic_vertical();
+	 public double getMosaic_verticalScalar();
 
 	/**
 	 * Horizontal curvature of focusing crystal
@@ -803,7 +803,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCurvature_horizontal();
+	 public double getCurvature_horizontalScalar();
 
 	/**
 	 * Vertical curvature of focusing crystal
@@ -825,7 +825,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCurvature_vertical();
+	 public double getCurvature_verticalScalar();
 
 	/**
 	 * Is this crystal bent cylindrically?
@@ -845,7 +845,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public boolean getScalarIs_cylindrical();
+	 public boolean getIs_cylindricalScalar();
 
 	/**
 	 * If cylindrical: cylinder orientation angle
@@ -867,7 +867,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarCylindrical_orientation_angle();
+	 public Number getCylindrical_orientation_angleScalar();
 
 	/**
 	 * Polar (scattering) angle at which crystal assembly is positioned.
@@ -893,7 +893,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPolar_angle();
+	 public double getPolar_angleScalar();
 
 	/**
 	 * Azimuthal angle at which crystal assembly is positioned
@@ -917,7 +917,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarAzimuthal_angle();
+	 public double getAzimuthal_angleScalar();
 
 	/**
 	 * Bragg angle of nominal reflection
@@ -941,7 +941,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarBragg_angle();
+	 public double getBragg_angleScalar();
 
 	/**
 	 * average/nominal crystal temperature
@@ -963,7 +963,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarTemperature();
+	 public double getTemperatureScalar();
 
 	/**
 	 * how lattice parameter changes with temperature
@@ -985,7 +985,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarTemperature_coefficient();
+	 public double getTemperature_coefficientScalar();
 
 	/**
 	 * log file of crystal temperature

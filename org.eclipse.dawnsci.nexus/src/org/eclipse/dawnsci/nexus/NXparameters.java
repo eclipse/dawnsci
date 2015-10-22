@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -40,7 +40,7 @@ public interface NXparameters extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarTerm();
+	 public String getTermScalar();
 
 	/**
 	 * 

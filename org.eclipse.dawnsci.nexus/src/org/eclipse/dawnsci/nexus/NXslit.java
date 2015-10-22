@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -51,7 +51,7 @@ public interface NXslit extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDepends_on();
+	 public String getDepends_onScalar();
 
 	/**
 	 * Size of the gap opening in the first dimension of the local
@@ -75,7 +75,7 @@ public interface NXslit extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarX_gap();
+	 public Number getX_gapScalar();
 
 	/**
 	 * Size of the gap opening in the second dimension of the local
@@ -99,6 +99,6 @@ public interface NXslit extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarY_gap();
+	 public Number getY_gapScalar();
 
 }

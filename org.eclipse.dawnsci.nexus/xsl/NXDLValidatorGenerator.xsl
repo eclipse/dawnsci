@@ -68,8 +68,8 @@
 		<xsl:text>&#10;</xsl:text>
 	
 		<!-- Each validator class overrides the validate() method in the superclass-->
-		<xsl:text>@Override&#10;</xsl:text>
-		<xsl:text>	public void validate(NXroot root) throws Exception {&#10;</xsl:text>
+		<xsl:text>	@Override&#10;</xsl:text>
+		<xsl:text>	public void validate(NXroot root) throws NexusValidationException {&#10;</xsl:text>
 	
 		<!-- For each group at the root level of the app def, invoke the generated validate method for that group. -->
 		<xsl:apply-templates select="nx:group" mode="invocation">
@@ -78,14 +78,23 @@
 			<xsl:with-param name="validateGroupMethodNamePrefix" select="$validateGroupMethodNamePrefix"/>
 		</xsl:apply-templates>
 		
-		<xsl:text>	}&#10;</xsl:text> <!-- Closing brace for validate() method -->
-
+		<xsl:text>	}&#10;&#10;</xsl:text> <!-- Closing brace for validate() method -->
+		
+		<xsl:text>	@Override&#10;</xsl:text>
+		<xsl:text>	public void validate(NXentry entry) throws NexusValidationException {&#10;</xsl:text>
+		<xsl:text>//		validateGroup_entry(entry);  TODO validate entry&#10;</xsl:text>
+		<xsl:text>	}&#10;&#10;</xsl:text>
+		<xsl:text>	@Override&#10;</xsl:text>
+		<xsl:text>	public void validate(NXsubentry subentry) throws NexusValidationException {&#10;</xsl:text>
+		<xsl:text>//		validateGroup_entry(subentry);  TODO validate entry&#10;</xsl:text>
+		<xsl:text>	}&#10;&#10;</xsl:text>
+		
 		<!-- For each group at the root level of the app def, generate a validate method -->
 		<xsl:apply-templates select="nx:group" mode="implementation">
 			<xsl:with-param name="validateGroupMethodNamePrefix" select="$validateGroupMethodNamePrefix"/>
 		</xsl:apply-templates>
 	
-		<!-- Closing brace for validate() method -->
+		<!-- Closing brace for validator class definition -->
 		<xsl:text>}&#10;</xsl:text> 
 
 	</xsl:result-document>
@@ -114,7 +123,6 @@
 	<xsl:text> of type </xsl:text><xsl:value-of select="@type"/>
 	<xsl:if test="$multiple"> (possibly multiple)</xsl:if>
 	<xsl:text>&#10;</xsl:text>
-	<xsl:text>// $groupNameInBaseClass = </xsl:text><xsl:value-of select="concat($groupNameInBaseClass, '&#10;')"/>
 
 	<!-- Variable for method call to get group (or just group name if multiple), used in invocation of validateGroupXXX method -->
 	<xsl:variable name="group">
@@ -221,7 +229,7 @@
 	
 	<!-- Method signature -->
 	<xsl:value-of select="$validateGroupMethodName"/>
-	<xsl:text>(final </xsl:text><xsl:value-of select="@type"/><xsl:text> group) throws Exception {&#10;</xsl:text>
+	<xsl:text>(final </xsl:text><xsl:value-of select="@type"/><xsl:text> group) throws NexusValidationException {&#10;</xsl:text>
 	
 	<!-- Line comment for group null validation -->
 	<xsl:value-of select="dawnsci:tabs(2)"/>
@@ -499,6 +507,7 @@
 
 	<!-- Import generated base classes as required for group type -->
 	<xsl:text>import org.eclipse.dawnsci.nexus.NXroot;&#10;</xsl:text>
+	<xsl:text>import org.eclipse.dawnsci.nexus.NXsubentry;&#10;</xsl:text>
 	<xsl:apply-templates select="//nx:group" mode="imports"/>
 	<xsl:text>&#10;</xsl:text>
 	

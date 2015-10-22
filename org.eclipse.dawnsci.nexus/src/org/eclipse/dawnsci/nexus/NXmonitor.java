@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -53,7 +53,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarMode();
+	 public String getModeScalar();
 
 	/**
 	 * Starting time of measurement
@@ -73,7 +73,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Date getScalarStart_time();
+	 public Date getStart_timeScalar();
 
 	/**
 	 * Ending time of measurement
@@ -93,7 +93,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Date getScalarEnd_time();
+	 public Date getEnd_timeScalar();
 
 	/**
 	 * preset value for time or monitor
@@ -115,7 +115,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarPreset();
+	 public Number getPresetScalar();
 
 	/**
 	 * Distance of monitor from sample
@@ -137,7 +137,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDistance();
+	 public double getDistanceScalar();
 
 	/**
 	 * Range (X-axis, Time-of-flight, etc.) over which the integral was calculated
@@ -161,7 +161,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarRange();
+	 public double getRangeScalar();
 
 	/**
 	 * Nominal reading to be used for normalisation purposes.
@@ -183,7 +183,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarNominal();
+	 public Number getNominalScalar();
 
 	/**
 	 * Total integral monitor counts
@@ -205,7 +205,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarIntegral();
+	 public Number getIntegralScalar();
 
 	/**
 	 * Time variation of monitor counts
@@ -234,7 +234,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * Time-of-flight
@@ -258,7 +258,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarTime_of_flight();
+	 public double getTime_of_flightScalar();
 
 	/**
 	 * Monitor efficiency
@@ -282,7 +282,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarEfficiency();
+	 public Number getEfficiencyScalar();
 
 	/**
 	 * Monitor data
@@ -318,7 +318,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarData();
+	 public Number getDataScalar();
 
 	/**
 	 * as defined for NXdata
@@ -354,7 +354,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSampled_fraction();
+	 public double getSampled_fractionScalar();
 
 	/**
 	 * Geometry of the monitor
@@ -412,6 +412,6 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCount_time();
+	 public double getCount_timeScalar();
 
 }

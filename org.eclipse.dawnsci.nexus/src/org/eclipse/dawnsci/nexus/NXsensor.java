@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -35,7 +35,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarModel();
+	 public String getModelScalar();
 
 	/**
 	 * Name for the sensor
@@ -49,7 +49,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarName();
+	 public String getNameScalar();
 
 	/**
 	 * Short name of sensor used e.g. on monitor display program
@@ -63,7 +63,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarShort_name();
+	 public String getShort_nameScalar();
 
 	/**
 	 * where sensor is attached to ("sample" | "can")
@@ -77,7 +77,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarAttached_to();
+	 public String getAttached_toScalar();
 
 	/**
 	 * Defines the axes for logged vector quantities if they are not the global instrument axes
@@ -130,7 +130,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarMeasurement();
+	 public String getMeasurementScalar();
 
 	/**
 	 * The type of hardware used for the measurement.
@@ -166,7 +166,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * Is data collection controlled or synchronised to this quantity:
@@ -188,7 +188,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public boolean getScalarRun_control();
+	 public boolean getRun_controlScalar();
 
 	/**
 	 * Upper control bound of sensor reading if using run_control
@@ -210,7 +210,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarHigh_trip_value();
+	 public double getHigh_trip_valueScalar();
 
 	/**
 	 * Lower control bound of sensor reading if using run_control
@@ -232,7 +232,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarLow_trip_value();
+	 public double getLow_trip_valueScalar();
 
 	/**
 	 * nominal setpoint or average value
@@ -258,7 +258,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarValue();
+	 public double getValueScalar();
 
 	/**
 	 * Nominal/average first derivative of value
@@ -286,7 +286,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarValue_deriv1();
+	 public double getValue_deriv1Scalar();
 
 	/**
 	 * Nominal/average second derivative of value
@@ -312,7 +312,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarValue_deriv2();
+	 public double getValue_deriv2Scalar();
 
 	/**
 	 * Time history of sensor readings
@@ -363,7 +363,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarExternal_field_brief();
+	 public String getExternal_field_briefScalar();
 
 	/**
 	 * For complex external fields not satisfied by External_field_brief

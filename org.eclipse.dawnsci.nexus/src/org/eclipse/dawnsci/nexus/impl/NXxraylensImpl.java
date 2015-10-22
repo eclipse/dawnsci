@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -66,7 +66,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public String getScalarLens_geometry() {
+	public String getLens_geometryScalar() {
 		return getString(NX_LENS_GEOMETRY);
 	}
 
@@ -74,7 +74,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 		setDataset(NX_LENS_GEOMETRY, lens_geometry);
 	}
 
-	public void setScalarLens_geometry(String lens_geometry) {
+	public void setLens_geometryScalar(String lens_geometry) {
 		setString(NX_LENS_GEOMETRY, lens_geometry);
 	}
 
@@ -84,7 +84,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public boolean getScalarSymmetric() {
+	public boolean getSymmetricScalar() {
 		return getBoolean(NX_SYMMETRIC);
 	}
 
@@ -92,7 +92,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 		setDataset(NX_SYMMETRIC, symmetric);
 	}
 
-	public void setScalarSymmetric(boolean symmetric) {
+	public void setSymmetricScalar(boolean symmetric) {
 		setField(NX_SYMMETRIC, symmetric);
 	}
 
@@ -102,7 +102,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public boolean getScalarCylindrical() {
+	public boolean getCylindricalScalar() {
 		return getBoolean(NX_CYLINDRICAL);
 	}
 
@@ -110,7 +110,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 		setDataset(NX_CYLINDRICAL, cylindrical);
 	}
 
-	public void setScalarCylindrical(boolean cylindrical) {
+	public void setCylindricalScalar(boolean cylindrical) {
 		setField(NX_CYLINDRICAL, cylindrical);
 	}
 
@@ -129,7 +129,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public String getScalarFocus_type() {
+	public String getFocus_typeScalar() {
 		return getString(NX_FOCUS_TYPE);
 	}
 
@@ -137,7 +137,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 		setDataset(NX_FOCUS_TYPE, focus_type);
 	}
 
-	public void setScalarFocus_type(String focus_type) {
+	public void setFocus_typeScalar(String focus_type) {
 		setString(NX_FOCUS_TYPE, focus_type);
 	}
 
@@ -147,7 +147,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public double getScalarLens_thickness() {
+	public double getLens_thicknessScalar() {
 		return getDouble(NX_LENS_THICKNESS);
 	}
 
@@ -155,7 +155,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 		setDataset(NX_LENS_THICKNESS, lens_thickness);
 	}
 
-	public void setScalarLens_thickness(double lens_thickness) {
+	public void setLens_thicknessScalar(double lens_thickness) {
 		setField(NX_LENS_THICKNESS, lens_thickness);
 	}
 
@@ -165,7 +165,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public double getScalarLens_length() {
+	public double getLens_lengthScalar() {
 		return getDouble(NX_LENS_LENGTH);
 	}
 
@@ -173,7 +173,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 		setDataset(NX_LENS_LENGTH, lens_length);
 	}
 
-	public void setScalarLens_length(double lens_length) {
+	public void setLens_lengthScalar(double lens_length) {
 		setField(NX_LENS_LENGTH, lens_length);
 	}
 
@@ -183,7 +183,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public double getScalarCurvature() {
+	public double getCurvatureScalar() {
 		return getDouble(NX_CURVATURE);
 	}
 
@@ -191,7 +191,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 		setDataset(NX_CURVATURE, curvature);
 	}
 
-	public void setScalarCurvature(double curvature) {
+	public void setCurvatureScalar(double curvature) {
 		setField(NX_CURVATURE, curvature);
 	}
 
@@ -201,7 +201,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public double getScalarAperture() {
+	public double getApertureScalar() {
 		return getDouble(NX_APERTURE);
 	}
 
@@ -209,7 +209,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 		setDataset(NX_APERTURE, aperture);
 	}
 
-	public void setScalarAperture(double aperture) {
+	public void setApertureScalar(double aperture) {
 		setField(NX_APERTURE, aperture);
 	}
 
@@ -219,7 +219,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public long getScalarNumber_of_lenses() {
+	public long getNumber_of_lensesScalar() {
 		return getLong(NX_NUMBER_OF_LENSES);
 	}
 
@@ -227,7 +227,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 		setDataset(NX_NUMBER_OF_LENSES, number_of_lenses);
 	}
 
-	public void setScalarNumber_of_lenses(long number_of_lenses) {
+	public void setNumber_of_lensesScalar(long number_of_lenses) {
 		setField(NX_NUMBER_OF_LENSES, number_of_lenses);
 	}
 
@@ -237,7 +237,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public String getScalarLens_material() {
+	public String getLens_materialScalar() {
 		return getString(NX_LENS_MATERIAL);
 	}
 
@@ -245,7 +245,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 		setDataset(NX_LENS_MATERIAL, lens_material);
 	}
 
-	public void setScalarLens_material(String lens_material) {
+	public void setLens_materialScalar(String lens_material) {
 		setString(NX_LENS_MATERIAL, lens_material);
 	}
 
@@ -255,7 +255,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public String getScalarGas() {
+	public String getGasScalar() {
 		return getString(NX_GAS);
 	}
 
@@ -263,7 +263,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 		setDataset(NX_GAS, gas);
 	}
 
-	public void setScalarGas(String gas) {
+	public void setGasScalar(String gas) {
 		setString(NX_GAS, gas);
 	}
 
@@ -273,7 +273,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public double getScalarGas_pressure() {
+	public double getGas_pressureScalar() {
 		return getDouble(NX_GAS_PRESSURE);
 	}
 
@@ -281,7 +281,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 		setDataset(NX_GAS_PRESSURE, gas_pressure);
 	}
 
-	public void setScalarGas_pressure(double gas_pressure) {
+	public void setGas_pressureScalar(double gas_pressure) {
 		setField(NX_GAS_PRESSURE, gas_pressure);
 	}
 

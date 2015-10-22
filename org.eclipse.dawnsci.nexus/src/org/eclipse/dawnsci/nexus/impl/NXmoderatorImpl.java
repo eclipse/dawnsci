@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -87,7 +87,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public double getScalarDistance() {
+	public double getDistanceScalar() {
 		return getDouble(NX_DISTANCE);
 	}
 
@@ -95,7 +95,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		setDataset(NX_DISTANCE, distance);
 	}
 
-	public void setScalarDistance(double distance) {
+	public void setDistanceScalar(double distance) {
 		setField(NX_DISTANCE, distance);
 	}
 
@@ -105,7 +105,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public String getScalarType() {
+	public String getTypeScalar() {
 		return getString(NX_TYPE);
 	}
 
@@ -113,7 +113,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		setDataset(NX_TYPE, type);
 	}
 
-	public void setScalarType(String type) {
+	public void setTypeScalar(String type) {
 		setString(NX_TYPE, type);
 	}
 
@@ -123,7 +123,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public double getScalarPoison_depth() {
+	public double getPoison_depthScalar() {
 		return getDouble(NX_POISON_DEPTH);
 	}
 
@@ -131,7 +131,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		setDataset(NX_POISON_DEPTH, poison_depth);
 	}
 
-	public void setScalarPoison_depth(double poison_depth) {
+	public void setPoison_depthScalar(double poison_depth) {
 		setField(NX_POISON_DEPTH, poison_depth);
 	}
 
@@ -141,7 +141,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public boolean getScalarCoupled() {
+	public boolean getCoupledScalar() {
 		return getBoolean(NX_COUPLED);
 	}
 
@@ -149,7 +149,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		setDataset(NX_COUPLED, coupled);
 	}
 
-	public void setScalarCoupled(boolean coupled) {
+	public void setCoupledScalar(boolean coupled) {
 		setField(NX_COUPLED, coupled);
 	}
 
@@ -159,7 +159,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public String getScalarCoupling_material() {
+	public String getCoupling_materialScalar() {
 		return getString(NX_COUPLING_MATERIAL);
 	}
 
@@ -167,7 +167,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		setDataset(NX_COUPLING_MATERIAL, coupling_material);
 	}
 
-	public void setScalarCoupling_material(String coupling_material) {
+	public void setCoupling_materialScalar(String coupling_material) {
 		setString(NX_COUPLING_MATERIAL, coupling_material);
 	}
 
@@ -177,7 +177,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public String getScalarPoison_material() {
+	public String getPoison_materialScalar() {
 		return getString(NX_POISON_MATERIAL);
 	}
 
@@ -185,7 +185,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		setDataset(NX_POISON_MATERIAL, poison_material);
 	}
 
-	public void setScalarPoison_material(String poison_material) {
+	public void setPoison_materialScalar(String poison_material) {
 		setString(NX_POISON_MATERIAL, poison_material);
 	}
 
@@ -195,7 +195,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public double getScalarTemperature() {
+	public double getTemperatureScalar() {
 		return getDouble(NX_TEMPERATURE);
 	}
 
@@ -203,7 +203,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		setDataset(NX_TEMPERATURE, temperature);
 	}
 
-	public void setScalarTemperature(double temperature) {
+	public void setTemperatureScalar(double temperature) {
 		setField(NX_TEMPERATURE, temperature);
 	}
 

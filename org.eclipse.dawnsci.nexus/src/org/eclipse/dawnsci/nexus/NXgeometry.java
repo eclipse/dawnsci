@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -138,7 +138,7 @@ public interface NXgeometry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDescription();
+	 public String getDescriptionScalar();
 
 	/**
 	 * Position of the component along the beam path. The sample is at 0, components upstream
@@ -162,6 +162,6 @@ public interface NXgeometry extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarComponent_index();
+	 public long getComponent_indexScalar();
 
 }

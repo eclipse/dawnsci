@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -62,7 +62,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 	}
 
 	@Override
-	public String getScalarAuthor() {
+	public String getAuthorScalar() {
 		return getString(NX_AUTHOR);
 	}
 
@@ -70,7 +70,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		setDataset(NX_AUTHOR, author);
 	}
 
-	public void setScalarAuthor(String author) {
+	public void setAuthorScalar(String author) {
 		setString(NX_AUTHOR, author);
 	}
 
@@ -80,7 +80,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 	}
 
 	@Override
-	public Date getScalarDate() {
+	public Date getDateScalar() {
 		return getDate(NX_DATE);
 	}
 
@@ -88,7 +88,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		setDataset(NX_DATE, date);
 	}
 
-	public void setScalarDate(Date date) {
+	public void setDateScalar(Date date) {
 		setDate(NX_DATE, date);
 	}
 
@@ -98,7 +98,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 	}
 
 	@Override
-	public String getScalarType() {
+	public String getTypeScalar() {
 		return getString(NX_TYPE);
 	}
 
@@ -106,7 +106,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		setDataset(NX_TYPE, type);
 	}
 
-	public void setScalarType(String type) {
+	public void setTypeScalar(String type) {
 		setString(NX_TYPE, type);
 	}
 
@@ -116,7 +116,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 	}
 
 	@Override
-	public String getScalarFile_name() {
+	public String getFile_nameScalar() {
 		return getString(NX_FILE_NAME);
 	}
 
@@ -124,7 +124,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		setDataset(NX_FILE_NAME, file_name);
 	}
 
-	public void setScalarFile_name(String file_name) {
+	public void setFile_nameScalar(String file_name) {
 		setString(NX_FILE_NAME, file_name);
 	}
 
@@ -134,7 +134,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 	}
 
 	@Override
-	public String getScalarDescription() {
+	public String getDescriptionScalar() {
 		return getString(NX_DESCRIPTION);
 	}
 
@@ -142,7 +142,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setScalarDescription(String description) {
+	public void setDescriptionScalar(String description) {
 		setString(NX_DESCRIPTION, description);
 	}
 
@@ -152,7 +152,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 	}
 
 	@Override
-	public long getScalarSequence_index() {
+	public long getSequence_indexScalar() {
 		return getLong(NX_SEQUENCE_INDEX);
 	}
 
@@ -160,7 +160,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		setDataset(NX_SEQUENCE_INDEX, sequence_index);
 	}
 
-	public void setScalarSequence_index(long sequence_index) {
+	public void setSequence_indexScalar(long sequence_index) {
 		setField(NX_SEQUENCE_INDEX, sequence_index);
 	}
 
@@ -170,7 +170,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 	}
 
 	@Override
-	public Object getScalarData() {
+	public Object getDataScalar() {
 		return getDataNode(NX_DATA).getDataset();
 	}
 
@@ -178,7 +178,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		setDataset(NX_DATA, data);
 	}
 
-	public void setScalarData(Object data) {
+	public void setDataScalar(Object data) {
 		getDataNode(NX_DATA).setDataset(DatasetFactory.createFromObject(data));
 	}
 

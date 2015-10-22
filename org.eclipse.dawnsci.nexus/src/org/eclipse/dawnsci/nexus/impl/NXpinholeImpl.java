@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -54,7 +54,7 @@ public class NXpinholeImpl extends NXobjectImpl implements NXpinhole {
 	}
 
 	@Override
-	public String getScalarDepends_on() {
+	public String getDepends_onScalar() {
 		return getString(NX_DEPENDS_ON);
 	}
 
@@ -62,7 +62,7 @@ public class NXpinholeImpl extends NXobjectImpl implements NXpinhole {
 		setDataset(NX_DEPENDS_ON, depends_on);
 	}
 
-	public void setScalarDepends_on(String depends_on) {
+	public void setDepends_onScalar(String depends_on) {
 		setString(NX_DEPENDS_ON, depends_on);
 	}
 
@@ -72,7 +72,7 @@ public class NXpinholeImpl extends NXobjectImpl implements NXpinhole {
 	}
 
 	@Override
-	public Number getScalarDiameter() {
+	public Number getDiameterScalar() {
 		return getNumber(NX_DIAMETER);
 	}
 
@@ -80,7 +80,7 @@ public class NXpinholeImpl extends NXobjectImpl implements NXpinhole {
 		setDataset(NX_DIAMETER, diameter);
 	}
 
-	public void setScalarDiameter(Number diameter) {
+	public void setDiameterScalar(Number diameter) {
 		setField(NX_DIAMETER, diameter);
 	}
 

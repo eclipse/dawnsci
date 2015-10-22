@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -36,7 +36,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * chopper rotation speed
@@ -58,7 +58,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarRotation_speed();
+	 public double getRotation_speedScalar();
 
 	/**
 	 * radius of chopper
@@ -80,7 +80,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarRadius();
+	 public double getRadiusScalar();
 
 	/**
 	 * width of an individual slit
@@ -102,7 +102,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSlit();
+	 public double getSlitScalar();
 
 	/**
 	 * radius of curvature of slits
@@ -124,7 +124,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarR_slit();
+	 public double getR_slitScalar();
 
 	/**
 	 * number of slits
@@ -146,7 +146,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarNumber();
+	 public long getNumberScalar();
 
 	/**
 	 * input beam height
@@ -168,7 +168,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarHeight();
+	 public double getHeightScalar();
 
 	/**
 	 * input beam width
@@ -190,7 +190,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarWidth();
+	 public double getWidthScalar();
 
 	/**
 	 * distance
@@ -212,7 +212,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDistance();
+	 public double getDistanceScalar();
 
 	/**
 	 * Wavelength transmitted by chopper
@@ -234,7 +234,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarWavelength();
+	 public double getWavelengthScalar();
 
 	/**
 	 * energy selected
@@ -256,7 +256,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarEnergy();
+	 public double getEnergyScalar();
 
 	/**
 	 * geometry of the fermi chopper
@@ -300,7 +300,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarAbsorbing_material();
+	 public String getAbsorbing_materialScalar();
 
 	/**
 	 * transmitting material
@@ -314,6 +314,6 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarTransmitting_material();
+	 public String getTransmitting_materialScalar();
 
 }

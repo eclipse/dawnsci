@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -58,7 +58,7 @@ public class NXcollectionImpl extends NXobjectImpl implements NXcollection {
 	}
 
 	@Override
-	public String getScalarBeamline() {
+	public String getBeamlineScalar() {
 		return getString(NX_BEAMLINE);
 	}
 
@@ -66,7 +66,7 @@ public class NXcollectionImpl extends NXobjectImpl implements NXcollection {
 		setDataset(NX_BEAMLINE, beamline);
 	}
 
-	public void setScalarBeamline(String beamline) {
+	public void setBeamlineScalar(String beamline) {
 		setString(NX_BEAMLINE, beamline);
 	}
 

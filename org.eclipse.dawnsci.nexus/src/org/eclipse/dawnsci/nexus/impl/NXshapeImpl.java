@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -56,7 +56,7 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 	}
 
 	@Override
-	public String getScalarShape() {
+	public String getShapeScalar() {
 		return getString(NX_SHAPE);
 	}
 
@@ -64,7 +64,7 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 		setDataset(NX_SHAPE, shape);
 	}
 
-	public void setScalarShape(String shape) {
+	public void setShapeScalar(String shape) {
 		setString(NX_SHAPE, shape);
 	}
 
@@ -74,7 +74,7 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 	}
 
 	@Override
-	public double getScalarSize() {
+	public double getSizeScalar() {
 		return getDouble(NX_SIZE);
 	}
 
@@ -82,7 +82,7 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 		setDataset(NX_SIZE, size);
 	}
 
-	public void setScalarSize(double size) {
+	public void setSizeScalar(double size) {
 		setField(NX_SIZE, size);
 	}
 
@@ -92,7 +92,7 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 	}
 
 	@Override
-	public String getScalarDirection() {
+	public String getDirectionScalar() {
 		return getString(NX_DIRECTION);
 	}
 
@@ -100,7 +100,7 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 		setDataset(NX_DIRECTION, direction);
 	}
 
-	public void setScalarDirection(String direction) {
+	public void setDirectionScalar(String direction) {
 		setString(NX_DIRECTION, direction);
 	}
 

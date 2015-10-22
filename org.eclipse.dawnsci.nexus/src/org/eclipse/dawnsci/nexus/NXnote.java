@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -38,7 +38,7 @@ public interface NXnote extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarAuthor();
+	 public String getAuthorScalar();
 
 	/**
 	 * Date note created/added
@@ -58,7 +58,7 @@ public interface NXnote extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Date getScalarDate();
+	 public Date getDateScalar();
 
 	/**
 	 * Mime content type of note data field e.g. image/jpeg, text/plain, text/html
@@ -72,7 +72,7 @@ public interface NXnote extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * Name of original file name if note was read from an external source
@@ -86,7 +86,7 @@ public interface NXnote extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarFile_name();
+	 public String getFile_nameScalar();
 
 	/**
 	 * Title of an image or other details of the note
@@ -100,7 +100,7 @@ public interface NXnote extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDescription();
+	 public String getDescriptionScalar();
 
 	/**
 	 * Sequence index of note, for placing a sequence of
@@ -122,7 +122,7 @@ public interface NXnote extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarSequence_index();
+	 public long getSequence_indexScalar();
 
 	/**
 	 * Binary note data - if text, line terminator is [CR][LF].
@@ -142,6 +142,6 @@ public interface NXnote extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Object getScalarData();
+	 public Object getDataScalar();
 
 }

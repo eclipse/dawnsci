@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -57,7 +57,7 @@ public class NXmagnetic_kickerImpl extends NXobjectImpl implements NXmagnetic_ki
 	}
 
 	@Override
-	public String getScalarDescription() {
+	public String getDescriptionScalar() {
 		return getString(NX_DESCRIPTION);
 	}
 
@@ -65,7 +65,7 @@ public class NXmagnetic_kickerImpl extends NXobjectImpl implements NXmagnetic_ki
 		setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setScalarDescription(String description) {
+	public void setDescriptionScalar(String description) {
 		setString(NX_DESCRIPTION, description);
 	}
 
@@ -75,7 +75,7 @@ public class NXmagnetic_kickerImpl extends NXobjectImpl implements NXmagnetic_ki
 	}
 
 	@Override
-	public double getScalarBeamline_distance() {
+	public double getBeamline_distanceScalar() {
 		return getDouble(NX_BEAMLINE_DISTANCE);
 	}
 
@@ -83,7 +83,7 @@ public class NXmagnetic_kickerImpl extends NXobjectImpl implements NXmagnetic_ki
 		setDataset(NX_BEAMLINE_DISTANCE, beamline_distance);
 	}
 
-	public void setScalarBeamline_distance(double beamline_distance) {
+	public void setBeamline_distanceScalar(double beamline_distance) {
 		setField(NX_BEAMLINE_DISTANCE, beamline_distance);
 	}
 
@@ -93,7 +93,7 @@ public class NXmagnetic_kickerImpl extends NXobjectImpl implements NXmagnetic_ki
 	}
 
 	@Override
-	public double getScalarTiming() {
+	public double getTimingScalar() {
 		return getDouble(NX_TIMING);
 	}
 
@@ -101,7 +101,7 @@ public class NXmagnetic_kickerImpl extends NXobjectImpl implements NXmagnetic_ki
 		setDataset(NX_TIMING, timing);
 	}
 
-	public void setScalarTiming(double timing) {
+	public void setTimingScalar(double timing) {
 		setField(NX_TIMING, timing);
 	}
 
@@ -120,7 +120,7 @@ public class NXmagnetic_kickerImpl extends NXobjectImpl implements NXmagnetic_ki
 	}
 
 	@Override
-	public double getScalarSet_current() {
+	public double getSet_currentScalar() {
 		return getDouble(NX_SET_CURRENT);
 	}
 
@@ -128,7 +128,7 @@ public class NXmagnetic_kickerImpl extends NXobjectImpl implements NXmagnetic_ki
 		setDataset(NX_SET_CURRENT, set_current);
 	}
 
-	public void setScalarSet_current(double set_current) {
+	public void setSet_currentScalar(double set_current) {
 		setField(NX_SET_CURRENT, set_current);
 	}
 
@@ -147,7 +147,7 @@ public class NXmagnetic_kickerImpl extends NXobjectImpl implements NXmagnetic_ki
 	}
 
 	@Override
-	public double getScalarSet_voltage() {
+	public double getSet_voltageScalar() {
 		return getDouble(NX_SET_VOLTAGE);
 	}
 
@@ -155,7 +155,7 @@ public class NXmagnetic_kickerImpl extends NXobjectImpl implements NXmagnetic_ki
 		setDataset(NX_SET_VOLTAGE, set_voltage);
 	}
 
-	public void setScalarSet_voltage(double set_voltage) {
+	public void setSet_voltageScalar(double set_voltage) {
 		setField(NX_SET_VOLTAGE, set_voltage);
 	}
 

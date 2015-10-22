@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -77,7 +77,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDescription();
+	 public String getDescriptionScalar();
 
 	/**
 	 * size of beamstop
@@ -99,7 +99,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSize();
+	 public double getSizeScalar();
 
 	/**
 	 * x position of the beamstop in relation to the detector
@@ -121,7 +121,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarX();
+	 public double getXScalar();
 
 	/**
 	 * y position of the beamstop in relation to the detector
@@ -143,7 +143,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarY();
+	 public double getYScalar();
 
 	/**
 	 * distance of the beamstop to the detector
@@ -165,7 +165,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDistance_to_detector();
+	 public double getDistance_to_detectorScalar();
 
 	/**
 	 * <p>
@@ -187,6 +187,6 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarStatus();
+	 public String getStatusScalar();
 
 }

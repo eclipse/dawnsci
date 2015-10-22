@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -55,7 +55,7 @@ public class NXspin_rotatorImpl extends NXobjectImpl implements NXspin_rotator {
 	}
 
 	@Override
-	public String getScalarDescription() {
+	public String getDescriptionScalar() {
 		return getString(NX_DESCRIPTION);
 	}
 
@@ -63,7 +63,7 @@ public class NXspin_rotatorImpl extends NXobjectImpl implements NXspin_rotator {
 		setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setScalarDescription(String description) {
+	public void setDescriptionScalar(String description) {
 		setString(NX_DESCRIPTION, description);
 	}
 
@@ -73,7 +73,7 @@ public class NXspin_rotatorImpl extends NXobjectImpl implements NXspin_rotator {
 	}
 
 	@Override
-	public double getScalarBeamline_distance() {
+	public double getBeamline_distanceScalar() {
 		return getDouble(NX_BEAMLINE_DISTANCE);
 	}
 
@@ -81,7 +81,7 @@ public class NXspin_rotatorImpl extends NXobjectImpl implements NXspin_rotator {
 		setDataset(NX_BEAMLINE_DISTANCE, beamline_distance);
 	}
 
-	public void setScalarBeamline_distance(double beamline_distance) {
+	public void setBeamline_distanceScalar(double beamline_distance) {
 		setField(NX_BEAMLINE_DISTANCE, beamline_distance);
 	}
 
@@ -91,7 +91,7 @@ public class NXspin_rotatorImpl extends NXobjectImpl implements NXspin_rotator {
 	}
 
 	@Override
-	public double getScalarSet_Bfield_current() {
+	public double getSet_Bfield_currentScalar() {
 		return getDouble(NX_SET_BFIELD_CURRENT);
 	}
 
@@ -99,7 +99,7 @@ public class NXspin_rotatorImpl extends NXobjectImpl implements NXspin_rotator {
 		setDataset(NX_SET_BFIELD_CURRENT, set_Bfield_current);
 	}
 
-	public void setScalarSet_Bfield_current(double set_Bfield_current) {
+	public void setSet_Bfield_currentScalar(double set_Bfield_current) {
 		setField(NX_SET_BFIELD_CURRENT, set_Bfield_current);
 	}
 
@@ -127,7 +127,7 @@ public class NXspin_rotatorImpl extends NXobjectImpl implements NXspin_rotator {
 	}
 
 	@Override
-	public double getScalarSet_Efield_voltage() {
+	public double getSet_Efield_voltageScalar() {
 		return getDouble(NX_SET_EFIELD_VOLTAGE);
 	}
 
@@ -135,7 +135,7 @@ public class NXspin_rotatorImpl extends NXobjectImpl implements NXspin_rotator {
 		setDataset(NX_SET_EFIELD_VOLTAGE, set_Efield_voltage);
 	}
 
-	public void setScalarSet_Efield_voltage(double set_Efield_voltage) {
+	public void setSet_Efield_voltageScalar(double set_Efield_voltage) {
 		setField(NX_SET_EFIELD_VOLTAGE, set_Efield_voltage);
 	}
 

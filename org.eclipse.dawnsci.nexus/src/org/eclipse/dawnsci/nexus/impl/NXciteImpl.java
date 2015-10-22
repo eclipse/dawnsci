@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -59,7 +59,7 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 	}
 
 	@Override
-	public String getScalarDescription() {
+	public String getDescriptionScalar() {
 		return getString(NX_DESCRIPTION);
 	}
 
@@ -67,7 +67,7 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setScalarDescription(String description) {
+	public void setDescriptionScalar(String description) {
 		setString(NX_DESCRIPTION, description);
 	}
 
@@ -77,7 +77,7 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 	}
 
 	@Override
-	public String getScalarUrl() {
+	public String getUrlScalar() {
 		return getString(NX_URL);
 	}
 
@@ -85,7 +85,7 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		setDataset(NX_URL, url);
 	}
 
-	public void setScalarUrl(String url) {
+	public void setUrlScalar(String url) {
 		setString(NX_URL, url);
 	}
 
@@ -95,7 +95,7 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 	}
 
 	@Override
-	public String getScalarDoi() {
+	public String getDoiScalar() {
 		return getString(NX_DOI);
 	}
 
@@ -103,7 +103,7 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		setDataset(NX_DOI, doi);
 	}
 
-	public void setScalarDoi(String doi) {
+	public void setDoiScalar(String doi) {
 		setString(NX_DOI, doi);
 	}
 
@@ -113,7 +113,7 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 	}
 
 	@Override
-	public String getScalarEndnote() {
+	public String getEndnoteScalar() {
 		return getString(NX_ENDNOTE);
 	}
 
@@ -121,7 +121,7 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		setDataset(NX_ENDNOTE, endnote);
 	}
 
-	public void setScalarEndnote(String endnote) {
+	public void setEndnoteScalar(String endnote) {
 		setString(NX_ENDNOTE, endnote);
 	}
 
@@ -131,7 +131,7 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 	}
 
 	@Override
-	public String getScalarBibtex() {
+	public String getBibtexScalar() {
 		return getString(NX_BIBTEX);
 	}
 
@@ -139,7 +139,7 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		setDataset(NX_BIBTEX, bibtex);
 	}
 
-	public void setScalarBibtex(String bibtex) {
+	public void setBibtexScalar(String bibtex) {
 		setString(NX_BIBTEX, bibtex);
 	}
 

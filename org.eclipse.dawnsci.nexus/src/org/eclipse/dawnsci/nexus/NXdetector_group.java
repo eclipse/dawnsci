@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -46,7 +46,7 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarGroup_names();
+	 public String getGroup_namesScalar();
 
 	/**
 	 * Unique ID for group. A group_index array
@@ -70,7 +70,7 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarGroup_index();
+	 public long getGroup_indexScalar();
 
 	/**
 	 * Index of group parent in the hierarchy: -1 means no parent (i.e. a top level) group
@@ -92,7 +92,7 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarGroup_parent();
+	 public long getGroup_parentScalar();
 
 	/**
 	 * Code number for group type, e.g. bank=1, tube=2 etc.
@@ -114,6 +114,6 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarGroup_type();
+	 public long getGroup_typeScalar();
 
 }

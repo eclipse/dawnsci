@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -67,7 +67,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getScalarFocus_parameters() {
+	public double getFocus_parametersScalar() {
 		return getDouble(NX_FOCUS_PARAMETERS);
 	}
 
@@ -75,7 +75,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_FOCUS_PARAMETERS, focus_parameters);
 	}
 
-	public void setScalarFocus_parameters(double focus_parameters) {
+	public void setFocus_parametersScalar(double focus_parameters) {
 		setField(NX_FOCUS_PARAMETERS, focus_parameters);
 	}
 
@@ -85,7 +85,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getScalarOuter_diameter() {
+	public double getOuter_diameterScalar() {
 		return getDouble(NX_OUTER_DIAMETER);
 	}
 
@@ -93,7 +93,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_OUTER_DIAMETER, outer_diameter);
 	}
 
-	public void setScalarOuter_diameter(double outer_diameter) {
+	public void setOuter_diameterScalar(double outer_diameter) {
 		setField(NX_OUTER_DIAMETER, outer_diameter);
 	}
 
@@ -103,7 +103,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getScalarOutermost_zone_width() {
+	public double getOutermost_zone_widthScalar() {
 		return getDouble(NX_OUTERMOST_ZONE_WIDTH);
 	}
 
@@ -111,7 +111,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_OUTERMOST_ZONE_WIDTH, outermost_zone_width);
 	}
 
-	public void setScalarOutermost_zone_width(double outermost_zone_width) {
+	public void setOutermost_zone_widthScalar(double outermost_zone_width) {
 		setField(NX_OUTERMOST_ZONE_WIDTH, outermost_zone_width);
 	}
 
@@ -121,7 +121,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getScalarCentral_stop_diameter() {
+	public double getCentral_stop_diameterScalar() {
 		return getDouble(NX_CENTRAL_STOP_DIAMETER);
 	}
 
@@ -129,7 +129,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_CENTRAL_STOP_DIAMETER, central_stop_diameter);
 	}
 
-	public void setScalarCentral_stop_diameter(double central_stop_diameter) {
+	public void setCentral_stop_diameterScalar(double central_stop_diameter) {
 		setField(NX_CENTRAL_STOP_DIAMETER, central_stop_diameter);
 	}
 
@@ -139,7 +139,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public String getScalarFabrication() {
+	public String getFabricationScalar() {
 		return getString(NX_FABRICATION);
 	}
 
@@ -147,7 +147,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_FABRICATION, fabrication);
 	}
 
-	public void setScalarFabrication(String fabrication) {
+	public void setFabricationScalar(String fabrication) {
 		setString(NX_FABRICATION, fabrication);
 	}
 
@@ -157,7 +157,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getScalarZone_height() {
+	public double getZone_heightScalar() {
 		return getDouble(NX_ZONE_HEIGHT);
 	}
 
@@ -165,7 +165,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_ZONE_HEIGHT, zone_height);
 	}
 
-	public void setScalarZone_height(double zone_height) {
+	public void setZone_heightScalar(double zone_height) {
 		setField(NX_ZONE_HEIGHT, zone_height);
 	}
 
@@ -175,7 +175,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public String getScalarZone_material() {
+	public String getZone_materialScalar() {
 		return getString(NX_ZONE_MATERIAL);
 	}
 
@@ -183,7 +183,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_ZONE_MATERIAL, zone_material);
 	}
 
-	public void setScalarZone_material(String zone_material) {
+	public void setZone_materialScalar(String zone_material) {
 		setString(NX_ZONE_MATERIAL, zone_material);
 	}
 
@@ -193,7 +193,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public String getScalarZone_support_material() {
+	public String getZone_support_materialScalar() {
 		return getString(NX_ZONE_SUPPORT_MATERIAL);
 	}
 
@@ -201,7 +201,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_ZONE_SUPPORT_MATERIAL, zone_support_material);
 	}
 
-	public void setScalarZone_support_material(String zone_support_material) {
+	public void setZone_support_materialScalar(String zone_support_material) {
 		setString(NX_ZONE_SUPPORT_MATERIAL, zone_support_material);
 	}
 
@@ -211,7 +211,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public String getScalarCentral_stop_material() {
+	public String getCentral_stop_materialScalar() {
 		return getString(NX_CENTRAL_STOP_MATERIAL);
 	}
 
@@ -219,7 +219,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_CENTRAL_STOP_MATERIAL, central_stop_material);
 	}
 
-	public void setScalarCentral_stop_material(String central_stop_material) {
+	public void setCentral_stop_materialScalar(String central_stop_material) {
 		setString(NX_CENTRAL_STOP_MATERIAL, central_stop_material);
 	}
 
@@ -229,7 +229,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getScalarCentral_stop_thickness() {
+	public double getCentral_stop_thicknessScalar() {
 		return getDouble(NX_CENTRAL_STOP_THICKNESS);
 	}
 
@@ -237,7 +237,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_CENTRAL_STOP_THICKNESS, central_stop_thickness);
 	}
 
-	public void setScalarCentral_stop_thickness(double central_stop_thickness) {
+	public void setCentral_stop_thicknessScalar(double central_stop_thickness) {
 		setField(NX_CENTRAL_STOP_THICKNESS, central_stop_thickness);
 	}
 
@@ -247,7 +247,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getScalarMask_thickness() {
+	public double getMask_thicknessScalar() {
 		return getDouble(NX_MASK_THICKNESS);
 	}
 
@@ -255,7 +255,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_MASK_THICKNESS, mask_thickness);
 	}
 
-	public void setScalarMask_thickness(double mask_thickness) {
+	public void setMask_thicknessScalar(double mask_thickness) {
 		setField(NX_MASK_THICKNESS, mask_thickness);
 	}
 
@@ -265,7 +265,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public String getScalarMask_material() {
+	public String getMask_materialScalar() {
 		return getString(NX_MASK_MATERIAL);
 	}
 
@@ -273,7 +273,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_MASK_MATERIAL, mask_material);
 	}
 
-	public void setScalarMask_material(String mask_material) {
+	public void setMask_materialScalar(String mask_material) {
 		setString(NX_MASK_MATERIAL, mask_material);
 	}
 
@@ -283,7 +283,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public String getScalarSupport_membrane_material() {
+	public String getSupport_membrane_materialScalar() {
 		return getString(NX_SUPPORT_MEMBRANE_MATERIAL);
 	}
 
@@ -291,7 +291,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_SUPPORT_MEMBRANE_MATERIAL, support_membrane_material);
 	}
 
-	public void setScalarSupport_membrane_material(String support_membrane_material) {
+	public void setSupport_membrane_materialScalar(String support_membrane_material) {
 		setString(NX_SUPPORT_MEMBRANE_MATERIAL, support_membrane_material);
 	}
 
@@ -301,7 +301,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getScalarSupport_membrane_thickness() {
+	public double getSupport_membrane_thicknessScalar() {
 		return getDouble(NX_SUPPORT_MEMBRANE_THICKNESS);
 	}
 
@@ -309,7 +309,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 		setDataset(NX_SUPPORT_MEMBRANE_THICKNESS, support_membrane_thickness);
 	}
 
-	public void setScalarSupport_membrane_thickness(double support_membrane_thickness) {
+	public void setSupport_membrane_thicknessScalar(double support_membrane_thickness) {
 		setField(NX_SUPPORT_MEMBRANE_THICKNESS, support_membrane_thickness);
 	}
 

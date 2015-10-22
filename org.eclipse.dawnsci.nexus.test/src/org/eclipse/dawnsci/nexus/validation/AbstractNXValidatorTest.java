@@ -32,8 +32,7 @@ public class AbstractNXValidatorTest {
 	
 	@Before
 	public void setUp() {
-		validator = new AbstractNXValidator() {
-		};
+		validator = new NXtomoValidator();
 	}
 	
 	@After

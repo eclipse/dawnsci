@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -64,7 +64,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 	}
 
 	@Override
-	public double getScalarDistance() {
+	public double getDistanceScalar() {
 		return getDouble(NX_DISTANCE);
 	}
 
@@ -72,7 +72,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		setDataset(NX_DISTANCE, distance);
 	}
 
-	public void setScalarDistance(double distance) {
+	public void setDistanceScalar(double distance) {
 		setField(NX_DISTANCE, distance);
 	}
 
@@ -82,7 +82,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 	}
 
 	@Override
-	public String getScalarType() {
+	public String getTypeScalar() {
 		return getString(NX_TYPE);
 	}
 
@@ -90,7 +90,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		setDataset(NX_TYPE, type);
 	}
 
-	public void setScalarType(String type) {
+	public void setTypeScalar(String type) {
 		setString(NX_TYPE, type);
 	}
 
@@ -100,7 +100,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 	}
 
 	@Override
-	public double getScalarThickness() {
+	public double getThicknessScalar() {
 		return getDouble(NX_THICKNESS);
 	}
 
@@ -108,7 +108,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		setDataset(NX_THICKNESS, thickness);
 	}
 
-	public void setScalarThickness(double thickness) {
+	public void setThicknessScalar(double thickness) {
 		setField(NX_THICKNESS, thickness);
 	}
 
@@ -118,7 +118,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 	}
 
 	@Override
-	public double getScalarScattering_cross_section() {
+	public double getScattering_cross_sectionScalar() {
 		return getDouble(NX_SCATTERING_CROSS_SECTION);
 	}
 
@@ -126,7 +126,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		setDataset(NX_SCATTERING_CROSS_SECTION, scattering_cross_section);
 	}
 
-	public void setScalarScattering_cross_section(double scattering_cross_section) {
+	public void setScattering_cross_sectionScalar(double scattering_cross_section) {
 		setField(NX_SCATTERING_CROSS_SECTION, scattering_cross_section);
 	}
 
@@ -136,7 +136,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 	}
 
 	@Override
-	public double getScalarAbsorption_cross_section() {
+	public double getAbsorption_cross_sectionScalar() {
 		return getDouble(NX_ABSORPTION_CROSS_SECTION);
 	}
 
@@ -144,7 +144,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		setDataset(NX_ABSORPTION_CROSS_SECTION, absorption_cross_section);
 	}
 
-	public void setScalarAbsorption_cross_section(double absorption_cross_section) {
+	public void setAbsorption_cross_sectionScalar(double absorption_cross_section) {
 		setField(NX_ABSORPTION_CROSS_SECTION, absorption_cross_section);
 	}
 
@@ -154,7 +154,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 	}
 
 	@Override
-	public double getScalarAttenuator_transmission() {
+	public double getAttenuator_transmissionScalar() {
 		return getDouble(NX_ATTENUATOR_TRANSMISSION);
 	}
 
@@ -162,7 +162,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		setDataset(NX_ATTENUATOR_TRANSMISSION, attenuator_transmission);
 	}
 
-	public void setScalarAttenuator_transmission(double attenuator_transmission) {
+	public void setAttenuator_transmissionScalar(double attenuator_transmission) {
 		setField(NX_ATTENUATOR_TRANSMISSION, attenuator_transmission);
 	}
 
@@ -172,7 +172,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 	}
 
 	@Override
-	public String getScalarStatus() {
+	public String getStatusScalar() {
 		return getString(NX_STATUS);
 	}
 
@@ -180,7 +180,7 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		setDataset(NX_STATUS, status);
 	}
 
-	public void setScalarStatus(String status) {
+	public void setStatusScalar(String status) {
 		setString(NX_STATUS, status);
 	}
 

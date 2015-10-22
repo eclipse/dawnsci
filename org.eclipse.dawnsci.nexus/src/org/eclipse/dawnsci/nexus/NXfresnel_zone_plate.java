@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -46,7 +46,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFocus_parameters();
+	 public double getFocus_parametersScalar();
 
 	/**
 	 * <p>
@@ -66,7 +66,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarOuter_diameter();
+	 public double getOuter_diameterScalar();
 
 	/**
 	 * <p>
@@ -86,7 +86,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarOutermost_zone_width();
+	 public double getOutermost_zone_widthScalar();
 
 	/**
 	 * <p>
@@ -106,7 +106,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCentral_stop_diameter();
+	 public double getCentral_stop_diameterScalar();
 
 	/**
 	 * how the zone plate was manufactured
@@ -134,7 +134,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarFabrication();
+	 public String getFabricationScalar();
 
 	/**
 	 * <p>
@@ -154,7 +154,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarZone_height();
+	 public double getZone_heightScalar();
 
 	/**
 	 * Material of the zones themselves
@@ -168,7 +168,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarZone_material();
+	 public String getZone_materialScalar();
 
 	/**
 	 * Material present between the zones. This is usually only present for the "zone doubled" fabrication process
@@ -182,7 +182,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarZone_support_material();
+	 public String getZone_support_materialScalar();
 
 	/**
 	 * 
@@ -194,7 +194,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarCentral_stop_material();
+	 public String getCentral_stop_materialScalar();
 
 	/**
 	 * <p>
@@ -214,7 +214,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCentral_stop_thickness();
+	 public double getCentral_stop_thicknessScalar();
 
 	/**
 	 * <p>
@@ -234,7 +234,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarMask_thickness();
+	 public double getMask_thicknessScalar();
 
 	/**
 	 * If no mask is present, set mask_thickness to 0 and omit the mask_material field
@@ -248,7 +248,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarMask_material();
+	 public String getMask_materialScalar();
 
 	/**
 	 * 
@@ -260,7 +260,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarSupport_membrane_material();
+	 public String getSupport_membrane_materialScalar();
 
 	/**
 	 * <p>
@@ -280,7 +280,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSupport_membrane_thickness();
+	 public double getSupport_membrane_thicknessScalar();
 
 	/**
 	 * "Engineering" position of the fresnel zone plate

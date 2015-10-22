@@ -7,6 +7,7 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.NXroot;
+import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXfermi_chopper;
@@ -16,17 +17,27 @@ import org.eclipse.dawnsci.nexus.NXfermi_chopper;
  */
 public class NXdirecttofValidator extends AbstractNXValidator implements NXApplicationValidator {
 
-@Override
-	public void validate(NXroot root) throws Exception {
+	@Override
+	public void validate(NXroot root) throws NexusValidationException {
 		// validate child group 'entry' of type NXentry
-// $groupNameInBaseClass = entry
 		validateGroup_entry(root.getEntry());
 	}
+
+	@Override
+	public void validate(NXentry entry) throws NexusValidationException {
+//		validateGroup_entry(entry);  TODO validate entry
+	}
+
+	@Override
+	public void validate(NXsubentry subentry) throws NexusValidationException {
+//		validateGroup_entry(subentry);  TODO validate entry
+	}
+
 
 	/**
 	 * Validate group 'entry' of type NXentry.
 	 */
-	private void validateGroup_entry(final NXentry group) throws Exception {
+	private void validateGroup_entry(final NXentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("entry", NXentry.class, group);
 
@@ -46,7 +57,6 @@ public class NXdirecttofValidator extends AbstractNXValidator implements NXAppli
 				"NXdirecttof");
 
 		// validate unnamed child group of type NXinstrument (possibly multiple)
-// $groupNameInBaseClass = instrument
 		final Map<String, NXinstrument> allInstrument = group.getAllInstrument();
 		for (final NXinstrument instrument : allInstrument.values()) {
 			validateGroup_entry_NXinstrument(instrument);
@@ -56,19 +66,18 @@ public class NXdirecttofValidator extends AbstractNXValidator implements NXAppli
 	/**
 	 * Validate unnamed group of type NXinstrument.
 	 */
-	private void validateGroup_entry_NXinstrument(final NXinstrument group) throws Exception {
+	private void validateGroup_entry_NXinstrument(final NXinstrument group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull(null, NXinstrument.class, group);
 
 		// validate child group 'fermi_chopper' of type NXfermi_chopper
-// $groupNameInBaseClass = fermi_chopper
 		validateGroup_entry_NXinstrument_fermi_chopper(group.getFermi_chopper());
 	}
 
 	/**
 	 * Validate group 'fermi_chopper' of type NXfermi_chopper.
 	 */
-	private void validateGroup_entry_NXinstrument_fermi_chopper(final NXfermi_chopper group) throws Exception {
+	private void validateGroup_entry_NXinstrument_fermi_chopper(final NXfermi_chopper group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("fermi_chopper", NXfermi_chopper.class, group);
 

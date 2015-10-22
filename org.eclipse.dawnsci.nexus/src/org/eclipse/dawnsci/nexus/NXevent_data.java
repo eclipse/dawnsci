@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -50,7 +50,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarTime_of_flight();
+	 public long getTime_of_flightScalar();
 
 	/**
 	 * There will be extra information in the NXdetector to convert
@@ -78,7 +78,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarPixel_number();
+	 public long getPixel_numberScalar();
 
 	/**
 	 * The time that each pulse started with respect to the offset
@@ -102,7 +102,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarPulse_time();
+	 public long getPulse_timeScalar();
 
 	/**
 	 * ISO8601
@@ -137,7 +137,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarEvents_per_pulse();
+	 public long getEvents_per_pulseScalar();
 
 	/**
 	 * If voltages from the ends of the detector are read out this
@@ -167,6 +167,6 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPulse_height();
+	 public double getPulse_heightScalar();
 
 }

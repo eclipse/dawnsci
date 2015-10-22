@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -36,7 +36,7 @@ public interface NXenvironment extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarName();
+	 public String getNameScalar();
 
 	/**
 	 * Alternative short name, perhaps for dashboard display like a present Seblock name
@@ -50,7 +50,7 @@ public interface NXenvironment extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarShort_name();
+	 public String getShort_nameScalar();
 
 	/**
 	 * Type of apparatus. This could be the SE codes in scheduling database; e.g. OC/100
@@ -64,7 +64,7 @@ public interface NXenvironment extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * Description of the apparatus; e.g. 100mm bore orange cryostat with Roots pump
@@ -78,7 +78,7 @@ public interface NXenvironment extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDescription();
+	 public String getDescriptionScalar();
 
 	/**
 	 * Program controlling the apparatus; e.g. LabView VI name
@@ -92,7 +92,7 @@ public interface NXenvironment extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarProgram();
+	 public String getProgramScalar();
 
 	/**
 	 * The position and orientation of the apparatus

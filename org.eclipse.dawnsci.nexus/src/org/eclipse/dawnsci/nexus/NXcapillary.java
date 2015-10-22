@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -49,7 +49,7 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * The manufacturer of the capillary. This is actually important as
@@ -71,7 +71,7 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarManufacturer();
+	 public String getManufacturerScalar();
 
 	/**
 	 * <p>
@@ -91,7 +91,7 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarMaximum_incident_angle();
+	 public double getMaximum_incident_angleScalar();
 
 	/**
 	 * <p>
@@ -111,7 +111,7 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarAccepting_aperture();
+	 public double getAccepting_apertureScalar();
 
 	/**
 	 * The gain of the capillary as a function of energy
@@ -145,7 +145,7 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarWorking_distance();
+	 public double getWorking_distanceScalar();
 
 	/**
 	 * The focal size in FWHM
@@ -165,6 +165,6 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFocal_size();
+	 public double getFocal_sizeScalar();
 
 }

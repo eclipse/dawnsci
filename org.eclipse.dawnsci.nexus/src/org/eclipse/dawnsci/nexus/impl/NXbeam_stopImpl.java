@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -87,7 +87,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public String getScalarDescription() {
+	public String getDescriptionScalar() {
 		return getString(NX_DESCRIPTION);
 	}
 
@@ -95,7 +95,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setScalarDescription(String description) {
+	public void setDescriptionScalar(String description) {
 		setString(NX_DESCRIPTION, description);
 	}
 
@@ -105,7 +105,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public double getScalarSize() {
+	public double getSizeScalar() {
 		return getDouble(NX_SIZE);
 	}
 
@@ -113,7 +113,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		setDataset(NX_SIZE, size);
 	}
 
-	public void setScalarSize(double size) {
+	public void setSizeScalar(double size) {
 		setField(NX_SIZE, size);
 	}
 
@@ -123,7 +123,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public double getScalarX() {
+	public double getXScalar() {
 		return getDouble(NX_X);
 	}
 
@@ -131,7 +131,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		setDataset(NX_X, x);
 	}
 
-	public void setScalarX(double x) {
+	public void setXScalar(double x) {
 		setField(NX_X, x);
 	}
 
@@ -141,7 +141,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public double getScalarY() {
+	public double getYScalar() {
 		return getDouble(NX_Y);
 	}
 
@@ -149,7 +149,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		setDataset(NX_Y, y);
 	}
 
-	public void setScalarY(double y) {
+	public void setYScalar(double y) {
 		setField(NX_Y, y);
 	}
 
@@ -159,7 +159,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public double getScalarDistance_to_detector() {
+	public double getDistance_to_detectorScalar() {
 		return getDouble(NX_DISTANCE_TO_DETECTOR);
 	}
 
@@ -167,7 +167,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		setDataset(NX_DISTANCE_TO_DETECTOR, distance_to_detector);
 	}
 
-	public void setScalarDistance_to_detector(double distance_to_detector) {
+	public void setDistance_to_detectorScalar(double distance_to_detector) {
 		setField(NX_DISTANCE_TO_DETECTOR, distance_to_detector);
 	}
 
@@ -177,7 +177,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public String getScalarStatus() {
+	public String getStatusScalar() {
 		return getString(NX_STATUS);
 	}
 
@@ -185,7 +185,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		setDataset(NX_STATUS, status);
 	}
 
-	public void setScalarStatus(String status) {
+	public void setStatusScalar(String status) {
 		setString(NX_STATUS, status);
 	}
 

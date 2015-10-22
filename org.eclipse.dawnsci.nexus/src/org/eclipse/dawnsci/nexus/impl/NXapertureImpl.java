@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -82,7 +82,7 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 	}
 
 	@Override
-	public String getScalarMaterial() {
+	public String getMaterialScalar() {
 		return getString(NX_MATERIAL);
 	}
 
@@ -90,7 +90,7 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 		setDataset(NX_MATERIAL, material);
 	}
 
-	public void setScalarMaterial(String material) {
+	public void setMaterialScalar(String material) {
 		setString(NX_MATERIAL, material);
 	}
 
@@ -100,7 +100,7 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 	}
 
 	@Override
-	public String getScalarDescription() {
+	public String getDescriptionScalar() {
 		return getString(NX_DESCRIPTION);
 	}
 
@@ -108,7 +108,7 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 		setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setScalarDescription(String description) {
+	public void setDescriptionScalar(String description) {
 		setString(NX_DESCRIPTION, description);
 	}
 

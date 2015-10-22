@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -48,7 +48,7 @@ public interface NXdetector_module extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarData_origin();
+	 public long getData_originScalar();
 
 	/**
 	 * Two values for the size of the module in pixels in each direction.
@@ -68,7 +68,7 @@ public interface NXdetector_module extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarData_size();
+	 public long getData_sizeScalar();
 
 	/**
 	 * Offset of the module in regards to the origin of the detector in an
@@ -92,7 +92,7 @@ public interface NXdetector_module extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarModule_offset();
+	 public Number getModule_offsetScalar();
 
 	/**
 	 * <p>
@@ -154,7 +154,7 @@ public interface NXdetector_module extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarFast_pixel_direction();
+	 public Number getFast_pixel_directionScalar();
 
 	/**
 	 * <p>
@@ -216,7 +216,7 @@ public interface NXdetector_module extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarSlow_pixel_direction();
+	 public Number getSlow_pixel_directionScalar();
 
 	/**
 	 * <p>

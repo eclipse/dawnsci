@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -99,7 +99,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarVariable();
+	 public Number getVariableScalar();
 
 	/**
 	 * Axis label
@@ -168,7 +168,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarVariable_errors();
+	 public Number getVariable_errorsScalar();
 
 	/**
 	 * .. index:: plotting
@@ -202,7 +202,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarData();
+	 public Number getDataScalar();
 
 	/**
 	 * .. index:: plotting
@@ -270,7 +270,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarErrors();
+	 public Number getErrorsScalar();
 
 	/**
 	 * The elements in data are usually float values really. For
@@ -298,7 +298,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarScaling_factor();
+	 public double getScaling_factorScalar();
 
 	/**
 	 * An optional offset to apply to the values in data.
@@ -318,7 +318,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarOffset();
+	 public double getOffsetScalar();
 
 	/**
 	 * This is an array holding the values to use for the x-axis of
@@ -344,7 +344,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarX();
+	 public double getXScalar();
 
 	/**
 	 * This is an array holding the values to use for the y-axis of
@@ -370,7 +370,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarY();
+	 public double getYScalar();
 
 	/**
 	 * This is an array holding the values to use for the z-axis of
@@ -396,6 +396,6 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarZ();
+	 public double getZScalar();
 
 }

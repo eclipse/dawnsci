@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -69,7 +69,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 	}
 
 	@Override
-	public String getScalarName() {
+	public String getNameScalar() {
 		return getString(NX_NAME);
 	}
 
@@ -77,7 +77,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		setDataset(NX_NAME, name);
 	}
 
-	public void setScalarName(String name) {
+	public void setNameScalar(String name) {
 		setString(NX_NAME, name);
 	}
 
@@ -87,7 +87,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 	}
 
 	@Override
-	public String getScalarDescription() {
+	public String getDescriptionScalar() {
 		return getString(NX_DESCRIPTION);
 	}
 
@@ -95,7 +95,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setScalarDescription(String description) {
+	public void setDescriptionScalar(String description) {
 		setString(NX_DESCRIPTION, description);
 	}
 
@@ -105,7 +105,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 	}
 
 	@Override
-	public Number getScalarValue() {
+	public Number getValueScalar() {
 		return getNumber(NX_VALUE);
 	}
 
@@ -113,7 +113,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		setDataset(NX_VALUE, value);
 	}
 
-	public void setScalarValue(Number value) {
+	public void setValueScalar(Number value) {
 		setField(NX_VALUE, value);
 	}
 
@@ -123,7 +123,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 	}
 
 	@Override
-	public Number getScalarRaw_value() {
+	public Number getRaw_valueScalar() {
 		return getNumber(NX_RAW_VALUE);
 	}
 
@@ -131,7 +131,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		setDataset(NX_RAW_VALUE, raw_value);
 	}
 
-	public void setScalarRaw_value(Number raw_value) {
+	public void setRaw_valueScalar(Number raw_value) {
 		setField(NX_RAW_VALUE, raw_value);
 	}
 
@@ -141,7 +141,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 	}
 
 	@Override
-	public Number getScalarTarget_value() {
+	public Number getTarget_valueScalar() {
 		return getNumber(NX_TARGET_VALUE);
 	}
 
@@ -149,7 +149,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		setDataset(NX_TARGET_VALUE, target_value);
 	}
 
-	public void setScalarTarget_value(Number target_value) {
+	public void setTarget_valueScalar(Number target_value) {
 		setField(NX_TARGET_VALUE, target_value);
 	}
 
@@ -159,7 +159,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 	}
 
 	@Override
-	public Number getScalarTolerance() {
+	public Number getToleranceScalar() {
 		return getNumber(NX_TOLERANCE);
 	}
 
@@ -167,7 +167,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		setDataset(NX_TOLERANCE, tolerance);
 	}
 
-	public void setScalarTolerance(Number tolerance) {
+	public void setToleranceScalar(Number tolerance) {
 		setField(NX_TOLERANCE, tolerance);
 	}
 
@@ -177,7 +177,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 	}
 
 	@Override
-	public Number getScalarSoft_limit_min() {
+	public Number getSoft_limit_minScalar() {
 		return getNumber(NX_SOFT_LIMIT_MIN);
 	}
 
@@ -185,7 +185,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		setDataset(NX_SOFT_LIMIT_MIN, soft_limit_min);
 	}
 
-	public void setScalarSoft_limit_min(Number soft_limit_min) {
+	public void setSoft_limit_minScalar(Number soft_limit_min) {
 		setField(NX_SOFT_LIMIT_MIN, soft_limit_min);
 	}
 
@@ -195,7 +195,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 	}
 
 	@Override
-	public Number getScalarSoft_limit_max() {
+	public Number getSoft_limit_maxScalar() {
 		return getNumber(NX_SOFT_LIMIT_MAX);
 	}
 
@@ -203,7 +203,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		setDataset(NX_SOFT_LIMIT_MAX, soft_limit_max);
 	}
 
-	public void setScalarSoft_limit_max(Number soft_limit_max) {
+	public void setSoft_limit_maxScalar(Number soft_limit_max) {
 		setField(NX_SOFT_LIMIT_MAX, soft_limit_max);
 	}
 
@@ -213,7 +213,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 	}
 
 	@Override
-	public Number getScalarVelocity() {
+	public Number getVelocityScalar() {
 		return getNumber(NX_VELOCITY);
 	}
 
@@ -221,7 +221,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		setDataset(NX_VELOCITY, velocity);
 	}
 
-	public void setScalarVelocity(Number velocity) {
+	public void setVelocityScalar(Number velocity) {
 		setField(NX_VELOCITY, velocity);
 	}
 
@@ -231,7 +231,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 	}
 
 	@Override
-	public Number getScalarAcceleration_time() {
+	public Number getAcceleration_timeScalar() {
 		return getNumber(NX_ACCELERATION_TIME);
 	}
 
@@ -239,7 +239,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		setDataset(NX_ACCELERATION_TIME, acceleration_time);
 	}
 
-	public void setScalarAcceleration_time(Number acceleration_time) {
+	public void setAcceleration_timeScalar(Number acceleration_time) {
 		setField(NX_ACCELERATION_TIME, acceleration_time);
 	}
 
@@ -249,7 +249,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 	}
 
 	@Override
-	public String getScalarController_record() {
+	public String getController_recordScalar() {
 		return getString(NX_CONTROLLER_RECORD);
 	}
 
@@ -257,7 +257,7 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		setDataset(NX_CONTROLLER_RECORD, controller_record);
 	}
 
-	public void setScalarController_record(String controller_record) {
+	public void setController_recordScalar(String controller_record) {
 		setString(NX_CONTROLLER_RECORD, controller_record);
 	}
 

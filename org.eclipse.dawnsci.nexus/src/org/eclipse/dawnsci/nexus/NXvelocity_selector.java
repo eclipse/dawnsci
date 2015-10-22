@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -34,7 +34,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * velocity selector rotation speed
@@ -56,7 +56,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarRotation_speed();
+	 public double getRotation_speedScalar();
 
 	/**
 	 * radius at beam centre
@@ -78,7 +78,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarRadius();
+	 public double getRadiusScalar();
 
 	/**
 	 * spoke width at beam centre
@@ -100,7 +100,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSpwidth();
+	 public double getSpwidthScalar();
 
 	/**
 	 * rotor length
@@ -122,7 +122,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarLength();
+	 public double getLengthScalar();
 
 	/**
 	 * number of spokes/lamella
@@ -144,7 +144,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarNum();
+	 public long getNumScalar();
 
 	/**
 	 * twist angle along axis
@@ -166,7 +166,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarTwist();
+	 public double getTwistScalar();
 
 	/**
 	 * offset vertical angle
@@ -188,7 +188,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarTable();
+	 public double getTableScalar();
 
 	/**
 	 * input beam height
@@ -210,7 +210,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarHeight();
+	 public double getHeightScalar();
 
 	/**
 	 * input beam width
@@ -232,7 +232,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarWidth();
+	 public double getWidthScalar();
 
 	/**
 	 * wavelength
@@ -254,7 +254,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarWavelength();
+	 public double getWavelengthScalar();
 
 	/**
 	 * deviation FWHM /Wavelength
@@ -276,7 +276,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarWavelength_spread();
+	 public double getWavelength_spreadScalar();
 
 	/**
 	 * 

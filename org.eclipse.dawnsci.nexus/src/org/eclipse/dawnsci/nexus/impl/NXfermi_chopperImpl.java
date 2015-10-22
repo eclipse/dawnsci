@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -66,7 +66,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	}
 
 	@Override
-	public String getScalarType() {
+	public String getTypeScalar() {
 		return getString(NX_TYPE);
 	}
 
@@ -74,7 +74,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		setDataset(NX_TYPE, type);
 	}
 
-	public void setScalarType(String type) {
+	public void setTypeScalar(String type) {
 		setString(NX_TYPE, type);
 	}
 
@@ -84,7 +84,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	}
 
 	@Override
-	public double getScalarRotation_speed() {
+	public double getRotation_speedScalar() {
 		return getDouble(NX_ROTATION_SPEED);
 	}
 
@@ -92,7 +92,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		setDataset(NX_ROTATION_SPEED, rotation_speed);
 	}
 
-	public void setScalarRotation_speed(double rotation_speed) {
+	public void setRotation_speedScalar(double rotation_speed) {
 		setField(NX_ROTATION_SPEED, rotation_speed);
 	}
 
@@ -102,7 +102,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	}
 
 	@Override
-	public double getScalarRadius() {
+	public double getRadiusScalar() {
 		return getDouble(NX_RADIUS);
 	}
 
@@ -110,7 +110,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		setDataset(NX_RADIUS, radius);
 	}
 
-	public void setScalarRadius(double radius) {
+	public void setRadiusScalar(double radius) {
 		setField(NX_RADIUS, radius);
 	}
 
@@ -120,7 +120,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	}
 
 	@Override
-	public double getScalarSlit() {
+	public double getSlitScalar() {
 		return getDouble(NX_SLIT);
 	}
 
@@ -128,7 +128,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		setDataset(NX_SLIT, slit);
 	}
 
-	public void setScalarSlit(double slit) {
+	public void setSlitScalar(double slit) {
 		setField(NX_SLIT, slit);
 	}
 
@@ -138,7 +138,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	}
 
 	@Override
-	public double getScalarR_slit() {
+	public double getR_slitScalar() {
 		return getDouble(NX_R_SLIT);
 	}
 
@@ -146,7 +146,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		setDataset(NX_R_SLIT, r_slit);
 	}
 
-	public void setScalarR_slit(double r_slit) {
+	public void setR_slitScalar(double r_slit) {
 		setField(NX_R_SLIT, r_slit);
 	}
 
@@ -156,7 +156,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	}
 
 	@Override
-	public long getScalarNumber() {
+	public long getNumberScalar() {
 		return getLong(NX_NUMBER);
 	}
 
@@ -164,7 +164,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		setDataset(NX_NUMBER, number);
 	}
 
-	public void setScalarNumber(long number) {
+	public void setNumberScalar(long number) {
 		setField(NX_NUMBER, number);
 	}
 
@@ -174,7 +174,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	}
 
 	@Override
-	public double getScalarHeight() {
+	public double getHeightScalar() {
 		return getDouble(NX_HEIGHT);
 	}
 
@@ -182,7 +182,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		setDataset(NX_HEIGHT, height);
 	}
 
-	public void setScalarHeight(double height) {
+	public void setHeightScalar(double height) {
 		setField(NX_HEIGHT, height);
 	}
 
@@ -192,7 +192,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	}
 
 	@Override
-	public double getScalarWidth() {
+	public double getWidthScalar() {
 		return getDouble(NX_WIDTH);
 	}
 
@@ -200,7 +200,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		setDataset(NX_WIDTH, width);
 	}
 
-	public void setScalarWidth(double width) {
+	public void setWidthScalar(double width) {
 		setField(NX_WIDTH, width);
 	}
 
@@ -210,7 +210,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	}
 
 	@Override
-	public double getScalarDistance() {
+	public double getDistanceScalar() {
 		return getDouble(NX_DISTANCE);
 	}
 
@@ -218,7 +218,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		setDataset(NX_DISTANCE, distance);
 	}
 
-	public void setScalarDistance(double distance) {
+	public void setDistanceScalar(double distance) {
 		setField(NX_DISTANCE, distance);
 	}
 
@@ -228,7 +228,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	}
 
 	@Override
-	public double getScalarWavelength() {
+	public double getWavelengthScalar() {
 		return getDouble(NX_WAVELENGTH);
 	}
 
@@ -236,7 +236,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		setDataset(NX_WAVELENGTH, wavelength);
 	}
 
-	public void setScalarWavelength(double wavelength) {
+	public void setWavelengthScalar(double wavelength) {
 		setField(NX_WAVELENGTH, wavelength);
 	}
 
@@ -246,7 +246,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	}
 
 	@Override
-	public double getScalarEnergy() {
+	public double getEnergyScalar() {
 		return getDouble(NX_ENERGY);
 	}
 
@@ -254,7 +254,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		setDataset(NX_ENERGY, energy);
 	}
 
-	public void setScalarEnergy(double energy) {
+	public void setEnergyScalar(double energy) {
 		setField(NX_ENERGY, energy);
 	}
 
@@ -291,7 +291,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	}
 
 	@Override
-	public String getScalarAbsorbing_material() {
+	public String getAbsorbing_materialScalar() {
 		return getString(NX_ABSORBING_MATERIAL);
 	}
 
@@ -299,7 +299,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		setDataset(NX_ABSORBING_MATERIAL, absorbing_material);
 	}
 
-	public void setScalarAbsorbing_material(String absorbing_material) {
+	public void setAbsorbing_materialScalar(String absorbing_material) {
 		setString(NX_ABSORBING_MATERIAL, absorbing_material);
 	}
 
@@ -309,7 +309,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	}
 
 	@Override
-	public String getScalarTransmitting_material() {
+	public String getTransmitting_materialScalar() {
 		return getString(NX_TRANSMITTING_MATERIAL);
 	}
 
@@ -317,7 +317,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		setDataset(NX_TRANSMITTING_MATERIAL, transmitting_material);
 	}
 
-	public void setScalarTransmitting_material(String transmitting_material) {
+	public void setTransmitting_materialScalar(String transmitting_material) {
 		setString(NX_TRANSMITTING_MATERIAL, transmitting_material);
 	}
 

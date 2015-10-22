@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -59,7 +59,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public String getScalarType() {
+	public String getTypeScalar() {
 		return getString(NX_TYPE);
 	}
 
@@ -67,7 +67,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 		setDataset(NX_TYPE, type);
 	}
 
-	public void setScalarType(String type) {
+	public void setTypeScalar(String type) {
 		setString(NX_TYPE, type);
 	}
 
@@ -77,7 +77,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getScalarFlip_turns() {
+	public double getFlip_turnsScalar() {
 		return getDouble(NX_FLIP_TURNS);
 	}
 
@@ -85,7 +85,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 		setDataset(NX_FLIP_TURNS, flip_turns);
 	}
 
-	public void setScalarFlip_turns(double flip_turns) {
+	public void setFlip_turnsScalar(double flip_turns) {
 		setField(NX_FLIP_TURNS, flip_turns);
 	}
 
@@ -95,7 +95,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getScalarComp_turns() {
+	public double getComp_turnsScalar() {
 		return getDouble(NX_COMP_TURNS);
 	}
 
@@ -103,7 +103,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 		setDataset(NX_COMP_TURNS, comp_turns);
 	}
 
-	public void setScalarComp_turns(double comp_turns) {
+	public void setComp_turnsScalar(double comp_turns) {
 		setField(NX_COMP_TURNS, comp_turns);
 	}
 
@@ -113,7 +113,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getScalarGuide_turns() {
+	public double getGuide_turnsScalar() {
 		return getDouble(NX_GUIDE_TURNS);
 	}
 
@@ -121,7 +121,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 		setDataset(NX_GUIDE_TURNS, guide_turns);
 	}
 
-	public void setScalarGuide_turns(double guide_turns) {
+	public void setGuide_turnsScalar(double guide_turns) {
 		setField(NX_GUIDE_TURNS, guide_turns);
 	}
 
@@ -131,7 +131,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getScalarFlip_current() {
+	public double getFlip_currentScalar() {
 		return getDouble(NX_FLIP_CURRENT);
 	}
 
@@ -139,7 +139,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 		setDataset(NX_FLIP_CURRENT, flip_current);
 	}
 
-	public void setScalarFlip_current(double flip_current) {
+	public void setFlip_currentScalar(double flip_current) {
 		setField(NX_FLIP_CURRENT, flip_current);
 	}
 
@@ -149,7 +149,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getScalarComp_current() {
+	public double getComp_currentScalar() {
 		return getDouble(NX_COMP_CURRENT);
 	}
 
@@ -157,7 +157,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 		setDataset(NX_COMP_CURRENT, comp_current);
 	}
 
-	public void setScalarComp_current(double comp_current) {
+	public void setComp_currentScalar(double comp_current) {
 		setField(NX_COMP_CURRENT, comp_current);
 	}
 
@@ -167,7 +167,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getScalarGuide_current() {
+	public double getGuide_currentScalar() {
 		return getDouble(NX_GUIDE_CURRENT);
 	}
 
@@ -175,7 +175,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 		setDataset(NX_GUIDE_CURRENT, guide_current);
 	}
 
-	public void setScalarGuide_current(double guide_current) {
+	public void setGuide_currentScalar(double guide_current) {
 		setField(NX_GUIDE_CURRENT, guide_current);
 	}
 
@@ -185,7 +185,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getScalarThickness() {
+	public double getThicknessScalar() {
 		return getDouble(NX_THICKNESS);
 	}
 
@@ -193,7 +193,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 		setDataset(NX_THICKNESS, thickness);
 	}
 
-	public void setScalarThickness(double thickness) {
+	public void setThicknessScalar(double thickness) {
 		setField(NX_THICKNESS, thickness);
 	}
 

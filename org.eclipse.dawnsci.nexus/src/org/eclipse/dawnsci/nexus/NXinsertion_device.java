@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -44,7 +44,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * separation between opposing pairs of magnetic poles
@@ -66,7 +66,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarGap();
+	 public double getGapScalar();
 
 	/**
 	 * angular of gap difference between upstream and downstream ends of the insertion device
@@ -88,7 +88,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarTaper();
+	 public double getTaperScalar();
 
 	/**
 	 * <p>
@@ -108,7 +108,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPhase();
+	 public double getPhaseScalar();
 
 	/**
 	 * number of poles
@@ -130,7 +130,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarPoles();
+	 public long getPolesScalar();
 
 	/**
 	 * <p>
@@ -150,7 +150,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarMagnetic_wavelength();
+	 public double getMagnetic_wavelengthScalar();
 
 	/**
 	 * beam displacement parameter
@@ -172,7 +172,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarK();
+	 public double getKScalar();
 
 	/**
 	 * length of insertion device
@@ -194,7 +194,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarLength();
+	 public double getLengthScalar();
 
 	/**
 	 * total power delivered by insertion device
@@ -216,7 +216,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPower();
+	 public double getPowerScalar();
 
 	/**
 	 * energy of peak intensity in output spectrum
@@ -238,7 +238,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarEnergy();
+	 public double getEnergyScalar();
 
 	/**
 	 * bandwidth of peak energy
@@ -260,7 +260,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarBandwidth();
+	 public double getBandwidthScalar();
 
 	/**
 	 * harmonic number of peak
@@ -282,7 +282,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarHarmonic();
+	 public long getHarmonicScalar();
 
 	/**
 	 * spectrum of insertion device

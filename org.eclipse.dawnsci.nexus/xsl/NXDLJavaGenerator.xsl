@@ -107,7 +107,7 @@ public interface <xsl:value-of select="$interfaceName"/><xsl:apply-templates mod
 	 * <xsl:apply-templates select="@deprecated"/>
 	 * @return  the value
 	 */<xsl:apply-templates mode="methodAnnotations" select="."/>
-	 public <xsl:value-of select="$scalarFieldType"/> getScalar<xsl:value-of select="$methodNameSuffix"/>();
+	 public <xsl:value-of select="$scalarFieldType"/> get<xsl:value-of select="$methodNameSuffix"/>Scalar();
 </xsl:if>
 <xsl:if test="self::nx:field[@nameType = 'any']">  <!-- All fields with nameType="any" -->
 	/**
@@ -245,7 +245,7 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 <xsl:if test="self::nx:field[not(nx:scalar)]">
 	<xsl:variable name="scalarFieldType"><xsl:apply-templates select="." mode="scalarFieldType"/></xsl:variable>
 	@Override<xsl:apply-templates mode="methodAnnotations" select="."/>
-	public <xsl:value-of select="$scalarFieldType"/> getScalar<xsl:value-of select="$methodNameSuffix"/>() {<xsl:apply-templates select="." mode="getScalarMethod">
+	public <xsl:value-of select="$scalarFieldType"/> get<xsl:value-of select="$methodNameSuffix"/>Scalar() {<xsl:apply-templates select="." mode="getScalarMethod">
 		<xsl:with-param name="fieldName" select="$fieldName"/>
 		<xsl:with-param name="fieldLabel" select="$fieldLabel"/>
 		<xsl:with-param name="fieldType" select="$scalarFieldType"/>
@@ -260,7 +260,7 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 	}
 <xsl:if test="self::nx:field[not(nx:scalar)]">
 	<xsl:variable name="scalarFieldType"><xsl:apply-templates select="." mode="scalarFieldType"/></xsl:variable>
-	public void setScalar<xsl:value-of select="$methodNameSuffix"/>(<xsl:value-of select="$scalarFieldType"/><xsl:text> </xsl:text><xsl:value-of select="$validJavaFieldName"/>) {<xsl:apply-templates select="." mode="setScalarMethod">
+	public void set<xsl:value-of select="$methodNameSuffix"/>Scalar(<xsl:value-of select="$scalarFieldType"/><xsl:text> </xsl:text><xsl:value-of select="$validJavaFieldName"/>) {<xsl:apply-templates select="." mode="setScalarMethod">
 		<xsl:with-param name="fieldName" select="$validJavaFieldName"/>
 		<xsl:with-param name="fieldLabel" select="$fieldLabel"/>
 	</xsl:apply-templates>

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -91,7 +91,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDescription();
+	 public String getDescriptionScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -113,7 +113,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarIncident_angle();
+	 public double getIncident_angleScalar();
 
 	/**
 	 * Reflectivity as function of reflecting surface and wavelength
@@ -142,7 +142,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarBend_angle_x();
+	 public double getBend_angle_xScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -164,7 +164,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarBend_angle_y();
+	 public double getBend_angle_yScalar();
 
 	/**
 	 * <p>
@@ -188,7 +188,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarInterior_atmosphere();
+	 public String getInterior_atmosphereScalar();
 
 	/**
 	 * external material outside substrate
@@ -202,7 +202,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarExternal_material();
+	 public String getExternal_materialScalar();
 
 	/**
 	 * The ``m`` value for a supermirror, which defines the supermirror
@@ -226,7 +226,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarM_value();
+	 public double getM_valueScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -248,7 +248,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSubstrate_material();
+	 public double getSubstrate_materialScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -272,7 +272,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSubstrate_thickness();
+	 public double getSubstrate_thicknessScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -294,7 +294,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCoating_material();
+	 public double getCoating_materialScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -318,7 +318,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSubstrate_roughness();
+	 public double getSubstrate_roughnessScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -342,7 +342,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCoating_roughness();
+	 public double getCoating_roughnessScalar();
 
 	/**
 	 * number of substrate sections (also called ``nsurf`` as an
@@ -366,6 +366,6 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarNumber_sections();
+	 public long getNumber_sectionsScalar();
 
 }

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -75,7 +75,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * description of this mirror
@@ -89,7 +89,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDescription();
+	 public String getDescriptionScalar();
 
 	/**
 	 * <p>
@@ -109,7 +109,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarIncident_angle();
+	 public double getIncident_angleScalar();
 
 	/**
 	 * Reflectivity as function of wavelength
@@ -136,7 +136,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarBend_angle_x();
+	 public double getBend_angle_xScalar();
 
 	/**
 	 * <p>
@@ -156,7 +156,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarBend_angle_y();
+	 public double getBend_angle_yScalar();
 
 	/**
 	 * <p>
@@ -180,7 +180,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarInterior_atmosphere();
+	 public String getInterior_atmosphereScalar();
 
 	/**
 	 * external material outside substrate
@@ -194,7 +194,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarExternal_material();
+	 public String getExternal_materialScalar();
 
 	/**
 	 * The m value for a supermirror, which defines the supermirror
@@ -218,7 +218,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarM_value();
+	 public double getM_valueScalar();
 
 	/**
 	 * 
@@ -230,7 +230,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarSubstrate_material();
+	 public String getSubstrate_materialScalar();
 
 	/**
 	 * <p>
@@ -250,7 +250,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSubstrate_density();
+	 public double getSubstrate_densityScalar();
 
 	/**
 	 * <p>
@@ -270,7 +270,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSubstrate_thickness();
+	 public double getSubstrate_thicknessScalar();
 
 	/**
 	 * 
@@ -282,7 +282,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarCoating_material();
+	 public String getCoating_materialScalar();
 
 	/**
 	 * <p>
@@ -302,7 +302,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSubstrate_roughness();
+	 public double getSubstrate_roughnessScalar();
 
 	/**
 	 * <p>
@@ -322,7 +322,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCoating_roughness();
+	 public double getCoating_roughnessScalar();
 
 	/**
 	 * 
@@ -334,7 +334,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarEven_layer_material();
+	 public String getEven_layer_materialScalar();
 
 	/**
 	 * <p>
@@ -354,7 +354,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarEven_layer_density();
+	 public double getEven_layer_densityScalar();
 
 	/**
 	 * 
@@ -366,7 +366,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarOdd_layer_material();
+	 public String getOdd_layer_materialScalar();
 
 	/**
 	 * <p>
@@ -386,7 +386,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarOdd_layer_density();
+	 public double getOdd_layer_densityScalar();
 
 	/**
 	 * An array describing the thickness of each layer
@@ -408,7 +408,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarLayer_thickness();
+	 public double getLayer_thicknessScalar();
 
 	/**
 	 * A NXshape group describing the shape of the mirror

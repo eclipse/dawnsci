@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -106,7 +106,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public Number getScalarVariable() {
+	public Number getVariableScalar() {
 		return getNumber(NX_VARIABLE);
 	}
 
@@ -114,7 +114,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		setDataset(NX_VARIABLE, variable);
 	}
 
-	public void setScalarVariable(Number variable) {
+	public void setVariableScalar(Number variable) {
 		setField(NX_VARIABLE, variable);
 	}
 
@@ -169,7 +169,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public Number getScalarVariable_errors() {
+	public Number getVariable_errorsScalar() {
 		return getNumber(NX_VARIABLE_ERRORS);
 	}
 
@@ -177,7 +177,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		setDataset(NX_VARIABLE_ERRORS, variable_errors);
 	}
 
-	public void setScalarVariable_errors(Number variable_errors) {
+	public void setVariable_errorsScalar(Number variable_errors) {
 		setField(NX_VARIABLE_ERRORS, variable_errors);
 	}
 
@@ -187,7 +187,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public Number getScalarData() {
+	public Number getDataScalar() {
 		return getNumber(NX_DATA);
 	}
 
@@ -195,7 +195,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		setDataset(NX_DATA, data);
 	}
 
-	public void setScalarData(Number data) {
+	public void setDataScalar(Number data) {
 		setField(NX_DATA, data);
 	}
 
@@ -241,7 +241,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public Number getScalarErrors() {
+	public Number getErrorsScalar() {
 		return getNumber(NX_ERRORS);
 	}
 
@@ -249,7 +249,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		setDataset(NX_ERRORS, errors);
 	}
 
-	public void setScalarErrors(Number errors) {
+	public void setErrorsScalar(Number errors) {
 		setField(NX_ERRORS, errors);
 	}
 
@@ -259,7 +259,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public double getScalarScaling_factor() {
+	public double getScaling_factorScalar() {
 		return getDouble(NX_SCALING_FACTOR);
 	}
 
@@ -267,7 +267,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		setDataset(NX_SCALING_FACTOR, scaling_factor);
 	}
 
-	public void setScalarScaling_factor(double scaling_factor) {
+	public void setScaling_factorScalar(double scaling_factor) {
 		setField(NX_SCALING_FACTOR, scaling_factor);
 	}
 
@@ -277,7 +277,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public double getScalarOffset() {
+	public double getOffsetScalar() {
 		return getDouble(NX_OFFSET);
 	}
 
@@ -285,7 +285,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		setDataset(NX_OFFSET, offset);
 	}
 
-	public void setScalarOffset(double offset) {
+	public void setOffsetScalar(double offset) {
 		setField(NX_OFFSET, offset);
 	}
 
@@ -295,7 +295,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public double getScalarX() {
+	public double getXScalar() {
 		return getDouble(NX_X);
 	}
 
@@ -303,7 +303,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		setDataset(NX_X, x);
 	}
 
-	public void setScalarX(double x) {
+	public void setXScalar(double x) {
 		setField(NX_X, x);
 	}
 
@@ -313,7 +313,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public double getScalarY() {
+	public double getYScalar() {
 		return getDouble(NX_Y);
 	}
 
@@ -321,7 +321,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		setDataset(NX_Y, y);
 	}
 
-	public void setScalarY(double y) {
+	public void setYScalar(double y) {
 		setField(NX_Y, y);
 	}
 
@@ -331,7 +331,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public double getScalarZ() {
+	public double getZScalar() {
 		return getDouble(NX_Z);
 	}
 
@@ -339,7 +339,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		setDataset(NX_Z, z);
 	}
 
-	public void setScalarZ(double z) {
+	public void setZScalar(double z) {
 		setField(NX_Z, z);
 	}
 

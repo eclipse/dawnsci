@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -93,7 +93,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public String getScalarName() {
+	public String getNameScalar() {
 		return getString(NX_NAME);
 	}
 
@@ -101,7 +101,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_NAME, name);
 	}
 
-	public void setScalarName(String name) {
+	public void setNameScalar(String name) {
 		setString(NX_NAME, name);
 	}
 
@@ -111,7 +111,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public String getScalarChemical_formula() {
+	public String getChemical_formulaScalar() {
 		return getString(NX_CHEMICAL_FORMULA);
 	}
 
@@ -119,7 +119,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_CHEMICAL_FORMULA, chemical_formula);
 	}
 
-	public void setScalarChemical_formula(String chemical_formula) {
+	public void setChemical_formulaScalar(String chemical_formula) {
 		setString(NX_CHEMICAL_FORMULA, chemical_formula);
 	}
 
@@ -129,7 +129,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarTemperature() {
+	public double getTemperatureScalar() {
 		return getDouble(NX_TEMPERATURE);
 	}
 
@@ -137,7 +137,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_TEMPERATURE, temperature);
 	}
 
-	public void setScalarTemperature(double temperature) {
+	public void setTemperatureScalar(double temperature) {
 		setField(NX_TEMPERATURE, temperature);
 	}
 
@@ -147,7 +147,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarElectric_field() {
+	public double getElectric_fieldScalar() {
 		return getDouble(NX_ELECTRIC_FIELD);
 	}
 
@@ -155,7 +155,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_ELECTRIC_FIELD, electric_field);
 	}
 
-	public void setScalarElectric_field(double electric_field) {
+	public void setElectric_fieldScalar(double electric_field) {
 		setField(NX_ELECTRIC_FIELD, electric_field);
 	}
 
@@ -174,7 +174,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarMagnetic_field() {
+	public double getMagnetic_fieldScalar() {
 		return getDouble(NX_MAGNETIC_FIELD);
 	}
 
@@ -182,7 +182,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_MAGNETIC_FIELD, magnetic_field);
 	}
 
-	public void setScalarMagnetic_field(double magnetic_field) {
+	public void setMagnetic_fieldScalar(double magnetic_field) {
 		setField(NX_MAGNETIC_FIELD, magnetic_field);
 	}
 
@@ -201,7 +201,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarStress_field() {
+	public double getStress_fieldScalar() {
 		return getDouble(NX_STRESS_FIELD);
 	}
 
@@ -209,7 +209,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_STRESS_FIELD, stress_field);
 	}
 
-	public void setScalarStress_field(double stress_field) {
+	public void setStress_fieldScalar(double stress_field) {
 		setField(NX_STRESS_FIELD, stress_field);
 	}
 
@@ -228,7 +228,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarPressure() {
+	public double getPressureScalar() {
 		return getDouble(NX_PRESSURE);
 	}
 
@@ -236,7 +236,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_PRESSURE, pressure);
 	}
 
-	public void setScalarPressure(double pressure) {
+	public void setPressureScalar(double pressure) {
 		setField(NX_PRESSURE, pressure);
 	}
 
@@ -246,7 +246,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public long getScalarChanger_position() {
+	public long getChanger_positionScalar() {
 		return getLong(NX_CHANGER_POSITION);
 	}
 
@@ -254,7 +254,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_CHANGER_POSITION, changer_position);
 	}
 
-	public void setScalarChanger_position(long changer_position) {
+	public void setChanger_positionScalar(long changer_position) {
 		setField(NX_CHANGER_POSITION, changer_position);
 	}
 
@@ -264,7 +264,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarUnit_cell() {
+	public double getUnit_cellScalar() {
 		return getDouble(NX_UNIT_CELL);
 	}
 
@@ -272,7 +272,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_UNIT_CELL, unit_cell);
 	}
 
-	public void setScalarUnit_cell(double unit_cell) {
+	public void setUnit_cellScalar(double unit_cell) {
 		setField(NX_UNIT_CELL, unit_cell);
 	}
 
@@ -282,7 +282,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarUnit_cell_volume() {
+	public double getUnit_cell_volumeScalar() {
 		return getDouble(NX_UNIT_CELL_VOLUME);
 	}
 
@@ -290,7 +290,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_UNIT_CELL_VOLUME, unit_cell_volume);
 	}
 
-	public void setScalarUnit_cell_volume(double unit_cell_volume) {
+	public void setUnit_cell_volumeScalar(double unit_cell_volume) {
 		setField(NX_UNIT_CELL_VOLUME, unit_cell_volume);
 	}
 
@@ -300,7 +300,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarSample_orientation() {
+	public double getSample_orientationScalar() {
 		return getDouble(NX_SAMPLE_ORIENTATION);
 	}
 
@@ -308,7 +308,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_SAMPLE_ORIENTATION, sample_orientation);
 	}
 
-	public void setScalarSample_orientation(double sample_orientation) {
+	public void setSample_orientationScalar(double sample_orientation) {
 		setField(NX_SAMPLE_ORIENTATION, sample_orientation);
 	}
 
@@ -318,7 +318,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarOrientation_matrix() {
+	public double getOrientation_matrixScalar() {
 		return getDouble(NX_ORIENTATION_MATRIX);
 	}
 
@@ -326,7 +326,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_ORIENTATION_MATRIX, orientation_matrix);
 	}
 
-	public void setScalarOrientation_matrix(double orientation_matrix) {
+	public void setOrientation_matrixScalar(double orientation_matrix) {
 		setField(NX_ORIENTATION_MATRIX, orientation_matrix);
 	}
 
@@ -336,7 +336,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarMass() {
+	public double getMassScalar() {
 		return getDouble(NX_MASS);
 	}
 
@@ -344,7 +344,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_MASS, mass);
 	}
 
-	public void setScalarMass(double mass) {
+	public void setMassScalar(double mass) {
 		setField(NX_MASS, mass);
 	}
 
@@ -354,7 +354,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarDensity() {
+	public double getDensityScalar() {
 		return getDouble(NX_DENSITY);
 	}
 
@@ -362,7 +362,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_DENSITY, density);
 	}
 
-	public void setScalarDensity(double density) {
+	public void setDensityScalar(double density) {
 		setField(NX_DENSITY, density);
 	}
 
@@ -372,7 +372,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarRelative_molecular_mass() {
+	public double getRelative_molecular_massScalar() {
 		return getDouble(NX_RELATIVE_MOLECULAR_MASS);
 	}
 
@@ -380,7 +380,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_RELATIVE_MOLECULAR_MASS, relative_molecular_mass);
 	}
 
-	public void setScalarRelative_molecular_mass(double relative_molecular_mass) {
+	public void setRelative_molecular_massScalar(double relative_molecular_mass) {
 		setField(NX_RELATIVE_MOLECULAR_MASS, relative_molecular_mass);
 	}
 
@@ -390,7 +390,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public String getScalarType() {
+	public String getTypeScalar() {
 		return getString(NX_TYPE);
 	}
 
@@ -398,7 +398,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_TYPE, type);
 	}
 
-	public void setScalarType(String type) {
+	public void setTypeScalar(String type) {
 		setString(NX_TYPE, type);
 	}
 
@@ -408,7 +408,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public String getScalarSituation() {
+	public String getSituationScalar() {
 		return getString(NX_SITUATION);
 	}
 
@@ -416,7 +416,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_SITUATION, situation);
 	}
 
-	public void setScalarSituation(String situation) {
+	public void setSituationScalar(String situation) {
 		setString(NX_SITUATION, situation);
 	}
 
@@ -426,7 +426,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public String getScalarDescription() {
+	public String getDescriptionScalar() {
 		return getString(NX_DESCRIPTION);
 	}
 
@@ -434,7 +434,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setScalarDescription(String description) {
+	public void setDescriptionScalar(String description) {
 		setString(NX_DESCRIPTION, description);
 	}
 
@@ -444,7 +444,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public Date getScalarPreparation_date() {
+	public Date getPreparation_dateScalar() {
 		return getDate(NX_PREPARATION_DATE);
 	}
 
@@ -452,7 +452,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_PREPARATION_DATE, preparation_date);
 	}
 
-	public void setScalarPreparation_date(Date preparation_date) {
+	public void setPreparation_dateScalar(Date preparation_date) {
 		setDate(NX_PREPARATION_DATE, preparation_date);
 	}
 
@@ -498,7 +498,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public String getScalarComponent() {
+	public String getComponentScalar() {
 		return getString(NX_COMPONENT);
 	}
 
@@ -506,7 +506,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_COMPONENT, component);
 	}
 
-	public void setScalarComponent(String component) {
+	public void setComponentScalar(String component) {
 		setString(NX_COMPONENT, component);
 	}
 
@@ -516,7 +516,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public String getScalarSample_component() {
+	public String getSample_componentScalar() {
 		return getString(NX_SAMPLE_COMPONENT);
 	}
 
@@ -524,7 +524,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_SAMPLE_COMPONENT, sample_component);
 	}
 
-	public void setScalarSample_component(String sample_component) {
+	public void setSample_componentScalar(String sample_component) {
 		setString(NX_SAMPLE_COMPONENT, sample_component);
 	}
 
@@ -534,7 +534,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarConcentration() {
+	public double getConcentrationScalar() {
 		return getDouble(NX_CONCENTRATION);
 	}
 
@@ -542,7 +542,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_CONCENTRATION, concentration);
 	}
 
-	public void setScalarConcentration(double concentration) {
+	public void setConcentrationScalar(double concentration) {
 		setField(NX_CONCENTRATION, concentration);
 	}
 
@@ -552,7 +552,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarVolume_fraction() {
+	public double getVolume_fractionScalar() {
 		return getDouble(NX_VOLUME_FRACTION);
 	}
 
@@ -560,7 +560,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_VOLUME_FRACTION, volume_fraction);
 	}
 
-	public void setScalarVolume_fraction(double volume_fraction) {
+	public void setVolume_fractionScalar(double volume_fraction) {
 		setField(NX_VOLUME_FRACTION, volume_fraction);
 	}
 
@@ -570,7 +570,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarScattering_length_density() {
+	public double getScattering_length_densityScalar() {
 		return getDouble(NX_SCATTERING_LENGTH_DENSITY);
 	}
 
@@ -578,7 +578,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_SCATTERING_LENGTH_DENSITY, scattering_length_density);
 	}
 
-	public void setScalarScattering_length_density(double scattering_length_density) {
+	public void setScattering_length_densityScalar(double scattering_length_density) {
 		setField(NX_SCATTERING_LENGTH_DENSITY, scattering_length_density);
 	}
 
@@ -588,7 +588,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public String getScalarUnit_cell_class() {
+	public String getUnit_cell_classScalar() {
 		return getString(NX_UNIT_CELL_CLASS);
 	}
 
@@ -596,7 +596,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_UNIT_CELL_CLASS, unit_cell_class);
 	}
 
-	public void setScalarUnit_cell_class(String unit_cell_class) {
+	public void setUnit_cell_classScalar(String unit_cell_class) {
 		setString(NX_UNIT_CELL_CLASS, unit_cell_class);
 	}
 
@@ -606,7 +606,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public String getScalarUnit_cell_group() {
+	public String getUnit_cell_groupScalar() {
 		return getString(NX_UNIT_CELL_GROUP);
 	}
 
@@ -614,7 +614,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_UNIT_CELL_GROUP, unit_cell_group);
 	}
 
-	public void setScalarUnit_cell_group(String unit_cell_group) {
+	public void setUnit_cell_groupScalar(String unit_cell_group) {
 		setString(NX_UNIT_CELL_GROUP, unit_cell_group);
 	}
 
@@ -624,7 +624,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarPath_length() {
+	public double getPath_lengthScalar() {
 		return getDouble(NX_PATH_LENGTH);
 	}
 
@@ -632,7 +632,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_PATH_LENGTH, path_length);
 	}
 
-	public void setScalarPath_length(double path_length) {
+	public void setPath_lengthScalar(double path_length) {
 		setField(NX_PATH_LENGTH, path_length);
 	}
 
@@ -642,7 +642,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarPath_length_window() {
+	public double getPath_length_windowScalar() {
 		return getDouble(NX_PATH_LENGTH_WINDOW);
 	}
 
@@ -650,7 +650,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_PATH_LENGTH_WINDOW, path_length_window);
 	}
 
-	public void setScalarPath_length_window(double path_length_window) {
+	public void setPath_length_windowScalar(double path_length_window) {
 		setField(NX_PATH_LENGTH_WINDOW, path_length_window);
 	}
 
@@ -660,7 +660,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarThickness() {
+	public double getThicknessScalar() {
 		return getDouble(NX_THICKNESS);
 	}
 
@@ -668,7 +668,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_THICKNESS, thickness);
 	}
 
-	public void setScalarThickness(double thickness) {
+	public void setThicknessScalar(double thickness) {
 		setField(NX_THICKNESS, thickness);
 	}
 
@@ -723,7 +723,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarExternal_DAC() {
+	public double getExternal_DACScalar() {
 		return getDouble(NX_EXTERNAL_DAC);
 	}
 
@@ -731,7 +731,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_EXTERNAL_DAC, external_DAC);
 	}
 
-	public void setScalarExternal_DAC(double external_DAC) {
+	public void setExternal_DACScalar(double external_DAC) {
 		setField(NX_EXTERNAL_DAC, external_DAC);
 	}
 
@@ -750,7 +750,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public String getScalarShort_title() {
+	public String getShort_titleScalar() {
 		return getString(NX_SHORT_TITLE);
 	}
 
@@ -758,7 +758,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_SHORT_TITLE, short_title);
 	}
 
-	public void setScalarShort_title(String short_title) {
+	public void setShort_titleScalar(String short_title) {
 		setString(NX_SHORT_TITLE, short_title);
 	}
 
@@ -768,7 +768,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarRotation_angle() {
+	public double getRotation_angleScalar() {
 		return getDouble(NX_ROTATION_ANGLE);
 	}
 
@@ -776,7 +776,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_ROTATION_ANGLE, rotation_angle);
 	}
 
-	public void setScalarRotation_angle(double rotation_angle) {
+	public void setRotation_angleScalar(double rotation_angle) {
 		setField(NX_ROTATION_ANGLE, rotation_angle);
 	}
 
@@ -786,7 +786,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarX_translation() {
+	public double getX_translationScalar() {
 		return getDouble(NX_X_TRANSLATION);
 	}
 
@@ -794,7 +794,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_X_TRANSLATION, x_translation);
 	}
 
-	public void setScalarX_translation(double x_translation) {
+	public void setX_translationScalar(double x_translation) {
 		setField(NX_X_TRANSLATION, x_translation);
 	}
 
@@ -804,7 +804,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScalarDistance() {
+	public double getDistanceScalar() {
 		return getDouble(NX_DISTANCE);
 	}
 
@@ -812,7 +812,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		setDataset(NX_DISTANCE, distance);
 	}
 
-	public void setScalarDistance(double distance) {
+	public void setDistanceScalar(double distance) {
 		setField(NX_DISTANCE, distance);
 	}
 

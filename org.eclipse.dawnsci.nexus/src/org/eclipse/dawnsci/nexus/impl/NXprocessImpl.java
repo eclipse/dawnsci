@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -58,7 +58,7 @@ public class NXprocessImpl extends NXobjectImpl implements NXprocess {
 	}
 
 	@Override
-	public String getScalarProgram() {
+	public String getProgramScalar() {
 		return getString(NX_PROGRAM);
 	}
 
@@ -66,7 +66,7 @@ public class NXprocessImpl extends NXobjectImpl implements NXprocess {
 		setDataset(NX_PROGRAM, program);
 	}
 
-	public void setScalarProgram(String program) {
+	public void setProgramScalar(String program) {
 		setString(NX_PROGRAM, program);
 	}
 
@@ -76,7 +76,7 @@ public class NXprocessImpl extends NXobjectImpl implements NXprocess {
 	}
 
 	@Override
-	public long getScalarSequence_index() {
+	public long getSequence_indexScalar() {
 		return getLong(NX_SEQUENCE_INDEX);
 	}
 
@@ -84,7 +84,7 @@ public class NXprocessImpl extends NXobjectImpl implements NXprocess {
 		setDataset(NX_SEQUENCE_INDEX, sequence_index);
 	}
 
-	public void setScalarSequence_index(long sequence_index) {
+	public void setSequence_indexScalar(long sequence_index) {
 		setField(NX_SEQUENCE_INDEX, sequence_index);
 	}
 
@@ -94,7 +94,7 @@ public class NXprocessImpl extends NXobjectImpl implements NXprocess {
 	}
 
 	@Override
-	public String getScalarVersion() {
+	public String getVersionScalar() {
 		return getString(NX_VERSION);
 	}
 
@@ -102,7 +102,7 @@ public class NXprocessImpl extends NXobjectImpl implements NXprocess {
 		setDataset(NX_VERSION, version);
 	}
 
-	public void setScalarVersion(String version) {
+	public void setVersionScalar(String version) {
 		setString(NX_VERSION, version);
 	}
 
@@ -112,7 +112,7 @@ public class NXprocessImpl extends NXobjectImpl implements NXprocess {
 	}
 
 	@Override
-	public Date getScalarDate() {
+	public Date getDateScalar() {
 		return getDate(NX_DATE);
 	}
 
@@ -120,7 +120,7 @@ public class NXprocessImpl extends NXobjectImpl implements NXprocess {
 		setDataset(NX_DATE, date);
 	}
 
-	public void setScalarDate(Date date) {
+	public void setDateScalar(Date date) {
 		setDate(NX_DATE, date);
 	}
 

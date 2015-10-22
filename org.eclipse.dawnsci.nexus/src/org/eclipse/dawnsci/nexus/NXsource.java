@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -48,7 +48,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDistance();
+	 public double getDistanceScalar();
 
 	/**
 	 * Name of source
@@ -62,7 +62,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarName();
+	 public String getNameScalar();
 
 	/**
 	 * short name for source, perhaps the acronym
@@ -113,7 +113,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * type of radiation probe (pick one from the enumerated list and spell exactly)
@@ -149,7 +149,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarProbe();
+	 public String getProbeScalar();
 
 	/**
 	 * Source power
@@ -171,7 +171,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPower();
+	 public double getPowerScalar();
 
 	/**
 	 * Source emittance (nm-rad) in X (horizontal) direction.
@@ -193,7 +193,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarEmittance_x();
+	 public double getEmittance_xScalar();
 
 	/**
 	 * Source emittance (nm-rad) in Y (horizontal) direction.
@@ -215,7 +215,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarEmittance_y();
+	 public double getEmittance_yScalar();
 
 	/**
 	 * particle beam size in x
@@ -237,7 +237,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSigma_x();
+	 public double getSigma_xScalar();
 
 	/**
 	 * particle beam size in y
@@ -259,7 +259,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSigma_y();
+	 public double getSigma_yScalar();
 
 	/**
 	 * Source intensity/area (example: s-1 cm-2)
@@ -281,7 +281,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFlux();
+	 public double getFluxScalar();
 
 	/**
 	 * Source energy.
@@ -307,7 +307,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarEnergy();
+	 public double getEnergyScalar();
 
 	/**
 	 * Accelerator, X-ray tube, or storage ring current
@@ -329,7 +329,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCurrent();
+	 public double getCurrentScalar();
 
 	/**
 	 * Accelerator voltage
@@ -351,7 +351,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarVoltage();
+	 public double getVoltageScalar();
 
 	/**
 	 * Frequency of pulsed source
@@ -373,7 +373,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFrequency();
+	 public double getFrequencyScalar();
 
 	/**
 	 * Period of pulsed source
@@ -395,7 +395,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPeriod();
+	 public double getPeriodScalar();
 
 	/**
 	 * Pulsed source target material
@@ -429,7 +429,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarTarget_material();
+	 public String getTarget_materialScalar();
 
 	/**
 	 * any source/facility related messages/events that
@@ -465,7 +465,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarNumber_of_bunches();
+	 public long getNumber_of_bunchesScalar();
 
 	/**
 	 * For storage rings, temporal length of the bunch
@@ -487,7 +487,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarBunch_length();
+	 public double getBunch_lengthScalar();
 
 	/**
 	 * For storage rings, time between bunches
@@ -509,7 +509,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarBunch_distance();
+	 public double getBunch_distanceScalar();
 
 	/**
 	 * temporal width of source pulse
@@ -531,7 +531,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPulse_width();
+	 public double getPulse_widthScalar();
 
 	/**
 	 * source pulse shape
@@ -566,7 +566,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarMode();
+	 public String getModeScalar();
 
 	/**
 	 * Is the synchrotron operating in top_up mode?
@@ -586,7 +586,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public boolean getScalarTop_up();
+	 public boolean getTop_upScalar();
 
 	/**
 	 * For storage rings, the current at the end of the most recent injection.
@@ -608,7 +608,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarLast_fill();
+	 public Number getLast_fillScalar();
 
 	/**
 	 * date and time of the most recent injection.

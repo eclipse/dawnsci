@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -53,7 +53,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarLens_geometry();
+	 public String getLens_geometryScalar();
 
 	/**
 	 * Is the device symmetric?
@@ -73,7 +73,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public boolean getScalarSymmetric();
+	 public boolean getSymmetricScalar();
 
 	/**
 	 * Is the device cylindrical?
@@ -93,7 +93,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public boolean getScalarCylindrical();
+	 public boolean getCylindricalScalar();
 
 	/**
 	 * Orientation of the cylinder axis.
@@ -126,7 +126,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarFocus_type();
+	 public String getFocus_typeScalar();
 
 	/**
 	 * Thickness of the lens
@@ -148,7 +148,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarLens_thickness();
+	 public double getLens_thicknessScalar();
 
 	/**
 	 * Length of the lens
@@ -170,7 +170,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarLens_length();
+	 public double getLens_lengthScalar();
 
 	/**
 	 * Radius of the curvature as measured in the middle of the lens
@@ -192,7 +192,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarCurvature();
+	 public double getCurvatureScalar();
 
 	/**
 	 * Diameter or radius of the lens.
@@ -214,7 +214,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarAperture();
+	 public double getApertureScalar();
 
 	/**
 	 * Number of lenses that make up the compound lens.
@@ -234,7 +234,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarNumber_of_lenses();
+	 public long getNumber_of_lensesScalar();
 
 	/**
 	 * Material used to make the lens.
@@ -254,7 +254,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarLens_material();
+	 public String getLens_materialScalar();
 
 	/**
 	 * Gas used to fill the lens
@@ -274,7 +274,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarGas();
+	 public String getGasScalar();
 
 	/**
 	 * Gas pressure in the lens
@@ -296,6 +296,6 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarGas_pressure();
+	 public double getGas_pressureScalar();
 
 }

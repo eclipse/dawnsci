@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -42,7 +42,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * Linear density of turns (such as number of turns/cm) in flipping field coils
@@ -64,7 +64,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFlip_turns();
+	 public double getFlip_turnsScalar();
 
 	/**
 	 * Linear density of turns (such as number of turns/cm) in compensating field coils
@@ -86,7 +86,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarComp_turns();
+	 public double getComp_turnsScalar();
 
 	/**
 	 * Linear density of turns (such as number of turns/cm) in guide field coils
@@ -108,7 +108,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarGuide_turns();
+	 public double getGuide_turnsScalar();
 
 	/**
 	 * Flipping field coil current in "on" state"
@@ -130,7 +130,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFlip_current();
+	 public double getFlip_currentScalar();
 
 	/**
 	 * Compensating field coil current in "on" state"
@@ -152,7 +152,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarComp_current();
+	 public double getComp_currentScalar();
 
 	/**
 	 * Guide field coil current in "on" state"
@@ -174,7 +174,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarGuide_current();
+	 public double getGuide_currentScalar();
 
 	/**
 	 * thickness along path of neutron travel
@@ -196,6 +196,6 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarThickness();
+	 public double getThicknessScalar();
 
 }

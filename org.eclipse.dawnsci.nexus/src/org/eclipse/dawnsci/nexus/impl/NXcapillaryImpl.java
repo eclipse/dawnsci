@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -58,7 +58,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public String getScalarType() {
+	public String getTypeScalar() {
 		return getString(NX_TYPE);
 	}
 
@@ -66,7 +66,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 		setDataset(NX_TYPE, type);
 	}
 
-	public void setScalarType(String type) {
+	public void setTypeScalar(String type) {
 		setString(NX_TYPE, type);
 	}
 
@@ -76,7 +76,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public String getScalarManufacturer() {
+	public String getManufacturerScalar() {
 		return getString(NX_MANUFACTURER);
 	}
 
@@ -84,7 +84,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 		setDataset(NX_MANUFACTURER, manufacturer);
 	}
 
-	public void setScalarManufacturer(String manufacturer) {
+	public void setManufacturerScalar(String manufacturer) {
 		setString(NX_MANUFACTURER, manufacturer);
 	}
 
@@ -94,7 +94,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public double getScalarMaximum_incident_angle() {
+	public double getMaximum_incident_angleScalar() {
 		return getDouble(NX_MAXIMUM_INCIDENT_ANGLE);
 	}
 
@@ -102,7 +102,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 		setDataset(NX_MAXIMUM_INCIDENT_ANGLE, maximum_incident_angle);
 	}
 
-	public void setScalarMaximum_incident_angle(double maximum_incident_angle) {
+	public void setMaximum_incident_angleScalar(double maximum_incident_angle) {
 		setField(NX_MAXIMUM_INCIDENT_ANGLE, maximum_incident_angle);
 	}
 
@@ -112,7 +112,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public double getScalarAccepting_aperture() {
+	public double getAccepting_apertureScalar() {
 		return getDouble(NX_ACCEPTING_APERTURE);
 	}
 
@@ -120,7 +120,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 		setDataset(NX_ACCEPTING_APERTURE, accepting_aperture);
 	}
 
-	public void setScalarAccepting_aperture(double accepting_aperture) {
+	public void setAccepting_apertureScalar(double accepting_aperture) {
 		setField(NX_ACCEPTING_APERTURE, accepting_aperture);
 	}
 
@@ -148,7 +148,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public double getScalarWorking_distance() {
+	public double getWorking_distanceScalar() {
 		return getDouble(NX_WORKING_DISTANCE);
 	}
 
@@ -156,7 +156,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 		setDataset(NX_WORKING_DISTANCE, working_distance);
 	}
 
-	public void setScalarWorking_distance(double working_distance) {
+	public void setWorking_distanceScalar(double working_distance) {
 		setField(NX_WORKING_DISTANCE, working_distance);
 	}
 
@@ -166,7 +166,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public double getScalarFocal_size() {
+	public double getFocal_sizeScalar() {
 		return getDouble(NX_FOCAL_SIZE);
 	}
 
@@ -174,7 +174,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 		setDataset(NX_FOCAL_SIZE, focal_size);
 	}
 
-	public void setScalarFocal_size(double focal_size) {
+	public void setFocal_sizeScalar(double focal_size) {
 		setField(NX_FOCAL_SIZE, focal_size);
 	}
 

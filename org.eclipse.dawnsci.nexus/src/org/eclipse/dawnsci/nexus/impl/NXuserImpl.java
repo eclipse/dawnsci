@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -62,7 +62,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 	}
 
 	@Override
-	public String getScalarName() {
+	public String getNameScalar() {
 		return getString(NX_NAME);
 	}
 
@@ -70,7 +70,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		setDataset(NX_NAME, name);
 	}
 
-	public void setScalarName(String name) {
+	public void setNameScalar(String name) {
 		setString(NX_NAME, name);
 	}
 
@@ -80,7 +80,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 	}
 
 	@Override
-	public String getScalarRole() {
+	public String getRoleScalar() {
 		return getString(NX_ROLE);
 	}
 
@@ -88,7 +88,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		setDataset(NX_ROLE, role);
 	}
 
-	public void setScalarRole(String role) {
+	public void setRoleScalar(String role) {
 		setString(NX_ROLE, role);
 	}
 
@@ -98,7 +98,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 	}
 
 	@Override
-	public String getScalarAffiliation() {
+	public String getAffiliationScalar() {
 		return getString(NX_AFFILIATION);
 	}
 
@@ -106,7 +106,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		setDataset(NX_AFFILIATION, affiliation);
 	}
 
-	public void setScalarAffiliation(String affiliation) {
+	public void setAffiliationScalar(String affiliation) {
 		setString(NX_AFFILIATION, affiliation);
 	}
 
@@ -116,7 +116,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 	}
 
 	@Override
-	public String getScalarAddress() {
+	public String getAddressScalar() {
 		return getString(NX_ADDRESS);
 	}
 
@@ -124,7 +124,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		setDataset(NX_ADDRESS, address);
 	}
 
-	public void setScalarAddress(String address) {
+	public void setAddressScalar(String address) {
 		setString(NX_ADDRESS, address);
 	}
 
@@ -134,7 +134,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 	}
 
 	@Override
-	public String getScalarTelephone_number() {
+	public String getTelephone_numberScalar() {
 		return getString(NX_TELEPHONE_NUMBER);
 	}
 
@@ -142,7 +142,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		setDataset(NX_TELEPHONE_NUMBER, telephone_number);
 	}
 
-	public void setScalarTelephone_number(String telephone_number) {
+	public void setTelephone_numberScalar(String telephone_number) {
 		setString(NX_TELEPHONE_NUMBER, telephone_number);
 	}
 
@@ -152,7 +152,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 	}
 
 	@Override
-	public String getScalarFax_number() {
+	public String getFax_numberScalar() {
 		return getString(NX_FAX_NUMBER);
 	}
 
@@ -160,7 +160,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		setDataset(NX_FAX_NUMBER, fax_number);
 	}
 
-	public void setScalarFax_number(String fax_number) {
+	public void setFax_numberScalar(String fax_number) {
 		setString(NX_FAX_NUMBER, fax_number);
 	}
 
@@ -170,7 +170,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 	}
 
 	@Override
-	public String getScalarEmail() {
+	public String getEmailScalar() {
 		return getString(NX_EMAIL);
 	}
 
@@ -178,7 +178,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		setDataset(NX_EMAIL, email);
 	}
 
-	public void setScalarEmail(String email) {
+	public void setEmailScalar(String email) {
 		setString(NX_EMAIL, email);
 	}
 
@@ -188,7 +188,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 	}
 
 	@Override
-	public String getScalarFacility_user_id() {
+	public String getFacility_user_idScalar() {
 		return getString(NX_FACILITY_USER_ID);
 	}
 
@@ -196,7 +196,7 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		setDataset(NX_FACILITY_USER_ID, facility_user_id);
 	}
 
-	public void setScalarFacility_user_id(String facility_user_id) {
+	public void setFacility_user_idScalar(String facility_user_id) {
 		setString(NX_FACILITY_USER_ID, facility_user_id);
 	}
 

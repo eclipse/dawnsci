@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -57,7 +57,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarTime();
+	 public double getTimeScalar();
 
 	/**
 	 * 
@@ -85,7 +85,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarValue();
+	 public Number getValueScalar();
 
 	/**
 	 * Array of raw information, such as thermocouple voltage
@@ -107,7 +107,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarRaw_value();
+	 public Number getRaw_valueScalar();
 
 	/**
 	 * Description of logged value
@@ -121,7 +121,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDescription();
+	 public String getDescriptionScalar();
 
 	/**
 	 * <p>
@@ -141,7 +141,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarAverage_value();
+	 public double getAverage_valueScalar();
 
 	/**
 	 * estimated uncertainty (often used: standard deviation) of average_value
@@ -163,7 +163,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarAverage_value_error();
+	 public double getAverage_value_errorScalar();
 
 	/**
 	 * <p>
@@ -183,7 +183,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarMinimum_value();
+	 public double getMinimum_valueScalar();
 
 	/**
 	 * <p>
@@ -203,7 +203,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarMaximum_value();
+	 public double getMaximum_valueScalar();
 
 	/**
 	 * Total time log was taken
@@ -225,6 +225,6 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDuration();
+	 public double getDurationScalar();
 
 }

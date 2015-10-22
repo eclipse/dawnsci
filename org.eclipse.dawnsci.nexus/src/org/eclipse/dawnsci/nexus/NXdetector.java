@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -59,7 +59,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarTime_of_flight();
+	 public double getTime_of_flightScalar();
 
 	/**
 	 * <p>
@@ -110,7 +110,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarRaw_time_of_flight();
+	 public long getRaw_time_of_flightScalar();
 
 	/**
 	 * Clock frequency in Hz
@@ -139,7 +139,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarDetector_number();
+	 public long getDetector_numberScalar();
 
 	/**
 	 * Data values from the detector.
@@ -163,7 +163,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarData();
+	 public Number getDataScalar();
 
 	/**
 	 * <p>
@@ -222,7 +222,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarData_error();
+	 public Number getData_errorScalar();
 
 	/**
 	 * Offset from the detector center in x-direction.
@@ -248,7 +248,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarX_pixel_offset();
+	 public double getX_pixel_offsetScalar();
 
 	/**
 	 * <p>
@@ -301,7 +301,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarY_pixel_offset();
+	 public double getY_pixel_offsetScalar();
 
 	/**
 	 * <p>
@@ -356,7 +356,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDistance();
+	 public double getDistanceScalar();
 
 	/**
 	 * This is the polar angle of the detector towards the previous component in the instrument; most often the sample. The usage depends on the
@@ -384,7 +384,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarPolar_angle();
+	 public double getPolar_angleScalar();
 
 	/**
 	 * This is the azimuthal angle angle of the detector towards the previous component in the instrument; most often the sample. The usage depends on the
@@ -412,7 +412,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarAzimuthal_angle();
+	 public double getAzimuthal_angleScalar();
 
 	/**
 	 * name/manufacturer/model/etc. information
@@ -426,7 +426,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarDescription();
+	 public String getDescriptionScalar();
 
 	/**
 	 * Local name for the detector
@@ -440,7 +440,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarLocal_name();
+	 public String getLocal_nameScalar();
 
 	/**
 	 * Position and orientation of detector
@@ -494,7 +494,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSolid_angle();
+	 public double getSolid_angleScalar();
 
 	/**
 	 * Size of each detector pixel. If it is scalar all pixels are the same size.
@@ -518,7 +518,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarX_pixel_size();
+	 public double getX_pixel_sizeScalar();
 
 	/**
 	 * Size of each detector pixel. If it is scalar all pixels are the same size
@@ -542,7 +542,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarY_pixel_size();
+	 public double getY_pixel_sizeScalar();
 
 	/**
 	 * Detector dead time
@@ -566,7 +566,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDead_time();
+	 public double getDead_timeScalar();
 
 	/**
 	 * Detector gas pressure
@@ -590,7 +590,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarGas_pressure();
+	 public double getGas_pressureScalar();
 
 	/**
 	 * maximum drift space dimension
@@ -612,7 +612,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDetection_gas_path();
+	 public double getDetection_gas_pathScalar();
 
 	/**
 	 * Crate number of detector
@@ -634,7 +634,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarCrate();
+	 public long getCrateScalar();
 
 	/**
 	 * Equivalent local term
@@ -663,7 +663,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarSlot();
+	 public long getSlotScalar();
 
 	/**
 	 * Equivalent local term
@@ -692,7 +692,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarInput();
+	 public long getInputScalar();
 
 	/**
 	 * Equivalent local term
@@ -717,7 +717,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarType();
+	 public String getTypeScalar();
 
 	/**
 	 * Spectral efficiency of detector with respect to e.g. wavelength
@@ -744,7 +744,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Date getScalarCalibration_date();
+	 public Date getCalibration_dateScalar();
 
 	/**
 	 * summary of conversion of array data to pixels (e.g. polynomial
@@ -778,7 +778,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarLayout();
+	 public String getLayoutScalar();
 
 	/**
 	 * Elapsed actual counting time
@@ -802,7 +802,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getScalarCount_time();
+	 public Number getCount_timeScalar();
 
 	/**
 	 * 
@@ -898,7 +898,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarSequence_number();
+	 public String getSequence_numberScalar();
 
 	/**
 	 * This is the x position where the direct beam would hit the detector.
@@ -924,7 +924,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarBeam_center_x();
+	 public double getBeam_center_xScalar();
 
 	/**
 	 * This is the y position where the direct beam would hit the detector.
@@ -950,7 +950,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarBeam_center_y();
+	 public double getBeam_center_yScalar();
 
 	/**
 	 * This is the start number of the first frame of a scan. In PX one
@@ -976,7 +976,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarFrame_start_number();
+	 public long getFrame_start_numberScalar();
 
 	/**
 	 * The diameter of a cylindrical detector
@@ -998,7 +998,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDiameter();
+	 public double getDiameterScalar();
 
 	/**
 	 * The acquisition mode of the detector.
@@ -1032,7 +1032,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarAcquisition_mode();
+	 public String getAcquisition_modeScalar();
 
 	/**
 	 * True when the angular calibration has been applied in the
@@ -1054,7 +1054,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public boolean getScalarAngular_calibration_applied();
+	 public boolean getAngular_calibration_appliedScalar();
 
 	/**
 	 * Angular calibration data.
@@ -1076,7 +1076,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarAngular_calibration();
+	 public double getAngular_calibrationScalar();
 
 	/**
 	 * True when the flat field correction has been applied in the
@@ -1098,7 +1098,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public boolean getScalarFlatfield_applied();
+	 public boolean getFlatfield_appliedScalar();
 
 	/**
 	 * Flat field correction data.
@@ -1120,7 +1120,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFlatfield();
+	 public double getFlatfieldScalar();
 
 	/**
 	 * Errors of the flat field correction data.
@@ -1142,7 +1142,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFlatfield_error();
+	 public double getFlatfield_errorScalar();
 
 	/**
 	 * True when the pixel mask correction has been applied in the
@@ -1164,7 +1164,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public boolean getScalarPixel_mask_applied();
+	 public boolean getPixel_mask_appliedScalar();
 
 	/**
 	 * The 32-bit pixel mask for the detector.
@@ -1222,7 +1222,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarPixel_mask();
+	 public long getPixel_maskScalar();
 
 	/**
 	 * True when a count-rate correction has already been applied in the
@@ -1244,7 +1244,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public boolean getScalarCountrate_correction__applied();
+	 public boolean getCountrate_correction__appliedScalar();
 
 	/**
 	 * How many bits the electronics reads per pixel.
@@ -1270,7 +1270,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarBit_depth_readout();
+	 public long getBit_depth_readoutScalar();
 
 	/**
 	 * Time it takes to read the detector (typically milliseconds).
@@ -1294,7 +1294,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarDetector_readout_time();
+	 public double getDetector_readout_timeScalar();
 
 	/**
 	 * Time it takes to start exposure after a trigger signal has been received.
@@ -1318,7 +1318,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarTrigger_delay_time();
+	 public double getTrigger_delay_timeScalar();
 
 	/**
 	 * Time during which no new trigger signal can be accepted. Typically this is the
@@ -1344,7 +1344,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarTrigger_dead_time();
+	 public double getTrigger_dead_timeScalar();
 
 	/**
 	 * This is time for each frame. This is exposure_time + readout time.
@@ -1368,7 +1368,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarFrame_time();
+	 public double getFrame_timeScalar();
 
 	/**
 	 * The gain setting of the detector. This influences background etc.
@@ -1398,7 +1398,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarGain_setting();
+	 public String getGain_settingScalar();
 
 	/**
 	 * The value at which the detector goes into saturation.
@@ -1420,7 +1420,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarSaturation_value();
+	 public long getSaturation_valueScalar();
 
 	/**
 	 * CCD images are sometimes constructed by summing together multiple short exposures in the
@@ -1444,7 +1444,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public long getScalarNumber_of_cycles();
+	 public long getNumber_of_cyclesScalar();
 
 	/**
 	 * At times, radiation is not directly sensed by the detector.
@@ -1470,7 +1470,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarSensor_material();
+	 public String getSensor_materialScalar();
 
 	/**
 	 * At times, radiation is not directly sensed by the detector.
@@ -1498,7 +1498,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarSensor_thickness();
+	 public double getSensor_thicknessScalar();
 
 	/**
 	 * Single photon counter detectors can be adjusted for a certain energy range in which they
@@ -1522,7 +1522,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public double getScalarThreshold_energy();
+	 public double getThreshold_energyScalar();
 
 	/**
 	 * For use in special cases where the data in NXdetector

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-12T11:55:04.232+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -37,7 +37,7 @@ public interface NXuser extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarName();
+	 public String getNameScalar();
 
 	/**
 	 * Role of user responsible for this entry.
@@ -55,7 +55,7 @@ public interface NXuser extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarRole();
+	 public String getRoleScalar();
 
 	/**
 	 * Affiliation of user
@@ -69,7 +69,7 @@ public interface NXuser extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarAffiliation();
+	 public String getAffiliationScalar();
 
 	/**
 	 * Address of user
@@ -83,7 +83,7 @@ public interface NXuser extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarAddress();
+	 public String getAddressScalar();
 
 	/**
 	 * Telephone number of user
@@ -97,7 +97,7 @@ public interface NXuser extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarTelephone_number();
+	 public String getTelephone_numberScalar();
 
 	/**
 	 * Fax number of user
@@ -111,7 +111,7 @@ public interface NXuser extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarFax_number();
+	 public String getFax_numberScalar();
 
 	/**
 	 * Email of user
@@ -125,7 +125,7 @@ public interface NXuser extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarEmail();
+	 public String getEmailScalar();
 
 	/**
 	 * facility based unique identifier for this person
@@ -143,6 +143,6 @@ public interface NXuser extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public String getScalarFacility_user_id();
+	 public String getFacility_user_idScalar();
 
 }
