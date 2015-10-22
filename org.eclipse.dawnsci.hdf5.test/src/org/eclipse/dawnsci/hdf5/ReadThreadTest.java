@@ -28,7 +28,7 @@ import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
 public class ReadThreadTest extends AbstractThreadTestBase {
 	String file = "test-scratch/readthread.h5";
 	String group = "/entry/group1/group2";
-	int[] shape = new int[] {1024, 128, 1024};
+	int[] shape = new int[] {512, 128, 1024};
 	int[] chunk = new int[] {1, 128, 1024};
 
 	@Test

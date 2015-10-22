@@ -38,7 +38,7 @@ public class AccessSpeedTest {
 		} catch (HDF5Exception e) {
 			e.printStackTrace();
 		}
-		int[] shape = new int[] {1024, 128, 1024};
+		int[] shape = new int[] {512, 128, 1024};
 		int size = AbstractDataset.calcSize(shape);
 		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
 		data1.setShape(shape);
