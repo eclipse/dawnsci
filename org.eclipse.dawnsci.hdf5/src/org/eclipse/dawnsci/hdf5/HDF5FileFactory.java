@@ -86,7 +86,8 @@ public class HDF5FileFactory {
 									try {
 										H5.H5Fclose(a.id);
 										IDS.remove(f);
-										HierarchicalDataFactory.releaseLowLevelReadingAccess(f);
+// FIXME for CustomTomoConverter, etc 
+//										HierarchicalDataFactory.releaseLowLevelReadingAccess(f);
 									} catch (HDF5LibraryException e) {
 										logger.error("Could not close file {}", f, e);
 									}
@@ -137,7 +138,8 @@ public class HDF5FileFactory {
 					access.count++;
 					fid = access.id;
 				} else {
-					HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
+// FIXME for CustomTomoConverter, etc 
+//					HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
 					access = new FileAccess();
 					access.count = 1;
 					if (asNew) {
@@ -158,9 +160,10 @@ public class HDF5FileFactory {
 					IDS.put(cPath, access);
 				}
 			} catch (Throwable le) {
-				if (!IDS.containsKey(cPath)) {
-					HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
-				}
+// FIXME for CustomTomoConverter, etc 
+//				if (!IDS.containsKey(cPath)) {
+//					HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
+//				}
 				logger.error("Could not acquire access to file: {}", cPath, le);
 				throw new ScanFileHolderException("Could not acquire access to file: " + cPath, le);
 			}
@@ -228,7 +231,8 @@ public class HDF5FileFactory {
 						try {
 							H5.H5Fclose(access.id);
 							IDS.remove(cPath);
-							HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
+// FIXME for CustomTomoConverter, etc 
+//							HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath); 
 						} catch (HDF5LibraryException e) {
 							logger.error("Could not close file", e);
 							throw e;
