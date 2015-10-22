@@ -7,6 +7,7 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.NXroot;
+import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXmonochromator;
@@ -16,17 +17,27 @@ import org.eclipse.dawnsci.nexus.NXmonochromator;
  */
 public class NXindirecttofValidator extends AbstractNXValidator implements NXApplicationValidator {
 
-@Override
-	public void validate(NXroot root) throws Exception {
+	@Override
+	public void validate(NXroot root) throws NexusValidationException {
 		// validate child group 'entry' of type NXentry
-// $groupNameInBaseClass = entry
 		validateGroup_entry(root.getEntry());
 	}
+
+	@Override
+	public void validate(NXentry entry) throws NexusValidationException {
+//		validateGroup_entry(entry);  TODO validate entry
+	}
+
+	@Override
+	public void validate(NXsubentry subentry) throws NexusValidationException {
+//		validateGroup_entry(subentry);  TODO validate entry
+	}
+
 
 	/**
 	 * Validate group 'entry' of type NXentry.
 	 */
-	private void validateGroup_entry(final NXentry group) throws Exception {
+	private void validateGroup_entry(final NXentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("entry", NXentry.class, group);
 
@@ -46,7 +57,6 @@ public class NXindirecttofValidator extends AbstractNXValidator implements NXApp
 				"NXindirecttof");
 
 		// validate unnamed child group of type NXinstrument (possibly multiple)
-// $groupNameInBaseClass = instrument
 		final Map<String, NXinstrument> allInstrument = group.getAllInstrument();
 		for (final NXinstrument instrument : allInstrument.values()) {
 			validateGroup_entry_NXinstrument(instrument);
@@ -56,19 +66,18 @@ public class NXindirecttofValidator extends AbstractNXValidator implements NXApp
 	/**
 	 * Validate unnamed group of type NXinstrument.
 	 */
-	private void validateGroup_entry_NXinstrument(final NXinstrument group) throws Exception {
+	private void validateGroup_entry_NXinstrument(final NXinstrument group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull(null, NXinstrument.class, group);
 
 		// validate child group 'analyser' of type NXmonochromator
-// $groupNameInBaseClass = monochromator
 		validateGroup_entry_NXinstrument_analyser(group.getMonochromator());
 	}
 
 	/**
 	 * Validate group 'analyser' of type NXmonochromator.
 	 */
-	private void validateGroup_entry_NXinstrument_analyser(final NXmonochromator group) throws Exception {
+	private void validateGroup_entry_NXinstrument_analyser(final NXmonochromator group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("analyser", NXmonochromator.class, group);
 

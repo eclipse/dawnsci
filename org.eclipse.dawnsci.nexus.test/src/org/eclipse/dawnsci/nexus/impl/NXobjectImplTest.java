@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.nexus.NXaperture;
@@ -24,31 +26,31 @@ import org.junit.Test;
 
 public class NXobjectImplTest {
 	
-	private NXobjectFactory nxObjectFactory;
+	private NexusNodeFactory nexusNodeFactory;
 		
 	@Before
 	public void setUp() {
-		nxObjectFactory = new NXobjectFactory();
+		nexusNodeFactory = new NexusNodeFactory();
 	}
 	
 	@After
 	public void tearDown() {
-		nxObjectFactory = null;
+		nexusNodeFactory = null;
 	}
 	
 	@Test
 	public void testGetNXclass() {
 		// test a few of the base classes to ensure they have the expected NXclass
-		assertEquals(NXaperture.class, nxObjectFactory.createNXaperture().getNXclass());
-		assertEquals(NXentry.class, nxObjectFactory.createNXentry().getNXclass());
-		assertEquals(NXinstrument.class, nxObjectFactory.createNXinstrument().getNXclass());
-		assertEquals(NXsample.class, nxObjectFactory.createNXsample().getNXclass());
+		assertEquals(NXaperture.class, nexusNodeFactory.createNXaperture().getNXclass());
+		assertEquals(NXentry.class, nexusNodeFactory.createNXentry().getNXclass());
+		assertEquals(NXinstrument.class, nexusNodeFactory.createNXinstrument().getNXclass());
+		assertEquals(NXsample.class, nexusNodeFactory.createNXsample().getNXclass());
 	}
 	
 	@Test
 	public void testPutGetChild() {
-		NXinstrumentImpl instrument = nxObjectFactory.createNXinstrument();
-		NXdetector detector = nxObjectFactory.createNXdetector();
+		NXinstrumentImpl instrument = nexusNodeFactory.createNXinstrument();
+		NXdetector detector = nexusNodeFactory.createNXdetector();
 		instrument.putChild("detector", detector);
 		
 		assertNotNull(instrument.getChild("detector", NXdetector.class));
@@ -57,26 +59,26 @@ public class NXobjectImplTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testPutGetChild_existingChildWithSameNameButDifferentType() {
-		NXinstrumentImpl instrument = nxObjectFactory.createNXinstrument();
-		NXsensor sensor = nxObjectFactory.createNXsensor();
+		NXinstrumentImpl instrument = nexusNodeFactory.createNXinstrument();
+		NXsensor sensor = nexusNodeFactory.createNXsensor();
 		instrument.putChild("detector", sensor);
 		
-		NXdetector detector = nxObjectFactory.createNXdetector();
+		NXdetector detector = nexusNodeFactory.createNXdetector();
 		instrument.putChild("detector", detector);
 	}
 	
 	@Test
 	public void testGetChildren() {
-		NXinstrumentImpl instrument = nxObjectFactory.createNXinstrument();
-		NXdetector detector1 = nxObjectFactory.createNXdetector();
-		NXdetector detector2 = nxObjectFactory.createNXdetector();
-		NXdetector detector3 = nxObjectFactory.createNXdetector();
+		NXinstrumentImpl instrument = nexusNodeFactory.createNXinstrument();
+		NXdetector detector1 = nexusNodeFactory.createNXdetector();
+		NXdetector detector2 = nexusNodeFactory.createNXdetector();
+		NXdetector detector3 = nexusNodeFactory.createNXdetector();
 		instrument.putChild("detector1", detector1);
 		instrument.putChild("detector2", detector2);
 		instrument.putChild("detector3", detector3);
 
 		// add a child of a different type to check that isn't returned as well
-		NXsensor sensor = nxObjectFactory.createNXsensor();
+		NXsensor sensor = nexusNodeFactory.createNXsensor();
 		instrument.putChild("sensor", sensor);
 		
 		final Map<String, NXdetector> detectors = instrument.getChildren(NXdetector.class);
@@ -88,10 +90,10 @@ public class NXobjectImplTest {
 	
 	@Test
 	public void testSetChildren() {
-		NXinstrumentImpl instrument = nxObjectFactory.createNXinstrument();
-		NXdetector detector1 = nxObjectFactory.createNXdetector();
-		NXdetector detector2 = nxObjectFactory.createNXdetector();
-		NXdetector detector3 = nxObjectFactory.createNXdetector();
+		NXinstrumentImpl instrument = nexusNodeFactory.createNXinstrument();
+		NXdetector detector1 = nexusNodeFactory.createNXdetector();
+		NXdetector detector2 = nexusNodeFactory.createNXdetector();
+		NXdetector detector3 = nexusNodeFactory.createNXdetector();
 		
 		final Map<String, NXdetector> detectors = new HashMap<>();
 		detectors.put("detector1", detector1);
@@ -100,7 +102,7 @@ public class NXobjectImplTest {
 		instrument.setChildren(detectors);
 		
 		// add a child of a different type to check that isn't returned as well
-		NXsensor sensor = nxObjectFactory.createNXsensor();
+		NXsensor sensor = nexusNodeFactory.createNXsensor();
 		instrument.putChild("sensor", sensor);
 		
 		final Map<String, NXdetector> detectors2 = instrument.getChildren(NXdetector.class);
@@ -112,7 +114,7 @@ public class NXobjectImplTest {
 
 	@Test
 	public void testSetGetDataset() {
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		IDataset numberOfCycles = DatasetFactory.createFromObject(3);
 		detector.setNumber_of_cycles(numberOfCycles);
 		
@@ -121,9 +123,23 @@ public class NXobjectImplTest {
 	}
 	
 	@Test
+	public void testInitializeLazyDataset() {
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
+		ILazyWriteableDataset dataset = detector.initializeLazyDataset(NXdetectorImpl.NX_DATA, 2, Dataset.FLOAT64);
+		assertNotNull(dataset);
+		assertEquals(2, dataset.getRank());
+		assertEquals(Double.class, dataset.elementClass());
+		
+		assertSame(dataset, detector.getLazyWritableDataset(NXdetectorImpl.NX_DATA));
+		DataNode dataNode = detector.getDataNode(NXdetectorImpl.NX_DATA);
+		assertNotNull(dataNode);
+		assertSame(dataset, dataNode.getDataset());
+	}
+	
+	@Test
 	public void testSetGetString() {
 		final String name = "my sensor";
-		NXsensorImpl sensor = nxObjectFactory.createNXsensor();
+		NXsensorImpl sensor = nexusNodeFactory.createNXsensor();
 		sensor.setString(NXsensorImpl.NX_NAME, name);
 		assertEquals(name, sensor.getString(NXsensorImpl.NX_NAME)); 
 	}
@@ -131,7 +147,7 @@ public class NXobjectImplTest {
 	@Test
 	public void testSetGetBoolean() {
 		boolean angularCalibrationApplied = true; 
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		detector.setField(NXdetectorImpl.NX_ANGULAR_CALIBRATION_APPLIED, angularCalibrationApplied);
 		assertEquals(angularCalibrationApplied, detector.getBoolean(NXdetectorImpl.NX_ANGULAR_CALIBRATION_APPLIED));
 
@@ -142,7 +158,7 @@ public class NXobjectImplTest {
 	
 	@Test
 	public void testSetGetLong() {
-		NXsensorImpl sensor = nxObjectFactory.createNXsensor();
+		NXsensorImpl sensor = nexusNodeFactory.createNXsensor();
 		final long value = 1234567890l;
 		sensor.setField(NXsensorImpl.NX_HIGH_TRIP_VALUE, value); 
 		assertEquals(value, sensor.getLong(NXsensorImpl.NX_HIGH_TRIP_VALUE)); 
@@ -151,7 +167,7 @@ public class NXobjectImplTest {
 	@Test
 	public void testSetGetDouble() {
 		final double distance = 2.4;
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		detector.setField(NXdetectorImpl.NX_DISTANCE, distance);
 		
 		assertEquals(distance, detector.getDouble(NXdetectorImpl.NX_DISTANCE), 0.0); 
@@ -160,7 +176,7 @@ public class NXobjectImplTest {
 	@Test
 	public void testSetGetNumber_floatingPoint() {
 		final double distance = 2.4;
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		detector.setField(NXdetectorImpl.NX_DISTANCE, distance);
 		
 		assertEquals(Double.valueOf(distance), detector.getNumber(NXdetectorImpl.NX_DISTANCE)); 
@@ -169,7 +185,7 @@ public class NXobjectImplTest {
 	@Test
 	public void testSetGetNumber_integer() {
 		final int frameStartNumber = 12;
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		detector.setField(NXdetectorImpl.NX_FRAME_START_NUMBER, frameStartNumber); 
 		// all integers stored as Java longs
 		assertEquals(Long.valueOf(frameStartNumber), detector.getNumber(NXdetectorImpl.NX_FRAME_START_NUMBER));
@@ -182,14 +198,14 @@ public class NXobjectImplTest {
 		cal.set(Calendar.MILLISECOND, 0);
 		Date date = cal.getTime();
 		
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		detector.setDate(NXdetectorImpl.NX_CALIBRATION_DATE, date);
 		assertEquals(date, detector.getDate(NXdetectorImpl.NX_CALIBRATION_DATE));
 	}
 	
 	@Test
 	public void testGetAllDatasets() {
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		
 		Dataset azimuthalAngle = DatasetFactory.createFromObject(12.34);
 		Dataset numberOfCycles = DatasetFactory.createFromObject(7);
@@ -208,7 +224,7 @@ public class NXobjectImplTest {
 	
 	@Test
 	public void testGetAllDatasets_withAttribute() {
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		
 		Dataset azimuthalAngle = DatasetFactory.createFromObject(12.34);
 		Dataset numberOfCycles = DatasetFactory.createFromObject(7);
@@ -229,7 +245,7 @@ public class NXobjectImplTest {
 	@Test
 	public void testSetGetAttribute() {
 		String value = "attrVal";
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		detector.setString("field", "fieldValue");
 		detector.setAttribute("field", "attribute", value);
 		IDataset dataset = detector.getAttr("field", "attribute");
@@ -242,7 +258,7 @@ public class NXobjectImplTest {
 	@Test
 	public void testSetGetAttrString() {
 		String value = "attrVal";
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		detector.setString("field", "fieldValue");
 		detector.setAttribute("field", "attribute", value);
 		assertEquals(value, detector.getAttrString("field", "attribute"));
@@ -251,7 +267,7 @@ public class NXobjectImplTest {
 	@Test
 	public void testSetGetAttrBoolean() {
 		final boolean value = true;
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		detector.setString("field", "fieldValue");
 		detector.setAttribute("field", "attribute", value);
 		assertEquals(value, detector.getAttrBoolean("field", "attribute"));
@@ -260,7 +276,7 @@ public class NXobjectImplTest {
 	@Test
 	public void testSetGetAttrLong() {
 		final long value = 1234567890l;
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		detector.setString("field", "fieldValue");
 		detector.setAttribute("field", "attribute", value);
 		assertEquals(value, detector.getAttrLong("field", "attribute"));
@@ -269,7 +285,7 @@ public class NXobjectImplTest {
 	@Test
 	public void testSetGetAttrDouble() {
 		final double value = 1234.5678;
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		detector.setString("field", "fieldValue");
 		detector.setAttribute("field", "attribute", value);
 		assertEquals(value, detector.getAttrDouble("field", "attribute"), 0.0);
@@ -278,7 +294,7 @@ public class NXobjectImplTest {
 	@Test
 	public void testSetGetAttrNumber_floatingPoint() {
 		final double value = 1234.5678;
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		detector.setString("field", "fieldValue");
 		detector.setAttribute("field", "attribute", value);
 		assertEquals(Double.valueOf(value), detector.getAttrNumber("field", "attribute"));
@@ -287,7 +303,7 @@ public class NXobjectImplTest {
 	@Test
 	public void testSetGetAttrNumber_integer() {
 		final int value = 1234;
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		detector.setString("field", "fieldValue");
 		detector.setAttribute("field", "attribute", value);
 		assertEquals(Long.valueOf(value), detector.getAttrNumber("field", "attribute"));
@@ -301,7 +317,7 @@ public class NXobjectImplTest {
 		cal.set(Calendar.MILLISECOND, 0);
 		Date date = cal.getTime();
 		
-		NXdetectorImpl detector = nxObjectFactory.createNXdetector();
+		NXdetectorImpl detector = nexusNodeFactory.createNXdetector();
 		detector.setString("field", "fieldValue");
 		detector.setAttrDate("field", "attribute", date);
 		assertEquals(date, detector.getAttrDate("field", "attribute"));

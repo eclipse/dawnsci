@@ -2,13 +2,15 @@ package org.eclipse.dawnsci.nexus.impl;
 
 import java.net.URI;
 
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeImpl;
 
 /**
  * Factory class for creating instances of NeXus base classes.
  */
-public class NXobjectFactory {
+public class NexusNodeFactory {
 	
 	private long nextOid = 1l;
 
@@ -137,12 +139,17 @@ public class NXobjectFactory {
 				return createNXseparator(oid);
 		}
 		throw new IllegalArgumentException("Unknown base class: " + baseClass);	}
-/**
+
+	protected long getNextOid() {
+		return nextOid++;
+	}
+	
+	/**
 	 * Create a new tree with given URI
 	 * @param uri
 	 */
 	public TreeImpl createTree(final URI uri) {
-		return new TreeImpl(nextOid++, uri);
+		return new TreeImpl(getNextOid(), uri);
 	}
 	
 	/**
@@ -150,7 +157,7 @@ public class NXobjectFactory {
 	 * @param uri uri
 	 */
 	public TreeFileImpl createTreeFile(final URI uri) {
-		return new TreeFileImpl(nextOid++, uri);
+		return new TreeFileImpl(getNextOid(), uri);
 	}
 	
 	/**
@@ -159,7 +166,14 @@ public class NXobjectFactory {
 	 * @return
 	 */
 	public TreeFileImpl createTreeFile(final String fileName) {
-		return new TreeFileImpl(nextOid++, fileName);
+		return new TreeFileImpl(getNextOid(), fileName);
+	}
+	
+	/**
+	 * Create a new data node.
+	 */
+	public DataNode createDataNode() {
+		return TreeFactory.createDataNode(getNextOid());
 	}
 	
 	/**
@@ -173,7 +187,7 @@ public class NXobjectFactory {
 	 * Create a new NXfresnel_zone_plate.
 	 */
 	public NXfresnel_zone_plateImpl createNXfresnel_zone_plate() {
-		return new NXfresnel_zone_plateImpl(nextOid++);
+		return new NXfresnel_zone_plateImpl(this);
 	}
 
 	/**
@@ -187,7 +201,7 @@ public class NXobjectFactory {
 	 * Create a new NXxraylens.
 	 */
 	public NXxraylensImpl createNXxraylens() {
-		return new NXxraylensImpl(nextOid++);
+		return new NXxraylensImpl(this);
 	}
 
 	/**
@@ -201,7 +215,7 @@ public class NXobjectFactory {
 	 * Create a new NXfermi_chopper.
 	 */
 	public NXfermi_chopperImpl createNXfermi_chopper() {
-		return new NXfermi_chopperImpl(nextOid++);
+		return new NXfermi_chopperImpl(this);
 	}
 
 	/**
@@ -215,7 +229,7 @@ public class NXobjectFactory {
 	 * Create a new NXmonochromator.
 	 */
 	public NXmonochromatorImpl createNXmonochromator() {
-		return new NXmonochromatorImpl(nextOid++);
+		return new NXmonochromatorImpl(this);
 	}
 
 	/**
@@ -229,7 +243,7 @@ public class NXobjectFactory {
 	 * Create a new NXvelocity_selector.
 	 */
 	public NXvelocity_selectorImpl createNXvelocity_selector() {
-		return new NXvelocity_selectorImpl(nextOid++);
+		return new NXvelocity_selectorImpl(this);
 	}
 
 	/**
@@ -243,7 +257,7 @@ public class NXobjectFactory {
 	 * Create a new NXnote.
 	 */
 	public NXnoteImpl createNXnote() {
-		return new NXnoteImpl(nextOid++);
+		return new NXnoteImpl(this);
 	}
 
 	/**
@@ -257,7 +271,7 @@ public class NXobjectFactory {
 	 * Create a new NXgrating.
 	 */
 	public NXgratingImpl createNXgrating() {
-		return new NXgratingImpl(nextOid++);
+		return new NXgratingImpl(this);
 	}
 
 	/**
@@ -271,7 +285,7 @@ public class NXobjectFactory {
 	 * Create a new NXbending_magnet.
 	 */
 	public NXbending_magnetImpl createNXbending_magnet() {
-		return new NXbending_magnetImpl(nextOid++);
+		return new NXbending_magnetImpl(this);
 	}
 
 	/**
@@ -285,7 +299,7 @@ public class NXobjectFactory {
 	 * Create a new NXlog.
 	 */
 	public NXlogImpl createNXlog() {
-		return new NXlogImpl(nextOid++);
+		return new NXlogImpl(this);
 	}
 
 	/**
@@ -299,7 +313,7 @@ public class NXobjectFactory {
 	 * Create a new NXdisk_chopper.
 	 */
 	public NXdisk_chopperImpl createNXdisk_chopper() {
-		return new NXdisk_chopperImpl(nextOid++);
+		return new NXdisk_chopperImpl(this);
 	}
 
 	/**
@@ -313,7 +327,7 @@ public class NXobjectFactory {
 	 * Create a new NXcharacterization.
 	 */
 	public NXcharacterizationImpl createNXcharacterization() {
-		return new NXcharacterizationImpl(nextOid++);
+		return new NXcharacterizationImpl(this);
 	}
 
 	/**
@@ -327,7 +341,7 @@ public class NXobjectFactory {
 	 * Create a new NXshape.
 	 */
 	public NXshapeImpl createNXshape() {
-		return new NXshapeImpl(nextOid++);
+		return new NXshapeImpl(this);
 	}
 
 	/**
@@ -341,7 +355,7 @@ public class NXobjectFactory {
 	 * Create a new NXcapillary.
 	 */
 	public NXcapillaryImpl createNXcapillary() {
-		return new NXcapillaryImpl(nextOid++);
+		return new NXcapillaryImpl(this);
 	}
 
 	/**
@@ -355,7 +369,7 @@ public class NXobjectFactory {
 	 * Create a new NXguide.
 	 */
 	public NXguideImpl createNXguide() {
-		return new NXguideImpl(nextOid++);
+		return new NXguideImpl(this);
 	}
 
 	/**
@@ -369,7 +383,7 @@ public class NXobjectFactory {
 	 * Create a new NXbeam.
 	 */
 	public NXbeamImpl createNXbeam() {
-		return new NXbeamImpl(nextOid++);
+		return new NXbeamImpl(this);
 	}
 
 	/**
@@ -383,7 +397,7 @@ public class NXobjectFactory {
 	 * Create a new NXsample.
 	 */
 	public NXsampleImpl createNXsample() {
-		return new NXsampleImpl(nextOid++);
+		return new NXsampleImpl(this);
 	}
 
 	/**
@@ -397,7 +411,7 @@ public class NXobjectFactory {
 	 * Create a new NXmirror.
 	 */
 	public NXmirrorImpl createNXmirror() {
-		return new NXmirrorImpl(nextOid++);
+		return new NXmirrorImpl(this);
 	}
 
 	/**
@@ -411,7 +425,7 @@ public class NXobjectFactory {
 	 * Create a new NXcite.
 	 */
 	public NXciteImpl createNXcite() {
-		return new NXciteImpl(nextOid++);
+		return new NXciteImpl(this);
 	}
 
 	/**
@@ -425,7 +439,7 @@ public class NXobjectFactory {
 	 * Create a new NXentry.
 	 */
 	public NXentryImpl createNXentry() {
-		return new NXentryImpl(nextOid++);
+		return new NXentryImpl(this);
 	}
 
 	/**
@@ -439,7 +453,7 @@ public class NXobjectFactory {
 	 * Create a new NXflipper.
 	 */
 	public NXflipperImpl createNXflipper() {
-		return new NXflipperImpl(nextOid++);
+		return new NXflipperImpl(this);
 	}
 
 	/**
@@ -453,7 +467,7 @@ public class NXobjectFactory {
 	 * Create a new NXpositioner.
 	 */
 	public NXpositionerImpl createNXpositioner() {
-		return new NXpositionerImpl(nextOid++);
+		return new NXpositionerImpl(this);
 	}
 
 	/**
@@ -467,7 +481,7 @@ public class NXobjectFactory {
 	 * Create a new NXcollimator.
 	 */
 	public NXcollimatorImpl createNXcollimator() {
-		return new NXcollimatorImpl(nextOid++);
+		return new NXcollimatorImpl(this);
 	}
 
 	/**
@@ -481,7 +495,7 @@ public class NXobjectFactory {
 	 * Create a new NXmoderator.
 	 */
 	public NXmoderatorImpl createNXmoderator() {
-		return new NXmoderatorImpl(nextOid++);
+		return new NXmoderatorImpl(this);
 	}
 
 	/**
@@ -495,7 +509,7 @@ public class NXobjectFactory {
 	 * Create a new NXgeometry.
 	 */
 	public NXgeometryImpl createNXgeometry() {
-		return new NXgeometryImpl(nextOid++);
+		return new NXgeometryImpl(this);
 	}
 
 	/**
@@ -509,7 +523,7 @@ public class NXobjectFactory {
 	 * Create a new NXparameters.
 	 */
 	public NXparametersImpl createNXparameters() {
-		return new NXparametersImpl(nextOid++);
+		return new NXparametersImpl(this);
 	}
 
 	/**
@@ -523,7 +537,7 @@ public class NXobjectFactory {
 	 * Create a new NXorientation.
 	 */
 	public NXorientationImpl createNXorientation() {
-		return new NXorientationImpl(nextOid++);
+		return new NXorientationImpl(this);
 	}
 
 	/**
@@ -537,7 +551,7 @@ public class NXobjectFactory {
 	 * Create a new NXenvironment.
 	 */
 	public NXenvironmentImpl createNXenvironment() {
-		return new NXenvironmentImpl(nextOid++);
+		return new NXenvironmentImpl(this);
 	}
 
 	/**
@@ -551,7 +565,7 @@ public class NXobjectFactory {
 	 * Create a new NXmonitor.
 	 */
 	public NXmonitorImpl createNXmonitor() {
-		return new NXmonitorImpl(nextOid++);
+		return new NXmonitorImpl(this);
 	}
 
 	/**
@@ -565,7 +579,7 @@ public class NXobjectFactory {
 	 * Create a new NXroot.
 	 */
 	public NXrootImpl createNXroot() {
-		return new NXrootImpl(nextOid++);
+		return new NXrootImpl(this);
 	}
 
 	/**
@@ -579,7 +593,7 @@ public class NXobjectFactory {
 	 * Create a new NXprocess.
 	 */
 	public NXprocessImpl createNXprocess() {
-		return new NXprocessImpl(nextOid++);
+		return new NXprocessImpl(this);
 	}
 
 	/**
@@ -593,7 +607,7 @@ public class NXobjectFactory {
 	 * Create a new NXsource.
 	 */
 	public NXsourceImpl createNXsource() {
-		return new NXsourceImpl(nextOid++);
+		return new NXsourceImpl(this);
 	}
 
 	/**
@@ -607,7 +621,7 @@ public class NXobjectFactory {
 	 * Create a new NXuser.
 	 */
 	public NXuserImpl createNXuser() {
-		return new NXuserImpl(nextOid++);
+		return new NXuserImpl(this);
 	}
 
 	/**
@@ -621,7 +635,7 @@ public class NXobjectFactory {
 	 * Create a new NXcrystal.
 	 */
 	public NXcrystalImpl createNXcrystal() {
-		return new NXcrystalImpl(nextOid++);
+		return new NXcrystalImpl(this);
 	}
 
 	/**
@@ -635,7 +649,7 @@ public class NXobjectFactory {
 	 * Create a new NXtranslation.
 	 */
 	public NXtranslationImpl createNXtranslation() {
-		return new NXtranslationImpl(nextOid++);
+		return new NXtranslationImpl(this);
 	}
 
 	/**
@@ -649,7 +663,7 @@ public class NXobjectFactory {
 	 * Create a new NXinstrument.
 	 */
 	public NXinstrumentImpl createNXinstrument() {
-		return new NXinstrumentImpl(nextOid++);
+		return new NXinstrumentImpl(this);
 	}
 
 	/**
@@ -663,7 +677,7 @@ public class NXobjectFactory {
 	 * Create a new NXpolarizer.
 	 */
 	public NXpolarizerImpl createNXpolarizer() {
-		return new NXpolarizerImpl(nextOid++);
+		return new NXpolarizerImpl(this);
 	}
 
 	/**
@@ -677,7 +691,7 @@ public class NXobjectFactory {
 	 * Create a new NXdata.
 	 */
 	public NXdataImpl createNXdata() {
-		return new NXdataImpl(nextOid++);
+		return new NXdataImpl(this);
 	}
 
 	/**
@@ -691,7 +705,7 @@ public class NXobjectFactory {
 	 * Create a new NXpinhole.
 	 */
 	public NXpinholeImpl createNXpinhole() {
-		return new NXpinholeImpl(nextOid++);
+		return new NXpinholeImpl(this);
 	}
 
 	/**
@@ -705,7 +719,7 @@ public class NXobjectFactory {
 	 * Create a new NXsubentry.
 	 */
 	public NXsubentryImpl createNXsubentry() {
-		return new NXsubentryImpl(nextOid++);
+		return new NXsubentryImpl(this);
 	}
 
 	/**
@@ -719,7 +733,7 @@ public class NXobjectFactory {
 	 * Create a new NXaperture.
 	 */
 	public NXapertureImpl createNXaperture() {
-		return new NXapertureImpl(nextOid++);
+		return new NXapertureImpl(this);
 	}
 
 	/**
@@ -733,7 +747,7 @@ public class NXobjectFactory {
 	 * Create a new NXfilter.
 	 */
 	public NXfilterImpl createNXfilter() {
-		return new NXfilterImpl(nextOid++);
+		return new NXfilterImpl(this);
 	}
 
 	/**
@@ -747,7 +761,7 @@ public class NXobjectFactory {
 	 * Create a new NXevent_data.
 	 */
 	public NXevent_dataImpl createNXevent_data() {
-		return new NXevent_dataImpl(nextOid++);
+		return new NXevent_dataImpl(this);
 	}
 
 	/**
@@ -761,7 +775,7 @@ public class NXobjectFactory {
 	 * Create a new NXslit.
 	 */
 	public NXslitImpl createNXslit() {
-		return new NXslitImpl(nextOid++);
+		return new NXslitImpl(this);
 	}
 
 	/**
@@ -775,7 +789,7 @@ public class NXobjectFactory {
 	 * Create a new NXdetector_group.
 	 */
 	public NXdetector_groupImpl createNXdetector_group() {
-		return new NXdetector_groupImpl(nextOid++);
+		return new NXdetector_groupImpl(this);
 	}
 
 	/**
@@ -789,7 +803,7 @@ public class NXobjectFactory {
 	 * Create a new NXdetector_module.
 	 */
 	public NXdetector_moduleImpl createNXdetector_module() {
-		return new NXdetector_moduleImpl(nextOid++);
+		return new NXdetector_moduleImpl(this);
 	}
 
 	/**
@@ -803,7 +817,7 @@ public class NXobjectFactory {
 	 * Create a new NXinsertion_device.
 	 */
 	public NXinsertion_deviceImpl createNXinsertion_device() {
-		return new NXinsertion_deviceImpl(nextOid++);
+		return new NXinsertion_deviceImpl(this);
 	}
 
 	/**
@@ -817,7 +831,7 @@ public class NXobjectFactory {
 	 * Create a new NXbeam_stop.
 	 */
 	public NXbeam_stopImpl createNXbeam_stop() {
-		return new NXbeam_stopImpl(nextOid++);
+		return new NXbeam_stopImpl(this);
 	}
 
 	/**
@@ -831,7 +845,7 @@ public class NXobjectFactory {
 	 * Create a new NXtransformations.
 	 */
 	public NXtransformationsImpl createNXtransformations() {
-		return new NXtransformationsImpl(nextOid++);
+		return new NXtransformationsImpl(this);
 	}
 
 	/**
@@ -845,7 +859,7 @@ public class NXobjectFactory {
 	 * Create a new NXsensor.
 	 */
 	public NXsensorImpl createNXsensor() {
-		return new NXsensorImpl(nextOid++);
+		return new NXsensorImpl(this);
 	}
 
 	/**
@@ -859,7 +873,7 @@ public class NXobjectFactory {
 	 * Create a new NXattenuator.
 	 */
 	public NXattenuatorImpl createNXattenuator() {
-		return new NXattenuatorImpl(nextOid++);
+		return new NXattenuatorImpl(this);
 	}
 
 	/**
@@ -873,7 +887,7 @@ public class NXobjectFactory {
 	 * Create a new NXdetector.
 	 */
 	public NXdetectorImpl createNXdetector() {
-		return new NXdetectorImpl(nextOid++);
+		return new NXdetectorImpl(this);
 	}
 
 	/**
@@ -887,7 +901,7 @@ public class NXobjectFactory {
 	 * Create a new NXcollection.
 	 */
 	public NXcollectionImpl createNXcollection() {
-		return new NXcollectionImpl(nextOid++);
+		return new NXcollectionImpl(this);
 	}
 
 	/**
@@ -901,7 +915,7 @@ public class NXobjectFactory {
 	 * Create a new NXmagnetic_kicker.
 	 */
 	public NXmagnetic_kickerImpl createNXmagnetic_kicker() {
-		return new NXmagnetic_kickerImpl(nextOid++);
+		return new NXmagnetic_kickerImpl(this);
 	}
 
 	/**
@@ -915,7 +929,7 @@ public class NXobjectFactory {
 	 * Create a new NXquadrupole_magnet.
 	 */
 	public NXquadrupole_magnetImpl createNXquadrupole_magnet() {
-		return new NXquadrupole_magnetImpl(nextOid++);
+		return new NXquadrupole_magnetImpl(this);
 	}
 
 	/**
@@ -929,7 +943,7 @@ public class NXobjectFactory {
 	 * Create a new NXspin_rotator.
 	 */
 	public NXspin_rotatorImpl createNXspin_rotator() {
-		return new NXspin_rotatorImpl(nextOid++);
+		return new NXspin_rotatorImpl(this);
 	}
 
 	/**
@@ -943,7 +957,7 @@ public class NXobjectFactory {
 	 * Create a new NXsolenoid_magnet.
 	 */
 	public NXsolenoid_magnetImpl createNXsolenoid_magnet() {
-		return new NXsolenoid_magnetImpl(nextOid++);
+		return new NXsolenoid_magnetImpl(this);
 	}
 
 	/**
@@ -957,7 +971,7 @@ public class NXobjectFactory {
 	 * Create a new NXelectrostatic_kicker.
 	 */
 	public NXelectrostatic_kickerImpl createNXelectrostatic_kicker() {
-		return new NXelectrostatic_kickerImpl(nextOid++);
+		return new NXelectrostatic_kickerImpl(this);
 	}
 
 	/**
@@ -971,7 +985,7 @@ public class NXobjectFactory {
 	 * Create a new NXseparator.
 	 */
 	public NXseparatorImpl createNXseparator() {
-		return new NXseparatorImpl(nextOid++);
+		return new NXseparatorImpl(this);
 	}
 
 }

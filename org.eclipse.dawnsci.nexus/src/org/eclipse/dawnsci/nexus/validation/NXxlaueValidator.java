@@ -5,6 +5,7 @@ import static org.eclipse.dawnsci.nexus.validation.NexusUnitCategory.*;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.NXroot;
+import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXsource;
@@ -15,17 +16,27 @@ import org.eclipse.dawnsci.nexus.NXdata;
  */
 public class NXxlaueValidator extends AbstractNXValidator implements NXApplicationValidator {
 
-@Override
-	public void validate(NXroot root) throws Exception {
+	@Override
+	public void validate(NXroot root) throws NexusValidationException {
 		// validate child group 'entry' of type NXentry
-// $groupNameInBaseClass = entry
 		validateGroup_entry(root.getEntry());
 	}
+
+	@Override
+	public void validate(NXentry entry) throws NexusValidationException {
+//		validateGroup_entry(entry);  TODO validate entry
+	}
+
+	@Override
+	public void validate(NXsubentry subentry) throws NexusValidationException {
+//		validateGroup_entry(subentry);  TODO validate entry
+	}
+
 
 	/**
 	 * Validate group 'entry' of type NXentry.
 	 */
-	private void validateGroup_entry(final NXentry group) throws Exception {
+	private void validateGroup_entry(final NXentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("entry", NXentry.class, group);
 
@@ -36,38 +47,35 @@ public class NXxlaueValidator extends AbstractNXValidator implements NXApplicati
 				"NXxlaue");
 
 		// validate child group 'instrument' of type NXinstrument
-// $groupNameInBaseClass = instrument
 		validateGroup_entry_instrument(group.getInstrument());
 	}
 
 	/**
 	 * Validate group 'instrument' of type NXinstrument.
 	 */
-	private void validateGroup_entry_instrument(final NXinstrument group) throws Exception {
+	private void validateGroup_entry_instrument(final NXinstrument group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("instrument", NXinstrument.class, group);
 
 		// validate child group 'source' of type NXsource
-// $groupNameInBaseClass = source
 		validateGroup_entry_instrument_source(group.getSource());
 	}
 
 	/**
 	 * Validate group 'source' of type NXsource.
 	 */
-	private void validateGroup_entry_instrument_source(final NXsource group) throws Exception {
+	private void validateGroup_entry_instrument_source(final NXsource group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("source", NXsource.class, group);
 
 		// validate child group 'distribution' of type NXdata
-// $groupNameInBaseClass = distribution
 		validateGroup_entry_instrument_source_distribution(group.getDistribution());
 	}
 
 	/**
 	 * Validate group 'distribution' of type NXdata.
 	 */
-	private void validateGroup_entry_instrument_source_distribution(final NXdata group) throws Exception {
+	private void validateGroup_entry_instrument_source_distribution(final NXdata group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("distribution", NXdata.class, group);
 		clearLocalGroupDimensionPlaceholderValues();

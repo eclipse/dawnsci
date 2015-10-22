@@ -5,8 +5,10 @@ import static org.eclipse.dawnsci.nexus.validation.NexusUnitCategory.*;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 
 import org.eclipse.dawnsci.nexus.NXroot;
+import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXsource;
@@ -20,17 +22,27 @@ import org.eclipse.dawnsci.nexus.NXdata;
  */
 public class NXtomoprocValidator extends AbstractNXValidator implements NXApplicationValidator {
 
-@Override
-	public void validate(NXroot root) throws Exception {
+	@Override
+	public void validate(NXroot root) throws NexusValidationException {
 		// validate child group 'entry' of type NXentry
-// $groupNameInBaseClass = entry
 		validateGroup_entry(root.getEntry());
 	}
+
+	@Override
+	public void validate(NXentry entry) throws NexusValidationException {
+//		validateGroup_entry(entry);  TODO validate entry
+	}
+
+	@Override
+	public void validate(NXsubentry subentry) throws NexusValidationException {
+//		validateGroup_entry(subentry);  TODO validate entry
+	}
+
 
 	/**
 	 * Validate group 'entry' of type NXentry.
 	 */
-	private void validateGroup_entry(final NXentry group) throws Exception {
+	private void validateGroup_entry(final NXentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("entry", NXentry.class, group);
 
@@ -45,37 +57,32 @@ public class NXtomoprocValidator extends AbstractNXValidator implements NXApplic
 				"NXtomoproc");
 
 		// validate unnamed child group of type NXinstrument (possibly multiple)
-// $groupNameInBaseClass = instrument
 		final Map<String, NXinstrument> allInstrument = group.getAllInstrument();
 		for (final NXinstrument instrument : allInstrument.values()) {
 			validateGroup_entry_NXinstrument(instrument);
 		}
 
 		// validate unnamed child group of type NXsample (possibly multiple)
-// $groupNameInBaseClass = sample
 		final Map<String, NXsample> allSample = group.getAllSample();
 		for (final NXsample sample : allSample.values()) {
 			validateGroup_entry_NXsample(sample);
 		}
 
 		// validate child group 'reconstruction' of type NXprocess
-// $groupNameInBaseClass = process
 		validateGroup_entry_reconstruction(group.getProcess());
 
 		// validate child group 'data' of type NXdata
-// $groupNameInBaseClass = data
 		validateGroup_entry_data(group.getData());
 	}
 
 	/**
 	 * Validate unnamed group of type NXinstrument.
 	 */
-	private void validateGroup_entry_NXinstrument(final NXinstrument group) throws Exception {
+	private void validateGroup_entry_NXinstrument(final NXinstrument group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull(null, NXinstrument.class, group);
 
 		// validate unnamed child group of type NXsource (possibly multiple)
-// $groupNameInBaseClass = source
 		final Map<String, NXsource> allSource = group.getAllSource();
 		for (final NXsource source : allSource.values()) {
 			validateGroup_entry_NXinstrument_NXsource(source);
@@ -85,7 +92,7 @@ public class NXtomoprocValidator extends AbstractNXValidator implements NXApplic
 	/**
 	 * Validate unnamed group of type NXsource.
 	 */
-	private void validateGroup_entry_NXinstrument_NXsource(final NXsource group) throws Exception {
+	private void validateGroup_entry_NXinstrument_NXsource(final NXsource group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull(null, NXsource.class, group);
 
@@ -122,7 +129,7 @@ public class NXtomoprocValidator extends AbstractNXValidator implements NXApplic
 	/**
 	 * Validate unnamed group of type NXsample.
 	 */
-	private void validateGroup_entry_NXsample(final NXsample group) throws Exception {
+	private void validateGroup_entry_NXsample(final NXsample group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull(null, NXsample.class, group);
 		clearLocalGroupDimensionPlaceholderValues();
@@ -135,7 +142,7 @@ public class NXtomoprocValidator extends AbstractNXValidator implements NXApplic
 	/**
 	 * Validate group 'reconstruction' of type NXprocess.
 	 */
-	private void validateGroup_entry_reconstruction(final NXprocess group) throws Exception {
+	private void validateGroup_entry_reconstruction(final NXprocess group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("reconstruction", NXprocess.class, group);
 
@@ -155,14 +162,13 @@ public class NXtomoprocValidator extends AbstractNXValidator implements NXApplic
 		validateFieldType("date)", date, NX_DATE_TIME);
 
 		// validate child group 'parameters' of type NXparameters
-// $groupNameInBaseClass = parameters
 		validateGroup_entry_reconstruction_parameters(group.getChild("parameters", NXparameters.class));
 	}
 
 	/**
 	 * Validate group 'parameters' of type NXparameters.
 	 */
-	private void validateGroup_entry_reconstruction_parameters(final NXparameters group) throws Exception {
+	private void validateGroup_entry_reconstruction_parameters(final NXparameters group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("parameters", NXparameters.class, group);
 
@@ -175,7 +181,7 @@ public class NXtomoprocValidator extends AbstractNXValidator implements NXApplic
 	/**
 	 * Validate group 'data' of type NXdata.
 	 */
-	private void validateGroup_entry_data(final NXdata group) throws Exception {
+	private void validateGroup_entry_data(final NXdata group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("data", NXdata.class, group);
 		clearLocalGroupDimensionPlaceholderValues();

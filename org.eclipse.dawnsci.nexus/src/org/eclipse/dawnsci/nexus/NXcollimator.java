@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-09-29T13:43:53.722+01:00
+ * Generated at: 2015-10-13T13:58:10.369+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of a beamline collimator.
@@ -28,7 +29,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();
+	public NXgeometry getGeometry();	
   
 	/**
 	 * Get a NXgeometry node by name:
@@ -64,7 +65,20 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();
+	public IDataset getType();	
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>Soller</b> </li>
+	 * <li><b>radial</b> </li>
+	 * <li><b>oscillating</b> </li>
+	 * <li><b>honeycomb</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public String getTypeScalar();
 
 	/**
 	 * Angular divergence of Soller collimator
@@ -75,7 +89,18 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSoller_angle();
+	public IDataset getSoller_angle();	
+
+	/**
+	 * Angular divergence of Soller collimator
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getSoller_angleScalar();
 
 	/**
 	 * divergence of collimator in local x direction
@@ -86,7 +111,18 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDivergence_x();
+	public IDataset getDivergence_x();	
+
+	/**
+	 * divergence of collimator in local x direction
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getDivergence_xScalar();
 
 	/**
 	 * divergence of collimator in local y direction
@@ -97,7 +133,18 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDivergence_y();
+	public IDataset getDivergence_y();	
+
+	/**
+	 * divergence of collimator in local y direction
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getDivergence_yScalar();
 
 	/**
 	 * Frequency of oscillating collimator
@@ -108,14 +155,25 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFrequency();
+	public IDataset getFrequency();	
+
+	/**
+	 * Frequency of oscillating collimator
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_FREQUENCY
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getFrequencyScalar();
 
 	/**
 	 * Log of frequency
 	 * 
 	 * @return  the value.
 	 */
-	public NXlog getFrequency_log();
+	public NXlog getFrequency_log();	
 
 	/**
 	 * blade thickness
@@ -126,7 +184,18 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getBlade_thickness();
+	public IDataset getBlade_thickness();	
+
+	/**
+	 * blade thickness
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getBlade_thicknessScalar();
 
 	/**
 	 * blade spacing
@@ -137,20 +206,45 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getBlade_spacing();
+	public IDataset getBlade_spacing();	
+
+	/**
+	 * blade spacing
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @return  the value
+	 */
+	 public double getBlade_spacingScalar();
 
 	/**
 	 * name of absorbing material
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAbsorbing_material();
+	public IDataset getAbsorbing_material();	
+
+	/**
+	 * name of absorbing material
+	 * 
+	 * @return  the value
+	 */
+	 public String getAbsorbing_materialScalar();
 
 	/**
 	 * name of transmitting material
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTransmitting_material();
+	public IDataset getTransmitting_material();	
+
+	/**
+	 * name of transmitting material
+	 * 
+	 * @return  the value
+	 */
+	 public String getTransmitting_materialScalar();
 
 }

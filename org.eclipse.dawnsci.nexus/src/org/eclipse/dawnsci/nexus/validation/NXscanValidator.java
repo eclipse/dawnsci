@@ -7,6 +7,7 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.NXroot;
+import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXdetector;
@@ -19,20 +20,30 @@ import org.eclipse.dawnsci.nexus.NXdata;
  */
 public class NXscanValidator extends AbstractNXValidator implements NXApplicationValidator {
 
-@Override
-	public void validate(NXroot root) throws Exception {
+	@Override
+	public void validate(NXroot root) throws NexusValidationException {
 		// validate unnamed child group of type NXentry (possibly multiple)
-// $groupNameInBaseClass = entry
 		final Map<String, NXentry> allEntry = root.getAllEntry();
 		for (final NXentry entry : allEntry.values()) {
 			validateGroup_NXentry(entry);
 		}
 	}
 
+	@Override
+	public void validate(NXentry entry) throws NexusValidationException {
+//		validateGroup_entry(entry);  TODO validate entry
+	}
+
+	@Override
+	public void validate(NXsubentry subentry) throws NexusValidationException {
+//		validateGroup_entry(subentry);  TODO validate entry
+	}
+
+
 	/**
 	 * Validate unnamed group of type NXentry.
 	 */
-	private void validateGroup_NXentry(final NXentry group) throws Exception {
+	private void validateGroup_NXentry(final NXentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull(null, NXentry.class, group);
 
@@ -58,28 +69,24 @@ public class NXscanValidator extends AbstractNXValidator implements NXApplicatio
 				"NXscan");
 
 		// validate unnamed child group of type NXinstrument (possibly multiple)
-// $groupNameInBaseClass = instrument
 		final Map<String, NXinstrument> allInstrument = group.getAllInstrument();
 		for (final NXinstrument instrument : allInstrument.values()) {
 			validateGroup_NXentry_NXinstrument(instrument);
 		}
 
 		// validate unnamed child group of type NXsample (possibly multiple)
-// $groupNameInBaseClass = sample
 		final Map<String, NXsample> allSample = group.getAllSample();
 		for (final NXsample sample : allSample.values()) {
 			validateGroup_NXentry_NXsample(sample);
 		}
 
 		// validate unnamed child group of type NXmonitor (possibly multiple)
-// $groupNameInBaseClass = monitor
 		final Map<String, NXmonitor> allMonitor = group.getAllMonitor();
 		for (final NXmonitor monitor : allMonitor.values()) {
 			validateGroup_NXentry_NXmonitor(monitor);
 		}
 
 		// validate unnamed child group of type NXdata (possibly multiple)
-// $groupNameInBaseClass = data
 		final Map<String, NXdata> allData = group.getAllData();
 		for (final NXdata data : allData.values()) {
 			validateGroup_NXentry_NXdata(data);
@@ -89,12 +96,11 @@ public class NXscanValidator extends AbstractNXValidator implements NXApplicatio
 	/**
 	 * Validate unnamed group of type NXinstrument.
 	 */
-	private void validateGroup_NXentry_NXinstrument(final NXinstrument group) throws Exception {
+	private void validateGroup_NXentry_NXinstrument(final NXinstrument group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull(null, NXinstrument.class, group);
 
 		// validate unnamed child group of type NXdetector (possibly multiple)
-// $groupNameInBaseClass = detector
 		final Map<String, NXdetector> allDetector = group.getAllDetector();
 		for (final NXdetector detector : allDetector.values()) {
 			validateGroup_NXentry_NXinstrument_NXdetector(detector);
@@ -104,7 +110,7 @@ public class NXscanValidator extends AbstractNXValidator implements NXApplicatio
 	/**
 	 * Validate unnamed group of type NXdetector.
 	 */
-	private void validateGroup_NXentry_NXinstrument_NXdetector(final NXdetector group) throws Exception {
+	private void validateGroup_NXentry_NXinstrument_NXdetector(final NXdetector group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull(null, NXdetector.class, group);
 		clearLocalGroupDimensionPlaceholderValues();
@@ -121,7 +127,7 @@ public class NXscanValidator extends AbstractNXValidator implements NXApplicatio
 	/**
 	 * Validate unnamed group of type NXsample.
 	 */
-	private void validateGroup_NXentry_NXsample(final NXsample group) throws Exception {
+	private void validateGroup_NXentry_NXsample(final NXsample group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull(null, NXsample.class, group);
 		clearLocalGroupDimensionPlaceholderValues();
@@ -138,7 +144,7 @@ public class NXscanValidator extends AbstractNXValidator implements NXApplicatio
 	/**
 	 * Validate unnamed group of type NXmonitor.
 	 */
-	private void validateGroup_NXentry_NXmonitor(final NXmonitor group) throws Exception {
+	private void validateGroup_NXentry_NXmonitor(final NXmonitor group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull(null, NXmonitor.class, group);
 		clearLocalGroupDimensionPlaceholderValues();
@@ -155,7 +161,7 @@ public class NXscanValidator extends AbstractNXValidator implements NXApplicatio
 	/**
 	 * Validate unnamed group of type NXdata.
 	 */
-	private void validateGroup_NXentry_NXdata(final NXdata group) throws Exception {
+	private void validateGroup_NXentry_NXdata(final NXdata group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull(null, NXdata.class, group);
 		clearLocalGroupDimensionPlaceholderValues();
