@@ -12,9 +12,9 @@ package org.eclipse.dawnsci.hdf5;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public class HDF5FileFactory {
 	}
 
 	private static long heldPeriod = 5000; // 5 seconds
-	private static Map<String, FileAccess> IDS = new HashMap<>();
+	private static ConcurrentMap<String, FileAccess> IDS = new ConcurrentHashMap<>();
 
 	/**
 	 * Set period of time a file ID is held open for. The period specified must be greater
@@ -86,7 +86,8 @@ public class HDF5FileFactory {
 									try {
 										H5.H5Fclose(a.id);
 										IDS.remove(f);
-										HierarchicalDataFactory.releaseLowLevelReadingAccess(f);
+// FIXME for CustomTomoConverter, etc 
+//										HierarchicalDataFactory.releaseLowLevelReadingAccess(f);
 									} catch (HDF5LibraryException e) {
 										logger.error("Could not close file {}", f, e);
 									}
@@ -137,7 +138,8 @@ public class HDF5FileFactory {
 					access.count++;
 					fid = access.id;
 				} else {
-					HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
+// FIXME for CustomTomoConverter, etc 
+//					HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
 					access = new FileAccess();
 					access.count = 1;
 					if (asNew) {
@@ -158,9 +160,10 @@ public class HDF5FileFactory {
 					IDS.put(cPath, access);
 				}
 			} catch (Throwable le) {
-				if (!IDS.containsKey(cPath)) {
-					HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
-				}
+// FIXME for CustomTomoConverter, etc 
+//				if (!IDS.containsKey(cPath)) {
+//					HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
+//				}
 				logger.error("Could not acquire access to file: {}", cPath, le);
 				throw new ScanFileHolderException("Could not acquire access to file: " + cPath, le);
 			}
@@ -228,7 +231,8 @@ public class HDF5FileFactory {
 						try {
 							H5.H5Fclose(access.id);
 							IDS.remove(cPath);
-							HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
+// FIXME for CustomTomoConverter, etc 
+//							HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath); 
 						} catch (HDF5LibraryException e) {
 							logger.error("Could not close file", e);
 							throw e;
