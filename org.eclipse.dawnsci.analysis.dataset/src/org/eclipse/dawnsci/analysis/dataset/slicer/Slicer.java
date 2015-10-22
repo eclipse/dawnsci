@@ -177,8 +177,6 @@ public class Slicer {
 	    RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.CallerRunsPolicy();
 	    final ExecutorService pool =  new ThreadPoolExecutor(nProcessors, nProcessors, 
 	        0L, TimeUnit.MILLISECONDS, blockingQueue, rejectedExecutionHandler);
-
-	    final AtomicLong time = new AtomicLong(-1);
 	    
 		final SliceVisitor parallel = new SliceVisitor() {
 
@@ -191,12 +189,8 @@ public class Slicer {
 					public void run() {
 						try {
 							
-							long start = System.currentTimeMillis();
-							
 						    visitor.visit(slice, slices, shape);
 						    
-						    long dif = System.currentTimeMillis() - start;
-						    time.compareAndSet(-1, dif);
 						    
 						} catch (Throwable ne) {
 							ne.printStackTrace();
@@ -215,17 +209,12 @@ public class Slicer {
 		
 		Slicer.visitAll(lz, sliceDimensions, nameFragment, parallel);
 		
-		while (time.get() == -1) {
-			Thread.sleep(100);
-		}
-		
-		//give it 100*the time to do one slice
-		if (timeout == -1) timeout = time.get()*100;
-		
 		pool.shutdown();
 		
-		boolean allDone = pool.awaitTermination(timeout, TimeUnit.MILLISECONDS);
-		if (!allDone) throw new TimeoutException("The timeout of "+timeout+" was exceeded for parallel run, please increase it!");
+		while (!pool.awaitTermination(200, TimeUnit.MILLISECONDS)){
+			if (visitor.isCancelled()) break;
+		}
+
 	}
 	
 	public static int[] getDataDimensions(int[] shape, Map<Integer, String> sliceDimensions) {
