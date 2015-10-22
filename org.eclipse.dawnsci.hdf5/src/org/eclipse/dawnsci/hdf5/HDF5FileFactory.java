@@ -12,9 +12,9 @@ package org.eclipse.dawnsci.hdf5;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public class HDF5FileFactory {
 	}
 
 	private static long heldPeriod = 5000; // 5 seconds
-	private static Map<String, FileAccess> IDS = new HashMap<>();
+	private static ConcurrentMap<String, FileAccess> IDS = new ConcurrentHashMap<>();
 
 	/**
 	 * Set period of time a file ID is held open for. The period specified must be greater
