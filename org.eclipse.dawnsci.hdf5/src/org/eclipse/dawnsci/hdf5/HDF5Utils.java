@@ -1070,48 +1070,6 @@ public class HDF5Utils {
 		}
 	}
 
-	public static void writeDataset2(long fileID, String dataPath, IDataset data) throws NexusException {
-		Dataset dataset = DatasetUtils.convertToDataset(data);
-
-		long[] shape = toLongArray(dataset.getShapeRef());
-		if (shape.length == 0) { // cannot write zero-rank datasets so make them 1D
-			shape = new long[] {1};
-		}
-
-		int dtype = dataset.getDtype();
-		boolean stringDataset = dtype == Dataset.STRING;
-		long hdfType = getHDF5type(dtype);
-		try {
-			try (HDF5Resource hdfDatatype = new HDF5DatatypeResource(H5.H5Tcopy(hdfType));
-					HDF5Resource hdfDataspace = new HDF5DataspaceResource(H5.H5Screate_simple(shape.length, shape, null));
-					HDF5Resource hdfProperties = new HDF5PropertiesResource(H5.H5Pcreate(HDF5Constants.H5P_DATASET_CREATE))) {
-
-				final long hdfPropertiesId = hdfProperties.getResource();
-				final long hdfDatatypeId = hdfDatatype.getResource();
-				final long hdfDataspaceId = hdfDataspace.getResource();
-
-				if (stringDataset) {
-					H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
-					H5.H5Tset_size(hdfDatatypeId, HDF5Constants.H5T_VARIABLE);
-				}
-				try (HDF5DatasetResource hdfDataset = new HDF5DatasetResource(H5.H5Dcreate(fileID, dataPath, hdfDatatypeId, hdfDataspaceId,
-						HDF5Constants.H5P_DEFAULT, hdfPropertiesId, HDF5Constants.H5P_DEFAULT))) {
-					final long dataId = hdfDataset.getResource();
-					if (stringDataset) {
-						String[] strings = (String[])DatasetUtils.serializeDataset(data);
-						H5.H5DwriteString(dataId, hdfDatatypeId, HDF5Constants.H5S_ALL, HDF5Constants.H5S_ALL, HDF5Constants.H5P_DEFAULT, strings);
-					} else {
-						Serializable buffer = DatasetUtils.serializeDataset(data);
-						H5.H5Dwrite(dataId, hdfDatatypeId, HDF5Constants.H5S_ALL, HDF5Constants.H5S_ALL, HDF5Constants.H5P_DEFAULT, buffer);
-					}
-				}
-			}
-		} catch (HDF5Exception e) {
-			logger.error("Could not write dataset", e);
-			throw new NexusException("Could not write dataset", e);
-		}
-	}
-
 	/**
 	 * Set slice of dataset in HDF5 file. Create file if necessary
 	 * @param fileName
