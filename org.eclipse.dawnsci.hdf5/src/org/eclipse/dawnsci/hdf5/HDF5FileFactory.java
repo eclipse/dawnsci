@@ -194,6 +194,51 @@ public class HDF5FileFactory {
 	}
 
 	/**
+	 * Delete file
+	 * @param fileName
+	 * @throws ScanFileHolderException
+	 */
+	public static void deleteFile(String fileName) throws ScanFileHolderException {
+		final String cPath;
+		try {
+			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
+		} catch (IOException e) {
+			logger.error("Problem canonicalising path", e);
+			throw new ScanFileHolderException("Problem canonicalising path", e);
+		}
+
+		synchronized (IDS) {
+			if (IDS.containsKey(cPath)) {
+				try {
+					FileAccess access = IDS.get(cPath);
+					if (access.count <= 0) {
+						try {
+							H5.H5Fclose(access.id);
+							IDS.remove(cPath);
+// FIXME for CustomTomoConverter, etc 
+//							HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath); 
+						} catch (HDF5LibraryException e) {
+							logger.error("Could not close file", e);
+							throw e;
+						}
+					} else {
+						logger.error("File is currently being used: {}", cPath);
+						throw new ScanFileHolderException("File is currently being used: " + cPath);
+					}
+				} catch (Throwable le) {
+					logger.error("Problem releasing access to file: {}", cPath, le);
+					throw new ScanFileHolderException("Problem releasing access to file: " + cPath, le);
+				}
+			}
+		}
+
+		File f = new File(cPath);
+		if (f.exists()) {
+			f.delete();
+		}
+	}
+
+	/**
 	 * Release file ID
 	 * @param fileName
 	 * @throws ScanFileHolderException
