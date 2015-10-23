@@ -23,6 +23,17 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.eclipse.dawnsci.analysis.api.tree.Node;
+import org.eclipse.dawnsci.analysis.api.tree.Tree;
+import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.dawnsci.hdf5.nexus.NexusUtils;
+import org.eclipse.dawnsci.hdf5.nexus.NexusUtils.ATTRIBUTE_TYPE;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ncsa.hdf.hdf5lib.H5;
 import ncsa.hdf.hdf5lib.HDF5Constants;
 import ncsa.hdf.object.Attribute;
@@ -34,17 +45,6 @@ import ncsa.hdf.object.HObject;
 import ncsa.hdf.object.h5.H5Datatype;
 import ncsa.hdf.object.h5.H5File;
 import ncsa.hdf.object.h5.H5ScalarDS;
-
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.api.tree.Node;
-import org.eclipse.dawnsci.analysis.api.tree.Tree;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.hdf5.nexus.NexusUtils;
-import org.eclipse.dawnsci.hdf5.nexus.NexusUtils.ATTRIBUTE_TYPE;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -105,9 +105,9 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 	 * @param absolutePath
 	 * @return
 	 */
-	static synchronized HierarchicalDataFile open(final String absolutePath, final int openType, boolean waitForLock) throws Exception {
+	static synchronized HierarchicalDataFile open(String absolutePath, final int openType, boolean waitForLock) throws Exception {
+		absolutePath = HierarchicalDataFactory.canonicalisePath(absolutePath);
 
-		
 		if (openType == FileFormat.READ) {
 			if (readCache==null) readCache = new Hashtable<String,HierarchicalDataFile>(7); // Synchronized!
 			HierarchicalDataFile file = readCache.get(absolutePath);
@@ -150,6 +150,16 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 		}
 	}
 	
+	/**
+	 * Used internally to close all open references.
+	 * @param path
+	 */
+	protected static void closeWriters(String path) throws Exception{
+		if (writeCache.contains(path)) {
+			writeCache.remove(path);
+		}
+	}
+
 	/**
 	 * Used internally to close all open references.
 	 * @param path

@@ -52,18 +52,6 @@ public class HierarchicalDataFactory {
 	private static final Logger logger = LoggerFactory.getLogger(HierarchicalDataFactory.class);
 	
 	/**
-	 * Call this method to get a reference to a HierarchicalDataFile
-	 * opened for reading use.
-	 * 
-	 * @param absolutePath
-	 * @return
-	 * @throws Exception
-	 */
-	public static IHierarchicalDataFile getReader(final String absolutePath) throws Exception {
-		return  HierarchicalDataFactory.getReader(absolutePath, false);
-	}
-
-	/**
 	 * Canonicalise path so that we can use it as a standard key
 	 * @param absolutePath
 	 * @return
@@ -78,7 +66,18 @@ public class HierarchicalDataFactory {
 		}
 	}
 
-	
+	/**
+	 * Call this method to get a reference to a HierarchicalDataFile
+	 * opened for reading use.
+	 * 
+	 * @param absolutePath
+	 * @return
+	 * @throws Exception
+	 */
+	public static IHierarchicalDataFile getReader(final String absolutePath) throws Exception {
+		return  HierarchicalDataFactory.getReader(absolutePath, false);
+	}
+
 	/**
 	 * Get the reader, optionally waiting if a low level API call is blocking reading the file.
 	 * @param path absolute path
@@ -113,7 +112,8 @@ public class HierarchicalDataFactory {
 	 * file path. Use with Caution because other references to the file may exist,
 	 * which will go dead.
 	 */
-	public static void closeReaders(final String absolutePath) throws Exception { 
+	public static void closeReaders(final String path) throws Exception { 
+		String absolutePath = canonicalisePath(path);
 		HierarchicalDataFile.closeReaders(absolutePath);
 	}
 	
@@ -154,11 +154,12 @@ public class HierarchicalDataFactory {
 	 * 
 	 * Do 
 	 * 
-	 * @param absolutePath
+	 * @param path
 	 * @return
 	 * @throws Exception
 	 */
-	public static void create(final String absolutePath) throws Exception {
+	public static void create(final String path) throws Exception {
+		String absolutePath = canonicalisePath(path);
 		IHierarchicalDataFile file=null;
 		try { // Try finally not really necessary but sets good example.
 		    file = HierarchicalDataFile.open(absolutePath, FileFormat.CREATE);
@@ -168,7 +169,13 @@ public class HierarchicalDataFactory {
 	}
 
 
-	public static boolean isHDF5(final String absolutePath) {
+	public static boolean isHDF5(final String path) {
+		String absolutePath;
+		try {
+			absolutePath = canonicalisePath(path);
+		} catch (IOException e) {
+			return false;
+		}
 		if (HierarchicalDataFile.isWriting(absolutePath)) return true;
 		if (HierarchicalDataFile.isReading(absolutePath)) return true;
 		
