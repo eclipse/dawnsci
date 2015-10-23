@@ -9,21 +9,17 @@
 
 package org.eclipse.dawnsci.hdf5;
 
-import java.io.File;
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
-import org.eclipse.dawnsci.hdf5.nexus.NexusException;
 import org.junit.Test;
 
 import ncsa.hdf.hdf5lib.H5;
 import ncsa.hdf.hdf5lib.HDF5Constants;
 import ncsa.hdf.hdf5lib.exceptions.HDF5Exception;
-import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
 
 public class ReadThreadTest extends AbstractThreadTestBase {
 	String file = "test-scratch/readthread.h5";
@@ -70,19 +66,16 @@ public class ReadThreadTest extends AbstractThreadTestBase {
 			stop[0] = start[0] + 1;
 			HDF5Utils.loadDataset(file, dataName, start, nshape, step, Dataset.FLOAT64, 1, false);
 		}
-//		HDF5FileFactory.releaseFile(file);
+		HDF5FileFactory.releaseFile(file);
 		now += System.nanoTime();
 
 		System.err.println("Thd for " + dataName + " took " + now*1e-9 + "s");
 	}
 
-	private void prepareForTest(String file, int nthreads) throws ScanFileHolderException, NexusException, HDF5LibraryException {
-		File f = new File(file);
-		if (f.exists()) {
-			HDF5FileFactory.releaseFile(file, true);
-			f.delete();
-		}
+	private void prepareForTest(String file, int nthreads) throws Exception {
+		HDF5FileFactory.deleteFile(file);
 
+		HierarchicalDataFactory.acquireLowLevelReadingAccess(file);
 		long fid = -1;
 		try {
 			fid = H5.H5Fcreate(file, HDF5Constants.H5F_ACC_TRUNC, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
@@ -97,5 +90,6 @@ public class ReadThreadTest extends AbstractThreadTestBase {
 			HDF5Utils.writeDataset(fid, "data" + i, data);
 		}
 		H5.H5Fclose(fid);
+		HierarchicalDataFactory.releaseLowLevelReadingAccess(file);
 	}
 }

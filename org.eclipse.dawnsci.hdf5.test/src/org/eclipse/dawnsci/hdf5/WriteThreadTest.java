@@ -9,8 +9,6 @@
 
 package org.eclipse.dawnsci.hdf5;
 
-import java.io.File;
-
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
@@ -83,11 +81,7 @@ public class WriteThreadTest extends AbstractThreadTestBase {
 	private void prepareForTest(String file, int nthreads) throws ScanFileHolderException {
 		int[] mshape = new int[] {-1, 128, 1024};
 
-		File f = new File(file);
-		if (f.exists()) {
-			HDF5FileFactory.releaseFile(file, true);
-			f.delete();
-		}
+		HDF5FileFactory.deleteFile(file);
 
 		for (int i = 0; i < nthreads; i++) {
 			HDF5Utils.createDataset(file, group, "data" + i, chunk, mshape, chunk, Dataset.FLOAT64, null, false);
