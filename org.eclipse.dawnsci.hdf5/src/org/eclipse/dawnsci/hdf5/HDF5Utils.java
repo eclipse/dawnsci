@@ -12,6 +12,7 @@ package org.eclipse.dawnsci.hdf5;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -883,37 +884,16 @@ public class HDF5Utils {
 	 * @throws ScanFileHolderException 
 	 */
 	public static void writeDataset(String fileName, String parentPath, IDataset data) throws ScanFileHolderException {
-		final String cPath;
+		long fid = HDF5FileFactory.acquireFile(fileName, true);
+
 		try {
-			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
-		} catch (IOException e) {
-			throw new ScanFileHolderException("Problem canonicalising path", e);
-		}
-
-		long fid = -1;
-		try {
-			HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
-
-			if (new File(cPath).exists()) {
-				fid = H5Fopen(fileName, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
-			} else {
-				fid = H5.H5Fcreate(fileName, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
-				createDestination(fid, parentPath);
-			}
-
+			requireDestination(fid, parentPath);
 			String dataPath = absolutePathToData(parentPath, data.getName());
 			writeDataset(fid, dataPath, data);
 		} catch (Throwable le) {
 			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
 		} finally {
-			if (fid != -1) {
-				try {
-					H5.H5Fclose(fid);
-				} catch (Throwable e) {
-					logger.error("Could not close HDF5 file: {}", fileName, e);
-				}
-			}
-			HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
+			HDF5FileFactory.releaseFile(fileName);
 		}
 	}
 
@@ -984,6 +964,145 @@ public class HDF5Utils {
 					try {
 						H5.H5Tclose(hdfDatatypeId);
 					} catch (HDF5Exception ex) {
+					}
+				}
+			}
+		} catch (HDF5Exception e) {
+			logger.error("Could not write dataset", e);
+			throw new NexusException("Could not write dataset", e);
+		}
+	}
+
+	private static final Charset UTF8 = Charset.forName("UTF-8");
+
+	/**
+	 * Write attributes to a group or dataset in given file ID
+	 * @param fileID
+	 * @param path
+	 * @param attributes
+	 * @throws NexusException
+	 */
+	public static void writeAttributes(long fileID, String path, IDataset... attributes) throws NexusException {
+		for (IDataset attr : attributes) {
+			String attrName = attr.getName();
+			if (attrName == null || attrName.isEmpty()) {
+				throw new NullPointerException("Attribute must have a name");
+			}
+
+			try {
+				// if an attribute with the same name already exists, we delete it to be consistent with NAPI
+				if (H5.H5Aexists_by_name(fileID, path, attrName, HDF5Constants.H5P_DEFAULT)) {
+					try {
+						H5.H5Adelete_by_name(fileID, path, attrName, HDF5Constants.H5P_DEFAULT);
+					} catch (HDF5Exception e) {
+						throw new NexusException("Could not delete existing attribute", e);
+					}
+				}
+			} catch (HDF5Exception e) {
+				throw new NexusException("Error inspecting existing attributes", e);
+			}
+			Dataset attrData = DatasetUtils.convertToDataset(attr);
+			long baseHdf5Type = getHDF5type(attrData.getDtype());
+
+			final long[] shape = attrData.getRank() == 0 ? new long[] {1} : toLongArray(attrData.getShapeRef());
+			long datatypeID = -1;
+			long dataspaceID = -1;
+			try {
+				datatypeID = H5.H5Tcopy(baseHdf5Type);
+				dataspaceID = H5.H5Screate_simple(shape.length, shape, shape);
+				boolean stringDataset = attrData.getDtype() == Dataset.STRING;
+				Serializable buffer = DatasetUtils.serializeDataset(attrData);
+				if (stringDataset) {
+					String[] strings = (String[]) buffer;
+					int strCount = strings.length;
+					int maxLength = 0;
+					byte[][] stringbuffers = new byte[strCount][];
+					int i = 0;
+					for (String str : strings) {
+						stringbuffers[i] = str.getBytes(UTF8);
+						int l = stringbuffers[i].length;
+						if (l > maxLength) maxLength = l;
+						i++;
+					}
+					maxLength++; //we require null terminators
+					buffer = new byte[maxLength * strCount];
+					int offset = 0;
+					for (byte[] str: stringbuffers) {
+						System.arraycopy(str, 0, buffer, offset, str.length);
+						offset += maxLength;
+					}
+
+					H5.H5Tset_cset(datatypeID, HDF5Constants.H5T_CSET_UTF8);
+					H5.H5Tset_size(datatypeID, maxLength);
+				}
+				long attrID = -1;
+				try {
+					attrID = H5.H5Acreate_by_name(fileID, path, attrName, datatypeID, dataspaceID,
+								HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
+
+					H5.H5Awrite(attrID, datatypeID, buffer);
+				} catch (HDF5Exception e) {
+					throw new NexusException("Could not create attribute", e);
+				} finally {
+					if (attrID != -1) {
+						try {
+							H5.H5Aclose(attrID);
+						} catch (HDF5Exception e) {
+						}
+					}
+				}
+			} catch (HDF5Exception e) {
+				throw new NexusException("Could not make data type or space", e);
+			} finally {
+				if (dataspaceID != -1) {
+					try {
+						H5.H5Sclose(dataspaceID);
+					} catch (HDF5Exception e) {
+					}
+				}
+				if (datatypeID != -1) {
+					try {
+						H5.H5Tclose(datatypeID);
+					} catch (HDF5Exception e) {
+					}
+				}
+			}
+		}
+	}
+
+	public static void writeDataset2(long fileID, String dataPath, IDataset data) throws NexusException {
+		Dataset dataset = DatasetUtils.convertToDataset(data);
+
+		long[] shape = toLongArray(dataset.getShapeRef());
+		if (shape.length == 0) { // cannot write zero-rank datasets so make them 1D
+			shape = new long[] {1};
+		}
+
+		int dtype = dataset.getDtype();
+		boolean stringDataset = dtype == Dataset.STRING;
+		long hdfType = getHDF5type(dtype);
+		try {
+			try (HDF5Resource hdfDatatype = new HDF5DatatypeResource(H5.H5Tcopy(hdfType));
+					HDF5Resource hdfDataspace = new HDF5DataspaceResource(H5.H5Screate_simple(shape.length, shape, null));
+					HDF5Resource hdfProperties = new HDF5PropertiesResource(H5.H5Pcreate(HDF5Constants.H5P_DATASET_CREATE))) {
+
+				final long hdfPropertiesId = hdfProperties.getResource();
+				final long hdfDatatypeId = hdfDatatype.getResource();
+				final long hdfDataspaceId = hdfDataspace.getResource();
+
+				if (stringDataset) {
+					H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
+					H5.H5Tset_size(hdfDatatypeId, HDF5Constants.H5T_VARIABLE);
+				}
+				try (HDF5DatasetResource hdfDataset = new HDF5DatasetResource(H5.H5Dcreate(fileID, dataPath, hdfDatatypeId, hdfDataspaceId,
+						HDF5Constants.H5P_DEFAULT, hdfPropertiesId, HDF5Constants.H5P_DEFAULT))) {
+					final long dataId = hdfDataset.getResource();
+					if (stringDataset) {
+						String[] strings = (String[])DatasetUtils.serializeDataset(data);
+						H5.H5DwriteString(dataId, hdfDatatypeId, HDF5Constants.H5S_ALL, HDF5Constants.H5S_ALL, HDF5Constants.H5P_DEFAULT, strings);
+					} else {
+						Serializable buffer = DatasetUtils.serializeDataset(data);
+						H5.H5Dwrite(dataId, hdfDatatypeId, HDF5Constants.H5S_ALL, HDF5Constants.H5S_ALL, HDF5Constants.H5P_DEFAULT, buffer);
 					}
 				}
 			}
