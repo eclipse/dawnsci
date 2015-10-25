@@ -185,4 +185,16 @@ public class AccessSpeedTest {
 		HDF5Utils.createDatasetWithClose(file, "/entry", "data1", chunk, mshape, chunk, Dataset.FLOAT64, null, false);
 		HDF5Utils.createDatasetWithClose(file, "/entry", "data2", chunk, mshape, chunk, Dataset.FLOAT64, null, false);
 	}
+
+	@Test
+	public void testShutdownHook() throws HDF5LibraryException, NullPointerException, NexusException, ScanFileHolderException, InterruptedException {
+		String file = "test-scratch/shutdown.h5";
+		long fid = HDF5FileFactory.acquireFileAsNew(file);
+		int[] shape = new int[] {1024, 128, 1024};
+		int size = AbstractDataset.calcSize(shape);
+		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
+		data1.setShape(shape);
+		HDF5Utils.writeDataset(fid, "data1", data1);
+		HDF5FileFactory.releaseFile(file);
+	}
 }
