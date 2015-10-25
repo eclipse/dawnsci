@@ -29,7 +29,7 @@ import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
  * be held open for a set period (default of 5s) before being closed.
  */
 public class HDF5FileFactory {
-	protected static final Logger logger = LoggerFactory.getLogger(HDF5FileFactory.class);
+	private static final Logger logger = LoggerFactory.getLogger(HDF5FileFactory.class);
 
 	static class FileAccess {
 		long id;   // HDF5 low level ID
@@ -39,7 +39,34 @@ public class HDF5FileFactory {
 	}
 
 	private static long heldPeriod = 5000; // 5 seconds
-	private static ConcurrentMap<String, FileAccess> IDS = new ConcurrentHashMap<>();
+
+	private final static HDF5FileFactory INSTANCE;
+
+	static {
+		INSTANCE = new HDF5FileFactory();
+	}
+
+	private ConcurrentMap<String, FileAccess> map;
+
+	// Need singleton to add finalizer
+	private HDF5FileFactory() {
+		map = new ConcurrentHashMap<>();
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		synchronized (map) {
+			for (String f : map.keySet()) {
+				FileAccess a = map.get(f);
+				try {
+					H5.H5Fclose(a.id);
+				} catch (HDF5LibraryException e) {
+					logger.error("Could not close file: {}", f);
+				}
+			}
+		}
+		super.finalize();
+	}
 
 	/**
 	 * Set period of time a file ID is held open for. The period specified must be greater
@@ -76,16 +103,16 @@ public class HDF5FileFactory {
 
 					long now = System.currentTimeMillis();
 					long next = now + heldPeriod;
-					synchronized (IDS) {
-						Iterator<String> iter = IDS.keySet().iterator();
+					synchronized (INSTANCE) {
+						Iterator<String> iter = INSTANCE.map.keySet().iterator();
 						while (iter.hasNext()) {
 							String f = iter.next();
-							FileAccess a = IDS.get(f);
+							FileAccess a = INSTANCE.map.get(f);
 							if (a.count <= 0) {
 								if (a.time <= now) {
 									try {
 										H5.H5Fclose(a.id);
-										IDS.remove(f);
+										INSTANCE.map.remove(f);
 // FIXME for CustomTomoConverter, etc 
 //										HierarchicalDataFactory.releaseLowLevelReadingAccess(f);
 									} catch (HDF5LibraryException e) {
@@ -101,6 +128,17 @@ public class HDF5FileFactory {
 				}
 			}
 		}, "File ID releaser").start();
+
+		// make sure all files are closed on shutdown
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					INSTANCE.finalize();
+				} catch (Throwable e) {
+				}
+			}
+		}, "File ID closer"));
 	}
 
 	/**
@@ -123,14 +161,14 @@ public class HDF5FileFactory {
 		FileAccess access = null;
 		long fid = -1;
 
-		synchronized (IDS) {
+		synchronized (INSTANCE) {
 			try {
-				if (IDS.containsKey(cPath)) {
+				if (INSTANCE.map.containsKey(cPath)) {
 					if (asNew) {
 						logger.error("File already open and will need to closed: {}", cPath);
 						throw new ScanFileHolderException("File already open and will need to closed");
 					}
-					access = IDS.get(cPath);
+					access = INSTANCE.map.get(cPath);
 					if (writeable && !access.writeable) {
 						logger.error("Cannot get file {} in writeable state as it has been opened read-only", cPath);
 						throw new ScanFileHolderException("Cannot get file in writeable state as it has been opened read-only");
@@ -157,7 +195,7 @@ public class HDF5FileFactory {
 						}
 					}
 					access.id = fid;
-					IDS.put(cPath, access);
+					INSTANCE.map.put(cPath, access);
 				}
 			} catch (Throwable le) {
 // FIXME for CustomTomoConverter, etc 
@@ -203,7 +241,7 @@ public class HDF5FileFactory {
 	}
 
 	/**
-	 * Release file ID
+	 * Release ID associated with file
 	 * @param fileName
 	 * @param close if true then close it too
 	 * @throws ScanFileHolderException
@@ -217,20 +255,20 @@ public class HDF5FileFactory {
 			throw new ScanFileHolderException("Problem canonicalising path", e);
 		}
 
-		synchronized (IDS) {
-			if (!IDS.containsKey(cPath)) {
+		synchronized (INSTANCE) {
+			if (!INSTANCE.map.containsKey(cPath)) {
 				logger.debug("File not known - has it already been released?");
 				return;
 			}
 		
 			try {
-				FileAccess access = IDS.get(cPath);
+				FileAccess access = INSTANCE.map.get(cPath);
 				access.count--;
 				if (access.count <= 0) {
 					if (close) {
 						try {
 							H5.H5Fclose(access.id);
-							IDS.remove(cPath);
+							INSTANCE.map.remove(cPath);
 // FIXME for CustomTomoConverter, etc 
 //							HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath); 
 						} catch (HDF5LibraryException e) {
