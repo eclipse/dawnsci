@@ -245,14 +245,14 @@ public class HDF5FileFactory {
 			throw new ScanFileHolderException("Problem canonicalising path", e);
 		}
 
-		synchronized (IDS) {
-			if (IDS.containsKey(cPath)) {
+		synchronized (INSTANCE) {
+			if (INSTANCE.map.containsKey(cPath)) {
 				try {
-					FileAccess access = IDS.get(cPath);
+					FileAccess access = INSTANCE.map.get(cPath);
 					if (access.count <= 0) {
 						try {
 							H5.H5Fclose(access.id);
-							IDS.remove(cPath);
+							INSTANCE.map.remove(cPath);
 // FIXME for CustomTomoConverter, etc 
 //							HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath); 
 						} catch (HDF5LibraryException e) {
