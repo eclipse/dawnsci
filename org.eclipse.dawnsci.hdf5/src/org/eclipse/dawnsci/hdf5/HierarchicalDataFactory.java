@@ -87,6 +87,8 @@ public class HierarchicalDataFactory {
 	 */
 	public static IHierarchicalDataFile getReader(final String path, boolean waitForLowLevel) throws Exception {
 		String absolutePath = canonicalisePath(path);
+		// FIXME temporary fix to stop overlapping high and low level uses of HDF5 library
+		HDF5FileFactory.releaseFile(absolutePath, true);
 
 		if (lowLevelLocks.containsKey(absolutePath)) {
 			if (!waitForLowLevel) {
