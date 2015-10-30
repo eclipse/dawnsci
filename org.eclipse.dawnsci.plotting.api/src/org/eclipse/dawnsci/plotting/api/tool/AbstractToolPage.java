@@ -223,6 +223,9 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class key) {
 		if (key == IPlottingSystem.class) return getPlottingSystem();
+		if (key == IToolPageSystem.class && getPlottingSystem() instanceof IToolPageSystem) {
+			return (IToolPageSystem)getPlottingSystem();
+		}
 		return null;
 	}
 
