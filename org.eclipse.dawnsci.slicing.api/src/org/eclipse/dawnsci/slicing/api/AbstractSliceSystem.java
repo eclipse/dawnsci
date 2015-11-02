@@ -273,7 +273,7 @@ public abstract class AbstractSliceSystem implements ISliceSystem {
 							
 						}
 						final int size = DOEUtils.getSize(dd.getSliceRange(true), null);
-						if (size>=getData().getLazySet().getShape()[dd.getDimension()] || size<1) {
+						if (size>getData().getLazySet().getShape()[dd.getDimension()] || size<1) {
 							errorMessage = "The slice '"+dd.getSliceRange(true)+"' does not fit the data.";
 							ok = false;
 							break;
