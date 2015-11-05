@@ -13,6 +13,7 @@
 package org.eclipse.dawnsci.nexus;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
@@ -25,15 +26,38 @@ import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 public interface NXobject extends GroupNode {
 
 	/**
+	 * Java {@link Class} object of the interface for this base class, e.g. {@link NXsample}.class. 
 	 * @return name of Nexus class
 	 */
 	public Class<? extends NXobject> getNXclass();
-
+	
+	/**
+	 * Enum constant from {@link NexusBaseClass} for this base class, e.g. {@link NexusBaseClass#NX_SAMPLE}.
+	 * @return {@link NexusBaseClass} enum constant for this class
+	 */
+	public NexusBaseClass getNexusBaseClass();
+	
+	/**
+	 * Returns a set containing the {@link NexusBaseClass} constants for the permitted child group types
+	 * of this base class.
+	 * @return {@link NexusBaseClass} constants for permitted child groups
+	 */
+	public Set<NexusBaseClass> getPermittedChildGroupClasses();
+	
+	/**
+	 * Returns whether the given NeXus group object can be added as a child group
+	 * to this base class instance according to the NXDL definition for this base class.
+	 * @param nexusObject potential child nexus group object
+	 * @return <code>true</code> if the given group object can be added as a child of this base
+	 *    class instance, <code>false</code> otherwise
+	 */
+	public boolean canAddChild(NXobject nexusObject);
+	
 	/**
 	 * Returns the child of this node of the given type with the given name.
 	 * @param name of child
 	 * @param nxClass class of child
-	 * @return named child NXobject of given Nexus class or <code>null</code> if none
+	 * @return named child NXobject of given NeXus class or <code>null</code> if none
 	 */
 	public <N extends NXobject> N getChild(String name, Class<N> nxClass);
 	

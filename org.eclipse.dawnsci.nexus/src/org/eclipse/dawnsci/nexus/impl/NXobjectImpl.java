@@ -38,6 +38,7 @@ import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.DataNodeImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
 import org.eclipse.dawnsci.nexus.NXobject;
+import org.eclipse.dawnsci.nexus.NexusBaseClass;
 
 public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 
@@ -63,6 +64,11 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		this.nodeFactory = nodeFactory;
 		createNxClassAttribute();
 	}
+	
+	@Override
+	public boolean canAddChild(NXobject nexusObject) {
+		return getPermittedChildGroupClasses().contains(nexusObject.getNexusBaseClass());
+	}
 
 	/**
 	 * Creates a new NeXus group node. This constructor is used when loading
@@ -83,13 +89,6 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		a.setValue(n.substring(i + 1));
 		addAttribute(a);
 	}
-
-	@Override
-	public Class<? extends NXobject> getNXclass() {
-		return NXobject.class;
-	}
-	
-	public abstract NXbaseClass getNXbaseClass();
 
 	@SuppressWarnings("unchecked")
 	@Override

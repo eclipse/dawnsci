@@ -7,11 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-13T13:58:10.369+01:00
+ * Generated at: 2015-10-30T13:22:49.763Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
+import java.util.Set;
+import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
@@ -36,6 +38,34 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 	public static final String NX_NAME = "name";
 	public static final String NX_NAME_ATTRIBUTE_SHORT_NAME = "short_name";
 
+	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
+		NexusBaseClass.NX_APERTURE,
+		NexusBaseClass.NX_ATTENUATOR,
+		NexusBaseClass.NX_BEAM,
+		NexusBaseClass.NX_BEAM_STOP,
+		NexusBaseClass.NX_BENDING_MAGNET,
+		NexusBaseClass.NX_COLLIMATOR,
+		NexusBaseClass.NX_COLLECTION,
+		NexusBaseClass.NX_CAPILLARY,
+		NexusBaseClass.NX_CRYSTAL,
+		NexusBaseClass.NX_DETECTOR,
+		NexusBaseClass.NX_DETECTOR_GROUP,
+		NexusBaseClass.NX_DISK_CHOPPER,
+		NexusBaseClass.NX_EVENT_DATA,
+		NexusBaseClass.NX_FERMI_CHOPPER,
+		NexusBaseClass.NX_FILTER,
+		NexusBaseClass.NX_FLIPPER,
+		NexusBaseClass.NX_GUIDE,
+		NexusBaseClass.NX_INSERTION_DEVICE,
+		NexusBaseClass.NX_MIRROR,
+		NexusBaseClass.NX_MODERATOR,
+		NexusBaseClass.NX_MONOCHROMATOR,
+		NexusBaseClass.NX_POLARIZER,
+		NexusBaseClass.NX_POSITIONER,
+		NexusBaseClass.NX_SOURCE,
+		NexusBaseClass.NX_VELOCITY_SELECTOR,
+		NexusBaseClass.NX_XRAYLENS);
+
 	protected NXinstrumentImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
@@ -50,9 +80,15 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 	}
 	
 	@Override
-	public NXbaseClass getNXbaseClass() {
-		return NXbaseClass.NX_INSTRUMENT;
+	public NexusBaseClass getNexusBaseClass() {
+		return NexusBaseClass.NX_INSTRUMENT;
 	}
+	
+	@Override
+	public Set<NexusBaseClass> getPermittedChildGroupClasses() {
+		return PERMITTED_CHILD_GROUP_CLASSES;
+	}
+	
 
 	@Override
 	public IDataset getName() {

@@ -7,12 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-13T13:58:10.369+01:00
+ * Generated at: 2015-10-30T13:22:49.763Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Date;
+import java.util.Set;
+import java.util.EnumSet;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -35,6 +37,8 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 	public static final String NX_EVENTS_PER_PULSE = "events_per_pulse";
 	public static final String NX_PULSE_HEIGHT = "pulse_height";
 
+	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
+
 	protected NXevent_dataImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
@@ -49,9 +53,15 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 	}
 	
 	@Override
-	public NXbaseClass getNXbaseClass() {
-		return NXbaseClass.NX_EVENT_DATA;
+	public NexusBaseClass getNexusBaseClass() {
+		return NexusBaseClass.NX_EVENT_DATA;
 	}
+	
+	@Override
+	public Set<NexusBaseClass> getPermittedChildGroupClasses() {
+		return PERMITTED_CHILD_GROUP_CLASSES;
+	}
+	
 
 	@Override
 	public IDataset getTime_of_flight() {

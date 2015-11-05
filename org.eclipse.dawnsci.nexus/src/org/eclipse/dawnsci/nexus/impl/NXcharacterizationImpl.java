@@ -7,11 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-13T13:58:10.369+01:00
+ * Generated at: 2015-10-30T13:22:49.763Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
+import java.util.Set;
+import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -36,6 +38,8 @@ public class NXcharacterizationImpl extends NXobjectImpl implements NXcharacteri
 	public static final String NX_DEFINITION_ATTRIBUTE_VERSION = "version";
 	public static final String NX_DEFINITION_ATTRIBUTE_URL = "URL";
 
+	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
+
 	protected NXcharacterizationImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
@@ -50,9 +54,15 @@ public class NXcharacterizationImpl extends NXobjectImpl implements NXcharacteri
 	}
 	
 	@Override
-	public NXbaseClass getNXbaseClass() {
-		return NXbaseClass.NX_CHARACTERIZATION;
+	public NexusBaseClass getNexusBaseClass() {
+		return NexusBaseClass.NX_CHARACTERIZATION;
 	}
+	
+	@Override
+	public Set<NexusBaseClass> getPermittedChildGroupClasses() {
+		return PERMITTED_CHILD_GROUP_CLASSES;
+	}
+	
 
 	@Override
 	public String getAttributeSource() {

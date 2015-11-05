@@ -7,12 +7,10 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-13T13:58:10.369+01:00
+ * Generated at: 2015-10-30T13:22:49.763Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
-
-import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -33,7 +31,7 @@ public interface NXtransformations extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTransformation();	
+	public IDataset getAnonymous__NEEDS_XSD_CHANGE__();	
 
 	/**
 	 * Units need to be appropriate for translation or rotation
@@ -43,19 +41,7 @@ public interface NXtransformations extends NXobject {
 	 * 
 	 * @return  the value
 	 */
-	 public Number getTransformationScalar();
-  
-	/**
-	 * Get all Transformation fields:
-	 *
-	 * Units need to be appropriate for translation or rotation
-	 * <p>
-	 * <b>Type:</b> NX_NUMBER
-	 * </p>
-	 * 
-	 * @return  a map from node names to the ? extends IDataset for that node.
-	 */
-	public Map<String, ? extends IDataset> getAllTransformation();
+	 public Number getAnonymous__NEEDS_XSD_CHANGE__Scalar();
 
 	/**
 	 * <p>
@@ -66,34 +52,34 @@ public interface NXtransformations extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getTransformationAttributeTransformation_type();	
+	public String getAnonymous__NEEDS_XSD_CHANGE__AttributeTransformation_type();	
 
 	/**
 	 * Three values that define the axis for this transformation
 	 * 
 	 * @return  the value.
 	 */
-	public Number getTransformationAttributeVector();	
+	public Number getAnonymous__NEEDS_XSD_CHANGE__AttributeVector();	
 
 	/**
 	 * A fixed offset applied before the transformation (three vector components).
 	 * 
 	 * @return  the value.
 	 */
-	public Number getTransformationAttributeOffset();	
+	public Number getAnonymous__NEEDS_XSD_CHANGE__AttributeOffset();	
 
 	/**
 	 * Units of the offset.
 	 * 
 	 * @return  the value.
 	 */
-	public String getTransformationAttributeOffset_units();	
+	public String getAnonymous__NEEDS_XSD_CHANGE__AttributeOffset_units();	
 
 	/**
 	 * Points to the path of the next element in the geometry chain.
 	 * 
 	 * @return  the value.
 	 */
-	public String getTransformationAttributeDepends_on();	
+	public String getAnonymous__NEEDS_XSD_CHANGE__AttributeDepends_on();	
 
 }

@@ -7,12 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-13T13:58:10.369+01:00
+ * Generated at: 2015-10-30T13:22:49.763Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Date;
+import java.util.Set;
+import java.util.EnumSet;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -54,6 +56,13 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	public static final String NX_LAST_FILL = "last_fill";
 	public static final String NX_LAST_FILL_ATTRIBUTE_TIME = "time";
 
+	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
+		NexusBaseClass.NX_NOTE,
+		NexusBaseClass.NX_DATA,
+		NexusBaseClass.NX_DATA,
+		NexusBaseClass.NX_GEOMETRY,
+		NexusBaseClass.NX_DATA);
+
 	protected NXsourceImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
@@ -68,9 +77,15 @@ public class NXsourceImpl extends NXobjectImpl implements NXsource {
 	}
 	
 	@Override
-	public NXbaseClass getNXbaseClass() {
-		return NXbaseClass.NX_SOURCE;
+	public NexusBaseClass getNexusBaseClass() {
+		return NexusBaseClass.NX_SOURCE;
 	}
+	
+	@Override
+	public Set<NexusBaseClass> getPermittedChildGroupClasses() {
+		return PERMITTED_CHILD_GROUP_CLASSES;
+	}
+	
 
 	@Override
 	public IDataset getDistance() {

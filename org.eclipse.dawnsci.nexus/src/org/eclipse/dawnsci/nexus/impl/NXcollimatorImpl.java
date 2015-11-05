@@ -7,11 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-13T13:58:10.369+01:00
+ * Generated at: 2015-10-30T13:22:49.763Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
+import java.util.Set;
+import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
@@ -38,6 +40,10 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 	public static final String NX_ABSORBING_MATERIAL = "absorbing_material";
 	public static final String NX_TRANSMITTING_MATERIAL = "transmitting_material";
 
+	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
+		NexusBaseClass.NX_GEOMETRY,
+		NexusBaseClass.NX_LOG);
+
 	protected NXcollimatorImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
@@ -52,9 +58,15 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 	}
 	
 	@Override
-	public NXbaseClass getNXbaseClass() {
-		return NXbaseClass.NX_COLLIMATOR;
+	public NexusBaseClass getNexusBaseClass() {
+		return NexusBaseClass.NX_COLLIMATOR;
 	}
+	
+	@Override
+	public Set<NexusBaseClass> getPermittedChildGroupClasses() {
+		return PERMITTED_CHILD_GROUP_CLASSES;
+	}
+	
 
 	@Override
 	public NXgeometry getGeometry() {
