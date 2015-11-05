@@ -30,23 +30,25 @@
 
 <xsl:output name="text-format" method="text" omit-xml-declaration="yes" indent="no"/>
 
-<xsl:variable name="baseClasses" select="collection(concat($nxdlDefinitionsPath, '/base_classes?select=*.nxdl.xml'))/nx:definition"/>
+<xsl:variable name="base-classes" select="collection(concat($nxdlDefinitionsPath, '/base_classes?select=*.nxdl.xml'))/nx:definition"/>
+<xsl:variable name="application-definitions" select="collection(concat($nxdlDefinitionsPath, '/applications?select=*.nxdl.xml'))/nx:definition"/>
 
 <!-- Used for running with any XML input file -->
 <xsl:template match="/">
-	<xsl:call-template name="generate-validators"/>
+	<xsl:call-template name="generate-java"/>
 </xsl:template>
 
 <!-- Direct entry point -->
-<xsl:template name="generate-validators">
-	<xsl:apply-templates select="collection(concat($nxdlDefinitionsPath, '/applications?select=*.nxdl.xml'))/nx:definition"/>
+<xsl:template name="generate-java">
+	<xsl:apply-templates select="$application-definitions"/> 
+	<xsl:call-template name="appdef-enum"/>
 </xsl:template>
 
 <!-- Template matches a definition in an NXDL application definition file. -->
 <xsl:template match="nx:definition">
 
 	<!-- The 'NXroot' base class -->
-	<xsl:variable name="baseClass" select="$baseClasses[@name = 'NXroot']"/>
+	<xsl:variable name="baseClass" select="$base-classes[@name = 'NXroot']"/>
 	<!-- The name of this generated validator class. -->
 	<xsl:variable name="validatorClassName" select="concat(@name, 'Validator')"/>
 	<!-- The prefix of the validate group method. -->
@@ -218,7 +220,7 @@
 <xsl:template match="nx:group[@type!='NXtransformations']" mode="implementation">
 	<xsl:param name="validateGroupMethodNamePrefix"/>
 	<xsl:variable name="validateGroupMethodName" select="dawnsci:validateGroupMethodName($validateGroupMethodNamePrefix, current())"/>
-	<xsl:variable name="baseClass" select="$baseClasses[@name = current()/@type]"/>
+	<xsl:variable name="baseClass" select="$base-classes[@name = current()/@type]"/>
 	
 	<!-- Javadoc comment for method. -->
 	<xsl:text>
@@ -517,6 +519,28 @@
 <xsl:template mode="imports" match="nx:group">import org.eclipse.dawnsci.nexus.<xsl:value-of select="@type"/>;
 </xsl:template>
 
+<!-- Template to generate an enumeration of NeXus application definitions -->
+<xsl:template name="appdef-enum">
+	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/NexusApplicationDefinition.java" format="text-format">
+		<xsl:text>package org.eclipse.dawnsci.nexus;
+		
+/**
+ * Enumeration of NeXus application definitions.
+ */
+public enum NexusApplicationDefinition {
+
+</xsl:text>
+		<xsl:apply-templates mode="appdef-enum" select="$application-definitions"/>
+
+<xsl:text>}&#10;</xsl:text>
+	</xsl:result-document>
+</xsl:template>
+
+<!-- Template to produce the enum value for a nexus application definition -->
+<xsl:template mode="appdef-enum" match="nx:definition">
+	<xsl:text>	</xsl:text><xsl:value-of select="dawnsci:appdef-enum-name(@name)"/><xsl:text>,&#10;</xsl:text>
+</xsl:template>
+
 <!-- A function to insert n tab characters into the output document. -->
 <xsl:function name="dawnsci:tabs" as="xs:string">
 	<xsl:param name="count" as="xs:integer"/>
@@ -536,6 +560,13 @@
 	<xsl:param name="group" as="node()"/>
 	<xsl:variable name="newSegment" select="if ($group/@name) then $group/@name else $group/@type"/>
 	<xsl:sequence select="concat($validateGroupMethodNamePrefix, '_', $newSegment)"/>
+</xsl:function>
+
+<!-- A function to get the enum value for an application definition, i.e. convert it to
+    the Java convention for constants, e.g. NXtomo -> NX_TOMO -->
+<xsl:function name="dawnsci:appdef-enum-name" as="xs:string">
+	<xsl:param name="arg" as="xs:string"/>
+	<xsl:sequence select="concat(substring($arg, 1, 2), '_', upper-case(substring($arg, 3)))"/>
 </xsl:function>
 
 </xsl:stylesheet> 
