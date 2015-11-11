@@ -7,11 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-13T13:58:10.369+01:00
+ * Generated at: 2015-10-30T13:22:49.763Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
+import java.util.Set;
+import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -30,6 +32,8 @@ public class NXpinholeImpl extends NXobjectImpl implements NXpinhole {
 	public static final String NX_DEPENDS_ON = "depends_on";
 	public static final String NX_DIAMETER = "diameter";
 
+	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
+
 	protected NXpinholeImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
@@ -44,9 +48,15 @@ public class NXpinholeImpl extends NXobjectImpl implements NXpinhole {
 	}
 	
 	@Override
-	public NXbaseClass getNXbaseClass() {
-		return NXbaseClass.NX_PINHOLE;
+	public NexusBaseClass getNexusBaseClass() {
+		return NexusBaseClass.NX_PINHOLE;
 	}
+	
+	@Override
+	public Set<NexusBaseClass> getPermittedChildGroupClasses() {
+		return PERMITTED_CHILD_GROUP_CLASSES;
+	}
+	
 
 	@Override
 	public IDataset getDepends_on() {

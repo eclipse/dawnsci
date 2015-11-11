@@ -8,19 +8,21 @@
 	<property name="nxdl-definitions-path" location="/scratch/dls_sw/all-dls/software/gda_versions/gda_8.47a/workspace_git/definitions"/>
 	
 	<!-- Delete the generated Java base classes -->
-	<target name="delete-generated-base-classes">
+	<target name="delete-base-classes">
 		<delete>
-			<fileset dir="${java-source-path}">
-				<include name="**/NX*.java"/>
-				<exclude name="**/NXobject*.java"/>
-				<exclude name="**/NXApplicationValidator.java"/>
-				<exclude name="**/NX*Example.java"/>
+			<fileset dir="${java-source-path}/org/eclipse/dawnsci/nexus">
+				<include name="NX*.java"/>
+				<exclude name="NXobject.java"/>
+			</fileset>
+			<fileset dir="${java-source-path}/org/eclipse/dawnsci/nexus/impl">
+				<include name="NX*.java"/>
+				<exclude name="NXobjectImpl.java"/>
 			</fileset>
 		</delete>
 	</target>
 	
 	<!-- Delete the generated Java validators for NeXus application definitions -->
-	<target name="delete-generated-validators">
+	<target name="delete-appdefs">
 		<delete>
 			<fileset dir="${java-source-path}/org/eclipse/dawnsci/nexus/validation">
 				<include name="NX*.java"/>
@@ -31,16 +33,16 @@
 	</target>
 	
 	<!-- Delete both base classes and application definitions -->
-	<target name="delete-both" depends="delete-generated-base-classes, delete-generated-validators"/>
+	<target name="delete-both" depends="delete-base-classes, delete-appdefs"/>
 	
 	<!-- Generate Java classes from the Nexus base class definitions -->
 	<target name="generate-base-classes">
 		 <!-- Note: in and out are not used, nxdlDefinitionsPath and javaSourcePath are used as the source and output dirs instead.
 		 They are given dummy values as the XSLT ant task requires them. -->
 		<xslt
-			in="xsl/NXDLJavaGenerator.xsl"
+			in="xsl/NXDLBaseClassesJavaGenerator.xsl"
 			out="${java-source-path}/out.xml"
-			style="xsl/NXDLJavaGenerator.xsl"
+			style="xsl/NXDLBaseClassesJavaGenerator.xsl"
 			classpath="${xslt-classpath}">
 			<param name="nxdlDefinitionsPath" expression="${nxdl-definitions-path}"/>
 			<param name="javaSourcePath" expression="${java-source-path}"/>
@@ -55,18 +57,18 @@
 	</target>
 	
 	<!-- Generate Java validators from the NeXus application definitions -->
-	<target name="generate-validators">
+	<target name="generate-appdefs">
 		 <!-- Note: in and out are not used, nxdlDefinitionsPath and javaSourcePath are used as the source and output dirs instead.
 		 They are given dummy values as the XSLT ant task requires them. -->
 		<xslt
-			in="xsl/NXDLValidatorGenerator.xsl"
+			in="xsl/NXDLAppDefsValidatorGenerator.xsl"
 			out="${java-source-path}/out.xml"
-			style="xsl/NXDLValidatorGenerator.xsl"
+			style="xsl/NXDLAppDefsValidatorGenerator.xsl"
 			classpath="${xslt-classpath}">
 			<param name="nxdlDefinitionsPath" expression="${nxdl-definitions-path}"/>
 			<param name="javaSourcePath" expression="${java-source-path}"/>
 			<factory name="net.sf.saxon.TransformerFactoryImpl">
-				<attribute name="http://saxon.sf.net/feature/initialTemplate" value="generate-validators"/>
+				<attribute name="http://saxon.sf.net/feature/initialTemplate" value="generate-java"/>
 			</factory>
 		</xslt>
 		
@@ -76,6 +78,6 @@
 	</target>
 	
 	<!-- Target to generate both Java base classes and validators from application definitions-->
-	<target name="generate-both" depends="generate-base-classes, generate-validators"/>
+	<target name="generate-both" depends="generate-base-classes, generate-appdefs"/>
 
 </project>

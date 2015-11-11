@@ -65,7 +65,7 @@
 	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/{$interfaceName}.java" format="text-format">
 		<xsl:value-of select="$fileHeaderComment"/>
 package org.eclipse.dawnsci.nexus;
-<xsl:apply-templates mode="imports" select="."/>
+<xsl:apply-templates mode="imports" select="."><xsl:with-param name="implementation" select="false()"/></xsl:apply-templates>
 
 /**<xsl:apply-templates select="nx:doc"/><xsl:apply-templates select="nx:symbols"/>
  * <xsl:apply-templates select="@version|@deprecated"/>
@@ -156,7 +156,7 @@ public interface <xsl:value-of select="$interfaceName"/><xsl:apply-templates mod
 	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/impl/{$className}.java" format="text-format">
 		<xsl:value-of select="$fileHeaderComment"/>
 package org.eclipse.dawnsci.nexus.impl;
-<xsl:apply-templates mode="imports" select="."/>
+<xsl:apply-templates mode="imports" select="."><xsl:with-param name="implementation" select="true()"/></xsl:apply-templates>
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -167,6 +167,19 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 <xsl:apply-templates mode="classFields" select="*"/>
+<xsl:text>
+
+	public static final Set&lt;NexusBaseClass&gt; PERMITTED_CHILD_GROUP_CLASSES = </xsl:text>
+		<xsl:choose>
+			<xsl:when test="nx:group">
+				<xsl:text>EnumSet.of(&#10;</xsl:text>
+				<xsl:for-each select="nx:group">
+					<xsl:text>		NexusBaseClass.</xsl:text><xsl:value-of select="dawnsci:base-class-enum-name(@type)"/>
+					<xsl:value-of select="if (position()=last()) then '' else ',&#10;'"/>
+				</xsl:for-each>
+			</xsl:when>
+			<xsl:otherwise>EnumSet.noneOf(NexusBaseClass.class</xsl:otherwise>
+		</xsl:choose>);
 
 	protected <xsl:value-of select="$className"/>(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
@@ -182,9 +195,15 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 	}
 	
 	@Override
-	public NXbaseClass getNXbaseClass() {
-		return NXbaseClass.<xsl:value-of select="dawnsci:base-class-enum-name(@name)"/>;
+	public NexusBaseClass getNexusBaseClass() {
+		return NexusBaseClass.<xsl:value-of select="dawnsci:base-class-enum-name(@name)"/>;
 	}
+	
+	@Override
+	public Set&lt;NexusBaseClass&gt; getPermittedChildGroupClasses() {
+		return PERMITTED_CHILD_GROUP_CLASSES;
+	}
+	
 <xsl:apply-templates mode="class" select="*[not(self::nx:doc)][not(self::nx:symbols)]"/>
 }
 </xsl:result-document>
@@ -475,6 +494,7 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 
 <!-- Imports -->
 <xsl:template mode="imports" match="nx:definition">
+	<xsl:param name="implementation"/>
 	<xsl:variable name="types">
 		<xsl:apply-templates select="descendant::*" mode="fieldType"/>
 		<xsl:apply-templates select="descendant::*" mode="scalarFieldType"/>
@@ -482,6 +502,9 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 	</xsl:variable>
 <xsl:if test="contains($types, 'Date')">
 import java.util.Date;</xsl:if>
+<xsl:if test="$implementation">
+import java.util.Set;
+import java.util.EnumSet;</xsl:if>
 <xsl:if test="contains($types, 'Map')">
 import java.util.Map;</xsl:if>
 <xsl:if test="(contains($types, 'IDataset') or contains($types, 'Binary'))
@@ -561,24 +584,31 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;</xsl:if>
 <!-- Template to generate an enumeration of NeXus base classes -->
 <xsl:template name="base-class-enum">
 
-	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/impl/NXbaseClass.java" format="text-format">
-		<xsl:text>package org.eclipse.dawnsci.nexus.impl;
+	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/NexusBaseClass.java" format="text-format">
+		<xsl:text>package org.eclipse.dawnsci.nexus;
 	
 /**
  * Eumeration of NeXus base classes.
  */
-public enum NXbaseClass {
+public enum NexusBaseClass {
 
 </xsl:text>
 
-	<xsl:apply-templates mode="base-class-enum" select="$nexus-classes"/>
+		<xsl:apply-templates mode="base-class-enum" select="$nexus-classes"/>
 
-	<xsl:text>
+		<xsl:text>
 	private String name;
-
-	private NXbaseClass(final String name) {
+	
+	private Class&lt;? extends NXobject&gt; javaClass;
+	
+	private NexusBaseClass(final String name, final Class&lt;? extends NXobject&gt; javaClass) {
 		this.name = name;
+		this.javaClass = javaClass;
 	}
+	
+	public Class&lt;? extends NXobject&gt; getJavaClass() {
+		return javaClass;
+	} 
 	
 	public String toString() {
 		return name;
@@ -587,12 +617,13 @@ public enum NXbaseClass {
 	/**
 	 * Returns the nexus base class constant for the given name string.
 	 */
-	public static NXbaseClass getBaseClassForName(final String name) {
+	public static NexusBaseClass getBaseClassForName(final String name) {
 		// Note: this method will not work correctly if any base classes include
 		// capital letters in their name (excluding the initial 'NX')
 		final String enumName = name.substring(0, 2) + '_' + name.substring(2).toUpperCase();
-		return NXbaseClass.valueOf(enumName);
+		return NexusBaseClass.valueOf(enumName);
 	}
+	
 
 }&#10;</xsl:text>
 	</xsl:result-document>
@@ -600,10 +631,11 @@ public enum NXbaseClass {
 
 </xsl:template>
 
-<!-- The enum value -->
+<!-- Template to produce the enum value for a nexus base class-->
 <xsl:template mode="base-class-enum" match="nx:definition">
 	<xsl:text>	</xsl:text><xsl:value-of select="dawnsci:base-class-enum-name(@name)"/>
-	<xsl:text>("</xsl:text><xsl:value-of select="@name"/><xsl:text>")</xsl:text>
+	<xsl:text>("</xsl:text><xsl:value-of select="@name"/><xsl:text>", </xsl:text>
+	<xsl:value-of select="@name"/><xsl:text>.class)</xsl:text>
 	<xsl:value-of select="if (position()=last()) then ';' else ','"/><xsl:text>&#10;</xsl:text>
 </xsl:template>
 
@@ -616,10 +648,13 @@ public enum NXbaseClass {
 
 import java.net.URI;
 
+
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeImpl;
+import org.eclipse.dawnsci.nexus.NexusBaseClass;
+
 
 /**
  * Factory class for creating instances of NeXus base classes.
@@ -631,11 +666,11 @@ public class NexusNodeFactory {
 </xsl:text>
 
 	<xsl:text>	public static NXobjectImpl createNXobjectForClass(String baseClassName, long oid) {
-		final NXbaseClass baseClass = NXbaseClass.getBaseClassForName(baseClassName);
+		final NexusBaseClass baseClass = NexusBaseClass.getBaseClassForName(baseClassName);
 		return createNXobjectForClass(baseClass, oid);
 	}
 	
-	public static NXobjectImpl createNXobjectForClass(NXbaseClass baseClass, long oid) {
+	public static NXobjectImpl createNXobjectForClass(NexusBaseClass baseClass, long oid) {
 		switch (baseClass) {&#10;</xsl:text>
 	<xsl:for-each select="$nexus-classes">
 		<xsl:text>			case </xsl:text><xsl:value-of select="dawnsci:base-class-enum-name(@name)"/><xsl:text>:&#10;</xsl:text>

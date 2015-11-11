@@ -7,11 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-13T13:58:10.369+01:00
+ * Generated at: 2015-10-30T13:22:49.763Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
+import java.util.Set;
+import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
@@ -41,6 +43,10 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	public static final String NX_BANDWIDTH = "bandwidth";
 	public static final String NX_HARMONIC = "harmonic";
 
+	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
+		NexusBaseClass.NX_DATA,
+		NexusBaseClass.NX_GEOMETRY);
+
 	protected NXinsertion_deviceImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
@@ -55,9 +61,15 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 	
 	@Override
-	public NXbaseClass getNXbaseClass() {
-		return NXbaseClass.NX_INSERTION_DEVICE;
+	public NexusBaseClass getNexusBaseClass() {
+		return NexusBaseClass.NX_INSERTION_DEVICE;
 	}
+	
+	@Override
+	public Set<NexusBaseClass> getPermittedChildGroupClasses() {
+		return PERMITTED_CHILD_GROUP_CLASSES;
+	}
+	
 
 	@Override
 	public IDataset getType() {

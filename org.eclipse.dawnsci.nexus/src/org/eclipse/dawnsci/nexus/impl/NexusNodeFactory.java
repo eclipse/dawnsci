@@ -2,10 +2,13 @@ package org.eclipse.dawnsci.nexus.impl;
 
 import java.net.URI;
 
+
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeImpl;
+import org.eclipse.dawnsci.nexus.NexusBaseClass;
+
 
 /**
  * Factory class for creating instances of NeXus base classes.
@@ -15,11 +18,11 @@ public class NexusNodeFactory {
 	private long nextOid = 1l;
 
 	public static NXobjectImpl createNXobjectForClass(String baseClassName, long oid) {
-		final NXbaseClass baseClass = NXbaseClass.getBaseClassForName(baseClassName);
+		final NexusBaseClass baseClass = NexusBaseClass.getBaseClassForName(baseClassName);
 		return createNXobjectForClass(baseClass, oid);
 	}
 	
-	public static NXobjectImpl createNXobjectForClass(NXbaseClass baseClass, long oid) {
+	public static NXobjectImpl createNXobjectForClass(NexusBaseClass baseClass, long oid) {
 		switch (baseClass) {
 			case NX_FRESNEL_ZONE_PLATE:
 				return createNXfresnel_zone_plate(oid);

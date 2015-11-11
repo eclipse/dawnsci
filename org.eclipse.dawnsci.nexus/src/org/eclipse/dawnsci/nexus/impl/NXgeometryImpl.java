@@ -7,11 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-13T13:58:10.369+01:00
+ * Generated at: 2015-10-30T13:22:49.763Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
+import java.util.Set;
+import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
@@ -39,6 +41,11 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 	public static final String NX_DESCRIPTION = "description";
 	public static final String NX_COMPONENT_INDEX = "component_index";
 
+	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
+		NexusBaseClass.NX_SHAPE,
+		NexusBaseClass.NX_TRANSLATION,
+		NexusBaseClass.NX_ORIENTATION);
+
 	protected NXgeometryImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
@@ -53,9 +60,15 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 	}
 	
 	@Override
-	public NXbaseClass getNXbaseClass() {
-		return NXbaseClass.NX_GEOMETRY;
+	public NexusBaseClass getNexusBaseClass() {
+		return NexusBaseClass.NX_GEOMETRY;
 	}
+	
+	@Override
+	public Set<NexusBaseClass> getPermittedChildGroupClasses() {
+		return PERMITTED_CHILD_GROUP_CLASSES;
+	}
+	
 
 	@Override
 	public NXshape getShape() {
