@@ -7,12 +7,11 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-30T13:22:49.763Z
+ * Generated at: 2015-11-11T16:27:56.219Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
-import java.io.ObjectInputStream.GetField;
 import java.util.Date;
 import java.util.Set;
 import java.util.EnumSet;
@@ -20,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+
 import org.eclipse.dawnsci.nexus.*;
 
 /**

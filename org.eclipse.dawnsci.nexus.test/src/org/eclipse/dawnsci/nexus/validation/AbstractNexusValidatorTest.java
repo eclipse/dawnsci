@@ -22,13 +22,13 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class AbstractNXValidatorTest {
+public class AbstractNexusValidatorTest {
 	
 	/**
 	 * The validator to test. We're testing the method defined in the abstract superclass
 	 * of the validators created for each NeXus base class.
 	 */
-	private AbstractNXValidator validator;
+	private AbstractNexusValidator validator;
 	
 	@Before
 	public void setUp() {

@@ -20,7 +20,7 @@ import org.eclipse.dawnsci.nexus.NXdata;
 /**
  * Validator for the application definition 'NXfluo'.
  */
-public class NXfluoValidator extends AbstractNXValidator implements NXApplicationValidator {
+public class NXfluoValidator extends AbstractNexusValidator implements NexusApplicationValidator {
 
 	@Override
 	public void validate(NXroot root) throws NexusValidationException {
@@ -30,34 +30,34 @@ public class NXfluoValidator extends AbstractNXValidator implements NXApplicatio
 
 	@Override
 	public void validate(NXentry entry) throws NexusValidationException {
-//		validateGroup_entry(entry);  TODO validate entry
+		validateGroup_entry(entry);
 	}
 
 	@Override
 	public void validate(NXsubentry subentry) throws NexusValidationException {
-//		validateGroup_entry(subentry);  TODO validate entry
+		validateGroup_entry(subentry);
 	}
 
 
 	/**
 	 * Validate group 'entry' of type NXentry.
 	 */
-	private void validateGroup_entry(final NXentry group) throws NexusValidationException {
+	private void validateGroup_entry(final NXsubentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("entry", NXentry.class, group);
 
 		// validate field 'title' of unknown type.
 		final IDataset title = group.getTitle();
-		validateFieldNotNull("title)", title);
+		validateFieldNotNull("title", title);
 
 		// validate field 'start_time' of type NX_DATE_TIME.
 		final IDataset start_time = group.getStart_time();
-		validateFieldNotNull("start_time)", start_time);
-		validateFieldType("start_time)", start_time, NX_DATE_TIME);
+		validateFieldNotNull("start_time", start_time);
+		validateFieldType("start_time", start_time, NX_DATE_TIME);
 
 		// validate field 'definition' of unknown type.
 		final IDataset definition = group.getDefinition();
-		validateFieldNotNull("definition)", definition);
+		validateFieldNotNull("definition", definition);
 		validateFieldEnumeration("definition", definition,
 				"NXfluo");
 
@@ -112,7 +112,7 @@ public class NXfluoValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'type' of unknown type.
 		final IDataset type = group.getType();
-		validateFieldNotNull("type)", type);
+		validateFieldNotNull("type", type);
 		validateFieldEnumeration("type", type,
 				"Spallation Neutron Source",
 				"Pulsed Reactor Neutron Source",
@@ -129,11 +129,11 @@ public class NXfluoValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'name' of unknown type.
 		final IDataset name = group.getName();
-		validateFieldNotNull("name)", name);
+		validateFieldNotNull("name", name);
 
 		// validate field 'probe' of unknown type.
 		final IDataset probe = group.getProbe();
-		validateFieldNotNull("probe)", probe);
+		validateFieldNotNull("probe", probe);
 		validateFieldEnumeration("probe", probe,
 				"x-ray");
 	}
@@ -147,8 +147,8 @@ public class NXfluoValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'wavelength' of type NX_FLOAT.
 		final IDataset wavelength = group.getWavelength();
-		validateFieldNotNull("wavelength)", wavelength);
-		validateFieldType("wavelength)", wavelength, NX_FLOAT);
+		validateFieldNotNull("wavelength", wavelength);
+		validateFieldType("wavelength", wavelength, NX_FLOAT);
 		validateFieldUnits("wavelength", wavelength, NX_WAVELENGTH);
 	}
 
@@ -162,16 +162,16 @@ public class NXfluoValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'data' of type NX_INT.
 		final IDataset data = group.getData();
-		validateFieldNotNull("data)", data);
-		validateFieldType("data)", data, NX_INT);
+		validateFieldNotNull("data", data);
+		validateFieldType("data", data, NX_INT);
 		validateFieldUnits("data", data, NX_ANY);
 		validateFieldRank("data", data, 1);
 		validateFieldDimensions("data", data, null, "nenergy");
 
 		// validate field 'energy' of type NX_FLOAT. Note: field not defined in base class.
 		final IDataset energy = group.getDataset("energy");
-		validateFieldNotNull("energy)", energy);
-		validateFieldType("energy)", energy, NX_FLOAT);
+		validateFieldNotNull("energy", energy);
+		validateFieldType("energy", energy, NX_FLOAT);
 		validateFieldRank("energy", energy, 1);
 		validateFieldDimensions("energy", energy, null, "nenergy");
 	}
@@ -186,7 +186,7 @@ public class NXfluoValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'name' of unknown type.
 		final IDataset name = group.getName();
-		validateFieldNotNull("name)", name);
+		validateFieldNotNull("name", name);
 	}
 
 	/**
@@ -199,21 +199,21 @@ public class NXfluoValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'mode' of unknown type.
 		final IDataset mode = group.getMode();
-		validateFieldNotNull("mode)", mode);
+		validateFieldNotNull("mode", mode);
 		validateFieldEnumeration("mode", mode,
 				"monitor",
 				"timer");
 
 		// validate field 'preset' of type NX_FLOAT.
 		final IDataset preset = group.getPreset();
-		validateFieldNotNull("preset)", preset);
-		validateFieldType("preset)", preset, NX_FLOAT);
+		validateFieldNotNull("preset", preset);
+		validateFieldType("preset", preset, NX_FLOAT);
 		validateFieldUnits("preset", preset, NX_ANY);
 
 		// validate field 'data' of type NX_INT.
 		final IDataset data = group.getData();
-		validateFieldNotNull("data)", data);
-		validateFieldType("data)", data, NX_INT);
+		validateFieldNotNull("data", data);
+		validateFieldType("data", data, NX_INT);
 		validateFieldUnits("data", data, NX_ANY);
 		validateFieldDimensions("data", data, "NXmonitor", "n");
 	}

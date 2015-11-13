@@ -9,7 +9,7 @@ import org.eclipse.dawnsci.nexus.NXsubentry;
  * A class that implements this interface knows how to validate a tree of
  * nexus objects according to a particular application definition.
  */
-public interface NXApplicationValidator {
+public interface NexusApplicationValidator {
 	
 	/**
 	 * Validate the given nexus tree.

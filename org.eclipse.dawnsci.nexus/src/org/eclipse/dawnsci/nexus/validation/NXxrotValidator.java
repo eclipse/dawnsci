@@ -16,7 +16,7 @@ import org.eclipse.dawnsci.nexus.NXdata;
 /**
  * Validator for the application definition 'NXxrot'.
  */
-public class NXxrotValidator extends AbstractNXValidator implements NXApplicationValidator {
+public class NXxrotValidator extends AbstractNexusValidator implements NexusApplicationValidator {
 
 	@Override
 	public void validate(NXroot root) throws NexusValidationException {
@@ -26,25 +26,25 @@ public class NXxrotValidator extends AbstractNXValidator implements NXApplicatio
 
 	@Override
 	public void validate(NXentry entry) throws NexusValidationException {
-//		validateGroup_entry(entry);  TODO validate entry
+		validateGroup_entry(entry);
 	}
 
 	@Override
 	public void validate(NXsubentry subentry) throws NexusValidationException {
-//		validateGroup_entry(subentry);  TODO validate entry
+		validateGroup_entry(subentry);
 	}
 
 
 	/**
 	 * Validate group 'entry' of type NXentry.
 	 */
-	private void validateGroup_entry(final NXentry group) throws NexusValidationException {
+	private void validateGroup_entry(final NXsubentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("entry", NXentry.class, group);
 
 		// validate field 'definition' of unknown type.
 		final IDataset definition = group.getDefinition();
-		validateFieldNotNull("definition)", definition);
+		validateFieldNotNull("definition", definition);
 		validateFieldEnumeration("definition", definition,
 				"NXxrot");
 
@@ -82,22 +82,22 @@ public class NXxrotValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'polar_angle' of type NX_FLOAT.
 		final IDataset polar_angle = group.getPolar_angle();
-		validateFieldNotNull("polar_angle)", polar_angle);
-		validateFieldType("polar_angle)", polar_angle, NX_FLOAT);
+		validateFieldNotNull("polar_angle", polar_angle);
+		validateFieldType("polar_angle", polar_angle, NX_FLOAT);
 		validateFieldUnits("polar_angle", polar_angle, NX_ANGLE);
 		validateFieldRank("polar_angle", polar_angle, 3);
 		validateFieldDimensions("polar_angle", polar_angle, "NXdetector", "np", "i", "j");
 
 		// validate field 'beam_center_x' of type NX_FLOAT.
 		final IDataset beam_center_x = group.getBeam_center_x();
-		validateFieldNotNull("beam_center_x)", beam_center_x);
-		validateFieldType("beam_center_x)", beam_center_x, NX_FLOAT);
+		validateFieldNotNull("beam_center_x", beam_center_x);
+		validateFieldType("beam_center_x", beam_center_x, NX_FLOAT);
 		validateFieldUnits("beam_center_x", beam_center_x, NX_LENGTH);
 
 		// validate field 'beam_center_y' of type NX_FLOAT.
 		final IDataset beam_center_y = group.getBeam_center_y();
-		validateFieldNotNull("beam_center_y)", beam_center_y);
-		validateFieldType("beam_center_y)", beam_center_y, NX_FLOAT);
+		validateFieldNotNull("beam_center_y", beam_center_y);
+		validateFieldType("beam_center_y", beam_center_y, NX_FLOAT);
 		validateFieldUnits("beam_center_y", beam_center_y, NX_LENGTH);
 	}
 
@@ -110,8 +110,8 @@ public class NXxrotValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'attenuator_transmission' of type NX_FLOAT.
 		final IDataset attenuator_transmission = group.getAttenuator_transmission();
-		validateFieldNotNull("attenuator_transmission)", attenuator_transmission);
-		validateFieldType("attenuator_transmission)", attenuator_transmission, NX_FLOAT);
+		validateFieldNotNull("attenuator_transmission", attenuator_transmission);
+		validateFieldType("attenuator_transmission", attenuator_transmission, NX_FLOAT);
 		validateFieldUnits("attenuator_transmission", attenuator_transmission, NX_ANY);
 	}
 
@@ -125,16 +125,16 @@ public class NXxrotValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'rotation_angle' of type NX_FLOAT.
 		final IDataset rotation_angle = group.getRotation_angle();
-		validateFieldNotNull("rotation_angle)", rotation_angle);
-		validateFieldType("rotation_angle)", rotation_angle, NX_FLOAT);
+		validateFieldNotNull("rotation_angle", rotation_angle);
+		validateFieldType("rotation_angle", rotation_angle, NX_FLOAT);
 		validateFieldUnits("rotation_angle", rotation_angle, NX_ANGLE);
 		validateFieldRank("rotation_angle", rotation_angle, 1);
 		validateFieldDimensions("rotation_angle", rotation_angle, null, "np");
 
 		// validate field 'rotation_angle_step' of type NX_FLOAT. Note: field not defined in base class.
 		final IDataset rotation_angle_step = group.getDataset("rotation_angle_step");
-		validateFieldNotNull("rotation_angle_step)", rotation_angle_step);
-		validateFieldType("rotation_angle_step)", rotation_angle_step, NX_FLOAT);
+		validateFieldNotNull("rotation_angle_step", rotation_angle_step);
+		validateFieldType("rotation_angle_step", rotation_angle_step, NX_FLOAT);
 		validateFieldUnits("rotation_angle_step", rotation_angle_step, NX_ANGLE);
 		validateFieldRank("rotation_angle_step", rotation_angle_step, 1);
 		validateFieldDimensions("rotation_angle_step", rotation_angle_step, null, "np");

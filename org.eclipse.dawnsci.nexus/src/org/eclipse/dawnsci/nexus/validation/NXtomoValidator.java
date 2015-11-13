@@ -17,7 +17,7 @@ import org.eclipse.dawnsci.nexus.NXdata;
 /**
  * Validator for the application definition 'NXtomo'.
  */
-public class NXtomoValidator extends AbstractNXValidator implements NXApplicationValidator {
+public class NXtomoValidator extends AbstractNexusValidator implements NexusApplicationValidator {
 
 	@Override
 	public void validate(NXroot root) throws NexusValidationException {
@@ -27,19 +27,19 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 
 	@Override
 	public void validate(NXentry entry) throws NexusValidationException {
-//		validateGroup_entry(entry);  TODO validate entry
+		validateGroup_entry(entry);
 	}
 
 	@Override
 	public void validate(NXsubentry subentry) throws NexusValidationException {
-//		validateGroup_entry(subentry);  TODO validate entry
+		validateGroup_entry(subentry);
 	}
 
 
 	/**
 	 * Validate group 'entry' of type NXentry.
 	 */
-	private void validateGroup_entry(final NXentry group) throws NexusValidationException {
+	private void validateGroup_entry(final NXsubentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("entry", NXentry.class, group);
 
@@ -51,18 +51,18 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 		// validate optional field 'start_time' of type NX_DATE_TIME.
 		final IDataset start_time = group.getStart_time();
 		if (start_time != null) {
-			validateFieldType("start_time)", start_time, NX_DATE_TIME);
+			validateFieldType("start_time", start_time, NX_DATE_TIME);
 		}
 
 		// validate optional field 'end_time' of type NX_DATE_TIME.
 		final IDataset end_time = group.getEnd_time();
 		if (end_time != null) {
-			validateFieldType("end_time)", end_time, NX_DATE_TIME);
+			validateFieldType("end_time", end_time, NX_DATE_TIME);
 		}
 
 		// validate field 'definition' of unknown type.
 		final IDataset definition = group.getDefinition();
-		validateFieldNotNull("definition)", definition);
+		validateFieldNotNull("definition", definition);
 		validateFieldEnumeration("definition", definition,
 				"NXtomo");
 
@@ -147,23 +147,23 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'data' of type NX_INT.
 		final IDataset data = group.getData();
-		validateFieldNotNull("data)", data);
-		validateFieldType("data)", data, NX_INT);
+		validateFieldNotNull("data", data);
+		validateFieldType("data", data, NX_INT);
 		validateFieldUnits("data", data, NX_ANY);
 		validateFieldRank("data", data, 3);
 		validateFieldDimensions("data", data, null, "nFrames", "xsize", "ysize");
 
 		// validate field 'image_key' of type NX_INT. Note: field not defined in base class.
 		final IDataset image_key = group.getDataset("image_key");
-		validateFieldNotNull("image_key)", image_key);
-		validateFieldType("image_key)", image_key, NX_INT);
+		validateFieldNotNull("image_key", image_key);
+		validateFieldType("image_key", image_key, NX_INT);
 		validateFieldRank("image_key", image_key, 1);
 		validateFieldDimensions("image_key", image_key, null, "nFrames");
 
 		// validate optional field 'x_pixel_size' of type NX_FLOAT.
 		final IDataset x_pixel_size = group.getX_pixel_size();
 		if (x_pixel_size != null) {
-			validateFieldType("x_pixel_size)", x_pixel_size, NX_FLOAT);
+			validateFieldType("x_pixel_size", x_pixel_size, NX_FLOAT);
 			validateFieldUnits("x_pixel_size", x_pixel_size, NX_LENGTH);
 			validateFieldRank("x_pixel_size", x_pixel_size, 2);
 			validateFieldDimensions("x_pixel_size", x_pixel_size, "NXdetector", "i", "j");
@@ -172,7 +172,7 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 		// validate optional field 'y_pixel_size' of type NX_FLOAT.
 		final IDataset y_pixel_size = group.getY_pixel_size();
 		if (y_pixel_size != null) {
-			validateFieldType("y_pixel_size)", y_pixel_size, NX_FLOAT);
+			validateFieldType("y_pixel_size", y_pixel_size, NX_FLOAT);
 			validateFieldUnits("y_pixel_size", y_pixel_size, NX_LENGTH);
 			validateFieldRank("y_pixel_size", y_pixel_size, 2);
 			validateFieldDimensions("y_pixel_size", y_pixel_size, "NXdetector", "i", "j");
@@ -181,7 +181,7 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 		// validate optional field 'distance' of type NX_FLOAT.
 		final IDataset distance = group.getDistance();
 		if (distance != null) {
-			validateFieldType("distance)", distance, NX_FLOAT);
+			validateFieldType("distance", distance, NX_FLOAT);
 			validateFieldUnits("distance", distance, NX_LENGTH);
 			validateFieldRank("distance", distance, 3);
 			validateFieldDimensions("distance", distance, "NXdetector", "np", "i", "j");
@@ -190,13 +190,13 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 		// validate optional field 'x_rotation_axis_pixel_position' of type NX_FLOAT. Note: field not defined in base class.
 		final IDataset x_rotation_axis_pixel_position = group.getDataset("x_rotation_axis_pixel_position");
 		if (x_rotation_axis_pixel_position != null) {
-			validateFieldType("x_rotation_axis_pixel_position)", x_rotation_axis_pixel_position, NX_FLOAT);
+			validateFieldType("x_rotation_axis_pixel_position", x_rotation_axis_pixel_position, NX_FLOAT);
 		}
 
 		// validate optional field 'y_rotation_axis_pixel_position' of type NX_FLOAT. Note: field not defined in base class.
 		final IDataset y_rotation_axis_pixel_position = group.getDataset("y_rotation_axis_pixel_position");
 		if (y_rotation_axis_pixel_position != null) {
-			validateFieldType("y_rotation_axis_pixel_position)", y_rotation_axis_pixel_position, NX_FLOAT);
+			validateFieldType("y_rotation_axis_pixel_position", y_rotation_axis_pixel_position, NX_FLOAT);
 		}
 	}
 
@@ -210,12 +210,12 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'name' of unknown type.
 		final IDataset name = group.getName();
-		validateFieldNotNull("name)", name);
+		validateFieldNotNull("name", name);
 
 		// validate field 'rotation_angle' of type NX_FLOAT.
 		final IDataset rotation_angle = group.getRotation_angle();
-		validateFieldNotNull("rotation_angle)", rotation_angle);
-		validateFieldType("rotation_angle)", rotation_angle, NX_FLOAT);
+		validateFieldNotNull("rotation_angle", rotation_angle);
+		validateFieldType("rotation_angle", rotation_angle, NX_FLOAT);
 		validateFieldUnits("rotation_angle", rotation_angle, NX_ANGLE);
 		validateFieldRank("rotation_angle", rotation_angle, 1);
 		validateFieldDimensions("rotation_angle", rotation_angle, null, "nFrames");
@@ -223,7 +223,7 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 		// validate optional field 'x_translation' of type NX_FLOAT.
 		final IDataset x_translation = group.getX_translation();
 		if (x_translation != null) {
-			validateFieldType("x_translation)", x_translation, NX_FLOAT);
+			validateFieldType("x_translation", x_translation, NX_FLOAT);
 			validateFieldUnits("x_translation", x_translation, NX_LENGTH);
 			validateFieldRank("x_translation", x_translation, 1);
 			validateFieldDimensions("x_translation", x_translation, null, "nFrames");
@@ -232,7 +232,7 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 		// validate optional field 'y_translation' of type NX_FLOAT. Note: field not defined in base class.
 		final IDataset y_translation = group.getDataset("y_translation");
 		if (y_translation != null) {
-			validateFieldType("y_translation)", y_translation, NX_FLOAT);
+			validateFieldType("y_translation", y_translation, NX_FLOAT);
 			validateFieldUnits("y_translation", y_translation, NX_LENGTH);
 			validateFieldRank("y_translation", y_translation, 1);
 			validateFieldDimensions("y_translation", y_translation, null, "nFrames");
@@ -241,7 +241,7 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 		// validate optional field 'z_translation' of type NX_FLOAT. Note: field not defined in base class.
 		final IDataset z_translation = group.getDataset("z_translation");
 		if (z_translation != null) {
-			validateFieldType("z_translation)", z_translation, NX_FLOAT);
+			validateFieldType("z_translation", z_translation, NX_FLOAT);
 			validateFieldUnits("z_translation", z_translation, NX_LENGTH);
 			validateFieldRank("z_translation", z_translation, 1);
 			validateFieldDimensions("z_translation", z_translation, null, "nFrames");
@@ -258,8 +258,8 @@ public class NXtomoValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'data' of type NX_FLOAT.
 		final IDataset data = group.getData();
-		validateFieldNotNull("data)", data);
-		validateFieldType("data)", data, NX_FLOAT);
+		validateFieldNotNull("data", data);
+		validateFieldType("data", data, NX_FLOAT);
 		validateFieldUnits("data", data, NX_ANY);
 		validateFieldRank("data", data, 1);
 		validateFieldDimensions("data", data, null, "nFrames");

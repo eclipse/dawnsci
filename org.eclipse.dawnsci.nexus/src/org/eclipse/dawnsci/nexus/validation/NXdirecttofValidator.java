@@ -15,7 +15,7 @@ import org.eclipse.dawnsci.nexus.NXfermi_chopper;
 /**
  * Validator for the application definition 'NXdirecttof'.
  */
-public class NXdirecttofValidator extends AbstractNXValidator implements NXApplicationValidator {
+public class NXdirecttofValidator extends AbstractNexusValidator implements NexusApplicationValidator {
 
 	@Override
 	public void validate(NXroot root) throws NexusValidationException {
@@ -25,34 +25,34 @@ public class NXdirecttofValidator extends AbstractNXValidator implements NXAppli
 
 	@Override
 	public void validate(NXentry entry) throws NexusValidationException {
-//		validateGroup_entry(entry);  TODO validate entry
+		validateGroup_entry(entry);
 	}
 
 	@Override
 	public void validate(NXsubentry subentry) throws NexusValidationException {
-//		validateGroup_entry(subentry);  TODO validate entry
+		validateGroup_entry(subentry);
 	}
 
 
 	/**
 	 * Validate group 'entry' of type NXentry.
 	 */
-	private void validateGroup_entry(final NXentry group) throws NexusValidationException {
+	private void validateGroup_entry(final NXsubentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("entry", NXentry.class, group);
 
 		// validate field 'title' of unknown type.
 		final IDataset title = group.getTitle();
-		validateFieldNotNull("title)", title);
+		validateFieldNotNull("title", title);
 
 		// validate field 'start_time' of type NX_DATE_TIME.
 		final IDataset start_time = group.getStart_time();
-		validateFieldNotNull("start_time)", start_time);
-		validateFieldType("start_time)", start_time, NX_DATE_TIME);
+		validateFieldNotNull("start_time", start_time);
+		validateFieldType("start_time", start_time, NX_DATE_TIME);
 
 		// validate field 'definition' of unknown type.
 		final IDataset definition = group.getDefinition();
-		validateFieldNotNull("definition)", definition);
+		validateFieldNotNull("definition", definition);
 		validateFieldEnumeration("definition", definition,
 				"NXdirecttof");
 
@@ -83,14 +83,14 @@ public class NXdirecttofValidator extends AbstractNXValidator implements NXAppli
 
 		// validate field 'rotation_speed' of type NX_FLOAT.
 		final IDataset rotation_speed = group.getRotation_speed();
-		validateFieldNotNull("rotation_speed)", rotation_speed);
-		validateFieldType("rotation_speed)", rotation_speed, NX_FLOAT);
+		validateFieldNotNull("rotation_speed", rotation_speed);
+		validateFieldType("rotation_speed", rotation_speed, NX_FLOAT);
 		validateFieldUnits("rotation_speed", rotation_speed, NX_FREQUENCY);
 
 		// validate field 'energy' of type NX_FLOAT.
 		final IDataset energy = group.getEnergy();
-		validateFieldNotNull("energy)", energy);
-		validateFieldType("energy)", energy, NX_FLOAT);
+		validateFieldNotNull("energy", energy);
+		validateFieldType("energy", energy, NX_FLOAT);
 		validateFieldUnits("energy", energy, NX_ENERGY);
 	}
 }

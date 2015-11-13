@@ -70,7 +70,11 @@ package org.eclipse.dawnsci.nexus;
 /**<xsl:apply-templates select="nx:doc"/><xsl:apply-templates select="nx:symbols"/>
  * <xsl:apply-templates select="@version|@deprecated"/>
  */<xsl:apply-templates mode="typeAnnotations" select="."/>
-public interface <xsl:value-of select="$interfaceName"/><xsl:apply-templates mode="interface" select="@extends"/> {
+public interface <xsl:value-of select="$interfaceName"/>
+<xsl:choose>
+	<xsl:when test="@name='NXentry'"> extends NXsubentry</xsl:when>
+	<xsl:otherwise><xsl:apply-templates mode="interface" select="@extends"/></xsl:otherwise>
+</xsl:choose> {
 <xsl:apply-templates mode="interface" select="*[not(self::nx:doc)][not(self::nx:symbols)]"/>
 }
 </xsl:result-document>

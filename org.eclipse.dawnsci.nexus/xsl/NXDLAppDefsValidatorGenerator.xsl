@@ -40,7 +40,7 @@
 
 <!-- Direct entry point -->
 <xsl:template name="generate-java">
-	<xsl:apply-templates select="$application-definitions"/> 
+	<xsl:apply-templates select="$application-definitions"/>
 	<xsl:call-template name="appdef-enum"/>
 </xsl:template>
 
@@ -66,7 +66,7 @@
 		<xsl:text> */&#10;</xsl:text>
 		<xsl:text>public class </xsl:text>
 		<xsl:value-of select="$validatorClassName"/>
-		<xsl:text> extends AbstractNXValidator implements NXApplicationValidator {&#10;</xsl:text>
+		<xsl:text> extends AbstractNexusValidator implements NexusApplicationValidator {&#10;</xsl:text>
 		<xsl:text>&#10;</xsl:text>
 	
 		<!-- Each validator class overrides the validate() method in the superclass-->
@@ -81,14 +81,15 @@
 		</xsl:apply-templates>
 		
 		<xsl:text>	}&#10;&#10;</xsl:text> <!-- Closing brace for validate() method -->
-		
+
+		<xsl:variable name="entryGroupPath" select="if (nx:group[@type='NXentry']/@name) then nx:group[@type='NXentry']/@name else 'NXentry'"/>
 		<xsl:text>	@Override&#10;</xsl:text>
 		<xsl:text>	public void validate(NXentry entry) throws NexusValidationException {&#10;</xsl:text>
-		<xsl:text>//		validateGroup_entry(entry);  TODO validate entry&#10;</xsl:text>
+		<xsl:text>		validateGroup_</xsl:text><xsl:value-of select="$entryGroupPath"/><xsl:text>(entry);&#10;</xsl:text>
 		<xsl:text>	}&#10;&#10;</xsl:text>
 		<xsl:text>	@Override&#10;</xsl:text>
 		<xsl:text>	public void validate(NXsubentry subentry) throws NexusValidationException {&#10;</xsl:text>
-		<xsl:text>//		validateGroup_entry(subentry);  TODO validate entry&#10;</xsl:text>
+		<xsl:text>		validateGroup_</xsl:text><xsl:value-of select="$entryGroupPath"/><xsl:text>(subentry);&#10;</xsl:text>
 		<xsl:text>	}&#10;&#10;</xsl:text>
 		
 		<!-- For each group at the root level of the app def, generate a validate method -->
@@ -231,7 +232,9 @@
 	
 	<!-- Method signature -->
 	<xsl:value-of select="$validateGroupMethodName"/>
-	<xsl:text>(final </xsl:text><xsl:value-of select="@type"/><xsl:text> group) throws NexusValidationException {&#10;</xsl:text>
+	<xsl:text>(final </xsl:text>
+	<xsl:value-of select="if (@type='NXentry') then 'NXsubentry' else @type"/>
+	<xsl:text> group) throws NexusValidationException {&#10;</xsl:text>
 	
 	<!-- Line comment for group null validation -->
 	<xsl:value-of select="dawnsci:tabs(2)"/>
@@ -278,16 +281,23 @@
 
 <!-- Template matches an attribute to add method call to validate that attribute. -->
 <xsl:template match="nx:attribute">
-	<xsl:param name="baseClass"/>
+	<xsl:param name="baseClass"/> <!-- The base class containing this attribute -->
+	<xsl:param name="fieldDef"/> <!-- The field containing this attribute, or null if the attribute belongs to the group -->
+	<xsl:param name="baseClassFieldDef"/>
 	
 	<!-- Definition of attribute in the base class for the group's type, if it exists. -->
 	<xsl:variable name="baseClassAttributeDef" select="$baseClass/nx:attribute[@name=current()/@name]"></xsl:variable>
 	<!-- The variable name of the attribute -->
-	<xsl:variable name="attrVarName" select="concat(@name, 'Attr')"/>
+	<xsl:variable name="attrVarName"
+		select="if ($fieldDef) then concat($fieldDef/@name, '_attr_', @name) else concat(@name, '_attr')"/>
 	
-	<!-- Line comment: validate attribute 'attributeName' -->
+	<!-- Line comment: validate attribute 'attributeName' (of field 'fieldName'>)-->
 	<xsl:value-of select="dawnsci:tabs(2)"/>
-	<xsl:text>// validate attribute '</xsl:text><xsl:value-of select="@name"/><xsl:text>'&#10;</xsl:text>
+	<xsl:text>// validate attribute '</xsl:text><xsl:value-of select="@name"/><xsl:text>'</xsl:text>
+	<xsl:if test="$fieldDef">
+		<xsl:text> of field '</xsl:text><xsl:value-of select="$fieldDef/@name"/><xsl:text>'</xsl:text>
+	</xsl:if>
+	<xsl:text>&#10;</xsl:text>
 
 	<!-- Get the attribute from the group, e.g. final Attribute entryAttr = group.getAttribute("entry"); -->
 	<xsl:value-of select="dawnsci:tabs(2)"/>
@@ -303,6 +313,16 @@
 	<!-- Validate the attribute's type, if defined (either in the application definition or the base class)  -->
 	<xsl:call-template name="validate-dataset-type">
 		<xsl:with-param name="baseClassFieldOrAttributeDef" select="$baseClassAttributeDef"/>
+		<xsl:with-param name="nodeType" select="'attribute'"/>
+		<xsl:with-param name="variableName" select="$attrVarName"/>
+		<xsl:with-param name="tabLevel" select="2"/>
+	</xsl:call-template>
+	
+	<!-- Validate that the attribute's value belongs to the enumeration of permitted values, if defined  -->
+	<xsl:call-template name="validate-enumeration">
+		<xsl:with-param name="baseClassFieldOrAttributeDef" select="$baseClassAttributeDef"/>
+		<xsl:with-param name="nodeType" select="'attribute'"/>
+		<xsl:with-param name="variableName" select="$attrVarName"/>
 		<xsl:with-param name="tabLevel" select="2"/>
 	</xsl:call-template>
 
@@ -355,7 +375,7 @@
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:value-of select="dawnsci:tabs(2)"/>
-			<xsl:text>validateFieldNotNull("</xsl:text><xsl:value-of select="@name"/>)<xsl:text>", </xsl:text>
+			<xsl:text>validateFieldNotNull("</xsl:text><xsl:value-of select="@name"/><xsl:text>", </xsl:text>
 			<xsl:value-of select="@name"/><xsl:text>);&#10;</xsl:text>
 		</xsl:otherwise>
 	</xsl:choose>
@@ -372,16 +392,17 @@
 		<xsl:with-param name="tabLevel" select="$tabLevel"/>
 	</xsl:call-template>
 
-	<!-- Validate the field's units if defined (either in the application definition or the base class) -->
+	<!-- Validate the field's units, if defined (either in the application definition or the base class) -->
 	<xsl:call-template name="validate-field-units">
 		<xsl:with-param name="baseClassFieldDef" select="$baseClassFieldDef"/>
 		<xsl:with-param name="tabLevel" select="$tabLevel"/>
 	</xsl:call-template>
 
-	<!-- Validate the field's value belongs to the enumeration of permitted values, if defined
+	<!-- Validate that the field's value belongs to the enumeration of permitted values, if defined
 			(either in the application definition or the base class) -->
 	<xsl:call-template name="validate-enumeration">
-		<xsl:with-param name="baseClassFieldDef" select="$baseClassFieldDef"/>
+		<xsl:with-param name="baseClassFieldOrAttributeDef" select="$baseClassFieldDef"/>
+		<xsl:with-param name="nodeType" select="'field'"/>
 		<xsl:with-param name="tabLevel" select="$tabLevel"/>
 	</xsl:call-template>
 
@@ -390,6 +411,13 @@
 		<xsl:with-param name="baseClassFieldDef" select="$baseClassFieldDef"/>
 		<xsl:with-param name="tabLevel" select="$tabLevel"/>
 	</xsl:call-template>
+	
+	<!-- Validate the fields attributes, if any. -->
+	<xsl:apply-templates select="nx:attribute">
+		<xsl:with-param name="baseClass" select="$baseClass"/>
+		<xsl:with-param name="fieldDef" select="."/>
+		<xsl:with-param name="baseClassFieldDef" select="$baseClassFieldDef"/>
+	</xsl:apply-templates>
 
 	<!-- Closing brace for null test (only if optional) -->
 	<xsl:if test="$optional">
@@ -411,16 +439,17 @@
 	<!-- The node type: 'field' or 'attribute' -->
 	<xsl:param name="nodeType"/>
 	<xsl:param name="tabLevel"/>
+	<xsl:param name="variableName" select="@name"/> 
 	
-	<!-- The field or attribute's type. If defined in the app def, this overrides the base class --> 
+	<!-- The field or attribute's type. If defined in the app def, this overrides the base class -->
 	<xsl:variable name="type" select="if (@type) then @type else $baseClassFieldOrAttributeDef/@type"/>
 
 	<!-- Invoke method validateFieldType() or validateAttributeType() in abstract superclass. -->
 	<xsl:if test="$type">
 		<xsl:value-of select="dawnsci:tabs($tabLevel)"/>
 		<xsl:text>validate</xsl:text><xsl:value-of select="dawnsci:capitalise-first($nodeType)"/><xsl:text>Type("</xsl:text>
-		<xsl:value-of select="@name"/><xsl:text>)", </xsl:text>
-		<xsl:value-of select="@name"/>, <xsl:value-of select="$type"/><xsl:text>);&#10;</xsl:text>
+		<xsl:value-of select="@name"/><xsl:text>", </xsl:text>
+		<xsl:value-of select="$variableName"/>, <xsl:value-of select="$type"/><xsl:text>);&#10;</xsl:text>
 	</xsl:if>
 	
 </xsl:template>
@@ -442,19 +471,25 @@
 
 <!-- Template to validate the permitted values of an enumeration -->
 <xsl:template name="validate-enumeration">
-	<xsl:param name="baseClassFieldDef"/>
+	<xsl:param name="baseClassFieldOrAttributeDef"/>
+	<xsl:param name="nodeType"/>
 	<xsl:param name="tabLevel"/>
+	<xsl:param name="variableName" select="@name"/>
 
 	<!-- The enumeration items. Values present in the application definition override those in the base class, if both present. -->
-	<xsl:variable name="items" select="if (nx:enumeration) then nx:enumeration/nx:item else $baseClassFieldDef/nx:enumeration/nx:item"/>
+	<xsl:variable name="items" select="if (nx:enumeration) then nx:enumeration/nx:item else $baseClassFieldOrAttributeDef/nx:enumeration/nx:item"/>
 	
 	<!-- Invoke call to method validateFieldEnumeration() in the abstract superclass. -->
 	<xsl:if test="$items">
 		<xsl:value-of select="dawnsci:tabs($tabLevel)"/>
-		<xsl:text>validateFieldEnumeration("</xsl:text><xsl:value-of select="@name"/><xsl:text>", </xsl:text>
-		<xsl:value-of select="@name"/><xsl:for-each select="$items"><xsl:text>,&#10;</xsl:text>
-		<xsl:value-of select="dawnsci:tabs($tabLevel + 2)"/>
-		<xsl:text>"</xsl:text><xsl:value-of select="@value"/>"</xsl:for-each><xsl:text>);&#10;</xsl:text>
+		<xsl:text>validate</xsl:text><xsl:value-of select="dawnsci:capitalise-first($nodeType)"/><xsl:text>Enumeration("</xsl:text>
+		<xsl:value-of select="@name"/><xsl:text>", </xsl:text><xsl:value-of select="$variableName"/>
+		<xsl:for-each select="$items">
+			<xsl:text>,&#10;</xsl:text>
+			<xsl:value-of select="dawnsci:tabs($tabLevel + 2)"/><xsl:text>"</xsl:text>
+			<xsl:value-of select="@value"/><xsl:text>"</xsl:text>
+		</xsl:for-each>
+		<xsl:text>);&#10;</xsl:text>
 	</xsl:if>
 	
 </xsl:template>
@@ -510,7 +545,7 @@
 	<!-- Import generated base classes as required for group type -->
 	<xsl:text>import org.eclipse.dawnsci.nexus.NXroot;&#10;</xsl:text>
 	<xsl:text>import org.eclipse.dawnsci.nexus.NXsubentry;&#10;</xsl:text>
-	<xsl:apply-templates select="//nx:group" mode="imports"/>
+	<xsl:apply-templates select="//nx:group[not(@type=preceding::nx:group/@type)]" mode="imports"/>
 	<xsl:text>&#10;</xsl:text>
 	
 </xsl:template>

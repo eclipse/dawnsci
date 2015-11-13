@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-10-30T13:22:49.763Z
+ * Generated at: 2015-11-11T16:27:56.219Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -1298,6 +1298,8 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * Time it takes to start exposure after a trigger signal has been received.
+	 * This is the reaction time of the detector firmware after receiving the trigger signal
+	 * to when the detector starts to acquire the exposure.
 	 * This is important to know for time resolved experiments.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -1310,6 +1312,8 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * Time it takes to start exposure after a trigger signal has been received.
+	 * This is the reaction time of the detector firmware after receiving the trigger signal
+	 * to when the detector starts to acquire the exposure.
 	 * This is important to know for time resolved experiments.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT

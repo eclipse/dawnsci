@@ -18,7 +18,7 @@ import org.eclipse.dawnsci.nexus.NXdata;
 /**
  * Validator for the application definition 'NXscan'.
  */
-public class NXscanValidator extends AbstractNXValidator implements NXApplicationValidator {
+public class NXscanValidator extends AbstractNexusValidator implements NexusApplicationValidator {
 
 	@Override
 	public void validate(NXroot root) throws NexusValidationException {
@@ -31,40 +31,40 @@ public class NXscanValidator extends AbstractNXValidator implements NXApplicatio
 
 	@Override
 	public void validate(NXentry entry) throws NexusValidationException {
-//		validateGroup_entry(entry);  TODO validate entry
+		validateGroup_NXentry(entry);
 	}
 
 	@Override
 	public void validate(NXsubentry subentry) throws NexusValidationException {
-//		validateGroup_entry(subentry);  TODO validate entry
+		validateGroup_NXentry(subentry);
 	}
 
 
 	/**
 	 * Validate unnamed group of type NXentry.
 	 */
-	private void validateGroup_NXentry(final NXentry group) throws NexusValidationException {
+	private void validateGroup_NXentry(final NXsubentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull(null, NXentry.class, group);
 
 		// validate field 'title' of unknown type.
 		final IDataset title = group.getTitle();
-		validateFieldNotNull("title)", title);
+		validateFieldNotNull("title", title);
 
 		// validate field 'start_time' of type NX_DATE_TIME.
 		final IDataset start_time = group.getStart_time();
-		validateFieldNotNull("start_time)", start_time);
-		validateFieldType("start_time)", start_time, NX_DATE_TIME);
+		validateFieldNotNull("start_time", start_time);
+		validateFieldType("start_time", start_time, NX_DATE_TIME);
 
 		// validate field 'end_time' of type NX_DATE_TIME.
 		final IDataset end_time = group.getEnd_time();
-		validateFieldNotNull("end_time)", end_time);
-		validateFieldType("end_time)", end_time, NX_DATE_TIME);
+		validateFieldNotNull("end_time", end_time);
+		validateFieldType("end_time", end_time, NX_DATE_TIME);
 
 		// validate field 'definition' of type NX_CHAR.
 		final IDataset definition = group.getDefinition();
-		validateFieldNotNull("definition)", definition);
-		validateFieldType("definition)", definition, NX_CHAR);
+		validateFieldNotNull("definition", definition);
+		validateFieldType("definition", definition, NX_CHAR);
 		validateFieldEnumeration("definition", definition,
 				"NXscan");
 
@@ -117,8 +117,8 @@ public class NXscanValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'data' of type NX_INT.
 		final IDataset data = group.getData();
-		validateFieldNotNull("data)", data);
-		validateFieldType("data)", data, NX_INT);
+		validateFieldNotNull("data", data);
+		validateFieldType("data", data, NX_INT);
 		validateFieldUnits("data", data, NX_ANY);
 		validateFieldRank("data", data, 3);
 		validateFieldDimensions("data", data, null, "NP", "xdim", "ydim");
@@ -134,8 +134,8 @@ public class NXscanValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'rotation_angle' of type NX_FLOAT.
 		final IDataset rotation_angle = group.getRotation_angle();
-		validateFieldNotNull("rotation_angle)", rotation_angle);
-		validateFieldType("rotation_angle)", rotation_angle, NX_FLOAT);
+		validateFieldNotNull("rotation_angle", rotation_angle);
+		validateFieldType("rotation_angle", rotation_angle, NX_FLOAT);
 		validateFieldUnits("rotation_angle", rotation_angle, NX_ANGLE);
 		validateFieldRank("rotation_angle", rotation_angle, 1);
 		validateFieldDimensions("rotation_angle", rotation_angle, null, "NP");
@@ -151,8 +151,8 @@ public class NXscanValidator extends AbstractNXValidator implements NXApplicatio
 
 		// validate field 'data' of type NX_INT.
 		final IDataset data = group.getData();
-		validateFieldNotNull("data)", data);
-		validateFieldType("data)", data, NX_INT);
+		validateFieldNotNull("data", data);
+		validateFieldType("data", data, NX_INT);
 		validateFieldUnits("data", data, NX_ANY);
 		validateFieldRank("data", data, 1);
 		validateFieldDimensions("data", data, null, "NP");
