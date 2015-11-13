@@ -15,18 +15,8 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-
-import ncsa.hdf.hdf5lib.H5;
-import ncsa.hdf.hdf5lib.HDF5Constants;
-import ncsa.hdf.hdf5lib.exceptions.HDF5Exception;
-import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
-import ncsa.hdf.hdf5lib.structs.H5G_info_t;
-import ncsa.hdf.hdf5lib.structs.H5L_info_t;
-import ncsa.hdf.hdf5lib.structs.H5O_info_t;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
@@ -58,6 +48,8 @@ import org.eclipse.dawnsci.hdf5.HDF5LazySaver;
 import org.eclipse.dawnsci.hdf5.HDF5ObjectResource;
 import org.eclipse.dawnsci.hdf5.HDF5PropertiesResource;
 import org.eclipse.dawnsci.hdf5.HDF5Resource;
+import org.eclipse.dawnsci.hdf5.HDF5Utils;
+import org.eclipse.dawnsci.hdf5.HDF5Utils.DatasetType;
 import org.eclipse.dawnsci.hdf5.nexus.NexusException;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFile;
 import org.eclipse.dawnsci.nexus.NXobject;
@@ -66,78 +58,20 @@ import org.eclipse.dawnsci.nexus.impl.NexusNodeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ncsa.hdf.hdf5lib.H5;
+import ncsa.hdf.hdf5lib.HDF5Constants;
+import ncsa.hdf.hdf5lib.exceptions.HDF5Exception;
+import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
+import ncsa.hdf.hdf5lib.structs.H5G_info_t;
+import ncsa.hdf.hdf5lib.structs.H5L_info_t;
+import ncsa.hdf.hdf5lib.structs.H5O_info_t;
+
 public class NexusFileHDF5 implements NexusFile {
 
 	private static final Logger logger = LoggerFactory.getLogger(NexusFileHDF5.class);
 
 	//TODO: Clean up and move stuff to helper classes?
 
-	private static Map<Long, Integer> HDF_TYPES_TO_DATASET_TYPES;
-	private static Map<Integer, Long> DATASET_TYPES_TO_HDF_TYPES;
-	private static Set<Long> UNSIGNED_HDF_TYPES;
-
-	private static long getTypeRepresentation(long nativeHdfTypeId) throws NexusException {
-		final long[] types = {HDF5Constants.H5T_NATIVE_DOUBLE,
-				HDF5Constants.H5T_NATIVE_FLOAT,
-				HDF5Constants.H5T_NATIVE_INT8,
-				HDF5Constants.H5T_NATIVE_UINT8,
-				HDF5Constants.H5T_NATIVE_INT16,
-				HDF5Constants.H5T_NATIVE_UINT16,
-				HDF5Constants.H5T_NATIVE_INT32,
-				HDF5Constants.H5T_NATIVE_UINT32,
-				HDF5Constants.H5T_NATIVE_INT64,
-				HDF5Constants.H5T_NATIVE_UINT64,
-				HDF5Constants.H5T_C_S1};
-		try {
-			for (long type : types) {
-				if (H5.H5Tequal(nativeHdfTypeId, type)) {
-					return type;
-				}
-			}
-		} catch (HDF5LibraryException e) {
-			throw new NexusException("Could not compare types", e);
-		}
-		throw new NexusException("Unknown type");
-	}
-
-	static {
-		HDF_TYPES_TO_DATASET_TYPES = new HashMap<Long, Integer>();
-		DATASET_TYPES_TO_HDF_TYPES = new HashMap<Integer, Long>();
-		UNSIGNED_HDF_TYPES = new HashSet<Long>();
-
-		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT8, Dataset.INT8);
-		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT8, HDF5Constants.H5T_NATIVE_INT8);
-
-		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT16, Dataset.INT16);
-		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT16, HDF5Constants.H5T_NATIVE_INT16);
-
-		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT32, Dataset.INT32);
-		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT32, HDF5Constants.H5T_NATIVE_INT32);
-
-		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT64, Dataset.INT64);
-		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT64, HDF5Constants.H5T_NATIVE_INT64);
-
-		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_UINT8, Dataset.INT8);
-		UNSIGNED_HDF_TYPES.add(HDF5Constants.H5T_NATIVE_UINT8);
-
-		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_UINT16, Dataset.INT16);
-		UNSIGNED_HDF_TYPES.add(HDF5Constants.H5T_NATIVE_UINT16);
-
-		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_UINT32, Dataset.INT32);
-		UNSIGNED_HDF_TYPES.add(HDF5Constants.H5T_NATIVE_UINT32);
-
-		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_UINT64, Dataset.INT64);
-		UNSIGNED_HDF_TYPES.add(HDF5Constants.H5T_NATIVE_UINT64);
-
-		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_FLOAT, Dataset.FLOAT32);
-		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.FLOAT32, HDF5Constants.H5T_NATIVE_FLOAT);
-
-		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_DOUBLE, Dataset.FLOAT64);
-		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.FLOAT64, HDF5Constants.H5T_NATIVE_DOUBLE);
-
-		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_C_S1, Dataset.STRING);
-		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.STRING, HDF5Constants.H5T_C_S1);
-	}
 
 	public enum NodeType {
 		GROUP(HDF5Constants.H5O_TYPE_GROUP),
@@ -367,84 +301,20 @@ public class NexusFileHDF5 implements NexusFile {
 		group.addGroupNode(name, g);
 	}
 
+	public static final Charset UTF8 = Charset.forName("UTF-8");
+
 	private void cacheAttributes(String path, Node node) throws NexusException {
-		Charset utf8 = Charset.forName("UTF-8");
 		try {
 			H5O_info_t objInfo = H5.H5Oget_info_by_name(fileId, path, HDF5Constants.H5P_DEFAULT);
 			long numAttrs = objInfo.num_attrs;
 			for (long i = 0; i < numAttrs; i++) {
-				Dataset dataset;
-				//boolean unsigned = false;
-				long[] shape = null;
-				long[] maxShape = null;
-				Integer datasetType;
-				try (HDF5Resource attrResource = new HDF5AttributeResource(
-						H5.H5Aopen_by_idx(fileId, path, HDF5Constants.H5_INDEX_NAME, HDF5Constants.H5_ITER_INC, i,
-								HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT))) {
-					long attrId = attrResource.getResource();
-					String[] name = new String[1];
-					H5.H5Aget_name(attrId, name);
-					if (node.containsAttribute(name[0])) {
-						//we don't need to read an attribute we already have
-						continue;
-					}
-					try (HDF5Resource spaceResource = new HDF5DataspaceResource( H5.H5Aget_space(attrId) );
-							HDF5Resource typeResource = new HDF5DatatypeResource( H5.H5Aget_type(attrId) );
-							HDF5Resource nativeTypeResource = new HDF5DatatypeResource( H5.H5Tget_native_type(typeResource.getResource()) )) {
-						final long spaceId = spaceResource.getResource();
-						final long nativeTypeId = nativeTypeResource.getResource();
-						final int dataclass = H5.H5Tget_class(nativeTypeId);
-						final int datatypeSize = H5.H5Tget_size(nativeTypeId);
-						if (dataclass == HDF5Constants.H5T_STRING) {
-							datasetType = Dataset.STRING;
-						} else {
-							long typeRepresentation = getTypeRepresentation(nativeTypeId);
-							datasetType = HDF_TYPES_TO_DATASET_TYPES.get(typeRepresentation);
-						}
-						if (datasetType == null) {
-							throw new NexusException("Unknown data type");
-						}
-						if (H5.H5Sget_simple_extent_type(spaceId) == HDF5Constants.H5S_SCALAR) {
-							shape = new long[] {1};
-							maxShape = new long[] {1};
-						} else {
-							final int nDims = H5.H5Sget_simple_extent_ndims(spaceId);
-							shape = new long[nDims];
-							maxShape = new long[nDims];
-							H5.H5Sget_simple_extent_dims(spaceId, shape, maxShape);
-						}
-						final int[] iShape = longArrayToIntArray(shape);
-						int strCount = 1;
-						for (int d : iShape) {
-							strCount *= d;
-						}
-						if (dataclass == HDF5Constants.H5T_STRING) {
-							if (H5.H5Tis_variable_str(nativeTypeId)) {
-								String[] buffer = new String[strCount];
-								H5.H5AreadVL(attrId, nativeTypeId, buffer);
-								dataset = DatasetFactory.createFromObject(buffer).reshape(iShape);
-							} else {
-								byte[] buffer = new byte[strCount * datatypeSize];
-								H5.H5Aread(attrId, nativeTypeId, buffer);
-								String[] strings = new String[strCount];
-								int strIndex = 0;
-								for (int j = 0; j < buffer.length; j += datatypeSize) {
-									int strLength = 0;
-									//Java doesn't strip null bytes during string construction
-									for (int k = j; k < j + datatypeSize && buffer[k] != '\0'; k++) strLength++;
-									strings[strIndex++] = new String(buffer, j, strLength, utf8);
-								}
-								dataset = DatasetFactory.createFromObject(strings).reshape(iShape);
-							}
-						} else {
-							dataset = DatasetFactory.zeros(iShape, datasetType);
-							Serializable buffer = dataset.getBuffer();
-							H5.H5Aread(attrId, nativeTypeId, buffer);
-						}
-						dataset.setName(name[0]);
-						node.addAttribute(createAttribute(dataset));
-					}
+				
+				Dataset dataset = HDF5Utils.getAttrDataset(fileId, path, i);
+				if (dataset == null || node.containsAttribute(dataset.getName())) {
+					//we don't need to read an attribute we already have
+					continue;
 				}
+				node.addAttribute(createAttribute(dataset));
 			}
 		} catch (HDF5Exception e) {
 			throw new NexusException("Could not retrieve node attributes");
@@ -723,9 +593,9 @@ public class NexusFileHDF5 implements NexusFile {
 
 	private DataNode createDataNode(GroupNode parentNode, String path, String name,
 			long[] shape, int datasetType, boolean unsigned, long[] maxShape, long[] chunks) throws NexusException {
-		int[] iShape = shape == null ? null : longArrayToIntArray(shape);
-		int[] iMaxShape = maxShape == null ? null : longArrayToIntArray(maxShape);
-		int[] iChunks = chunks == null ? null : longArrayToIntArray(chunks);
+		int[] iShape = shape == null ? null : HDF5Utils.toIntArray(shape);
+		int[] iMaxShape = maxShape == null ? null : HDF5Utils.toIntArray(maxShape);
+		int[] iChunks = chunks == null ? null : HDF5Utils.toIntArray(chunks);
 		DataNode dataNode = TreeFactory.createDataNode(path.hashCode());
 		cacheAttributes(path, dataNode);
 		parentNode.addDataNode(name, dataNode);
@@ -760,25 +630,15 @@ public class NexusFileHDF5 implements NexusFile {
 		long[] shape = null;
 		long[] maxShape = null;
 		long[] chunks = null;
-		Integer datasetType;
-		boolean unsigned = false;
+		DatasetType type;
 		try (HDF5Resource hdfDataset = new HDF5DatasetResource(openDataset(path));
 				HDF5Resource hdfDataspace = new HDF5DataspaceResource( H5.H5Dget_space(hdfDataset.getResource()) );
 				HDF5Resource hdfDatatype = new HDF5DatatypeResource( H5.H5Dget_type(hdfDataset.getResource()) );
-				HDF5Resource hdfNativetype = new HDF5DatatypeResource( H5.H5Tget_native_type(hdfDatatype.getResource()) )) {
+				 HDF5Resource hdfNativetype = new HDF5DatatypeResource( H5.H5Tget_native_type(hdfDatatype.getResource()))) {
 			final long datasetId = hdfDataset.getResource();
-			long typeRepresentation;
 			final long dataspaceId = hdfDataspace.getResource();
-			final long nativeTypeId = hdfNativetype.getResource();
-			final int dataClass = H5.H5Tget_class(nativeTypeId);
-			if (dataClass == HDF5Constants.H5T_STRING || H5.H5Tis_variable_str(nativeTypeId)) {
-				typeRepresentation = HDF5Constants.H5T_C_S1;
-			} else {
-				typeRepresentation = getTypeRepresentation(nativeTypeId);
-			}
-			unsigned = UNSIGNED_HDF_TYPES.contains(typeRepresentation);
-			datasetType = HDF_TYPES_TO_DATASET_TYPES.get(typeRepresentation);
-			if (datasetType == null) {
+			type = HDF5Utils.getDatasetType(hdfDatatype.getResource(), hdfNativetype.getResource());
+			if (type == null) {
 				throw new NexusException("Unknown data type");
 			}
 			int nDims = H5.H5Sget_simple_extent_ndims(dataspaceId);
@@ -798,7 +658,7 @@ public class NexusFileHDF5 implements NexusFile {
 		} catch (HDF5Exception e) {
 			throw new NexusException("Error reading dataspace", e);
 		}
-		return createDataNode(parentNode, path, dataName, shape, datasetType, unsigned, maxShape, chunks);
+		return createDataNode(parentNode, path, dataName, shape, type.dtype, type.unsigned, maxShape, chunks);
 	}
 
 	@Override
@@ -946,9 +806,9 @@ public class NexusFileHDF5 implements NexusFile {
 		int[] iChunks = data.getChunking();
 		Object[] fillValue = getFillValue(data.elementClass());
 
-		long[] shape = intArrayToLongArray(iShape);
-		long[] maxShape = intArrayToLongArray(iMaxShape);
-		long[] chunks = intArrayToLongArray(iChunks);
+		long[] shape = HDF5Utils.toLongArray(iShape);
+		long[] maxShape = HDF5Utils.toLongArray(iMaxShape);
+		long[] chunks = HDF5Utils.toLongArray(iChunks);
 		boolean stringDataset = data.elementClass().equals(String.class);
 		long hdfType = getHDF5Type(data);
 		try {
@@ -973,7 +833,7 @@ public class NexusFileHDF5 implements NexusFile {
 				if (!Arrays.equals(shape, maxShape) && (recalcChunks || chunks == null || chunks[chunks.length - 1] == 1)) {
 					logger.warn("Inappropriate chunking requested for {}; attempting to estimate suitable chunking.", name);
 					chunks = estimateChunking(shape, maxShape, H5.H5Tget_size(hdfDatatypeId));
-					iChunks = longArrayToIntArray(chunks);
+					iChunks = HDF5Utils.toIntArray(chunks);
 					data.setChunking(iChunks);
 				}
 
@@ -1077,7 +937,7 @@ public class NexusFileHDF5 implements NexusFile {
 		}
 
 		boolean stringDataset = data.elementClass().equals(String.class);//ngd.isChar();
-		final long[] shape = data.getRank() == 0 ? new long[] {1} : intArrayToLongArray(data.getShape());
+		final long[] shape = data.getRank() == 0 ? new long[] {1} : HDF5Utils.toLongArray(data.getShape());
 
 		long type = getHDF5Type(data);
 
@@ -1245,7 +1105,7 @@ public class NexusFileHDF5 implements NexusFile {
 			}
 			IDataset attrData = attr.getValue();
 			long baseHdf5Type = getHDF5Type(attrData);
-			final long[] shape = attrData.getRank() == 0 ? new long[] {1} : intArrayToLongArray(attrData.getShape());
+			final long[] shape = attrData.getRank() == 0 ? new long[] {1} : HDF5Utils.toLongArray(attrData.getShape());
 			try {
 				try (HDF5Resource typeResource = new HDF5DatatypeResource(H5.H5Tcopy(baseHdf5Type));
 						HDF5Resource spaceResource = new HDF5DataspaceResource(
@@ -1586,27 +1446,6 @@ public class NexusFileHDF5 implements NexusFile {
 			return HDF5Constants.H5T_NATIVE_DOUBLE;
 		}
 		throw new IllegalArgumentException("Invalid datatype requested");
-	}
-
-	private static long[] intArrayToLongArray(int[] intArray) {
-		if (intArray == null) return null;
-		long[] longArray = new long[intArray.length];
-		for (int i = 0; i < intArray.length; i++) {
-			longArray[i] = intArray[i];
-		}
-		return longArray;
-	}
-
-	private static int[] longArrayToIntArray(long[] longArray) {
-		int[] intArray = new int[longArray.length];
-		for (int i = 0; i < intArray.length; i++) {
-			long value = longArray[i];
-			if (value > Integer.MAX_VALUE || value < Integer.MIN_VALUE) {
-				throw new IllegalArgumentException("Cannot convert to int array without data loss");
-			}
-			intArray[i] = (int)value;
-		}
-		return intArray;
 	}
 
 	private static Object[] getFillValue(Class<?> clazz) {

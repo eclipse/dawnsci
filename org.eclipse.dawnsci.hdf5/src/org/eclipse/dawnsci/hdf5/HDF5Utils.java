@@ -15,7 +15,12 @@ import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
@@ -70,18 +75,6 @@ public class HDF5Utils {
 	 * @return dataset type
 	 */
 	public static int getDtype(final int dclass, final int dsize) {
-		return getDtype(dclass, dsize, 1, false);
-	}
-
-	/**
-	 * Translate between data type and dataset type
-	 * @param dclass data type class
-	 * @param dsize data type element size in bytes
-	 * @param isize number of items
-	 * @param isComplex
-	 * @return dataset type
-	 */
-	public static int getDtype(final int dclass, final int dsize, final int isize, final boolean isComplex) {
 		switch (dclass) {
 		case Datatype.CLASS_STRING:
 			return Dataset.STRING;
@@ -101,24 +94,16 @@ public class HDF5Utils {
 		case Datatype.CLASS_BITFIELD:
 			switch (dsize) {
 			case 1:
-				return isize == 1 ? Dataset.INT8 : Dataset.ARRAYINT8;
+				return Dataset.INT8;
 			case 2:
-				return isize == 1 ? Dataset.INT16 : Dataset.ARRAYINT16;
+				return Dataset.INT16;
 			case 4:
-				return isize == 1 ? Dataset.INT32 : Dataset.ARRAYINT32;
+				return Dataset.INT32;
 			case 8:
-				return isize == 1 ? Dataset.INT64 : Dataset.ARRAYINT64;
+				return Dataset.INT64;
 			}
 			break;
 		case Datatype.CLASS_FLOAT:
-			if (isComplex) {
-				switch (dsize) {
-				case 4:
-					return Dataset.COMPLEX64;
-				case 8:
-					return Dataset.COMPLEX128;
-				}
-			}
 			switch (dsize) {
 			case 4:
 				return Dataset.FLOAT32;
@@ -384,21 +369,12 @@ public class HDF5Utils {
 
 		long did = -1;
 		long tid = -1;
-		int tclass = -1;
+		long ntid = -1;
 		try {
 			did = H5.H5Dopen(fid, node, HDF5Constants.H5P_DEFAULT);
 			tid = H5.H5Dget_type(did);
-
-			tclass = H5.H5Tget_class(tid);
-			if (tclass == HDF5Constants.H5T_ARRAY || tclass == HDF5Constants.H5T_VLEN) {
-				// for ARRAY, the type is determined by the base type
-				long btid = H5.H5Tget_super(tid);
-				tclass = H5.H5Tget_class(btid);
-				try {
-					H5.H5Tclose(btid);
-				} catch (HDF5Exception ex) {
-				}
-			}
+			ntid = H5.H5Tget_native_type(tid);
+			DatasetType type = getDatasetType(tid, ntid);
 			long sid = -1, pid = -1;
 			int rank;
 			boolean isText, isVLEN; //, isUnsigned = false;
@@ -414,15 +390,14 @@ public class HDF5Utils {
 
 				rank = H5.H5Sget_simple_extent_ndims(sid);
 
-				isText = tclass == HDF5Constants.H5T_STRING;
-				isVLEN = tclass == HDF5Constants.H5T_VLEN || H5.H5Tis_variable_str(tid);
+				isText = type.dtype == Dataset.STRING;
+				isVLEN = type.vlen;
 
 				final int ldtype;
 				if (dtype >= 0) {
 					ldtype = dtype;
 				} else {
-					Datatype type = new H5Datatype(tid);
-					ldtype = getDtype(type.getDatatypeClass(), type.getDatatypeSize());
+					ldtype = type.dtype;
 				}
 
 				if (rank == 0) {
@@ -444,7 +419,7 @@ public class HDF5Utils {
 					}
 				} catch (HDF5Exception ex) {
 					logger.error("Could not get chunk size");
-					return data;
+					throw new NexusException("Could not get chunk size", ex);
 				}
 
 				final long[] sstart = new long[rank]; // source start
@@ -601,7 +576,7 @@ public class HDF5Utils {
 				}
 			} catch (HDF5Exception ex) {
 				logger.error("Could not get data space information", ex);
-				return data;
+				throw new NexusException("Could not get data space information", ex);
 			} finally {
 				if (sid != -1) {
 					try {
@@ -620,6 +595,12 @@ public class HDF5Utils {
 			logger.error("Could not open dataset", ex);
 			throw new NexusException("Could not open dataset", ex);
 		} finally {
+			if (ntid != -1) {
+				try {
+					H5.H5Tclose(ntid);
+				} catch (HDF5Exception ex) {
+				}
+			}
 			if (tid != -1) {
 				try {
 					H5.H5Tclose(tid);
@@ -635,17 +616,6 @@ public class HDF5Utils {
 		}
 
 		return data;
-	}
-
-	private static final long[] toLongArray(final int[] in) {
-		if (in == null)
-			return null;
-
-		long[] out = new long[in.length];
-		for (int i = 0; i < in.length; i++) {
-			out[i] = in[i];
-		}
-		return out;
 	}
 
 	private static String absolutePathToData(String parentPath, String name) {
@@ -1032,7 +1002,7 @@ public class HDF5Utils {
 						offset += maxLength;
 					}
 
-					H5.H5Tset_cset(datatypeID, HDF5Constants.H5T_CSET_UTF8);
+					H5.H5Tset_cset(datatypeID, HDF5Constants.H5T_CSET_ASCII);
 					H5.H5Tset_size(datatypeID, maxLength);
 				}
 				long attrID = -1;
@@ -1269,5 +1239,478 @@ public class HDF5Utils {
 	 */
 	public static long H5Fopen(String filePath, int flags, long fapl) throws HDF5LibraryException, NullPointerException {
 		return HDF5FileFactory.H5Fopen(filePath, flags, fapl);
+	}
+
+	private static final Map<Long, Integer> HDF_TYPES_TO_DATASET_TYPES;
+	private static final Map<Integer, Long> DATASET_TYPES_TO_HDF_TYPES;
+	private static final Set<Long> UNSIGNED_HDF_TYPES;
+
+	private static long getTypeRepresentation(long nativeHdfTypeId) throws NexusException {
+		try {
+			for (long type : HDF_TYPES_TO_DATASET_TYPES.keySet()) {
+				if (H5.H5Tequal(nativeHdfTypeId, type)) {
+					return type;
+				}
+			}
+		} catch (HDF5LibraryException e) {
+			throw new NexusException("Could not compare types", e);
+		}
+
+		return -1;
+	}
+
+	static {
+		HDF_TYPES_TO_DATASET_TYPES = new HashMap<Long, Integer>();
+		DATASET_TYPES_TO_HDF_TYPES = new HashMap<Integer, Long>();
+		UNSIGNED_HDF_TYPES = new HashSet<Long>();
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT8, Dataset.INT8);
+		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT8, HDF5Constants.H5T_NATIVE_INT8);
+
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT16, Dataset.INT16);
+		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT16, HDF5Constants.H5T_NATIVE_INT16);
+
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT32, Dataset.INT32);
+		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT32, HDF5Constants.H5T_NATIVE_INT32);
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_B8, Dataset.INT8);
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_B16, Dataset.INT16);
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_B32, Dataset.INT32);
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_B64, Dataset.INT8);
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT64, Dataset.INT64);
+		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT64, HDF5Constants.H5T_NATIVE_INT64);
+
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_UINT8, Dataset.INT8);
+		UNSIGNED_HDF_TYPES.add(HDF5Constants.H5T_NATIVE_UINT8);
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_UINT16, Dataset.INT16);
+		UNSIGNED_HDF_TYPES.add(HDF5Constants.H5T_NATIVE_UINT16);
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_UINT32, Dataset.INT32);
+		UNSIGNED_HDF_TYPES.add(HDF5Constants.H5T_NATIVE_UINT32);
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_UINT64, Dataset.INT64);
+		UNSIGNED_HDF_TYPES.add(HDF5Constants.H5T_NATIVE_UINT64);
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_FLOAT, Dataset.FLOAT32);
+		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.FLOAT32, HDF5Constants.H5T_NATIVE_FLOAT);
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_DOUBLE, Dataset.FLOAT64);
+		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.FLOAT64, HDF5Constants.H5T_NATIVE_DOUBLE);
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_C_S1, Dataset.STRING);
+		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.STRING, HDF5Constants.H5T_C_S1);
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_B8, Dataset.INT8);
+		UNSIGNED_HDF_TYPES.add(HDF5Constants.H5T_NATIVE_B8);
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_B16, Dataset.INT16);
+		UNSIGNED_HDF_TYPES.add(HDF5Constants.H5T_NATIVE_B16);
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_B32, Dataset.INT32);
+		UNSIGNED_HDF_TYPES.add(HDF5Constants.H5T_NATIVE_B32);
+
+		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_B64, Dataset.INT64);
+		UNSIGNED_HDF_TYPES.add(HDF5Constants.H5T_NATIVE_B64);
+	}
+
+	public static class DatasetType {
+		public int dtype = -1; // dataset type number 
+		public int isize = 1; // number of elements per item
+		public int size; // size of string in bytes
+		public int bits = -1; // max number of bits for bit-fields (-1 for other types)
+		public String name;
+		public boolean vlen; // is variable length
+		public boolean isComplex = false;
+		public boolean unsigned; // is unsigned
+	}
+
+	public static Dataset[] readAttributes(long oid) throws NexusException {
+		return readAttributes(oid, HERE);
+	}
+
+	private static final String HERE = ".";
+
+	public static Dataset[] readAttributes(long oid, String path) throws NexusException {
+	    H5O_info_t info = null;
+	    try {
+	        info = H5.H5Oget_info(oid);
+	    } catch (HDF5LibraryException e) {
+	    	logger.error("Could not get info from object", e);
+	    	throw new NexusException("Could not get info from object", e);
+	    }
+	
+	    int n = (int) info.num_attrs;
+	    if (n <= 0) {
+	        return new Dataset[0];
+	    }
+
+	    Dataset[] attrs = new Dataset[n];
+	    for (int i = 0; i < n; i++) {
+	    	attrs[i] = getAttrDataset(oid, path, i);
+	    }
+	
+		return attrs;
+	}
+
+	/**
+	 * 
+	 * @param tid
+	 * @return
+	 * @throws HDF5LibraryException
+	 * @throws NexusException 
+	 */
+	public static DatasetType findClassesInComposite(long tid) throws HDF5LibraryException, NexusException {
+		List<String> names = new ArrayList<String>();
+		List<Integer> classes = new ArrayList<Integer>();
+		List<Integer> dtypes = new ArrayList<Integer>();
+		List<Integer> widths = new ArrayList<Integer>();
+		List<Boolean> signs = new ArrayList<Boolean>();
+		flattenCompositeDatasetType(tid, "", names, classes, dtypes, widths, signs);
+		DatasetType comp = new DatasetType();
+		comp.isize = classes.size();
+		if (comp.isize > 0) {
+			int tclass = classes.get(0);
+			for (int i = 1; i < comp.isize; i++) {
+				if (tclass != classes.get(i)) {
+					logger.error("Could not load inhomogeneous compound datatype");
+					return null;
+				}
+			}
+			comp.dtype = dtypes.get(0);
+			if (comp.isize == 2 && tclass == HDF5Constants.H5T_FLOAT) {
+				if (getLastComponent(names.get(0)).toLowerCase().startsWith("r") && getLastComponent(names.get(1)).toLowerCase().startsWith("i")) {
+					comp.isComplex = true;
+					comp.dtype = comp.dtype == Dataset.FLOAT32 ? Dataset.COMPLEX64 : Dataset.COMPLEX128;
+				}
+			}
+			if (!comp.isComplex) {
+				comp.dtype *= Dataset.ARRAYMUL;
+			}
+
+			StringBuilder name = new StringBuilder(comp.isComplex ? "Complex = {" : "Composite of {");
+			for (int i = 0; i < comp.isize; i++) {
+				name.append(names.get(i));
+				name.append(constructType(classes.get(i), widths.get(i), signs.get(i)));
+				name.append(", ");
+			}
+			name.delete(name.length() - 2, name.length());
+			name.append("}");
+			comp.name = name.toString();
+			Collections.sort(widths);
+			comp.bits = widths.get(widths.size() - 1);
+		}
+		return comp;
+	}
+
+	private static final String COLON = ":";
+
+	private static String getLastComponent(String n) {
+		String[] bits = n.split(COLON);
+		int l = bits.length - 1;
+		while (bits[l].trim().length() == 0) {
+			l--;
+		}
+		return bits[l];
+	}
+
+	private static String constructType(int c, int w, boolean s) {
+		StringBuilder n = new StringBuilder(":");
+		if (!s) {
+			n.append("U");
+		}
+		if (c == HDF5Constants.H5T_BITFIELD) {
+			n.append("INT");
+			n.append(w);
+		} else if (c == HDF5Constants.H5T_INTEGER) {
+			n.append("INT");
+			n.append(-w*8);
+		} else if (c == HDF5Constants.H5T_FLOAT) {
+			n.append("FLOAT");
+			n.append(-w*8);
+		}
+		return n.toString();
+	}
+
+	/**
+	 * This flattens compound and array
+	 * @param tid
+	 * @param prefix
+	 * @param names
+	 * @param classes
+	 * @param dtypes
+	 * @param widths bits (positive) or bytes (negative)
+	 * @param signs
+	 * @throws HDF5LibraryException
+	 * @throws NexusException 
+	 */
+	private static void flattenCompositeDatasetType(long tid, String prefix, List<String> names, List<Integer> classes, List<Integer> dtypes, List<Integer> widths, List<Boolean> signs) throws HDF5LibraryException, NexusException {
+		int tclass = H5.H5Tget_class(tid);
+		if (tclass == HDF5Constants.H5T_ARRAY) {
+			long btid = -1;
+			try {
+				btid = H5.H5Tget_super(tid);
+				tclass = H5.H5Tget_class(btid);
+				// deal with array of composite
+				if (tclass == HDF5Constants.H5T_COMPOUND || tclass == HDF5Constants.H5T_ARRAY) {
+					flattenCompositeDatasetType(btid, prefix, names, classes, dtypes, widths, signs);
+					return;
+				}
+				int r = H5.H5Tget_array_ndims(tid);
+				long[] shape = new long[r];
+				H5.H5Tget_array_dims(tid, shape);
+				long size = calcLongSize(shape);
+				for (long i = 0; i < size; i++) {
+					names.add(prefix + i);
+					classes.add(tclass);
+				}
+			} catch (HDF5Exception ex) {
+			} finally {
+				if (btid != -1) {
+					try {
+						H5.H5Tclose(btid);
+					} catch (HDF5LibraryException e) {
+					}
+				}
+			}
+		} else {
+			int n = H5.H5Tget_nmembers(tid);
+			if (n <= 0)
+				return;
+	
+			int mclass = 0;
+			long tmptid = -1;
+			for (int i = 0; i < n; i++) {
+				long mtype = -1;
+				try {
+					mtype = H5.H5Tget_member_type(tid, i);
+	
+					try {
+						tmptid = mtype;
+						mtype = H5.H5Tget_native_type(tmptid);
+					} catch (HDF5Exception ex) {
+						continue;
+					} finally {
+						if (tmptid != -1) {
+							try {
+								H5.H5Tclose(tmptid);
+							} catch (HDF5LibraryException e) {
+							}
+						}
+					}
+		
+					try {
+						mclass = H5.H5Tget_class(mtype);
+					} catch (HDF5Exception ex) {
+						continue;
+					}
+		
+					
+					String mname = prefix;
+					if (prefix.length() > 0) {
+						mname += COLON;
+					}
+					mname += H5.H5Tget_member_name(tid, i);
+					if (mclass == HDF5Constants.H5T_COMPOUND || mclass == HDF5Constants.H5T_ARRAY) {
+						// deal with composite
+						flattenCompositeDatasetType(mtype, mname, names, classes, dtypes, widths, signs);
+					} else if (mclass == HDF5Constants.H5T_VLEN) {
+						continue;
+					} else {
+						names.add(mname);
+						classes.add(mclass);
+						if (mclass == HDF5Constants.H5T_BITFIELD) {
+							int p = -1;
+							try {
+								p = H5.H5Tget_precision(mtype);
+							} catch (HDF5Exception ex) {
+								continue;
+							} finally {
+								widths.add(p);
+							}
+							signs.add(false);
+						} else {
+							int w = 1;
+							try {
+								w = H5.H5Tget_size(mtype);
+							} catch (HDF5Exception ex) {
+								continue;
+							} finally {
+								widths.add(-w);
+							}
+							if (mclass == HDF5Constants.H5T_INTEGER) {
+								boolean s = true;
+								try {
+									s = H5.H5Tget_sign(mtype) == HDF5Constants.H5T_SGN_2;
+								} catch (HDF5Exception ex) {
+									continue;
+								} finally {
+									signs.add(s);
+								}
+							} else {
+								signs.add(true);
+							}
+						}
+						dtypes.add(HDF_TYPES_TO_DATASET_TYPES.get(getTypeRepresentation(mtype)));
+					}
+				} finally {
+					if (mtype != -1) {
+						try {
+							H5.H5Tclose(mtype);
+						} catch (HDF5LibraryException e) {
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public static DatasetType getDatasetType(long typeId, long nativeTypeId) throws NexusException, HDF5LibraryException {
+		DatasetType type = new DatasetType();
+		int tclass = H5.H5Tget_class(nativeTypeId);
+
+		if (tclass == HDF5Constants.H5T_ARRAY || tclass == HDF5Constants.H5T_COMPOUND) {
+			type = findClassesInComposite(typeId);
+		} else {
+			type.size = H5.H5Tget_size(nativeTypeId);
+	
+			long typeRepresentation;
+			if (tclass == HDF5Constants.H5T_STRING) {
+				type.vlen = H5.H5Tis_variable_str(nativeTypeId);
+				typeRepresentation = HDF5Constants.H5T_C_S1;
+			} else {
+				type.vlen = tclass == HDF5Constants.H5T_VLEN;
+				typeRepresentation = getTypeRepresentation(nativeTypeId);
+			}
+			type.dtype = HDF_TYPES_TO_DATASET_TYPES.get(typeRepresentation);
+			type.unsigned = UNSIGNED_HDF_TYPES.contains(typeRepresentation);
+		}
+//		isEnum = tclass == HDF5Constants.H5T_ENUM;
+//		isRegRef = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_DSETREG);
+		return type;
+	}
+
+	public static Dataset getAttrDataset(long locId, String path, long i) throws NexusException {
+		Dataset dataset = null;
+		try {
+			try (HDF5Resource attrResource = new HDF5AttributeResource(
+					H5.H5Aopen_by_idx(locId, path, HDF5Constants.H5_INDEX_NAME, HDF5Constants.H5_ITER_INC, i,
+							HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT))) {
+				long[] shape = null;
+				long[] maxShape = null;
+				long attrId = attrResource.getResource();
+				String[] name = new String[1];
+				H5.H5Aget_name(attrId, name);
+				try (HDF5Resource spaceResource = new HDF5DataspaceResource(H5.H5Aget_space(attrId));
+						HDF5Resource typeResource = new HDF5DatatypeResource(H5.H5Aget_type(attrId));
+						HDF5Resource nativeTypeResource = new HDF5DatatypeResource(H5.H5Tget_native_type(typeResource.getResource()))) {
+					final long spaceId = spaceResource.getResource();
+					final long nativeTypeId = nativeTypeResource.getResource();
+					DatasetType type = getDatasetType(typeResource.getResource(), nativeTypeId);
+					if (type == null) {
+						throw new NexusException("Unknown data type");
+					}
+					if (H5.H5Sget_simple_extent_type(spaceId) == HDF5Constants.H5S_SCALAR) {
+						shape = new long[] {1};
+						maxShape = new long[] {1};
+					} else {
+						final int nDims = H5.H5Sget_simple_extent_ndims(spaceId);
+						shape = new long[nDims];
+						maxShape = new long[nDims];
+						H5.H5Sget_simple_extent_dims(spaceId, shape, maxShape);
+					}
+					final int[] iShape = toIntArray(shape);
+					int strCount = 1;
+					for (int d : iShape) {
+						strCount *= d;
+					}
+					if (type.dtype == Dataset.STRING) {
+						if (type.vlen) {
+							String[] buffer = new String[strCount];
+							H5.H5AreadVL(attrId, nativeTypeId, buffer);
+							dataset = DatasetFactory.createFromObject(buffer).reshape(iShape);
+						} else {
+							byte[] buffer = new byte[strCount * type.size];
+							H5.H5Aread(attrId, nativeTypeId, buffer);
+							String[] strings = new String[strCount];
+							int strIndex = 0;
+							for (int j = 0; j < buffer.length; j += type.size) {
+								int strLength = 0;
+								//Java doesn't strip null bytes during string construction
+								for (int k = j; k < j + type.size && buffer[k] != '\0'; k++) strLength++;
+								strings[strIndex++] = new String(buffer, j, strLength, UTF8);
+							}
+							dataset = DatasetFactory.createFromObject(strings).reshape(iShape);
+						}
+					} else {
+						dataset = DatasetFactory.zeros(iShape, type.dtype);
+						Serializable buffer = dataset.getBuffer();
+						H5.H5Aread(attrId, nativeTypeId, buffer);
+					}
+					dataset.setName(name[0]);
+				}
+			}
+		} catch (HDF5Exception e) {
+			throw new NexusException("Could not retrieve attribute", e);
+		}
+		return dataset;
+	}
+
+	public static long calcLongSize(final long[] shape) {
+		double dsize = 1.0;
+		for (int i = 0; i < shape.length; i++) {
+			// make sure the indexes isn't zero or negative
+			if (shape[i] == 0) {
+				return 0;
+			} else if (shape[i] < 0) {
+				throw new IllegalArgumentException(String.format(
+						"The %d-th is %d which is an illegal argument as it is negative", i, shape[i]));
+			}
+	
+			dsize *= shape[i];
+		}
+	
+		// check to see if the size is larger than an integer, i.e. we can't allocate it
+		if (dsize > Long.MAX_VALUE) {
+			throw new IllegalArgumentException("Size of the dataset is too large to allocate");
+		}
+		return (long) dsize;
+	}
+
+	/**
+	 * Convert integer array to long array
+	 * @param in
+	 * @return long array
+	 */
+	public static final long[] toLongArray(final int[] in) {
+		if (in == null)
+			return null;
+	
+		long[] out = new long[in.length];
+		for (int i = 0; i < in.length; i++) {
+			out[i] = in[i];
+		}
+		return out;
+	}
+
+	/**
+	 * Convert long array to integer array
+	 * @param in
+	 * @return integer array
+	 */
+	public static int[] toIntArray(long[] in) {
+		int[] out = new int[in.length];
+		for (int i = 0; i < out.length; i++) {
+			long value = in[i];
+			if (value > Integer.MAX_VALUE || value < Integer.MIN_VALUE) {
+				throw new IllegalArgumentException("Cannot convert to int array without data loss");
+			}
+			out[i] = (int)value;
+		}
+		return out;
 	}
 }
