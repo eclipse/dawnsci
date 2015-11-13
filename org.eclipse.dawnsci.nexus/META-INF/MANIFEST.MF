@@ -15,7 +15,8 @@ Import-Package: javax.measure.quantity,
  ncsa.hdf.hdf5lib.structs,
  org.slf4j;version="1.7.6"
 Export-Package: org.eclipse.dawnsci.nexus,
+ org.eclipse.dawnsci.nexus.builder,
+ org.eclipse.dawnsci.nexus.builder.appdef,
  org.eclipse.dawnsci.nexus.hdf5,
  org.eclipse.dawnsci.nexus.impl,
- org.eclipse.dawnsci.nexus.model.api,
  org.eclipse.dawnsci.nexus.validation

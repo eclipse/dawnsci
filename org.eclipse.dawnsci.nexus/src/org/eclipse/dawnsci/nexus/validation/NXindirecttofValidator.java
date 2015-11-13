@@ -15,7 +15,7 @@ import org.eclipse.dawnsci.nexus.NXmonochromator;
 /**
  * Validator for the application definition 'NXindirecttof'.
  */
-public class NXindirecttofValidator extends AbstractNXValidator implements NXApplicationValidator {
+public class NXindirecttofValidator extends AbstractNexusValidator implements NexusApplicationValidator {
 
 	@Override
 	public void validate(NXroot root) throws NexusValidationException {
@@ -25,34 +25,34 @@ public class NXindirecttofValidator extends AbstractNXValidator implements NXApp
 
 	@Override
 	public void validate(NXentry entry) throws NexusValidationException {
-//		validateGroup_entry(entry);  TODO validate entry
+		validateGroup_entry(entry);
 	}
 
 	@Override
 	public void validate(NXsubentry subentry) throws NexusValidationException {
-//		validateGroup_entry(subentry);  TODO validate entry
+		validateGroup_entry(subentry);
 	}
 
 
 	/**
 	 * Validate group 'entry' of type NXentry.
 	 */
-	private void validateGroup_entry(final NXentry group) throws NexusValidationException {
+	private void validateGroup_entry(final NXsubentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("entry", NXentry.class, group);
 
 		// validate field 'title' of unknown type.
 		final IDataset title = group.getTitle();
-		validateFieldNotNull("title)", title);
+		validateFieldNotNull("title", title);
 
 		// validate field 'start_time' of type NX_DATE_TIME.
 		final IDataset start_time = group.getStart_time();
-		validateFieldNotNull("start_time)", start_time);
-		validateFieldType("start_time)", start_time, NX_DATE_TIME);
+		validateFieldNotNull("start_time", start_time);
+		validateFieldType("start_time", start_time, NX_DATE_TIME);
 
 		// validate field 'definition' of unknown type.
 		final IDataset definition = group.getDefinition();
-		validateFieldNotNull("definition)", definition);
+		validateFieldNotNull("definition", definition);
 		validateFieldEnumeration("definition", definition,
 				"NXindirecttof");
 
@@ -83,24 +83,24 @@ public class NXindirecttofValidator extends AbstractNXValidator implements NXApp
 
 		// validate field 'energy' of type NX_FLOAT.
 		final IDataset energy = group.getEnergy();
-		validateFieldNotNull("energy)", energy);
-		validateFieldType("energy)", energy, NX_FLOAT);
+		validateFieldNotNull("energy", energy);
+		validateFieldType("energy", energy, NX_FLOAT);
 		validateFieldUnits("energy", energy, NX_ENERGY);
 		validateFieldRank("energy", energy, 1);
 		validateFieldDimensions("energy", energy, null, "nDet");
 
 		// validate field 'polar_angle' of type NX_FLOAT. Note: field not defined in base class.
 		final IDataset polar_angle = group.getDataset("polar_angle");
-		validateFieldNotNull("polar_angle)", polar_angle);
-		validateFieldType("polar_angle)", polar_angle, NX_FLOAT);
+		validateFieldNotNull("polar_angle", polar_angle);
+		validateFieldType("polar_angle", polar_angle, NX_FLOAT);
 		validateFieldUnits("polar_angle", polar_angle, NX_ANGLE);
 		validateFieldRank("polar_angle", polar_angle, 1);
 		validateFieldDimensions("polar_angle", polar_angle, null, "ndet");
 
 		// validate field 'distance' of type NX_FLOAT. Note: field not defined in base class.
 		final IDataset distance = group.getDataset("distance");
-		validateFieldNotNull("distance)", distance);
-		validateFieldType("distance)", distance, NX_FLOAT);
+		validateFieldNotNull("distance", distance);
+		validateFieldType("distance", distance, NX_FLOAT);
 		validateFieldUnits("distance", distance, NX_LENGTH);
 		validateFieldRank("distance", distance, 1);
 		validateFieldDimensions("distance", distance, null, "ndet");

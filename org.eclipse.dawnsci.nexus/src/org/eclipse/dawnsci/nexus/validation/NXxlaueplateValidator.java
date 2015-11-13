@@ -13,7 +13,7 @@ import org.eclipse.dawnsci.nexus.NXdetector;
 /**
  * Validator for the application definition 'NXxlaueplate'.
  */
-public class NXxlaueplateValidator extends AbstractNXValidator implements NXApplicationValidator {
+public class NXxlaueplateValidator extends AbstractNexusValidator implements NexusApplicationValidator {
 
 	@Override
 	public void validate(NXroot root) throws NexusValidationException {
@@ -23,25 +23,25 @@ public class NXxlaueplateValidator extends AbstractNXValidator implements NXAppl
 
 	@Override
 	public void validate(NXentry entry) throws NexusValidationException {
-//		validateGroup_entry(entry);  TODO validate entry
+		validateGroup_entry(entry);
 	}
 
 	@Override
 	public void validate(NXsubentry subentry) throws NexusValidationException {
-//		validateGroup_entry(subentry);  TODO validate entry
+		validateGroup_entry(subentry);
 	}
 
 
 	/**
 	 * Validate group 'entry' of type NXentry.
 	 */
-	private void validateGroup_entry(final NXentry group) throws NexusValidationException {
+	private void validateGroup_entry(final NXsubentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("entry", NXentry.class, group);
 
 		// validate field 'definition' of unknown type.
 		final IDataset definition = group.getDefinition();
-		validateFieldNotNull("definition)", definition);
+		validateFieldNotNull("definition", definition);
 		validateFieldEnumeration("definition", definition,
 				"NXxlaueplate");
 
@@ -70,8 +70,8 @@ public class NXxlaueplateValidator extends AbstractNXValidator implements NXAppl
 
 		// validate field 'diameter' of type NX_FLOAT.
 		final IDataset diameter = group.getDiameter();
-		validateFieldNotNull("diameter)", diameter);
-		validateFieldType("diameter)", diameter, NX_FLOAT);
+		validateFieldNotNull("diameter", diameter);
+		validateFieldType("diameter", diameter, NX_FLOAT);
 		validateFieldUnits("diameter", diameter, NX_LENGTH);
 	}
 }

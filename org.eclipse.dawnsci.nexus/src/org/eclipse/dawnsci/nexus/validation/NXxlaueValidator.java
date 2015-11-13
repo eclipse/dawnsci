@@ -14,7 +14,7 @@ import org.eclipse.dawnsci.nexus.NXdata;
 /**
  * Validator for the application definition 'NXxlaue'.
  */
-public class NXxlaueValidator extends AbstractNXValidator implements NXApplicationValidator {
+public class NXxlaueValidator extends AbstractNexusValidator implements NexusApplicationValidator {
 
 	@Override
 	public void validate(NXroot root) throws NexusValidationException {
@@ -24,25 +24,25 @@ public class NXxlaueValidator extends AbstractNXValidator implements NXApplicati
 
 	@Override
 	public void validate(NXentry entry) throws NexusValidationException {
-//		validateGroup_entry(entry);  TODO validate entry
+		validateGroup_entry(entry);
 	}
 
 	@Override
 	public void validate(NXsubentry subentry) throws NexusValidationException {
-//		validateGroup_entry(subentry);  TODO validate entry
+		validateGroup_entry(subentry);
 	}
 
 
 	/**
 	 * Validate group 'entry' of type NXentry.
 	 */
-	private void validateGroup_entry(final NXentry group) throws NexusValidationException {
+	private void validateGroup_entry(final NXsubentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("entry", NXentry.class, group);
 
 		// validate field 'definition' of unknown type.
 		final IDataset definition = group.getDefinition();
-		validateFieldNotNull("definition)", definition);
+		validateFieldNotNull("definition", definition);
 		validateFieldEnumeration("definition", definition,
 				"NXxlaue");
 
@@ -82,14 +82,14 @@ public class NXxlaueValidator extends AbstractNXValidator implements NXApplicati
 
 		// validate field 'data' of unknown type.
 		final IDataset data = group.getData();
-		validateFieldNotNull("data)", data);
-		validateFieldType("data)", data, NX_NUMBER);
+		validateFieldNotNull("data", data);
+		validateFieldType("data", data, NX_NUMBER);
 		validateFieldRank("data", data, 1);
 		validateFieldDimensions("data", data, null, "ne");
 
 		// validate field 'wavelength' of unknown type. Note: field not defined in base class.
 		final IDataset wavelength = group.getDataset("wavelength");
-		validateFieldNotNull("wavelength)", wavelength);
+		validateFieldNotNull("wavelength", wavelength);
 		validateFieldUnits("wavelength", wavelength, NX_WAVELENGTH);
 		validateFieldRank("wavelength", wavelength, 1);
 		validateFieldDimensions("wavelength", wavelength, null, "ne");

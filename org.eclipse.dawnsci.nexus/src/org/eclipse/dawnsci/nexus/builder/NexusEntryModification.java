@@ -10,20 +10,11 @@
  *    Matthew Dickie - initial API and implementation and/or initial documentation
  *******************************************************************************/
 
-package org.eclipse.dawnsci.nexus.model.api;
-
-import org.eclipse.dawnsci.nexus.NXentry;
+package org.eclipse.dawnsci.nexus.builder;
 
 /**
- * A custom modification to the nexus tree.
- *
+ * Abstract interface for all objects that can modify a nexus entry. 
  */
-public interface CustomNexusTreeModification extends NexusTreeModification {
-	
-	/**
-	 * Perform a custom modification to the entry.
-	 * @param entry
-	 */
-	public void modifyEntry(NXentry entry);
+public interface NexusEntryModification {
 
 }

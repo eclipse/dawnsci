@@ -10,29 +10,19 @@
  *    Matthew Dickie - initial API and implementation and/or initial documentation
  *******************************************************************************/
 
-package org.eclipse.dawnsci.nexus.model.api;
+package org.eclipse.dawnsci.nexus.builder;
 
-import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
-import org.eclipse.dawnsci.hdf5.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.NXroot;
+import org.eclipse.dawnsci.nexus.NXentry;
 
 /**
- * A model of a NeXus file.
+ * A custom modification to the nexus tree.
  */
-public interface NexusFileModel {
-
+public interface CustomNexusEntryModification extends NexusEntryModification {
+	
 	/**
-	 * Saves the nexus file
-	 * @throws NexusException 
+	 * Perform a custom modification to the entry.
+	 * @param entry
 	 */
-	public void saveFile() throws NexusException;
-
-	public TreeFile getNexusTree();
-
-	public NXroot getNxRoot();
-
-	public NexusEntryModel newEntry(); // uses defaultName: entry1, entry2, etc.
-
-	public NexusEntryModel newEntry(String entryName);
+	public void modifyEntry(NXentry entry);
 
 }

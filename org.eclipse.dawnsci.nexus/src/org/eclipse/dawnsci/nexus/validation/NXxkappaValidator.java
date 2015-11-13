@@ -15,7 +15,7 @@ import org.eclipse.dawnsci.nexus.NXdata;
 /**
  * Validator for the application definition 'NXxkappa'.
  */
-public class NXxkappaValidator extends AbstractNXValidator implements NXApplicationValidator {
+public class NXxkappaValidator extends AbstractNexusValidator implements NexusApplicationValidator {
 
 	@Override
 	public void validate(NXroot root) throws NexusValidationException {
@@ -25,25 +25,25 @@ public class NXxkappaValidator extends AbstractNXValidator implements NXApplicat
 
 	@Override
 	public void validate(NXentry entry) throws NexusValidationException {
-//		validateGroup_entry(entry);  TODO validate entry
+		validateGroup_entry(entry);
 	}
 
 	@Override
 	public void validate(NXsubentry subentry) throws NexusValidationException {
-//		validateGroup_entry(subentry);  TODO validate entry
+		validateGroup_entry(subentry);
 	}
 
 
 	/**
 	 * Validate group 'entry' of type NXentry.
 	 */
-	private void validateGroup_entry(final NXentry group) throws NexusValidationException {
+	private void validateGroup_entry(final NXsubentry group) throws NexusValidationException {
 		// validate that the group is not null
 		validateGroupNotNull("entry", NXentry.class, group);
 
 		// validate field 'definition' of unknown type.
 		final IDataset definition = group.getDefinition();
-		validateFieldNotNull("definition)", definition);
+		validateFieldNotNull("definition", definition);
 		validateFieldEnumeration("definition", definition,
 				"NXxkappa");
 
@@ -78,8 +78,8 @@ public class NXxkappaValidator extends AbstractNXValidator implements NXApplicat
 
 		// validate field 'polar_angle' of type NX_FLOAT.
 		final IDataset polar_angle = group.getPolar_angle();
-		validateFieldNotNull("polar_angle)", polar_angle);
-		validateFieldType("polar_angle)", polar_angle, NX_FLOAT);
+		validateFieldNotNull("polar_angle", polar_angle);
+		validateFieldType("polar_angle", polar_angle, NX_FLOAT);
 		validateFieldUnits("polar_angle", polar_angle, NX_ANGLE);
 		validateFieldRank("polar_angle", polar_angle, 1);
 		validateFieldDimensions("polar_angle", polar_angle, null, "np");
@@ -95,32 +95,32 @@ public class NXxkappaValidator extends AbstractNXValidator implements NXApplicat
 
 		// validate field 'rotation_angle' of type NX_FLOAT.
 		final IDataset rotation_angle = group.getRotation_angle();
-		validateFieldNotNull("rotation_angle)", rotation_angle);
-		validateFieldType("rotation_angle)", rotation_angle, NX_FLOAT);
+		validateFieldNotNull("rotation_angle", rotation_angle);
+		validateFieldType("rotation_angle", rotation_angle, NX_FLOAT);
 		validateFieldUnits("rotation_angle", rotation_angle, NX_ANGLE);
 		validateFieldRank("rotation_angle", rotation_angle, 1);
 		validateFieldDimensions("rotation_angle", rotation_angle, null, "np");
 
 		// validate field 'kappa' of type NX_FLOAT. Note: field not defined in base class.
 		final IDataset kappa = group.getDataset("kappa");
-		validateFieldNotNull("kappa)", kappa);
-		validateFieldType("kappa)", kappa, NX_FLOAT);
+		validateFieldNotNull("kappa", kappa);
+		validateFieldType("kappa", kappa, NX_FLOAT);
 		validateFieldUnits("kappa", kappa, NX_ANGLE);
 		validateFieldRank("kappa", kappa, 1);
 		validateFieldDimensions("kappa", kappa, null, "np");
 
 		// validate field 'phi' of type NX_FLOAT. Note: field not defined in base class.
 		final IDataset phi = group.getDataset("phi");
-		validateFieldNotNull("phi)", phi);
-		validateFieldType("phi)", phi, NX_FLOAT);
+		validateFieldNotNull("phi", phi);
+		validateFieldType("phi", phi, NX_FLOAT);
 		validateFieldUnits("phi", phi, NX_ANGLE);
 		validateFieldRank("phi", phi, 1);
 		validateFieldDimensions("phi", phi, null, "np");
 
 		// validate field 'alpha' of type NX_FLOAT. Note: field not defined in base class.
 		final IDataset alpha = group.getDataset("alpha");
-		validateFieldNotNull("alpha)", alpha);
-		validateFieldType("alpha)", alpha, NX_FLOAT);
+		validateFieldNotNull("alpha", alpha);
+		validateFieldType("alpha", alpha, NX_FLOAT);
 		validateFieldUnits("alpha", alpha, NX_ANGLE);
 	}
 
