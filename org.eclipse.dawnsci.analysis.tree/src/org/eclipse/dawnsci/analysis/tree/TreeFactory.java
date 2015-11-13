@@ -32,16 +32,24 @@ import org.eclipse.dawnsci.analysis.tree.impl.TreeImpl;
 public class TreeFactory {
 
 	/**
-	 * Create an attribute with node, name
+	 * Create an attribute with name
 	 * @param attrName
 	 */
 	public static Attribute createAttribute(final String attrName) {
 		return new AttributeImpl(attrName);
 	}
 
+	/**
+	 * Create an attribute with name and value
+	 * @param attrName
+	 * @param attrValue (usually, this is a Java array)
+	 */
+	public static Attribute createAttribute(final String attrName, final Object attrValue) {
+		return new AttributeImpl(attrName, attrValue, false);
+	}
 
 	/**
-	 * Create an attribute with node, name, value and sign
+	 * Create an attribute with name, value and sign
 	 * @param attrName
 	 * @param attrValue (usually, this is a Java array)
 	 * @param isUnsigned true if items are unsigned but held in signed primitives
