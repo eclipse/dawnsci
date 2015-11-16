@@ -86,6 +86,7 @@ public class AbstractNexusValidatorTest {
 	@Test
 	public void testValidateAttributeNotNull_notNull() throws Exception {
 		Attribute attribute = new AttributeImpl("attributeName");
+		attribute.setValue("hello");
 		validator.validateAttributeNotNull("attributeName", attribute);
 	}
 	
