@@ -98,6 +98,11 @@ public class PolylineROI extends PointROI implements IPolylineROI, Serializable 
 		setDirty();
 	}
 
+	/**
+	 * Set point of polyline at index
+	 * @param i index
+	 * @param point
+	 */
 	public void setPoint(int i, double[] point) {
 		setPoint(i, new PointROI(point));
 	}
@@ -127,6 +132,10 @@ public class PolylineROI extends PointROI implements IPolylineROI, Serializable 
 		}
 	}
 
+	/**
+	 * Add point to polyline
+	 * @param point
+	 */
 	public void insertPoint(double[] point) {
 		insertPoint(new PointROI(point));
 	}
