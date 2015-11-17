@@ -7,13 +7,15 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -74,12 +76,12 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 		return getString(NX_TYPE);
 	}
 
-	public void setType(IDataset type) {
-		setDataset(NX_TYPE, type);
+	public DataNode setType(IDataset type) {
+		return setDataset(NX_TYPE, type);
 	}
 
-	public void setTypeScalar(String type) {
-		setString(NX_TYPE, type);
+	public DataNode setTypeScalar(String type) {
+		return setString(NX_TYPE, type);
 	}
 
 	@Override
@@ -92,12 +94,12 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 		return getString(NX_MANUFACTURER);
 	}
 
-	public void setManufacturer(IDataset manufacturer) {
-		setDataset(NX_MANUFACTURER, manufacturer);
+	public DataNode setManufacturer(IDataset manufacturer) {
+		return setDataset(NX_MANUFACTURER, manufacturer);
 	}
 
-	public void setManufacturerScalar(String manufacturer) {
-		setString(NX_MANUFACTURER, manufacturer);
+	public DataNode setManufacturerScalar(String manufacturer) {
+		return setString(NX_MANUFACTURER, manufacturer);
 	}
 
 	@Override
@@ -110,12 +112,12 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 		return getDouble(NX_MAXIMUM_INCIDENT_ANGLE);
 	}
 
-	public void setMaximum_incident_angle(IDataset maximum_incident_angle) {
-		setDataset(NX_MAXIMUM_INCIDENT_ANGLE, maximum_incident_angle);
+	public DataNode setMaximum_incident_angle(IDataset maximum_incident_angle) {
+		return setDataset(NX_MAXIMUM_INCIDENT_ANGLE, maximum_incident_angle);
 	}
 
-	public void setMaximum_incident_angleScalar(double maximum_incident_angle) {
-		setField(NX_MAXIMUM_INCIDENT_ANGLE, maximum_incident_angle);
+	public DataNode setMaximum_incident_angleScalar(double maximum_incident_angle) {
+		return setField(NX_MAXIMUM_INCIDENT_ANGLE, maximum_incident_angle);
 	}
 
 	@Override
@@ -128,12 +130,12 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 		return getDouble(NX_ACCEPTING_APERTURE);
 	}
 
-	public void setAccepting_aperture(IDataset accepting_aperture) {
-		setDataset(NX_ACCEPTING_APERTURE, accepting_aperture);
+	public DataNode setAccepting_aperture(IDataset accepting_aperture) {
+		return setDataset(NX_ACCEPTING_APERTURE, accepting_aperture);
 	}
 
-	public void setAccepting_apertureScalar(double accepting_aperture) {
-		setField(NX_ACCEPTING_APERTURE, accepting_aperture);
+	public DataNode setAccepting_apertureScalar(double accepting_aperture) {
+		return setField(NX_ACCEPTING_APERTURE, accepting_aperture);
 	}
 
 	@Override
@@ -164,12 +166,12 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 		return getDouble(NX_WORKING_DISTANCE);
 	}
 
-	public void setWorking_distance(IDataset working_distance) {
-		setDataset(NX_WORKING_DISTANCE, working_distance);
+	public DataNode setWorking_distance(IDataset working_distance) {
+		return setDataset(NX_WORKING_DISTANCE, working_distance);
 	}
 
-	public void setWorking_distanceScalar(double working_distance) {
-		setField(NX_WORKING_DISTANCE, working_distance);
+	public DataNode setWorking_distanceScalar(double working_distance) {
+		return setField(NX_WORKING_DISTANCE, working_distance);
 	}
 
 	@Override
@@ -182,12 +184,12 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 		return getDouble(NX_FOCAL_SIZE);
 	}
 
-	public void setFocal_size(IDataset focal_size) {
-		setDataset(NX_FOCAL_SIZE, focal_size);
+	public DataNode setFocal_size(IDataset focal_size) {
+		return setDataset(NX_FOCAL_SIZE, focal_size);
 	}
 
-	public void setFocal_sizeScalar(double focal_size) {
-		setField(NX_FOCAL_SIZE, focal_size);
+	public DataNode setFocal_sizeScalar(double focal_size) {
+		return setField(NX_FOCAL_SIZE, focal_size);
 	}
 
 }

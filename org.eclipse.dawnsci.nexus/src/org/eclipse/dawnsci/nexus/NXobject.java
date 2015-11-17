@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -73,8 +74,9 @@ public interface NXobject extends GroupNode {
 	 * Sets the dataset for the field with the given name
 	 * @param name
 	 * @param value
+	 * @return the new data node, for convenience
 	 */
-	public abstract void setDataset(String name, IDataset value);
+	public abstract DataNode setDataset(String name, IDataset value);
 
 	/**
 	 * Gets the dataset for the field with the given name, if it exists, otherwise <code>null</code>

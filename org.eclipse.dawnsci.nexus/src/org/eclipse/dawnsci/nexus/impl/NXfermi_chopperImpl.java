@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Map;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -81,12 +83,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getString(NX_TYPE);
 	}
 
-	public void setType(IDataset type) {
-		setDataset(NX_TYPE, type);
+	public DataNode setType(IDataset type) {
+		return setDataset(NX_TYPE, type);
 	}
 
-	public void setTypeScalar(String type) {
-		setString(NX_TYPE, type);
+	public DataNode setTypeScalar(String type) {
+		return setString(NX_TYPE, type);
 	}
 
 	@Override
@@ -99,12 +101,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_ROTATION_SPEED);
 	}
 
-	public void setRotation_speed(IDataset rotation_speed) {
-		setDataset(NX_ROTATION_SPEED, rotation_speed);
+	public DataNode setRotation_speed(IDataset rotation_speed) {
+		return setDataset(NX_ROTATION_SPEED, rotation_speed);
 	}
 
-	public void setRotation_speedScalar(double rotation_speed) {
-		setField(NX_ROTATION_SPEED, rotation_speed);
+	public DataNode setRotation_speedScalar(double rotation_speed) {
+		return setField(NX_ROTATION_SPEED, rotation_speed);
 	}
 
 	@Override
@@ -117,12 +119,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_RADIUS);
 	}
 
-	public void setRadius(IDataset radius) {
-		setDataset(NX_RADIUS, radius);
+	public DataNode setRadius(IDataset radius) {
+		return setDataset(NX_RADIUS, radius);
 	}
 
-	public void setRadiusScalar(double radius) {
-		setField(NX_RADIUS, radius);
+	public DataNode setRadiusScalar(double radius) {
+		return setField(NX_RADIUS, radius);
 	}
 
 	@Override
@@ -135,12 +137,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_SLIT);
 	}
 
-	public void setSlit(IDataset slit) {
-		setDataset(NX_SLIT, slit);
+	public DataNode setSlit(IDataset slit) {
+		return setDataset(NX_SLIT, slit);
 	}
 
-	public void setSlitScalar(double slit) {
-		setField(NX_SLIT, slit);
+	public DataNode setSlitScalar(double slit) {
+		return setField(NX_SLIT, slit);
 	}
 
 	@Override
@@ -153,12 +155,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_R_SLIT);
 	}
 
-	public void setR_slit(IDataset r_slit) {
-		setDataset(NX_R_SLIT, r_slit);
+	public DataNode setR_slit(IDataset r_slit) {
+		return setDataset(NX_R_SLIT, r_slit);
 	}
 
-	public void setR_slitScalar(double r_slit) {
-		setField(NX_R_SLIT, r_slit);
+	public DataNode setR_slitScalar(double r_slit) {
+		return setField(NX_R_SLIT, r_slit);
 	}
 
 	@Override
@@ -171,12 +173,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getLong(NX_NUMBER);
 	}
 
-	public void setNumber(IDataset number) {
-		setDataset(NX_NUMBER, number);
+	public DataNode setNumber(IDataset number) {
+		return setDataset(NX_NUMBER, number);
 	}
 
-	public void setNumberScalar(long number) {
-		setField(NX_NUMBER, number);
+	public DataNode setNumberScalar(long number) {
+		return setField(NX_NUMBER, number);
 	}
 
 	@Override
@@ -189,12 +191,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_HEIGHT);
 	}
 
-	public void setHeight(IDataset height) {
-		setDataset(NX_HEIGHT, height);
+	public DataNode setHeight(IDataset height) {
+		return setDataset(NX_HEIGHT, height);
 	}
 
-	public void setHeightScalar(double height) {
-		setField(NX_HEIGHT, height);
+	public DataNode setHeightScalar(double height) {
+		return setField(NX_HEIGHT, height);
 	}
 
 	@Override
@@ -207,12 +209,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_WIDTH);
 	}
 
-	public void setWidth(IDataset width) {
-		setDataset(NX_WIDTH, width);
+	public DataNode setWidth(IDataset width) {
+		return setDataset(NX_WIDTH, width);
 	}
 
-	public void setWidthScalar(double width) {
-		setField(NX_WIDTH, width);
+	public DataNode setWidthScalar(double width) {
+		return setField(NX_WIDTH, width);
 	}
 
 	@Override
@@ -225,12 +227,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_DISTANCE);
 	}
 
-	public void setDistance(IDataset distance) {
-		setDataset(NX_DISTANCE, distance);
+	public DataNode setDistance(IDataset distance) {
+		return setDataset(NX_DISTANCE, distance);
 	}
 
-	public void setDistanceScalar(double distance) {
-		setField(NX_DISTANCE, distance);
+	public DataNode setDistanceScalar(double distance) {
+		return setField(NX_DISTANCE, distance);
 	}
 
 	@Override
@@ -243,12 +245,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_WAVELENGTH);
 	}
 
-	public void setWavelength(IDataset wavelength) {
-		setDataset(NX_WAVELENGTH, wavelength);
+	public DataNode setWavelength(IDataset wavelength) {
+		return setDataset(NX_WAVELENGTH, wavelength);
 	}
 
-	public void setWavelengthScalar(double wavelength) {
-		setField(NX_WAVELENGTH, wavelength);
+	public DataNode setWavelengthScalar(double wavelength) {
+		return setField(NX_WAVELENGTH, wavelength);
 	}
 
 	@Override
@@ -261,12 +263,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_ENERGY);
 	}
 
-	public void setEnergy(IDataset energy) {
-		setDataset(NX_ENERGY, energy);
+	public DataNode setEnergy(IDataset energy) {
+		return setDataset(NX_ENERGY, energy);
 	}
 
-	public void setEnergyScalar(double energy) {
-		setField(NX_ENERGY, energy);
+	public DataNode setEnergyScalar(double energy) {
+		return setField(NX_ENERGY, energy);
 	}
 
 	@Override
@@ -306,12 +308,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getString(NX_ABSORBING_MATERIAL);
 	}
 
-	public void setAbsorbing_material(IDataset absorbing_material) {
-		setDataset(NX_ABSORBING_MATERIAL, absorbing_material);
+	public DataNode setAbsorbing_material(IDataset absorbing_material) {
+		return setDataset(NX_ABSORBING_MATERIAL, absorbing_material);
 	}
 
-	public void setAbsorbing_materialScalar(String absorbing_material) {
-		setString(NX_ABSORBING_MATERIAL, absorbing_material);
+	public DataNode setAbsorbing_materialScalar(String absorbing_material) {
+		return setString(NX_ABSORBING_MATERIAL, absorbing_material);
 	}
 
 	@Override
@@ -324,12 +326,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getString(NX_TRANSMITTING_MATERIAL);
 	}
 
-	public void setTransmitting_material(IDataset transmitting_material) {
-		setDataset(NX_TRANSMITTING_MATERIAL, transmitting_material);
+	public DataNode setTransmitting_material(IDataset transmitting_material) {
+		return setDataset(NX_TRANSMITTING_MATERIAL, transmitting_material);
 	}
 
-	public void setTransmitting_materialScalar(String transmitting_material) {
-		setString(NX_TRANSMITTING_MATERIAL, transmitting_material);
+	public DataNode setTransmitting_materialScalar(String transmitting_material) {
+		return setString(NX_TRANSMITTING_MATERIAL, transmitting_material);
 	}
 
 }

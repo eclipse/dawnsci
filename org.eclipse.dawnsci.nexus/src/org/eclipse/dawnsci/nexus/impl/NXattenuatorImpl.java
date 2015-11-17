@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Date;
 import java.util.Set;
 import java.util.EnumSet;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -78,12 +80,12 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		return getDouble(NX_DISTANCE);
 	}
 
-	public void setDistance(IDataset distance) {
-		setDataset(NX_DISTANCE, distance);
+	public DataNode setDistance(IDataset distance) {
+		return setDataset(NX_DISTANCE, distance);
 	}
 
-	public void setDistanceScalar(double distance) {
-		setField(NX_DISTANCE, distance);
+	public DataNode setDistanceScalar(double distance) {
+		return setField(NX_DISTANCE, distance);
 	}
 
 	@Override
@@ -96,12 +98,12 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		return getString(NX_TYPE);
 	}
 
-	public void setType(IDataset type) {
-		setDataset(NX_TYPE, type);
+	public DataNode setType(IDataset type) {
+		return setDataset(NX_TYPE, type);
 	}
 
-	public void setTypeScalar(String type) {
-		setString(NX_TYPE, type);
+	public DataNode setTypeScalar(String type) {
+		return setString(NX_TYPE, type);
 	}
 
 	@Override
@@ -114,12 +116,12 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		return getDouble(NX_THICKNESS);
 	}
 
-	public void setThickness(IDataset thickness) {
-		setDataset(NX_THICKNESS, thickness);
+	public DataNode setThickness(IDataset thickness) {
+		return setDataset(NX_THICKNESS, thickness);
 	}
 
-	public void setThicknessScalar(double thickness) {
-		setField(NX_THICKNESS, thickness);
+	public DataNode setThicknessScalar(double thickness) {
+		return setField(NX_THICKNESS, thickness);
 	}
 
 	@Override
@@ -132,12 +134,12 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		return getDouble(NX_SCATTERING_CROSS_SECTION);
 	}
 
-	public void setScattering_cross_section(IDataset scattering_cross_section) {
-		setDataset(NX_SCATTERING_CROSS_SECTION, scattering_cross_section);
+	public DataNode setScattering_cross_section(IDataset scattering_cross_section) {
+		return setDataset(NX_SCATTERING_CROSS_SECTION, scattering_cross_section);
 	}
 
-	public void setScattering_cross_sectionScalar(double scattering_cross_section) {
-		setField(NX_SCATTERING_CROSS_SECTION, scattering_cross_section);
+	public DataNode setScattering_cross_sectionScalar(double scattering_cross_section) {
+		return setField(NX_SCATTERING_CROSS_SECTION, scattering_cross_section);
 	}
 
 	@Override
@@ -150,12 +152,12 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		return getDouble(NX_ABSORPTION_CROSS_SECTION);
 	}
 
-	public void setAbsorption_cross_section(IDataset absorption_cross_section) {
-		setDataset(NX_ABSORPTION_CROSS_SECTION, absorption_cross_section);
+	public DataNode setAbsorption_cross_section(IDataset absorption_cross_section) {
+		return setDataset(NX_ABSORPTION_CROSS_SECTION, absorption_cross_section);
 	}
 
-	public void setAbsorption_cross_sectionScalar(double absorption_cross_section) {
-		setField(NX_ABSORPTION_CROSS_SECTION, absorption_cross_section);
+	public DataNode setAbsorption_cross_sectionScalar(double absorption_cross_section) {
+		return setField(NX_ABSORPTION_CROSS_SECTION, absorption_cross_section);
 	}
 
 	@Override
@@ -168,12 +170,12 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		return getDouble(NX_ATTENUATOR_TRANSMISSION);
 	}
 
-	public void setAttenuator_transmission(IDataset attenuator_transmission) {
-		setDataset(NX_ATTENUATOR_TRANSMISSION, attenuator_transmission);
+	public DataNode setAttenuator_transmission(IDataset attenuator_transmission) {
+		return setDataset(NX_ATTENUATOR_TRANSMISSION, attenuator_transmission);
 	}
 
-	public void setAttenuator_transmissionScalar(double attenuator_transmission) {
-		setField(NX_ATTENUATOR_TRANSMISSION, attenuator_transmission);
+	public DataNode setAttenuator_transmissionScalar(double attenuator_transmission) {
+		return setField(NX_ATTENUATOR_TRANSMISSION, attenuator_transmission);
 	}
 
 	@Override
@@ -186,12 +188,12 @@ public class NXattenuatorImpl extends NXobjectImpl implements NXattenuator {
 		return getString(NX_STATUS);
 	}
 
-	public void setStatus(IDataset status) {
-		setDataset(NX_STATUS, status);
+	public DataNode setStatus(IDataset status) {
+		return setDataset(NX_STATUS, status);
 	}
 
-	public void setStatusScalar(String status) {
-		setString(NX_STATUS, status);
+	public DataNode setStatusScalar(String status) {
+		return setString(NX_STATUS, status);
 	}
 
 	@Override

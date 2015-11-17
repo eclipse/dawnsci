@@ -7,13 +7,15 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -70,12 +72,12 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 		return getString(NX_SHAPE);
 	}
 
-	public void setShape(IDataset shape) {
-		setDataset(NX_SHAPE, shape);
+	public DataNode setShape(IDataset shape) {
+		return setDataset(NX_SHAPE, shape);
 	}
 
-	public void setShapeScalar(String shape) {
-		setString(NX_SHAPE, shape);
+	public DataNode setShapeScalar(String shape) {
+		return setString(NX_SHAPE, shape);
 	}
 
 	@Override
@@ -88,12 +90,12 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 		return getDouble(NX_SIZE);
 	}
 
-	public void setSize(IDataset size) {
-		setDataset(NX_SIZE, size);
+	public DataNode setSize(IDataset size) {
+		return setDataset(NX_SIZE, size);
 	}
 
-	public void setSizeScalar(double size) {
-		setField(NX_SIZE, size);
+	public DataNode setSizeScalar(double size) {
+		return setField(NX_SIZE, size);
 	}
 
 	@Override
@@ -106,12 +108,12 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 		return getString(NX_DIRECTION);
 	}
 
-	public void setDirection(IDataset direction) {
-		setDataset(NX_DIRECTION, direction);
+	public DataNode setDirection(IDataset direction) {
+		return setDataset(NX_DIRECTION, direction);
 	}
 
-	public void setDirectionScalar(String direction) {
-		setString(NX_DIRECTION, direction);
+	public DataNode setDirectionScalar(String direction) {
+		return setString(NX_DIRECTION, direction);
 	}
 
 }

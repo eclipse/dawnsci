@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Map;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -104,12 +106,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getDouble(NX_DISTANCE);
 	}
 
-	public void setDistance(IDataset distance) {
-		setDataset(NX_DISTANCE, distance);
+	public DataNode setDistance(IDataset distance) {
+		return setDataset(NX_DISTANCE, distance);
 	}
 
-	public void setDistanceScalar(double distance) {
-		setField(NX_DISTANCE, distance);
+	public DataNode setDistanceScalar(double distance) {
+		return setField(NX_DISTANCE, distance);
 	}
 
 	@Override
@@ -122,12 +124,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getString(NX_TYPE);
 	}
 
-	public void setType(IDataset type) {
-		setDataset(NX_TYPE, type);
+	public DataNode setType(IDataset type) {
+		return setDataset(NX_TYPE, type);
 	}
 
-	public void setTypeScalar(String type) {
-		setString(NX_TYPE, type);
+	public DataNode setTypeScalar(String type) {
+		return setString(NX_TYPE, type);
 	}
 
 	@Override
@@ -140,12 +142,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getDouble(NX_POISON_DEPTH);
 	}
 
-	public void setPoison_depth(IDataset poison_depth) {
-		setDataset(NX_POISON_DEPTH, poison_depth);
+	public DataNode setPoison_depth(IDataset poison_depth) {
+		return setDataset(NX_POISON_DEPTH, poison_depth);
 	}
 
-	public void setPoison_depthScalar(double poison_depth) {
-		setField(NX_POISON_DEPTH, poison_depth);
+	public DataNode setPoison_depthScalar(double poison_depth) {
+		return setField(NX_POISON_DEPTH, poison_depth);
 	}
 
 	@Override
@@ -158,12 +160,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getBoolean(NX_COUPLED);
 	}
 
-	public void setCoupled(IDataset coupled) {
-		setDataset(NX_COUPLED, coupled);
+	public DataNode setCoupled(IDataset coupled) {
+		return setDataset(NX_COUPLED, coupled);
 	}
 
-	public void setCoupledScalar(boolean coupled) {
-		setField(NX_COUPLED, coupled);
+	public DataNode setCoupledScalar(boolean coupled) {
+		return setField(NX_COUPLED, coupled);
 	}
 
 	@Override
@@ -176,12 +178,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getString(NX_COUPLING_MATERIAL);
 	}
 
-	public void setCoupling_material(IDataset coupling_material) {
-		setDataset(NX_COUPLING_MATERIAL, coupling_material);
+	public DataNode setCoupling_material(IDataset coupling_material) {
+		return setDataset(NX_COUPLING_MATERIAL, coupling_material);
 	}
 
-	public void setCoupling_materialScalar(String coupling_material) {
-		setString(NX_COUPLING_MATERIAL, coupling_material);
+	public DataNode setCoupling_materialScalar(String coupling_material) {
+		return setString(NX_COUPLING_MATERIAL, coupling_material);
 	}
 
 	@Override
@@ -194,12 +196,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getString(NX_POISON_MATERIAL);
 	}
 
-	public void setPoison_material(IDataset poison_material) {
-		setDataset(NX_POISON_MATERIAL, poison_material);
+	public DataNode setPoison_material(IDataset poison_material) {
+		return setDataset(NX_POISON_MATERIAL, poison_material);
 	}
 
-	public void setPoison_materialScalar(String poison_material) {
-		setString(NX_POISON_MATERIAL, poison_material);
+	public DataNode setPoison_materialScalar(String poison_material) {
+		return setString(NX_POISON_MATERIAL, poison_material);
 	}
 
 	@Override
@@ -212,12 +214,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getDouble(NX_TEMPERATURE);
 	}
 
-	public void setTemperature(IDataset temperature) {
-		setDataset(NX_TEMPERATURE, temperature);
+	public DataNode setTemperature(IDataset temperature) {
+		return setDataset(NX_TEMPERATURE, temperature);
 	}
 
-	public void setTemperatureScalar(double temperature) {
-		setField(NX_TEMPERATURE, temperature);
+	public DataNode setTemperatureScalar(double temperature) {
+		return setField(NX_TEMPERATURE, temperature);
 	}
 
 	@Override

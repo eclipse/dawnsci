@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Map;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -105,12 +107,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getString(NX_TYPE);
 	}
 
-	public void setType(IDataset type) {
-		setDataset(NX_TYPE, type);
+	public DataNode setType(IDataset type) {
+		return setDataset(NX_TYPE, type);
 	}
 
-	public void setTypeScalar(String type) {
-		setString(NX_TYPE, type);
+	public DataNode setTypeScalar(String type) {
+		return setString(NX_TYPE, type);
 	}
 
 	@Override
@@ -123,12 +125,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDouble(NX_SOLLER_ANGLE);
 	}
 
-	public void setSoller_angle(IDataset soller_angle) {
-		setDataset(NX_SOLLER_ANGLE, soller_angle);
+	public DataNode setSoller_angle(IDataset soller_angle) {
+		return setDataset(NX_SOLLER_ANGLE, soller_angle);
 	}
 
-	public void setSoller_angleScalar(double soller_angle) {
-		setField(NX_SOLLER_ANGLE, soller_angle);
+	public DataNode setSoller_angleScalar(double soller_angle) {
+		return setField(NX_SOLLER_ANGLE, soller_angle);
 	}
 
 	@Override
@@ -141,12 +143,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDouble(NX_DIVERGENCE_X);
 	}
 
-	public void setDivergence_x(IDataset divergence_x) {
-		setDataset(NX_DIVERGENCE_X, divergence_x);
+	public DataNode setDivergence_x(IDataset divergence_x) {
+		return setDataset(NX_DIVERGENCE_X, divergence_x);
 	}
 
-	public void setDivergence_xScalar(double divergence_x) {
-		setField(NX_DIVERGENCE_X, divergence_x);
+	public DataNode setDivergence_xScalar(double divergence_x) {
+		return setField(NX_DIVERGENCE_X, divergence_x);
 	}
 
 	@Override
@@ -159,12 +161,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDouble(NX_DIVERGENCE_Y);
 	}
 
-	public void setDivergence_y(IDataset divergence_y) {
-		setDataset(NX_DIVERGENCE_Y, divergence_y);
+	public DataNode setDivergence_y(IDataset divergence_y) {
+		return setDataset(NX_DIVERGENCE_Y, divergence_y);
 	}
 
-	public void setDivergence_yScalar(double divergence_y) {
-		setField(NX_DIVERGENCE_Y, divergence_y);
+	public DataNode setDivergence_yScalar(double divergence_y) {
+		return setField(NX_DIVERGENCE_Y, divergence_y);
 	}
 
 	@Override
@@ -177,12 +179,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDouble(NX_FREQUENCY);
 	}
 
-	public void setFrequency(IDataset frequency) {
-		setDataset(NX_FREQUENCY, frequency);
+	public DataNode setFrequency(IDataset frequency) {
+		return setDataset(NX_FREQUENCY, frequency);
 	}
 
-	public void setFrequencyScalar(double frequency) {
-		setField(NX_FREQUENCY, frequency);
+	public DataNode setFrequencyScalar(double frequency) {
+		return setField(NX_FREQUENCY, frequency);
 	}
 
 	@Override
@@ -204,12 +206,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDouble(NX_BLADE_THICKNESS);
 	}
 
-	public void setBlade_thickness(IDataset blade_thickness) {
-		setDataset(NX_BLADE_THICKNESS, blade_thickness);
+	public DataNode setBlade_thickness(IDataset blade_thickness) {
+		return setDataset(NX_BLADE_THICKNESS, blade_thickness);
 	}
 
-	public void setBlade_thicknessScalar(double blade_thickness) {
-		setField(NX_BLADE_THICKNESS, blade_thickness);
+	public DataNode setBlade_thicknessScalar(double blade_thickness) {
+		return setField(NX_BLADE_THICKNESS, blade_thickness);
 	}
 
 	@Override
@@ -222,12 +224,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDouble(NX_BLADE_SPACING);
 	}
 
-	public void setBlade_spacing(IDataset blade_spacing) {
-		setDataset(NX_BLADE_SPACING, blade_spacing);
+	public DataNode setBlade_spacing(IDataset blade_spacing) {
+		return setDataset(NX_BLADE_SPACING, blade_spacing);
 	}
 
-	public void setBlade_spacingScalar(double blade_spacing) {
-		setField(NX_BLADE_SPACING, blade_spacing);
+	public DataNode setBlade_spacingScalar(double blade_spacing) {
+		return setField(NX_BLADE_SPACING, blade_spacing);
 	}
 
 	@Override
@@ -240,12 +242,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getString(NX_ABSORBING_MATERIAL);
 	}
 
-	public void setAbsorbing_material(IDataset absorbing_material) {
-		setDataset(NX_ABSORBING_MATERIAL, absorbing_material);
+	public DataNode setAbsorbing_material(IDataset absorbing_material) {
+		return setDataset(NX_ABSORBING_MATERIAL, absorbing_material);
 	}
 
-	public void setAbsorbing_materialScalar(String absorbing_material) {
-		setString(NX_ABSORBING_MATERIAL, absorbing_material);
+	public DataNode setAbsorbing_materialScalar(String absorbing_material) {
+		return setString(NX_ABSORBING_MATERIAL, absorbing_material);
 	}
 
 	@Override
@@ -258,12 +260,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getString(NX_TRANSMITTING_MATERIAL);
 	}
 
-	public void setTransmitting_material(IDataset transmitting_material) {
-		setDataset(NX_TRANSMITTING_MATERIAL, transmitting_material);
+	public DataNode setTransmitting_material(IDataset transmitting_material) {
+		return setDataset(NX_TRANSMITTING_MATERIAL, transmitting_material);
 	}
 
-	public void setTransmitting_materialScalar(String transmitting_material) {
-		setString(NX_TRANSMITTING_MATERIAL, transmitting_material);
+	public DataNode setTransmitting_materialScalar(String transmitting_material) {
+		return setString(NX_TRANSMITTING_MATERIAL, transmitting_material);
 	}
 
 }

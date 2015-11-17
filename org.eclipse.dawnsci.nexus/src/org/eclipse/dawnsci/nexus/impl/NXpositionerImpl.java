@@ -7,13 +7,15 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -83,12 +85,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getString(NX_NAME);
 	}
 
-	public void setName(IDataset name) {
-		setDataset(NX_NAME, name);
+	public DataNode setName(IDataset name) {
+		return setDataset(NX_NAME, name);
 	}
 
-	public void setNameScalar(String name) {
-		setString(NX_NAME, name);
+	public DataNode setNameScalar(String name) {
+		return setString(NX_NAME, name);
 	}
 
 	@Override
@@ -101,12 +103,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getString(NX_DESCRIPTION);
 	}
 
-	public void setDescription(IDataset description) {
-		setDataset(NX_DESCRIPTION, description);
+	public DataNode setDescription(IDataset description) {
+		return setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setDescriptionScalar(String description) {
-		setString(NX_DESCRIPTION, description);
+	public DataNode setDescriptionScalar(String description) {
+		return setString(NX_DESCRIPTION, description);
 	}
 
 	@Override
@@ -119,12 +121,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_VALUE);
 	}
 
-	public void setValue(IDataset value) {
-		setDataset(NX_VALUE, value);
+	public DataNode setValue(IDataset value) {
+		return setDataset(NX_VALUE, value);
 	}
 
-	public void setValueScalar(Number value) {
-		setField(NX_VALUE, value);
+	public DataNode setValueScalar(Number value) {
+		return setField(NX_VALUE, value);
 	}
 
 	@Override
@@ -137,12 +139,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_RAW_VALUE);
 	}
 
-	public void setRaw_value(IDataset raw_value) {
-		setDataset(NX_RAW_VALUE, raw_value);
+	public DataNode setRaw_value(IDataset raw_value) {
+		return setDataset(NX_RAW_VALUE, raw_value);
 	}
 
-	public void setRaw_valueScalar(Number raw_value) {
-		setField(NX_RAW_VALUE, raw_value);
+	public DataNode setRaw_valueScalar(Number raw_value) {
+		return setField(NX_RAW_VALUE, raw_value);
 	}
 
 	@Override
@@ -155,12 +157,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_TARGET_VALUE);
 	}
 
-	public void setTarget_value(IDataset target_value) {
-		setDataset(NX_TARGET_VALUE, target_value);
+	public DataNode setTarget_value(IDataset target_value) {
+		return setDataset(NX_TARGET_VALUE, target_value);
 	}
 
-	public void setTarget_valueScalar(Number target_value) {
-		setField(NX_TARGET_VALUE, target_value);
+	public DataNode setTarget_valueScalar(Number target_value) {
+		return setField(NX_TARGET_VALUE, target_value);
 	}
 
 	@Override
@@ -173,12 +175,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_TOLERANCE);
 	}
 
-	public void setTolerance(IDataset tolerance) {
-		setDataset(NX_TOLERANCE, tolerance);
+	public DataNode setTolerance(IDataset tolerance) {
+		return setDataset(NX_TOLERANCE, tolerance);
 	}
 
-	public void setToleranceScalar(Number tolerance) {
-		setField(NX_TOLERANCE, tolerance);
+	public DataNode setToleranceScalar(Number tolerance) {
+		return setField(NX_TOLERANCE, tolerance);
 	}
 
 	@Override
@@ -191,12 +193,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_SOFT_LIMIT_MIN);
 	}
 
-	public void setSoft_limit_min(IDataset soft_limit_min) {
-		setDataset(NX_SOFT_LIMIT_MIN, soft_limit_min);
+	public DataNode setSoft_limit_min(IDataset soft_limit_min) {
+		return setDataset(NX_SOFT_LIMIT_MIN, soft_limit_min);
 	}
 
-	public void setSoft_limit_minScalar(Number soft_limit_min) {
-		setField(NX_SOFT_LIMIT_MIN, soft_limit_min);
+	public DataNode setSoft_limit_minScalar(Number soft_limit_min) {
+		return setField(NX_SOFT_LIMIT_MIN, soft_limit_min);
 	}
 
 	@Override
@@ -209,12 +211,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_SOFT_LIMIT_MAX);
 	}
 
-	public void setSoft_limit_max(IDataset soft_limit_max) {
-		setDataset(NX_SOFT_LIMIT_MAX, soft_limit_max);
+	public DataNode setSoft_limit_max(IDataset soft_limit_max) {
+		return setDataset(NX_SOFT_LIMIT_MAX, soft_limit_max);
 	}
 
-	public void setSoft_limit_maxScalar(Number soft_limit_max) {
-		setField(NX_SOFT_LIMIT_MAX, soft_limit_max);
+	public DataNode setSoft_limit_maxScalar(Number soft_limit_max) {
+		return setField(NX_SOFT_LIMIT_MAX, soft_limit_max);
 	}
 
 	@Override
@@ -227,12 +229,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_VELOCITY);
 	}
 
-	public void setVelocity(IDataset velocity) {
-		setDataset(NX_VELOCITY, velocity);
+	public DataNode setVelocity(IDataset velocity) {
+		return setDataset(NX_VELOCITY, velocity);
 	}
 
-	public void setVelocityScalar(Number velocity) {
-		setField(NX_VELOCITY, velocity);
+	public DataNode setVelocityScalar(Number velocity) {
+		return setField(NX_VELOCITY, velocity);
 	}
 
 	@Override
@@ -245,12 +247,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_ACCELERATION_TIME);
 	}
 
-	public void setAcceleration_time(IDataset acceleration_time) {
-		setDataset(NX_ACCELERATION_TIME, acceleration_time);
+	public DataNode setAcceleration_time(IDataset acceleration_time) {
+		return setDataset(NX_ACCELERATION_TIME, acceleration_time);
 	}
 
-	public void setAcceleration_timeScalar(Number acceleration_time) {
-		setField(NX_ACCELERATION_TIME, acceleration_time);
+	public DataNode setAcceleration_timeScalar(Number acceleration_time) {
+		return setField(NX_ACCELERATION_TIME, acceleration_time);
 	}
 
 	@Override
@@ -263,12 +265,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getString(NX_CONTROLLER_RECORD);
 	}
 
-	public void setController_record(IDataset controller_record) {
-		setDataset(NX_CONTROLLER_RECORD, controller_record);
+	public DataNode setController_record(IDataset controller_record) {
+		return setDataset(NX_CONTROLLER_RECORD, controller_record);
 	}
 
-	public void setController_recordScalar(String controller_record) {
-		setString(NX_CONTROLLER_RECORD, controller_record);
+	public DataNode setController_recordScalar(String controller_record) {
+		return setString(NX_CONTROLLER_RECORD, controller_record);
 	}
 
 }

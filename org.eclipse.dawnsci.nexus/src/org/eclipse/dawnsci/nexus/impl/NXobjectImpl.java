@@ -38,7 +38,6 @@ import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.DataNodeImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
 import org.eclipse.dawnsci.nexus.NXobject;
-import org.eclipse.dawnsci.nexus.NexusBaseClass;
 
 public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 
@@ -122,12 +121,13 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	}
 
 	@Override
-	public void setDataset(String name, IDataset value) {
+	public DataNode setDataset(String name, IDataset value) {
+		DataNode dataNode;
 		if (containsDataNode(name)) {
-			DataNodeImpl n = getDataNode(name);
-			n.setDataset(value);
+			dataNode = getDataNode(name);
+			dataNode.setDataset(value);
 		} else {
-			createDataNode(name, value);
+			dataNode = createDataNode(name, value);
 		}
 		// update the cache
 		if (value instanceof Dataset) {
@@ -137,6 +137,8 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 			// the new value will be calculated when required
 			cached.remove(name);
 		}
+		
+		return dataNode;
 	}
 
 	/* (non-Javadoc)
@@ -155,11 +157,13 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		return dataset;
 	}
 
-	private void createDataNode(String name, IDataset value) {
+	private DataNode createDataNode(String name, IDataset value) {
 		// note that this method should only be used when creating a new NeXus tree
 		DataNode dataNode = nodeFactory.createDataNode();
 		addDataNode(name, dataNode);
 		dataNode.setDataset(value);
+		
+		return dataNode;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -218,20 +222,23 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		return getDataNode(name).getString();
 	}
 
-	protected void setString(String name, String value) {
+	protected DataNode setString(String name, String value) {
+		DataNode dataNode;
 		if (containsDataNode(name)) {
-			DataNodeImpl n = getDataNode(name);
-			if (!n.isString()) {
+			dataNode = getDataNode(name);
+			if (!dataNode.isString()) {
 				throw new IllegalArgumentException("Node is not a string");
 			}
-			n.setString(value);
+			dataNode.setString(value);
 		} else {
 			// create a new dataset, create a new DataNode containing that dataset
 			StringDataset dataset = StringDataset.createFromObject(value);
-			createDataNode(name, dataset);
+			dataNode = createDataNode(name, dataset);
 			// add the new dataset to the cache
 			cached.put(name, dataset);
 		}
+		
+		return dataNode;
 	}
 
 	protected Map<String, Dataset> getAllDatasets(String attrName) {
@@ -324,25 +331,28 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	 * @param name name
 	 * @param value value
 	 */
-	public void setField(String name, Object value) {
+	public DataNode setField(String name, Object value) {
+		final DataNode dataNode;
 		if (containsDataNode(name)) {
+			dataNode = getDataNode(name);
 			// create a new dataset, new DataNode and update the cache
 			Dataset dataset = getCached(name);
 			dataset.setObjectAbs(0, value);
 		} else {
 			Dataset dataset = DatasetFactory.createFromObject(value);
-			createDataNode(name, dataset);
+			dataNode = createDataNode(name, dataset);
 			cached.put(name, dataset);
 		}
+		
+		return dataNode;
 	}
 
-	protected void setDate(String name, Date date) {
-		setString(name, DateFormat.getDateTimeInstance().format(date));
+	protected DataNode setDate(String name, Date date) {
+		return setString(name, DateFormat.getDateTimeInstance().format(date));
 	}
 
 	private Node getNode(String name) {
-		NodeLink link = null;
-		link = getNodeLink(name);
+		final NodeLink link = getNodeLink(name);
 		if (link == null) {
 			throw new IllegalArgumentException("Node not in group");
 		}

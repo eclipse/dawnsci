@@ -254,6 +254,7 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 	
 	<xsl:variable name="fieldType"><xsl:apply-templates select="." mode="fieldType"/></xsl:variable>
 	<xsl:variable name="extendedFieldType"><xsl:apply-templates select="." mode="extendedFieldType"/></xsl:variable>
+	<xsl:variable name="setMethodReturnType" select="if (self::nx:field) then 'DataNode' else 'void'"/>
 	
 	<xsl:variable name="methodNameSuffix"><xsl:apply-templates select="." mode="methodNameSuffix">
 		<xsl:with-param name="fieldName" select="$fieldName"/>
@@ -276,14 +277,14 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 	}
 </xsl:if>
 <xsl:apply-templates mode="methodAnnotations" select="."/>
-	public void set<xsl:value-of select="$methodNameSuffix"/>(<xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$validJavaFieldName"/>) {<xsl:apply-templates select="." mode="setMethod">
+	public <xsl:value-of select="$setMethodReturnType"/> set<xsl:value-of select="$methodNameSuffix"/>(<xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$validJavaFieldName"/>) {<xsl:apply-templates select="." mode="setMethod">
 		<xsl:with-param name="fieldName" select="$validJavaFieldName"/>
 		<xsl:with-param name="fieldLabel" select="$fieldLabel"/>
 	</xsl:apply-templates>
 	}
 <xsl:if test="self::nx:field[not(nx:scalar)]">
 	<xsl:variable name="scalarFieldType"><xsl:apply-templates select="." mode="scalarFieldType"/></xsl:variable>
-	public void set<xsl:value-of select="$methodNameSuffix"/>Scalar(<xsl:value-of select="$scalarFieldType"/><xsl:text> </xsl:text><xsl:value-of select="$validJavaFieldName"/>) {<xsl:apply-templates select="." mode="setScalarMethod">
+	public <xsl:value-of select="$setMethodReturnType"/> set<xsl:value-of select="$methodNameSuffix"/>Scalar(<xsl:value-of select="$scalarFieldType"/><xsl:text> </xsl:text><xsl:value-of select="$validJavaFieldName"/>) {<xsl:apply-templates select="." mode="setScalarMethod">
 		<xsl:with-param name="fieldName" select="$validJavaFieldName"/>
 		<xsl:with-param name="fieldLabel" select="$fieldLabel"/>
 	</xsl:apply-templates>
@@ -296,7 +297,7 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 	}
 <xsl:apply-templates mode="methodAnnotations" select="."/>
 	public void set<xsl:value-of select="$methodNameSuffix"/>(String name, <xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$validJavaFieldName"/>) {
-		setDataset(name, <xsl:value-of select="$validJavaFieldName"/>);
+		return setDataset(name, <xsl:value-of select="$validJavaFieldName"/>);
 	}
 </xsl:if>
 <xsl:if test="self::nx:group[not(@name)]">
@@ -364,27 +365,29 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 <xsl:template mode="setMethod" match="nx:field[not(nx:scalar)]">
 	<xsl:param name="fieldName"/>
 	<xsl:param name="fieldLabel"/>
-		setDataset(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
+		return setDataset(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
 
 <xsl:template mode="setMethod" match="nx:field[nx:scalar][@type='NX_DATE_TIME' or @type='ISO8601']">
 	<xsl:param name="fieldName"/>
 	<xsl:param name="fieldLabel"/>
-		setDate(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
+		return setDate(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
 
 <xsl:template mode="setMethod" match="nx:field[nx:scalar][@type='NX_CHAR' or not(@type)]">
 	<xsl:param name="fieldName"/>
 	<xsl:param name="fieldLabel"/>
-		setString(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
+		return setString(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
 
 <xsl:template mode="setMethod" match="nx:field[nx:scalar][matches(@type, 'NX_(INT|POSINT|UINT|FLOAT|NUMBER|BOOLEAN)')]">
 	<xsl:param name="fieldName"/>
 	<xsl:param name="fieldLabel"/>
-		setField(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
+		return setField(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
 
 <xsl:template mode="setMethod" match="nx:field[nx:scalar][@type='NX_BINARY']">
 	<xsl:param name="fieldName"/>
 	<xsl:param name="fieldLabel"/>
-		getDataNode(<xsl:value-of select="$fieldLabel"/>).setDataset(DatasetFactory.createFromObject(<xsl:value-of select="$fieldName"/>));</xsl:template>
+		DataNode dataNode = getDataNode(<xsl:value-of select="$fieldLabel"/>);
+		dataNode.setDataset(DatasetFactory.createFromObject(<xsl:value-of select="$fieldName"/>));
+		return dataNode;</xsl:template>
 
 <xsl:template mode="setMethod" match="nx:definition/nx:attribute">
 	<xsl:param name="fieldName"/>
@@ -405,22 +408,24 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 <xsl:template mode="setScalarMethod" match="nx:field[@type='NX_DATE_TIME' or @type='ISO8601']">
 	<xsl:param name="fieldName"/>
 	<xsl:param name="fieldLabel"/>
-		setDate(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
+		return setDate(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
 		
 <xsl:template mode="setScalarMethod" match="nx:field[@type='NX_CHAR' or not (@type)]">
 	<xsl:param name="fieldName"/>
 	<xsl:param name="fieldLabel"/>
-		setString(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
+		return setString(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
 		
 <xsl:template mode="setScalarMethod" match="nx:field[matches(@type, 'NX_(INT|POSINT|UNIT|FLOAT|NUMBER|BOOLEAN)')]">
 	<xsl:param name="fieldName"/>
 	<xsl:param name="fieldLabel"/>
-		setField(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
+		return setField(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
 		
 <xsl:template mode="setScalarMethod" match="nx:field[@type='NX_BINARY']">
 	<xsl:param name="fieldName"/>
 	<xsl:param name="fieldLabel"/>
-		getDataNode(<xsl:value-of select="$fieldLabel"/>).setDataset(DatasetFactory.createFromObject(<xsl:value-of select="$fieldName"/>));</xsl:template>
+		DataNode dataNode = getDataNode(<xsl:value-of select="$fieldLabel"/>);
+		dataNode.setDataset(DatasetFactory.createFromObject(<xsl:value-of select="$fieldName"/>));
+		return dataNode;</xsl:template>
 
 <!-- Unprocessed -->
 
@@ -514,6 +519,7 @@ import java.util.Map;</xsl:if>
 <xsl:if test="(contains($types, 'IDataset') or contains($types, 'Binary'))
 		  and (contains($types, 'Date') or contains($types, 'Map'))"><xsl:text>
 </xsl:text></xsl:if>
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 <xsl:if test="contains($types, 'IDataset')">
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;</xsl:if>
 <xsl:if test="contains($types, 'Dataset')">

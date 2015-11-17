@@ -7,13 +7,15 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -67,12 +69,12 @@ public class NXparametersImpl extends NXobjectImpl implements NXparameters {
 		return getString(NX_TERM);
 	}
 
-	public void setTerm(IDataset term) {
-		setDataset(NX_TERM, term);
+	public DataNode setTerm(IDataset term) {
+		return setDataset(NX_TERM, term);
 	}
 
-	public void setTermScalar(String term) {
-		setString(NX_TERM, term);
+	public DataNode setTermScalar(String term) {
+		return setString(NX_TERM, term);
 	}
 
 	@Override

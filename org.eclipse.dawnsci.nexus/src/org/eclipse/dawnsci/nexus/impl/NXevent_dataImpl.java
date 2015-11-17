@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Date;
 import java.util.Set;
 import java.util.EnumSet;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -73,12 +75,12 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 		return getLong(NX_TIME_OF_FLIGHT);
 	}
 
-	public void setTime_of_flight(IDataset time_of_flight) {
-		setDataset(NX_TIME_OF_FLIGHT, time_of_flight);
+	public DataNode setTime_of_flight(IDataset time_of_flight) {
+		return setDataset(NX_TIME_OF_FLIGHT, time_of_flight);
 	}
 
-	public void setTime_of_flightScalar(long time_of_flight) {
-		setField(NX_TIME_OF_FLIGHT, time_of_flight);
+	public DataNode setTime_of_flightScalar(long time_of_flight) {
+		return setField(NX_TIME_OF_FLIGHT, time_of_flight);
 	}
 
 	@Override
@@ -91,12 +93,12 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 		return getLong(NX_PIXEL_NUMBER);
 	}
 
-	public void setPixel_number(IDataset pixel_number) {
-		setDataset(NX_PIXEL_NUMBER, pixel_number);
+	public DataNode setPixel_number(IDataset pixel_number) {
+		return setDataset(NX_PIXEL_NUMBER, pixel_number);
 	}
 
-	public void setPixel_numberScalar(long pixel_number) {
-		setField(NX_PIXEL_NUMBER, pixel_number);
+	public DataNode setPixel_numberScalar(long pixel_number) {
+		return setField(NX_PIXEL_NUMBER, pixel_number);
 	}
 
 	@Override
@@ -109,12 +111,12 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 		return getLong(NX_PULSE_TIME);
 	}
 
-	public void setPulse_time(IDataset pulse_time) {
-		setDataset(NX_PULSE_TIME, pulse_time);
+	public DataNode setPulse_time(IDataset pulse_time) {
+		return setDataset(NX_PULSE_TIME, pulse_time);
 	}
 
-	public void setPulse_timeScalar(long pulse_time) {
-		setField(NX_PULSE_TIME, pulse_time);
+	public DataNode setPulse_timeScalar(long pulse_time) {
+		return setField(NX_PULSE_TIME, pulse_time);
 	}
 
 	@Override
@@ -136,12 +138,12 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 		return getLong(NX_EVENTS_PER_PULSE);
 	}
 
-	public void setEvents_per_pulse(IDataset events_per_pulse) {
-		setDataset(NX_EVENTS_PER_PULSE, events_per_pulse);
+	public DataNode setEvents_per_pulse(IDataset events_per_pulse) {
+		return setDataset(NX_EVENTS_PER_PULSE, events_per_pulse);
 	}
 
-	public void setEvents_per_pulseScalar(long events_per_pulse) {
-		setField(NX_EVENTS_PER_PULSE, events_per_pulse);
+	public DataNode setEvents_per_pulseScalar(long events_per_pulse) {
+		return setField(NX_EVENTS_PER_PULSE, events_per_pulse);
 	}
 
 	@Override
@@ -154,12 +156,12 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 		return getDouble(NX_PULSE_HEIGHT);
 	}
 
-	public void setPulse_height(IDataset pulse_height) {
-		setDataset(NX_PULSE_HEIGHT, pulse_height);
+	public DataNode setPulse_height(IDataset pulse_height) {
+		return setDataset(NX_PULSE_HEIGHT, pulse_height);
 	}
 
-	public void setPulse_heightScalar(double pulse_height) {
-		setField(NX_PULSE_HEIGHT, pulse_height);
+	public DataNode setPulse_heightScalar(double pulse_height) {
+		return setField(NX_PULSE_HEIGHT, pulse_height);
 	}
 
 }

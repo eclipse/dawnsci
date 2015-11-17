@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Map;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -102,12 +104,12 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getString(NX_DESCRIPTION);
 	}
 
-	public void setDescription(IDataset description) {
-		setDataset(NX_DESCRIPTION, description);
+	public DataNode setDescription(IDataset description) {
+		return setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setDescriptionScalar(String description) {
-		setString(NX_DESCRIPTION, description);
+	public DataNode setDescriptionScalar(String description) {
+		return setString(NX_DESCRIPTION, description);
 	}
 
 	@Override
@@ -120,12 +122,12 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getDouble(NX_SIZE);
 	}
 
-	public void setSize(IDataset size) {
-		setDataset(NX_SIZE, size);
+	public DataNode setSize(IDataset size) {
+		return setDataset(NX_SIZE, size);
 	}
 
-	public void setSizeScalar(double size) {
-		setField(NX_SIZE, size);
+	public DataNode setSizeScalar(double size) {
+		return setField(NX_SIZE, size);
 	}
 
 	@Override
@@ -138,12 +140,12 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getDouble(NX_X);
 	}
 
-	public void setX(IDataset x) {
-		setDataset(NX_X, x);
+	public DataNode setX(IDataset x) {
+		return setDataset(NX_X, x);
 	}
 
-	public void setXScalar(double x) {
-		setField(NX_X, x);
+	public DataNode setXScalar(double x) {
+		return setField(NX_X, x);
 	}
 
 	@Override
@@ -156,12 +158,12 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getDouble(NX_Y);
 	}
 
-	public void setY(IDataset y) {
-		setDataset(NX_Y, y);
+	public DataNode setY(IDataset y) {
+		return setDataset(NX_Y, y);
 	}
 
-	public void setYScalar(double y) {
-		setField(NX_Y, y);
+	public DataNode setYScalar(double y) {
+		return setField(NX_Y, y);
 	}
 
 	@Override
@@ -174,12 +176,12 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getDouble(NX_DISTANCE_TO_DETECTOR);
 	}
 
-	public void setDistance_to_detector(IDataset distance_to_detector) {
-		setDataset(NX_DISTANCE_TO_DETECTOR, distance_to_detector);
+	public DataNode setDistance_to_detector(IDataset distance_to_detector) {
+		return setDataset(NX_DISTANCE_TO_DETECTOR, distance_to_detector);
 	}
 
-	public void setDistance_to_detectorScalar(double distance_to_detector) {
-		setField(NX_DISTANCE_TO_DETECTOR, distance_to_detector);
+	public DataNode setDistance_to_detectorScalar(double distance_to_detector) {
+		return setField(NX_DISTANCE_TO_DETECTOR, distance_to_detector);
 	}
 
 	@Override
@@ -192,12 +194,12 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getString(NX_STATUS);
 	}
 
-	public void setStatus(IDataset status) {
-		setDataset(NX_STATUS, status);
+	public DataNode setStatus(IDataset status) {
+		return setDataset(NX_STATUS, status);
 	}
 
-	public void setStatusScalar(String status) {
-		setString(NX_STATUS, status);
+	public DataNode setStatusScalar(String status) {
+		return setString(NX_STATUS, status);
 	}
 
 }

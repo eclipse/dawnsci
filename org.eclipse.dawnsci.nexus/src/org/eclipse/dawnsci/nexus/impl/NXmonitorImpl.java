@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Map;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -90,12 +92,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getString(NX_MODE);
 	}
 
-	public void setMode(IDataset mode) {
-		setDataset(NX_MODE, mode);
+	public DataNode setMode(IDataset mode) {
+		return setDataset(NX_MODE, mode);
 	}
 
-	public void setModeScalar(String mode) {
-		setString(NX_MODE, mode);
+	public DataNode setModeScalar(String mode) {
+		return setString(NX_MODE, mode);
 	}
 
 	@Override
@@ -108,12 +110,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getDate(NX_START_TIME);
 	}
 
-	public void setStart_time(IDataset start_time) {
-		setDataset(NX_START_TIME, start_time);
+	public DataNode setStart_time(IDataset start_time) {
+		return setDataset(NX_START_TIME, start_time);
 	}
 
-	public void setStart_timeScalar(Date start_time) {
-		setDate(NX_START_TIME, start_time);
+	public DataNode setStart_timeScalar(Date start_time) {
+		return setDate(NX_START_TIME, start_time);
 	}
 
 	@Override
@@ -126,12 +128,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getDate(NX_END_TIME);
 	}
 
-	public void setEnd_time(IDataset end_time) {
-		setDataset(NX_END_TIME, end_time);
+	public DataNode setEnd_time(IDataset end_time) {
+		return setDataset(NX_END_TIME, end_time);
 	}
 
-	public void setEnd_timeScalar(Date end_time) {
-		setDate(NX_END_TIME, end_time);
+	public DataNode setEnd_timeScalar(Date end_time) {
+		return setDate(NX_END_TIME, end_time);
 	}
 
 	@Override
@@ -144,12 +146,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getNumber(NX_PRESET);
 	}
 
-	public void setPreset(IDataset preset) {
-		setDataset(NX_PRESET, preset);
+	public DataNode setPreset(IDataset preset) {
+		return setDataset(NX_PRESET, preset);
 	}
 
-	public void setPresetScalar(Number preset) {
-		setField(NX_PRESET, preset);
+	public DataNode setPresetScalar(Number preset) {
+		return setField(NX_PRESET, preset);
 	}
 
 	@Override
@@ -162,12 +164,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getDouble(NX_DISTANCE);
 	}
 
-	public void setDistance(IDataset distance) {
-		setDataset(NX_DISTANCE, distance);
+	public DataNode setDistance(IDataset distance) {
+		return setDataset(NX_DISTANCE, distance);
 	}
 
-	public void setDistanceScalar(double distance) {
-		setField(NX_DISTANCE, distance);
+	public DataNode setDistanceScalar(double distance) {
+		return setField(NX_DISTANCE, distance);
 	}
 
 	@Override
@@ -180,12 +182,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getDouble(NX_RANGE);
 	}
 
-	public void setRange(IDataset range) {
-		setDataset(NX_RANGE, range);
+	public DataNode setRange(IDataset range) {
+		return setDataset(NX_RANGE, range);
 	}
 
-	public void setRangeScalar(double range) {
-		setField(NX_RANGE, range);
+	public DataNode setRangeScalar(double range) {
+		return setField(NX_RANGE, range);
 	}
 
 	@Override
@@ -198,12 +200,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getNumber(NX_NOMINAL);
 	}
 
-	public void setNominal(IDataset nominal) {
-		setDataset(NX_NOMINAL, nominal);
+	public DataNode setNominal(IDataset nominal) {
+		return setDataset(NX_NOMINAL, nominal);
 	}
 
-	public void setNominalScalar(Number nominal) {
-		setField(NX_NOMINAL, nominal);
+	public DataNode setNominalScalar(Number nominal) {
+		return setField(NX_NOMINAL, nominal);
 	}
 
 	@Override
@@ -216,12 +218,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getNumber(NX_INTEGRAL);
 	}
 
-	public void setIntegral(IDataset integral) {
-		setDataset(NX_INTEGRAL, integral);
+	public DataNode setIntegral(IDataset integral) {
+		return setDataset(NX_INTEGRAL, integral);
 	}
 
-	public void setIntegralScalar(Number integral) {
-		setField(NX_INTEGRAL, integral);
+	public DataNode setIntegralScalar(Number integral) {
+		return setField(NX_INTEGRAL, integral);
 	}
 
 	@Override
@@ -243,12 +245,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getString(NX_TYPE);
 	}
 
-	public void setType(IDataset type) {
-		setDataset(NX_TYPE, type);
+	public DataNode setType(IDataset type) {
+		return setDataset(NX_TYPE, type);
 	}
 
-	public void setTypeScalar(String type) {
-		setString(NX_TYPE, type);
+	public DataNode setTypeScalar(String type) {
+		return setString(NX_TYPE, type);
 	}
 
 	@Override
@@ -261,12 +263,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getDouble(NX_TIME_OF_FLIGHT);
 	}
 
-	public void setTime_of_flight(IDataset time_of_flight) {
-		setDataset(NX_TIME_OF_FLIGHT, time_of_flight);
+	public DataNode setTime_of_flight(IDataset time_of_flight) {
+		return setDataset(NX_TIME_OF_FLIGHT, time_of_flight);
 	}
 
-	public void setTime_of_flightScalar(double time_of_flight) {
-		setField(NX_TIME_OF_FLIGHT, time_of_flight);
+	public DataNode setTime_of_flightScalar(double time_of_flight) {
+		return setField(NX_TIME_OF_FLIGHT, time_of_flight);
 	}
 
 	@Override
@@ -279,12 +281,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getNumber(NX_EFFICIENCY);
 	}
 
-	public void setEfficiency(IDataset efficiency) {
-		setDataset(NX_EFFICIENCY, efficiency);
+	public DataNode setEfficiency(IDataset efficiency) {
+		return setDataset(NX_EFFICIENCY, efficiency);
 	}
 
-	public void setEfficiencyScalar(Number efficiency) {
-		setField(NX_EFFICIENCY, efficiency);
+	public DataNode setEfficiencyScalar(Number efficiency) {
+		return setField(NX_EFFICIENCY, efficiency);
 	}
 
 	@Override
@@ -297,12 +299,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getNumber(NX_DATA);
 	}
 
-	public void setData(IDataset data) {
-		setDataset(NX_DATA, data);
+	public DataNode setData(IDataset data) {
+		return setDataset(NX_DATA, data);
 	}
 
-	public void setDataScalar(Number data) {
-		setField(NX_DATA, data);
+	public DataNode setDataScalar(Number data) {
+		return setField(NX_DATA, data);
 	}
 
 	@Override
@@ -333,12 +335,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getDouble(NX_SAMPLED_FRACTION);
 	}
 
-	public void setSampled_fraction(IDataset sampled_fraction) {
-		setDataset(NX_SAMPLED_FRACTION, sampled_fraction);
+	public DataNode setSampled_fraction(IDataset sampled_fraction) {
+		return setDataset(NX_SAMPLED_FRACTION, sampled_fraction);
 	}
 
-	public void setSampled_fractionScalar(double sampled_fraction) {
-		setField(NX_SAMPLED_FRACTION, sampled_fraction);
+	public DataNode setSampled_fractionScalar(double sampled_fraction) {
+		return setField(NX_SAMPLED_FRACTION, sampled_fraction);
 	}
 
 	@Override
@@ -378,12 +380,12 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		return getDouble(NX_COUNT_TIME);
 	}
 
-	public void setCount_time(IDataset count_time) {
-		setDataset(NX_COUNT_TIME, count_time);
+	public DataNode setCount_time(IDataset count_time) {
+		return setDataset(NX_COUNT_TIME, count_time);
 	}
 
-	public void setCount_timeScalar(double count_time) {
-		setField(NX_COUNT_TIME, count_time);
+	public DataNode setCount_timeScalar(double count_time) {
+		return setField(NX_COUNT_TIME, count_time);
 	}
 
 }

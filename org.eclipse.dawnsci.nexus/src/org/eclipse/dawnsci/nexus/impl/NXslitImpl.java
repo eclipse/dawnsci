@@ -7,13 +7,15 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -69,12 +71,12 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 		return getString(NX_DEPENDS_ON);
 	}
 
-	public void setDepends_on(IDataset depends_on) {
-		setDataset(NX_DEPENDS_ON, depends_on);
+	public DataNode setDepends_on(IDataset depends_on) {
+		return setDataset(NX_DEPENDS_ON, depends_on);
 	}
 
-	public void setDepends_onScalar(String depends_on) {
-		setString(NX_DEPENDS_ON, depends_on);
+	public DataNode setDepends_onScalar(String depends_on) {
+		return setString(NX_DEPENDS_ON, depends_on);
 	}
 
 	@Override
@@ -87,12 +89,12 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 		return getNumber(NX_X_GAP);
 	}
 
-	public void setX_gap(IDataset x_gap) {
-		setDataset(NX_X_GAP, x_gap);
+	public DataNode setX_gap(IDataset x_gap) {
+		return setDataset(NX_X_GAP, x_gap);
 	}
 
-	public void setX_gapScalar(Number x_gap) {
-		setField(NX_X_GAP, x_gap);
+	public DataNode setX_gapScalar(Number x_gap) {
+		return setField(NX_X_GAP, x_gap);
 	}
 
 	@Override
@@ -105,12 +107,12 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 		return getNumber(NX_Y_GAP);
 	}
 
-	public void setY_gap(IDataset y_gap) {
-		setDataset(NX_Y_GAP, y_gap);
+	public DataNode setY_gap(IDataset y_gap) {
+		return setDataset(NX_Y_GAP, y_gap);
 	}
 
-	public void setY_gapScalar(Number y_gap) {
-		setField(NX_Y_GAP, y_gap);
+	public DataNode setY_gapScalar(Number y_gap) {
+		return setField(NX_Y_GAP, y_gap);
 	}
 
 }

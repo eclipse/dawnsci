@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Map;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -161,12 +163,12 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 		return getString(NX_DESCRIPTION);
 	}
 
-	public void setDescription(IDataset description) {
-		setDataset(NX_DESCRIPTION, description);
+	public DataNode setDescription(IDataset description) {
+		return setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setDescriptionScalar(String description) {
-		setString(NX_DESCRIPTION, description);
+	public DataNode setDescriptionScalar(String description) {
+		return setString(NX_DESCRIPTION, description);
 	}
 
 	@Override
@@ -179,12 +181,12 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 		return getLong(NX_COMPONENT_INDEX);
 	}
 
-	public void setComponent_index(IDataset component_index) {
-		setDataset(NX_COMPONENT_INDEX, component_index);
+	public DataNode setComponent_index(IDataset component_index) {
+		return setDataset(NX_COMPONENT_INDEX, component_index);
 	}
 
-	public void setComponent_indexScalar(long component_index) {
-		setField(NX_COMPONENT_INDEX, component_index);
+	public DataNode setComponent_indexScalar(long component_index) {
+		return setField(NX_COMPONENT_INDEX, component_index);
 	}
 
 }
