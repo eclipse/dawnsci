@@ -69,7 +69,7 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 	protected static final Logger logger = LoggerFactory.getLogger(AbstractToolPage.class);
 	
 	private IToolPageSystem toolSystem;
-	private IPlottingSystem plotSystem;
+	private IPlottingSystem<?> plotSystem;
 	private IWorkbenchPart  part;
 	private String          title;
 	private String          unique_id;
@@ -90,14 +90,14 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 	}
 
 	@Override
-	public void setPlottingSystem(IPlottingSystem system) {
+	public <T> void setPlottingSystem(IPlottingSystem<T> system) {
 		this.plotSystem = system;
 	}
 
 	@Override
-    public IPlottingSystem getPlottingSystem() {
+    public <T> IPlottingSystem<T> getPlottingSystem() {
     	if (getLinkedToolPlot()!=null) return getLinkedToolPlot();
-    	return plotSystem;
+    	return (IPlottingSystem<T>)plotSystem;
     }
 
 	@Override

@@ -44,7 +44,6 @@ import org.eclipse.dawnsci.plotting.api.trace.TraceEvent;
 import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
@@ -54,7 +53,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * @author Matthew Gerring
  *
  */
-public class ThreadSafePlottingSystem extends ThreadSafeObject implements IPlottingSystem {
+public class ThreadSafePlottingSystem<T> extends ThreadSafeObject implements IPlottingSystem<T> {
 	
 	private IPlottingSystem delegate;
 
@@ -321,7 +320,7 @@ public class ThreadSafePlottingSystem extends ThreadSafeObject implements IPlott
 	}
 
 	@Override
-	public void createPlotPart(Composite parent, 
+	public void createPlotPart(T parent, 
 			                   String plotName,
 			                   IActionBars bars, 
 			                   PlotType hint, 
@@ -405,8 +404,8 @@ public class ThreadSafePlottingSystem extends ThreadSafeObject implements IPlott
 	}
 
 	@Override
-	public Composite getPlotComposite() {
-		return delegate.getPlotComposite();
+	public T getPlotComposite() {
+		return (T) delegate.getPlotComposite();
 	}
 
 	@Override

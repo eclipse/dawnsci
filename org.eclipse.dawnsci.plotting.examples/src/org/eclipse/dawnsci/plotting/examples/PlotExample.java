@@ -14,11 +14,12 @@ package org.eclipse.dawnsci.plotting.examples;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.plotting.api.IPlottingService;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
+import org.eclipse.swt.widgets.Composite;
 
 public abstract class PlotExample extends SourceCodeView {
 
 	protected ILoaderService  service;
-	protected IPlottingSystem system;
+	protected IPlottingSystem<Composite> system;
 
 	public PlotExample() {
 		

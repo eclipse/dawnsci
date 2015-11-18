@@ -55,24 +55,28 @@ public class PlottingFactory {
 		
 	}
 	
+	public static <T> IPlottingSystem<T> createPlottingSystem(Class<T> clazz) throws Exception {
+		return createPlottingSystem();
+	}
+
 	/**
 	 * Reads the extension points for the plotting systems registered and returns
 	 * a plotting system based on the users current preferences.
 	 * 
 	 * @return
 	 */
-	public static IPlottingSystem createPlottingSystem() throws Exception {
+	public static <T> IPlottingSystem<T> createPlottingSystem() throws Exception {
 				
 		final ScopedPreferenceStore store = new ScopedPreferenceStore(InstanceScope.INSTANCE,"org.dawb.workbench.ui");
 		String plotType = store.getString("org.dawb.plotting.system.choice");
 		if (plotType.isEmpty()) plotType = System.getProperty("org.dawb.plotting.system.choice");// For Geoff et. al. can override.
 		if (plotType==null) plotType = "org.dawb.workbench.editors.plotting.lightWeightPlottingSystem"; // That is usually around
 		
-        IPlottingSystem system = createPlottingSystem(plotType);
+        IPlottingSystem<T> system = createPlottingSystem(plotType);
         if (system!=null) return system;
 		
         IConfigurationElement[] systems = Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.dawnsci.plotting.api.plottingClass");
-        IPlottingSystem ifnotfound = (IPlottingSystem)systems[0].createExecutableExtension("class");
+        IPlottingSystem<T> ifnotfound = (IPlottingSystem<T>)systems[0].createExecutableExtension("class");
 		store.setValue("org.dawb.plotting.system.choice", systems[0].getAttribute("id"));
 		return ifnotfound;
 		
@@ -83,16 +87,16 @@ public class PlottingFactory {
 	 * 
 	 * @return
 	 */
-	public static IPlottingSystem getLightWeightPlottingSystem() throws Exception {
+	public static <T> IPlottingSystem<T> getLightWeightPlottingSystem() throws Exception {
 				
 		return  createPlottingSystem("org.dawb.workbench.editors.plotting.lightWeightPlottingSystem");		
 	}
 	
-	private static final IPlottingSystem createPlottingSystem(final String plottingSystemId) throws CoreException {
+	private static final <T> IPlottingSystem<T> createPlottingSystem(final String plottingSystemId) throws CoreException {
 		
         IConfigurationElement[] systems = Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.dawnsci.plotting.api.plottingClass");
         for (IConfigurationElement ia : systems) {
-			if (ia.getAttribute("id").equals(plottingSystemId)) return (IPlottingSystem)ia.createExecutableExtension("class");
+			if (ia.getAttribute("id").equals(plottingSystemId)) return (IPlottingSystem<T>)ia.createExecutableExtension("class");
 		}
 		
         return null;

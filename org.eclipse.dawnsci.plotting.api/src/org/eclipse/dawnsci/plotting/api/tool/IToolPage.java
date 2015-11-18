@@ -147,7 +147,7 @@ public interface IToolPage extends IPageBookViewPage, IAdaptable {
 	 * 
 	 * @param system
 	 */
-	public void setPlottingSystem(IPlottingSystem system);
+	public <T> void setPlottingSystem(IPlottingSystem<T> system);
 	
 	/**
 	 * returns the main plotting system that the tool is
@@ -156,7 +156,7 @@ public interface IToolPage extends IPageBookViewPage, IAdaptable {
 	 * 
 	 * @return
 	 */
-	public IPlottingSystem getPlottingSystem();
+	public <T> IPlottingSystem<T> getPlottingSystem();
 	
 	/**
 	 * The tool system that this page is active within.

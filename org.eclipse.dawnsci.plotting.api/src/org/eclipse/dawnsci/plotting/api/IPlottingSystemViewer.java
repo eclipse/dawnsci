@@ -34,28 +34,27 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Composite;
 
-public interface IPlottingSystemViewer extends IAxisSystem, IRegionSystem, IAnnotationSystem {
+public interface IPlottingSystemViewer<T> extends IAxisSystem, IRegionSystem, IAnnotationSystem {
 
 
 	/**
 	 * The widget which this plot is displayed on.
 	 * @return
 	 */
-	public Composite getControl();
+	public T getControl();
 	
 	/**
 	 * Called to create the plot viewer.
 	 * @param parent
 	 */
-	public void createControl(Composite parent);
+	public void createControl(T parent);
 	
 	/**
 	 * Called when the plotting system decides that it will use this viewer.
 	 * @param system
 	 */
-	public void init(IPlottingSystem system);
+	public void init(IPlottingSystem<T> system);
 	
 	/**
 	 * Returns true if this viewer can deal with this plot type.
@@ -248,10 +247,10 @@ public interface IPlottingSystemViewer extends IAxisSystem, IRegionSystem, IAnno
 
 	
 	
-	public class Stub implements IPlottingSystemViewer {
+	public class Stub<T> implements IPlottingSystemViewer<T> {
 
 
-		protected IPlottingSystem system;
+		protected IPlottingSystem<T> system;
 		
 		public Stub() {
 			
@@ -445,13 +444,13 @@ public interface IPlottingSystemViewer extends IAxisSystem, IRegionSystem, IAnno
 		}
 
 		@Override
-		public Composite getControl() {
+		public T getControl() {
 			
 			return null;
 		}
 
 		@Override
-		public void createControl(Composite parent) {
+		public void createControl(T parent) {
 			
 			
 		}

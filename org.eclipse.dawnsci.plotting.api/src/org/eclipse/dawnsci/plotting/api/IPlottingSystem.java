@@ -24,7 +24,6 @@ import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITraceSystem;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
@@ -69,7 +68,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * @author gerring
  *
  */
-public interface IPlottingSystem extends IAdaptable, ITraceSystem, IRegionSystem, IAxisSystem, IAnnotationSystem, IPrintablePlotting{
+public interface IPlottingSystem<T> extends IAdaptable, ITraceSystem, IRegionSystem, IAxisSystem, IAnnotationSystem, IPrintablePlotting{
 
 	public final static String RMI_PREFIX = "PlottingSystem:"; // Hard coded into jyplottingsystem.py as well.
 	public final static String RESCALE_ID = "org.dawb.common.ui.plot.rescale";
@@ -109,11 +108,11 @@ public interface IPlottingSystem extends IAdaptable, ITraceSystem, IRegionSystem
 	 * Call to create the UI component dealing with the plotting.
 	 * @param parent
 	 * @param plotName
-	 * @param bars
+	 * @param bars - may be null
 	 * @param hint
 	 * @param part - may be null
 	 */
-	public void createPlotPart(Composite      parent,
+	public void createPlotPart(T              parent,
 			                   String         plotName,
 			                   IActionBars    bars,
 			                   PlotType       hint,
@@ -407,7 +406,7 @@ public interface IPlottingSystem extends IAdaptable, ITraceSystem, IRegionSystem
      * 
      * @return
      */
-	public Composite getPlotComposite();
+	public T getPlotComposite();
 		
 	/**
 	 * This ISelectionProvider will provide StructuredSelections which have been

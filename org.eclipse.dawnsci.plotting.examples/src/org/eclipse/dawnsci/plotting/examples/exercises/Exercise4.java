@@ -35,7 +35,7 @@ public class Exercise4 extends AbstractToolPage implements IROIListener {
 	/**
 	 * This is a local plotting system to plot the masked result.
 	 */
-	private IPlottingSystem regionView;
+	private IPlottingSystem<Composite> regionView;
 	
 	private IRegionListener regionListener;
 	

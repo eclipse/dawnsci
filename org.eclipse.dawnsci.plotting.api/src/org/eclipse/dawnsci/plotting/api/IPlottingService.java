@@ -31,7 +31,7 @@ public interface IPlottingService {
 	 * @return
 	 * @throws Exception
 	 */
-	public IPlottingSystem createPlottingSystem() throws Exception;
+	public <T> IPlottingSystem<T> createPlottingSystem() throws Exception;
 
 	/**
 	 * Get a plotting system. (Same as getPlottingSystem(name, false))
@@ -39,7 +39,7 @@ public interface IPlottingService {
 	 * @param plotName
 	 * @return
 	 */
-	public IPlottingSystem getPlottingSystem(String plotName);
+	public <T> IPlottingSystem<T> getPlottingSystem(String plotName);
 	
 	/**
 	 * Get a plotting system from the registered plotting system list.
@@ -49,7 +49,7 @@ public interface IPlottingService {
 	 * calls are thread safe.
 	 * @return
 	 */
-	public IPlottingSystem getPlottingSystem(String plotName, boolean threadSafe);
+	public <T> IPlottingSystem<T> getPlottingSystem(String plotName, boolean threadSafe);
 	/**
 	 * 
 	 * Return a tool system for a given plot name
@@ -70,14 +70,14 @@ public interface IPlottingService {
 	 * @param system
 	 * @return
 	 */
-	public IPlottingSystem registerPlottingSystem(final String plotName, final IPlottingSystem system);
+	public <T> IPlottingSystem<T> registerPlottingSystem(final String plotName, final IPlottingSystem system);
 
 	/**
 	 * 
 	 * @param plotName
 	 * @return
 	 */
-	public IPlottingSystem removePlottingSystem(String plotName);
+	public <T> IPlottingSystem<T> removePlottingSystem(String plotName);
 
 	
 	/**
