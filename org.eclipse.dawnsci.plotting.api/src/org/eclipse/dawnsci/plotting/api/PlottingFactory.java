@@ -110,14 +110,14 @@ public class PlottingFactory {
 	 * @param plotName
 	 * @return the removed system
 	 */
-	public static IPlottingSystem removePlottingSystem(String plotName) {
+	public static <T> IPlottingSystem<T> removePlottingSystem(String plotName) {
 		if (filterCache!=null && filterCache.containsKey(plotName)) {
 			final List<IFilterDecorator> decorators = filterCache.remove(plotName);
 			for (IFilterDecorator decorator : decorators) decorator.dispose();
 		}
 		if (plottingSystems==null) return null;
 		
-		IPlottingSystem ret = plottingSystems.remove(plotName);
+		IPlottingSystem<T> ret = plottingSystems.remove(plotName);
 		if (listeners!=null) for (IPlotRegistrationListener l : listeners) {
 			if (l.getPlottingSystemName()==null || plotName.equals(plotName)) {
 				l.plottingSystemRegistered(new PlotRegistrationEvent(ret));
@@ -134,12 +134,12 @@ public class PlottingFactory {
 	 * @param abstractPlottingSystem
 	 * @return the replaced system if any or null otherwise.
 	 */
-	public static IPlottingSystem registerPlottingSystem(final String                 plotName,
-			                                             final IPlottingSystem abstractPlottingSystem) {
+	public static <T> IPlottingSystem<T> registerPlottingSystem(final String                 plotName,
+			                                                    final IPlottingSystem<T> abstractPlottingSystem) {
 		
 		
 		if (plottingSystems==null) plottingSystems = new HashMap<String, IPlottingSystem>(7);
-		IPlottingSystem ret = plottingSystems.put(plotName, abstractPlottingSystem);
+		IPlottingSystem<T> ret = plottingSystems.put(plotName, abstractPlottingSystem);
 		if (listeners!=null) for (IPlotRegistrationListener l : listeners) {
 			if (l.getPlottingSystemName()==null || plotName.equals(l.getPlottingSystemName())) {
 				l.plottingSystemRegistered(new PlotRegistrationEvent(abstractPlottingSystem));
@@ -149,7 +149,7 @@ public class PlottingFactory {
 	}
 	
 
-	public static void notityPlottingSystemCreated(String plotName, IPlottingSystem sys) {
+	public static <T> void notityPlottingSystemCreated(String plotName, IPlottingSystem<T> sys) {
 		if (listeners!=null) for (IPlotRegistrationListener l : listeners) {
 			if (l.getPlottingSystemName()==null || plotName.equals(l.getPlottingSystemName())) {
 				l.plottingSystemCreated(new PlotRegistrationEvent(sys));
@@ -179,7 +179,7 @@ public class PlottingFactory {
 	 * @param plotName
 	 * @return AbstractPlottingSystem or null
 	 */
-	public static IPlottingSystem getPlottingSystem(String plotName) {
+	public static <T> IPlottingSystem<T> getPlottingSystem(String plotName) {
 		return getPlottingSystem(plotName, false);
 	}
 	
@@ -194,9 +194,9 @@ public class PlottingFactory {
 	 *                     Generally used for plotting systems on servers.
 	 * @return
 	 */
-	public static IPlottingSystem getPlottingSystem(String plotName, boolean threadSafe) {
+	public static <T> IPlottingSystem<T> getPlottingSystem(String plotName, boolean threadSafe) {
 		if (plottingSystems==null) return null;
-		IPlottingSystem ps = plottingSystems.get(plotName);
+		IPlottingSystem<T> ps = plottingSystems.get(plotName);
 	    try {
 			return threadSafe ? new ThreadSafePlottingSystem(ps) : ps;
 		} catch (Exception e) {
@@ -222,7 +222,7 @@ public class PlottingFactory {
 	 * @internal
 	 * @return
 	 */
-	public static IPlottingSystem[] getPlottingSystems() {
+	public static <T> IPlottingSystem<T>[] getPlottingSystems() {
 		if (plottingSystems==null) return null;
 		return plottingSystems.values().toArray(new IPlottingSystem[plottingSystems.size()]);
 	}
@@ -233,7 +233,7 @@ public class PlottingFactory {
 	 * @param system
 	 * @return a new decorator which will filter the data being plotting by the system.
 	 */
-	public static IFilterDecorator createFilterDecorator(IPlottingSystem system) {
+	public static <T> IFilterDecorator createFilterDecorator(IPlottingSystem<T> system) {
 		if (filterCache==null) filterCache = new HashMap<String, List<IFilterDecorator>>();
 		List<IFilterDecorator> decorators = (List<IFilterDecorator>)filterCache.get(system.getPlotName());
 		if (decorators==null) {

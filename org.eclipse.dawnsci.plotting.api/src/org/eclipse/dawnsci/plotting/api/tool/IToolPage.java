@@ -289,7 +289,7 @@ public interface IToolPage extends IPageBookViewPage, IAdaptable {
 	 * 
 	 * @return
 	 */
-	public IPlottingSystem getToolPlottingSystem();
+	public <T> IPlottingSystem<T> getToolPlottingSystem();
 
 	/**
 	 * When a tool is opened in a dedicated view, it can enter a static mode.

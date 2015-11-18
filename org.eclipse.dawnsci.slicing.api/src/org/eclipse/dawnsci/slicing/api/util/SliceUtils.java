@@ -291,7 +291,7 @@ public class SliceUtils {
 	 * main plotter or null if one is not plotted.
 	 * @return
 	 */
-	public static IImageTrace getImageTrace(IPlottingSystem plotting) {
+	public static IImageTrace getImageTrace(IPlottingSystem<?> plotting) {
 		if (plotting == null) return null;
 
 		final Collection<ITrace> traces = plotting.getTraces(IImageTrace.class);

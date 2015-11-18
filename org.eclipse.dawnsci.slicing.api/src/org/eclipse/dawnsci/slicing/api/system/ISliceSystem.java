@@ -76,13 +76,13 @@ public interface ISliceSystem {
 	 * 
 	 * @param system
 	 */
-	public void setPlottingSystem(IPlottingSystem<Composite> system);
+	public <T> void setPlottingSystem(IPlottingSystem<T> system);
 	
 	/**
 	 * 
 	 * @return system
 	 */
-	public IPlottingSystem<Composite> getPlottingSystem();
+	public <T> IPlottingSystem<T> getPlottingSystem();
 	
 	/**
 	 * 

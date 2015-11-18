@@ -33,7 +33,7 @@ public class TraceUtils {
 	 * @param system
 	 * @return
 	 */
-	public static String getUniqueTrace(final String nameStub, final IPlottingSystem system, final String... usedNames) {
+	public static String getUniqueTrace(final String nameStub, final IPlottingSystem<?> system, final String... usedNames) {
 		int i = 1;
 		@SuppressWarnings("unchecked")
 		final List<String> used = (List<String>) (usedNames!=null ? Arrays.asList(usedNames) : Collections.emptyList());
@@ -50,7 +50,7 @@ public class TraceUtils {
 	 * @param string
 	 * @return
 	 */
-	public static final ILineTrace replaceCreateLineTrace(IPlottingSystem system, String name) {
+	public static final ILineTrace replaceCreateLineTrace(IPlottingSystem<?> system, String name) {
 		if (system.getTrace(name)!=null) {
 			system.removeTrace(system.getTrace(name));
 		}

@@ -25,9 +25,9 @@ import org.eclipse.ui.part.WorkbenchPart;
  */
 public class EmptyWorkbenchPart extends WorkbenchPart {
 
-	private IPlottingSystem system;
+	private IPlottingSystem<Composite> system;
 
-	public EmptyWorkbenchPart(IPlottingSystem system) {
+	public EmptyWorkbenchPart(IPlottingSystem<Composite> system) {
 		this.system = system;
 	}
 	

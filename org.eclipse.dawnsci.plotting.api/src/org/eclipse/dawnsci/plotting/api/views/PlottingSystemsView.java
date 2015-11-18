@@ -77,7 +77,7 @@ public class PlottingSystemsView extends ViewPart {
 
 			@Override
 			public Object[] getElements(Object inputElement) {
-				final IPlottingSystem[] ps = PlottingFactory.getPlottingSystems();
+				final IPlottingSystem<Composite>[] ps = PlottingFactory.getPlottingSystems();
 				return ps!=null ? ps : new IPlottingSystem[]{};
 			}
 		});
@@ -105,7 +105,7 @@ public class PlottingSystemsView extends ViewPart {
 		system.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-	            return ((IPlottingSystem)element).getPlotName();
+	            return ((IPlottingSystem<Composite>)element).getPlotName();
 			}
 		});
 		
@@ -115,7 +115,7 @@ public class PlottingSystemsView extends ViewPart {
 		part.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				IWorkbenchPart part = ((IPlottingSystem)element).getPart();
+				IWorkbenchPart part = ((IPlottingSystem<Composite>)element).getPart();
 				if (part!=null) return part.getTitle();
 				return null;
 			}

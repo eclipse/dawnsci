@@ -34,7 +34,7 @@ public interface IRegionService {
      * @param roiName
      * @return
      */
-	public IRegion createRegion(IPlottingSystem system, IROI roi, String roiName) throws Exception;
+	public IRegion createRegion(IPlottingSystem<?> system, IROI roi, String roiName) throws Exception;
 
 	/**
 	 * Create a region for a given region type

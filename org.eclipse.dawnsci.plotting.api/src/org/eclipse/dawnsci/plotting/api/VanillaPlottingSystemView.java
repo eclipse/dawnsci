@@ -16,7 +16,7 @@ import org.eclipse.ui.part.ViewPart;
  */
 public class VanillaPlottingSystemView extends ViewPart implements IAdaptable {
 	
-	protected IPlottingSystem     system;
+	protected IPlottingSystem<Composite>     system;
 
 	public VanillaPlottingSystemView() {
 		try {

@@ -37,7 +37,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * To use the plotting system follow this design (similar to RCP parts in 3.x):
  * <code>
- * IPlottingSystem system = PlottingFactory.createPlottingSystem(); // reads user preference if there are alternatives.
+ * IPlottingSystem<Composite> system = PlottingFactory.createPlottingSystem(); // reads user preference if there are alternatives.
  * 
  * In UI code
  * system.createPlotPart(...); // Note that the title here is the key used to retrieve the plotter in future.
@@ -498,7 +498,7 @@ public interface IPlottingSystem<T> extends IAdaptable, ITraceSystem, IRegionSys
 	public void setShowLegend(boolean b);
 
 	/**
-	 * Returns whether the IPlottingSystem is disposed
+	 * Returns whether the IPlottingSystem<Composite> is disposed
 	 * @return
 	 */
 	public boolean isDisposed();

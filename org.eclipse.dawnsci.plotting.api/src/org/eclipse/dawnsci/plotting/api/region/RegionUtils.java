@@ -35,7 +35,7 @@ public class RegionUtils {
 	 * @param system
 	 * @return
 	 */
-	public static String getUniqueName(final String nameStub, final IPlottingSystem system, final String... usedNames) {
+	public static String getUniqueName(final String nameStub, final IPlottingSystem<?> system, final String... usedNames) {
 		int i = 1;
 		@SuppressWarnings("unchecked")
 		final List<String> used = (List<String>) (usedNames!=null ? Arrays.asList(usedNames) : Collections.emptyList());
@@ -51,7 +51,7 @@ public class RegionUtils {
 	 * @param plotter
 	 * @return
 	 */
-	public static Color getUniqueColor(IRegion.RegionType type, IPlottingSystem plotter, Collection<Color> colours) {
+	public static Color getUniqueColor(IRegion.RegionType type, IPlottingSystem<?> plotter, Collection<Color> colours) {
 
 		final Collection<Color> used = new HashSet<Color>(7);
 		for (IRegion reg : plotter.getRegions()) {
@@ -72,7 +72,7 @@ public class RegionUtils {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static final IRegion replaceCreateRegion(final IPlottingSystem system, 
+	public static final IRegion replaceCreateRegion(final IPlottingSystem<?> system, 
 			                                        final String          name, 
 			                                        final RegionType      type) throws Exception {
 		
@@ -82,10 +82,10 @@ public class RegionUtils {
 		return system.createRegion(name, type);
 	}
 
-	public static String[] getRegionNames(IPlottingSystem system) {
+	public static String[] getRegionNames(IPlottingSystem<?> system) {
 		return getRegionNames(system, null);
 	}
-	public static String[] getRegionNames(IPlottingSystem system, RegionType type) {
+	public static String[] getRegionNames(IPlottingSystem<?> system, RegionType type) {
 		final Collection<IRegion> regions = system.getRegions();
 		if (regions==null || regions.size()<1) return null;
 		final List<String> names = new ArrayList<String>(7);
@@ -104,7 +104,7 @@ public class RegionUtils {
 	 * @param roi
 	 * @param roiName
 	 * @return
-	public static IRegion createRegion( final IPlottingSystem plottingSystem,
+	public static IRegion createRegion( final IPlottingSystem<Composite> plottingSystem,
 										final IROI            roi, 
 										final String          roiName) throws Exception {
 

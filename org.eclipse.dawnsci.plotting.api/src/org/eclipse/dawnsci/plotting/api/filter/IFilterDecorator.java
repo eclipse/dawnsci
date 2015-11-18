@@ -26,7 +26,7 @@ package org.eclipse.dawnsci.plotting.api.filter;
  *     }
  * }
  * 
- * IFilterDecorator dec = PlottingFactory.createFilterDecorator(IPlottingSystem)
+ * IFilterDecorator dec = PlottingFactory.createFilterDecorator(IPlottingSystem<Composite>)
  * dec.addFilter(myIPlottingFilter1);
  * // Maybe, dec.addFilter(myIPlottingFilter2);
  * 

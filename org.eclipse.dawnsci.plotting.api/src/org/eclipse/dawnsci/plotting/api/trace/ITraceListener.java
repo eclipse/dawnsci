@@ -58,14 +58,14 @@ public interface ITraceListener extends EventListener{
 	 * It is done this way to avoid caches of the plot data,
 	 * which may be large, being made.
 	 * 
-	 *  Source of event is IPlottingSystem
+	 *  Source of event is IPlottingSystem<Composite>
 	 * 
 	 * @param evt
 	 */
 	public void tracesUpdated(final TraceEvent evt);
 	
 	/**
-	 * Called when all traces are cleared. Source of event is IPlottingSystem
+	 * Called when all traces are cleared. Source of event is IPlottingSystem<Composite>
 	 * @param evet
 	 */
 	public void tracesRemoved(TraceEvent evet);

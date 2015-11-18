@@ -47,11 +47,11 @@ import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
  * stub may be called from Jython for scripting the plotting.
  * 
  */
-public class RemotePlottingSystem implements IRemotePlottingSystem {
+public class RemotePlottingSystem<T> implements IRemotePlottingSystem {
 
-	private IPlottingSystem delegate;
+	private IPlottingSystem<T> delegate;
 
-	public RemotePlottingSystem(IPlottingSystem system) throws Exception {
+	public RemotePlottingSystem(IPlottingSystem<T> system) throws Exception {
 		if (system instanceof ThreadSafePlottingSystem) {
 			delegate = system;
 		} else {

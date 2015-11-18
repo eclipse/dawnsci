@@ -43,7 +43,7 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 	}
 
 	@Override
-	public void filter(IPlottingSystem system, TraceWillPlotEvent evt) throws Exception {
+	public void filter(IPlottingSystem<?> system, TraceWillPlotEvent evt) throws Exception {
 		final ITrace trace = (ITrace)evt.getSource();
 		if (trace.getRank()!=getRank()) {
 			if (getRank()>0) return;

@@ -455,7 +455,7 @@ public interface IPlottingSystemViewer<T> extends IAxisSystem, IRegionSystem, IA
 			
 		}
 		
-		public void init(IPlottingSystem system) {
+		public void init(IPlottingSystem<T> system) {
 			this.system = system;
 		}
 

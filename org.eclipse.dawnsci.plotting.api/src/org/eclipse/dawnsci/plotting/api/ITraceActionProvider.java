@@ -21,6 +21,6 @@ public interface ITraceActionProvider {
 	 * @param imageTrace
 	 * @param system
 	 */
-	public void fillTraceActions(IContributionManager toolBarManager, ITrace imageTrace, IPlottingSystem system);
+	public <T> void fillTraceActions(IContributionManager toolBarManager, ITrace imageTrace, IPlottingSystem<T> system);
 
 }

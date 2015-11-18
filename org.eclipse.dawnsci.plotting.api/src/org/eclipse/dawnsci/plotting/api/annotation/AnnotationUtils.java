@@ -25,7 +25,7 @@ public class AnnotationUtils {
 	 * @param system
 	 * @return
 	 */
-	public static String getUniqueAnnotation(final String nameStub, final IPlottingSystem system, final String... usedNames) {
+	public static String getUniqueAnnotation(final String nameStub, final IPlottingSystem<?> system, final String... usedNames) {
 		int i = 1;
 		@SuppressWarnings("unchecked")
 		final List<String> used = usedNames!=null ? (List<String>) Arrays.asList(usedNames) : (List<String>) Collections.EMPTY_LIST;
@@ -43,7 +43,7 @@ public class AnnotationUtils {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static final IAnnotation replaceCreateAnnotation(IPlottingSystem system, String name) throws Exception {
+	public static final IAnnotation replaceCreateAnnotation(IPlottingSystem<?> system, String name) throws Exception {
 		
         if (system.getAnnotation(name)!=null) {
         	system.removeAnnotation(system.getAnnotation(name));

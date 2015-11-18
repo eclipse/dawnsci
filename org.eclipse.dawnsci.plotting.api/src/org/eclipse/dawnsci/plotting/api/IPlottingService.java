@@ -70,7 +70,7 @@ public interface IPlottingService {
 	 * @param system
 	 * @return
 	 */
-	public <T> IPlottingSystem<T> registerPlottingSystem(final String plotName, final IPlottingSystem system);
+	public <T> IPlottingSystem<T> registerPlottingSystem(final String plotName, final IPlottingSystem<T> system);
 
 	/**
 	 * 
@@ -87,7 +87,7 @@ public interface IPlottingService {
 	 * @param system
 	 * @return
 	 */
-	public IFilterDecorator createFilterDecorator(IPlottingSystem system);
+	public <T> IFilterDecorator createFilterDecorator(IPlottingSystem<T> system);
 
 	/**
 	 * Add a listener to be notified when a new plotting system is registered.

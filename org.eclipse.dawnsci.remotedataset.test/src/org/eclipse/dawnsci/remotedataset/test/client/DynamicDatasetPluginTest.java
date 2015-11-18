@@ -82,7 +82,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 			
 		   	IWorkbenchPart part = openView();
 			 
-			final IPlottingSystem   sys = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
+			final IPlottingSystem<?>   sys = (IPlottingSystem<?>)part.getAdapter(IPlottingSystem.class);
 			
 			IImageTrace trace = (IImageTrace)sys.createPlot2D((IDataset)set, null, null);
 			trace.setDownsampleType(DownsampleType.POINT); // Fast!
@@ -121,7 +121,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 
     	IWorkbenchPart part = openView();
 		 
-		final IPlottingSystem sys = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
+		final IPlottingSystem<?> sys = (IPlottingSystem<?>)part.getAdapter(IPlottingSystem.class);
 		final IDynamicMonitorDataset rgb = DynamicDatasetFactory.createRGBImage(client);
 		sys.createPlot2D(rgb, null, null);
 
@@ -161,7 +161,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 		
 		IWorkbenchPart part = openView();
  
-		final IPlottingSystem sys = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
+		final IPlottingSystem<?> sys = (IPlottingSystem<?>)part.getAdapter(IPlottingSystem.class);
 		sys.createPlot2D(Random.rand(new int[]{1024, 1024}), null, null);
 		
    		final Collection<ITrace>   traces= sys.getTraces(IImageTrace.class);
@@ -217,7 +217,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 		
 		IWorkbenchPart part = openView();
  
-		final IPlottingSystem sys = (IPlottingSystem)part.getAdapter(IPlottingSystem.class);
+		final IPlottingSystem<?> sys = (IPlottingSystem<?>)part.getAdapter(IPlottingSystem.class);
 		sys.createPlot2D(Random.rand(new int[]{1024, 1024}), null, null);
 		
    		final Collection<ITrace>   traces= sys.getTraces(IImageTrace.class);

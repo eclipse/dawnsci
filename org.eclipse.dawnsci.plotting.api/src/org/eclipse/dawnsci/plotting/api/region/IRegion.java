@@ -41,7 +41,7 @@ public interface IRegion {
 
 	/**
 	 * The name of the region. Warning: as region names must be unique and are coordinated in a plotting system,
-	 * you probably want to use {@link IPlottingSystem#renameRegion(IRegion, String)}
+	 * you probably want to use {@link IPlottingSystem<Composite>#renameRegion(IRegion, String)}
 	 * @param name
 	 */
 	public void setName(String name);

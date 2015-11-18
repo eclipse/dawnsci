@@ -13,12 +13,12 @@ import java.util.EventObject;
 
 public class PlotRegistrationEvent extends EventObject {
 
-	public PlotRegistrationEvent(IPlottingSystem source) {
+	public PlotRegistrationEvent(IPlottingSystem<?> source) {
 		super(source);
 	}
 	
-	public IPlottingSystem getPlottingSystem() {
-		return (IPlottingSystem)getSource();
+	public <T> IPlottingSystem<T> getPlottingSystem() {
+		return (IPlottingSystem<T>)getSource();
 	}
 
 	/**

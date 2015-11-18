@@ -31,13 +31,13 @@ import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
 public abstract class AbstractDelayedFilter extends AbstractPlottingFilter  {
 	
 	private FilterJob       job;
-	private IPlottingSystem system;
+	private IPlottingSystem<?> system;
 	private String          filterName;
 	private TraceWillPlotEvent evt;
 	private boolean         isOn=true;
 
 	@Override
-	public void filter(IPlottingSystem system, TraceWillPlotEvent evt) throws Exception {
+	public void filter(IPlottingSystem<?> system, TraceWillPlotEvent evt) throws Exception {
 
 		if (job == null)
 			this.job = new FilterJob(filterName);

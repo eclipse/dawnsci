@@ -24,7 +24,7 @@ public interface IPlottingFilter {
 	 * @param system
 	 * @param trace
 	 */
-	public void filter(IPlottingSystem system, TraceWillPlotEvent trace) throws Exception;
+	public void filter(IPlottingSystem<?> system, TraceWillPlotEvent trace) throws Exception;
 	
 	/**
 	 * Replaces any filtered traces we have made with original data

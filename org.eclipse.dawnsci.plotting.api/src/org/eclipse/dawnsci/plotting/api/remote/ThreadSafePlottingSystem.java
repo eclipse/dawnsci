@@ -55,9 +55,9 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class ThreadSafePlottingSystem<T> extends ThreadSafeObject implements IPlottingSystem<T> {
 	
-	private IPlottingSystem delegate;
+	private IPlottingSystem<T> delegate;
 
-	public ThreadSafePlottingSystem(IPlottingSystem delegate) throws Exception {
+	public ThreadSafePlottingSystem(IPlottingSystem<T> delegate) throws Exception {
 		super(delegate);
 		this.delegate = delegate;
 	}

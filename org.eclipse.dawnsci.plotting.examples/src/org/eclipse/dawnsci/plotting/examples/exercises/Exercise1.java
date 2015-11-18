@@ -46,7 +46,7 @@ import org.eclipse.ui.part.ViewPart;
 public class Exercise1 extends ViewPart { // Yes I know inheritance is bad and injection is good Blah blah blah... :)
 	
 	protected ILoaderService  service;
-	protected IPlottingSystem system;
+	protected IPlottingSystem<Composite> system;
 	private   boolean         updating = false;
 
 	public Exercise1() {

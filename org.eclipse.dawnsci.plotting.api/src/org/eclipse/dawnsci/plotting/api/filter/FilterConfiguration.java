@@ -21,7 +21,7 @@ public interface FilterConfiguration {
 	 * Called to provide the filter to which configuration will be sent.
 	 * @param filter
 	 */
-	public void init(IPlottingSystem system, IPlottingFilter filter);
+	public void init(IPlottingSystem<?> system, IPlottingFilter filter);
 
 	/**
 	 * Called once at start to create user interface for setting the filter's properties.

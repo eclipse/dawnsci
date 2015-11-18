@@ -40,7 +40,7 @@ import org.eclipse.dawnsci.plotting.api.trace.TraceEvent;
 import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
 
 /**
- * The methods of IPlottingSystem with RemoteExceptions declared.
+ * The methods of IPlottingSystem<Composite> with RemoteExceptions declared.
  * Used for Jython scripting of plotting system.
  */
 public interface IRemotePlottingSystem extends Remote {

@@ -23,6 +23,7 @@ import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITraceListener;
 import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
+import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +32,7 @@ import org.slf4j.LoggerFactory;
  * 
  * Instead use:
  * <code>
- * IFilterDecorator dec = PlottingFactory.createFilterDecorator(IPlottingSystem)
+ * IFilterDecorator dec = PlottingFactory.createFilterDecorator(IPlottingSystem<Composite>)
  * dec.addFilter(myFilter extends AbstractPlottingFilter);
  * </code>
  * 
@@ -41,7 +42,7 @@ class FilterDecoratorImpl implements IFilterDecorator {
 	
 	private static final Logger logger = LoggerFactory.getLogger(FilterDecoratorImpl.class);
 	
-	private IPlottingSystem        system;
+	private IPlottingSystem<?>     system;
 	private List<IPlottingFilter>  filters;
 	private boolean filterActive      = true;
 	private boolean processingAllowed = true;
@@ -49,7 +50,7 @@ class FilterDecoratorImpl implements IFilterDecorator {
     
     private ITraceListener listener;
     
-	FilterDecoratorImpl(final IPlottingSystem system) {
+	FilterDecoratorImpl(final IPlottingSystem<?> system) {
 		this.system  = system;
 		this.filters = new ArrayList<IPlottingFilter>(3);
 		

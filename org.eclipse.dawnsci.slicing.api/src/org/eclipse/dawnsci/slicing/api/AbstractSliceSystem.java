@@ -82,12 +82,12 @@ public abstract class AbstractSliceSystem implements ISliceSystem {
 	protected IToolBarManager sliceToolbar;
 	
 	@Override
-	public void setPlottingSystem(IPlottingSystem system) {
+	public <T> void setPlottingSystem(IPlottingSystem<T> system) {
 		this.plottingSystem = system;
 	}
 
 	@Override
-	public IPlottingSystem getPlottingSystem() {
+	public <T> IPlottingSystem<T> getPlottingSystem() {
 		return plottingSystem;
 	}
 	public SliceObject getCurrentSlice() {

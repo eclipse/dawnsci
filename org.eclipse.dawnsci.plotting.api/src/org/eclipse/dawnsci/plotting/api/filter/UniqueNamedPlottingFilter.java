@@ -47,7 +47,7 @@ public abstract class UniqueNamedPlottingFilter extends AbstractPlottingFilter {
 	}
 	
 	@Override
-	public void filter(final IPlottingSystem system, final TraceWillPlotEvent evt) throws Exception {
+	public void filter(final IPlottingSystem<?> system, final TraceWillPlotEvent evt) throws Exception {
 		
 		
 		final ITrace trace = (ITrace)evt.getSource();

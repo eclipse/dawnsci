@@ -96,7 +96,7 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 
 	@Override
     public <T> IPlottingSystem<T> getPlottingSystem() {
-    	if (getLinkedToolPlot()!=null) return getLinkedToolPlot();
+    	if (getLinkedToolPlot()!=null) return (IPlottingSystem<T>)getLinkedToolPlot();
     	return (IPlottingSystem<T>)plotSystem;
     }
 
@@ -272,7 +272,7 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 	 * @return
 	 */
 	protected ITrace getTrace() {
-		IPlottingSystem plotting = getPlottingSystem();
+		IPlottingSystem<Composite> plotting = getPlottingSystem();
 		if (plotting == null) return null;
 
 		final Collection<ITrace> traces = plotting.getTraces();
@@ -367,13 +367,13 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
    	    return null;
     }
     
-    protected IPlottingSystem getLinkedToolPlot() {
+    protected IPlottingSystem<?> getLinkedToolPlot() {
     	IToolPage linkedTool = getLinkedToolPage();
     	return linkedTool !=null ? linkedTool.getToolPlottingSystem() : null;
     }
     	
 	@Override
-	public IPlottingSystem getToolPlottingSystem() {
+	public IPlottingSystem<Composite> getToolPlottingSystem() {
 		return null;
 	}
 	
