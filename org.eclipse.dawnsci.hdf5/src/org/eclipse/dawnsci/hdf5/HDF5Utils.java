@@ -946,6 +946,25 @@ public class HDF5Utils {
 	private static final Charset UTF8 = Charset.forName("UTF-8");
 
 	/**
+	 * Write attributes to a group or dataset in given file
+	 * @param fileName
+	 * @param path
+	 * @param attributes
+	 * @throws ScanFileHolderException 
+	 */
+	public static void writeAttributes(String fileName, String path, IDataset... attributes) throws ScanFileHolderException {
+		long fid = HDF5FileFactory.acquireFile(fileName, true);
+
+		try {
+			writeAttributes(fid, path, attributes);
+		} catch (Throwable le) {
+			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
+		} finally {
+			HDF5FileFactory.releaseFile(fileName);
+		}
+	}
+
+	/**
 	 * Write attributes to a group or dataset in given file ID
 	 * @param fileID
 	 * @param path
