@@ -111,6 +111,9 @@ public class HDF5FileFactory {
 							if (a.count <= 0) {
 								if (a.time <= now) {
 									try {
+										if (H5.H5Fget_obj_count(a.id, HDF5Constants.H5F_OBJ_ALL) > 0) {
+											logger.error("There are some things left open");
+										}
 										H5.H5Fclose(a.id);
 										INSTANCE.map.remove(f);
 // FIXME for CustomTomoConverter, etc 
@@ -160,6 +163,7 @@ public class HDF5FileFactory {
 
 		FileAccess access = null;
 		long fid = -1;
+		long fapl = -1;
 
 		synchronized (INSTANCE) {
 			try {
@@ -178,20 +182,29 @@ public class HDF5FileFactory {
 				} else {
 // FIXME for CustomTomoConverter, etc 
 //					HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
-					access = new FileAccess();
-					access.count = 1;
-					if (asNew) {
-						access.writeable = true;
-						fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_TRUNC, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
-					} else {
-						access.writeable = writeable;
-						if (new File(cPath).exists()) {
-							fid = HDF5FileFactory.H5Fopen(cPath, writeable ? HDF5Constants.H5F_ACC_RDWR : HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
-						} else if (!writeable) {
-							logger.error("File {} does not exist!", cPath);
-							throw new FileNotFoundException("File does not exist!");
+					try {
+						access = new FileAccess();
+						access.count = 1;
+						fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
+						H5.H5Pset_libver_bounds(fapl, HDF5Constants.H5F_LIBVER_LATEST, HDF5Constants.H5F_LIBVER_LATEST);
+						if (asNew) {
+							access.writeable = true;
+							fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_TRUNC, HDF5Constants.H5P_DEFAULT, fapl);
 						} else {
-							fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
+							access.writeable = writeable;
+							if (new File(cPath).exists()) {
+								fid = HDF5FileFactory.H5Fopen(cPath, writeable ?
+										HDF5Constants.H5F_ACC_RDWR : HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ, fapl);
+							} else if (!writeable) {
+								logger.error("File {} does not exist!", cPath);
+								throw new FileNotFoundException("File does not exist!");
+							} else {
+								fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, fapl);
+							}
+						}
+					} finally {
+						if (fapl != -1) {
+							H5.H5Pclose(fapl);
 						}
 					}
 					access.id = fid;
