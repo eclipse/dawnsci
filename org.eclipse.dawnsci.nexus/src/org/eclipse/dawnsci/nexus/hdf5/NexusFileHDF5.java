@@ -1262,13 +1262,46 @@ public class NexusFileHDF5 implements NexusFile {
 			int index = externalNexusPath.lastIndexOf(Node.SEPARATOR);
 			linkName += externalNexusPath.substring(index);
 		}
-		try {
-			H5.H5Lcreate_external(externalFileName, externalNexusPath, fileId, linkName, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
+
+		try (HDF5Resource linkAccess = new HDF5PropertiesResource(H5.H5Pcreate(HDF5Constants.H5P_LINK_ACCESS));
+				HDF5Resource fileAccess = new HDF5PropertiesResource(H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS))) {
+			long lapl = linkAccess.getResource();
+			long fapl = fileAccess.getResource();
+			H5.H5Pset_libver_bounds(fapl, HDF5Constants.H5F_LIBVER_LATEST, HDF5Constants.H5F_LIBVER_LATEST);
+			H5.H5Pset_elink_fapl(lapl, fapl);
+			// TODO: Flag should probably be H5F_ACC_RDONLY | H5F_ACC_SWMR_READ but not yet supported
+			H5.H5Pset_elink_acc_flags(lapl, HDF5Constants.H5F_ACC_RDONLY);
+			H5.H5Lcreate_external(externalFileName, externalNexusPath, fileId, linkName, HDF5Constants.H5P_DEFAULT, lapl);
 		} catch (HDF5LibraryException e) {
 			throw new NexusException("Could not create external link", e);
 		}
 	}
 
+	public void activateSwmrMode() throws NexusException {
+		//*
+		try {
+			H5.H5Fstart_swmr_write(fileId);
+		} catch (HDF5LibraryException e) {
+			throw new NexusException("Could not switch to SWMR mode", e);
+		}
+		/*/
+				try {
+					HDF5FileFactory.releaseFile(fileName, true);
+					fileId = -1;
+					try {
+						fileId = HDF5FileFactory.acquireForSwmrWrite(fileName);
+				} catch (Exception e) {
+						fileId = HDF5FileFactory.acquireFile(fileName, writeable);
+						throw e;
+					}
+					// int result = H5.H5Fstart_swmr_write(fileId);
+					// result++;
+				} catch (ScanFileHolderException e) {
+					throw new NexusException("Could not switch to SWMR mode", e);
+				}
+		 */
+	}
+	
 	@Override
 	public void flush() throws NexusException {
 		if (fileId == -1) {
