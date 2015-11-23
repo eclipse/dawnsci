@@ -16,6 +16,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.eclipse.dawnsci.analysis.api.io.ILazyDynamicLoader;
 import org.eclipse.dawnsci.analysis.api.io.ILazyLoader;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
@@ -26,7 +27,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Lazy loader for HDF5 files
  */
-public class HDF5LazyLoader implements ILazyLoader, Serializable {
+public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializable {
 	public static final long serialVersionUID = 5057544213374303912L;
 	protected static final Logger logger = LoggerFactory.getLogger(HDF5LazyLoader.class);
 
@@ -141,5 +142,18 @@ public class HDF5LazyLoader implements ILazyLoader, Serializable {
 			throw new ScanFileHolderException("Problem loading dataset", e);
 		}
 		return d;
+	}
+	
+	public int[] refreshShape() {
+		int[][] shape = null;
+		try {
+			shape = HDF5Utils.getDatasetShape(filePath, nodePath);
+			assert(shape != null);
+		} catch (ScanFileHolderException e) {
+			logger.error("Problem updating shape", e);
+		}
+		
+		trueShape = shape[0];
+		return trueShape.clone();
 	}
 }
