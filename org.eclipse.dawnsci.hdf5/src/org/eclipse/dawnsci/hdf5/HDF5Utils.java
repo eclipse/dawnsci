@@ -296,6 +296,7 @@ public class HDF5Utils {
 	
 				long hdfDataspaceId = -1;
 				try {
+					H5.H5Drefresh(hdfDatasetId);
 					hdfDataspaceId = H5.H5Dget_space(hdfDatasetId);
 					int type = H5.H5Sget_simple_extent_type(hdfDataspaceId);
 					if (type == HDF5Constants.H5S_NULL) {
@@ -1193,7 +1194,7 @@ public class HDF5Utils {
 					long memtype = getHDF5type(dtype);
 					Serializable buffer = DatasetUtils.serializeDataset(data);
 
-					hdfMemspaceId = H5.H5Screate_simple(1, new long[] {data.getSize()}, null);
+					hdfMemspaceId = H5.H5Screate_simple(rank, HDF5Utils.toLongArray(data.getShape()), null);
 					if (dtype == Dataset.STRING) {
 						hdfDatatypeId = H5.H5Tcopy(memtype);
 						H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
