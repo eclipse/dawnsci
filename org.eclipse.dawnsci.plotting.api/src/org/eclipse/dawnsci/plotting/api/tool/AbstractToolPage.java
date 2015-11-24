@@ -396,8 +396,12 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 	 * 
 	 */
 	protected void createToolPageActions() {
-		
-		final ICommandService service = (ICommandService)PlatformUI.getWorkbench().getService(ICommandService.class);
+		ICommandService service = null;
+		try {
+			service = (ICommandService)PlatformUI.getWorkbench().getService(ICommandService.class);
+		} catch (IllegalStateException e) {
+			logger.error(e.getMessage());
+		}
 		
 		IConfigurationElement[] e = Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.dawnsci.plotting.api.toolPageAction");
 		if (e!=null) for (IConfigurationElement ie : e) {
@@ -406,7 +410,7 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 			if (!getToolId().equals(toolPageId)) continue;
 			
 			final String commandId = ie.getAttribute("command_id");
-			final Command command = service.getCommand(commandId);
+			final Command command = service != null ? service.getCommand(commandId) : null;
 			final String action_id = ie.getAttribute("id");
 			if (command==null) {
 				logger.error("Cannot find command '"+commandId+"' in tool Action "+action_id);
