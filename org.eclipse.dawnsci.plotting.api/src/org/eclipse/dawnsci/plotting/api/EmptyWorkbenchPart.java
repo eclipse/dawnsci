@@ -21,13 +21,14 @@ import org.eclipse.ui.part.WorkbenchPart;
  * for tools to work.
  * 
  * @author Matthew Gerring
+ * @param <T>
  *
  */
-public class EmptyWorkbenchPart extends WorkbenchPart {
+public class EmptyWorkbenchPart<T> extends WorkbenchPart {
 
-	private IPlottingSystem<Composite> system;
+	private IPlottingSystem<T> system;
 
-	public EmptyWorkbenchPart(IPlottingSystem<Composite> system) {
+	public EmptyWorkbenchPart(IPlottingSystem<T> system) {
 		this.system = system;
 	}
 	
