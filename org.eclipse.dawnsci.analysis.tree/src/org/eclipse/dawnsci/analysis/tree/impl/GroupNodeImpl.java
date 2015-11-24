@@ -100,10 +100,10 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 				if (n instanceof SymbolicNode)
 					n = ((SymbolicNode) n).getNode();
 				if (link.isDestinationData() && !(n instanceof DataNode)) {
-					throw new IllegalArgumentException("Cannot add a group as there is a non-group of same name: " + name);
+					throw new IllegalArgumentException("Cannot add a data node as there is an existing non data node of same name: " + name);
 				}
 				if (link.isDestinationGroup() && !(n instanceof GroupNode)) {
-					throw new IllegalArgumentException("Cannot add a group as there is a non-dataset of same name: " + name);
+					throw new IllegalArgumentException("Cannot add a group node as there is an existing non group node of same name: " + name);
 				}
 			}
 			Node n = link.getDestination();
@@ -164,13 +164,17 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	public GroupNode getGroupNode(final String name) {
 		if (nodes.containsKey(name)) {
 			Node n = nodes.get(name).getDestination();
-			if (n instanceof SymbolicNode)
+			if (n instanceof SymbolicNode) {
 				n = ((SymbolicNode) n).getNode();
-			if (n instanceof GroupNode)
-				return (GroupNode) n;
+			}
+			if (!(n instanceof GroupNode)) {
+				throw new IllegalArgumentException("A name: " + name);
+			}
+			
+			return (GroupNode) n;
 		}
 
-		throw new IllegalArgumentException("No such group of given name: " + name);
+		return null;
 	}
 
 	/**
@@ -261,11 +265,13 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			Node n = nodes.get(name).getDestination();
 			if (n instanceof SymbolicNode)
 				n = ((SymbolicNode) n).getNode();
-			if (n instanceof DataNodeImpl)
-				return (DataNodeImpl) n;
+			if (!(n instanceof DataNodeImpl))
+				throw new IllegalArgumentException("Existing node with given name is not a data node: " + name);
+			
+			return (DataNodeImpl) n;
 		}
-	
-		throw new IllegalArgumentException("No such dataset of given name: " + name);
+
+		return null;
 	}
 
 	/**
