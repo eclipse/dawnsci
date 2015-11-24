@@ -185,8 +185,9 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		if (containsGroupNode(name)) {
 			NodeLink n = getNodeLink(name);
 			GroupNode g = (GroupNode) n.getDestination();
+			Class<?> existingNxClass = g instanceof NXobject ? ((NXobject) g).getNXclass() : null;
 			Class<N> nxClass = (Class<N>) child.getNXclass();
-			if (!g.getClass().equals(nxClass)) {
+			if (existingNxClass != null && !existingNxClass.equals(nxClass)) {
 				throw new IllegalArgumentException("There is a group of given name but of a different NX class");
 			}
 		}
@@ -215,14 +216,14 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		}
 	}
 
-	protected String getString(String name) {
+	public String getString(String name) {
 		if (!containsDataNode(name)) {
 			return null;
 		}
 		return getDataNode(name).getString();
 	}
 
-	protected DataNode setString(String name, String value) {
+	public DataNode setString(String name, String value) {
 		DataNode dataNode;
 		if (containsDataNode(name)) {
 			dataNode = getDataNode(name);
@@ -294,29 +295,29 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		return cached.get(name);
 	}
 
-	protected boolean getBoolean(String name) {
+	public boolean getBoolean(String name) {
 		Dataset d = getCached(name);
 		return d.getElementBooleanAbs(0);
 	}
 
-	protected long getLong(String name) {
+	public long getLong(String name) {
 		Dataset d = getCached(name);
 		return d.getElementLongAbs(0);
 	}
 
-	protected double getDouble(String name) {
+	public double getDouble(String name) {
 		Dataset d = getCached(name);
 		return d.getElementDoubleAbs(0);
 	}
 
-	protected Number getNumber(String name) {
+	public Number getNumber(String name) {
 		Dataset d = getCached(name);
 		if (d.hasFloatingPointElements())
 			return d.getElementDoubleAbs(0);
 		return d.getElementLongAbs(0);
 	}
 
-	protected Date getDate(String name) {
+	public Date getDate(String name) {
 		try {
 			return DateFormat.getDateTimeInstance().parse(getString(name));
 		} catch (ParseException e) {
@@ -391,32 +392,32 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		return cached.get(key);
 	}
 	
-	protected Dataset getAttr(String name, String attrName) {
+	public Dataset getAttr(String name, String attrName) {
 		return getCachedAttribute(name, attrName);
 	}
 
-	protected String getAttrString(String name, String attrName) {
+	public String getAttrString(String name, String attrName) {
 		Node node = name == null ? this : getNode(name);
 		Attribute a = node.getAttribute(attrName);
 		return a.getFirstElement();
 	}
 
-	protected boolean getAttrBoolean(String name, String attrName) {
+	public boolean getAttrBoolean(String name, String attrName) {
 		Dataset d = getCachedAttribute(name, attrName);
 		return d.getElementLongAbs(0) != 0;
 	}
 
-	protected long getAttrLong(String name, String attrName) {
+	public long getAttrLong(String name, String attrName) {
 		Dataset d = getCachedAttribute(name, attrName);
 		return d.getElementLongAbs(0);
 	}
 
-	protected double getAttrDouble(String name, String attrName) {
+	public double getAttrDouble(String name, String attrName) {
 		Dataset d = getCachedAttribute(name, attrName);
 		return d.getElementDoubleAbs(0);
 	}
 
-	protected Number getAttrNumber(String name, String attrName) {
+	public Number getAttrNumber(String name, String attrName) {
 		Dataset d = getCachedAttribute(name, attrName);
 		if (d.hasFloatingPointElements()) {
 			return d.getElementDoubleAbs(0);
@@ -425,7 +426,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		return d.getElementLongAbs(0);
 	}
 
-	protected Date getAttrDate(String name, String attrName) {
+	public Date getAttrDate(String name, String attrName) {
 		try {
 			return DateFormat.getDateTimeInstance().parse(getAttrString(name, attrName));
 		} catch (ParseException e) {
@@ -433,7 +434,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		}
 	}
 
-	protected void setAttrDate(String name, String attrName, Date date) {
+	public void setAttrDate(String name, String attrName, Date date) {
 		setAttribute(name, attrName, DateFormat.getDateTimeInstance().format(date));
 	}
 }
