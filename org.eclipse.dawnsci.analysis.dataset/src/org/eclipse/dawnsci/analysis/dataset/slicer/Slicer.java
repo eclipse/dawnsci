@@ -110,9 +110,8 @@ public class Slicer {
 	}
 	
 	public static IDataset getDynamicFirstSlice(ILazyDataset lz, ILazyDataset key) {
-		
 
-		GrowingSliceViewIterator generator = new GrowingSliceViewIterator((LazyDynamicDataset)lz, (LazyDynamicDataset)key);
+		DynamicSliceViewIterator generator = new DynamicSliceViewIterator((LazyDynamicDataset)lz, (LazyDynamicDataset)key);
 		if (generator.hasNext()) return generator.next().getSlice();
 		
         return null;
