@@ -170,4 +170,9 @@ public class SliceViewIterator implements ISliceViewIterator{
 		return n;
 	}
 	
+	@Override
+	public void remove() {
+		//TODO throw something?
+	}
+	
 }

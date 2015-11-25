@@ -153,4 +153,9 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 		return lazy.getShape().clone();
 	}
 	
+	@Override
+	public void remove() {
+		//TODO throw something?
+	}
+	
 }
