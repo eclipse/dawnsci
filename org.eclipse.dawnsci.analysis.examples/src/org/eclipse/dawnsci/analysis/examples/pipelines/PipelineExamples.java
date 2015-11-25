@@ -65,7 +65,8 @@ public class PipelineExamples {
 		// Create a Rich dataset without the extra information and a random array.
 		final IOperationContext context = service.createContext();
 		context.setData(Random.lazyRand(24, 1000, 1000)); // Simplest possible 
-		context.setSlicing("all"); // All 24 images in first dimension.
+//		context.setSlicing("all"); // All 24 images in first dimension.
+		context.setDataDimensions(new int[]{1,2});
 		
 		// We access the model in a generic way because this is example code unable to see
 		// the internals of pipelines.
@@ -91,7 +92,8 @@ public class PipelineExamples {
 		// Create a Rich dataset without the extra information and a random array.
 		final IOperationContext context = service.createContext();
 		context.setData(Random.lazyRand(24, 1000, 1000)); // Simplest possible 
-		context.setSlicing("all"); // All 24 images in first dimension.
+//		context.setSlicing("all"); // All 24 images in first dimension.
+		context.setDataDimensions(new int[]{1,2});
 		
 		// We access the model in a generic way because this is example code unable to see
 		// the internals of pipelines.
@@ -130,7 +132,8 @@ public class PipelineExamples {
 		// Create a Rich dataset without the extra information and a random array.
 		final IOperationContext context = service.createContext();
 		context.setData(Random.lazyRand(24, 1000, 1000)); // Simplest possible 
-		context.setSlicing("all"); // All 24 images in first dimension.
+//		context.setSlicing("all"); // All 24 images in first dimension./
+		context.setDataDimensions(new int[]{1,2});
 		
 		// We access the model in a generic way because this is example code unable to see
 		// the internals of pipelines.

@@ -10,6 +10,7 @@
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
@@ -32,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * Wrapper for a SliceNDIterator, but iterating ILazyDatasets rather than slices,
  * also adds extra metadata.
  */
-public class SliceViewIterator {
+public class SliceViewIterator implements ISliceViewIterator{
 	
 	private static final Logger logger = LoggerFactory.getLogger(SliceViewIterator.class);
 	
@@ -43,6 +44,7 @@ public class SliceViewIterator {
 	private int[] axes;
 	private int count;
 	private int total;
+	private boolean next = false;
 
 	/**
 	 * Construct a Slice View Iterator
@@ -54,10 +56,13 @@ public class SliceViewIterator {
 	public SliceViewIterator(ILazyDataset lazyDataset, SliceND sampling, int... axes) {
 		this.lazyDataset = lazyDataset;
 		this.sampling = sampling != null ? sampling : new SliceND(lazyDataset.getShape());
+		sampling = sampling == null ? new SliceND(lazyDataset.getShape()) : sampling;
 		this.iterator = new SliceNDIterator(sampling, axes);
 		this.axes = axes;
 		count = 0;
 		total = calculateTotal(sampling, axes);
+		
+		next = iterator.hasNext();
 		
 		List<SliceFromSeriesMetadata> sl;
 		try {
@@ -76,9 +81,10 @@ public class SliceViewIterator {
 	 * 
 	 * @return if there is another view
 	 */
+	@Override
 	public boolean hasNext(){
 		count++;
-		return iterator.hasNext();
+		return next;
 	}
 	
 	/**
@@ -87,6 +93,7 @@ public class SliceViewIterator {
 	public void reset() {
 		count = 0;
 		iterator.reset();
+		next = iterator.hasNext();
 	}
 	
 	/**
@@ -94,7 +101,8 @@ public class SliceViewIterator {
 	 * 
 	 * @return lazyDataset
 	 */
-	public ILazyDataset getCurrentView() {
+	@Override
+	public ILazyDataset next() {
 		SliceND current = iterator.getCurrentSlice().clone();
 		ILazyDataset view = lazyDataset.getSliceView(current);
 		view.clearMetadata(SliceFromSeriesMetadata.class);
@@ -105,6 +113,8 @@ public class SliceViewIterator {
 		SliceFromSeriesMetadata m = new SliceFromSeriesMetadata(source, sl);
 		
 		view.setMetadata(m);
+		
+		next = iterator.hasNext();
 		
 		return view;
 	}
@@ -132,7 +142,8 @@ public class SliceViewIterator {
 	 * 
 	 * @return output
 	 */
-	public SliceND getOutputSlice(){
+	@Override
+	public SliceND getSliceND(){
 		return iterator.getOutputSlice();
 	}
 	
@@ -141,7 +152,8 @@ public class SliceViewIterator {
 	 * 
 	 * @return shape
 	 */
-	public int[] getOutputShape(){
+	@Override
+	public int[] getShape(){
 		return sampling.getShape().clone();
 	}
 	

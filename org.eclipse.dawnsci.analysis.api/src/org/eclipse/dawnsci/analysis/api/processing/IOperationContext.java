@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
 
@@ -35,10 +36,7 @@ import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
  * 4. Monitor
  * 
  * Parallel Timeout Handling:
- * 1. ExecutionType.SERIES has NO timeout
- * 2. ExecutionType.PARALLEL has 5000 ms applied when setExecutionType(...) is called, if parallelTimeout=-1
- *    You can use setParallelTimeout(...) to change this.
- * 3. ExecutionType.GRAPH has 10 minutes applied when setExecutionType(...) is called, if parallelTimeout=-1
+ * ExecutionType.GRAPH has 10 minutes applied when setExecutionType(...) is called, if parallelTimeout=-1
  *    You can use setParallelTimeout(...) to change this.
 
  */
@@ -84,19 +82,19 @@ public interface IOperationContext {
 	 * 
 	 * @return A map of data dimension to String representing the slice done on this dimension. 
 	 */
-	public Map<Integer, String> getSlicing();
+	public SliceND getSlicing();
 
 	/**
 	 * 
 	 * A map of data dimension to String representing the slice done on this dimension. 
 	 */
-	public void setSlicing(Map<Integer, String> slicing);
+	public void setSlicing(SliceND slicing);
 	
-	/**
-	 * Shortcut method that saves creating a map
-	 * @param slices
-	 */
-	public void setSlicing(String... slices);
+	
+	public int[] getDataDimensions();
+	
+	public void setDataDimensions(int[] dataDimensions);
+	
 	
 	/**
 	 * 
@@ -183,5 +181,9 @@ public interface IOperationContext {
 	 * return the count
 	 */
 	public void setPoolSize(int count);
+	
+	public void setKey(ILazyDataset key);
+	
+	public ILazyDataset getKey();
 
 }

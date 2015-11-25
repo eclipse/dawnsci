@@ -23,11 +23,9 @@ public interface SliceVisitor {
 	/**
 	 * Visit each slice
 	 * @param data - the data sliced from the lazy data set
-	 * @param selectedSlice the selected slice from the view of the original lazy dataset
-	 * @param selectedShape the shaped of the view of the original lazy dataset
 	 * @throws Exception
 	 */
-	public void visit(IDataset data, Slice[] selectedSlice, int[] selectedShape) throws Exception;
+	public void visit(IDataset data) throws Exception;
 	
 	/**
 	 * 
