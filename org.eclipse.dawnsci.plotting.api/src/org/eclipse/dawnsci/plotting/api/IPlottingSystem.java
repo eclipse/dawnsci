@@ -36,7 +36,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * will return the user preferred plotting.
  * 
  * To use the plotting system follow this design (similar to RCP parts in 3.x):
- * <code>
+ * <pre><code>
  * IPlottingSystem<Composite> system = PlottingFactory.createPlottingSystem(); // reads user preference if there are alternatives.
  * 
  * In UI code
@@ -63,7 +63,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * system.dispose(); // This should be called to clean up UI. Do not forget to remove listeners in the 
  *                   // dispose as well.
  *                   
- * </code>
+ * </code></pre>
  * 
  * @author gerring
  *
