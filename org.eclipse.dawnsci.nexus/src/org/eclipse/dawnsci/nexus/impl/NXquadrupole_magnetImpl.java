@@ -7,13 +7,15 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -70,12 +72,12 @@ public class NXquadrupole_magnetImpl extends NXobjectImpl implements NXquadrupol
 		return getString(NX_DESCRIPTION);
 	}
 
-	public void setDescription(IDataset description) {
-		setDataset(NX_DESCRIPTION, description);
+	public DataNode setDescription(IDataset description) {
+		return setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setDescriptionScalar(String description) {
-		setString(NX_DESCRIPTION, description);
+	public DataNode setDescriptionScalar(String description) {
+		return setString(NX_DESCRIPTION, description);
 	}
 
 	@Override
@@ -88,12 +90,12 @@ public class NXquadrupole_magnetImpl extends NXobjectImpl implements NXquadrupol
 		return getDouble(NX_BEAMLINE_DISTANCE);
 	}
 
-	public void setBeamline_distance(IDataset beamline_distance) {
-		setDataset(NX_BEAMLINE_DISTANCE, beamline_distance);
+	public DataNode setBeamline_distance(IDataset beamline_distance) {
+		return setDataset(NX_BEAMLINE_DISTANCE, beamline_distance);
 	}
 
-	public void setBeamline_distanceScalar(double beamline_distance) {
-		setField(NX_BEAMLINE_DISTANCE, beamline_distance);
+	public DataNode setBeamline_distanceScalar(double beamline_distance) {
+		return setField(NX_BEAMLINE_DISTANCE, beamline_distance);
 	}
 
 	@Override
@@ -106,12 +108,12 @@ public class NXquadrupole_magnetImpl extends NXobjectImpl implements NXquadrupol
 		return getDouble(NX_SET_CURRENT);
 	}
 
-	public void setSet_current(IDataset set_current) {
-		setDataset(NX_SET_CURRENT, set_current);
+	public DataNode setSet_current(IDataset set_current) {
+		return setDataset(NX_SET_CURRENT, set_current);
 	}
 
-	public void setSet_currentScalar(double set_current) {
-		setField(NX_SET_CURRENT, set_current);
+	public DataNode setSet_currentScalar(double set_current) {
+		return setField(NX_SET_CURRENT, set_current);
 	}
 
 	@Override

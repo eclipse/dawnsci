@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Map;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -99,12 +101,12 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 		return getString(NX_MATERIAL);
 	}
 
-	public void setMaterial(IDataset material) {
-		setDataset(NX_MATERIAL, material);
+	public DataNode setMaterial(IDataset material) {
+		return setDataset(NX_MATERIAL, material);
 	}
 
-	public void setMaterialScalar(String material) {
-		setString(NX_MATERIAL, material);
+	public DataNode setMaterialScalar(String material) {
+		return setString(NX_MATERIAL, material);
 	}
 
 	@Override
@@ -117,12 +119,12 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 		return getString(NX_DESCRIPTION);
 	}
 
-	public void setDescription(IDataset description) {
-		setDataset(NX_DESCRIPTION, description);
+	public DataNode setDescription(IDataset description) {
+		return setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setDescriptionScalar(String description) {
-		setString(NX_DESCRIPTION, description);
+	public DataNode setDescriptionScalar(String description) {
+		return setString(NX_DESCRIPTION, description);
 	}
 
 	@Override

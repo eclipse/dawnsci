@@ -12,7 +12,11 @@
 
 package org.eclipse.dawnsci.nexus.builder;
 
+import org.eclipse.dawnsci.nexus.NXdata;
+import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXobject;
+import org.eclipse.dawnsci.nexus.NXpositioner;
+import org.eclipse.dawnsci.nexus.NXsample;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
 import org.eclipse.dawnsci.nexus.impl.NexusNodeFactory;
 
@@ -66,11 +70,28 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	public String getDefaultDataFieldName();
 
 	/**
-	 * Returns the device category for this {@link NexusObjectProvider}. When adding
-	 * a nexus object to a {@link NexusEntryBuilder}, the nexus object will be added
-	 * to a group of this type, if one exists in the skeleton tree.
-	 * @return
+	 * Returns the name to use as the axis when this item is added to a {@link NexusDataBuilder}.
+	 * This is the name of the field created in the {@link NXdata} group that links to the
+	 * default data node within the nexus object for this 
+	 * nexus object provider (as returned by {@link #getNexusObject()}).
+	 * 
+	 * <p>A class implementing this interface may choose to return the same value as returned by
+	 * {@link #getName}, or the value as returned by {@link #getDefaultDataFieldName()},
+	 * or a different value entirely
+	 * @return default axis name
 	 */
-	public NexusBaseClass getDeviceCategory();
+	public String getDefaultAxisName();
+	
+	/**
+	 * Returns the category for this {@link NexusObjectProvider}. When adding
+	 * a nexus object to a {@link NexusEntryBuilder}, the nexus object will be added
+	 * to a group of this type, if one exists in the skeleton tree. For example
+	 * a {@link NexusObjectProvider} that provides an {@link NXpositioner} would normally
+	 * be added to the {@link NXinstrument} group, but if
+	 * this method returns {@link NexusBaseClass#NX_SAMPLE}, then it will instead be added
+	 * to the {@link NXsample} group.
+	 * @return category for this object
+	 */
+	public NexusBaseClass getCategory();
 
 }

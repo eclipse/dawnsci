@@ -7,13 +7,15 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -89,12 +91,12 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 		return getLong(NX_DATA_ORIGIN);
 	}
 
-	public void setData_origin(IDataset data_origin) {
-		setDataset(NX_DATA_ORIGIN, data_origin);
+	public DataNode setData_origin(IDataset data_origin) {
+		return setDataset(NX_DATA_ORIGIN, data_origin);
 	}
 
-	public void setData_originScalar(long data_origin) {
-		setField(NX_DATA_ORIGIN, data_origin);
+	public DataNode setData_originScalar(long data_origin) {
+		return setField(NX_DATA_ORIGIN, data_origin);
 	}
 
 	@Override
@@ -107,12 +109,12 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 		return getLong(NX_DATA_SIZE);
 	}
 
-	public void setData_size(IDataset data_size) {
-		setDataset(NX_DATA_SIZE, data_size);
+	public DataNode setData_size(IDataset data_size) {
+		return setDataset(NX_DATA_SIZE, data_size);
 	}
 
-	public void setData_sizeScalar(long data_size) {
-		setField(NX_DATA_SIZE, data_size);
+	public DataNode setData_sizeScalar(long data_size) {
+		return setField(NX_DATA_SIZE, data_size);
 	}
 
 	@Override
@@ -125,12 +127,12 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 		return getNumber(NX_MODULE_OFFSET);
 	}
 
-	public void setModule_offset(IDataset module_offset) {
-		setDataset(NX_MODULE_OFFSET, module_offset);
+	public DataNode setModule_offset(IDataset module_offset) {
+		return setDataset(NX_MODULE_OFFSET, module_offset);
 	}
 
-	public void setModule_offsetScalar(Number module_offset) {
-		setField(NX_MODULE_OFFSET, module_offset);
+	public DataNode setModule_offsetScalar(Number module_offset) {
+		return setField(NX_MODULE_OFFSET, module_offset);
 	}
 
 	@Override
@@ -188,12 +190,12 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 		return getNumber(NX_FAST_PIXEL_DIRECTION);
 	}
 
-	public void setFast_pixel_direction(IDataset fast_pixel_direction) {
-		setDataset(NX_FAST_PIXEL_DIRECTION, fast_pixel_direction);
+	public DataNode setFast_pixel_direction(IDataset fast_pixel_direction) {
+		return setDataset(NX_FAST_PIXEL_DIRECTION, fast_pixel_direction);
 	}
 
-	public void setFast_pixel_directionScalar(Number fast_pixel_direction) {
-		setField(NX_FAST_PIXEL_DIRECTION, fast_pixel_direction);
+	public DataNode setFast_pixel_directionScalar(Number fast_pixel_direction) {
+		return setField(NX_FAST_PIXEL_DIRECTION, fast_pixel_direction);
 	}
 
 	@Override
@@ -251,12 +253,12 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 		return getNumber(NX_SLOW_PIXEL_DIRECTION);
 	}
 
-	public void setSlow_pixel_direction(IDataset slow_pixel_direction) {
-		setDataset(NX_SLOW_PIXEL_DIRECTION, slow_pixel_direction);
+	public DataNode setSlow_pixel_direction(IDataset slow_pixel_direction) {
+		return setDataset(NX_SLOW_PIXEL_DIRECTION, slow_pixel_direction);
 	}
 
-	public void setSlow_pixel_directionScalar(Number slow_pixel_direction) {
-		setField(NX_SLOW_PIXEL_DIRECTION, slow_pixel_direction);
+	public DataNode setSlow_pixel_directionScalar(Number slow_pixel_direction) {
+		return setField(NX_SLOW_PIXEL_DIRECTION, slow_pixel_direction);
 	}
 
 	@Override

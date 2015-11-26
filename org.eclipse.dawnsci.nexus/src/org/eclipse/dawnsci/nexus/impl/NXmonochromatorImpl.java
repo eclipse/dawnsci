@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Map;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -82,12 +84,12 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 		return getDouble(NX_WAVELENGTH);
 	}
 
-	public void setWavelength(IDataset wavelength) {
-		setDataset(NX_WAVELENGTH, wavelength);
+	public DataNode setWavelength(IDataset wavelength) {
+		return setDataset(NX_WAVELENGTH, wavelength);
 	}
 
-	public void setWavelengthScalar(double wavelength) {
-		setField(NX_WAVELENGTH, wavelength);
+	public DataNode setWavelengthScalar(double wavelength) {
+		return setField(NX_WAVELENGTH, wavelength);
 	}
 
 	@Override
@@ -100,12 +102,12 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 		return getDouble(NX_WAVELENGTH_ERROR);
 	}
 
-	public void setWavelength_error(IDataset wavelength_error) {
-		setDataset(NX_WAVELENGTH_ERROR, wavelength_error);
+	public DataNode setWavelength_error(IDataset wavelength_error) {
+		return setDataset(NX_WAVELENGTH_ERROR, wavelength_error);
 	}
 
-	public void setWavelength_errorScalar(double wavelength_error) {
-		setField(NX_WAVELENGTH_ERROR, wavelength_error);
+	public DataNode setWavelength_errorScalar(double wavelength_error) {
+		return setField(NX_WAVELENGTH_ERROR, wavelength_error);
 	}
 
 	@Override
@@ -118,12 +120,12 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 		return getDouble(NX_ENERGY);
 	}
 
-	public void setEnergy(IDataset energy) {
-		setDataset(NX_ENERGY, energy);
+	public DataNode setEnergy(IDataset energy) {
+		return setDataset(NX_ENERGY, energy);
 	}
 
-	public void setEnergyScalar(double energy) {
-		setField(NX_ENERGY, energy);
+	public DataNode setEnergyScalar(double energy) {
+		return setField(NX_ENERGY, energy);
 	}
 
 	@Override
@@ -136,12 +138,12 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 		return getDouble(NX_ENERGY_ERROR);
 	}
 
-	public void setEnergy_error(IDataset energy_error) {
-		setDataset(NX_ENERGY_ERROR, energy_error);
+	public DataNode setEnergy_error(IDataset energy_error) {
+		return setDataset(NX_ENERGY_ERROR, energy_error);
 	}
 
-	public void setEnergy_errorScalar(double energy_error) {
-		setField(NX_ENERGY_ERROR, energy_error);
+	public DataNode setEnergy_errorScalar(double energy_error) {
+		return setField(NX_ENERGY_ERROR, energy_error);
 	}
 
 	@Override

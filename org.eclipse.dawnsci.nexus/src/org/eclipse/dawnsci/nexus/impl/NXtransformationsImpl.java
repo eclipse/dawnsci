@@ -7,13 +7,15 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -72,12 +74,12 @@ public class NXtransformationsImpl extends NXobjectImpl implements NXtransformat
 		return getNumber(NX_ANONYMOUS__NEEDS_XSD_CHANGE__);
 	}
 
-	public void setAnonymous__NEEDS_XSD_CHANGE__(IDataset anonymous__NEEDS_XSD_CHANGE__) {
-		setDataset(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, anonymous__NEEDS_XSD_CHANGE__);
+	public DataNode setAnonymous__NEEDS_XSD_CHANGE__(IDataset anonymous__NEEDS_XSD_CHANGE__) {
+		return setDataset(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, anonymous__NEEDS_XSD_CHANGE__);
 	}
 
-	public void setAnonymous__NEEDS_XSD_CHANGE__Scalar(Number anonymous__NEEDS_XSD_CHANGE__) {
-		setField(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, anonymous__NEEDS_XSD_CHANGE__);
+	public DataNode setAnonymous__NEEDS_XSD_CHANGE__Scalar(Number anonymous__NEEDS_XSD_CHANGE__) {
+		return setField(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, anonymous__NEEDS_XSD_CHANGE__);
 	}
 
 	@Override

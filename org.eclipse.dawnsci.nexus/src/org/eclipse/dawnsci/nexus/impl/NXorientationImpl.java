@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Map;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -97,12 +99,12 @@ public class NXorientationImpl extends NXobjectImpl implements NXorientation {
 		return getDouble(NX_VALUE);
 	}
 
-	public void setValue(IDataset value) {
-		setDataset(NX_VALUE, value);
+	public DataNode setValue(IDataset value) {
+		return setDataset(NX_VALUE, value);
 	}
 
-	public void setValueScalar(double value) {
-		setField(NX_VALUE, value);
+	public DataNode setValueScalar(double value) {
+		return setField(NX_VALUE, value);
 	}
 
 }

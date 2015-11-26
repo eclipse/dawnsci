@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Map;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -79,12 +81,12 @@ public class NXbending_magnetImpl extends NXobjectImpl implements NXbending_magn
 		return getDouble(NX_CRITICAL_ENERGY);
 	}
 
-	public void setCritical_energy(IDataset critical_energy) {
-		setDataset(NX_CRITICAL_ENERGY, critical_energy);
+	public DataNode setCritical_energy(IDataset critical_energy) {
+		return setDataset(NX_CRITICAL_ENERGY, critical_energy);
 	}
 
-	public void setCritical_energyScalar(double critical_energy) {
-		setField(NX_CRITICAL_ENERGY, critical_energy);
+	public DataNode setCritical_energyScalar(double critical_energy) {
+		return setField(NX_CRITICAL_ENERGY, critical_energy);
 	}
 
 	@Override
@@ -97,12 +99,12 @@ public class NXbending_magnetImpl extends NXobjectImpl implements NXbending_magn
 		return getDouble(NX_BENDING_RADIUS);
 	}
 
-	public void setBending_radius(IDataset bending_radius) {
-		setDataset(NX_BENDING_RADIUS, bending_radius);
+	public DataNode setBending_radius(IDataset bending_radius) {
+		return setDataset(NX_BENDING_RADIUS, bending_radius);
 	}
 
-	public void setBending_radiusScalar(double bending_radius) {
-		setField(NX_BENDING_RADIUS, bending_radius);
+	public DataNode setBending_radiusScalar(double bending_radius) {
+		return setField(NX_BENDING_RADIUS, bending_radius);
 	}
 
 	@Override
@@ -115,12 +117,12 @@ public class NXbending_magnetImpl extends NXobjectImpl implements NXbending_magn
 		return getDouble(NX_MAGNETIC_FIELD);
 	}
 
-	public void setMagnetic_field(IDataset magnetic_field) {
-		setDataset(NX_MAGNETIC_FIELD, magnetic_field);
+	public DataNode setMagnetic_field(IDataset magnetic_field) {
+		return setDataset(NX_MAGNETIC_FIELD, magnetic_field);
 	}
 
-	public void setMagnetic_fieldScalar(double magnetic_field) {
-		setField(NX_MAGNETIC_FIELD, magnetic_field);
+	public DataNode setMagnetic_fieldScalar(double magnetic_field) {
+		return setField(NX_MAGNETIC_FIELD, magnetic_field);
 	}
 
 	@Override
@@ -133,12 +135,12 @@ public class NXbending_magnetImpl extends NXobjectImpl implements NXbending_magn
 		return getDouble(NX_ACCEPTED_PHOTON_BEAM_DIVERGENCE);
 	}
 
-	public void setAccepted_photon_beam_divergence(IDataset accepted_photon_beam_divergence) {
-		setDataset(NX_ACCEPTED_PHOTON_BEAM_DIVERGENCE, accepted_photon_beam_divergence);
+	public DataNode setAccepted_photon_beam_divergence(IDataset accepted_photon_beam_divergence) {
+		return setDataset(NX_ACCEPTED_PHOTON_BEAM_DIVERGENCE, accepted_photon_beam_divergence);
 	}
 
-	public void setAccepted_photon_beam_divergenceScalar(double accepted_photon_beam_divergence) {
-		setField(NX_ACCEPTED_PHOTON_BEAM_DIVERGENCE, accepted_photon_beam_divergence);
+	public DataNode setAccepted_photon_beam_divergenceScalar(double accepted_photon_beam_divergence) {
+		return setField(NX_ACCEPTED_PHOTON_BEAM_DIVERGENCE, accepted_photon_beam_divergence);
 	}
 
 	@Override
@@ -151,12 +153,12 @@ public class NXbending_magnetImpl extends NXobjectImpl implements NXbending_magn
 		return getDouble(NX_SOURCE_DISTANCE_X);
 	}
 
-	public void setSource_distance_x(IDataset source_distance_x) {
-		setDataset(NX_SOURCE_DISTANCE_X, source_distance_x);
+	public DataNode setSource_distance_x(IDataset source_distance_x) {
+		return setDataset(NX_SOURCE_DISTANCE_X, source_distance_x);
 	}
 
-	public void setSource_distance_xScalar(double source_distance_x) {
-		setField(NX_SOURCE_DISTANCE_X, source_distance_x);
+	public DataNode setSource_distance_xScalar(double source_distance_x) {
+		return setField(NX_SOURCE_DISTANCE_X, source_distance_x);
 	}
 
 	@Override
@@ -169,12 +171,12 @@ public class NXbending_magnetImpl extends NXobjectImpl implements NXbending_magn
 		return getDouble(NX_SOURCE_DISTANCE_Y);
 	}
 
-	public void setSource_distance_y(IDataset source_distance_y) {
-		setDataset(NX_SOURCE_DISTANCE_Y, source_distance_y);
+	public DataNode setSource_distance_y(IDataset source_distance_y) {
+		return setDataset(NX_SOURCE_DISTANCE_Y, source_distance_y);
 	}
 
-	public void setSource_distance_yScalar(double source_distance_y) {
-		setField(NX_SOURCE_DISTANCE_Y, source_distance_y);
+	public DataNode setSource_distance_yScalar(double source_distance_y) {
+		return setField(NX_SOURCE_DISTANCE_Y, source_distance_y);
 	}
 
 	@Override
@@ -187,12 +189,12 @@ public class NXbending_magnetImpl extends NXobjectImpl implements NXbending_magn
 		return getDouble(NX_DIVERGENCE_X_PLUS);
 	}
 
-	public void setDivergence_x_plus(IDataset divergence_x_plus) {
-		setDataset(NX_DIVERGENCE_X_PLUS, divergence_x_plus);
+	public DataNode setDivergence_x_plus(IDataset divergence_x_plus) {
+		return setDataset(NX_DIVERGENCE_X_PLUS, divergence_x_plus);
 	}
 
-	public void setDivergence_x_plusScalar(double divergence_x_plus) {
-		setField(NX_DIVERGENCE_X_PLUS, divergence_x_plus);
+	public DataNode setDivergence_x_plusScalar(double divergence_x_plus) {
+		return setField(NX_DIVERGENCE_X_PLUS, divergence_x_plus);
 	}
 
 	@Override
@@ -205,12 +207,12 @@ public class NXbending_magnetImpl extends NXobjectImpl implements NXbending_magn
 		return getDouble(NX_DIVERGENCE_X_MINUS);
 	}
 
-	public void setDivergence_x_minus(IDataset divergence_x_minus) {
-		setDataset(NX_DIVERGENCE_X_MINUS, divergence_x_minus);
+	public DataNode setDivergence_x_minus(IDataset divergence_x_minus) {
+		return setDataset(NX_DIVERGENCE_X_MINUS, divergence_x_minus);
 	}
 
-	public void setDivergence_x_minusScalar(double divergence_x_minus) {
-		setField(NX_DIVERGENCE_X_MINUS, divergence_x_minus);
+	public DataNode setDivergence_x_minusScalar(double divergence_x_minus) {
+		return setField(NX_DIVERGENCE_X_MINUS, divergence_x_minus);
 	}
 
 	@Override
@@ -223,12 +225,12 @@ public class NXbending_magnetImpl extends NXobjectImpl implements NXbending_magn
 		return getDouble(NX_DIVERGENCE_Y_PLUS);
 	}
 
-	public void setDivergence_y_plus(IDataset divergence_y_plus) {
-		setDataset(NX_DIVERGENCE_Y_PLUS, divergence_y_plus);
+	public DataNode setDivergence_y_plus(IDataset divergence_y_plus) {
+		return setDataset(NX_DIVERGENCE_Y_PLUS, divergence_y_plus);
 	}
 
-	public void setDivergence_y_plusScalar(double divergence_y_plus) {
-		setField(NX_DIVERGENCE_Y_PLUS, divergence_y_plus);
+	public DataNode setDivergence_y_plusScalar(double divergence_y_plus) {
+		return setField(NX_DIVERGENCE_Y_PLUS, divergence_y_plus);
 	}
 
 	@Override
@@ -241,12 +243,12 @@ public class NXbending_magnetImpl extends NXobjectImpl implements NXbending_magn
 		return getDouble(NX_DIVERGENCE_Y_MINUS);
 	}
 
-	public void setDivergence_y_minus(IDataset divergence_y_minus) {
-		setDataset(NX_DIVERGENCE_Y_MINUS, divergence_y_minus);
+	public DataNode setDivergence_y_minus(IDataset divergence_y_minus) {
+		return setDataset(NX_DIVERGENCE_Y_MINUS, divergence_y_minus);
 	}
 
-	public void setDivergence_y_minusScalar(double divergence_y_minus) {
-		setField(NX_DIVERGENCE_Y_MINUS, divergence_y_minus);
+	public DataNode setDivergence_y_minusScalar(double divergence_y_minus) {
+		return setField(NX_DIVERGENCE_Y_MINUS, divergence_y_minus);
 	}
 
 	@Override

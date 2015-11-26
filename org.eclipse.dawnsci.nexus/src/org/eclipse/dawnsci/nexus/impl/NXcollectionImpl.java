@@ -7,13 +7,15 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -72,12 +74,12 @@ public class NXcollectionImpl extends NXobjectImpl implements NXcollection {
 		return getString(NX_BEAMLINE);
 	}
 
-	public void setBeamline(IDataset beamline) {
-		setDataset(NX_BEAMLINE, beamline);
+	public DataNode setBeamline(IDataset beamline) {
+		return setDataset(NX_BEAMLINE, beamline);
 	}
 
-	public void setBeamlineScalar(String beamline) {
-		setString(NX_BEAMLINE, beamline);
+	public DataNode setBeamlineScalar(String beamline) {
+		return setString(NX_BEAMLINE, beamline);
 	}
 
 }

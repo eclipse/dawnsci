@@ -7,13 +7,15 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -76,12 +78,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_NAME);
 	}
 
-	public void setName(IDataset name) {
-		setDataset(NX_NAME, name);
+	public DataNode setName(IDataset name) {
+		return setDataset(NX_NAME, name);
 	}
 
-	public void setNameScalar(String name) {
-		setString(NX_NAME, name);
+	public DataNode setNameScalar(String name) {
+		return setString(NX_NAME, name);
 	}
 
 	@Override
@@ -94,12 +96,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_ROLE);
 	}
 
-	public void setRole(IDataset role) {
-		setDataset(NX_ROLE, role);
+	public DataNode setRole(IDataset role) {
+		return setDataset(NX_ROLE, role);
 	}
 
-	public void setRoleScalar(String role) {
-		setString(NX_ROLE, role);
+	public DataNode setRoleScalar(String role) {
+		return setString(NX_ROLE, role);
 	}
 
 	@Override
@@ -112,12 +114,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_AFFILIATION);
 	}
 
-	public void setAffiliation(IDataset affiliation) {
-		setDataset(NX_AFFILIATION, affiliation);
+	public DataNode setAffiliation(IDataset affiliation) {
+		return setDataset(NX_AFFILIATION, affiliation);
 	}
 
-	public void setAffiliationScalar(String affiliation) {
-		setString(NX_AFFILIATION, affiliation);
+	public DataNode setAffiliationScalar(String affiliation) {
+		return setString(NX_AFFILIATION, affiliation);
 	}
 
 	@Override
@@ -130,12 +132,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_ADDRESS);
 	}
 
-	public void setAddress(IDataset address) {
-		setDataset(NX_ADDRESS, address);
+	public DataNode setAddress(IDataset address) {
+		return setDataset(NX_ADDRESS, address);
 	}
 
-	public void setAddressScalar(String address) {
-		setString(NX_ADDRESS, address);
+	public DataNode setAddressScalar(String address) {
+		return setString(NX_ADDRESS, address);
 	}
 
 	@Override
@@ -148,12 +150,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_TELEPHONE_NUMBER);
 	}
 
-	public void setTelephone_number(IDataset telephone_number) {
-		setDataset(NX_TELEPHONE_NUMBER, telephone_number);
+	public DataNode setTelephone_number(IDataset telephone_number) {
+		return setDataset(NX_TELEPHONE_NUMBER, telephone_number);
 	}
 
-	public void setTelephone_numberScalar(String telephone_number) {
-		setString(NX_TELEPHONE_NUMBER, telephone_number);
+	public DataNode setTelephone_numberScalar(String telephone_number) {
+		return setString(NX_TELEPHONE_NUMBER, telephone_number);
 	}
 
 	@Override
@@ -166,12 +168,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_FAX_NUMBER);
 	}
 
-	public void setFax_number(IDataset fax_number) {
-		setDataset(NX_FAX_NUMBER, fax_number);
+	public DataNode setFax_number(IDataset fax_number) {
+		return setDataset(NX_FAX_NUMBER, fax_number);
 	}
 
-	public void setFax_numberScalar(String fax_number) {
-		setString(NX_FAX_NUMBER, fax_number);
+	public DataNode setFax_numberScalar(String fax_number) {
+		return setString(NX_FAX_NUMBER, fax_number);
 	}
 
 	@Override
@@ -184,12 +186,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_EMAIL);
 	}
 
-	public void setEmail(IDataset email) {
-		setDataset(NX_EMAIL, email);
+	public DataNode setEmail(IDataset email) {
+		return setDataset(NX_EMAIL, email);
 	}
 
-	public void setEmailScalar(String email) {
-		setString(NX_EMAIL, email);
+	public DataNode setEmailScalar(String email) {
+		return setString(NX_EMAIL, email);
 	}
 
 	@Override
@@ -202,12 +204,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_FACILITY_USER_ID);
 	}
 
-	public void setFacility_user_id(IDataset facility_user_id) {
-		setDataset(NX_FACILITY_USER_ID, facility_user_id);
+	public DataNode setFacility_user_id(IDataset facility_user_id) {
+		return setDataset(NX_FACILITY_USER_ID, facility_user_id);
 	}
 
-	public void setFacility_user_idScalar(String facility_user_id) {
-		setString(NX_FACILITY_USER_ID, facility_user_id);
+	public DataNode setFacility_user_idScalar(String facility_user_id) {
+		return setString(NX_FACILITY_USER_ID, facility_user_id);
 	}
 
 }

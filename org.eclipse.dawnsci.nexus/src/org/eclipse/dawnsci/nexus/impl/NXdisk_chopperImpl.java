@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Map;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -79,12 +81,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getString(NX_TYPE);
 	}
 
-	public void setType(IDataset type) {
-		setDataset(NX_TYPE, type);
+	public DataNode setType(IDataset type) {
+		return setDataset(NX_TYPE, type);
 	}
 
-	public void setTypeScalar(String type) {
-		setString(NX_TYPE, type);
+	public DataNode setTypeScalar(String type) {
+		return setString(NX_TYPE, type);
 	}
 
 	@Override
@@ -97,12 +99,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_ROTATION_SPEED);
 	}
 
-	public void setRotation_speed(IDataset rotation_speed) {
-		setDataset(NX_ROTATION_SPEED, rotation_speed);
+	public DataNode setRotation_speed(IDataset rotation_speed) {
+		return setDataset(NX_ROTATION_SPEED, rotation_speed);
 	}
 
-	public void setRotation_speedScalar(double rotation_speed) {
-		setField(NX_ROTATION_SPEED, rotation_speed);
+	public DataNode setRotation_speedScalar(double rotation_speed) {
+		return setField(NX_ROTATION_SPEED, rotation_speed);
 	}
 
 	@Override
@@ -115,12 +117,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getLong(NX_SLITS);
 	}
 
-	public void setSlits(IDataset slits) {
-		setDataset(NX_SLITS, slits);
+	public DataNode setSlits(IDataset slits) {
+		return setDataset(NX_SLITS, slits);
 	}
 
-	public void setSlitsScalar(long slits) {
-		setField(NX_SLITS, slits);
+	public DataNode setSlitsScalar(long slits) {
+		return setField(NX_SLITS, slits);
 	}
 
 	@Override
@@ -133,12 +135,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_SLIT_ANGLE);
 	}
 
-	public void setSlit_angle(IDataset slit_angle) {
-		setDataset(NX_SLIT_ANGLE, slit_angle);
+	public DataNode setSlit_angle(IDataset slit_angle) {
+		return setDataset(NX_SLIT_ANGLE, slit_angle);
 	}
 
-	public void setSlit_angleScalar(double slit_angle) {
-		setField(NX_SLIT_ANGLE, slit_angle);
+	public DataNode setSlit_angleScalar(double slit_angle) {
+		return setField(NX_SLIT_ANGLE, slit_angle);
 	}
 
 	@Override
@@ -151,12 +153,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_PAIR_SEPARATION);
 	}
 
-	public void setPair_separation(IDataset pair_separation) {
-		setDataset(NX_PAIR_SEPARATION, pair_separation);
+	public DataNode setPair_separation(IDataset pair_separation) {
+		return setDataset(NX_PAIR_SEPARATION, pair_separation);
 	}
 
-	public void setPair_separationScalar(double pair_separation) {
-		setField(NX_PAIR_SEPARATION, pair_separation);
+	public DataNode setPair_separationScalar(double pair_separation) {
+		return setField(NX_PAIR_SEPARATION, pair_separation);
 	}
 
 	@Override
@@ -169,12 +171,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_RADIUS);
 	}
 
-	public void setRadius(IDataset radius) {
-		setDataset(NX_RADIUS, radius);
+	public DataNode setRadius(IDataset radius) {
+		return setDataset(NX_RADIUS, radius);
 	}
 
-	public void setRadiusScalar(double radius) {
-		setField(NX_RADIUS, radius);
+	public DataNode setRadiusScalar(double radius) {
+		return setField(NX_RADIUS, radius);
 	}
 
 	@Override
@@ -187,12 +189,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_SLIT_HEIGHT);
 	}
 
-	public void setSlit_height(IDataset slit_height) {
-		setDataset(NX_SLIT_HEIGHT, slit_height);
+	public DataNode setSlit_height(IDataset slit_height) {
+		return setDataset(NX_SLIT_HEIGHT, slit_height);
 	}
 
-	public void setSlit_heightScalar(double slit_height) {
-		setField(NX_SLIT_HEIGHT, slit_height);
+	public DataNode setSlit_heightScalar(double slit_height) {
+		return setField(NX_SLIT_HEIGHT, slit_height);
 	}
 
 	@Override
@@ -205,12 +207,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_PHASE);
 	}
 
-	public void setPhase(IDataset phase) {
-		setDataset(NX_PHASE, phase);
+	public DataNode setPhase(IDataset phase) {
+		return setDataset(NX_PHASE, phase);
 	}
 
-	public void setPhaseScalar(double phase) {
-		setField(NX_PHASE, phase);
+	public DataNode setPhaseScalar(double phase) {
+		return setField(NX_PHASE, phase);
 	}
 
 	@Override
@@ -223,12 +225,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getLong(NX_RATIO);
 	}
 
-	public void setRatio(IDataset ratio) {
-		setDataset(NX_RATIO, ratio);
+	public DataNode setRatio(IDataset ratio) {
+		return setDataset(NX_RATIO, ratio);
 	}
 
-	public void setRatioScalar(long ratio) {
-		setField(NX_RATIO, ratio);
+	public DataNode setRatioScalar(long ratio) {
+		return setField(NX_RATIO, ratio);
 	}
 
 	@Override
@@ -241,12 +243,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_DISTANCE);
 	}
 
-	public void setDistance(IDataset distance) {
-		setDataset(NX_DISTANCE, distance);
+	public DataNode setDistance(IDataset distance) {
+		return setDataset(NX_DISTANCE, distance);
 	}
 
-	public void setDistanceScalar(double distance) {
-		setField(NX_DISTANCE, distance);
+	public DataNode setDistanceScalar(double distance) {
+		return setField(NX_DISTANCE, distance);
 	}
 
 	@Override
@@ -259,12 +261,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_WAVELENGTH_RANGE);
 	}
 
-	public void setWavelength_range(IDataset wavelength_range) {
-		setDataset(NX_WAVELENGTH_RANGE, wavelength_range);
+	public DataNode setWavelength_range(IDataset wavelength_range) {
+		return setDataset(NX_WAVELENGTH_RANGE, wavelength_range);
 	}
 
-	public void setWavelength_rangeScalar(double wavelength_range) {
-		setField(NX_WAVELENGTH_RANGE, wavelength_range);
+	public DataNode setWavelength_rangeScalar(double wavelength_range) {
+		return setField(NX_WAVELENGTH_RANGE, wavelength_range);
 	}
 
 	@Override

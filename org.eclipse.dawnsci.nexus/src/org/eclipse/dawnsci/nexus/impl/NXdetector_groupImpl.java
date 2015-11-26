@@ -7,13 +7,15 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -81,12 +83,12 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 		return getString(NX_GROUP_NAMES);
 	}
 
-	public void setGroup_names(IDataset group_names) {
-		setDataset(NX_GROUP_NAMES, group_names);
+	public DataNode setGroup_names(IDataset group_names) {
+		return setDataset(NX_GROUP_NAMES, group_names);
 	}
 
-	public void setGroup_namesScalar(String group_names) {
-		setString(NX_GROUP_NAMES, group_names);
+	public DataNode setGroup_namesScalar(String group_names) {
+		return setString(NX_GROUP_NAMES, group_names);
 	}
 
 	@Override
@@ -99,12 +101,12 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 		return getLong(NX_GROUP_INDEX);
 	}
 
-	public void setGroup_index(IDataset group_index) {
-		setDataset(NX_GROUP_INDEX, group_index);
+	public DataNode setGroup_index(IDataset group_index) {
+		return setDataset(NX_GROUP_INDEX, group_index);
 	}
 
-	public void setGroup_indexScalar(long group_index) {
-		setField(NX_GROUP_INDEX, group_index);
+	public DataNode setGroup_indexScalar(long group_index) {
+		return setField(NX_GROUP_INDEX, group_index);
 	}
 
 	@Override
@@ -117,12 +119,12 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 		return getLong(NX_GROUP_PARENT);
 	}
 
-	public void setGroup_parent(IDataset group_parent) {
-		setDataset(NX_GROUP_PARENT, group_parent);
+	public DataNode setGroup_parent(IDataset group_parent) {
+		return setDataset(NX_GROUP_PARENT, group_parent);
 	}
 
-	public void setGroup_parentScalar(long group_parent) {
-		setField(NX_GROUP_PARENT, group_parent);
+	public DataNode setGroup_parentScalar(long group_parent) {
+		return setField(NX_GROUP_PARENT, group_parent);
 	}
 
 	@Override
@@ -135,12 +137,12 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 		return getLong(NX_GROUP_TYPE);
 	}
 
-	public void setGroup_type(IDataset group_type) {
-		setDataset(NX_GROUP_TYPE, group_type);
+	public DataNode setGroup_type(IDataset group_type) {
+		return setDataset(NX_GROUP_TYPE, group_type);
 	}
 
-	public void setGroup_typeScalar(long group_type) {
-		setField(NX_GROUP_TYPE, group_type);
+	public DataNode setGroup_typeScalar(long group_type) {
+		return setField(NX_GROUP_TYPE, group_type);
 	}
 
 }

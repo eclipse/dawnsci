@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,6 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Date;
 import java.util.Set;
 import java.util.EnumSet;
+
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -76,12 +78,12 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		return getString(NX_AUTHOR);
 	}
 
-	public void setAuthor(IDataset author) {
-		setDataset(NX_AUTHOR, author);
+	public DataNode setAuthor(IDataset author) {
+		return setDataset(NX_AUTHOR, author);
 	}
 
-	public void setAuthorScalar(String author) {
-		setString(NX_AUTHOR, author);
+	public DataNode setAuthorScalar(String author) {
+		return setString(NX_AUTHOR, author);
 	}
 
 	@Override
@@ -94,12 +96,12 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		return getDate(NX_DATE);
 	}
 
-	public void setDate(IDataset date) {
-		setDataset(NX_DATE, date);
+	public DataNode setDate(IDataset date) {
+		return setDataset(NX_DATE, date);
 	}
 
-	public void setDateScalar(Date date) {
-		setDate(NX_DATE, date);
+	public DataNode setDateScalar(Date date) {
+		return setDate(NX_DATE, date);
 	}
 
 	@Override
@@ -112,12 +114,12 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		return getString(NX_TYPE);
 	}
 
-	public void setType(IDataset type) {
-		setDataset(NX_TYPE, type);
+	public DataNode setType(IDataset type) {
+		return setDataset(NX_TYPE, type);
 	}
 
-	public void setTypeScalar(String type) {
-		setString(NX_TYPE, type);
+	public DataNode setTypeScalar(String type) {
+		return setString(NX_TYPE, type);
 	}
 
 	@Override
@@ -130,12 +132,12 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		return getString(NX_FILE_NAME);
 	}
 
-	public void setFile_name(IDataset file_name) {
-		setDataset(NX_FILE_NAME, file_name);
+	public DataNode setFile_name(IDataset file_name) {
+		return setDataset(NX_FILE_NAME, file_name);
 	}
 
-	public void setFile_nameScalar(String file_name) {
-		setString(NX_FILE_NAME, file_name);
+	public DataNode setFile_nameScalar(String file_name) {
+		return setString(NX_FILE_NAME, file_name);
 	}
 
 	@Override
@@ -148,12 +150,12 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		return getString(NX_DESCRIPTION);
 	}
 
-	public void setDescription(IDataset description) {
-		setDataset(NX_DESCRIPTION, description);
+	public DataNode setDescription(IDataset description) {
+		return setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setDescriptionScalar(String description) {
-		setString(NX_DESCRIPTION, description);
+	public DataNode setDescriptionScalar(String description) {
+		return setString(NX_DESCRIPTION, description);
 	}
 
 	@Override
@@ -166,12 +168,12 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		return getLong(NX_SEQUENCE_INDEX);
 	}
 
-	public void setSequence_index(IDataset sequence_index) {
-		setDataset(NX_SEQUENCE_INDEX, sequence_index);
+	public DataNode setSequence_index(IDataset sequence_index) {
+		return setDataset(NX_SEQUENCE_INDEX, sequence_index);
 	}
 
-	public void setSequence_indexScalar(long sequence_index) {
-		setField(NX_SEQUENCE_INDEX, sequence_index);
+	public DataNode setSequence_indexScalar(long sequence_index) {
+		return setField(NX_SEQUENCE_INDEX, sequence_index);
 	}
 
 	@Override
@@ -184,12 +186,14 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 		return getDataNode(NX_DATA).getDataset();
 	}
 
-	public void setData(IDataset data) {
-		setDataset(NX_DATA, data);
+	public DataNode setData(IDataset data) {
+		return setDataset(NX_DATA, data);
 	}
 
-	public void setDataScalar(Object data) {
-		getDataNode(NX_DATA).setDataset(DatasetFactory.createFromObject(data));
+	public DataNode setDataScalar(Object data) {
+		DataNode dataNode = getDataNode(NX_DATA);
+		dataNode.setDataset(DatasetFactory.createFromObject(data));
+		return dataNode;
 	}
 
 }

@@ -7,13 +7,15 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -73,12 +75,12 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		return getString(NX_DESCRIPTION);
 	}
 
-	public void setDescription(IDataset description) {
-		setDataset(NX_DESCRIPTION, description);
+	public DataNode setDescription(IDataset description) {
+		return setDataset(NX_DESCRIPTION, description);
 	}
 
-	public void setDescriptionScalar(String description) {
-		setString(NX_DESCRIPTION, description);
+	public DataNode setDescriptionScalar(String description) {
+		return setString(NX_DESCRIPTION, description);
 	}
 
 	@Override
@@ -91,12 +93,12 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		return getString(NX_URL);
 	}
 
-	public void setUrl(IDataset url) {
-		setDataset(NX_URL, url);
+	public DataNode setUrl(IDataset url) {
+		return setDataset(NX_URL, url);
 	}
 
-	public void setUrlScalar(String url) {
-		setString(NX_URL, url);
+	public DataNode setUrlScalar(String url) {
+		return setString(NX_URL, url);
 	}
 
 	@Override
@@ -109,12 +111,12 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		return getString(NX_DOI);
 	}
 
-	public void setDoi(IDataset doi) {
-		setDataset(NX_DOI, doi);
+	public DataNode setDoi(IDataset doi) {
+		return setDataset(NX_DOI, doi);
 	}
 
-	public void setDoiScalar(String doi) {
-		setString(NX_DOI, doi);
+	public DataNode setDoiScalar(String doi) {
+		return setString(NX_DOI, doi);
 	}
 
 	@Override
@@ -127,12 +129,12 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		return getString(NX_ENDNOTE);
 	}
 
-	public void setEndnote(IDataset endnote) {
-		setDataset(NX_ENDNOTE, endnote);
+	public DataNode setEndnote(IDataset endnote) {
+		return setDataset(NX_ENDNOTE, endnote);
 	}
 
-	public void setEndnoteScalar(String endnote) {
-		setString(NX_ENDNOTE, endnote);
+	public DataNode setEndnoteScalar(String endnote) {
+		return setString(NX_ENDNOTE, endnote);
 	}
 
 	@Override
@@ -145,12 +147,12 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		return getString(NX_BIBTEX);
 	}
 
-	public void setBibtex(IDataset bibtex) {
-		setDataset(NX_BIBTEX, bibtex);
+	public DataNode setBibtex(IDataset bibtex) {
+		return setDataset(NX_BIBTEX, bibtex);
 	}
 
-	public void setBibtexScalar(String bibtex) {
-		setString(NX_BIBTEX, bibtex);
+	public DataNode setBibtexScalar(String bibtex) {
+		return setString(NX_BIBTEX, bibtex);
 	}
 
 }

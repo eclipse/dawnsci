@@ -7,13 +7,15 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-11-11T16:27:56.219Z
+ * Generated at: 2015-11-17T13:07:37.011Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
@@ -78,12 +80,12 @@ public class NXvelocity_selectorImpl extends NXobjectImpl implements NXvelocity_
 		return getString(NX_TYPE);
 	}
 
-	public void setType(IDataset type) {
-		setDataset(NX_TYPE, type);
+	public DataNode setType(IDataset type) {
+		return setDataset(NX_TYPE, type);
 	}
 
-	public void setTypeScalar(String type) {
-		setString(NX_TYPE, type);
+	public DataNode setTypeScalar(String type) {
+		return setString(NX_TYPE, type);
 	}
 
 	@Override
@@ -96,12 +98,12 @@ public class NXvelocity_selectorImpl extends NXobjectImpl implements NXvelocity_
 		return getDouble(NX_ROTATION_SPEED);
 	}
 
-	public void setRotation_speed(IDataset rotation_speed) {
-		setDataset(NX_ROTATION_SPEED, rotation_speed);
+	public DataNode setRotation_speed(IDataset rotation_speed) {
+		return setDataset(NX_ROTATION_SPEED, rotation_speed);
 	}
 
-	public void setRotation_speedScalar(double rotation_speed) {
-		setField(NX_ROTATION_SPEED, rotation_speed);
+	public DataNode setRotation_speedScalar(double rotation_speed) {
+		return setField(NX_ROTATION_SPEED, rotation_speed);
 	}
 
 	@Override
@@ -114,12 +116,12 @@ public class NXvelocity_selectorImpl extends NXobjectImpl implements NXvelocity_
 		return getDouble(NX_RADIUS);
 	}
 
-	public void setRadius(IDataset radius) {
-		setDataset(NX_RADIUS, radius);
+	public DataNode setRadius(IDataset radius) {
+		return setDataset(NX_RADIUS, radius);
 	}
 
-	public void setRadiusScalar(double radius) {
-		setField(NX_RADIUS, radius);
+	public DataNode setRadiusScalar(double radius) {
+		return setField(NX_RADIUS, radius);
 	}
 
 	@Override
@@ -132,12 +134,12 @@ public class NXvelocity_selectorImpl extends NXobjectImpl implements NXvelocity_
 		return getDouble(NX_SPWIDTH);
 	}
 
-	public void setSpwidth(IDataset spwidth) {
-		setDataset(NX_SPWIDTH, spwidth);
+	public DataNode setSpwidth(IDataset spwidth) {
+		return setDataset(NX_SPWIDTH, spwidth);
 	}
 
-	public void setSpwidthScalar(double spwidth) {
-		setField(NX_SPWIDTH, spwidth);
+	public DataNode setSpwidthScalar(double spwidth) {
+		return setField(NX_SPWIDTH, spwidth);
 	}
 
 	@Override
@@ -150,12 +152,12 @@ public class NXvelocity_selectorImpl extends NXobjectImpl implements NXvelocity_
 		return getDouble(NX_LENGTH);
 	}
 
-	public void setLength(IDataset length) {
-		setDataset(NX_LENGTH, length);
+	public DataNode setLength(IDataset length) {
+		return setDataset(NX_LENGTH, length);
 	}
 
-	public void setLengthScalar(double length) {
-		setField(NX_LENGTH, length);
+	public DataNode setLengthScalar(double length) {
+		return setField(NX_LENGTH, length);
 	}
 
 	@Override
@@ -168,12 +170,12 @@ public class NXvelocity_selectorImpl extends NXobjectImpl implements NXvelocity_
 		return getLong(NX_NUM);
 	}
 
-	public void setNum(IDataset num) {
-		setDataset(NX_NUM, num);
+	public DataNode setNum(IDataset num) {
+		return setDataset(NX_NUM, num);
 	}
 
-	public void setNumScalar(long num) {
-		setField(NX_NUM, num);
+	public DataNode setNumScalar(long num) {
+		return setField(NX_NUM, num);
 	}
 
 	@Override
@@ -186,12 +188,12 @@ public class NXvelocity_selectorImpl extends NXobjectImpl implements NXvelocity_
 		return getDouble(NX_TWIST);
 	}
 
-	public void setTwist(IDataset twist) {
-		setDataset(NX_TWIST, twist);
+	public DataNode setTwist(IDataset twist) {
+		return setDataset(NX_TWIST, twist);
 	}
 
-	public void setTwistScalar(double twist) {
-		setField(NX_TWIST, twist);
+	public DataNode setTwistScalar(double twist) {
+		return setField(NX_TWIST, twist);
 	}
 
 	@Override
@@ -204,12 +206,12 @@ public class NXvelocity_selectorImpl extends NXobjectImpl implements NXvelocity_
 		return getDouble(NX_TABLE);
 	}
 
-	public void setTable(IDataset table) {
-		setDataset(NX_TABLE, table);
+	public DataNode setTable(IDataset table) {
+		return setDataset(NX_TABLE, table);
 	}
 
-	public void setTableScalar(double table) {
-		setField(NX_TABLE, table);
+	public DataNode setTableScalar(double table) {
+		return setField(NX_TABLE, table);
 	}
 
 	@Override
@@ -222,12 +224,12 @@ public class NXvelocity_selectorImpl extends NXobjectImpl implements NXvelocity_
 		return getDouble(NX_HEIGHT);
 	}
 
-	public void setHeight(IDataset height) {
-		setDataset(NX_HEIGHT, height);
+	public DataNode setHeight(IDataset height) {
+		return setDataset(NX_HEIGHT, height);
 	}
 
-	public void setHeightScalar(double height) {
-		setField(NX_HEIGHT, height);
+	public DataNode setHeightScalar(double height) {
+		return setField(NX_HEIGHT, height);
 	}
 
 	@Override
@@ -240,12 +242,12 @@ public class NXvelocity_selectorImpl extends NXobjectImpl implements NXvelocity_
 		return getDouble(NX_WIDTH);
 	}
 
-	public void setWidth(IDataset width) {
-		setDataset(NX_WIDTH, width);
+	public DataNode setWidth(IDataset width) {
+		return setDataset(NX_WIDTH, width);
 	}
 
-	public void setWidthScalar(double width) {
-		setField(NX_WIDTH, width);
+	public DataNode setWidthScalar(double width) {
+		return setField(NX_WIDTH, width);
 	}
 
 	@Override
@@ -258,12 +260,12 @@ public class NXvelocity_selectorImpl extends NXobjectImpl implements NXvelocity_
 		return getDouble(NX_WAVELENGTH);
 	}
 
-	public void setWavelength(IDataset wavelength) {
-		setDataset(NX_WAVELENGTH, wavelength);
+	public DataNode setWavelength(IDataset wavelength) {
+		return setDataset(NX_WAVELENGTH, wavelength);
 	}
 
-	public void setWavelengthScalar(double wavelength) {
-		setField(NX_WAVELENGTH, wavelength);
+	public DataNode setWavelengthScalar(double wavelength) {
+		return setField(NX_WAVELENGTH, wavelength);
 	}
 
 	@Override
@@ -276,12 +278,12 @@ public class NXvelocity_selectorImpl extends NXobjectImpl implements NXvelocity_
 		return getDouble(NX_WAVELENGTH_SPREAD);
 	}
 
-	public void setWavelength_spread(IDataset wavelength_spread) {
-		setDataset(NX_WAVELENGTH_SPREAD, wavelength_spread);
+	public DataNode setWavelength_spread(IDataset wavelength_spread) {
+		return setDataset(NX_WAVELENGTH_SPREAD, wavelength_spread);
 	}
 
-	public void setWavelength_spreadScalar(double wavelength_spread) {
-		setField(NX_WAVELENGTH_SPREAD, wavelength_spread);
+	public DataNode setWavelength_spreadScalar(double wavelength_spread) {
+		return setField(NX_WAVELENGTH_SPREAD, wavelength_spread);
 	}
 
 	@Override
