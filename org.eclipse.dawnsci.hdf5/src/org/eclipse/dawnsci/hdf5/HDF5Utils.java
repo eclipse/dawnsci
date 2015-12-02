@@ -225,6 +225,36 @@ public class HDF5Utils {
 	}
 
 	/**
+	 * Load entire dataset from given file
+	 * @param fileName
+	 * @param node
+	 * @return dataset
+	 * @throws Exception
+	 */
+	public static Dataset loadDataset(final String fileName, final String node)
+				throws ScanFileHolderException {
+
+		Dataset data = null;
+		try {
+			long fid = HDF5FileFactory.acquireFile(fileName, false);
+
+			int[][] shapes = readDatasetShape(fid, node);
+			int[] shape = shapes[0];
+			int[] start = new int[shape.length];
+			int[] step = new int[shape.length];
+			Arrays.fill(step, 1);
+			data = readDataset(fid, node, start, shape, step, -1, -1, false);
+		} catch (Throwable le) {
+			logger.error("Problem loading dataset in file: {}", fileName, le);
+			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
+		} finally {
+			HDF5FileFactory.releaseFile(fileName);
+		}
+
+		return data;
+	}
+
+	/**
 	 * Load dataset from given file
 	 * @param fileName
 	 * @param node
@@ -345,8 +375,8 @@ public class HDF5Utils {
 	 * @param start
 	 * @param count
 	 * @param step
-	 * @param dtype
-	 * @param isize
+	 * @param dtype (can be -1 for dataset type from file)
+	 * @param isize (can be -1 for item size from file)
 	 * @param extend
 	 * @return dataset
 	 * @throws NexusException
@@ -394,12 +424,8 @@ public class HDF5Utils {
 				isText = type.dtype == Dataset.STRING;
 				isVLEN = type.vlen;
 
-				final int ldtype;
-				if (dtype >= 0) {
-					ldtype = dtype;
-				} else {
-					ldtype = type.dtype;
-				}
+				final int ldtype = dtype >= 0 ? dtype : type.dtype;
+				final int lisize = isize >= 0 ? isize : type.isize;
 
 				if (rank == 0) {
 					// a single data point
@@ -458,7 +484,7 @@ public class HDF5Utils {
 //						long msid = H5.H5Screate_simple(1, new long[] {length}, null);
 					long msid = H5.H5Screate_simple(rank, dsize, null);
 					H5.H5Sselect_all(msid);
-					data = DatasetFactory.zeros(isize, count, ldtype);
+					data = DatasetFactory.zeros(lisize, count, ldtype);
 					Object odata = data.getBuffer();
 
 					boolean isREF = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_OBJ);
