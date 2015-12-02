@@ -47,4 +47,11 @@ public interface IPaletteService {
 	 * @return
 	 */
 	public FunctionContainer getFunctionContainer(String scheme);
+
+	/**
+	 * Inverts the Palette data
+	 * 
+	 * @param inverted
+	 */
+	public void setInverted(boolean inverted);
 }
