@@ -24,6 +24,12 @@ public class BasePlottingConstants {
 	 * Used to store palette preference
 	 */
 	public static final String COLOUR_SCHEME = "org.dawb.plotting.system.colourSchemeName";
+
+	/**
+	 * Stores if colour map is to be inverted.
+	 */
+	public static final String CM_INVERTED = "org.eclipse.dawnsci.plotting.preference.colourMapInverted";
+
 	/**
 	 *  This String is used to retrieve the plot view colour map preference which is in analysis.rcp
 	 *  Make sure to search for the string if modifying it
