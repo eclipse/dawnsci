@@ -80,16 +80,18 @@ public enum NexusBaseClass {
 	public String toString() {
 		return name;
 	}
-	
+
+	private static final String NX_PREFIX = "NX";
+
 	/**
-	 * Returns the nexus base class constant for the given name string.
+	 * Returns the nexus base class constant for the given name string or null if not a known class
+	 * @throws IllegalArgumentException if name is not valid
 	 */
 	public static NexusBaseClass getBaseClassForName(final String name) {
-		// Note: this method will not work correctly if any base classes include
-		// capital letters in their name (excluding the initial 'NX')
-		final String enumName = name.substring(0, 2) + '_' + name.substring(2).toUpperCase();
+		if (!name.startsWith(NX_PREFIX)) {
+			throw new IllegalArgumentException("Name must begin with NX");
+		}
+		final String enumName = NX_PREFIX + '_' + name.substring(2).toUpperCase();
 		return NexusBaseClass.valueOf(enumName);
 	}
-	
-
 }
