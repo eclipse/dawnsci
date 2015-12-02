@@ -269,12 +269,16 @@ public class NexusFileHDF5 implements NexusFile {
 		GroupNode g;
 		long fileAddr = getLinkTarget(path + Node.SEPARATOR + name);
 		if (!nodeMap.containsKey(fileAddr)) {
-			g = TreeFactory.createGroupNode(oid);
 			// create the new group, a subclass of NXobject if nxClass is set. Note nxClass is not yet known when loading
 			if (nxClass == null || nxClass.equals("")) {
-				 g = TreeFactory.createGroupNode(oid);
+				g = TreeFactory.createGroupNode(oid);
 			} else {
-				g = NexusNodeFactory.createNXobjectForClass(nxClass, oid);
+				try {
+					g = NexusNodeFactory.createNXobjectForClass(nxClass, oid);
+				} catch (IllegalArgumentException e) {
+					logger.warn("Attribute {} was {} but not a known one", NXCLASS, nxClass);
+					g = TreeFactory.createGroupNode(oid);
+				}
 			}
 			if (nxClass != null && !nxClass.isEmpty()) {
 				g.addAttribute(TreeFactory.createAttribute(NXCLASS, nxClass, false));
@@ -285,8 +289,12 @@ public class NexusFileHDF5 implements NexusFile {
 			if (!(g instanceof NXobject) && g.getAttribute(NXCLASS) != null) {
 				nxClass = g.getAttribute(NXCLASS).getFirstElement();
 				if (nxClass != null && !nxClass.isEmpty()) {
-					g = NexusNodeFactory.createNXobjectForClass(nxClass, oid);
-					cacheAttributes(path + Node.SEPARATOR + name, g);
+					try {
+						g = NexusNodeFactory.createNXobjectForClass(nxClass, oid);
+						cacheAttributes(path + Node.SEPARATOR + name, g);
+					} catch (IllegalArgumentException e) {
+						logger.warn("Attribute {} was {} but not a known one", NXCLASS, nxClass);
+					}
 				}
 			}
 
