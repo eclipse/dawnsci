@@ -111,8 +111,8 @@ public class HDF5FileFactory {
 							if (a.count <= 0) {
 								if (a.time <= now) {
 									try {
-										if (H5.H5Fget_obj_count(a.id, HDF5Constants.H5F_OBJ_ALL) > 0) {
-											logger.error("There are some things left open");
+										if (H5.H5Fget_obj_count(a.id, HDF5Constants.H5F_OBJ_ATTR | HDF5Constants.H5F_OBJ_DATATYPE | HDF5Constants.H5F_OBJ_DATASET | HDF5Constants.H5F_OBJ_GROUP) > 0) {
+											logger.error("There are things left open in " + f);
 										}
 										H5.H5Fclose(a.id);
 										INSTANCE.map.remove(f);
