@@ -40,6 +40,8 @@ public class HDF5FileFactory {
 
 	private static long heldPeriod = 5000; // 5 seconds
 
+	private static boolean backwardCompatible = false;
+
 	private final static HDF5FileFactory INSTANCE;
 
 	static {
@@ -86,6 +88,14 @@ public class HDF5FileFactory {
 	 */
 	public static long getHeldPeriod() {
 		return heldPeriod;
+	}
+
+	/**
+	 * Set write to be backwardly compatible
+	 * @param backwardCompatible
+	 */
+	public static void setWriteBackwardCompatible(boolean backwardCompatible) {
+		HDF5FileFactory.backwardCompatible = backwardCompatible;
 	}
 
 	static {
@@ -186,15 +196,16 @@ public class HDF5FileFactory {
 						access = new FileAccess();
 						access.count = 1;
 						fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
-						H5.H5Pset_libver_bounds(fapl, HDF5Constants.H5F_LIBVER_LATEST, HDF5Constants.H5F_LIBVER_LATEST);
+						if (!writeable || !backwardCompatible) {
+							H5.H5Pset_libver_bounds(fapl, HDF5Constants.H5F_LIBVER_LATEST, HDF5Constants.H5F_LIBVER_LATEST);
+						}
 						if (asNew) {
 							access.writeable = true;
 							fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_TRUNC, HDF5Constants.H5P_DEFAULT, fapl);
 						} else {
 							access.writeable = writeable;
 							if (new File(cPath).exists()) {
-								fid = HDF5FileFactory.H5Fopen(cPath, writeable ?
-										HDF5Constants.H5F_ACC_RDWR : HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ, fapl);
+								fid = H5Fopen(cPath, writeable ? HDF5Constants.H5F_ACC_RDWR : HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ, fapl);
 							} else if (!writeable) {
 								logger.error("File {} does not exist!", cPath);
 								throw new FileNotFoundException("File does not exist!");
