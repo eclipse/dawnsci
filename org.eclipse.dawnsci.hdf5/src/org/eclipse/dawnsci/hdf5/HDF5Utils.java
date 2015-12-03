@@ -204,7 +204,7 @@ public class HDF5Utils {
 		try {
 			HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
 
-			fid = HDF5FileFactory.H5Fopen(cPath, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
+			fid = H5.H5Fopen(cPath, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
 
 			data = readDataset(fid, node, start, count, step, dtype, isize, extend);
 		} catch (Throwable le) {
@@ -714,7 +714,7 @@ public class HDF5Utils {
 			HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
 
 			if (new File(cPath).exists()) {
-				fid = HDF5FileFactory.H5Fopen(fileName, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
+				fid = H5.H5Fopen(fileName, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
 			} else {
 				fid = H5.H5Fcreate(fileName, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
 			}
@@ -1113,7 +1113,7 @@ public class HDF5Utils {
 				}
 				createDataset(fileName, parentPath, name, slice.getStart(), mshape, slice.getShape(), AbstractDataset.getDType(value), null, false);
 			}
-			fid = HDF5FileFactory.H5Fopen(fileName, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
+			fid = H5.H5Fopen(fileName, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
 
 			String dataPath = absolutePathToData(parentPath, name);
 			writeDatasetSlice(fid, dataPath, slice, value);
@@ -1281,10 +1281,10 @@ public class HDF5Utils {
 	 * @return file ID
 	 * @throws HDF5LibraryException
 	 * @throws NullPointerException
-	 * @deprecated Use {@link HDF5FileFactory#H5Fopen(String,int,long)} instead
+	 * @deprecated Use {@link H5#H5Fopen(String,int,long)} directly
 	 */
 	public static long H5Fopen(String filePath, int flags, long fapl) throws HDF5LibraryException, NullPointerException {
-		return HDF5FileFactory.H5Fopen(filePath, flags, fapl);
+		return H5.H5Fopen(filePath, flags, fapl);
 	}
 
 	private static final Map<Long, Integer> HDF_TYPES_TO_DATASET_TYPES;

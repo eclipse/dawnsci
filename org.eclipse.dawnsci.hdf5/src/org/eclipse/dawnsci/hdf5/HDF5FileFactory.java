@@ -205,7 +205,7 @@ public class HDF5FileFactory {
 						} else {
 							access.writeable = writeable;
 							if (new File(cPath).exists()) {
-								fid = H5Fopen(cPath, writeable ? HDF5Constants.H5F_ACC_RDWR : HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ, fapl);
+								fid = H5.H5Fopen(cPath, writeable ? HDF5Constants.H5F_ACC_RDWR : HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ, fapl);
 							} else if (!writeable) {
 								logger.error("File {} does not exist!", cPath);
 								throw new FileNotFoundException("File does not exist!");
@@ -353,52 +353,5 @@ public class HDF5FileFactory {
 				throw new ScanFileHolderException("Problem releasing access to file: " + cPath, le);
 			}
 		}
-	}
-
-	/**
-	 * FIXME remove once upstream as fixed broken backward compatibility
-	 * Wrapper to fix super block status flag issue
-	 * @param filePath
-	 * @param flags
-	 * @param fapl
-	 * @return file ID
-	 * @throws HDF5LibraryException
-	 * @throws NullPointerException
-	 */
-	public static long H5Fopen(String filePath, int flags, long fapl) throws HDF5LibraryException, NullPointerException {
-		long fid = -1;
-		try {
-			fid = H5.H5Fopen(filePath, flags, fapl);
-		} catch (HDF5LibraryException e) {
-			boolean isAccessDefault = fapl == HDF5Constants.H5P_DEFAULT;
-			if (isAccessDefault) {
-				fapl = -1;
-				try {
-					fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
-				} catch (HDF5LibraryException ex) {
-					logger.error("Could not create file access property list");
-					throw ex;
-				}
-			}
-			try {
-				H5.H5Pset(fapl, "clear_status_flags", 1);
-			} catch (HDF5LibraryException ex) {
-				logger.warn("Could not clear status flag but continuing to open file");
-			}
-	
-			fid = H5.H5Fopen(filePath, flags, fapl);
-	
-			if (isAccessDefault) {
-				if (fapl != -1) {
-					try {
-						H5.H5Pclose(fapl);
-					} catch (HDF5LibraryException ex) {
-						logger.error("Could not close file access property list");
-						throw ex;
-					}
-				}
-			}
-		}
-		return fid;
 	}
 }

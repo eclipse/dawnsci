@@ -69,7 +69,7 @@ public class AccessSpeedTest {
 
 		iter.reset();
 		now = -System.nanoTime();
-		fid = HDF5FileFactory.H5Fopen(file, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
+		fid = H5.H5Fopen(file, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
 		while (iter.hasNext()) {
 			stop[0] = start[0] + 1;
 			data1 = HDF5Utils.readDataset(fid, "data1", start, nshape, step, Dataset.FLOAT64, 1, false);
@@ -144,7 +144,7 @@ public class AccessSpeedTest {
 		prepareFile(file);
 		iter.reset();
 		now = -System.nanoTime();
-		long fid = HDF5FileFactory.H5Fopen(file, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
+		long fid = H5.H5Fopen(file, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
 		while (iter.hasNext()) {
 			for (int i = 0; i < 3; i++) {
 				start[i] = pos[i];
