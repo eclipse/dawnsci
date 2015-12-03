@@ -22,11 +22,16 @@ package org.eclipse.dawnsci.plotting.api.histogram;
 public interface ITransferFunction {
 
 	/**
-	 * This method is called when creating a colourmap and the implementing class is being used to 
+	 * Size of array returned by {@link #getArray()}
+	 */
+	public final int SIZE = 256;
+
+	/**
+	 * This method is called when creating a colour map and the implementing class is being used to 
 	 * generate one of the colour channels. Used for 8-bit images.
 	 * 
-	 * @return the int array containing all the points for the colourscale, currently this should be
-	 * a fixed length array at 256.
+	 * @return the int array containing all the points for the colour scale, currently this should be
+	 * a fixed length array of {@link #SIZE}.
 	 */
 	public int[] getArray();	
 
@@ -38,7 +43,7 @@ public interface ITransferFunction {
 	public double getPoint(double value);
 
 	/**
-	 * Maps the value to the palette color
+	 * Maps the value to the palette colour
 	 * @param input
 	 * @return
 	 */
