@@ -130,7 +130,7 @@ public class ImageServiceBean {
 	}
 
 	/**
-	 * @return values to use in colour mapping
+	 * @return values to use in colour mapping. Can be null
 	 */
 	public IDataset getImageValue() {
 		return value;
@@ -158,6 +158,7 @@ public class ImageServiceBean {
 	public void setPalette(PaletteData palette) {
 		this.palette = palette;
 	}
+
 	public ImageOrigin getOrigin() {
 		return origin;
 	}
@@ -357,7 +358,7 @@ public class ImageServiceBean {
 	 */
 	public void decode(String histo) {
 		String[] sa = histo.split("\\:");
-		setHistogramType(histogramType.valueOf(sa[0]));
+		setHistogramType(HistoType.valueOf(sa[0]));
 		if (sa.length>1) {
 			String[] vals = sa[1].split("-");
 			setLo(Double.parseDouble(vals[0]));
