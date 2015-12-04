@@ -40,8 +40,6 @@ public class HDF5FileFactory {
 
 	private static long heldPeriod = 5000; // 5 seconds
 
-	private static boolean backwardCompatible = false;
-
 	private final static HDF5FileFactory INSTANCE;
 
 	static {
@@ -88,14 +86,6 @@ public class HDF5FileFactory {
 	 */
 	public static long getHeldPeriod() {
 		return heldPeriod;
-	}
-
-	/**
-	 * Set write to be backwardly compatible
-	 * @param backwardCompatible
-	 */
-	public static void setWriteBackwardCompatible(boolean backwardCompatible) {
-		HDF5FileFactory.backwardCompatible = backwardCompatible;
 	}
 
 	static {
@@ -159,10 +149,11 @@ public class HDF5FileFactory {
 	 * @param fileName
 	 * @param writeable
 	 * @param asNew
+	 * @param withLatestVersion if true, use latest object format version for writing
 	 * @return file ID
 	 * @throws ScanFileHolderException
 	 */
-	private static long acquireFile(String fileName, boolean writeable, boolean asNew) throws ScanFileHolderException {
+	private static long acquireFile(String fileName, boolean writeable, boolean asNew, boolean withLatestVersion) throws ScanFileHolderException {
 		final String cPath;
 		try {
 			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
@@ -196,7 +187,7 @@ public class HDF5FileFactory {
 						access = new FileAccess();
 						access.count = 1;
 						fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
-						if (!writeable || !backwardCompatible) {
+						if (writeable && withLatestVersion) {
 							H5.H5Pset_libver_bounds(fapl, HDF5Constants.H5F_LIBVER_LATEST, HDF5Constants.H5F_LIBVER_LATEST);
 						}
 						if (asNew) {
@@ -242,7 +233,7 @@ public class HDF5FileFactory {
 	 * @throws ScanFileHolderException
 	 */
 	public static long acquireFile(String fileName, boolean writeable) throws ScanFileHolderException {
-		return acquireFile(fileName, writeable, false);
+		return acquireFile(fileName, writeable, false, false);
 	}
 
 	/**
@@ -252,7 +243,18 @@ public class HDF5FileFactory {
 	 * @throws ScanFileHolderException
 	 */
 	public static long acquireFileAsNew(String fileName) throws ScanFileHolderException {
-		return acquireFile(fileName, true, true);
+		return acquireFile(fileName, true, true, false);
+	}
+
+	/**
+	 * Acquire file ID
+	 * @param fileName
+	 * @param withLatestVersion if true, use latest object format version for writing
+	 * @return file ID
+	 * @throws ScanFileHolderException
+	 */
+	public static long acquireFileAsNew(String fileName, boolean withLatestVersion) throws ScanFileHolderException {
+		return acquireFile(fileName, true, true, withLatestVersion);
 	}
 
 	/**

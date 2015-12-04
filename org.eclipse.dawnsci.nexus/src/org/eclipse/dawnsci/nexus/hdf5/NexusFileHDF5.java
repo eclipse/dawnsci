@@ -132,8 +132,15 @@ public class NexusFileHDF5 implements NexusFile {
 
 	private Map<Node, String> passedNodeMap; // associate given nodes with "canonical" path (used for working out hardlinks)
 
+	private boolean useSWMR = false;
+
 	public NexusFileHDF5(String path) {
+		this(path, false);
+	}
+
+	public NexusFileHDF5(String path, boolean enableSWMR) {
 		fileName = path;
+		useSWMR  = enableSWMR;
 	}
 
 	private void initializeTree() {
@@ -208,7 +215,7 @@ public class NexusFileHDF5 implements NexusFile {
 	@Override
 	public void createAndOpenToWrite() throws NexusException {
 		try {
-			fileId = HDF5FileFactory.acquireFileAsNew(fileName);
+			fileId = HDF5FileFactory.acquireFileAsNew(fileName, useSWMR);
 		} catch (ScanFileHolderException e) {
 			throw new NexusException("Cannot create to write", e);
 		}
@@ -1286,6 +1293,10 @@ public class NexusFileHDF5 implements NexusFile {
 	}
 
 	public void activateSwmrMode() throws NexusException {
+		if (!useSWMR) {
+			throw new IllegalStateException("File was not created to use SWMR");
+		}
+
 		//*
 		try {
 			H5.H5Fstart_swmr_write(fileId);

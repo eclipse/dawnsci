@@ -320,7 +320,18 @@ public class NexusUtils {
 	 * @throws NexusException
 	 */
 	public static NexusFile createNexusFile(String path) throws NexusException {
-		NexusFile file = new NexusFileHDF5(path);
+		return createNexusFile(path, false);
+	}
+
+	/**
+	 * Create a new Nexus file (overwriting any existing one)
+	 * @param path
+	 * @param enableSWMR
+	 * @return Nexus file
+	 * @throws NexusException
+	 */
+	public static NexusFile createNexusFile(String path, boolean enableSWMR) throws NexusException {
+		NexusFile file = new NexusFileHDF5(path, enableSWMR);
 		file.createAndOpenToWrite();
 		return file;
 	}
