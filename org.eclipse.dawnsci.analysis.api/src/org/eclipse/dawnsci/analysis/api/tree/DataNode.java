@@ -55,7 +55,7 @@ public interface DataNode extends Node {
 	 * Set maximum shape of dataset
 	 * @param maxShape
 	 */
-	public void setMaxShape(long[] maxShape);
+	public void setMaxShape(long... maxShape);
 
 	/**
 	 * @return chunk shape (can be null)
@@ -66,7 +66,7 @@ public interface DataNode extends Node {
 	 * Set chunk shape of dataset
 	 * @param chunkShape
 	 */
-	public void setChunkShape(long[] chunkShape);
+	public void setChunkShape(long... chunkShape);
 
 	/**
 	 * @return true if this dataset is supported
