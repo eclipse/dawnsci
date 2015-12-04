@@ -14,6 +14,7 @@ package org.eclipse.dawnsci.analysis.tree.impl;
 
 import java.io.Serializable;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.metadata.DimensionMetadata;
@@ -81,28 +82,44 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 
 	@Override
 	public long[] getMaxShape() {
+		if (dataset != null && dataset instanceof IDynamicDataset) {
+			return toLongArray(((IDynamicDataset) dataset).getMaxShape());
+		}
+		
 		return maxShape;
 	}
 
 	@Override
-	public void setMaxShape(long[] maxShape) {
+	public void setMaxShape(long... maxShape) {
 		if (maxShape != null && dataset != null && maxShape.length != dataset.getRank()) {
 			throw new IllegalArgumentException("Maximum shape must match rank of dataset");
 		}
 		this.maxShape = maxShape;
+		
+		if (dataset != null && dataset instanceof IDynamicDataset) {
+			((IDynamicDataset) dataset).setMaxShape(toIntArray(maxShape));
+		}
 	}
-
+	
 	@Override
 	public long[] getChunkShape() {
+		if (dataset != null && dataset instanceof ILazyWriteableDataset) {
+			return toLongArray(((ILazyWriteableDataset) dataset).getChunking());
+		}
+		
 		return chunkShape;
 	}
 
 	@Override
-	public void setChunkShape(long[] chunkShape) {
+	public void setChunkShape(long... chunkShape) {
 		if (chunkShape != null && dataset != null && chunkShape.length != dataset.getRank()) {
 			throw new IllegalArgumentException("Chunk shape must match rank of dataset");
 		}
 		this.chunkShape = chunkShape;
+		
+		if (dataset instanceof ILazyWriteableDataset) {
+			((ILazyWriteableDataset) dataset).setChunking(toIntArray(chunkShape));
+		}
 	}
 
 	@Override
@@ -210,4 +227,28 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 		}
 		return out.toString();
 	}
+	
+	private int[] toIntArray(long[] longArray) {
+		final int[] intArray = new int[longArray.length];
+		for (int i = 0; i < longArray.length; i++) {
+			long longValue = longArray[i];
+			if (longValue > Integer.MAX_VALUE) {
+				throw new IllegalArgumentException("Dimension size is too large for an integer " + longValue);
+			}
+			
+			intArray[i] = (int) longValue;
+		}
+		
+		return intArray;
+	}
+	
+	private long[] toLongArray(int[] intArray) {
+		final long[] longArray = new long[intArray.length];
+		for (int i = 0; i < intArray.length; i++) {
+			longArray[i] = intArray[i];
+		}
+		
+		return longArray;
+	}
+
 }
