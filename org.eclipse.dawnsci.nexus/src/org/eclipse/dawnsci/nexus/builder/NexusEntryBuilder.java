@@ -77,7 +77,7 @@ public interface NexusEntryBuilder {
 	 * @return the nexus objects created by the {@link NexusObjectProvider}s
 	 * @throws NexusException if the nexus objects could not be added for any reason
 	 */
-	public List<NXobject> add(Collection<NexusObjectProvider<?>> nexusObjectProviders) throws NexusException;
+	public List<NXobject> addAll(Collection<? extends NexusObjectProvider<?>> nexusObjectProviders) throws NexusException;
 	
 	/**
 	 * Adds the given metadata to this entry. A field is added to the wrapped
@@ -144,10 +144,21 @@ public interface NexusEntryBuilder {
 			NexusApplicationDefinition applicationDefinition) throws NexusException;
 	
 	/**
-	 * Returns the data node with the given path relative to this 
+	 * Creates a new application,
+	 * wrapping an {@link NXsubentry} with the given name.
+	 * @param applicationDefinition application definition enumeration constant
+	 * @return new {@link NexusApplicationBuilder}
+	 * @throws NexusException if the application could not be created for any reason
+	 */
+	public NexusApplicationBuilder newApplication(String entryName,
+			NexusApplicationDefinition applicationDefinition) throws NexusException;
+	
+	/**
+	 * Returns the data node with the given path relative to the wrapped {@link NXentryImpl}
 	 * @param relativePath
-	 * @return
-	 * @throws NexusException
+	 * @return data node  the data node at the given relative path
+	 * @throws NexusException if no such node exists, or the node at the given relative
+	 *   path is a data node
 	 */
 	public DataNode getDataNode(String relativePath) throws NexusException;
 	
