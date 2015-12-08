@@ -62,4 +62,19 @@ public interface IImageTransform {
 	 */
 	public List<IDataset> align(List<IDataset> images, IMonitor monitor) throws Exception;
 
+	/**
+	 * <p>
+	 * Applies an affine transformation from the input image to the output image.
+	 * </p>
+	 *
+	 * <p>
+	 * Input coordinates (x,y) to output coordinate (x',y')<br>
+	 * x' = a11*x + a12*y + dx<br>
+	 * y' = a21*x + a22*y + dy
+	 * </p>
+	 * @param input Which which is being rotated.
+	 *
+	 */
+	public IDataset affineTransform(IDataset input, double a11, double a12, double a21, double a22, double dx, double dy);
+
 }
