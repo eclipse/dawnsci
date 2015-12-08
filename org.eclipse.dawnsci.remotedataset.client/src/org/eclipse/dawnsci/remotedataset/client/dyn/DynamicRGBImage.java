@@ -17,7 +17,7 @@ import java.io.Serializable;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDatasetChangeChecker;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 
@@ -77,20 +77,22 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 	@Override
 	public void setData(IDataset newData) {
 		
-		Serializable buffer = ((Dataset)newData).getBuffer();
+		Serializable buffer = DatasetUtils.convertToDataset(newData).getBuffer();
 		odata = buffer;
 		setData();
 		if (dynamicShape) {
-		    this.shape = newData.getShape();
+		    shape = newData.getShape();
+		    size = calcSize(shape);
 		} else {
-			this.transShape = newData.getShape();
+			transShape = newData.getShape();
 		}
 	}
 	
 	public void setShapeDynamic(boolean isDyn) {
 		dynamicShape  = isDyn;
 		if (dynamicShape && transShape!=null) {
-		    this.shape = transShape;
+		    shape = transShape;
+		    size = calcSize(shape);
 		    transShape = null;
 		}
 	}
@@ -110,7 +112,7 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 		return maxShape;
 	}
 
-	public void setMaxShape(int[] maxShape) {
+	public void setMaxShape(int... maxShape) {
 		this.maxShape = maxShape;
 	}
 

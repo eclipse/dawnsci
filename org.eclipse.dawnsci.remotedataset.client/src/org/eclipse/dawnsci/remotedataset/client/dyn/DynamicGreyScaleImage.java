@@ -73,7 +73,8 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 		odata = buffer;
 		setData();
 		if (dynamicShape) {
-		    this.shape = sdata.getShape();
+		    shape = sdata.getShape();
+		    size = calcSize(shape);
 		} else {
 			this.transShape = sdata.getShape();
 		}
@@ -82,7 +83,8 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 	public void setShapeDynamic(boolean isDyn) {
 		dynamicShape  = isDyn;
 		if (dynamicShape && transShape!=null) {
-		    this.shape = transShape;
+		    shape = transShape;
+		    size = calcSize(shape);
 		    transShape = null;
 		}
 	}
@@ -102,7 +104,7 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 		return maxShape;
 	}
 
-	public void setMaxShape(int[] maxShape) {
+	public void setMaxShape(int... maxShape) {
 		this.maxShape = maxShape;
 	}
 
