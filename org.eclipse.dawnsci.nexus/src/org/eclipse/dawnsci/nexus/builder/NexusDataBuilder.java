@@ -58,11 +58,12 @@ public interface NexusDataBuilder {
 	 * within the NeXus object for the given {@link NexusObjectProvider}, where the
 	 * NeXus object is as returned by {@link NexusObjectProvider#getNexusObject()}
 	 * @param nexusObjectProvider {@link NexusObjectProvider} for the device
-	 * @param dataFieldName name of the data field to create within {@link NXdata} linking
+	 * @param destinationFieldName name of the data field to create within {@link NXdata} linking
 	 *   to the default data node of the given {@link NexusObjectProvider}.
 	 * @throws NexusException if the device cannot be added for any reason 
 	 */
-	public void setDataDevice(NexusObjectProvider<? extends NXobject> nexusObjectProvider, String dataFieldName) throws NexusException;
+	public void setDataDevice(NexusObjectProvider<? extends NXobject> nexusObjectProvider,
+			String destinationFieldName) throws NexusException;
 
 	/**
 	 * Add the default field of the nexus object (i.e. group) for the given
@@ -93,7 +94,9 @@ public interface NexusDataBuilder {
 	/**
 	 * Add the field with the given name of the nexus object (i.e. group)
 	 * for the given {@link NexusObjectProvider} as an axis device to the {@link NXdata}.
-	 * param nexusObjectProvider the {@link NexusObjectProvider} for the device
+	 * param nexusObjectProvider the {@link NexusObjectProvider} for the device.
+	 * The new linked field in the {@link NXdata} object will have the same name
+	 * as the source field.
 	 * @param dimensionMappings maps each dimension of the default data field to the
 	 *   dimension of the main data field with the given index
 	 * @throws NexusException if the device cannot be added for any reason
@@ -118,6 +121,19 @@ public interface NexusDataBuilder {
 	public void addAxisDevice(NexusObjectProvider<? extends NXobject> nexusObjectProvider,
 			String sourceFieldName, int[] dimensionMappings, int defaultAxisDimensionIndex) throws NexusException;
 
+	/**
+	 * Add the field with the given name of the nexus object (i.e. group) for
+	 * the given {@link NexusObjectProvider} as an axis device with the given
+	 * destination name to the {@link NXdata}.
+	 * @param nexusObjectProvider the {@link NexusObjectProvider} for the device
+	 *   dimension of the main data field with the given index
+	 * @param defaultAxisDimensionIndex the index of the dimension of the main
+	 *   data field of the {@link NXdata} for which this device is the primary axis
+	 * @throws NexusException if the device cannot be added for any reason
+	 */
+	public void addAxisDevice(NexusObjectProvider<? extends NXobject> nexusObjectProvider,
+			String sourceFieldName, String destinationFieldName, int[] dimensionMappings) throws NexusException;
+	
 	/**
 	 * Add the field with the given name of the nexus object (i.e. group) for
 	 * the given {@link NexusObjectProvider} as an axis device with the given

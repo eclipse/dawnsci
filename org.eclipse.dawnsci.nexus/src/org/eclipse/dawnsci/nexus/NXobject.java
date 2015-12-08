@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
@@ -79,8 +80,11 @@ public interface NXobject extends GroupNode {
 	public abstract DataNode setDataset(String name, IDataset value);
 
 	/**
-	 * Gets the dataset for the field with the given name, if it exists, otherwise <code>null</code>
-	 * @param name
+	 * Gets the dataset for the field with the given name, if it exists, otherwise <code>null</code>.
+	 * Note that this method should only be used for small datasets, i.e. those set before the scan.
+	 * To get the dataset for larger datasets (i.e. data acquired during the scan) use
+	 * <code>getDataNode(name).getDataset()</code> which returns an {@link ILazyDataset}.
+	 * @param name dataset name
 	 * @return the dataset for the field with the given name, or <code>null</code> if the no such dataset exists
 	 */
 	public abstract IDataset getDataset(String name);

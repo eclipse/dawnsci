@@ -30,10 +30,11 @@ public interface NexusApplicationFactory {
 	 * Creates and returns a new application definition model for the given
 	 * {@link NexusApplicationDefinition} enum constant.
 	 * @param parentEntryModel
+	 * @param subentryName name of the subentry
 	 * @return new {@link NexusApplicationBuilder}
 	 * @throws NexusException if the application definition cannot be created for any reason
 	 */
 	public NexusApplicationBuilder newApplicationDefinitionModel(
-			NexusEntryBuilder parentEntryModel, NexusApplicationDefinition appDef) throws NexusException;
+			NexusEntryBuilder parentEntryModel, NexusApplicationDefinition appDef, String subentryName) throws NexusException;
 
 }

@@ -46,18 +46,25 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	public NexusBaseClass getNexusBaseClass();
 
 	/**
-	 * Creates and returns an instance of the appropriate NeXus base class.
-	 * @param nodeFactory node factory
-	 * @return new base class instance
+	 * Creates and returns the nexus object for this provider.
+	 * @param nodeFactory node factory node factory to use to create the nexus object
+	 * @return new nexus object
 	 */
 	public N createNexusObject(NexusNodeFactory nodeFactory);
+	
+	/**
+	 * Returns the nexus object, creating it if necessary
+	 * @param createIfNecessary
+	 * @return nexus object
+	 */
+	public N getNexusObject(NexusNodeFactory nodeFactory, boolean createIfNecessary);
 	
 	/**
 	 * If {@link #createNexusObject(NexusNodeFactory)} has previously been invoked
 	 * on this object, returns the NeXus object that was returned by that method,
 	 * otherwise returns <code>null</code>. This method should <em>not</em> return a new
 	 * NeXus object each time.
-	 * @return NeXus object
+	 * @return NeXus object or <code>null</code>
 	 */
 	public N getNexusObject();
 

@@ -23,7 +23,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
@@ -271,20 +270,8 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 					// if this is a lazy dataset, set the slice on it
 					int size = lazy.getSize();
 					if (size > CACHE_LIMIT) {
-						int rank = lazy.getRank();
-						int[] shape = lazy.getShape();
-						// build up slice from last dimension
-						int[] stop = new int[rank];
-						int t = 1;
-						int i = rank - 1;
-						do {
-							stop[i] = shape[i];
-							t *= shape[i];
-						} while (t < CACHE_LIMIT);
-						while (i >= 0) {
-							stop[i--] = 1;
-						}
-						lazy = lazy.getSliceView(new SliceND(shape, null, stop, null));
+						// cannot return a Dataset if the size is too large
+						throw new IllegalStateException("Dataset is too large to cache. This method should only be used for small datasets.");
 					} else {
 						lazy = lazy.getSlice();
 					}

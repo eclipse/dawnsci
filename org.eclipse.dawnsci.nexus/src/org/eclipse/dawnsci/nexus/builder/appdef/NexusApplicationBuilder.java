@@ -18,6 +18,7 @@ import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
+import org.eclipse.dawnsci.nexus.impl.NXsubentryImpl;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 
 /**
@@ -29,7 +30,7 @@ public interface NexusApplicationBuilder {
 	 * Returns the wrapped {@link NXsubentry}. This can be used to make custom modifications. 
 	 * @return the wrapped {@link NXsubentry}
 	 */
-	public NXsubentry getNXsubentry();
+	public NXsubentryImpl getNXsubentry();
 
 	/**
 	 * Adds the default groups to the subentry. This method should be called before
