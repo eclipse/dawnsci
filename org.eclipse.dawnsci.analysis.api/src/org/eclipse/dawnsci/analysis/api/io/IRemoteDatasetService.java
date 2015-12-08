@@ -59,4 +59,20 @@ public interface IRemoteDatasetService {
 	 * an MJPG stream. This dataset is loaded data unlike the one above. It may be cast with impunity to IDataset
 	 */
 	public IRemoteDataset createMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception;
+
+
+	/**
+	 * Create a gray scale MJPG dataset at the given stream. The Dataset returned will be updated
+	 * as the stream changes. The Dataset will be a gray scale Image and implements IDynamicDataset and IRemoteDataset
+	 * You must cast the IDataset to IRemoteDataset and then call connect() to start the monitor thread.
+     *
+	 * 
+	 * @param url to MJPG stream for instance http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg
+	 * @param sleepTime - time to sleep between image reads, we don't want to use all CPU
+	 * @param cacheSize - size of image cache. If image cache grows too large, they are DROPPED.
+	 * 
+	 * @return A DynamicDataset for instance one looking at a changing data source like
+	 * an MJPG stream. This dataset is loaded data unlike the one above. It may be cast with impunity to IDataset
+	 */
+	public IRemoteDataset createGrayScaleMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception;
 }

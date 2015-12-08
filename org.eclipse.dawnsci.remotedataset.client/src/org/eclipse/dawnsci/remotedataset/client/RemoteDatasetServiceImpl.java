@@ -22,16 +22,24 @@ public class RemoteDatasetServiceImpl implements IRemoteDatasetService {
 	
 	@Override
 	public IRemoteDataset createMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception {
-		
+		SliceClient<BufferedImage> client = getSlice(url, sleepTime, cacheSize);
+		final IDynamicMonitorDataset rgb = DynamicDatasetFactory.createRGBImage(client);
+    	return rgb;
+	}
+
+	@Override
+	public IRemoteDataset createGrayScaleMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception {
+		SliceClient<BufferedImage> client = getSlice(url, sleepTime, cacheSize);
+		final IDynamicMonitorDataset rgb = DynamicDatasetFactory.createGreyScaleImage(client);
+    	return rgb;
+	}
+
+	private SliceClient<BufferedImage> getSlice(URL url, long sleepTime, int cacheSize) {
 		SliceClient<BufferedImage> client = new SliceClient<BufferedImage>(url);
 		client.setGet(false);
     	client.setFormat(Format.MJPG);
     	client.setImageCache(cacheSize); // More than we will send...
-    	client.setSleep(sleepTime);     
-    	
-		final IDynamicMonitorDataset rgb = DynamicDatasetFactory.createRGBImage(client);
-		 
-    	return rgb;
+    	client.setSleep(sleepTime);
+		return client;
 	}
-
 }
