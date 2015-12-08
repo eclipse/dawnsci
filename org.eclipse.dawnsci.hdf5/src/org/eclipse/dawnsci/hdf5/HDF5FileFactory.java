@@ -196,7 +196,8 @@ public class HDF5FileFactory {
 						} else {
 							access.writeable = writeable;
 							if (new File(cPath).exists()) {
-								fid = H5.H5Fopen(cPath, writeable ? HDF5Constants.H5F_ACC_RDWR : HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ, fapl);
+								int a = writeable ? HDF5Constants.H5F_ACC_RDWR : (withLatestVersion ? (HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ) : HDF5Constants.H5F_ACC_RDONLY);
+								fid = H5.H5Fopen(cPath, a, fapl);
 							} else if (!writeable) {
 								logger.error("File {} does not exist!", cPath);
 								throw new FileNotFoundException("File does not exist!");
