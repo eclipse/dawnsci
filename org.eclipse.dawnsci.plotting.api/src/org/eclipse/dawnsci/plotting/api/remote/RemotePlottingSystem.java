@@ -55,7 +55,7 @@ public class RemotePlottingSystem<T> implements IRemotePlottingSystem {
 		if (system instanceof ThreadSafePlottingSystem) {
 			delegate = system;
 		} else {
-			delegate = new ThreadSafePlottingSystem(system);
+			delegate = new ThreadSafePlottingSystem<T>(system);
 		}
 	}
 	
