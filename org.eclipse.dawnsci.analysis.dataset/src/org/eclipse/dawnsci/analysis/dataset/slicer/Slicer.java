@@ -25,10 +25,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyDynamicDataset;
 
 /**
  * Methods for slicing data using visit patterns.
@@ -111,7 +111,7 @@ public class Slicer {
 	
 	public static IDataset getDynamicFirstSlice(ILazyDataset lz, ILazyDataset key) {
 
-		DynamicSliceViewIterator generator = new DynamicSliceViewIterator((LazyDynamicDataset)lz, (LazyDynamicDataset)key);
+		DynamicSliceViewIterator generator = new DynamicSliceViewIterator((IDynamicDataset)lz, (IDynamicDataset)key);
 		if (generator.hasNext()) return generator.next().getSlice();
 		
         return null;
