@@ -315,6 +315,7 @@ public class NexusUtils {
 	 * @return Nexus file
 	 * @throws NexusException
 	 */
+	@Deprecated
 	public static NexusFile createNexusFile(String path) throws NexusException {
 		return createNexusFile(path, false);
 	}
@@ -336,6 +337,7 @@ public class NexusUtils {
 	 * @return Nexus file
 	 * @throws NexusException
 	 */
+	@Deprecated
 	public static NexusFile createNexusFile(String path, boolean enableSWMR) throws NexusException {
 		NexusFile file = getFactory().createNexusFile(path, enableSWMR);
 		file.createAndOpenToWrite();
@@ -348,6 +350,7 @@ public class NexusUtils {
 	 * @return Nexus file
 	 * @throws NexusException
 	 */
+	@Deprecated
 	public static NexusFile openNexusFile(String path) throws NexusException {
 		NexusFile file = getFactory().createNexusFile(path);
 		file.openToWrite(false);
@@ -360,6 +363,7 @@ public class NexusUtils {
 	 * @return Nexus file
 	 * @throws NexusException
 	 */
+	@Deprecated
 	public static NexusFile openNexusFileReadOnly(String path) throws NexusException {
 		NexusFile file = getFactory().createNexusFile(path);
 		file.openToRead();
