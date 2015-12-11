@@ -13,8 +13,8 @@
 package org.eclipse.dawnsci.nexus.builder;
 
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
-import org.eclipse.dawnsci.hdf5.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NXroot;
+import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.impl.NXrootImpl;
 import org.eclipse.dawnsci.nexus.impl.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;

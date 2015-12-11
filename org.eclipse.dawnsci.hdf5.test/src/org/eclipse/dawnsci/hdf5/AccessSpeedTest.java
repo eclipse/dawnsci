@@ -18,7 +18,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
-import org.eclipse.dawnsci.hdf5.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusException;
 import org.junit.Test;
 
 import ncsa.hdf.hdf5lib.H5;

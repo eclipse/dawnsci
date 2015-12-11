@@ -1,6 +1,6 @@
 package org.eclipse.dawnsci.nexus.validation;
 
-import org.eclipse.dawnsci.hdf5.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusException;
 
 public class NexusValidationException extends NexusException {
 

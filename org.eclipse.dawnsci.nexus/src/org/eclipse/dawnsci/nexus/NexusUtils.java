@@ -10,7 +10,6 @@
 
 package org.eclipse.dawnsci.nexus;
 
-
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -26,9 +25,6 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
-import org.eclipse.dawnsci.hdf5.nexus.NexusException;
-import org.eclipse.dawnsci.hdf5.nexus.NexusFile;
-import org.eclipse.dawnsci.nexus.hdf5.NexusFileHDF5;
 
 /**
  * Utility methods for dealing with NeXus files.
@@ -323,6 +319,16 @@ public class NexusUtils {
 		return createNexusFile(path, false);
 	}
 
+	static INexusFileFactory nFactory = null;
+
+	private static INexusFileFactory getFactory() {
+		return nFactory;
+	}
+
+	protected static void setFactory(INexusFileFactory factory) {
+		nFactory = factory;
+	}
+
 	/**
 	 * Create a new Nexus file (overwriting any existing one)
 	 * @param path
@@ -331,7 +337,7 @@ public class NexusUtils {
 	 * @throws NexusException
 	 */
 	public static NexusFile createNexusFile(String path, boolean enableSWMR) throws NexusException {
-		NexusFile file = new NexusFileHDF5(path, enableSWMR);
+		NexusFile file = getFactory().createNexusFile(path, enableSWMR);
 		file.createAndOpenToWrite();
 		return file;
 	}
@@ -343,7 +349,7 @@ public class NexusUtils {
 	 * @throws NexusException
 	 */
 	public static NexusFile openNexusFile(String path) throws NexusException {
-		NexusFile file = new NexusFileHDF5(path);
+		NexusFile file = getFactory().createNexusFile(path);
 		file.openToWrite(false);
 		return file;
 	}
@@ -355,7 +361,7 @@ public class NexusUtils {
 	 * @throws NexusException
 	 */
 	public static NexusFile openNexusFileReadOnly(String path) throws NexusException {
-		NexusFile file = new NexusFileHDF5(path);
+		NexusFile file = getFactory().createNexusFile(path);
 		file.openToRead();
 		return file;
 	}

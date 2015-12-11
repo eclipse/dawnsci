@@ -17,8 +17,6 @@ import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.hdf5.nexus.NexusException;
-import org.eclipse.dawnsci.hdf5.nexus.NexusFile;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -40,6 +38,7 @@ public class NexusFileStressTest {
 		testScratchDirectoryName = TestUtils.generateDirectorynameFromClassname(NexusFileStressTest.class.getCanonicalName());
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
 		filename = testScratchDirectoryName + "file.nxs";
+		TestUtils.populateNexusFileFactory();
 	}
 
 	@Before

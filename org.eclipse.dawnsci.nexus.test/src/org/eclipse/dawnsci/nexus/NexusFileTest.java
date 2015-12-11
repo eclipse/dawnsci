@@ -32,9 +32,6 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.tree.impl.DataNodeImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
-import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
-import org.eclipse.dawnsci.hdf5.nexus.NexusException;
-import org.eclipse.dawnsci.hdf5.nexus.NexusFile;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -61,6 +58,7 @@ public class NexusFileTest {
 		(new File(testScratchDirectoryName + "linked/")).mkdirs();
 		FILE_NAME = testScratchDirectoryName + "test.nxs";
 		FILE2_NAME = testScratchDirectoryName + "ext-test.nxs";
+		TestUtils.populateNexusFileFactory();
 	}
 
 	@Before
@@ -71,7 +69,6 @@ public class NexusFileTest {
 	@After
 	public void tearDown() throws Exception {
 		nf.close();
-		HDF5FileFactory.releaseFile(FILE_NAME, true);
 		nf = null;
 	}
 

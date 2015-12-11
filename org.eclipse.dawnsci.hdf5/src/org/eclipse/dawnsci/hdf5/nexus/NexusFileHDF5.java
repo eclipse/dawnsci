@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.eclipse.dawnsci.nexus.hdf5;
+package org.eclipse.dawnsci.hdf5.nexus;
 
 import java.io.File;
 import java.io.Serializable;
@@ -50,9 +50,9 @@ import org.eclipse.dawnsci.hdf5.HDF5PropertiesResource;
 import org.eclipse.dawnsci.hdf5.HDF5Resource;
 import org.eclipse.dawnsci.hdf5.HDF5Utils;
 import org.eclipse.dawnsci.hdf5.HDF5Utils.DatasetType;
-import org.eclipse.dawnsci.hdf5.nexus.NexusException;
-import org.eclipse.dawnsci.hdf5.nexus.NexusFile;
 import org.eclipse.dawnsci.nexus.NXobject;
+import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.nexus.NexusUtils;
 import org.eclipse.dawnsci.nexus.impl.NexusNodeFactory;
 import org.slf4j.Logger;
@@ -67,6 +67,56 @@ import ncsa.hdf.hdf5lib.structs.H5L_info_t;
 import ncsa.hdf.hdf5lib.structs.H5O_info_t;
 
 public class NexusFileHDF5 implements NexusFile {
+
+	/**
+	 * Create a new Nexus file (overwriting any existing one)
+	 * @param path
+	 * @param enableSWMR
+	 * @return Nexus file
+	 * @throws NexusException
+	 */
+	public static NexusFile createNexusFile(String path) throws NexusException {
+		NexusFile file = new NexusFileHDF5(path, false);
+		file.createAndOpenToWrite();
+		return file;
+	}
+
+	/**
+	 * Create a new Nexus file (overwriting any existing one)
+	 * @param path
+	 * @param enableSWMR
+	 * @return Nexus file
+	 * @throws NexusException
+	 */
+	public static NexusFile createNexusFile(String path, boolean enableSWMR) throws NexusException {
+		NexusFile file = new NexusFileHDF5(path, enableSWMR);
+		file.createAndOpenToWrite();
+		return file;
+	}
+
+	/**
+	 * Open an existing Nexus file to modify
+	 * @param path
+	 * @return Nexus file
+	 * @throws NexusException
+	 */
+	public static NexusFile openNexusFile(String path) throws NexusException {
+		NexusFile file = new NexusFileHDF5(path);
+		file.openToWrite(false);
+		return file;
+	}
+
+	/**
+	 * Open an existing Nexus file to read only
+	 * @param path
+	 * @return Nexus file
+	 * @throws NexusException
+	 */
+	public static NexusFile openNexusFileReadOnly(String path) throws NexusException {
+		NexusFile file = new NexusFileHDF5(path);
+		file.openToRead();
+		return file;
+	}
 
 	private static final Logger logger = LoggerFactory.getLogger(NexusFileHDF5.class);
 

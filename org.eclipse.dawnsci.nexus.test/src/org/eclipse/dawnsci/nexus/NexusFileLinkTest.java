@@ -20,8 +20,6 @@ import java.net.URI;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.hdf5.nexus.NexusException;
-import org.eclipse.dawnsci.hdf5.nexus.NexusFile;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -32,6 +30,7 @@ public class NexusFileLinkTest {
 	public static void setUpBeforeClass() throws Exception {
 		testScratchDirectoryName = TestUtils.generateDirectorynameFromClassname(NexusFileLinkTest.class.getCanonicalName());
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
+		TestUtils.populateNexusFileFactory();
 	}
 
 	@Test

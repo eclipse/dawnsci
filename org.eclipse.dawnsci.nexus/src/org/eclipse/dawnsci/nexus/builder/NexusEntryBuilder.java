@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.hdf5.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXentry;
@@ -24,6 +23,7 @@ import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.NexusApplicationDefinition;
+import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.builder.appdef.NexusApplicationBuilder;
 import org.eclipse.dawnsci.nexus.impl.NXentryImpl;
 import org.eclipse.dawnsci.nexus.impl.NexusNodeFactory;

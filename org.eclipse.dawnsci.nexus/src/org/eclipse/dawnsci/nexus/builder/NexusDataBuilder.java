@@ -12,9 +12,9 @@
 
 package org.eclipse.dawnsci.nexus.builder;
 
-import org.eclipse.dawnsci.hdf5.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXobject;
+import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.impl.NXdataImpl;
 
 /**

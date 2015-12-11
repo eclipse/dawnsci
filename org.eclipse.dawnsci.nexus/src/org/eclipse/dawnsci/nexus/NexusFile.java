@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.eclipse.dawnsci.hdf5.nexus;
+package org.eclipse.dawnsci.nexus;
 
 import java.io.IOException;
 import java.net.URI;
