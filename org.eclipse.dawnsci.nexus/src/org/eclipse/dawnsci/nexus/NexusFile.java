@@ -166,7 +166,7 @@ public interface NexusFile extends AutoCloseable {
 	/**
 	 * Create data node with given path to its group and create path if necessary
 	 * @param path to parent group
-	 * @param data daata
+	 * @param data data
 	 * @param compression
 	 * @param createPathIfNecessary
 	 * @return node or null if data does not exist at specified path
