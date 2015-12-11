@@ -9,9 +9,9 @@
 
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyDynamicDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +22,8 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	private DynamicSliceNDIterator iterator = null;
 	int count;
 	
-	private LazyDynamicDataset lazy;
-	private LazyDynamicDataset key;
+	private IDynamicDataset lazy;
+	private IDynamicDataset key;
 	private int[] axes;
 	private SourceInformation source;
 	private boolean next = false;
@@ -32,7 +32,7 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	
 	private int timeout = 5;
 	
-	public DynamicSliceViewIterator(LazyDynamicDataset lazy, LazyDynamicDataset key) {
+	public DynamicSliceViewIterator(IDynamicDataset lazy, IDynamicDataset key) {
 		iterator = new DynamicSliceNDIterator(lazy.getShape(), key.getSlice());
 		this.lazy = lazy;
 		this.key = key;
@@ -53,7 +53,7 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 		else logger.warn("Lazy dataset contains no source information");
 
 	}
-	
+
 	public void updateShape() {
 		lazy.refreshShape();
 		key.refreshShape();
