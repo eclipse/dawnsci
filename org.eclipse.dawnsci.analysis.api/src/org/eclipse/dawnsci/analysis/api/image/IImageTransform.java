@@ -64,7 +64,7 @@ public interface IImageTransform {
 
 	/**
 	 * <p>
-	 * Applies an affine transformation from the input image to the output image.
+	 * Performs an affine transformation of a 2d dataset
 	 * </p>
 	 *
 	 * <p>
@@ -72,9 +72,17 @@ public interface IImageTransform {
 	 * x' = a11*x + a12*y + dx<br>
 	 * y' = a21*x + a22*y + dy
 	 * </p>
-	 * @param input Which which is being rotated.
 	 *
+	 * @param a11
+	 * @param a12
+	 * @param a21
+	 * @param a22
+	 * @param dx
+	 * @param dy
+	 * @param keepShape
+	 *   		if true, the resulting image will have the same shape as the original
+	 * @return affine transformed dataset
+	 * @throws Exception
 	 */
-	public IDataset affineTransform(IDataset input, double a11, double a12, double a21, double a22, double dx, double dy);
-
+	public IDataset affineTransform(IDataset data, double a11, double a12, double a21, double a22, double dx, double dy, boolean keepShape) throws Exception;
 }
