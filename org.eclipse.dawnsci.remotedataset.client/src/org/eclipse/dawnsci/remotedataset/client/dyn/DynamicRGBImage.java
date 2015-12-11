@@ -176,4 +176,10 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 		if (imageMonitor==null) return;	
 		imageMonitor = null;
 	}
+
+	@Override
+	public void refreshShape() {
+		// does nothing
+		
+	}
 }

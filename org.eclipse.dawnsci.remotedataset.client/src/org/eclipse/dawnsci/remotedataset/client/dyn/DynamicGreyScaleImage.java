@@ -167,4 +167,10 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 		imageMonitor = null;
 	}
 
+	@Override
+	public void refreshShape() {
+		//does nothing
+		
+	}
+
 }
