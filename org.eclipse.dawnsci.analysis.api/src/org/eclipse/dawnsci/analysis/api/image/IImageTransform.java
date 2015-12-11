@@ -72,9 +72,27 @@ public interface IImageTransform {
 	 * x' = a11*x + a12*y + dx<br>
 	 * y' = a21*x + a22*y + dy
 	 * </p>
-	 * @param input Which which is being rotated.
+	 * @param input Which which is being rotated, with a new calculated shape
 	 *
 	 */
-	public IDataset affineTransform(IDataset input, double a11, double a12, double a21, double a22, double dx, double dy);
+	public IDataset affineTransform(IDataset input, double a11, double a12, double a21, double a22, double dx, double dy) throws Exception;
+
+	/**
+	 * <p>
+	 * Applies an affine transformation from the input image to the output image.
+	 * </p>
+	 * <p>
+	 * Input coordinates (x,y) to output coordinate (x',y')<br>
+	 * x' = a11*x + a12*y + dx<br>
+	 * y' = a21*x + a22*y + dy
+	 * </p>
+	 * 
+	 * @param input
+	 *            Which which is being rotated.
+	 * @param keepShape
+	 *            if true, the original shape will be kept, if false, a new image shape is used given the calculated
+	 *            bounding box
+	 */
+	public IDataset affineTransform(IDataset input, double a11, double a12, double a21, double a22, double dx, double dy, boolean keepShape) throws Exception;
 
 }
