@@ -71,7 +71,7 @@ public class DynamicSliceNDIterator {
 		if (absCurrentPosition == currentMax) return false;
 		
 		absCurrentPosition++;
-		if (key.getElementDoubleAbs(absCurrentPosition) == 0) {
+		if ( key.getSize() <= absCurrentPosition || key.getElementDoubleAbs(absCurrentPosition) == 0) {
 			absCurrentPosition--;
 			return false;
 		}
@@ -83,6 +83,8 @@ public class DynamicSliceNDIterator {
 	
 	public boolean peekHasNext() {
 		if (absCurrentPosition == currentMax) return false;
+		
+		if (key.getSize() <= absCurrentPosition +1 ) return false;
 		
 		return !(key.getElementDoubleAbs(absCurrentPosition + 1) == 0);
 

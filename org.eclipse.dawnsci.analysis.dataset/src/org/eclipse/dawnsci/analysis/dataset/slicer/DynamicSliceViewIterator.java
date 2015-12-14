@@ -9,9 +9,13 @@
 
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
+import java.util.Arrays;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
+import org.eclipse.dawnsci.analysis.dataset.metadata.DynamicMetadataUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +49,7 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 		for (int i = 0; i < axes.length; i++) {
 			axes[i] = lr - 1 -i;
 		}
-		
+		updateShape();
 		next = iterator.hasNext();
 		
 		Object ssm = lazy.getFirstMetadata(SliceFromSeriesMetadata.class);
@@ -55,9 +59,17 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	}
 
 	public void updateShape() {
-		lazy.refreshShape();
-		key.refreshShape();
-		iterator.updateShape(lazy.getShape(), key.getSlice());
+		try {
+			lazy.refreshShape();
+			key.refreshShape();
+			int[] s = DynamicMetadataUtils.refreshDynamicAxesMetadata(lazy.getMetadata(AxesMetadata.class), lazy.getShape());
+			System.out.println(Arrays.toString(s));
+			lazy.resize(s);
+			iterator.updateShape(lazy.getShape(), key.getSlice());
+		} catch (Exception e) {
+			logger.error("Error refreshing axes",e);
+		}
+		
 	}
 	
 	@Override
