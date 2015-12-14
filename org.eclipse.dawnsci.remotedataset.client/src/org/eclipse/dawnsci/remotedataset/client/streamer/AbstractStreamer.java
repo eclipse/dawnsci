@@ -108,6 +108,14 @@ abstract class AbstractStreamer<T> implements IStreamer<T>, Runnable {
 			} catch (Exception ne) {
 				logger.error("Cannot close connection!", ne);
 			}
+			// Ensure there is capacity to add the queue end object
+			if (queue.remainingCapacity() < 1) {
+				Object gone = queue.poll(); // Goodbye
+				if (gone != null) {
+					droppedImages += 1;
+					logger.trace("We dropped an image when closing an MJPG Stream");
+				}
+			}
 			// Cannot have null, instead add tiny empty image
 			queue.add(getQueueEndObject());
 		}
