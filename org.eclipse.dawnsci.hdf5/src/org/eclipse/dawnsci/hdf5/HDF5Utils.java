@@ -31,6 +31,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
@@ -685,6 +686,24 @@ public class HDF5Utils {
 		} finally {
 			HDF5FileFactory.releaseFile(fileName);
 		}
+	}
+
+	/**
+	 * Create a lazy dataset in HDF5 file
+	 * @param fileName
+	 * @param parentPath
+	 * @param name
+	 * @param initialShape
+	 * @param maxShape
+	 * @param chunking
+	 * @param dtype
+	 * @param fill
+	 * @param asUnsigned
+	 * @return
+	 */
+	public static LazyWriteableDataset createLazyDataset(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned) {
+		return new LazyWriteableDataset(name, dtype, initialShape, maxShape, chunking, new HDF5LazySaver(null, fileName,
+				parentPath, name, initialShape, 1, dtype, asUnsigned, maxShape, chunking, fill));
 	}
 
 	/**
