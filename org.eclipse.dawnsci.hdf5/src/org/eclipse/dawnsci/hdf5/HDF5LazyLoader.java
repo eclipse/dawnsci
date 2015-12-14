@@ -151,6 +151,7 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 			assert(shape != null);
 		} catch (ScanFileHolderException e) {
 			logger.error("Problem updating shape", e);
+			return null;
 		}
 		
 		trueShape = shape[0];
