@@ -32,6 +32,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.tree.impl.DataNodeImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
+import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -58,12 +59,11 @@ public class NexusFileTest {
 		(new File(testScratchDirectoryName + "linked/")).mkdirs();
 		FILE_NAME = testScratchDirectoryName + "test.nxs";
 		FILE2_NAME = testScratchDirectoryName + "ext-test.nxs";
-		TestUtils.populateNexusFileFactory();
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		nf = NexusUtils.createNexusFile(FILE_NAME);
+		nf = NexusTestUtils.createNexusFile(FILE_NAME);
 	}
 
 	@After
@@ -175,7 +175,7 @@ public class NexusFileTest {
 		assertNotNull(root);
 		assertTrue(root.containsGroupNode("a"));
 		nf.close();
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		root =  nf.getGroup("/", false);
 		assertNotNull(root);
 		assertTrue(root.containsGroupNode("a"));
@@ -197,7 +197,7 @@ public class NexusFileTest {
 		nf.addAttribute("/a/b/c", nf.createAttribute(attr2));
 		nf.close();
 
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		GroupNode group = nf.getGroup("/a/b", false);
 		assertTrue(group.containsGroupNode("c"));
 		assertTrue(group.containsGroupNode("x"));
@@ -225,7 +225,7 @@ public class NexusFileTest {
 		nf.addAttribute("/a/b/d", nf.createAttribute(attr));
 		nf.close();
 
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		DataNode dataNode = nf.getData("/a/b/d");
 		assertNotNull(dataNode);
 		assertEquals(dataset, dataNode.getDataset().getSlice());
@@ -292,7 +292,7 @@ public class NexusFileTest {
 		nf.createData(parentNode, dataset);
 		nf.close();
 
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		GroupNode readNode = nf.getGroup("/entry1/instrument/detector", false);
 		assertTrue(readNode.containsDataNode("data"));
 		DataNode readDataNode = nf.getData("/entry1:NXentry/instrument:NXinstrument/detector:NXdetector/data");
@@ -343,7 +343,7 @@ public class NexusFileTest {
 		nf.addAttribute(group, nf.createAttribute(attrData));
 		nf.close();
 
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		group = nf.getGroup("/a/b", false);
 		Attribute attr = group.getAttribute("attribute");
 		assertNotNull(attr);
@@ -359,7 +359,7 @@ public class NexusFileTest {
 		attrString.setName("test");
 		nf.addAttribute(group, nf.createAttribute(attrString));
 		nf.close();
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		group = nf.getGroup("/a/b", false);
 		Attribute attr = group.getAttribute("test");
 		assertNotNull(attr);
@@ -377,7 +377,7 @@ public class NexusFileTest {
 		attrString.setName("test");
 		nf.addAttribute(group, nf.createAttribute(attrString));
 		nf.close();
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		group = nf.getGroup("/a/b", false);
 		Attribute attr = group.getAttribute("test");
 		assertNotNull(attr);
@@ -395,7 +395,7 @@ public class NexusFileTest {
 		nf.addAttribute(group, nf.createAttribute(attr2));
 		nf.close();
 
-		nf = NexusUtils.openNexusFile(FILE_NAME);
+		nf = NexusTestUtils.openNexusFile(FILE_NAME);
 		group = nf.getGroup("/a", true);
 		assertTrue(group.containsAttribute("test"));
 		assertEquals(attr2, group.getAttribute("test").getValue());
@@ -405,7 +405,7 @@ public class NexusFileTest {
 		nf.addAttribute(group, nf.createAttribute(attr3));
 		nf.close();
 
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		group = nf.getGroup("/a", true);
 		assertTrue(group.containsAttribute("test"));
 		assertEquals(attr3, group.getAttribute("test").getValue());
@@ -431,7 +431,7 @@ public class NexusFileTest {
 		DataNode linkedNode = nf.getData("/x/data");
 		assertSame(linkedNode, nf.getData("/a/data"));
 		nf.close();
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		dataNode = nf.getData("/a/data");
 		linkedNode = nf.getData("/x/data");
 		assertNotNull(linkedNode);
@@ -456,7 +456,7 @@ public class NexusFileTest {
 
 	@Test
 	public void testLinkExternal() throws Exception {
-		try (NexusFile extFile = NexusUtils.createNexusFile(FILE2_NAME)) {
+		try (NexusFile extFile = NexusTestUtils.createNexusFile(FILE2_NAME)) {
 			extFile.getGroup("/d/e/f/g", true);
 		}
 		nf.linkExternal(new URI("nxfile://" + FILE2_NAME + "#/d/e"), "/a/b/c", true);
@@ -475,7 +475,7 @@ public class NexusFileTest {
 
 	@Test
 	public void testLinkExternalUnderRoot() throws Exception {
-		try (NexusFile extFile = NexusUtils.createNexusFile(FILE2_NAME)) {
+		try (NexusFile extFile = NexusTestUtils.createNexusFile(FILE2_NAME)) {
 			extFile.getGroup("/d", true);
 		}
 		nf.linkExternal(new URI("nxfile://" + FILE2_NAME + "#/d"), "/a", true);
@@ -484,7 +484,7 @@ public class NexusFileTest {
 
 	@Test
 	public void testLinkExternalUseSourceName() throws Exception {
-		try (NexusFile extFile = NexusUtils.createNexusFile(FILE2_NAME)) {
+		try (NexusFile extFile = NexusTestUtils.createNexusFile(FILE2_NAME)) {
 			extFile.getGroup("/e/f/g", true);
 		}
 		nf.linkExternal(new URI("nxfile://" + FILE2_NAME + "#e"), "/a/b/c/d/", true);
@@ -497,7 +497,7 @@ public class NexusFileTest {
 	public void testLinkExternalDatasetUseGivenName() throws Exception {
 		IDataset externalData = DatasetFactory.createRange(10.0, Dataset.FLOAT64).reshape(2, 5);
 		externalData.setName("data");
-		try (NexusFile ef = NexusUtils.createNexusFile(FILE2_NAME)) {
+		try (NexusFile ef = NexusTestUtils.createNexusFile(FILE2_NAME)) {
 			ef.createData("/a/b/c", externalData, true);
 		}
 		nf.linkExternal(new URI("nxfile://" + FILE2_NAME + "#a/b/c/data"), "/x/y/linkedData", false);
@@ -511,7 +511,7 @@ public class NexusFileTest {
 	public void testLinkExternalDatasetUseSourceName() throws Exception {
 		IDataset externalData = DatasetFactory.createRange(10.0, Dataset.FLOAT64).reshape(2, 5);
 		externalData.setName("data");
-		try (NexusFile ef = NexusUtils.createNexusFile(FILE2_NAME)) {
+		try (NexusFile ef = NexusTestUtils.createNexusFile(FILE2_NAME)) {
 			ef.createData("/a/b/c", externalData, true);
 		}
 		nf.linkExternal(new URI("nxfile://" + FILE2_NAME + "#a/b/c/data"), "/x/y/", false);
@@ -547,7 +547,7 @@ public class NexusFileTest {
 	public void testRelativeExternalLink() throws Exception {
 		IDataset externalData = DatasetFactory.createRange(10.0, Dataset.FLOAT64).reshape(2, 5);
 		externalData.setName("data");
-		try (NexusFile ef = NexusUtils.createNexusFile(FILE2_NAME)) {
+		try (NexusFile ef = NexusTestUtils.createNexusFile(FILE2_NAME)) {
 			ef.createData("/a/b/c", externalData, true);
 		}
 		nf.linkExternal(new URI("nxfile://" + FILE2_NAME.replaceFirst(testScratchDirectoryName, "") + "#a/b/c/data"), "/x/y/", false);
@@ -570,7 +570,7 @@ public class NexusFileTest {
 		NexusUtils.write(nf, g, "stringarray", new String[] {"String", "String Å"});
 		nf.close();
 
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		DataNode d = nf.getData("/entry1/stringarray");
 		IDataset ds = d.getDataset().getSlice();
 		int[] shape = ds.getShape();
@@ -583,7 +583,7 @@ public class NexusFileTest {
 		NexusUtils.write(nf, g, "somestring", "MyString");
 		nf.close();
 
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		DataNode d = nf.getData("/note/somestring");
 		IDataset ds = d.getDataset().getSlice();
 		int[] shape = ds.getShape();
@@ -606,7 +606,7 @@ public class NexusFileTest {
 					SliceND.createSlice(lazy, new int[] {i}, new int[] {i+1}));
 		}
 
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		DataNode d = nf.getData("/test/stringarray");
 		IDataset ds = d.getDataset().getSlice();
 		int[] shape = ds.getShape();
@@ -624,7 +624,7 @@ public class NexusFileTest {
 		nf.createData(g, lazy);
 		lazy.setSlice(null, DatasetFactory.createFromObject(new int[] {-1, -1, -1, -1}).reshape(2, 2), new int[] {0, 0}, new int[] {2, 2}, null);
 		nf.close();
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		DataNode node = nf.getData("/test/intarray");
 		IDataset data = node.getDataset().getSlice(new int[] {0, 0}, new int[] {2, 2}, new int[] {1, 1});
 		assertArrayEquals(new int[] {-1, -1, -1, -1}, (int[])((Dataset) data).getBuffer());
@@ -638,7 +638,7 @@ public class NexusFileTest {
 		nf.createData(g, lazy);
 		lazy.setSlice(null, DatasetFactory.createFromObject(new double[] {1, 2, 3, 4}).reshape(2, 2), new int[] {0, 0}, new int[] {2, 2}, null);
 		nf.close();
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		DataNode node = nf.getData("/test/doublearray");
 		IDataset data = node.getDataset().getSlice(new int[] {0, 0}, new int[] {2, 2}, new int[] {1, 1});
 		assertArrayEquals(new double[] {1, 2, 3, 4}, (double[])((Dataset) data).getBuffer(), 1e-12);
@@ -652,7 +652,7 @@ public class NexusFileTest {
 		nf.createData(g, lazy);
 		lazy.setSlice(null, DatasetFactory.createFromObject(new String[] {"Value1", "Value2"}).reshape(2, 1), new int[] {2, 0}, new int[] {4, 1}, null);
 		nf.close();
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		DataNode node = nf.getData("/test/stringarray");
 		IDataset data = node.getDataset().getSlice();
 		assertEquals("Value1", data.getString(2, 0));
@@ -666,7 +666,7 @@ public class NexusFileTest {
 		nf.createData("/a/", lazyData, true);
 		nf.close();
 
-		nf = NexusUtils.openNexusFile(FILE_NAME);
+		nf = NexusTestUtils.openNexusFile(FILE_NAME);
 		ILazyWriteableDataset readData = nf.getData("/a/data").getWriteableDataset();
 		assertNotNull(readData);
 		assertArrayEquals(maxShape, readData.getMaxShape());
@@ -685,7 +685,7 @@ public class NexusFileTest {
 		assertSame(nf.getData("/a/b/c").getDataset(), nf.getData("/x/c").getDataset());
 		nf.flush();
 		nf.close();
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		assertEquals(nf.getData("/a/b/c").getDataset(), nf.getData("/x/c").getDataset());
 	}
 
@@ -703,7 +703,7 @@ public class NexusFileTest {
 		assertEquals(eAttr.getValue().getString(0), "NXentry");
 
 		nf.close();
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		g = nf.getGroup("/entry1:NXentry/note:NXnote", true);
 		e = nf.getGroup("/entry1", false);
 		gAttr = g.getAttribute("NX_class");
@@ -723,10 +723,10 @@ public class NexusFileTest {
 		mountData.setName("napimount");
 		nf.addAttribute( g, nf.createAttribute(mountData) );
 		nf.close();
-		nf = NexusUtils.createNexusFile(FILE2_NAME);
+		nf = NexusTestUtils.createNexusFile(FILE2_NAME);
 		nf.getGroup("/x/y/z", true);
 		nf.close();
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		g = nf.getGroup("/e/g", false);
 		assertTrue(g.containsGroupNode("z"));
 		assertNotNull(nf.getGroup("/e/g/z/", false));
@@ -742,10 +742,10 @@ public class NexusFileTest {
 		nf.close();
 		Dataset dummyData = DatasetFactory.createFromObject(new int[] {0, 1, 2});
 		dummyData.setName("z");
-		try (NexusFile extFile = NexusUtils.createNexusFile(FILE2_NAME)) {
+		try (NexusFile extFile = NexusTestUtils.createNexusFile(FILE2_NAME)) {
 			extFile.createData(extFile.getGroup("/x/y", true), dummyData);
 		}
-		try (NexusFile oFile = NexusUtils.openNexusFileReadOnly(FILE_NAME)) {
+		try (NexusFile oFile = NexusTestUtils.openNexusFileReadOnly(FILE_NAME)) {
 			g = oFile.getGroup("/e", false);
 			assertFalse(g.containsDataNode("g")); // NAPI mount from group to dataset not supported
 			oFile.getData("/e/g");
@@ -756,15 +756,15 @@ public class NexusFileTest {
 
 	@Test
 	public void testAbsoluteNapiMountToGroup() throws Exception {
-		try (NexusFile origin = NexusUtils.createNexusFile(testScratchDirectoryName + "origin/test.nxs");
-				NexusFile linked = NexusUtils.createNexusFile(testScratchDirectoryName + "linked/linked.nxs")) {
+		try (NexusFile origin = NexusTestUtils.createNexusFile(testScratchDirectoryName + "origin/test.nxs");
+				NexusFile linked = NexusTestUtils.createNexusFile(testScratchDirectoryName + "linked/linked.nxs")) {
 			GroupNode g = origin.getGroup("/a/b", true);
 			linked.getGroup("/x/y/z", true);
 			Dataset mountData = DatasetFactory.createFromObject(new String[] {"nxfile://" + testScratchDirectoryName + "linked/linked.nxs#x/y/"});
 			mountData.setName("napimount");
 			origin.addAttribute( g, nf.createAttribute(mountData) );
 		}
-		try (NexusFile origin = NexusUtils.openNexusFileReadOnly(testScratchDirectoryName + "origin/test.nxs")) {
+		try (NexusFile origin = NexusTestUtils.openNexusFileReadOnly(testScratchDirectoryName + "origin/test.nxs")) {
 			GroupNode g = origin.getGroup("/a/b", false);
 			GroupNode g2 = origin.getGroup("/a/b/z", false);
 			assertNotNull(g2);
@@ -778,8 +778,8 @@ public class NexusFileTest {
 	public void testAbsoluteNapiMountToDataset() throws Exception {
 		Dataset dummyData = DatasetFactory.createFromObject(new int[] {0, 1, 2});
 		dummyData.setName("z");
-		try (NexusFile origin = NexusUtils.createNexusFile(testScratchDirectoryName + "origin/test.nxs");
-				NexusFile linked = NexusUtils.createNexusFile(testScratchDirectoryName + "linked/linked.nxs")) {
+		try (NexusFile origin = NexusTestUtils.createNexusFile(testScratchDirectoryName + "origin/test.nxs");
+				NexusFile linked = NexusTestUtils.createNexusFile(testScratchDirectoryName + "linked/linked.nxs")) {
 			GroupNode g = origin.getGroup("/a/b/d", true);
 			Dataset mountData = DatasetFactory.createFromObject(new String[] {"nxfile://" + testScratchDirectoryName + "linked/linked.nxs#x/y/z"});
 			mountData.setName("napimount");
@@ -787,7 +787,7 @@ public class NexusFileTest {
 			GroupNode l = linked.getGroup("/x/y/", true);
 			linked.createData(l, dummyData);
 		}
-		try (NexusFile origin = NexusUtils.openNexusFileReadOnly(testScratchDirectoryName + "origin/test.nxs")) {
+		try (NexusFile origin = NexusTestUtils.openNexusFileReadOnly(testScratchDirectoryName + "origin/test.nxs")) {
 			GroupNode group = origin.getGroup("/a/b", false);
 			assertFalse(group.containsDataNode("d"));
 			origin.getData(group, "d");
@@ -800,8 +800,8 @@ public class NexusFileTest {
 	public void testNapiMountToGroupThenDataset() throws Exception {
 		Dataset dummyData = DatasetFactory.createFromObject(new int[] {0, 1, 2});
 		dummyData.setName("z");
-		try (NexusFile origin = NexusUtils.createNexusFile(testScratchDirectoryName + "origin/test.nxs");
-				NexusFile linked = NexusUtils.createNexusFile(testScratchDirectoryName + "linked/linked.nxs")) {
+		try (NexusFile origin = NexusTestUtils.createNexusFile(testScratchDirectoryName + "origin/test.nxs");
+				NexusFile linked = NexusTestUtils.createNexusFile(testScratchDirectoryName + "linked/linked.nxs")) {
 			GroupNode g = origin.getGroup("/a/b/d", true);
 			Dataset mountData = DatasetFactory.createFromObject(new String[] {"nxfile://" + testScratchDirectoryName + "linked/linked.nxs#w/x"});
 			mountData.setName("napimount");
@@ -809,7 +809,7 @@ public class NexusFileTest {
 			GroupNode l = linked.getGroup("/w/x/y/", true);
 			linked.createData(l, dummyData);
 		}
-		try (NexusFile origin = NexusUtils.openNexusFileReadOnly(testScratchDirectoryName + "origin/test.nxs")) {
+		try (NexusFile origin = NexusTestUtils.openNexusFileReadOnly(testScratchDirectoryName + "origin/test.nxs")) {
 			DataNode dataNode = origin.getData("/a/b/d/y/z");
 			assertNotNull(dataNode);
 			GroupNode groupNode = origin.getGroup("/a/b/d/y", false);
@@ -833,7 +833,7 @@ public class NexusFileTest {
 		lazy.setSlice(null, DatasetFactory.createRange(1, 1000000, Dataset.FLOAT64).reshape(1000, 1000),
 				new int[] {0, 0}, new int[] {1000, 1000}, null);
 		nf.close();
-		try (NexusFile cf = NexusUtils.createNexusFile(FILE2_NAME)) {
+		try (NexusFile cf = NexusTestUtils.createNexusFile(FILE2_NAME)) {
 			lazy = NexusUtils.createLazyWriteableDataset("d", Dataset.FLOAT64,
 					new int[] {ILazyWriteableDataset.UNLIMITED, 1000}, null, null);
 			lazy.setChunking(chunking);
@@ -858,7 +858,7 @@ public class NexusFileTest {
 				new int[] {0, 0, 0}, new int[] {8, 1024, 1024}, null);
 		nf.close();
 
-		nf = NexusUtils.openNexusFile(FILE_NAME);
+		nf = NexusTestUtils.openNexusFile(FILE_NAME);
 		ILazyWriteableDataset readData = nf.getData("/a/data").getWriteableDataset();
 		assertNotNull(readData);
 		assertArrayEquals(chunking, readData.getChunking());
@@ -961,7 +961,7 @@ public class NexusFileTest {
 		lazy.setSlice(null, DatasetFactory.createFromObject(new int[] { -1, -1, -1, -1 }).reshape(2, 2),
 				new int[] { 0, 0 }, new int[] { 2, 2 }, null);
 
-		nf = NexusUtils.openNexusFileReadOnly(FILE_NAME);
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		DataNode node = nf.getData("/base/g/intarray");
 		IDataset data = node.getDataset().getSlice(new int[] { 0, 0 }, new int[] { 2, 2 }, new int[] { 1, 1 });
 		assertArrayEquals(new int[] { -1, -1, -1, -1 }, (int[]) ((Dataset) data).getBuffer());
@@ -997,7 +997,7 @@ public class NexusFileTest {
 		assertFalse(readH == readL);
 
 		nf.close();
-		nf = NexusUtils.openNexusFile(FILE_NAME);
+		nf = NexusTestUtils.openNexusFile(FILE_NAME);
 
 		readH = nf.getGroup("/base/g/h", false);
 		readI = nf.getGroup("/base/g/i", false);

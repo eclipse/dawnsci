@@ -14,8 +14,6 @@ package org.eclipse.dawnsci.nexus.builder;
 
 import java.util.Iterator;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
 

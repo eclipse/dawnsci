@@ -232,6 +232,12 @@ public class NexusFileHDF5 implements NexusFile {
 	}
 
 	@Override
+	public String getFilePath() {
+		return fileName;
+	}
+
+	
+	@Override
 	public void openToRead() throws NexusException {
 		try {
 			fileId = HDF5FileFactory.acquireFile(fileName, false);
@@ -1591,4 +1597,5 @@ public class NexusFileHDF5 implements NexusFile {
 			return null;
 		}
 	}
+
 }

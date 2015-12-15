@@ -20,6 +20,7 @@ import java.net.URI;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
+import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -30,7 +31,6 @@ public class NexusFileLinkTest {
 	public static void setUpBeforeClass() throws Exception {
 		testScratchDirectoryName = TestUtils.generateDirectorynameFromClassname(NexusFileLinkTest.class.getCanonicalName());
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
-		TestUtils.populateNexusFileFactory();
 	}
 
 	@Test
@@ -69,11 +69,11 @@ public class NexusFileLinkTest {
 		// create file where /e/f/g -> a so /e/f/g/b/c is available
 		ename = createExternalFile(testScratchDirectoryName + "external1.nxs", a);
 		tname = testScratchDirectoryName + "test1.nxs";
-		nf = NexusUtils.createNexusFile(tname);
+		nf = NexusTestUtils.createNexusFile(tname);
 		nf.linkExternal(new URI("nxfile://./" + ename + "#/a"), "/e/f/g", true);
 		nf.close();
 
-		nf = NexusUtils.openNexusFileReadOnly(tname);
+		nf = NexusTestUtils.openNexusFileReadOnly(tname);
 		g = nf.getGroup("/e/f/g", false);
 		assertNotNull(g);
 		assertTrue(g.containsAttribute("top"));
@@ -90,11 +90,11 @@ public class NexusFileLinkTest {
 		// create file where /e/f/g/a -> a so /e/f/g/a/b/c is available
 		ename = createExternalFile(testScratchDirectoryName + "external2.nxs", a);
 		tname = testScratchDirectoryName + "test2.nxs";
-		nf = NexusUtils.createNexusFile(tname);
+		nf = NexusTestUtils.createNexusFile(tname);
 		nf.linkExternal(new URI("nxfile://./" + ename + "#/a"), "/e/f/g/", true);
 		nf.close();
 
-		nf = NexusUtils.openNexusFileReadOnly(tname);
+		nf = NexusTestUtils.openNexusFileReadOnly(tname);
 		g = nf.getGroup("/e/f/g", false);
 		assertNotNull(g);
 		assertFalse(g.containsAttribute("top"));
@@ -117,11 +117,11 @@ public class NexusFileLinkTest {
 		ename = createExternalFile(testScratchDirectoryName + "external3.nxs", a);
 		createExternalFile(ename, a);
 		tname = testScratchDirectoryName + "test3.nxs";
-		nf = NexusUtils.createNexusFile(tname);
+		nf = NexusTestUtils.createNexusFile(tname);
 		nf.linkExternal(new URI("nxfile://./" + ename + "#/a/b/c/value"), "/e/f/d", false);
 		nf.close();
 
-		nf = NexusUtils.openNexusFileReadOnly(tname);
+		nf = NexusTestUtils.openNexusFileReadOnly(tname);
 		g = nf.getGroup("/e/f", false);
 		assertNotNull(g);
 		assertTrue(g.containsDataNode("d"));
@@ -134,11 +134,11 @@ public class NexusFileLinkTest {
 		ename = createExternalFile(testScratchDirectoryName + "external4.nxs", a);
 		createExternalFile(ename, a);
 		tname = testScratchDirectoryName + "test4.nxs";
-		nf = NexusUtils.createNexusFile(tname);
+		nf = NexusTestUtils.createNexusFile(tname);
 		nf.linkExternal(new URI("nxfile://./" + ename + "#/a/b/c/value"), "/e/f/g/", false);
 		nf.close();
 
-		nf = NexusUtils.openNexusFileReadOnly(tname);
+		nf = NexusTestUtils.openNexusFileReadOnly(tname);
 		g = nf.getGroup("/e/f/g", false);
 		assertNotNull(g);
 		assertTrue(g.containsDataNode("value"));
@@ -158,7 +158,7 @@ public class NexusFileLinkTest {
 				return ename;
 		}
 
-		NexusFile nf = NexusUtils.createNexusFile(ename);
+		NexusFile nf = NexusTestUtils.createNexusFile(ename);
 		GroupNode g = nf.getGroup("/a", true);
 		Dataset a = DatasetFactory.createFromObject("world");
 		a.setName("top");

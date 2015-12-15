@@ -15,23 +15,37 @@
  To generate the Java validator classes, download and install Saxon XSL processor
  (version HE9-6-0-5J) from saxon.sf.net. Check out the NeXus format definitions from
  github.com/nexusformat/definitions. Then execute the command
-   java -cp [/path/to/]saxon9he.jar net.sf.saxon.Tranform -xsl:/[/path/to/]NXDLJavaGenerator.xml -it:generate-validators nxdlDefinitionsPath=[/path/to/]nexus-definitions javaSourcePath=[/path/to]src
+   java -cp [/path/to/]saxon9he.jar net.sf.saxon.Tranform -xsl:/[/path/to/]NXDLJavaGenerator.xml -it:generate-validators nxdlDefinitionsPath=[/path/to/]nexus-definitions javaSourcePath=[/path/to]src javaOutputPath=[/path/to]/autogen
  -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
  xmlns:xs="http://www.w3.org/2001/XMLSchema"
- xmlns:nx="http://definition.nexusformat.org/nxdl/@NXDL_RELEASE@"
+ xmlns:nx="http://definition.nexusformat.org/nxdl/3.1"
  xmlns:dawnsci="urn:import:org.eclipse.dawnsci.nexus"
  exclude-result-prefixes="xs dawnsci">
 
 <!-- The path containing the nxdl definitions files to transform -->
 <xsl:param name="nxdlDefinitionsPath" select="'.'"/>
 <!-- The path containing the Java source tree to write to -->
-<xsl:param name="javaSourcePath" select="'.'"/>
+<xsl:param name="javaSourcePath" select="'../src'"/>
+<xsl:param name="javaOutputPath" select="'../autogen'"/>
 
 <xsl:output name="text-format" method="text" omit-xml-declaration="yes" indent="no"/>
 
 <xsl:variable name="base-classes" select="collection(concat($nxdlDefinitionsPath, '/base_classes?select=*.nxdl.xml'))/nx:definition"/>
 <xsl:variable name="application-definitions" select="collection(concat($nxdlDefinitionsPath, '/applications?select=*.nxdl.xml'))/nx:definition"/>
+
+<xsl:variable name="fileHeaderComment">/*-
+ *******************************************************************************
+ * Copyright (c) 2015 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This file was auto-generated from the NXDL XML definition.
+ * Generated at: <xsl:value-of select="current-dateTime()"/>
+ *******************************************************************************/
+</xsl:variable>
 
 <!-- Used for running with any XML input file -->
 <xsl:template match="/">
@@ -55,8 +69,10 @@
 	<xsl:variable name="validateGroupMethodNamePrefix" select="'validateGroup'"/>
 
 	<!-- Set the output document for the Java output for this application definition. -->
-	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/validation/{$validatorClassName}.java" format="text-format">
-		<xsl:text>package org.eclipse.dawnsci.nexus.validation;&#10;</xsl:text>
+	<xsl:result-document href="{$javaOutputPath}/org/eclipse/dawnsci/nexus/validation/{$validatorClassName}.java" format="text-format">
+		<xsl:value-of select="$fileHeaderComment"/>		
+		<xsl:text>
+package org.eclipse.dawnsci.nexus.validation;&#10;</xsl:text>
 
 		<!-- Apply the templates for imports. -->
 		<xsl:apply-templates mode="imports" select="."/>
@@ -556,8 +572,10 @@
 
 <!-- Template to generate an enumeration of NeXus application definitions -->
 <xsl:template name="appdef-enum">
-	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/NexusApplicationDefinition.java" format="text-format">
-		<xsl:text>package org.eclipse.dawnsci.nexus;
+	<xsl:result-document href="{$javaOutputPath}/org/eclipse/dawnsci/nexus/NexusApplicationDefinition.java" format="text-format">
+		<xsl:value-of select="$fileHeaderComment"/>
+		<xsl:text>
+package org.eclipse.dawnsci.nexus;
 		
 /**
  * Enumeration of NeXus application definitions.
