@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="HDF5 Nexus File Factory">
+   <implementation class="org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5"/>
+   <service>
+      <provide interface="org.eclipse.dawnsci.nexus.INexusFileFactory"/>
+   </service>
+</scr:component>

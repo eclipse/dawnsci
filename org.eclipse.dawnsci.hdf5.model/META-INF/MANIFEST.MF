@@ -4,7 +4,7 @@ Bundle-Name: HDF5 Hierarchical Model
 Bundle-SymbolicName: org.eclipse.dawnsci.hdf5.model
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.dawnsci.hdf5.model.Activator
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.eclipse.dawnsci.hdf5.model,
  org.eclipse.dawnsci.hdf5.model.internal;x-internal:=true
 Require-Bundle: ncsa.hdf;bundle-version="[2.9.0,3.0.0)",

@@ -17,6 +17,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
+import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -38,7 +39,6 @@ public class NexusFileStressTest {
 		testScratchDirectoryName = TestUtils.generateDirectorynameFromClassname(NexusFileStressTest.class.getCanonicalName());
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
 		filename = testScratchDirectoryName + "file.nxs";
-		TestUtils.populateNexusFileFactory();
 	}
 
 	@Before
@@ -56,7 +56,7 @@ public class NexusFileStressTest {
 	@SuppressWarnings("unused")
 	@Test(expected=NullPointerException.class)
 	public void testConstructor() throws Exception {
-		NexusFile file = NexusUtils.openNexusFileReadOnly(null);
+		NexusFile file = NexusTestUtils.openNexusFileReadOnly(null);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class NexusFileStressTest {
 	public void testMakeGroupNPE1() throws Exception {
 		NexusFile file = null;
 		try {
-			file = NexusUtils.createNexusFile(filename);
+			file = NexusTestUtils.createNexusFile(filename);
 			file.getGroup(null, true);
 			}
 		finally {
@@ -81,7 +81,7 @@ public class NexusFileStressTest {
 	public void testMakeGroupNPE2() throws Exception {
 		NexusFile file = null;
 		try {
-			file = NexusUtils.createNexusFile(filename);
+			file = NexusTestUtils.createNexusFile(filename);
 			file.getGroup(null, "entry1", null, true);
 		}
 		finally {
@@ -96,7 +96,7 @@ public class NexusFileStressTest {
 	public void testOpenGroupNPE1() throws Exception {
 		NexusFile file = null;
 		try {
-			file = NexusUtils.createNexusFile(filename);
+			file = NexusTestUtils.createNexusFile(filename);
 			file.getGroup(null, false);
 		}
 		finally {
@@ -111,7 +111,7 @@ public class NexusFileStressTest {
 	public void testOpenGroupNPE2() throws Exception {
 		NexusFile file = null;
 		try {
-			file = NexusUtils.createNexusFile(filename);
+			file = NexusTestUtils.createNexusFile(filename);
 			file.getGroup(null, "entry1", null, false);
 		}
 		finally {
@@ -126,7 +126,7 @@ public class NexusFileStressTest {
 	public void testMakeDataNPE1() throws Exception {
 		NexusFile file = null;
 		try {
-			file = NexusUtils.createNexusFile(filename);
+			file = NexusTestUtils.createNexusFile(filename);
 			file.createData("/entry1:NXentry", DatasetFactory.createFromObject(2.).reshape(1), true);
 		}
 		finally {
@@ -141,7 +141,7 @@ public class NexusFileStressTest {
 	public void testMakeDataNPE2() throws Exception {
 		NexusFile file = null;
 		try {
-			file = NexusUtils.createNexusFile(filename);
+			file = NexusTestUtils.createNexusFile(filename);
 			file.createData("/entry1:NXentry", DatasetFactory.createFromObject(2.), true);
 		}
 		finally {
@@ -175,7 +175,7 @@ public class NexusFileStressTest {
 			// create the file
 			NexusFile file = null;
 			try {
-				file = NexusUtils.createNexusFile(filename);
+				file = NexusTestUtils.createNexusFile(filename);
 				ILazyWriteableDataset lazy = NexusUtils.createLazyWriteableDataset(null, Dataset.FLOAT64, stop, dimArray, stop);
 				file.createData("/entry1:NXentry", lazy, true);
 	
@@ -198,7 +198,7 @@ public class NexusFileStressTest {
 	@Test(expected=NexusException.class)
 	public void testFileNotThere() throws Exception {
 			deleteFile();
-			NexusFile file = NexusUtils.openNexusFileReadOnly(filename);
+			NexusFile file = NexusTestUtils.openNexusFileReadOnly(filename);
 			file.getGroup("entry1:NXentry", false);
 	}
 

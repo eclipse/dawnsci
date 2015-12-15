@@ -13,6 +13,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
@@ -310,110 +311,21 @@ public class NexusUtils {
 	}
 
 	/**
-	 * Create a new Nexus file (overwriting any existing one)
-	 * @param path
-	 * @return Nexus file
+	 * Loads the entire nexus tree structure into memory. Note that this does not
+	 * necessarily load the contents of every dataset within the nexus file into memory,
+	 * as some may be {@link ILazyDataset}s.
+	 * @param filePath file path
+	 * @return TreeFile tree file representing nexus tree
 	 * @throws NexusException
 	 */
-	@Deprecated
-	public static NexusFile createNexusFile(String path) throws NexusException {
-		return createNexusFile(path, false);
-	}
-
-	static INexusFileFactory nFactory = null;
-
-	private static INexusFileFactory getFactory() {
-		return nFactory;
-	}
-
-	protected static void setFactory(INexusFileFactory factory) {
-		nFactory = factory;
-	}
-
-	/**
-	 * Create a new Nexus file (overwriting any existing one)
-	 * @param path
-	 * @param enableSWMR
-	 * @return Nexus file
-	 * @throws NexusException
-	 */
-	@Deprecated
-	public static NexusFile createNexusFile(String path, boolean enableSWMR) throws NexusException {
-		NexusFile file = getFactory().createNexusFile(path, enableSWMR);
-		file.createAndOpenToWrite();
-		return file;
-	}
-
-	/**
-	 * Open an existing Nexus file to modify
-	 * @param path
-	 * @return Nexus file
-	 * @throws NexusException
-	 */
-	@Deprecated
-	public static NexusFile openNexusFile(String path) throws NexusException {
-		NexusFile file = getFactory().createNexusFile(path);
-		file.openToWrite(false);
-		return file;
-	}
-
-	/**
-	 * Open an existing Nexus file to read only
-	 * @param path
-	 * @return Nexus file
-	 * @throws NexusException
-	 */
-	@Deprecated
-	public static NexusFile openNexusFileReadOnly(String path) throws NexusException {
-		NexusFile file = getFactory().createNexusFile(path);
-		file.openToRead();
-		return file;
-	}
-
-	/**
-	 * Save the NeXus tree with the given root node to the given path.
-	 * <p>
-	 * Use this method when the NeXus tree has been created using the NeXus base classes (subinterfaces of {@link NXobject}), rather than using
-	 * {@link NexusFile} to create the nodes.
-	 *
-	 * @param rootNode
-	 *            root node
-	 * @param filePath
-	 *            file path
-	 * @throws NexusException
-	 */
-	public static void saveNexusFile(NXroot rootNode, String filePath) throws NexusException {
-		final TreeFileImpl treeFile = new TreeFileImpl(filePath.hashCode(), filePath);
+	public static TreeFile loadNexusTree(NexusFile nexusFile) throws NexusException {
+		final String filePath = nexusFile.getFilePath();
+		final TreeFile treeFile = TreeFactory.createTreeFile(filePath.hashCode(), filePath);
+		final GroupNode rootNode = nexusFile.getGroup("/", false);
 		treeFile.setGroupNode(rootNode);
-		saveNexusFile(treeFile);
-	}
+		recursivelyLoadNexusTree(nexusFile, rootNode);
 
-	/**
-	 * Save the given NeXus file tree.
-	 * <p>
-	 * Use this method when the NeXus tree has been created using the NeXus base classes (subinterfaces of {@link NXobject}), rather than using
-	 * {@link NexusFile} to create the nodes.
-	 *
-	 * @param nexusTree
-	 *            nexus tree
-	 * @throws NexusException
-	 */
-	public static void saveNexusFile(TreeFile nexusTree) throws NexusException {
-		try (NexusFile nexusFile = createNexusFile(nexusTree.getFilename())) {
-			nexusFile.addNode("/", nexusTree.getGroupNode());
-			nexusFile.flush();
-		}
-	}
-
-	public static TreeFile loadNexusFile(String filePath, boolean readOnly) throws NexusException {
-		try (NexusFile nexusFile = readOnly ? openNexusFileReadOnly(filePath) : openNexusFile(filePath)) {
-			final GroupNode rootNode = nexusFile.getGroup("/", false);
-			final TreeFile treeFile = TreeFactory.createTreeFile(filePath.hashCode(), filePath);
-			treeFile.setGroupNode(rootNode);
-			recursivelyLoadNexusTree(nexusFile, rootNode);
-
-			return treeFile;
-		}
+		return treeFile;
 	}
 
 	private static void recursivelyLoadNexusTree(NexusFile nexusFile, GroupNode group) throws NexusException {
@@ -421,7 +333,7 @@ public class NexusUtils {
 		while (nodeNames.hasNext()) {
 			String nodeName = nodeNames.next();
 			if (group.containsGroupNode(nodeName)) {
-				// nexusFile.getGroup causes that group to be populated
+				// nexusFile.getGroup() causes that group to be populated
 				GroupNode childGroup = nexusFile.getGroup(group, nodeName, null, false);
 				recursivelyLoadNexusTree(nexusFile, childGroup);
 			}
