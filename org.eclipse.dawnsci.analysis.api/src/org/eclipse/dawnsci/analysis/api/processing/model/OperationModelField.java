@@ -104,4 +104,9 @@ public @interface OperationModelField {
 	 * The number format to format a field editing a number
 	 */
 	public String numberFormat() default "";
+	
+	/**
+	 * The position of the field in the list, providing a way to override the default alphabetic sorting of fields
+	 */
+	public int fieldPosition() default Integer.MAX_VALUE;
 }
