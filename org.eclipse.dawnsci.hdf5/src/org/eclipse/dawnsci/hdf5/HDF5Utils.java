@@ -1771,6 +1771,9 @@ public class HDF5Utils {
 		int[] out = new int[in.length];
 		for (int i = 0; i < out.length; i++) {
 			long value = in[i];
+			if (value == Long.MAX_VALUE) {
+				value = -1; // stopgap fix for incorrectly written maximum shape
+			}
 			if (value > Integer.MAX_VALUE || value < Integer.MIN_VALUE) {
 				throw new IllegalArgumentException("Cannot convert to int array without data loss");
 			}
