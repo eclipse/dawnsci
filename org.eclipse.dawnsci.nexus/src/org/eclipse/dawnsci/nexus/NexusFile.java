@@ -60,6 +60,12 @@ public interface NexusFile extends AutoCloseable {
 	 */
 
 	/**
+	 * Returns the file path of this {@link NexusFile}. 
+	 * @return file path
+	 */
+	public String getFilePath();
+	
+	/**
 	 * Open file to only read
 	 * @throws IOException 
 	 */

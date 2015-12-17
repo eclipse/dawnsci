@@ -24,7 +24,7 @@ public interface IOperator extends IFunction {
 	public boolean isExtendible();
 
 	/**
-	 * Get the number of functions in the (composite) function.
+	 * Get the number of functions in this operator
 	 * 
 	 * @return number of functions
 	 */

@@ -122,30 +122,11 @@ public interface IFunction extends Serializable {
 	/**
 	 * Method which calculates the partial derivative
 	 * 
-	 * @param index
-	 * @param values
-	 * @return the derivative at the point specified with respect to the parameter specified by its index.
-	 */
-	@Deprecated
-	public double partialDeriv(int index, double... values);
-
-	/**
-	 * Method which calculates the partial derivative
-	 * 
 	 * @param parameter
 	 * @param values
 	 * @return the derivative at the point specified with respect to the specified parameter.
 	 */
 	public double partialDeriv(IParameter parameter, double... values);
-
-	/**
-	 * Old method. See {@link #calculateValues(IDataset...)}
-	 * @param values
-	 *            The values at which to evaluate the function
-	 * @return The dataset of the whole function
-	 */
-	@Deprecated
-	public IDataset makeDataset(IDataset... values);
 
 	/**
 	 * Calculate values from the function
@@ -177,19 +158,6 @@ public interface IFunction extends Serializable {
 	 * @return the dataset of the partial derivative
 	 */
 	public IDataset calculatePartialDerivativeValues(IParameter parameter, IDataset... coords);
-
-	/**
-	 * Method to evaluate the sum of the deviations of the dataset from the function
-	 * when that function is evaluated at the given values and parameters. The allValues flag
-	 * dictates whether to use all the values or just a sampled subset
-	 * 
-	 * @param allValues Boolean specifying whether to use sampling or not, currently not implemented so use true
-	 * @param data A dataset containing the values for the data to be evaluated
-	 * @param coords a dataset containing the coordinates of the data points
-	 * @return residual
-	 */
-	@Deprecated
-	public double residual(boolean allValues, IDataset data, IDataset... coords);
 
 	/**
 	 * Method to evaluate the sum of the deviations of the dataset from the function

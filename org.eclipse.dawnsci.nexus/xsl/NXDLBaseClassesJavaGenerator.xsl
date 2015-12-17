@@ -15,18 +15,20 @@
  To generate the Java interfaces and classes, download and install Saxon XSL processor
  (version HE9-6-0-5J) from saxon.sf.net. Check out the NeXus format definitions from
  github.com/nexusformat/definitions. Then execute the command
-   java -cp [/path/to/]saxon9he.jar net.sf.saxon.Transform -xsl:[/path/to/]NXDLJavaGenerator.xsl -it:generate-java nxdlDefinitionsPath=[/path/to/]nexus-definitions javaSourcePath=[/path/to/]src
+   java -cp [/path/to/]saxon9he.jar net.sf.saxon.Transform -xsl:[/path/to/]NXDLJavaGenerator.xsl -it:generate-java nxdlDefinitionsPath=[/path/to/]nexus-definitions javaSourcePath=[/path/to/]src javaOutputPath=[/path/to]autogen
+ Alternatively use the build.xml Ant build file in this project. 
  -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
  xmlns:xs="http://www.w3.org/2001/XMLSchema"
- xmlns:nx="http://definition.nexusformat.org/nxdl/@NXDL_RELEASE@"
+ xmlns:nx="http://definition.nexusformat.org/nxdl/3.1"
  xmlns:dawnsci="urn:import:org.eclipse.dawnsci.nexus"
  exclude-result-prefixes="xs dawnsci">
 
 <!-- The path containing the nxdl definitions files to transform -->
 <xsl:param name="nxdlDefinitionsPath" select="'.'"/>
 <!-- The path containing the Java source tree to write to -->
-<xsl:param name="javaSourcePath" select="'.'"/>
+<xsl:param name="javaSourcePath" select="'../src'"/>
+<xsl:param name="javaOutputPath" select="'../autogen'"/>
 
 <!-- Find the NeXus classes to generate Java for. -->
 <xsl:variable name="base-classes" select="collection(concat($nxdlDefinitionsPath, '/base_classes?select=*.nxdl.xml'))/nx:definition[@name!='NXobject']"/>
@@ -62,7 +64,7 @@
 <xsl:template mode="interface" match="nx:definition">
 	<xsl:variable name="interfaceName" select="dawnsci:interface-name(@name)"/>
 	
-	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/{$interfaceName}.java" format="text-format">
+	<xsl:result-document href="{$javaOutputPath}/org/eclipse/dawnsci/nexus/{$interfaceName}.java" format="text-format">
 		<xsl:value-of select="$fileHeaderComment"/>
 package org.eclipse.dawnsci.nexus;
 <xsl:apply-templates mode="imports" select="."><xsl:with-param name="implementation" select="false()"/></xsl:apply-templates>
@@ -157,7 +159,7 @@ public interface <xsl:value-of select="$interfaceName"/>
 	<xsl:variable name="interfaceName" select="dawnsci:interface-name(@name)"/>
 	<xsl:variable name="className" select="dawnsci:class-name(@name)"/>
 	
-	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/impl/{$className}.java" format="text-format">
+	<xsl:result-document href="{$javaOutputPath}/org/eclipse/dawnsci/nexus/impl/{$className}.java" format="text-format">
 		<xsl:value-of select="$fileHeaderComment"/>
 package org.eclipse.dawnsci.nexus.impl;
 <xsl:apply-templates mode="imports" select="."><xsl:with-param name="implementation" select="true()"/></xsl:apply-templates>
@@ -594,8 +596,10 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;</xsl:if>
 <!-- Template to generate an enumeration of NeXus base classes -->
 <xsl:template name="base-class-enum">
 
-	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/NexusBaseClass.java" format="text-format">
-		<xsl:text>package org.eclipse.dawnsci.nexus;
+	<xsl:result-document href="{$javaOutputPath}/org/eclipse/dawnsci/nexus/NexusBaseClass.java" format="text-format">
+		<xsl:value-of select="$fileHeaderComment"/>
+		<xsl:text>
+package org.eclipse.dawnsci.nexus;
 	
 /**
  * Eumeration of NeXus base classes.
@@ -604,9 +608,9 @@ public enum NexusBaseClass {
 
 </xsl:text>
 
-		<xsl:apply-templates mode="base-class-enum" select="$nexus-classes"/>
+	<xsl:apply-templates mode="base-class-enum" select="$nexus-classes"/>
 
-		<xsl:text>
+	<xsl:text>
 	private String name;
 	
 	private Class&lt;? extends NXobject&gt; javaClass;
@@ -653,8 +657,10 @@ public enum NexusBaseClass {
 <!-- Template to generate The NeXus factory class for creating instances of the generated classes.-->
 <xsl:template name="factory-class">
 
-	<xsl:result-document href="{$javaSourcePath}/org/eclipse/dawnsci/nexus/impl/NexusNodeFactory.java" format="text-format">
-		<xsl:text>package org.eclipse.dawnsci.nexus.impl;
+	<xsl:result-document href="{$javaOutputPath}/org/eclipse/dawnsci/nexus/impl/NexusNodeFactory.java" format="text-format">
+		<xsl:value-of select="$fileHeaderComment"/>
+		<xsl:text>
+package org.eclipse.dawnsci.nexus.impl;
 
 import java.net.URI;
 

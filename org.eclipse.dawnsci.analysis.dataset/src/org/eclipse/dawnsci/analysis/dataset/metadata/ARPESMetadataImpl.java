@@ -9,6 +9,10 @@
 
 package org.eclipse.dawnsci.analysis.dataset.metadata;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.metadata.ARPESMetadata;
@@ -25,7 +29,21 @@ public class ARPESMetadataImpl implements ARPESMetadata {
 	private static final String NX_ARPES_MONOCHROMATOR_ENERGY = "/entry1/instrument/monochromator/energy";
 	private static final String NX_ARPES_ANALYSER_PASS_ENERGY = "/entry1/instrument/analyser/pass_energy";
 	private static final String NX_ARPES_ANALYSER_DATA = "/entry1/instrument/analyser/data";
-	
+
+	private static double getFirstValue(IDataHolder dh, String item) throws Exception {
+		Serializable v = dh.getMetadata().getMetaValue(item);
+		if (v != null) {
+			return Double.parseDouble((String) v);
+		}
+
+		ILazyDataset l = dh.getLazyDataset(item);
+		int r = l.getRank();
+		int[] stop = new int[r];
+		Arrays.fill(stop, 1);
+		IDataset d = l.getSlice(null, stop, null);
+		return d.getDouble(new int[r]);
+	}
+
 	public static ILazyDataset getFromDataHolder(IDataHolder dh) {
 		// TODO this needs to be fixed up a little to be useful, but this will do to start.
 		// Add ARPES specific metadata where required.
@@ -39,14 +57,12 @@ public class ARPESMetadataImpl implements ARPESMetadata {
 				System.out.println(e);
 			}
 			try {
-				arpesMetadata.setPhotonEnergy(Double.parseDouble((String) dh.getMetadata().getMetaValue(
-						NX_ARPES_MONOCHROMATOR_ENERGY)));
+				arpesMetadata.setPhotonEnergy(getFirstValue(dh, NX_ARPES_MONOCHROMATOR_ENERGY));
 			} catch (Exception e) {
 				System.out.println(e);
 			}
 			try {
-				arpesMetadata.setTemperature(Double.parseDouble((String) dh.getMetadata().getMetaValue(
-						NX_ARPES_SAMPLE_TEMPERATURE)));
+				arpesMetadata.setTemperature(getFirstValue(dh, NX_ARPES_SAMPLE_TEMPERATURE));
 			} catch (Exception e) {
 				System.out.println(e);
 			}

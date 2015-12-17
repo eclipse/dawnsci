@@ -196,7 +196,9 @@ public class HDF5FileFactory {
 						} else {
 							access.writeable = writeable;
 							if (new File(cPath).exists()) {
-								int a = writeable ? HDF5Constants.H5F_ACC_RDWR : (withLatestVersion ? (HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ) : HDF5Constants.H5F_ACC_RDONLY);
+								int a = writeable ? HDF5Constants.H5F_ACC_RDWR : withLatestVersion ? (HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ) : HDF5Constants.H5F_ACC_RDONLY;
+// Unconditionally setting SWMR will break the high-level API access (e.g. its use in PersistentFileImpl)
+//								int a = writeable ? HDF5Constants.H5F_ACC_RDWR : (HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ);
 								fid = H5.H5Fopen(cPath, a, fapl);
 							} else if (!writeable) {
 								logger.error("File {} does not exist!", cPath);

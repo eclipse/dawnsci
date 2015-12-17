@@ -26,6 +26,7 @@ import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
+import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -36,13 +37,12 @@ public class NexusFileIntegrationTest {
 	public static void setUpBeforeClass() throws Exception {
 		testScratchDirectoryName = TestUtils.generateDirectorynameFromClassname(NexusFileIntegrationTest.class.getCanonicalName());
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
-		TestUtils.populateNexusFileFactory();
 	}
 
 	@Test
 	public void testNexusFile() throws Exception {
 		String name = testScratchDirectoryName + "test.nxs";
-		NexusFile nf = NexusUtils.createNexusFile(name);
+		NexusFile nf = NexusTestUtils.createNexusFile(name);
 
 		GroupNode g = nf.getGroup("/e/a/b", true);
 		Dataset a = DatasetFactory.createFromObject("world");
@@ -179,7 +179,7 @@ public class NexusFileIntegrationTest {
 		String d = "testfiles/dawnsci/data/nexus/";
 		String n = "testlinks.nxs";
 
-		NexusFile f = NexusUtils.openNexusFileReadOnly(d + n);
+		NexusFile f = NexusTestUtils.openNexusFileReadOnly(d + n);
 
 		// original
 		int[] shape;

@@ -11,6 +11,7 @@ package org.eclipse.dawnsci.nexus;
 
 import java.io.File;
 
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
 
 public class TestUtils {
@@ -82,21 +83,5 @@ public class TestUtils {
 		if (!((new File(testScratchDirectoryname)).mkdirs())) {
 			throw new Exception("Unable to create new test scratch directory " + testScratchDirectoryname);
 		}
-	}
-
-
-	public static void populateNexusFileFactory() {
-		NexusUtils.setFactory(new INexusFileFactory() {
-
-			@Override
-			public NexusFile createNexusFile(String path, boolean enableSWMR) {
-				return new NexusFileHDF5(path, enableSWMR);
-			}
-
-			@Override
-			public NexusFile createNexusFile(String path) {
-				return new NexusFileHDF5(path);
-			}
-		});
 	}
 }

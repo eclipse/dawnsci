@@ -4,19 +4,18 @@
 	that invokes this build file. -->
 	<property name="xslt-classpath" location="/scratch/opt/saxon9/saxon9he.jar"/>
 	<property name="java-source-path" location="src"/>
+	<property name="java-output-path" location="autogen"/>
 	<property name="gda-version" value="gda_8.47a"/>
 	<property name="nxdl-definitions-path" location="/scratch/dls_sw/all-dls/software/gda_versions/gda_8.47a/workspace_git/definitions"/>
 	
 	<!-- Delete the generated Java base classes -->
 	<target name="delete-base-classes">
 		<delete>
-			<fileset dir="${java-source-path}/org/eclipse/dawnsci/nexus">
-				<include name="NX*.java"/>
-				<exclude name="NXobject.java"/>
+			<fileset dir="${java-output-path}/org/eclipse/dawnsci/nexus">
+				<include name="*.java"/>
 			</fileset>
-			<fileset dir="${java-source-path}/org/eclipse/dawnsci/nexus/impl">
-				<include name="NX*.java"/>
-				<exclude name="NXobjectImpl.java"/>
+			<fileset dir="${java-output-path}/org/eclipse/dawnsci/nexus/impl">
+				<include name="*.java"/>
 			</fileset>
 		</delete>
 	</target>
@@ -24,7 +23,7 @@
 	<!-- Delete the generated Java validators for NeXus application definitions -->
 	<target name="delete-appdefs">
 		<delete>
-			<fileset dir="${java-source-path}/org/eclipse/dawnsci/nexus/validation">
+			<fileset dir="${java-output-path}/org/eclipse/dawnsci/nexus/validation">
 				<include name="NX*.java"/>
 				<exclude name="NXApplicationValidator.java"/>
 				<exclude name="NX*Example.java"/>
@@ -33,7 +32,9 @@
 	</target>
 	
 	<!-- Delete both base classes and application definitions -->
-	<target name="delete-both" depends="delete-base-classes, delete-appdefs"/>
+	<target name="delete-both">
+		<delete dir="autogen"/>
+	</target>
 	
 	<!-- Generate Java classes from the Nexus base class definitions -->
 	<target name="generate-base-classes">
@@ -46,6 +47,7 @@
 			classpath="${xslt-classpath}">
 			<param name="nxdlDefinitionsPath" expression="${nxdl-definitions-path}"/>
 			<param name="javaSourcePath" expression="${java-source-path}"/>
+			<param name="javaOutputPath" expression="${java-output-path}"/>
 			<factory name="net.sf.saxon.TransformerFactoryImpl">
 				<attribute name="http://saxon.sf.net/feature/initialTemplate" value="generate-java"/>
 			</factory>
@@ -67,6 +69,7 @@
 			classpath="${xslt-classpath}">
 			<param name="nxdlDefinitionsPath" expression="${nxdl-definitions-path}"/>
 			<param name="javaSourcePath" expression="${java-source-path}"/>
+			<param name="javaOutputPath" expression="${java-output-path}"/>
 			<factory name="net.sf.saxon.TransformerFactoryImpl">
 				<attribute name="http://saxon.sf.net/feature/initialTemplate" value="generate-java"/>
 			</factory>
