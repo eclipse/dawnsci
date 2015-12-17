@@ -974,7 +974,7 @@ class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile
 				final long[] appendShape = new long[shape.length+1];
 				final long[] maxShape = new long[shape.length+1];
 				appendShape[0] = 1;
-				maxShape[0]    = Long.MAX_VALUE;
+				maxShape[0]    = -1; // unlimited
 				for (int i = 0; i < shape.length; i++) {
 					appendShape[i+1] = shape[i];
 					maxShape[i+1] = shape[i];
