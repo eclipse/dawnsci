@@ -8,6 +8,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
 import org.eclipse.dawnsci.analysis.api.dataset.DataListenerDelegate;
@@ -102,6 +103,14 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	 * IDynamicDataset part of the dataset
 	 */
     public String connect() throws Exception {
+        return connect(500, TimeUnit.MILLISECONDS);
+    }
+	
+	/**
+	 * Call to read the dataset, set current shape and create event connnection for
+	 * IDynamicDataset part of the dataset
+	 */
+    public String connect(long time, TimeUnit unit) throws Exception {
     	
 		this.loader = new RemoteLoader(urlBuilder);
 		createInfo();

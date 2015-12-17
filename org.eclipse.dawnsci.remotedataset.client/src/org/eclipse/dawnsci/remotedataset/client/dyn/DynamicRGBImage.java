@@ -13,6 +13,9 @@ package org.eclipse.dawnsci.remotedataset.client.dyn;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
@@ -149,17 +152,22 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 
 	@Override
 	public String connect() throws Exception {
+		return connect(500, TimeUnit.MILLISECONDS);
+	}
 		
+	@Override
+	public String connect(long time, TimeUnit unit) throws Exception {
+
 		if (imageMonitor!=null) throw new Exception("Cannot reconnect to already running dataset!");
 		
-		connection.getClient().setFinished(false);
-		
+		// Might be a bit overkill for this task
+        final BlockingQueue<Exception> queue = new LinkedBlockingDeque<Exception>(1);
 		this.imageMonitor = new Thread(new Runnable() {
 			public void run() {
 				try {
 					start(); // Just keep going until we are interrupted...
 				} catch (Exception e) {
-					e.printStackTrace();
+					queue.add(e);
 				}
 			}
 		});
@@ -167,6 +175,9 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 		imageMonitor.setDaemon(true);
 		imageMonitor.setPriority(Thread.MIN_PRIORITY); // TODO Is that right?
 		imageMonitor.start();
+		
+		Exception e = queue.poll(time, unit);
+		if (e!=null) throw e;
 		
 		return imageMonitor.getName(); // So that you can know if the runner is going.
 	}
