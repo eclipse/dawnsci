@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Class used to be a jetty server with a port and is an IApplication
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 abstract class PortServer implements IApplication {

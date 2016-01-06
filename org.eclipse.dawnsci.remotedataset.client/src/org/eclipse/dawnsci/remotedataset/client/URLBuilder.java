@@ -10,7 +10,7 @@ import org.eclipse.dawnsci.remotedataset.Format;
 
 /**
  * Holds data and builds urls from it when required.
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class URLBuilder {

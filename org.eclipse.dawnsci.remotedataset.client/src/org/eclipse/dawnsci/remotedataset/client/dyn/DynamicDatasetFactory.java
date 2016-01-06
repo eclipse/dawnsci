@@ -15,7 +15,7 @@ import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
  * 
  * then plot RGB
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class DynamicDatasetFactory {

@@ -77,7 +77,7 @@ import org.eclipse.dawnsci.remotedataset.client.streamer.StreamerFactory;
     	}
     </code>
 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class SliceClient<T> {

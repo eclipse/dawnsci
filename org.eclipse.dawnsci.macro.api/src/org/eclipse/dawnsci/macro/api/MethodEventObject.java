@@ -34,7 +34,7 @@ import java.util.Iterator;
  * You may also specify the method name directly using the second constructor
  * This aviods any stack parsing.
  *  
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class MethodEventObject<T> extends MacroEventObject {

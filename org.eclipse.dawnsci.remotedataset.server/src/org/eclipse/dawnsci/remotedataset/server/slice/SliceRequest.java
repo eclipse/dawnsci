@@ -94,7 +94,7 @@ import org.eclipse.swt.graphics.RGB;
  *      http://localhost:8080/slice/?path=c%3A/Work/results/TomographyDataSet.hdf5&dataset=/entry/exchange/data&slice=[0,%3A1024,%3A1024]&bin=MAXIMUM:2x2&format=JPG
  *      http://localhost:8080/slice/?path=c%3A/Work/results/TomographyDataSet.hdf5&dataset=/entry/exchange/data&slice=[0,%3A1024,%3A1024]&bin=MAXIMUM:2x2&format=MJPG:0
  *      
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 class SliceRequest implements HttpSessionBindingListener {	

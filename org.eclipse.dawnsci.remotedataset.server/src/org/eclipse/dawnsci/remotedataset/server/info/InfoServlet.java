@@ -57,7 +57,7 @@ data
 2
 1
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class InfoServlet extends HttpServlet {

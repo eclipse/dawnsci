@@ -22,7 +22,7 @@ package org.eclipse.dawnsci.macro.api;
  * 
  * Generally the macro runner is published on RMI.
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public interface IMacroRunner {

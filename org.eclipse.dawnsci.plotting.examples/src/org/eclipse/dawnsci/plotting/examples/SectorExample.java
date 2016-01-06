@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Display;
  * View which creates a sector selection region
  * and listens to that region moving.
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class SectorExample extends ImageExample {

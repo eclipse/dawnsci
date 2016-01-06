@@ -7,7 +7,7 @@ import org.eclipse.dawnsci.analysis.api.metadata.DynamicConnectionInfo;
 /**
  * Not for use outside package. Bridges SliceClient to DynamicConnectionInfo
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class DynamicConnectionInfoExt extends DynamicConnectionInfo {

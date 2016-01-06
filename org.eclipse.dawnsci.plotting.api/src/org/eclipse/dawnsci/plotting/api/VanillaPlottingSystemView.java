@@ -11,7 +11,7 @@ import org.eclipse.ui.part.ViewPart;
  * You may use this class to replace plot view because it has fewer dependencies
  * as the whole of analysis.rcp is not required.
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class VanillaPlottingSystemView extends ViewPart implements IAdaptable {

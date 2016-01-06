@@ -21,7 +21,7 @@ import org.eclipse.dawnsci.plotting.api.histogram.IPaletteService;
 import org.osgi.service.component.ComponentContext;
 /**
  * Class to inject OSGI services to.
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class Examples {

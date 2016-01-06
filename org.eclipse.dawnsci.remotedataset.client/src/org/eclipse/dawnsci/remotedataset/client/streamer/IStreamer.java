@@ -15,7 +15,7 @@ package org.eclipse.dawnsci.remotedataset.client.streamer;
  * Interface used to stream either JPG or IDataset from
  * server stream.
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  * @param <T>
  */

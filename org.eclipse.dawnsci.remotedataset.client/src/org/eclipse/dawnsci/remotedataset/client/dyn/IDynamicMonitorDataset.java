@@ -15,7 +15,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
  * then plot RGB
 
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public interface IDynamicMonitorDataset extends IDataset, IDynamicDataset, IRemoteDataset {

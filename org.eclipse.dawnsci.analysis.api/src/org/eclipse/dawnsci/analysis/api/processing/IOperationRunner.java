@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Defines a running mechanism for running a pipeline
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public interface IOperationRunner {

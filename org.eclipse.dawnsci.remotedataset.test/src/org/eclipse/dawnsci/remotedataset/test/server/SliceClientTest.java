@@ -28,7 +28,7 @@ import org.junit.Test;
  * 
  * TODO make this into a replicable unit test.
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */ 
 public class SliceClientTest extends DataServerTest {

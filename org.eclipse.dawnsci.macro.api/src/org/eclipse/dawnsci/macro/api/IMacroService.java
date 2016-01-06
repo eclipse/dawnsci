@@ -21,7 +21,7 @@ package org.eclipse.dawnsci.macro.api;
  * You can listen to events and do the insertion to the script. These events
  * can then be replayed.
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public interface IMacroService {

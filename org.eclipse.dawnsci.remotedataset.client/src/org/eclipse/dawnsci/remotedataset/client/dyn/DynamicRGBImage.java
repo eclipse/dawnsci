@@ -27,7 +27,7 @@ import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 /**
  * Class used to get a streaming image into the plotting system.
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {

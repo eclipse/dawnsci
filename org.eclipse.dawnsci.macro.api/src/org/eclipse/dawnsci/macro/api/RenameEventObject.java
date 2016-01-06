@@ -17,7 +17,7 @@ package org.eclipse.dawnsci.macro.api;
  * Can be used whereever a newName replaces an old name, works
  * in python and jython.
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class RenameEventObject extends MacroEventObject {

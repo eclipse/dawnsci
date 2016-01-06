@@ -15,7 +15,7 @@ package org.eclipse.dawnsci.macro.api;
  * A generic MacroEventObject to represent deleting an object
  * in python, setting it to None.
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class DeleteEventObject extends MacroEventObject {

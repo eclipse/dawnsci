@@ -15,7 +15,7 @@ import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 
 /**
  * Used for streaming an image into the plotting system.
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDataset {

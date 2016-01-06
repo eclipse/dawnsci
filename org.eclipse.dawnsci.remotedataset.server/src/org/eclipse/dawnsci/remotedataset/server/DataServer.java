@@ -27,7 +27,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
  * This object is designed to start the server and 
  * can be used as a spring object for instance.
  *  
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class DataServer extends PortServer {

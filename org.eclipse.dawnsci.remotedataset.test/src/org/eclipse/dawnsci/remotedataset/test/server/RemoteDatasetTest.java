@@ -17,7 +17,7 @@ import org.junit.Test;
  * Test which writes to a local file random data every timeinterval
  * and checks that the DataServer sents events.
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class RemoteDatasetTest extends DataServerTest {

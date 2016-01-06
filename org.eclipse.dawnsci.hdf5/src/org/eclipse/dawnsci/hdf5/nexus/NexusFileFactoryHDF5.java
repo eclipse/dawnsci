@@ -14,8 +14,15 @@ import org.eclipse.dawnsci.nexus.NexusFile;
 
 /**
  * HDF5 implementation of {@link INexusFileFactory}.
+ * 
+ * DO NOT use this concrete class in non-test code. Use OSGi to inject the
+ * implementation of INexusFileFactory.
  */
 public class NexusFileFactoryHDF5 implements INexusFileFactory {
+	
+	static {
+		System.out.println("Starting NeXus File Factory");
+	}
 
 	@Override
 	public NexusFile newNexusFile(String path) {

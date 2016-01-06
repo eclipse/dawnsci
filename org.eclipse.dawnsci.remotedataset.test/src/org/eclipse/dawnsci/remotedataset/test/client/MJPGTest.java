@@ -23,7 +23,7 @@ import uk.ac.diamond.scisoft.analysis.osgi.LoaderServiceImpl;
 /**
  * Test using MJPG datasets how they are supposed to be used.
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class MJPGTest {

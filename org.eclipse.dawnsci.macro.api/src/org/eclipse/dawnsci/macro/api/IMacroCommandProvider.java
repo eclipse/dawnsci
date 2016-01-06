@@ -15,7 +15,7 @@ package org.eclipse.dawnsci.macro.api;
  * Implement this interface and then fire events using the IMacroService.publish(..)
  * to allow pydev consoles and script files to record your actions when using the GUI.
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public interface IMacroCommandProvider {

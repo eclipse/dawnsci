@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Composite;
  * This view uses the services available from plotting.api and 
  * analysis.io
  * 
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class BarExample extends PlotExample {
