@@ -23,6 +23,8 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
  */
 public class HDF5LazySaver extends HDF5LazyLoader implements ILazySaver, Serializable {
 
+	private static final long serialVersionUID = -5244067010482825423L;
+
 	private int[] maxShape;
 	private int[] chunks;
 	private Object fill;
