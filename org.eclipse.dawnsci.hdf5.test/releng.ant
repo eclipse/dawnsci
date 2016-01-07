@@ -15,7 +15,8 @@
 
 	<import file="${workspace.git.loc}/diamond-releng.git/diamond.releng.tools/ant-headless/test-common.ant" />
 	<target name="junit-tests" depends="set-test-base-DAWN">
-		<junit-call description="${ant.project.name} Java JUnit tests" maxmemory="2048m">
+		<junit-call description="${ant.project.name} Java JUnit tests" forkmode="perTest" maxmemory="2048m">
+			<!-- forkmode=perTest, since some of these tests stress memory, and we sometimes get failures unless we start each test in a new clean JVM -->
 			<formatter type="xml" />
 			<classpath>
 				<pathelement location="${junitjar.loc}" />
