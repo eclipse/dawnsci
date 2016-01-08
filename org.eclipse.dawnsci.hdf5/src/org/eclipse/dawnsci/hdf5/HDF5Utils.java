@@ -703,7 +703,7 @@ public class HDF5Utils {
 	 */
 	public static LazyWriteableDataset createLazyDataset(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned) {
 		return new LazyWriteableDataset(name, dtype, initialShape, maxShape, chunking, new HDF5LazySaver(null, fileName,
-				parentPath, name, initialShape, 1, dtype, asUnsigned, maxShape, chunking, fill));
+				parentPath + Node.SEPARATOR + name, name, initialShape, 1, dtype, asUnsigned, maxShape, chunking, fill));
 	}
 
 	/**

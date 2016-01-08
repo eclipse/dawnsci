@@ -943,7 +943,7 @@ public class NexusFileHDF5 implements NexusFile {
 			throw new NexusException("Could not create dataset", e);
 		}
 
-		HDF5LazySaver saver = new HDF5LazySaver(null, fileName, parentPath, name,
+		HDF5LazySaver saver = new HDF5LazySaver(null, fileName, parentPath + Node.SEPARATOR + name, name,
 				iShape, itemSize, dataType, false, iMaxShape, iChunks, fillValue);
 		data.setSaver(saver);
 
