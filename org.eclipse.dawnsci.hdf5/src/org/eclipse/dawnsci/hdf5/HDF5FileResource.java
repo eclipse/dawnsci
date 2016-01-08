@@ -30,8 +30,8 @@ public class HDF5FileResource extends HDF5BaseResource {
 	private static final Logger logger = LoggerFactory.getLogger(HDF5FileResource.class);
 
 	/**
-	 * Wrap the specified datatype resource identifier
-	 * @param resource datatype identifier to wrap
+	 * Wrap the specified file resource identifier
+	 * @param resource file identifier to wrap
 	 */
 	public HDF5FileResource(long resource) {
 		super(resource);

@@ -30,8 +30,8 @@ public class HDF5GroupResource extends HDF5BaseResource {
 	private static final Logger logger = LoggerFactory.getLogger(HDF5GroupResource.class);
 
 	/**
-	 * Wrap the specified dataset resource identifier
-	 * @param resource dataset identifier to wrap
+	 * Wrap the specified group resource identifier
+	 * @param resource group identifier to wrap
 	 */
 	public HDF5GroupResource(long resource) {
 		super(resource);
@@ -42,7 +42,7 @@ public class HDF5GroupResource extends HDF5BaseResource {
 		try {
 			H5.H5Gclose(resource);
 		} catch (HDF5LibraryException e) {
-			logger.error("Could not close HDF5 dataset", e);
+			logger.error("Could not close HDF5 group", e);
 		}
 	}
 
