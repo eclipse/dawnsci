@@ -184,6 +184,8 @@ public class NexusFileHDF5 implements NexusFile {
 
 	private boolean useSWMR = false;
 
+	private static int DEF_FIXED_STRING_LENGTH = 1024;
+
 	public NexusFileHDF5(String path) {
 		this(path, false);
 	}
@@ -881,6 +883,7 @@ public class NexusFileHDF5 implements NexusFile {
 		long[] maxShape = HDF5Utils.toLongArray(iMaxShape);
 		long[] chunks = HDF5Utils.toLongArray(iChunks);
 		boolean stringDataset = data.elementClass().equals(String.class);
+		boolean writeVlenString = stringDataset && !useSWMR; //SWMR does not allow vlen structures
 		long hdfType = getHDF5Type(data);
 		try {
 			try (HDF5Resource hdfDatatype = new HDF5DatatypeResource(H5.H5Tcopy(hdfType));
@@ -910,7 +913,7 @@ public class NexusFileHDF5 implements NexusFile {
 
 				if (stringDataset) {
 					H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
-					H5.H5Tset_size(hdfDatatypeId, HDF5Constants.H5T_VARIABLE);
+					H5.H5Tset_size(hdfDatatypeId, writeVlenString ? HDF5Constants.H5T_VARIABLE : DEF_FIXED_STRING_LENGTH);
 				} else if (fillValue != null) {
 					//Strings must not have a fill value set
 					H5.H5Pset_fill_value(hdfPropertiesId, hdfDatatypeId, fillValue);
