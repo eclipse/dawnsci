@@ -21,7 +21,7 @@ public interface INexusDevice {
 	 * @return
 	 * @throws Exception
 	 */
-	<N extends NXobject> NexusObjectProvider<N> getNexusProvider() throws Exception;
+	<N extends NXobject> NexusObjectProvider<N> getNexusProvider() ;
 	
 	/**
 	 * 
