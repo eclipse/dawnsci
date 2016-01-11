@@ -21,13 +21,13 @@ public interface INexusDevice {
 	 * @return
 	 * @throws Exception
 	 */
-	<N extends NXobject> NexusObjectProvider<N> getNexusProvider() ;
+	<N extends NXobject> NexusObjectProvider<N> getNexusProvider(NexusScanInfo info) ;
 	
 	/**
 	 * 
 	 * @param nodeFactory
 	 * @return
 	 */
-	<N extends NXobject> N createNexusObject(NexusNodeFactory nodeFactory);
+	<N extends NXobject> N createNexusObject(NexusNodeFactory nodeFactory, NexusScanInfo info);
 
 }
