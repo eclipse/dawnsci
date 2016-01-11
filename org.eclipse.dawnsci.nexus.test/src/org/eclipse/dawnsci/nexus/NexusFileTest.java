@@ -646,48 +646,67 @@ public class NexusFileTest {
 	}
 	
 	@Test
-	public void testLazyWrite3Dvs4DDoubleArray() throws Exception {
+	public void testLazyRelativeWriteSpeed() throws Exception {
 		
-		GroupNode group = nf.getGroup("/test_3D:NXnote", true);
-		final ILazyWriteableDataset lazy3 = NexusUtils.createLazyWriteableDataset("doublearray", Dataset.FLOAT64, new int[] {ILazyWriteableDataset.UNLIMITED, 1024, 1024}, null, new int[]{1, 1024,1024});
-		nf.createData(group, lazy3);
-		
-		group = nf.getGroup("/test_4D:NXnote", true);
-		final ILazyWriteableDataset lazy4 = NexusUtils.createLazyWriteableDataset("doublearray", Dataset.FLOAT64, new int[] {ILazyWriteableDataset.UNLIMITED, ILazyWriteableDataset.UNLIMITED, 1024, 1024}, null, new int[]{1, 1, 1024,1024});
-		nf.createData(group, lazy4);
-	
-		group = nf.getGroup("/test_5D:NXnote", true);
-		final ILazyWriteableDataset lazy5 = NexusUtils.createLazyWriteableDataset("doublearray", Dataset.FLOAT64, new int[] {ILazyWriteableDataset.UNLIMITED, ILazyWriteableDataset.UNLIMITED, ILazyWriteableDataset.UNLIMITED, 1024, 1024}, null, new int[]{1, 1, 1, 1024,1024});
-		nf.createData(group, lazy5);
-
+		ILazyWriteableDataset lazy3 = createLazyDouble(3);
+		ILazyWriteableDataset lazy4 = createLazyDouble(4);
+		ILazyWriteableDataset lazy5 = createLazyDouble(5);
+		ILazyWriteableDataset lazy8 = createLazyDouble(8);
 		nf.close();
 			
 		IDataset image = Random.rand(1024,1024);
 		
-		long before = System.currentTimeMillis();
-		lazy3.setSlice(null, image, new int[] {0, 0, 0}, new int[] {1, 1024,1024}, null);
-		long after = System.currentTimeMillis();
-		long diff3 = after-before;
-		System.out.println("Writing 1 image in 3D stack took: "+diff3+" ms");
-		
-		before = System.currentTimeMillis();
-		lazy4.setSlice(null, image, new int[] {0, 0, 0, 0}, new int[] {1, 1, 1024,1024}, null);
-		after = System.currentTimeMillis();
-		long diff4 = after-before;
-		System.out.println("Writing 1 image in 4D stack took: "+diff4+" ms");
+		long diff3 = checkWrite(lazy3, image);
+		long diff4 = checkWrite(lazy4, image);
+		long diff5 = checkWrite(lazy5, image);
+		long diff8 = checkWrite(lazy8, image);
 
-		
-		before = System.currentTimeMillis();
-		lazy5.setSlice(null, image, new int[] {0, 0, 0, 0, 0}, new int[] {1, 1, 1, 1024,1024}, null);
-		after = System.currentTimeMillis();
-		long diff5 = after-before;
-		System.out.println("Writing 1 image in 5D stack took: "+diff5+" ms");
-		
-		assertTrue(diff4<(diff3*2)); // Might not be with default chunking.
-		assertTrue(diff5<(diff3*2)); // Might not be with default chunking.
+		long perf = Math.max(20,diff3*2);
+		assertTrue(diff4<perf); // Might not be with default chunking.
+		assertTrue(diff5<perf); // Might not be with default chunking.
+		assertTrue(diff8<perf); // Might not be with default chunking.
 
 	}
 
+
+	private long checkWrite(ILazyWriteableDataset lazy, IDataset image) throws Exception {
+		
+		int size = lazy.getShape().length;
+		int[] start = new int[size];
+		int[] end   = new int[size];
+		for (int i = 0; i < size; i++) {
+			start[i]=0;
+			end[i]=1;
+		}
+		end[end.length-2] = 1024;
+		end[end.length-1] = 1024;
+		long before = System.currentTimeMillis();
+		lazy.setSlice(null, image, start, end, null);
+		long after = System.currentTimeMillis();
+		long diff = after-before;
+		System.out.println("Writing 1 image in "+size+"D stack took: "+diff+" ms");
+        return diff;
+	}
+
+	private ILazyWriteableDataset createLazyDouble(int size) throws NexusException {
+		
+		GroupNode group = nf.getGroup("/test_"+size+"D:NXnote", true);
+		
+		int[] max = new int[size];
+		int[]chunk = new int[size];
+		for (int i = 0; i < size-2; i++) {
+			max[i]=ILazyWriteableDataset.UNLIMITED;
+			chunk[i]=1;
+		}
+		max[max.length-2] = 1024;
+		max[max.length-1] = 1024;
+		chunk[max.length-2] = 1024;
+		chunk[max.length-1] = 1024;
+		
+		final ILazyWriteableDataset lazy = NexusUtils.createLazyWriteableDataset("doublearray", Dataset.FLOAT64, max, null, chunk);
+		nf.createData(group, lazy);
+		return lazy;
+	}
 
 	@Test
 	public void testLazyWrite2DStringArray() throws Exception {
