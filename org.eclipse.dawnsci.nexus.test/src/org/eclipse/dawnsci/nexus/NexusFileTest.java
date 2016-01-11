@@ -30,6 +30,7 @@ import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.analysis.tree.impl.DataNodeImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
 import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
@@ -643,6 +644,50 @@ public class NexusFileTest {
 		IDataset data = node.getDataset().getSlice(new int[] {0, 0}, new int[] {2, 2}, new int[] {1, 1});
 		assertArrayEquals(new double[] {1, 2, 3, 4}, (double[])((Dataset) data).getBuffer(), 1e-12);
 	}
+	
+	@Test
+	public void testLazyWrite3Dvs4DDoubleArray() throws Exception {
+		
+		GroupNode group = nf.getGroup("/test_3D:NXnote", true);
+		final ILazyWriteableDataset lazy3 = NexusUtils.createLazyWriteableDataset("doublearray", Dataset.FLOAT64, new int[] {ILazyWriteableDataset.UNLIMITED, 1024, 1024}, null, new int[]{1, 1024,1024});
+		nf.createData(group, lazy3);
+		
+		group = nf.getGroup("/test_4D:NXnote", true);
+		final ILazyWriteableDataset lazy4 = NexusUtils.createLazyWriteableDataset("doublearray", Dataset.FLOAT64, new int[] {ILazyWriteableDataset.UNLIMITED, ILazyWriteableDataset.UNLIMITED, 1024, 1024}, null, new int[]{1, 1, 1024,1024});
+		nf.createData(group, lazy4);
+	
+		group = nf.getGroup("/test_5D:NXnote", true);
+		final ILazyWriteableDataset lazy5 = NexusUtils.createLazyWriteableDataset("doublearray", Dataset.FLOAT64, new int[] {ILazyWriteableDataset.UNLIMITED, ILazyWriteableDataset.UNLIMITED, ILazyWriteableDataset.UNLIMITED, 1024, 1024}, null, new int[]{1, 1, 1, 1024,1024});
+		nf.createData(group, lazy5);
+
+		nf.close();
+			
+		IDataset image = Random.rand(1024,1024);
+		
+		long before = System.currentTimeMillis();
+		lazy3.setSlice(null, image, new int[] {0, 0, 0}, new int[] {1, 1024,1024}, null);
+		long after = System.currentTimeMillis();
+		long diff3 = after-before;
+		System.out.println("Writing 1 image in 3D stack took: "+diff3+" ms");
+		
+		before = System.currentTimeMillis();
+		lazy4.setSlice(null, image, new int[] {0, 0, 0, 0}, new int[] {1, 1, 1024,1024}, null);
+		after = System.currentTimeMillis();
+		long diff4 = after-before;
+		System.out.println("Writing 1 image in 4D stack took: "+diff4+" ms");
+
+		
+		before = System.currentTimeMillis();
+		lazy5.setSlice(null, image, new int[] {0, 0, 0, 0, 0}, new int[] {1, 1, 1, 1024,1024}, null);
+		after = System.currentTimeMillis();
+		long diff5 = after-before;
+		System.out.println("Writing 1 image in 5D stack took: "+diff5+" ms");
+		
+		assertTrue(diff4<(diff3*2)); // Might not be with default chunking.
+		assertTrue(diff5<(diff3*2)); // Might not be with default chunking.
+
+	}
+
 
 	@Test
 	public void testLazyWrite2DStringArray() throws Exception {
