@@ -1011,4 +1011,24 @@ public class NexusFileTest {
 
 		assertFalse(readH == readL);
 	}
+
+	@Test
+	public void testLazyWriteFromReadbackNode() throws Exception {
+		nf.close();
+		IDataset ods = DatasetFactory.createFromObject(new int[] {10, 20, 30});
+		try (NexusFile nf2 = NexusTestUtils.createNexusFile(FILE_NAME)) {
+			ILazyWriteableDataset lds = new LazyWriteableDataset("data",
+					Dataset.INT32,
+					new int[] {0},
+					new int[] {ILazyWriteableDataset.UNLIMITED},
+					new int[] {3},
+					null);
+			nf2.createData("/test/", lds, true);
+			nf2.flush();
+		}
+		try (NexusFile nf = NexusTestUtils.openNexusFile((FILE_NAME))) {
+			ILazyWriteableDataset lds = nf.getData("/test/data").getWriteableDataset();
+			lds.setSlice(null, ods, new int[] {0}, new int[] {3}, null);
+		}
+	}
 }

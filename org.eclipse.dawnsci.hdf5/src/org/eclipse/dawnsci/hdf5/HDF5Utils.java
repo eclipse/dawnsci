@@ -703,7 +703,7 @@ public class HDF5Utils {
 	 */
 	public static LazyWriteableDataset createLazyDataset(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned) {
 		return new LazyWriteableDataset(name, dtype, initialShape, maxShape, chunking, new HDF5LazySaver(null, fileName,
-				parentPath, name, initialShape, 1, dtype, asUnsigned, maxShape, chunking, fill));
+				parentPath + Node.SEPARATOR + name, name, initialShape, 1, dtype, asUnsigned, maxShape, chunking, fill));
 	}
 
 	/**
@@ -1241,10 +1241,37 @@ public class HDF5Utils {
 
 					hdfMemspaceId = H5.H5Screate_simple(rank, HDF5Utils.toLongArray(data.getShape()), null);
 					if (dtype == Dataset.STRING) {
+						boolean vlenString = false;
+						hdfDatatypeId = H5.H5Dget_type(hdfDatasetId);
+						int typeSize = -1;
+						try {
+							typeSize = H5.H5Tget_size(hdfDatatypeId);
+							vlenString = H5.H5Tis_variable_str(hdfDatatypeId);
+						} finally {
+							H5.H5Tclose(hdfDatatypeId);
+							hdfDatatypeId = -1;
+						}
 						hdfDatatypeId = H5.H5Tcopy(memtype);
 						H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
-						H5.H5Tset_size(hdfDatatypeId, HDF5Constants.H5T_VARIABLE);
-						H5.H5DwriteString(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, (String[]) buffer);
+						H5.H5Tset_size(hdfDatatypeId, vlenString ? HDF5Constants.H5T_VARIABLE : typeSize);
+						if (vlenString) {
+							H5.H5DwriteString(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, (String[]) buffer);
+						} else {
+							String[] strings = (String[]) buffer;
+							byte[] strBuffer = new byte[typeSize * strings.length];
+							int idx = 0;
+							for (String str : (String[]) strings) {
+								//typesize - 1 since we always want to leave room for \0 at the end of the string
+								if (str.length() > typeSize - 1) {
+									logger.warn("String does not fit into space allocated in HDF5 file in " + dataPath + " - string will be truncated");
+								}
+								byte[] src = str.getBytes(UTF8);
+								int length = Math.min(typeSize - 1, src.length);
+								System.arraycopy(src, 0, strBuffer, idx, length);
+								idx += typeSize;
+							}
+							H5.H5Dwrite(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, strBuffer);
+						}
 					} else {
 						H5.H5Dwrite(hdfDatasetId, memtype, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, buffer);
 					}
