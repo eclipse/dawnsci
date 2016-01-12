@@ -41,4 +41,27 @@ public class NexusScanInfo {
 	public void setAxisNames(List<String> axisNames) {
 		this.axisNames = axisNames;
 	}
+
+	/**
+	 * Attempts to make a chunk size from the scan.
+	 * NOTE This assumes that the datashape is a resonable size currently.
+	 * If the datashape is small, the chunking can become too small to usefully
+	 * read.
+	 * 
+	 * @param datashape
+	 * @return
+	 */
+	public int[] createChunk(int... datashape) {
+		
+		final int[] chunk = new int[rank+datashape.length];
+		for (int i = 0; i < chunk.length-2; i++) {
+			chunk[i] = 1;
+		}
+		int index = 0;
+		for (int i = datashape.length; i>0; i--) {
+			chunk[chunk.length-i] = datashape[index];
+			index++;
+		}
+		return chunk;
+	}
 }
