@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -19,7 +19,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -32,28 +31,16 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_TYPE = "type";
-	public static final String NX_GAP = "gap";
-	public static final String NX_TAPER = "taper";
-	public static final String NX_PHASE = "phase";
-	public static final String NX_POLES = "poles";
-	public static final String NX_MAGNETIC_WAVELENGTH = "magnetic_wavelength";
-	public static final String NX_K = "k";
-	public static final String NX_LENGTH = "length";
-	public static final String NX_POWER = "power";
-	public static final String NX_ENERGY = "energy";
-	public static final String NX_BANDWIDTH = "bandwidth";
-	public static final String NX_HARMONIC = "harmonic";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_DATA,
 		NexusBaseClass.NX_GEOMETRY);
 
-	protected NXinsertion_deviceImpl(final NexusNodeFactory nodeFactory) {
+	public NXinsertion_deviceImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXinsertion_deviceImpl(final long oid) {
+	public NXinsertion_deviceImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -83,10 +70,12 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getString(NX_TYPE);
 	}
 
+	@Override
 	public DataNode setType(IDataset type) {
 		return setDataset(NX_TYPE, type);
 	}
 
+	@Override
 	public DataNode setTypeScalar(String type) {
 		return setString(NX_TYPE, type);
 	}
@@ -101,10 +90,12 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getDouble(NX_GAP);
 	}
 
+	@Override
 	public DataNode setGap(IDataset gap) {
 		return setDataset(NX_GAP, gap);
 	}
 
+	@Override
 	public DataNode setGapScalar(double gap) {
 		return setField(NX_GAP, gap);
 	}
@@ -119,10 +110,12 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getDouble(NX_TAPER);
 	}
 
+	@Override
 	public DataNode setTaper(IDataset taper) {
 		return setDataset(NX_TAPER, taper);
 	}
 
+	@Override
 	public DataNode setTaperScalar(double taper) {
 		return setField(NX_TAPER, taper);
 	}
@@ -137,10 +130,12 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getDouble(NX_PHASE);
 	}
 
+	@Override
 	public DataNode setPhase(IDataset phase) {
 		return setDataset(NX_PHASE, phase);
 	}
 
+	@Override
 	public DataNode setPhaseScalar(double phase) {
 		return setField(NX_PHASE, phase);
 	}
@@ -155,10 +150,12 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getLong(NX_POLES);
 	}
 
+	@Override
 	public DataNode setPoles(IDataset poles) {
 		return setDataset(NX_POLES, poles);
 	}
 
+	@Override
 	public DataNode setPolesScalar(long poles) {
 		return setField(NX_POLES, poles);
 	}
@@ -173,10 +170,12 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getDouble(NX_MAGNETIC_WAVELENGTH);
 	}
 
+	@Override
 	public DataNode setMagnetic_wavelength(IDataset magnetic_wavelength) {
 		return setDataset(NX_MAGNETIC_WAVELENGTH, magnetic_wavelength);
 	}
 
+	@Override
 	public DataNode setMagnetic_wavelengthScalar(double magnetic_wavelength) {
 		return setField(NX_MAGNETIC_WAVELENGTH, magnetic_wavelength);
 	}
@@ -191,10 +190,12 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getDouble(NX_K);
 	}
 
+	@Override
 	public DataNode setK(IDataset k) {
 		return setDataset(NX_K, k);
 	}
 
+	@Override
 	public DataNode setKScalar(double k) {
 		return setField(NX_K, k);
 	}
@@ -209,10 +210,12 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getDouble(NX_LENGTH);
 	}
 
+	@Override
 	public DataNode setLength(IDataset length) {
 		return setDataset(NX_LENGTH, length);
 	}
 
+	@Override
 	public DataNode setLengthScalar(double length) {
 		return setField(NX_LENGTH, length);
 	}
@@ -227,10 +230,12 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getDouble(NX_POWER);
 	}
 
+	@Override
 	public DataNode setPower(IDataset power) {
 		return setDataset(NX_POWER, power);
 	}
 
+	@Override
 	public DataNode setPowerScalar(double power) {
 		return setField(NX_POWER, power);
 	}
@@ -245,10 +250,12 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getDouble(NX_ENERGY);
 	}
 
+	@Override
 	public DataNode setEnergy(IDataset energy) {
 		return setDataset(NX_ENERGY, energy);
 	}
 
+	@Override
 	public DataNode setEnergyScalar(double energy) {
 		return setField(NX_ENERGY, energy);
 	}
@@ -263,10 +270,12 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getDouble(NX_BANDWIDTH);
 	}
 
+	@Override
 	public DataNode setBandwidth(IDataset bandwidth) {
 		return setDataset(NX_BANDWIDTH, bandwidth);
 	}
 
+	@Override
 	public DataNode setBandwidthScalar(double bandwidth) {
 		return setField(NX_BANDWIDTH, bandwidth);
 	}
@@ -281,10 +290,12 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getLong(NX_HARMONIC);
 	}
 
+	@Override
 	public DataNode setHarmonic(IDataset harmonic) {
 		return setDataset(NX_HARMONIC, harmonic);
 	}
 
+	@Override
 	public DataNode setHarmonicScalar(long harmonic) {
 		return setField(NX_HARMONIC, harmonic);
 	}
@@ -294,6 +305,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getChild("spectrum", NXdata.class);
 	}
 
+	@Override
 	public void setSpectrum(NXdata spectrum) {
 		putChild("spectrum", spectrum);
 	}
@@ -303,6 +315,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getChild("geometry", NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(NXgeometry geometry) {
 		putChild("geometry", geometry);
 	}
@@ -312,6 +325,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		return getChild(name, NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(String name, NXgeometry geometry) {
 		putChild(name, geometry);
 	}
@@ -320,7 +334,8 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	public Map<String, NXgeometry> getAllGeometry() {
 		return getChildren(NXgeometry.class);
 	}
-
+	
+	@Override
 	public void setAllGeometry(Map<String, NXgeometry> geometry) {
 		setChildren(geometry);
 	}

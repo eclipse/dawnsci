@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -19,7 +19,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -32,22 +31,17 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_NAME = "name";
-	public static final String NX_SHORT_NAME = "short_name";
-	public static final String NX_TYPE = "type";
-	public static final String NX_DESCRIPTION = "description";
-	public static final String NX_PROGRAM = "program";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY,
 		NexusBaseClass.NX_NOTE,
 		NexusBaseClass.NX_SENSOR);
 
-	protected NXenvironmentImpl(final NexusNodeFactory nodeFactory) {
+	public NXenvironmentImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXenvironmentImpl(final long oid) {
+	public NXenvironmentImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -77,10 +71,12 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getString(NX_NAME);
 	}
 
+	@Override
 	public DataNode setName(IDataset name) {
 		return setDataset(NX_NAME, name);
 	}
 
+	@Override
 	public DataNode setNameScalar(String name) {
 		return setString(NX_NAME, name);
 	}
@@ -95,10 +91,12 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getString(NX_SHORT_NAME);
 	}
 
+	@Override
 	public DataNode setShort_name(IDataset short_name) {
 		return setDataset(NX_SHORT_NAME, short_name);
 	}
 
+	@Override
 	public DataNode setShort_nameScalar(String short_name) {
 		return setString(NX_SHORT_NAME, short_name);
 	}
@@ -113,10 +111,12 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getString(NX_TYPE);
 	}
 
+	@Override
 	public DataNode setType(IDataset type) {
 		return setDataset(NX_TYPE, type);
 	}
 
+	@Override
 	public DataNode setTypeScalar(String type) {
 		return setString(NX_TYPE, type);
 	}
@@ -131,10 +131,12 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getString(NX_DESCRIPTION);
 	}
 
+	@Override
 	public DataNode setDescription(IDataset description) {
 		return setDataset(NX_DESCRIPTION, description);
 	}
 
+	@Override
 	public DataNode setDescriptionScalar(String description) {
 		return setString(NX_DESCRIPTION, description);
 	}
@@ -149,10 +151,12 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getString(NX_PROGRAM);
 	}
 
+	@Override
 	public DataNode setProgram(IDataset program) {
 		return setDataset(NX_PROGRAM, program);
 	}
 
+	@Override
 	public DataNode setProgramScalar(String program) {
 		return setString(NX_PROGRAM, program);
 	}
@@ -162,6 +166,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getChild("position", NXgeometry.class);
 	}
 
+	@Override
 	public void setPosition(NXgeometry position) {
 		putChild("position", position);
 	}
@@ -171,6 +176,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getChild("note", NXnote.class);
 	}
 
+	@Override
 	public void setNote(NXnote note) {
 		putChild("note", note);
 	}
@@ -180,6 +186,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getChild(name, NXnote.class);
 	}
 
+	@Override
 	public void setNote(String name, NXnote note) {
 		putChild(name, note);
 	}
@@ -188,7 +195,8 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 	public Map<String, NXnote> getAllNote() {
 		return getChildren(NXnote.class);
 	}
-
+	
+	@Override
 	public void setAllNote(Map<String, NXnote> note) {
 		setChildren(note);
 	}
@@ -198,6 +206,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getChild("sensor", NXsensor.class);
 	}
 
+	@Override
 	public void setSensor(NXsensor sensor) {
 		putChild("sensor", sensor);
 	}
@@ -207,6 +216,7 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 		return getChild(name, NXsensor.class);
 	}
 
+	@Override
 	public void setSensor(String name, NXsensor sensor) {
 		putChild(name, sensor);
 	}
@@ -215,7 +225,8 @@ public class NXenvironmentImpl extends NXobjectImpl implements NXenvironment {
 	public Map<String, NXsensor> getAllSensor() {
 		return getChildren(NXsensor.class);
 	}
-
+	
+	@Override
 	public void setAllSensor(Map<String, NXsensor> sensor) {
 		setChildren(sensor);
 	}

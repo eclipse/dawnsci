@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -19,7 +19,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -32,19 +31,17 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_MATERIAL = "material";
-	public static final String NX_DESCRIPTION = "description";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY,
 		NexusBaseClass.NX_GEOMETRY,
 		NexusBaseClass.NX_NOTE);
 
-	protected NXapertureImpl(final NexusNodeFactory nodeFactory) {
+	public NXapertureImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXapertureImpl(final long oid) {
+	public NXapertureImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -69,6 +66,7 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 		return getChild("geometry", NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(NXgeometry geometry) {
 		putChild("geometry", geometry);
 	}
@@ -78,6 +76,7 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 		return getChild(name, NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(String name, NXgeometry geometry) {
 		putChild(name, geometry);
 	}
@@ -86,7 +85,8 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 	public Map<String, NXgeometry> getAllGeometry() {
 		return getChildren(NXgeometry.class);
 	}
-
+	
+	@Override
 	public void setAllGeometry(Map<String, NXgeometry> geometry) {
 		setChildren(geometry);
 	}
@@ -101,10 +101,12 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 		return getString(NX_MATERIAL);
 	}
 
+	@Override
 	public DataNode setMaterial(IDataset material) {
 		return setDataset(NX_MATERIAL, material);
 	}
 
+	@Override
 	public DataNode setMaterialScalar(String material) {
 		return setString(NX_MATERIAL, material);
 	}
@@ -119,10 +121,12 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 		return getString(NX_DESCRIPTION);
 	}
 
+	@Override
 	public DataNode setDescription(IDataset description) {
 		return setDataset(NX_DESCRIPTION, description);
 	}
 
+	@Override
 	public DataNode setDescriptionScalar(String description) {
 		return setString(NX_DESCRIPTION, description);
 	}
@@ -132,6 +136,7 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 		return getChild("note", NXnote.class);
 	}
 
+	@Override
 	public void setNote(NXnote note) {
 		putChild("note", note);
 	}
@@ -141,6 +146,7 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 		return getChild(name, NXnote.class);
 	}
 
+	@Override
 	public void setNote(String name, NXnote note) {
 		putChild(name, note);
 	}
@@ -149,7 +155,8 @@ public class NXapertureImpl extends NXobjectImpl implements NXaperture {
 	public Map<String, NXnote> getAllNote() {
 		return getChildren(NXnote.class);
 	}
-
+	
+	@Override
 	public void setAllNote(Map<String, NXnote> note) {
 		setChildren(note);
 	}

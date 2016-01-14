@@ -18,7 +18,7 @@ import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXpositioner;
 import org.eclipse.dawnsci.nexus.NXsample;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
-import org.eclipse.dawnsci.nexus.impl.NexusNodeFactory;
+import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 
 /**
  * Defines the interface for a class that can create a a NeXus object of a particular type.

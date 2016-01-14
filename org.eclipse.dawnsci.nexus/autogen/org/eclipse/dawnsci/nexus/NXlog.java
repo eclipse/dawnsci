@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -17,7 +17,6 @@ import java.util.Date;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Definition of information that is recorded against time,
@@ -37,6 +36,16 @@ import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
  */
 public interface NXlog extends NXobject {
 
+	public static final String NX_TIME = "time";
+	public static final String NX_TIME_ATTRIBUTE_START = "start";
+	public static final String NX_VALUE = "value";
+	public static final String NX_RAW_VALUE = "raw_value";
+	public static final String NX_DESCRIPTION = "description";
+	public static final String NX_AVERAGE_VALUE = "average_value";
+	public static final String NX_AVERAGE_VALUE_ERROR = "average_value_error";
+	public static final String NX_MINIMUM_VALUE = "minimum_value";
+	public static final String NX_MAXIMUM_VALUE = "maximum_value";
+	public static final String NX_DURATION = "duration";
 	/**
 	 * Time of logged entry. The times are relative to the "start" attribute
 	 * and in the units specified in the "units" attribute.
@@ -47,7 +56,19 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTime();	
+	public IDataset getTime();
+	
+	/**
+	 * Time of logged entry. The times are relative to the "start" attribute
+	 * and in the units specified in the "units" attribute.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param time the time
+	 */
+	public DataNode setTime(IDataset time);
 
 	/**
 	 * Time of logged entry. The times are relative to the "start" attribute
@@ -57,15 +78,33 @@ public interface NXlog extends NXobject {
 	 * <b>Units:</b> NX_TIME
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getTimeScalar();
+	public double getTimeScalar();
+
+	/**
+	 * Time of logged entry. The times are relative to the "start" attribute
+	 * and in the units specified in the "units" attribute.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param time the time
+	 */
+	public DataNode setTimeScalar(double time);
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public Date getTimeAttributeStart();	
+	public Date getTimeAttributeStart();
+	
+	/**
+	 * 
+	 * @param start the start
+	 */
+	public void setTimeAttributeStart(Date start);
 
 	/**
 	 * Array of logged value, such as temperature
@@ -76,7 +115,18 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getValue();	
+	public IDataset getValue();
+	
+	/**
+	 * Array of logged value, such as temperature
+	 * <p>
+	 * <b>Units:</b> NX_ANY
+	 * <b>Type:</b> NX_NUMBER
+	 * </p>
+	 * 
+	 * @param value the value
+	 */
+	public DataNode setValue(IDataset value);
 
 	/**
 	 * Array of logged value, such as temperature
@@ -85,9 +135,20 @@ public interface NXlog extends NXobject {
 	 * <b>Type:</b> NX_NUMBER
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public Number getValueScalar();
+	public Number getValueScalar();
+
+	/**
+	 * Array of logged value, such as temperature
+	 * <p>
+	 * <b>Units:</b> NX_ANY
+	 * <b>Type:</b> NX_NUMBER
+	 * </p>
+	 * 
+	 * @param value the value
+	 */
+	public DataNode setValueScalar(Number value);
 
 	/**
 	 * Array of raw information, such as thermocouple voltage
@@ -98,7 +159,18 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getRaw_value();	
+	public IDataset getRaw_value();
+	
+	/**
+	 * Array of raw information, such as thermocouple voltage
+	 * <p>
+	 * <b>Units:</b> NX_ANY
+	 * <b>Type:</b> NX_NUMBER
+	 * </p>
+	 * 
+	 * @param raw_value the raw_value
+	 */
+	public DataNode setRaw_value(IDataset raw_value);
 
 	/**
 	 * Array of raw information, such as thermocouple voltage
@@ -107,23 +179,48 @@ public interface NXlog extends NXobject {
 	 * <b>Type:</b> NX_NUMBER
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public Number getRaw_valueScalar();
+	public Number getRaw_valueScalar();
+
+	/**
+	 * Array of raw information, such as thermocouple voltage
+	 * <p>
+	 * <b>Units:</b> NX_ANY
+	 * <b>Type:</b> NX_NUMBER
+	 * </p>
+	 * 
+	 * @param raw_value the raw_value
+	 */
+	public DataNode setRaw_valueScalar(Number raw_value);
 
 	/**
 	 * Description of logged value
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDescription();	
+	public IDataset getDescription();
+	
+	/**
+	 * Description of logged value
+	 * 
+	 * @param description the description
+	 */
+	public DataNode setDescription(IDataset description);
 
 	/**
 	 * Description of logged value
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getDescriptionScalar();
+	public String getDescriptionScalar();
+
+	/**
+	 * Description of logged value
+	 * 
+	 * @param description the description
+	 */
+	public DataNode setDescriptionScalar(String description);
 
 	/**
 	 * <p>
@@ -133,7 +230,17 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAverage_value();	
+	public IDataset getAverage_value();
+	
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @param average_value the average_value
+	 */
+	public DataNode setAverage_value(IDataset average_value);
 
 	/**
 	 * <p>
@@ -141,9 +248,19 @@ public interface NXlog extends NXobject {
 	 * <b>Units:</b> NX_ANY
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getAverage_valueScalar();
+	public double getAverage_valueScalar();
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @param average_value the average_value
+	 */
+	public DataNode setAverage_valueScalar(double average_value);
 
 	/**
 	 * estimated uncertainty (often used: standard deviation) of average_value
@@ -154,7 +271,18 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAverage_value_error();	
+	public IDataset getAverage_value_error();
+	
+	/**
+	 * estimated uncertainty (often used: standard deviation) of average_value
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @param average_value_error the average_value_error
+	 */
+	public DataNode setAverage_value_error(IDataset average_value_error);
 
 	/**
 	 * estimated uncertainty (often used: standard deviation) of average_value
@@ -163,9 +291,20 @@ public interface NXlog extends NXobject {
 	 * <b>Units:</b> NX_ANY
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getAverage_value_errorScalar();
+	public double getAverage_value_errorScalar();
+
+	/**
+	 * estimated uncertainty (often used: standard deviation) of average_value
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @param average_value_error the average_value_error
+	 */
+	public DataNode setAverage_value_errorScalar(double average_value_error);
 
 	/**
 	 * <p>
@@ -175,17 +314,17 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getMinimum_value();	
-
+	public IDataset getMinimum_value();
+	
 	/**
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_ANY
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @param minimum_value the minimum_value
 	 */
-	 public double getMinimum_valueScalar();
+	public DataNode setMinimum_value(IDataset minimum_value);
 
 	/**
 	 * <p>
@@ -195,7 +334,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getMaximum_value();	
+	public double getMinimum_valueScalar();
 
 	/**
 	 * <p>
@@ -203,9 +342,49 @@ public interface NXlog extends NXobject {
 	 * <b>Units:</b> NX_ANY
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @param minimum_value the minimum_value
 	 */
-	 public double getMaximum_valueScalar();
+	public DataNode setMinimum_valueScalar(double minimum_value);
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getMaximum_value();
+	
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @param maximum_value the maximum_value
+	 */
+	public DataNode setMaximum_value(IDataset maximum_value);
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public double getMaximum_valueScalar();
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @param maximum_value the maximum_value
+	 */
+	public DataNode setMaximum_valueScalar(double maximum_value);
 
 	/**
 	 * Total time log was taken
@@ -216,7 +395,18 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDuration();	
+	public IDataset getDuration();
+	
+	/**
+	 * Total time log was taken
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @param duration the duration
+	 */
+	public DataNode setDuration(IDataset duration);
 
 	/**
 	 * Total time log was taken
@@ -225,8 +415,19 @@ public interface NXlog extends NXobject {
 	 * <b>Units:</b> NX_ANY
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getDurationScalar();
+	public double getDurationScalar();
+
+	/**
+	 * Total time log was taken
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANY
+	 * </p>
+	 * 
+	 * @param duration the duration
+	 */
+	public DataNode setDurationScalar(double duration);
 
 }

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,7 +17,6 @@ import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -30,22 +29,16 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_DESCRIPTION = "description";
-	public static final String NX_BEAMLINE_DISTANCE = "beamline_distance";
-	public static final String NX_TIMING = "timing";
-	public static final String NX_TIMING_ATTRIBUTE_DESCRIPTION = "description";
-	public static final String NX_SET_CURRENT = "set_current";
-	public static final String NX_SET_VOLTAGE = "set_voltage";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_LOG,
 		NexusBaseClass.NX_LOG);
 
-	protected NXelectrostatic_kickerImpl(final NexusNodeFactory nodeFactory) {
+	public NXelectrostatic_kickerImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXelectrostatic_kickerImpl(final long oid) {
+	public NXelectrostatic_kickerImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -75,10 +68,12 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 		return getString(NX_DESCRIPTION);
 	}
 
+	@Override
 	public DataNode setDescription(IDataset description) {
 		return setDataset(NX_DESCRIPTION, description);
 	}
 
+	@Override
 	public DataNode setDescriptionScalar(String description) {
 		return setString(NX_DESCRIPTION, description);
 	}
@@ -93,10 +88,12 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 		return getDouble(NX_BEAMLINE_DISTANCE);
 	}
 
+	@Override
 	public DataNode setBeamline_distance(IDataset beamline_distance) {
 		return setDataset(NX_BEAMLINE_DISTANCE, beamline_distance);
 	}
 
+	@Override
 	public DataNode setBeamline_distanceScalar(double beamline_distance) {
 		return setField(NX_BEAMLINE_DISTANCE, beamline_distance);
 	}
@@ -111,10 +108,12 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 		return getDouble(NX_TIMING);
 	}
 
+	@Override
 	public DataNode setTiming(IDataset timing) {
 		return setDataset(NX_TIMING, timing);
 	}
 
+	@Override
 	public DataNode setTimingScalar(double timing) {
 		return setField(NX_TIMING, timing);
 	}
@@ -124,6 +123,7 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 		return getAttrString(NX_TIMING, NX_TIMING_ATTRIBUTE_DESCRIPTION);
 	}
 
+	@Override
 	public void setTimingAttributeDescription(String description) {
 		setAttribute(NX_TIMING, NX_TIMING_ATTRIBUTE_DESCRIPTION, description);
 	}
@@ -138,10 +138,12 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 		return getDouble(NX_SET_CURRENT);
 	}
 
+	@Override
 	public DataNode setSet_current(IDataset set_current) {
 		return setDataset(NX_SET_CURRENT, set_current);
 	}
 
+	@Override
 	public DataNode setSet_currentScalar(double set_current) {
 		return setField(NX_SET_CURRENT, set_current);
 	}
@@ -151,6 +153,7 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 		return getChild("read_current", NXlog.class);
 	}
 
+	@Override
 	public void setRead_current(NXlog read_current) {
 		putChild("read_current", read_current);
 	}
@@ -165,10 +168,12 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 		return getDouble(NX_SET_VOLTAGE);
 	}
 
+	@Override
 	public DataNode setSet_voltage(IDataset set_voltage) {
 		return setDataset(NX_SET_VOLTAGE, set_voltage);
 	}
 
+	@Override
 	public DataNode setSet_voltageScalar(double set_voltage) {
 		return setField(NX_SET_VOLTAGE, set_voltage);
 	}
@@ -178,6 +183,7 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 		return getChild("read_voltage", NXlog.class);
 	}
 
+	@Override
 	public void setRead_voltage(NXlog read_voltage) {
 		putChild("read_voltage", read_voltage);
 	}

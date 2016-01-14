@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -19,7 +19,6 @@ import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -43,24 +42,14 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_TIME = "time";
-	public static final String NX_TIME_ATTRIBUTE_START = "start";
-	public static final String NX_VALUE = "value";
-	public static final String NX_RAW_VALUE = "raw_value";
-	public static final String NX_DESCRIPTION = "description";
-	public static final String NX_AVERAGE_VALUE = "average_value";
-	public static final String NX_AVERAGE_VALUE_ERROR = "average_value_error";
-	public static final String NX_MINIMUM_VALUE = "minimum_value";
-	public static final String NX_MAXIMUM_VALUE = "maximum_value";
-	public static final String NX_DURATION = "duration";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	protected NXlogImpl(final NexusNodeFactory nodeFactory) {
+	public NXlogImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXlogImpl(final long oid) {
+	public NXlogImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -90,10 +79,12 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		return getDouble(NX_TIME);
 	}
 
+	@Override
 	public DataNode setTime(IDataset time) {
 		return setDataset(NX_TIME, time);
 	}
 
+	@Override
 	public DataNode setTimeScalar(double time) {
 		return setField(NX_TIME, time);
 	}
@@ -103,6 +94,7 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		return getAttrDate(NX_TIME, NX_TIME_ATTRIBUTE_START);
 	}
 
+	@Override
 	public void setTimeAttributeStart(Date start) {
 		setAttribute(NX_TIME, NX_TIME_ATTRIBUTE_START, start);
 	}
@@ -117,10 +109,12 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		return getNumber(NX_VALUE);
 	}
 
+	@Override
 	public DataNode setValue(IDataset value) {
 		return setDataset(NX_VALUE, value);
 	}
 
+	@Override
 	public DataNode setValueScalar(Number value) {
 		return setField(NX_VALUE, value);
 	}
@@ -135,10 +129,12 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		return getNumber(NX_RAW_VALUE);
 	}
 
+	@Override
 	public DataNode setRaw_value(IDataset raw_value) {
 		return setDataset(NX_RAW_VALUE, raw_value);
 	}
 
+	@Override
 	public DataNode setRaw_valueScalar(Number raw_value) {
 		return setField(NX_RAW_VALUE, raw_value);
 	}
@@ -153,10 +149,12 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		return getString(NX_DESCRIPTION);
 	}
 
+	@Override
 	public DataNode setDescription(IDataset description) {
 		return setDataset(NX_DESCRIPTION, description);
 	}
 
+	@Override
 	public DataNode setDescriptionScalar(String description) {
 		return setString(NX_DESCRIPTION, description);
 	}
@@ -171,10 +169,12 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		return getDouble(NX_AVERAGE_VALUE);
 	}
 
+	@Override
 	public DataNode setAverage_value(IDataset average_value) {
 		return setDataset(NX_AVERAGE_VALUE, average_value);
 	}
 
+	@Override
 	public DataNode setAverage_valueScalar(double average_value) {
 		return setField(NX_AVERAGE_VALUE, average_value);
 	}
@@ -189,10 +189,12 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		return getDouble(NX_AVERAGE_VALUE_ERROR);
 	}
 
+	@Override
 	public DataNode setAverage_value_error(IDataset average_value_error) {
 		return setDataset(NX_AVERAGE_VALUE_ERROR, average_value_error);
 	}
 
+	@Override
 	public DataNode setAverage_value_errorScalar(double average_value_error) {
 		return setField(NX_AVERAGE_VALUE_ERROR, average_value_error);
 	}
@@ -207,10 +209,12 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		return getDouble(NX_MINIMUM_VALUE);
 	}
 
+	@Override
 	public DataNode setMinimum_value(IDataset minimum_value) {
 		return setDataset(NX_MINIMUM_VALUE, minimum_value);
 	}
 
+	@Override
 	public DataNode setMinimum_valueScalar(double minimum_value) {
 		return setField(NX_MINIMUM_VALUE, minimum_value);
 	}
@@ -225,10 +229,12 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		return getDouble(NX_MAXIMUM_VALUE);
 	}
 
+	@Override
 	public DataNode setMaximum_value(IDataset maximum_value) {
 		return setDataset(NX_MAXIMUM_VALUE, maximum_value);
 	}
 
+	@Override
 	public DataNode setMaximum_valueScalar(double maximum_value) {
 		return setField(NX_MAXIMUM_VALUE, maximum_value);
 	}
@@ -243,10 +249,12 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 		return getDouble(NX_DURATION);
 	}
 
+	@Override
 	public DataNode setDuration(IDataset duration) {
 		return setDataset(NX_DURATION, duration);
 	}
 
+	@Override
 	public DataNode setDurationScalar(double duration) {
 		return setField(NX_DURATION, duration);
 	}

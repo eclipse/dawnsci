@@ -15,7 +15,7 @@ package org.eclipse.dawnsci.nexus.builder;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
-import org.eclipse.dawnsci.nexus.impl.NexusNodeFactory;
+import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 
 /**
  * Abstract implementation of {@link NexusObjectProvider}.

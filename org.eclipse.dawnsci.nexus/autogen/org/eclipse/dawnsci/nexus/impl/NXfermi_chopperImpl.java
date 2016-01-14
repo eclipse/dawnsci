@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -19,7 +19,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -32,28 +31,15 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_TYPE = "type";
-	public static final String NX_ROTATION_SPEED = "rotation_speed";
-	public static final String NX_RADIUS = "radius";
-	public static final String NX_SLIT = "slit";
-	public static final String NX_R_SLIT = "r_slit";
-	public static final String NX_NUMBER = "number";
-	public static final String NX_HEIGHT = "height";
-	public static final String NX_WIDTH = "width";
-	public static final String NX_DISTANCE = "distance";
-	public static final String NX_WAVELENGTH = "wavelength";
-	public static final String NX_ENERGY = "energy";
-	public static final String NX_ABSORBING_MATERIAL = "absorbing_material";
-	public static final String NX_TRANSMITTING_MATERIAL = "transmitting_material";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY);
 
-	protected NXfermi_chopperImpl(final NexusNodeFactory nodeFactory) {
+	public NXfermi_chopperImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXfermi_chopperImpl(final long oid) {
+	public NXfermi_chopperImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -83,10 +69,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getString(NX_TYPE);
 	}
 
+	@Override
 	public DataNode setType(IDataset type) {
 		return setDataset(NX_TYPE, type);
 	}
 
+	@Override
 	public DataNode setTypeScalar(String type) {
 		return setString(NX_TYPE, type);
 	}
@@ -101,10 +89,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_ROTATION_SPEED);
 	}
 
+	@Override
 	public DataNode setRotation_speed(IDataset rotation_speed) {
 		return setDataset(NX_ROTATION_SPEED, rotation_speed);
 	}
 
+	@Override
 	public DataNode setRotation_speedScalar(double rotation_speed) {
 		return setField(NX_ROTATION_SPEED, rotation_speed);
 	}
@@ -119,10 +109,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_RADIUS);
 	}
 
+	@Override
 	public DataNode setRadius(IDataset radius) {
 		return setDataset(NX_RADIUS, radius);
 	}
 
+	@Override
 	public DataNode setRadiusScalar(double radius) {
 		return setField(NX_RADIUS, radius);
 	}
@@ -137,10 +129,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_SLIT);
 	}
 
+	@Override
 	public DataNode setSlit(IDataset slit) {
 		return setDataset(NX_SLIT, slit);
 	}
 
+	@Override
 	public DataNode setSlitScalar(double slit) {
 		return setField(NX_SLIT, slit);
 	}
@@ -155,10 +149,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_R_SLIT);
 	}
 
+	@Override
 	public DataNode setR_slit(IDataset r_slit) {
 		return setDataset(NX_R_SLIT, r_slit);
 	}
 
+	@Override
 	public DataNode setR_slitScalar(double r_slit) {
 		return setField(NX_R_SLIT, r_slit);
 	}
@@ -173,10 +169,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getLong(NX_NUMBER);
 	}
 
+	@Override
 	public DataNode setNumber(IDataset number) {
 		return setDataset(NX_NUMBER, number);
 	}
 
+	@Override
 	public DataNode setNumberScalar(long number) {
 		return setField(NX_NUMBER, number);
 	}
@@ -191,10 +189,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_HEIGHT);
 	}
 
+	@Override
 	public DataNode setHeight(IDataset height) {
 		return setDataset(NX_HEIGHT, height);
 	}
 
+	@Override
 	public DataNode setHeightScalar(double height) {
 		return setField(NX_HEIGHT, height);
 	}
@@ -209,10 +209,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_WIDTH);
 	}
 
+	@Override
 	public DataNode setWidth(IDataset width) {
 		return setDataset(NX_WIDTH, width);
 	}
 
+	@Override
 	public DataNode setWidthScalar(double width) {
 		return setField(NX_WIDTH, width);
 	}
@@ -227,10 +229,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_DISTANCE);
 	}
 
+	@Override
 	public DataNode setDistance(IDataset distance) {
 		return setDataset(NX_DISTANCE, distance);
 	}
 
+	@Override
 	public DataNode setDistanceScalar(double distance) {
 		return setField(NX_DISTANCE, distance);
 	}
@@ -245,10 +249,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_WAVELENGTH);
 	}
 
+	@Override
 	public DataNode setWavelength(IDataset wavelength) {
 		return setDataset(NX_WAVELENGTH, wavelength);
 	}
 
+	@Override
 	public DataNode setWavelengthScalar(double wavelength) {
 		return setField(NX_WAVELENGTH, wavelength);
 	}
@@ -263,10 +269,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getDouble(NX_ENERGY);
 	}
 
+	@Override
 	public DataNode setEnergy(IDataset energy) {
 		return setDataset(NX_ENERGY, energy);
 	}
 
+	@Override
 	public DataNode setEnergyScalar(double energy) {
 		return setField(NX_ENERGY, energy);
 	}
@@ -276,6 +284,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getChild("geometry", NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(NXgeometry geometry) {
 		putChild("geometry", geometry);
 	}
@@ -285,6 +294,7 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getChild(name, NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(String name, NXgeometry geometry) {
 		putChild(name, geometry);
 	}
@@ -293,7 +303,8 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 	public Map<String, NXgeometry> getAllGeometry() {
 		return getChildren(NXgeometry.class);
 	}
-
+	
+	@Override
 	public void setAllGeometry(Map<String, NXgeometry> geometry) {
 		setChildren(geometry);
 	}
@@ -308,10 +319,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getString(NX_ABSORBING_MATERIAL);
 	}
 
+	@Override
 	public DataNode setAbsorbing_material(IDataset absorbing_material) {
 		return setDataset(NX_ABSORBING_MATERIAL, absorbing_material);
 	}
 
+	@Override
 	public DataNode setAbsorbing_materialScalar(String absorbing_material) {
 		return setString(NX_ABSORBING_MATERIAL, absorbing_material);
 	}
@@ -326,10 +339,12 @@ public class NXfermi_chopperImpl extends NXobjectImpl implements NXfermi_chopper
 		return getString(NX_TRANSMITTING_MATERIAL);
 	}
 
+	@Override
 	public DataNode setTransmitting_material(IDataset transmitting_material) {
 		return setDataset(NX_TRANSMITTING_MATERIAL, transmitting_material);
 	}
 
+	@Override
 	public DataNode setTransmitting_materialScalar(String transmitting_material) {
 		return setString(NX_TRANSMITTING_MATERIAL, transmitting_material);
 	}

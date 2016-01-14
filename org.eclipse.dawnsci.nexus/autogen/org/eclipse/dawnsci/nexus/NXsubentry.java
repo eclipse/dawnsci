@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -18,7 +18,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * ``NXsubentry`` is a base class virtually identical to ``NXentry``
@@ -41,26 +40,71 @@ import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
  */
 public interface NXsubentry extends NXobject {
 
+	public static final String NX_ATTRIBUTE_IDF_VERSION = "IDF_Version";
+	public static final String NX_TITLE = "title";
+	public static final String NX_EXPERIMENT_IDENTIFIER = "experiment_identifier";
+	public static final String NX_EXPERIMENT_DESCRIPTION = "experiment_description";
+	public static final String NX_COLLECTION_IDENTIFIER = "collection_identifier";
+	public static final String NX_COLLECTION_DESCRIPTION = "collection_description";
+	public static final String NX_ENTRY_IDENTIFIER = "entry_identifier";
+	public static final String NX_DEFINITION = "definition";
+	public static final String NX_DEFINITION_ATTRIBUTE_VERSION = "version";
+	public static final String NX_DEFINITION_ATTRIBUTE_URL = "URL";
+	public static final String NX_DEFINITION_LOCAL = "definition_local";
+	public static final String NX_DEFINITION_LOCAL_ATTRIBUTE_VERSION = "version";
+	public static final String NX_DEFINITION_LOCAL_ATTRIBUTE_URL = "URL";
+	public static final String NX_START_TIME = "start_time";
+	public static final String NX_END_TIME = "end_time";
+	public static final String NX_DURATION = "duration";
+	public static final String NX_COLLECTION_TIME = "collection_time";
+	public static final String NX_RUN_CYCLE = "run_cycle";
+	public static final String NX_PROGRAM_NAME = "program_name";
+	public static final String NX_PROGRAM_NAME_ATTRIBUTE_VERSION = "version";
+	public static final String NX_PROGRAM_NAME_ATTRIBUTE_CONFIGURATION = "configuration";
+	public static final String NX_REVISION = "revision";
+	public static final String NX_REVISION_ATTRIBUTE_COMMENT = "comment";
+	public static final String NX_PRE_SAMPLE_FLIGHTPATH = "pre_sample_flightpath";
 	/**
 	 * ISIS Muon IDF_Version
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeIDF_Version();	
+	public String getAttributeIDF_Version();
+	
+	/**
+	 * ISIS Muon IDF_Version
+	 * 
+	 * @param IDF_Version the IDF_Version
+	 */
+	public void setAttributeIDF_Version(String IDF_Version);
 
 	/**
 	 * Extended title for entry
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTitle();	
+	public IDataset getTitle();
+	
+	/**
+	 * Extended title for entry
+	 * 
+	 * @param title the title
+	 */
+	public DataNode setTitle(IDataset title);
 
 	/**
 	 * Extended title for entry
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getTitleScalar();
+	public String getTitleScalar();
+
+	/**
+	 * Extended title for entry
+	 * 
+	 * @param title the title
+	 */
+	public DataNode setTitleScalar(String title);
 
 	/**
 	 * Unique identifier for the experiment, defined by
@@ -68,106 +112,213 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getExperiment_identifier();	
+	public IDataset getExperiment_identifier();
+	
+	/**
+	 * Unique identifier for the experiment, defined by
+	 * the facility, possibly linked to the proposals
+	 * 
+	 * @param experiment_identifier the experiment_identifier
+	 */
+	public DataNode setExperiment_identifier(IDataset experiment_identifier);
 
 	/**
 	 * Unique identifier for the experiment, defined by
 	 * the facility, possibly linked to the proposals
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getExperiment_identifierScalar();
+	public String getExperiment_identifierScalar();
+
+	/**
+	 * Unique identifier for the experiment, defined by
+	 * the facility, possibly linked to the proposals
+	 * 
+	 * @param experiment_identifier the experiment_identifier
+	 */
+	public DataNode setExperiment_identifierScalar(String experiment_identifier);
 
 	/**
 	 * Brief summary of the experiment, including key objectives.
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getExperiment_description();	
+	public IDataset getExperiment_description();
+	
+	/**
+	 * Brief summary of the experiment, including key objectives.
+	 * 
+	 * @param experiment_description the experiment_description
+	 */
+	public DataNode setExperiment_description(IDataset experiment_description);
 
 	/**
 	 * Brief summary of the experiment, including key objectives.
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getExperiment_descriptionScalar();
+	public String getExperiment_descriptionScalar();
+
+	/**
+	 * Brief summary of the experiment, including key objectives.
+	 * 
+	 * @param experiment_description the experiment_description
+	 */
+	public DataNode setExperiment_descriptionScalar(String experiment_description);
 
 	/**
 	 * Description of the full experiment (document in pdf, latex, ...)
 	 * 
 	 * @return  the value.
 	 */
-	public NXnote getExperiment_documentation();	
+	public NXnote getExperiment_documentation();
+	
+	/**
+	 * Description of the full experiment (document in pdf, latex, ...)
+	 * 
+	 * @param experiment_documentation the experiment_documentation
+	 */
+	public void setExperiment_documentation(NXnote experiment_documentation);
 
 	/**
 	 * User or Data Acquisition defined group of NeXus files or NXentry
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCollection_identifier();	
+	public IDataset getCollection_identifier();
+	
+	/**
+	 * User or Data Acquisition defined group of NeXus files or NXentry
+	 * 
+	 * @param collection_identifier the collection_identifier
+	 */
+	public DataNode setCollection_identifier(IDataset collection_identifier);
 
 	/**
 	 * User or Data Acquisition defined group of NeXus files or NXentry
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getCollection_identifierScalar();
+	public String getCollection_identifierScalar();
+
+	/**
+	 * User or Data Acquisition defined group of NeXus files or NXentry
+	 * 
+	 * @param collection_identifier the collection_identifier
+	 */
+	public DataNode setCollection_identifierScalar(String collection_identifier);
 
 	/**
 	 * Brief summary of the collection, including grouping criteria.
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCollection_description();	
+	public IDataset getCollection_description();
+	
+	/**
+	 * Brief summary of the collection, including grouping criteria.
+	 * 
+	 * @param collection_description the collection_description
+	 */
+	public DataNode setCollection_description(IDataset collection_description);
 
 	/**
 	 * Brief summary of the collection, including grouping criteria.
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getCollection_descriptionScalar();
+	public String getCollection_descriptionScalar();
+
+	/**
+	 * Brief summary of the collection, including grouping criteria.
+	 * 
+	 * @param collection_description the collection_description
+	 */
+	public DataNode setCollection_descriptionScalar(String collection_description);
 
 	/**
 	 * unique identifier for the measurement, defined by the facility.
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEntry_identifier();	
+	public IDataset getEntry_identifier();
+	
+	/**
+	 * unique identifier for the measurement, defined by the facility.
+	 * 
+	 * @param entry_identifier the entry_identifier
+	 */
+	public DataNode setEntry_identifier(IDataset entry_identifier);
 
 	/**
 	 * unique identifier for the measurement, defined by the facility.
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getEntry_identifierScalar();
+	public String getEntry_identifierScalar();
+
+	/**
+	 * unique identifier for the measurement, defined by the facility.
+	 * 
+	 * @param entry_identifier the entry_identifier
+	 */
+	public DataNode setEntry_identifierScalar(String entry_identifier);
 
 	/**
 	 * Official NeXus NXDL schema to which this subentry conforms
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDefinition();	
+	public IDataset getDefinition();
+	
+	/**
+	 * Official NeXus NXDL schema to which this subentry conforms
+	 * 
+	 * @param definition the definition
+	 */
+	public DataNode setDefinition(IDataset definition);
 
 	/**
 	 * Official NeXus NXDL schema to which this subentry conforms
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getDefinitionScalar();
+	public String getDefinitionScalar();
+
+	/**
+	 * Official NeXus NXDL schema to which this subentry conforms
+	 * 
+	 * @param definition the definition
+	 */
+	public DataNode setDefinitionScalar(String definition);
 
 	/**
 	 * NXDL version number
 	 * 
 	 * @return  the value.
 	 */
-	public String getDefinitionAttributeVersion();	
+	public String getDefinitionAttributeVersion();
+	
+	/**
+	 * NXDL version number
+	 * 
+	 * @param version the version
+	 */
+	public void setDefinitionAttributeVersion(String version);
 
 	/**
 	 * URL of NXDL file
 	 * 
 	 * @return  the value.
 	 */
-	public String getDefinitionAttributeURL();	
+	public String getDefinitionAttributeURL();
+	
+	/**
+	 * URL of NXDL file
+	 * 
+	 * @param URL the URL
+	 */
+	public void setDefinitionAttributeURL(String URL);
 
 	/**
 	 * Local NXDL schema extended from the subentry
@@ -177,7 +328,17 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDefinition_local();	
+	public IDataset getDefinition_local();
+	
+	/**
+	 * Local NXDL schema extended from the subentry
+	 * specified in the ``definition`` field.
+	 * This contains any locally-defined,
+	 * additional fields in the subentry.
+	 * 
+	 * @param definition_local the definition_local
+	 */
+	public DataNode setDefinition_local(IDataset definition_local);
 
 	/**
 	 * Local NXDL schema extended from the subentry
@@ -185,23 +346,47 @@ public interface NXsubentry extends NXobject {
 	 * This contains any locally-defined,
 	 * additional fields in the subentry.
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getDefinition_localScalar();
+	public String getDefinition_localScalar();
+
+	/**
+	 * Local NXDL schema extended from the subentry
+	 * specified in the ``definition`` field.
+	 * This contains any locally-defined,
+	 * additional fields in the subentry.
+	 * 
+	 * @param definition_local the definition_local
+	 */
+	public DataNode setDefinition_localScalar(String definition_local);
 
 	/**
 	 * NXDL version number
 	 * 
 	 * @return  the value.
 	 */
-	public String getDefinition_localAttributeVersion();	
+	public String getDefinition_localAttributeVersion();
+	
+	/**
+	 * NXDL version number
+	 * 
+	 * @param version the version
+	 */
+	public void setDefinition_localAttributeVersion(String version);
 
 	/**
 	 * URL of NXDL file
 	 * 
 	 * @return  the value.
 	 */
-	public String getDefinition_localAttributeURL();	
+	public String getDefinition_localAttributeURL();
+	
+	/**
+	 * URL of NXDL file
+	 * 
+	 * @param URL the URL
+	 */
+	public void setDefinition_localAttributeURL(String URL);
 
 	/**
 	 * Starting time of measurement
@@ -211,7 +396,17 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getStart_time();	
+	public IDataset getStart_time();
+	
+	/**
+	 * Starting time of measurement
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * </p>
+	 * 
+	 * @param start_time the start_time
+	 */
+	public DataNode setStart_time(IDataset start_time);
 
 	/**
 	 * Starting time of measurement
@@ -219,9 +414,19 @@ public interface NXsubentry extends NXobject {
 	 * <b>Type:</b> NX_DATE_TIME
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public Date getStart_timeScalar();
+	public Date getStart_timeScalar();
+
+	/**
+	 * Starting time of measurement
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * </p>
+	 * 
+	 * @param start_time the start_time
+	 */
+	public DataNode setStart_timeScalar(Date start_time);
 
 	/**
 	 * Ending time of measurement
@@ -231,7 +436,17 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEnd_time();	
+	public IDataset getEnd_time();
+	
+	/**
+	 * Ending time of measurement
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * </p>
+	 * 
+	 * @param end_time the end_time
+	 */
+	public DataNode setEnd_time(IDataset end_time);
 
 	/**
 	 * Ending time of measurement
@@ -239,9 +454,19 @@ public interface NXsubentry extends NXobject {
 	 * <b>Type:</b> NX_DATE_TIME
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public Date getEnd_timeScalar();
+	public Date getEnd_timeScalar();
+
+	/**
+	 * Ending time of measurement
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * </p>
+	 * 
+	 * @param end_time the end_time
+	 */
+	public DataNode setEnd_timeScalar(Date end_time);
 
 	/**
 	 * Duration of measurement
@@ -252,7 +477,18 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDuration();	
+	public IDataset getDuration();
+	
+	/**
+	 * Duration of measurement
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param duration the duration
+	 */
+	public DataNode setDuration(IDataset duration);
 
 	/**
 	 * Duration of measurement
@@ -261,9 +497,20 @@ public interface NXsubentry extends NXobject {
 	 * <b>Units:</b> NX_TIME
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public long getDurationScalar();
+	public long getDurationScalar();
+
+	/**
+	 * Duration of measurement
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param duration the duration
+	 */
+	public DataNode setDurationScalar(long duration);
 
 	/**
 	 * Time transpired actually collecting data i.e. taking out time when collection was
@@ -275,7 +522,19 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCollection_time();	
+	public IDataset getCollection_time();
+	
+	/**
+	 * Time transpired actually collecting data i.e. taking out time when collection was
+	 * suspended due to e.g. temperature out of range
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param collection_time the collection_time
+	 */
+	public DataNode setCollection_time(IDataset collection_time);
 
 	/**
 	 * Time transpired actually collecting data i.e. taking out time when collection was
@@ -285,51 +544,105 @@ public interface NXsubentry extends NXobject {
 	 * <b>Units:</b> NX_TIME
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getCollection_timeScalar();
+	public double getCollection_timeScalar();
+
+	/**
+	 * Time transpired actually collecting data i.e. taking out time when collection was
+	 * suspended due to e.g. temperature out of range
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param collection_time the collection_time
+	 */
+	public DataNode setCollection_timeScalar(double collection_time);
 
 	/**
 	 * Such as "2007-3". Some user facilities organize their beam time into run cycles.
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getRun_cycle();	
+	public IDataset getRun_cycle();
+	
+	/**
+	 * Such as "2007-3". Some user facilities organize their beam time into run cycles.
+	 * 
+	 * @param run_cycle the run_cycle
+	 */
+	public DataNode setRun_cycle(IDataset run_cycle);
 
 	/**
 	 * Such as "2007-3". Some user facilities organize their beam time into run cycles.
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getRun_cycleScalar();
+	public String getRun_cycleScalar();
+
+	/**
+	 * Such as "2007-3". Some user facilities organize their beam time into run cycles.
+	 * 
+	 * @param run_cycle the run_cycle
+	 */
+	public DataNode setRun_cycleScalar(String run_cycle);
 
 	/**
 	 * Name of program used to generate this file
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getProgram_name();	
+	public IDataset getProgram_name();
+	
+	/**
+	 * Name of program used to generate this file
+	 * 
+	 * @param program_name the program_name
+	 */
+	public DataNode setProgram_name(IDataset program_name);
 
 	/**
 	 * Name of program used to generate this file
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getProgram_nameScalar();
+	public String getProgram_nameScalar();
+
+	/**
+	 * Name of program used to generate this file
+	 * 
+	 * @param program_name the program_name
+	 */
+	public DataNode setProgram_nameScalar(String program_name);
 
 	/**
 	 * Program version number
 	 * 
 	 * @return  the value.
 	 */
-	public String getProgram_nameAttributeVersion();	
+	public String getProgram_nameAttributeVersion();
+	
+	/**
+	 * Program version number
+	 * 
+	 * @param version the version
+	 */
+	public void setProgram_nameAttributeVersion(String version);
 
 	/**
 	 * configuration of the program
 	 * 
 	 * @return  the value.
 	 */
-	public String getProgram_nameAttributeConfiguration();	
+	public String getProgram_nameAttributeConfiguration();
+	
+	/**
+	 * configuration of the program
+	 * 
+	 * @param configuration the configuration
+	 */
+	public void setProgram_nameAttributeConfiguration(String configuration);
 
 	/**
 	 * Revision id of the file due to re-calibration, reprocessing, new analysis, new
@@ -337,21 +650,43 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getRevision();	
+	public IDataset getRevision();
+	
+	/**
+	 * Revision id of the file due to re-calibration, reprocessing, new analysis, new
+	 * instrument definition format, ...
+	 * 
+	 * @param revision the revision
+	 */
+	public DataNode setRevision(IDataset revision);
 
 	/**
 	 * Revision id of the file due to re-calibration, reprocessing, new analysis, new
 	 * instrument definition format, ...
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getRevisionScalar();
+	public String getRevisionScalar();
+
+	/**
+	 * Revision id of the file due to re-calibration, reprocessing, new analysis, new
+	 * instrument definition format, ...
+	 * 
+	 * @param revision the revision
+	 */
+	public DataNode setRevisionScalar(String revision);
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public String getRevisionAttributeComment();	
+	public String getRevisionAttributeComment();
+	
+	/**
+	 * 
+	 * @param comment the comment
+	 */
+	public void setRevisionAttributeComment(String comment);
 
 	/**
 	 * This is the flightpath before the sample position. This can be determined by a chopper,
@@ -365,7 +700,21 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPre_sample_flightpath();	
+	public IDataset getPre_sample_flightpath();
+	
+	/**
+	 * This is the flightpath before the sample position. This can be determined by a chopper,
+	 * by the moderator or the source itself. In other words: it the distance to the component
+	 * which gives the T0 signal to the detector electronics. If another component in the
+	 * NXinstrument hierarchy provides this information, this should be a link.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @param pre_sample_flightpath the pre_sample_flightpath
+	 */
+	public DataNode setPre_sample_flightpath(IDataset pre_sample_flightpath);
 
 	/**
 	 * This is the flightpath before the sample position. This can be determined by a chopper,
@@ -377,16 +726,37 @@ public interface NXsubentry extends NXobject {
 	 * <b>Units:</b> NX_LENGTH
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getPre_sample_flightpathScalar();
+	public double getPre_sample_flightpathScalar();
+
+	/**
+	 * This is the flightpath before the sample position. This can be determined by a chopper,
+	 * by the moderator or the source itself. In other words: it the distance to the component
+	 * which gives the T0 signal to the detector electronics. If another component in the
+	 * NXinstrument hierarchy provides this information, this should be a link.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @param pre_sample_flightpath the pre_sample_flightpath
+	 */
+	public DataNode setPre_sample_flightpathScalar(double pre_sample_flightpath);
 
 	/**
 	 * Notes describing entry
 	 * 
 	 * @return  the value.
 	 */
-	public NXnote getNotes();	
+	public NXnote getNotes();
+	
+	/**
+	 * Notes describing entry
+	 * 
+	 * @param notes the notes
+	 */
+	public void setNotes(NXnote notes);
 
 	/**
 	 * A small image that is representative of the entry. An example of this is a 640x480
@@ -394,13 +764,27 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public NXnote getThumbnail();	
+	public NXnote getThumbnail();
+	
+	/**
+	 * A small image that is representative of the entry. An example of this is a 640x480
+	 * jpeg image automatically produced by a low resolution plot of the NXdata.
+	 * 
+	 * @param thumbnail the thumbnail
+	 */
+	public void setThumbnail(NXnote thumbnail);
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXcharacterization getCharacterization();	
+	public NXcharacterization getCharacterization();
+	
+	/**
+	 * 
+	 * @param characterization the characterization
+	 */
+	public void setCharacterization(NXcharacterization characterization);
   
 	/**
 	 * Get a NXcharacterization node by name:
@@ -414,6 +798,17 @@ public interface NXsubentry extends NXobject {
 	public NXcharacterization getCharacterization(String name);
 	
 	/**
+	 * Set a NXcharacterization node by name:
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param characterization the value to set
+	 */
+	public void setCharacterization(String name, NXcharacterization characterization);
+	
+	/**
 	 * Get all NXcharacterization nodes:
 	 * <ul>
 	 * <li></li>
@@ -422,12 +817,30 @@ public interface NXsubentry extends NXobject {
 	 * @return  a map from node names to the NXcharacterization for that node.
 	 */
 	public Map<String, NXcharacterization> getAllCharacterization();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param characterization the child nodes to add 
+	 */
+	
+	public void setAllCharacterization(Map<String, NXcharacterization> characterization);
+	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXuser getUser();	
+	public NXuser getUser();
+	
+	/**
+	 * 
+	 * @param user the user
+	 */
+	public void setUser(NXuser user);
   
 	/**
 	 * Get a NXuser node by name:
@@ -441,6 +854,17 @@ public interface NXsubentry extends NXobject {
 	public NXuser getUser(String name);
 	
 	/**
+	 * Set a NXuser node by name:
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param user the value to set
+	 */
+	public void setUser(String name, NXuser user);
+	
+	/**
 	 * Get all NXuser nodes:
 	 * <ul>
 	 * <li></li>
@@ -449,12 +873,30 @@ public interface NXsubentry extends NXobject {
 	 * @return  a map from node names to the NXuser for that node.
 	 */
 	public Map<String, NXuser> getAllUser();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param user the child nodes to add 
+	 */
+	
+	public void setAllUser(Map<String, NXuser> user);
+	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXsample getSample();	
+	public NXsample getSample();
+	
+	/**
+	 * 
+	 * @param sample the sample
+	 */
+	public void setSample(NXsample sample);
   
 	/**
 	 * Get a NXsample node by name:
@@ -468,6 +910,17 @@ public interface NXsubentry extends NXobject {
 	public NXsample getSample(String name);
 	
 	/**
+	 * Set a NXsample node by name:
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param sample the value to set
+	 */
+	public void setSample(String name, NXsample sample);
+	
+	/**
 	 * Get all NXsample nodes:
 	 * <ul>
 	 * <li></li>
@@ -476,12 +929,30 @@ public interface NXsubentry extends NXobject {
 	 * @return  a map from node names to the NXsample for that node.
 	 */
 	public Map<String, NXsample> getAllSample();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param sample the child nodes to add 
+	 */
+	
+	public void setAllSample(Map<String, NXsample> sample);
+	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXinstrument getInstrument();	
+	public NXinstrument getInstrument();
+	
+	/**
+	 * 
+	 * @param instrument the instrument
+	 */
+	public void setInstrument(NXinstrument instrument);
   
 	/**
 	 * Get a NXinstrument node by name:
@@ -495,6 +966,17 @@ public interface NXsubentry extends NXobject {
 	public NXinstrument getInstrument(String name);
 	
 	/**
+	 * Set a NXinstrument node by name:
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param instrument the value to set
+	 */
+	public void setInstrument(String name, NXinstrument instrument);
+	
+	/**
 	 * Get all NXinstrument nodes:
 	 * <ul>
 	 * <li></li>
@@ -503,12 +985,30 @@ public interface NXsubentry extends NXobject {
 	 * @return  a map from node names to the NXinstrument for that node.
 	 */
 	public Map<String, NXinstrument> getAllInstrument();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param instrument the child nodes to add 
+	 */
+	
+	public void setAllInstrument(Map<String, NXinstrument> instrument);
+	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXcollection getCollection();	
+	public NXcollection getCollection();
+	
+	/**
+	 * 
+	 * @param collection the collection
+	 */
+	public void setCollection(NXcollection collection);
   
 	/**
 	 * Get a NXcollection node by name:
@@ -522,6 +1022,17 @@ public interface NXsubentry extends NXobject {
 	public NXcollection getCollection(String name);
 	
 	/**
+	 * Set a NXcollection node by name:
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param collection the value to set
+	 */
+	public void setCollection(String name, NXcollection collection);
+	
+	/**
 	 * Get all NXcollection nodes:
 	 * <ul>
 	 * <li></li>
@@ -530,12 +1041,30 @@ public interface NXsubentry extends NXobject {
 	 * @return  a map from node names to the NXcollection for that node.
 	 */
 	public Map<String, NXcollection> getAllCollection();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param collection the child nodes to add 
+	 */
+	
+	public void setAllCollection(Map<String, NXcollection> collection);
+	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXmonitor getMonitor();	
+	public NXmonitor getMonitor();
+	
+	/**
+	 * 
+	 * @param monitor the monitor
+	 */
+	public void setMonitor(NXmonitor monitor);
   
 	/**
 	 * Get a NXmonitor node by name:
@@ -549,6 +1078,17 @@ public interface NXsubentry extends NXobject {
 	public NXmonitor getMonitor(String name);
 	
 	/**
+	 * Set a NXmonitor node by name:
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param monitor the value to set
+	 */
+	public void setMonitor(String name, NXmonitor monitor);
+	
+	/**
 	 * Get all NXmonitor nodes:
 	 * <ul>
 	 * <li></li>
@@ -557,12 +1097,30 @@ public interface NXsubentry extends NXobject {
 	 * @return  a map from node names to the NXmonitor for that node.
 	 */
 	public Map<String, NXmonitor> getAllMonitor();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param monitor the child nodes to add 
+	 */
+	
+	public void setAllMonitor(Map<String, NXmonitor> monitor);
+	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getData();	
+	public NXdata getData();
+	
+	/**
+	 * 
+	 * @param data the data
+	 */
+	public void setData(NXdata data);
   
 	/**
 	 * Get a NXdata node by name:
@@ -576,6 +1134,17 @@ public interface NXsubentry extends NXobject {
 	public NXdata getData(String name);
 	
 	/**
+	 * Set a NXdata node by name:
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param data the value to set
+	 */
+	public void setData(String name, NXdata data);
+	
+	/**
 	 * Get all NXdata nodes:
 	 * <ul>
 	 * <li></li>
@@ -584,12 +1153,30 @@ public interface NXsubentry extends NXobject {
 	 * @return  a map from node names to the NXdata for that node.
 	 */
 	public Map<String, NXdata> getAllData();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param data the child nodes to add 
+	 */
+	
+	public void setAllData(Map<String, NXdata> data);
+	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXparameters getParameters();	
+	public NXparameters getParameters();
+	
+	/**
+	 * 
+	 * @param parameters the parameters
+	 */
+	public void setParameters(NXparameters parameters);
   
 	/**
 	 * Get a NXparameters node by name:
@@ -603,6 +1190,17 @@ public interface NXsubentry extends NXobject {
 	public NXparameters getParameters(String name);
 	
 	/**
+	 * Set a NXparameters node by name:
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param parameters the value to set
+	 */
+	public void setParameters(String name, NXparameters parameters);
+	
+	/**
 	 * Get all NXparameters nodes:
 	 * <ul>
 	 * <li></li>
@@ -611,12 +1209,30 @@ public interface NXsubentry extends NXobject {
 	 * @return  a map from node names to the NXparameters for that node.
 	 */
 	public Map<String, NXparameters> getAllParameters();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param parameters the child nodes to add 
+	 */
+	
+	public void setAllParameters(Map<String, NXparameters> parameters);
+	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXprocess getProcess();	
+	public NXprocess getProcess();
+	
+	/**
+	 * 
+	 * @param process the process
+	 */
+	public void setProcess(NXprocess process);
   
 	/**
 	 * Get a NXprocess node by name:
@@ -630,6 +1246,17 @@ public interface NXsubentry extends NXobject {
 	public NXprocess getProcess(String name);
 	
 	/**
+	 * Set a NXprocess node by name:
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param process the value to set
+	 */
+	public void setProcess(String name, NXprocess process);
+	
+	/**
 	 * Get all NXprocess nodes:
 	 * <ul>
 	 * <li></li>
@@ -638,5 +1265,17 @@ public interface NXsubentry extends NXobject {
 	 * @return  a map from node names to the NXprocess for that node.
 	 */
 	public Map<String, NXprocess> getAllProcess();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param process the child nodes to add 
+	 */
+	
+	public void setAllProcess(Map<String, NXprocess> process);
+	
 
 }

@@ -1,3 +1,15 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2015 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This file was auto-generated from the NXDL XML definition.
+ * Generated at: 2016-01-07T18:23:28.198Z
+ *******************************************************************************/
+
 package org.eclipse.dawnsci.nexus.validation;
 import static org.eclipse.dawnsci.nexus.validation.NexusDataType.*;
 import static org.eclipse.dawnsci.nexus.validation.NexusUnitCategory.*;

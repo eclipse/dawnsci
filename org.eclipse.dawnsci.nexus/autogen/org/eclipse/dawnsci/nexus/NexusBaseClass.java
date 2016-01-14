@@ -1,3 +1,15 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2015 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This file was auto-generated from the NXDL XML definition.
+ * Generated at: 2016-01-13T18:08:19.722Z
+ *******************************************************************************/
+
 package org.eclipse.dawnsci.nexus;
 	
 /**
@@ -90,5 +102,6 @@ public enum NexusBaseClass {
 		final String enumName = name.substring(0, 2) + '_' + name.substring(2).toUpperCase();
 		return NexusBaseClass.valueOf(enumName);
 	}
+	
 
 }

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,7 +15,6 @@ package org.eclipse.dawnsci.nexus;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Note: This base class may be removed in future releases of NXDL.
@@ -27,48 +26,98 @@ import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
  */
 public interface NXcharacterization extends NXobject {
 
+	public static final String NX_ATTRIBUTE_SOURCE = "source";
+	public static final String NX_ATTRIBUTE_LOCATION = "location";
+	public static final String NX_ATTRIBUTE_MIME_TYPE = "mime_type";
+	public static final String NX_DEFINITION = "definition";
+	public static final String NX_DEFINITION_ATTRIBUTE_VERSION = "version";
+	public static final String NX_DEFINITION_ATTRIBUTE_URL = "URL";
 	/**
 	 * If missing, the source file is the current file
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeSource();	
+	public String getAttributeSource();
+	
+	/**
+	 * If missing, the source file is the current file
+	 * 
+	 * @param source the source
+	 */
+	public void setAttributeSource(String source);
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeLocation();	
+	public String getAttributeLocation();
+	
+	/**
+	 * 
+	 * @param location the location
+	 */
+	public void setAttributeLocation(String location);
 
 	/**
 	 * If missing, the source file is NAPI readable
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeMime_type();	
+	public String getAttributeMime_type();
+	
+	/**
+	 * If missing, the source file is NAPI readable
+	 * 
+	 * @param mime_type the mime_type
+	 */
+	public void setAttributeMime_type(String mime_type);
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDefinition();	
-
+	public IDataset getDefinition();
+	
 	/**
 	 * 
-	 * @return  the value
+	 * @param definition the definition
 	 */
-	 public String getDefinitionScalar();
-
-	/**
-	 * 
-	 * @return  the value.
-	 */
-	public String getDefinitionAttributeVersion();	
+	public DataNode setDefinition(IDataset definition);
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public String getDefinitionAttributeURL();	
+	public String getDefinitionScalar();
+
+	/**
+	 * 
+	 * @param definition the definition
+	 */
+	public DataNode setDefinitionScalar(String definition);
+
+	/**
+	 * 
+	 * @return  the value.
+	 */
+	public String getDefinitionAttributeVersion();
+	
+	/**
+	 * 
+	 * @param version the version
+	 */
+	public void setDefinitionAttributeVersion(String version);
+
+	/**
+	 * 
+	 * @return  the value.
+	 */
+	public String getDefinitionAttributeURL();
+	
+	/**
+	 * 
+	 * @param URL the URL
+	 */
+	public void setDefinitionAttributeURL(String URL);
 
 }

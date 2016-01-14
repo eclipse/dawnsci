@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -19,7 +19,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -32,26 +31,15 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_TYPE = "type";
-	public static final String NX_ROTATION_SPEED = "rotation_speed";
-	public static final String NX_SLITS = "slits";
-	public static final String NX_SLIT_ANGLE = "slit_angle";
-	public static final String NX_PAIR_SEPARATION = "pair_separation";
-	public static final String NX_RADIUS = "radius";
-	public static final String NX_SLIT_HEIGHT = "slit_height";
-	public static final String NX_PHASE = "phase";
-	public static final String NX_RATIO = "ratio";
-	public static final String NX_DISTANCE = "distance";
-	public static final String NX_WAVELENGTH_RANGE = "wavelength_range";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY);
 
-	protected NXdisk_chopperImpl(final NexusNodeFactory nodeFactory) {
+	public NXdisk_chopperImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXdisk_chopperImpl(final long oid) {
+	public NXdisk_chopperImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -81,10 +69,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getString(NX_TYPE);
 	}
 
+	@Override
 	public DataNode setType(IDataset type) {
 		return setDataset(NX_TYPE, type);
 	}
 
+	@Override
 	public DataNode setTypeScalar(String type) {
 		return setString(NX_TYPE, type);
 	}
@@ -99,10 +89,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_ROTATION_SPEED);
 	}
 
+	@Override
 	public DataNode setRotation_speed(IDataset rotation_speed) {
 		return setDataset(NX_ROTATION_SPEED, rotation_speed);
 	}
 
+	@Override
 	public DataNode setRotation_speedScalar(double rotation_speed) {
 		return setField(NX_ROTATION_SPEED, rotation_speed);
 	}
@@ -117,10 +109,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getLong(NX_SLITS);
 	}
 
+	@Override
 	public DataNode setSlits(IDataset slits) {
 		return setDataset(NX_SLITS, slits);
 	}
 
+	@Override
 	public DataNode setSlitsScalar(long slits) {
 		return setField(NX_SLITS, slits);
 	}
@@ -135,10 +129,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_SLIT_ANGLE);
 	}
 
+	@Override
 	public DataNode setSlit_angle(IDataset slit_angle) {
 		return setDataset(NX_SLIT_ANGLE, slit_angle);
 	}
 
+	@Override
 	public DataNode setSlit_angleScalar(double slit_angle) {
 		return setField(NX_SLIT_ANGLE, slit_angle);
 	}
@@ -153,10 +149,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_PAIR_SEPARATION);
 	}
 
+	@Override
 	public DataNode setPair_separation(IDataset pair_separation) {
 		return setDataset(NX_PAIR_SEPARATION, pair_separation);
 	}
 
+	@Override
 	public DataNode setPair_separationScalar(double pair_separation) {
 		return setField(NX_PAIR_SEPARATION, pair_separation);
 	}
@@ -171,10 +169,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_RADIUS);
 	}
 
+	@Override
 	public DataNode setRadius(IDataset radius) {
 		return setDataset(NX_RADIUS, radius);
 	}
 
+	@Override
 	public DataNode setRadiusScalar(double radius) {
 		return setField(NX_RADIUS, radius);
 	}
@@ -189,10 +189,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_SLIT_HEIGHT);
 	}
 
+	@Override
 	public DataNode setSlit_height(IDataset slit_height) {
 		return setDataset(NX_SLIT_HEIGHT, slit_height);
 	}
 
+	@Override
 	public DataNode setSlit_heightScalar(double slit_height) {
 		return setField(NX_SLIT_HEIGHT, slit_height);
 	}
@@ -207,10 +209,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_PHASE);
 	}
 
+	@Override
 	public DataNode setPhase(IDataset phase) {
 		return setDataset(NX_PHASE, phase);
 	}
 
+	@Override
 	public DataNode setPhaseScalar(double phase) {
 		return setField(NX_PHASE, phase);
 	}
@@ -225,10 +229,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getLong(NX_RATIO);
 	}
 
+	@Override
 	public DataNode setRatio(IDataset ratio) {
 		return setDataset(NX_RATIO, ratio);
 	}
 
+	@Override
 	public DataNode setRatioScalar(long ratio) {
 		return setField(NX_RATIO, ratio);
 	}
@@ -243,10 +249,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_DISTANCE);
 	}
 
+	@Override
 	public DataNode setDistance(IDataset distance) {
 		return setDataset(NX_DISTANCE, distance);
 	}
 
+	@Override
 	public DataNode setDistanceScalar(double distance) {
 		return setField(NX_DISTANCE, distance);
 	}
@@ -261,10 +269,12 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getDouble(NX_WAVELENGTH_RANGE);
 	}
 
+	@Override
 	public DataNode setWavelength_range(IDataset wavelength_range) {
 		return setDataset(NX_WAVELENGTH_RANGE, wavelength_range);
 	}
 
+	@Override
 	public DataNode setWavelength_rangeScalar(double wavelength_range) {
 		return setField(NX_WAVELENGTH_RANGE, wavelength_range);
 	}
@@ -274,6 +284,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getChild("geometry", NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(NXgeometry geometry) {
 		putChild("geometry", geometry);
 	}
@@ -283,6 +294,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 		return getChild(name, NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(String name, NXgeometry geometry) {
 		putChild(name, geometry);
 	}
@@ -291,7 +303,8 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	public Map<String, NXgeometry> getAllGeometry() {
 		return getChildren(NXgeometry.class);
 	}
-
+	
+	@Override
 	public void setAllGeometry(Map<String, NXgeometry> geometry) {
 		setChildren(geometry);
 	}

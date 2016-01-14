@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -30,25 +30,15 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_ATTRIBUTE_NX_CLASS = "NX_class";
-	public static final String NX_ATTRIBUTE_FILE_TIME = "file_time";
-	public static final String NX_ATTRIBUTE_FILE_NAME = "file_name";
-	public static final String NX_ATTRIBUTE_FILE_UPDATE_TIME = "file_update_time";
-	public static final String NX_ATTRIBUTE_NEXUS_VERSION = "NeXus_version";
-	public static final String NX_ATTRIBUTE_HDF_VERSION = "HDF_version";
-	public static final String NX_ATTRIBUTE_HDF5_VERSION = "HDF5_Version";
-	public static final String NX_ATTRIBUTE_XML_VERSION = "XML_version";
-	public static final String NX_ATTRIBUTE_CREATOR = "creator";
-	public static final String NX_ATTRIBUTE_DEFAULT = "default";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_ENTRY);
 
-	protected NXrootImpl(final NexusNodeFactory nodeFactory) {
+	public NXrootImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXrootImpl(final long oid) {
+	public NXrootImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -73,6 +63,7 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 		return getAttrString(null, NX_ATTRIBUTE_NX_CLASS);
 	}
 
+	@Override
 	public void setAttributeNX_class(String NX_class) {
 		setAttribute(null, NX_ATTRIBUTE_NX_CLASS, NX_class);
 	}
@@ -82,6 +73,7 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 		return getAttrString(null, NX_ATTRIBUTE_FILE_TIME);
 	}
 
+	@Override
 	public void setAttributeFile_time(String file_time) {
 		setAttribute(null, NX_ATTRIBUTE_FILE_TIME, file_time);
 	}
@@ -91,6 +83,7 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 		return getAttrString(null, NX_ATTRIBUTE_FILE_NAME);
 	}
 
+	@Override
 	public void setAttributeFile_name(String file_name) {
 		setAttribute(null, NX_ATTRIBUTE_FILE_NAME, file_name);
 	}
@@ -100,6 +93,7 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 		return getAttrString(null, NX_ATTRIBUTE_FILE_UPDATE_TIME);
 	}
 
+	@Override
 	public void setAttributeFile_update_time(String file_update_time) {
 		setAttribute(null, NX_ATTRIBUTE_FILE_UPDATE_TIME, file_update_time);
 	}
@@ -109,6 +103,7 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 		return getAttrString(null, NX_ATTRIBUTE_NEXUS_VERSION);
 	}
 
+	@Override
 	public void setAttributeNeXus_version(String NeXus_version) {
 		setAttribute(null, NX_ATTRIBUTE_NEXUS_VERSION, NeXus_version);
 	}
@@ -118,6 +113,7 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 		return getAttrString(null, NX_ATTRIBUTE_HDF_VERSION);
 	}
 
+	@Override
 	public void setAttributeHDF_version(String HDF_version) {
 		setAttribute(null, NX_ATTRIBUTE_HDF_VERSION, HDF_version);
 	}
@@ -127,6 +123,7 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 		return getAttrString(null, NX_ATTRIBUTE_HDF5_VERSION);
 	}
 
+	@Override
 	public void setAttributeHDF5_Version(String HDF5_Version) {
 		setAttribute(null, NX_ATTRIBUTE_HDF5_VERSION, HDF5_Version);
 	}
@@ -136,6 +133,7 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 		return getAttrString(null, NX_ATTRIBUTE_XML_VERSION);
 	}
 
+	@Override
 	public void setAttributeXML_version(String XML_version) {
 		setAttribute(null, NX_ATTRIBUTE_XML_VERSION, XML_version);
 	}
@@ -145,6 +143,7 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 		return getAttrString(null, NX_ATTRIBUTE_CREATOR);
 	}
 
+	@Override
 	public void setAttributeCreator(String creator) {
 		setAttribute(null, NX_ATTRIBUTE_CREATOR, creator);
 	}
@@ -154,6 +153,7 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 		return getChild("entry", NXentry.class);
 	}
 
+	@Override
 	public void setEntry(NXentry entry) {
 		putChild("entry", entry);
 	}
@@ -163,6 +163,7 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 		return getChild(name, NXentry.class);
 	}
 
+	@Override
 	public void setEntry(String name, NXentry entry) {
 		putChild(name, entry);
 	}
@@ -171,7 +172,8 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 	public Map<String, NXentry> getAllEntry() {
 		return getChildren(NXentry.class);
 	}
-
+	
+	@Override
 	public void setAllEntry(Map<String, NXentry> entry) {
 		setChildren(entry);
 	}
@@ -181,6 +183,7 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 		return getAttrString(null, NX_ATTRIBUTE_DEFAULT);
 	}
 
+	@Override
 	public void setAttributeDefault(String default_) {
 		setAttribute(null, NX_ATTRIBUTE_DEFAULT, default_);
 	}

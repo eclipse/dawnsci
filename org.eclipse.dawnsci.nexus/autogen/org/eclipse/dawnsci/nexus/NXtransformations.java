@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,7 +15,6 @@ package org.eclipse.dawnsci.nexus;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Use ``NXtransformations`` to gather together any set of movable or fixed
@@ -25,6 +24,12 @@ import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
  */
 public interface NXtransformations extends NXobject {
 
+	public static final String NX_ANONYMOUS__NEEDS_XSD_CHANGE__ = "anonymous__NEEDS_XSD_CHANGE__";
+	public static final String NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_TRANSFORMATION_TYPE = "transformation_type";
+	public static final String NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_VECTOR = "vector";
+	public static final String NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_OFFSET = "offset";
+	public static final String NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_OFFSET_UNITS = "offset_units";
+	public static final String NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_DEPENDS_ON = "depends_on";
 	/**
 	 * Units need to be appropriate for translation or rotation
 	 * <p>
@@ -33,7 +38,17 @@ public interface NXtransformations extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAnonymous__NEEDS_XSD_CHANGE__();	
+	public IDataset getAnonymous__NEEDS_XSD_CHANGE__();
+	
+	/**
+	 * Units need to be appropriate for translation or rotation
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * </p>
+	 * 
+	 * @param anonymous__NEEDS_XSD_CHANGE__ the anonymous__NEEDS_XSD_CHANGE_
+	 */
+	public DataNode setAnonymous__NEEDS_XSD_CHANGE__(IDataset anonymous__NEEDS_XSD_CHANGE__);
 
 	/**
 	 * Units need to be appropriate for translation or rotation
@@ -41,9 +56,19 @@ public interface NXtransformations extends NXobject {
 	 * <b>Type:</b> NX_NUMBER
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public Number getAnonymous__NEEDS_XSD_CHANGE__Scalar();
+	public Number getAnonymous__NEEDS_XSD_CHANGE__Scalar();
+
+	/**
+	 * Units need to be appropriate for translation or rotation
+	 * <p>
+	 * <b>Type:</b> NX_NUMBER
+	 * </p>
+	 * 
+	 * @param anonymous__NEEDS_XSD_CHANGE__ the anonymous__NEEDS_XSD_CHANGE_
+	 */
+	public DataNode setAnonymous__NEEDS_XSD_CHANGE__Scalar(Number anonymous__NEEDS_XSD_CHANGE__);
 
 	/**
 	 * <p>
@@ -54,34 +79,73 @@ public interface NXtransformations extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getAnonymous__NEEDS_XSD_CHANGE__AttributeTransformation_type();	
+	public String getAnonymous__NEEDS_XSD_CHANGE__AttributeTransformation_type();
+	
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>translation</b> </li>
+	 * <li><b>rotation</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @param transformation_type the transformation_type
+	 */
+	public void setAnonymous__NEEDS_XSD_CHANGE__AttributeTransformation_type(String transformation_type);
 
 	/**
 	 * Three values that define the axis for this transformation
 	 * 
 	 * @return  the value.
 	 */
-	public Number getAnonymous__NEEDS_XSD_CHANGE__AttributeVector();	
+	public Number getAnonymous__NEEDS_XSD_CHANGE__AttributeVector();
+	
+	/**
+	 * Three values that define the axis for this transformation
+	 * 
+	 * @param vector the vector
+	 */
+	public void setAnonymous__NEEDS_XSD_CHANGE__AttributeVector(Number vector);
 
 	/**
 	 * A fixed offset applied before the transformation (three vector components).
 	 * 
 	 * @return  the value.
 	 */
-	public Number getAnonymous__NEEDS_XSD_CHANGE__AttributeOffset();	
+	public Number getAnonymous__NEEDS_XSD_CHANGE__AttributeOffset();
+	
+	/**
+	 * A fixed offset applied before the transformation (three vector components).
+	 * 
+	 * @param offset the offset
+	 */
+	public void setAnonymous__NEEDS_XSD_CHANGE__AttributeOffset(Number offset);
 
 	/**
 	 * Units of the offset.
 	 * 
 	 * @return  the value.
 	 */
-	public String getAnonymous__NEEDS_XSD_CHANGE__AttributeOffset_units();	
+	public String getAnonymous__NEEDS_XSD_CHANGE__AttributeOffset_units();
+	
+	/**
+	 * Units of the offset.
+	 * 
+	 * @param offset_units the offset_units
+	 */
+	public void setAnonymous__NEEDS_XSD_CHANGE__AttributeOffset_units(String offset_units);
 
 	/**
 	 * Points to the path of the next element in the geometry chain.
 	 * 
 	 * @return  the value.
 	 */
-	public String getAnonymous__NEEDS_XSD_CHANGE__AttributeDepends_on();	
+	public String getAnonymous__NEEDS_XSD_CHANGE__AttributeDepends_on();
+	
+	/**
+	 * Points to the path of the next element in the geometry chain.
+	 * 
+	 * @param depends_on the depends_on
+	 */
+	public void setAnonymous__NEEDS_XSD_CHANGE__AttributeDepends_on(String depends_on);
 
 }

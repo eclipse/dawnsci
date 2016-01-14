@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,7 +15,6 @@ package org.eclipse.dawnsci.nexus;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * This class is used to allow a logical
@@ -36,19 +35,37 @@ import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
  */
 public interface NXdetector_group extends NXobject {
 
+	public static final String NX_GROUP_NAMES = "group_names";
+	public static final String NX_GROUP_INDEX = "group_index";
+	public static final String NX_GROUP_PARENT = "group_parent";
+	public static final String NX_GROUP_TYPE = "group_type";
 	/**
 	 * Comma separated list of name
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getGroup_names();	
+	public IDataset getGroup_names();
+	
+	/**
+	 * Comma separated list of name
+	 * 
+	 * @param group_names the group_names
+	 */
+	public DataNode setGroup_names(IDataset group_names);
 
 	/**
 	 * Comma separated list of name
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getGroup_namesScalar();
+	public String getGroup_namesScalar();
+
+	/**
+	 * Comma separated list of name
+	 * 
+	 * @param group_names the group_names
+	 */
+	public DataNode setGroup_namesScalar(String group_names);
 
 	/**
 	 * Unique ID for group. A group_index array
@@ -60,7 +77,19 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getGroup_index();	
+	public IDataset getGroup_index();
+	
+	/**
+	 * Unique ID for group. A group_index array
+	 * in ``NXdetector`` gives the base group for a detector element.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @param group_index the group_index
+	 */
+	public DataNode setGroup_index(IDataset group_index);
 
 	/**
 	 * Unique ID for group. A group_index array
@@ -70,9 +99,21 @@ public interface NXdetector_group extends NXobject {
 	 * <b>Dimensions:</b> 1: i;
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public long getGroup_indexScalar();
+	public long getGroup_indexScalar();
+
+	/**
+	 * Unique ID for group. A group_index array
+	 * in ``NXdetector`` gives the base group for a detector element.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Dimensions:</b> 1: i;
+	 * </p>
+	 * 
+	 * @param group_index the group_index
+	 */
+	public DataNode setGroup_indexScalar(long group_index);
 
 	/**
 	 * Index of group parent in the hierarchy: -1 means no parent (i.e. a top level) group
@@ -83,7 +124,18 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getGroup_parent();	
+	public IDataset getGroup_parent();
+	
+	/**
+	 * Index of group parent in the hierarchy: -1 means no parent (i.e. a top level) group
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Dimensions:</b> 1: ;
+	 * </p>
+	 * 
+	 * @param group_parent the group_parent
+	 */
+	public DataNode setGroup_parent(IDataset group_parent);
 
 	/**
 	 * Index of group parent in the hierarchy: -1 means no parent (i.e. a top level) group
@@ -92,9 +144,20 @@ public interface NXdetector_group extends NXobject {
 	 * <b>Dimensions:</b> 1: ;
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public long getGroup_parentScalar();
+	public long getGroup_parentScalar();
+
+	/**
+	 * Index of group parent in the hierarchy: -1 means no parent (i.e. a top level) group
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Dimensions:</b> 1: ;
+	 * </p>
+	 * 
+	 * @param group_parent the group_parent
+	 */
+	public DataNode setGroup_parentScalar(long group_parent);
 
 	/**
 	 * Code number for group type, e.g. bank=1, tube=2 etc.
@@ -105,7 +168,18 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getGroup_type();	
+	public IDataset getGroup_type();
+	
+	/**
+	 * Code number for group type, e.g. bank=1, tube=2 etc.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Dimensions:</b> 1: ;
+	 * </p>
+	 * 
+	 * @param group_type the group_type
+	 */
+	public DataNode setGroup_type(IDataset group_type);
 
 	/**
 	 * Code number for group type, e.g. bank=1, tube=2 etc.
@@ -114,8 +188,19 @@ public interface NXdetector_group extends NXobject {
 	 * <b>Dimensions:</b> 1: ;
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public long getGroup_typeScalar();
+	public long getGroup_typeScalar();
+
+	/**
+	 * Code number for group type, e.g. bank=1, tube=2 etc.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Dimensions:</b> 1: ;
+	 * </p>
+	 * 
+	 * @param group_type the group_type
+	 */
+	public DataNode setGroup_typeScalar(long group_type);
 
 }

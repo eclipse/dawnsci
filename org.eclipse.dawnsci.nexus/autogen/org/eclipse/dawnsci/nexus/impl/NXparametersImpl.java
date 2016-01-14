@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,7 +17,6 @@ import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -30,16 +29,14 @@ public class NXparametersImpl extends NXobjectImpl implements NXparameters {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_TERM = "term";
-	public static final String NX_TERM_ATTRIBUTE_UNITS = "units";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	protected NXparametersImpl(final NexusNodeFactory nodeFactory) {
+	public NXparametersImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXparametersImpl(final long oid) {
+	public NXparametersImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -69,10 +66,12 @@ public class NXparametersImpl extends NXobjectImpl implements NXparameters {
 		return getString(NX_TERM);
 	}
 
+	@Override
 	public DataNode setTerm(IDataset term) {
 		return setDataset(NX_TERM, term);
 	}
 
+	@Override
 	public DataNode setTermScalar(String term) {
 		return setString(NX_TERM, term);
 	}
@@ -82,6 +81,7 @@ public class NXparametersImpl extends NXobjectImpl implements NXparameters {
 		return getAttrString(NX_TERM, NX_TERM_ATTRIBUTE_UNITS);
 	}
 
+	@Override
 	public void setTermAttributeUnits(String units) {
 		setAttribute(NX_TERM, NX_TERM_ATTRIBUTE_UNITS, units);
 	}

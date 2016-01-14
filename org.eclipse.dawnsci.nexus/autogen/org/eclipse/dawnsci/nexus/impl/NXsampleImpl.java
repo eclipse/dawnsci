@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -20,7 +20,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -35,43 +34,6 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_NAME = "name";
-	public static final String NX_CHEMICAL_FORMULA = "chemical_formula";
-	public static final String NX_TEMPERATURE = "temperature";
-	public static final String NX_ELECTRIC_FIELD = "electric_field";
-	public static final String NX_ELECTRIC_FIELD_ATTRIBUTE_DIRECTION = "direction";
-	public static final String NX_MAGNETIC_FIELD = "magnetic_field";
-	public static final String NX_MAGNETIC_FIELD_ATTRIBUTE_DIRECTION = "direction";
-	public static final String NX_STRESS_FIELD = "stress_field";
-	public static final String NX_STRESS_FIELD_ATTRIBUTE_DIRECTION = "direction";
-	public static final String NX_PRESSURE = "pressure";
-	public static final String NX_CHANGER_POSITION = "changer_position";
-	public static final String NX_UNIT_CELL = "unit_cell";
-	public static final String NX_UNIT_CELL_VOLUME = "unit_cell_volume";
-	public static final String NX_SAMPLE_ORIENTATION = "sample_orientation";
-	public static final String NX_ORIENTATION_MATRIX = "orientation_matrix";
-	public static final String NX_MASS = "mass";
-	public static final String NX_DENSITY = "density";
-	public static final String NX_RELATIVE_MOLECULAR_MASS = "relative_molecular_mass";
-	public static final String NX_TYPE = "type";
-	public static final String NX_SITUATION = "situation";
-	public static final String NX_DESCRIPTION = "description";
-	public static final String NX_PREPARATION_DATE = "preparation_date";
-	public static final String NX_COMPONENT = "component";
-	public static final String NX_SAMPLE_COMPONENT = "sample_component";
-	public static final String NX_CONCENTRATION = "concentration";
-	public static final String NX_VOLUME_FRACTION = "volume_fraction";
-	public static final String NX_SCATTERING_LENGTH_DENSITY = "scattering_length_density";
-	public static final String NX_UNIT_CELL_CLASS = "unit_cell_class";
-	public static final String NX_UNIT_CELL_GROUP = "unit_cell_group";
-	public static final String NX_PATH_LENGTH = "path_length";
-	public static final String NX_PATH_LENGTH_WINDOW = "path_length_window";
-	public static final String NX_THICKNESS = "thickness";
-	public static final String NX_EXTERNAL_DAC = "external_DAC";
-	public static final String NX_SHORT_TITLE = "short_title";
-	public static final String NX_ROTATION_ANGLE = "rotation_angle";
-	public static final String NX_X_TRANSLATION = "x_translation";
-	public static final String NX_DISTANCE = "distance";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY,
@@ -84,11 +46,11 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		NexusBaseClass.NX_LOG,
 		NexusBaseClass.NX_POSITIONER);
 
-	protected NXsampleImpl(final NexusNodeFactory nodeFactory) {
+	public NXsampleImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXsampleImpl(final long oid) {
+	public NXsampleImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -118,10 +80,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getString(NX_NAME);
 	}
 
+	@Override
 	public DataNode setName(IDataset name) {
 		return setDataset(NX_NAME, name);
 	}
 
+	@Override
 	public DataNode setNameScalar(String name) {
 		return setString(NX_NAME, name);
 	}
@@ -136,10 +100,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getString(NX_CHEMICAL_FORMULA);
 	}
 
+	@Override
 	public DataNode setChemical_formula(IDataset chemical_formula) {
 		return setDataset(NX_CHEMICAL_FORMULA, chemical_formula);
 	}
 
+	@Override
 	public DataNode setChemical_formulaScalar(String chemical_formula) {
 		return setString(NX_CHEMICAL_FORMULA, chemical_formula);
 	}
@@ -154,10 +120,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_TEMPERATURE);
 	}
 
+	@Override
 	public DataNode setTemperature(IDataset temperature) {
 		return setDataset(NX_TEMPERATURE, temperature);
 	}
 
+	@Override
 	public DataNode setTemperatureScalar(double temperature) {
 		return setField(NX_TEMPERATURE, temperature);
 	}
@@ -172,10 +140,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_ELECTRIC_FIELD);
 	}
 
+	@Override
 	public DataNode setElectric_field(IDataset electric_field) {
 		return setDataset(NX_ELECTRIC_FIELD, electric_field);
 	}
 
+	@Override
 	public DataNode setElectric_fieldScalar(double electric_field) {
 		return setField(NX_ELECTRIC_FIELD, electric_field);
 	}
@@ -185,6 +155,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getAttrString(NX_ELECTRIC_FIELD, NX_ELECTRIC_FIELD_ATTRIBUTE_DIRECTION);
 	}
 
+	@Override
 	public void setElectric_fieldAttributeDirection(String direction) {
 		setAttribute(NX_ELECTRIC_FIELD, NX_ELECTRIC_FIELD_ATTRIBUTE_DIRECTION, direction);
 	}
@@ -199,10 +170,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_MAGNETIC_FIELD);
 	}
 
+	@Override
 	public DataNode setMagnetic_field(IDataset magnetic_field) {
 		return setDataset(NX_MAGNETIC_FIELD, magnetic_field);
 	}
 
+	@Override
 	public DataNode setMagnetic_fieldScalar(double magnetic_field) {
 		return setField(NX_MAGNETIC_FIELD, magnetic_field);
 	}
@@ -212,6 +185,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getAttrString(NX_MAGNETIC_FIELD, NX_MAGNETIC_FIELD_ATTRIBUTE_DIRECTION);
 	}
 
+	@Override
 	public void setMagnetic_fieldAttributeDirection(String direction) {
 		setAttribute(NX_MAGNETIC_FIELD, NX_MAGNETIC_FIELD_ATTRIBUTE_DIRECTION, direction);
 	}
@@ -226,10 +200,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_STRESS_FIELD);
 	}
 
+	@Override
 	public DataNode setStress_field(IDataset stress_field) {
 		return setDataset(NX_STRESS_FIELD, stress_field);
 	}
 
+	@Override
 	public DataNode setStress_fieldScalar(double stress_field) {
 		return setField(NX_STRESS_FIELD, stress_field);
 	}
@@ -239,6 +215,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getAttrString(NX_STRESS_FIELD, NX_STRESS_FIELD_ATTRIBUTE_DIRECTION);
 	}
 
+	@Override
 	public void setStress_fieldAttributeDirection(String direction) {
 		setAttribute(NX_STRESS_FIELD, NX_STRESS_FIELD_ATTRIBUTE_DIRECTION, direction);
 	}
@@ -253,10 +230,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_PRESSURE);
 	}
 
+	@Override
 	public DataNode setPressure(IDataset pressure) {
 		return setDataset(NX_PRESSURE, pressure);
 	}
 
+	@Override
 	public DataNode setPressureScalar(double pressure) {
 		return setField(NX_PRESSURE, pressure);
 	}
@@ -271,10 +250,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getLong(NX_CHANGER_POSITION);
 	}
 
+	@Override
 	public DataNode setChanger_position(IDataset changer_position) {
 		return setDataset(NX_CHANGER_POSITION, changer_position);
 	}
 
+	@Override
 	public DataNode setChanger_positionScalar(long changer_position) {
 		return setField(NX_CHANGER_POSITION, changer_position);
 	}
@@ -289,10 +270,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_UNIT_CELL);
 	}
 
+	@Override
 	public DataNode setUnit_cell(IDataset unit_cell) {
 		return setDataset(NX_UNIT_CELL, unit_cell);
 	}
 
+	@Override
 	public DataNode setUnit_cellScalar(double unit_cell) {
 		return setField(NX_UNIT_CELL, unit_cell);
 	}
@@ -307,10 +290,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_UNIT_CELL_VOLUME);
 	}
 
+	@Override
 	public DataNode setUnit_cell_volume(IDataset unit_cell_volume) {
 		return setDataset(NX_UNIT_CELL_VOLUME, unit_cell_volume);
 	}
 
+	@Override
 	public DataNode setUnit_cell_volumeScalar(double unit_cell_volume) {
 		return setField(NX_UNIT_CELL_VOLUME, unit_cell_volume);
 	}
@@ -325,10 +310,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_SAMPLE_ORIENTATION);
 	}
 
+	@Override
 	public DataNode setSample_orientation(IDataset sample_orientation) {
 		return setDataset(NX_SAMPLE_ORIENTATION, sample_orientation);
 	}
 
+	@Override
 	public DataNode setSample_orientationScalar(double sample_orientation) {
 		return setField(NX_SAMPLE_ORIENTATION, sample_orientation);
 	}
@@ -343,10 +330,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_ORIENTATION_MATRIX);
 	}
 
+	@Override
 	public DataNode setOrientation_matrix(IDataset orientation_matrix) {
 		return setDataset(NX_ORIENTATION_MATRIX, orientation_matrix);
 	}
 
+	@Override
 	public DataNode setOrientation_matrixScalar(double orientation_matrix) {
 		return setField(NX_ORIENTATION_MATRIX, orientation_matrix);
 	}
@@ -361,10 +350,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_MASS);
 	}
 
+	@Override
 	public DataNode setMass(IDataset mass) {
 		return setDataset(NX_MASS, mass);
 	}
 
+	@Override
 	public DataNode setMassScalar(double mass) {
 		return setField(NX_MASS, mass);
 	}
@@ -379,10 +370,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_DENSITY);
 	}
 
+	@Override
 	public DataNode setDensity(IDataset density) {
 		return setDataset(NX_DENSITY, density);
 	}
 
+	@Override
 	public DataNode setDensityScalar(double density) {
 		return setField(NX_DENSITY, density);
 	}
@@ -397,10 +390,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_RELATIVE_MOLECULAR_MASS);
 	}
 
+	@Override
 	public DataNode setRelative_molecular_mass(IDataset relative_molecular_mass) {
 		return setDataset(NX_RELATIVE_MOLECULAR_MASS, relative_molecular_mass);
 	}
 
+	@Override
 	public DataNode setRelative_molecular_massScalar(double relative_molecular_mass) {
 		return setField(NX_RELATIVE_MOLECULAR_MASS, relative_molecular_mass);
 	}
@@ -415,10 +410,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getString(NX_TYPE);
 	}
 
+	@Override
 	public DataNode setType(IDataset type) {
 		return setDataset(NX_TYPE, type);
 	}
 
+	@Override
 	public DataNode setTypeScalar(String type) {
 		return setString(NX_TYPE, type);
 	}
@@ -433,10 +430,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getString(NX_SITUATION);
 	}
 
+	@Override
 	public DataNode setSituation(IDataset situation) {
 		return setDataset(NX_SITUATION, situation);
 	}
 
+	@Override
 	public DataNode setSituationScalar(String situation) {
 		return setString(NX_SITUATION, situation);
 	}
@@ -451,10 +450,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getString(NX_DESCRIPTION);
 	}
 
+	@Override
 	public DataNode setDescription(IDataset description) {
 		return setDataset(NX_DESCRIPTION, description);
 	}
 
+	@Override
 	public DataNode setDescriptionScalar(String description) {
 		return setString(NX_DESCRIPTION, description);
 	}
@@ -469,10 +470,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDate(NX_PREPARATION_DATE);
 	}
 
+	@Override
 	public DataNode setPreparation_date(IDataset preparation_date) {
 		return setDataset(NX_PREPARATION_DATE, preparation_date);
 	}
 
+	@Override
 	public DataNode setPreparation_dateScalar(Date preparation_date) {
 		return setDate(NX_PREPARATION_DATE, preparation_date);
 	}
@@ -482,6 +485,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getChild("geometry", NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(NXgeometry geometry) {
 		putChild("geometry", geometry);
 	}
@@ -491,6 +495,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getChild("beam", NXbeam.class);
 	}
 
+	@Override
 	public void setBeam(NXbeam beam) {
 		putChild("beam", beam);
 	}
@@ -500,6 +505,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getChild(name, NXbeam.class);
 	}
 
+	@Override
 	public void setBeam(String name, NXbeam beam) {
 		putChild(name, beam);
 	}
@@ -508,7 +514,8 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	public Map<String, NXbeam> getAllBeam() {
 		return getChildren(NXbeam.class);
 	}
-
+	
+	@Override
 	public void setAllBeam(Map<String, NXbeam> beam) {
 		setChildren(beam);
 	}
@@ -523,10 +530,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getString(NX_COMPONENT);
 	}
 
+	@Override
 	public DataNode setComponent(IDataset component) {
 		return setDataset(NX_COMPONENT, component);
 	}
 
+	@Override
 	public DataNode setComponentScalar(String component) {
 		return setString(NX_COMPONENT, component);
 	}
@@ -541,10 +550,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getString(NX_SAMPLE_COMPONENT);
 	}
 
+	@Override
 	public DataNode setSample_component(IDataset sample_component) {
 		return setDataset(NX_SAMPLE_COMPONENT, sample_component);
 	}
 
+	@Override
 	public DataNode setSample_componentScalar(String sample_component) {
 		return setString(NX_SAMPLE_COMPONENT, sample_component);
 	}
@@ -559,10 +570,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_CONCENTRATION);
 	}
 
+	@Override
 	public DataNode setConcentration(IDataset concentration) {
 		return setDataset(NX_CONCENTRATION, concentration);
 	}
 
+	@Override
 	public DataNode setConcentrationScalar(double concentration) {
 		return setField(NX_CONCENTRATION, concentration);
 	}
@@ -577,10 +590,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_VOLUME_FRACTION);
 	}
 
+	@Override
 	public DataNode setVolume_fraction(IDataset volume_fraction) {
 		return setDataset(NX_VOLUME_FRACTION, volume_fraction);
 	}
 
+	@Override
 	public DataNode setVolume_fractionScalar(double volume_fraction) {
 		return setField(NX_VOLUME_FRACTION, volume_fraction);
 	}
@@ -595,10 +610,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_SCATTERING_LENGTH_DENSITY);
 	}
 
+	@Override
 	public DataNode setScattering_length_density(IDataset scattering_length_density) {
 		return setDataset(NX_SCATTERING_LENGTH_DENSITY, scattering_length_density);
 	}
 
+	@Override
 	public DataNode setScattering_length_densityScalar(double scattering_length_density) {
 		return setField(NX_SCATTERING_LENGTH_DENSITY, scattering_length_density);
 	}
@@ -613,10 +630,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getString(NX_UNIT_CELL_CLASS);
 	}
 
+	@Override
 	public DataNode setUnit_cell_class(IDataset unit_cell_class) {
 		return setDataset(NX_UNIT_CELL_CLASS, unit_cell_class);
 	}
 
+	@Override
 	public DataNode setUnit_cell_classScalar(String unit_cell_class) {
 		return setString(NX_UNIT_CELL_CLASS, unit_cell_class);
 	}
@@ -631,10 +650,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getString(NX_UNIT_CELL_GROUP);
 	}
 
+	@Override
 	public DataNode setUnit_cell_group(IDataset unit_cell_group) {
 		return setDataset(NX_UNIT_CELL_GROUP, unit_cell_group);
 	}
 
+	@Override
 	public DataNode setUnit_cell_groupScalar(String unit_cell_group) {
 		return setString(NX_UNIT_CELL_GROUP, unit_cell_group);
 	}
@@ -649,10 +670,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_PATH_LENGTH);
 	}
 
+	@Override
 	public DataNode setPath_length(IDataset path_length) {
 		return setDataset(NX_PATH_LENGTH, path_length);
 	}
 
+	@Override
 	public DataNode setPath_lengthScalar(double path_length) {
 		return setField(NX_PATH_LENGTH, path_length);
 	}
@@ -667,10 +690,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_PATH_LENGTH_WINDOW);
 	}
 
+	@Override
 	public DataNode setPath_length_window(IDataset path_length_window) {
 		return setDataset(NX_PATH_LENGTH_WINDOW, path_length_window);
 	}
 
+	@Override
 	public DataNode setPath_length_windowScalar(double path_length_window) {
 		return setField(NX_PATH_LENGTH_WINDOW, path_length_window);
 	}
@@ -685,10 +710,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_THICKNESS);
 	}
 
+	@Override
 	public DataNode setThickness(IDataset thickness) {
 		return setDataset(NX_THICKNESS, thickness);
 	}
 
+	@Override
 	public DataNode setThicknessScalar(double thickness) {
 		return setField(NX_THICKNESS, thickness);
 	}
@@ -698,6 +725,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getChild("transmission", NXdata.class);
 	}
 
+	@Override
 	public void setTransmission(NXdata transmission) {
 		putChild("transmission", transmission);
 	}
@@ -707,6 +735,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getChild("temperature_log", NXlog.class);
 	}
 
+	@Override
 	public void setTemperature_log(NXlog temperature_log) {
 		putChild("temperature_log", temperature_log);
 	}
@@ -716,6 +745,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getChild("temperature_env", NXenvironment.class);
 	}
 
+	@Override
 	public void setTemperature_env(NXenvironment temperature_env) {
 		putChild("temperature_env", temperature_env);
 	}
@@ -725,6 +755,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getChild("magnetic_field_log", NXlog.class);
 	}
 
+	@Override
 	public void setMagnetic_field_log(NXlog magnetic_field_log) {
 		putChild("magnetic_field_log", magnetic_field_log);
 	}
@@ -734,6 +765,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getChild("magnetic_field_env", NXenvironment.class);
 	}
 
+	@Override
 	public void setMagnetic_field_env(NXenvironment magnetic_field_env) {
 		putChild("magnetic_field_env", magnetic_field_env);
 	}
@@ -748,10 +780,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_EXTERNAL_DAC);
 	}
 
+	@Override
 	public DataNode setExternal_DAC(IDataset external_DAC) {
 		return setDataset(NX_EXTERNAL_DAC, external_DAC);
 	}
 
+	@Override
 	public DataNode setExternal_DACScalar(double external_DAC) {
 		return setField(NX_EXTERNAL_DAC, external_DAC);
 	}
@@ -761,6 +795,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getChild("external_ADC", NXlog.class);
 	}
 
+	@Override
 	public void setExternal_ADC(NXlog external_ADC) {
 		putChild("external_ADC", external_ADC);
 	}
@@ -775,10 +810,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getString(NX_SHORT_TITLE);
 	}
 
+	@Override
 	public DataNode setShort_title(IDataset short_title) {
 		return setDataset(NX_SHORT_TITLE, short_title);
 	}
 
+	@Override
 	public DataNode setShort_titleScalar(String short_title) {
 		return setString(NX_SHORT_TITLE, short_title);
 	}
@@ -793,10 +830,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_ROTATION_ANGLE);
 	}
 
+	@Override
 	public DataNode setRotation_angle(IDataset rotation_angle) {
 		return setDataset(NX_ROTATION_ANGLE, rotation_angle);
 	}
 
+	@Override
 	public DataNode setRotation_angleScalar(double rotation_angle) {
 		return setField(NX_ROTATION_ANGLE, rotation_angle);
 	}
@@ -811,10 +850,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_X_TRANSLATION);
 	}
 
+	@Override
 	public DataNode setX_translation(IDataset x_translation) {
 		return setDataset(NX_X_TRANSLATION, x_translation);
 	}
 
+	@Override
 	public DataNode setX_translationScalar(double x_translation) {
 		return setField(NX_X_TRANSLATION, x_translation);
 	}
@@ -829,10 +870,12 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getDouble(NX_DISTANCE);
 	}
 
+	@Override
 	public DataNode setDistance(IDataset distance) {
 		return setDataset(NX_DISTANCE, distance);
 	}
 
+	@Override
 	public DataNode setDistanceScalar(double distance) {
 		return setField(NX_DISTANCE, distance);
 	}
@@ -842,6 +885,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getChild("positioner", NXpositioner.class);
 	}
 
+	@Override
 	public void setPositioner(NXpositioner positioner) {
 		putChild("positioner", positioner);
 	}
@@ -851,6 +895,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 		return getChild(name, NXpositioner.class);
 	}
 
+	@Override
 	public void setPositioner(String name, NXpositioner positioner) {
 		putChild(name, positioner);
 	}
@@ -859,7 +904,8 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	public Map<String, NXpositioner> getAllPositioner() {
 		return getChildren(NXpositioner.class);
 	}
-
+	
+	@Override
 	public void setAllPositioner(Map<String, NXpositioner> positioner) {
 		setChildren(positioner);
 	}

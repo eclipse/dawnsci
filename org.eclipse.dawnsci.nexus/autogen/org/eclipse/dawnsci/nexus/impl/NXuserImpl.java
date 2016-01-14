@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,7 +17,6 @@ import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -33,22 +32,14 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_NAME = "name";
-	public static final String NX_ROLE = "role";
-	public static final String NX_AFFILIATION = "affiliation";
-	public static final String NX_ADDRESS = "address";
-	public static final String NX_TELEPHONE_NUMBER = "telephone_number";
-	public static final String NX_FAX_NUMBER = "fax_number";
-	public static final String NX_EMAIL = "email";
-	public static final String NX_FACILITY_USER_ID = "facility_user_id";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	protected NXuserImpl(final NexusNodeFactory nodeFactory) {
+	public NXuserImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXuserImpl(final long oid) {
+	public NXuserImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -78,10 +69,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_NAME);
 	}
 
+	@Override
 	public DataNode setName(IDataset name) {
 		return setDataset(NX_NAME, name);
 	}
 
+	@Override
 	public DataNode setNameScalar(String name) {
 		return setString(NX_NAME, name);
 	}
@@ -96,10 +89,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_ROLE);
 	}
 
+	@Override
 	public DataNode setRole(IDataset role) {
 		return setDataset(NX_ROLE, role);
 	}
 
+	@Override
 	public DataNode setRoleScalar(String role) {
 		return setString(NX_ROLE, role);
 	}
@@ -114,10 +109,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_AFFILIATION);
 	}
 
+	@Override
 	public DataNode setAffiliation(IDataset affiliation) {
 		return setDataset(NX_AFFILIATION, affiliation);
 	}
 
+	@Override
 	public DataNode setAffiliationScalar(String affiliation) {
 		return setString(NX_AFFILIATION, affiliation);
 	}
@@ -132,10 +129,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_ADDRESS);
 	}
 
+	@Override
 	public DataNode setAddress(IDataset address) {
 		return setDataset(NX_ADDRESS, address);
 	}
 
+	@Override
 	public DataNode setAddressScalar(String address) {
 		return setString(NX_ADDRESS, address);
 	}
@@ -150,10 +149,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_TELEPHONE_NUMBER);
 	}
 
+	@Override
 	public DataNode setTelephone_number(IDataset telephone_number) {
 		return setDataset(NX_TELEPHONE_NUMBER, telephone_number);
 	}
 
+	@Override
 	public DataNode setTelephone_numberScalar(String telephone_number) {
 		return setString(NX_TELEPHONE_NUMBER, telephone_number);
 	}
@@ -168,10 +169,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_FAX_NUMBER);
 	}
 
+	@Override
 	public DataNode setFax_number(IDataset fax_number) {
 		return setDataset(NX_FAX_NUMBER, fax_number);
 	}
 
+	@Override
 	public DataNode setFax_numberScalar(String fax_number) {
 		return setString(NX_FAX_NUMBER, fax_number);
 	}
@@ -186,10 +189,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_EMAIL);
 	}
 
+	@Override
 	public DataNode setEmail(IDataset email) {
 		return setDataset(NX_EMAIL, email);
 	}
 
+	@Override
 	public DataNode setEmailScalar(String email) {
 		return setString(NX_EMAIL, email);
 	}
@@ -204,10 +209,12 @@ public class NXuserImpl extends NXobjectImpl implements NXuser {
 		return getString(NX_FACILITY_USER_ID);
 	}
 
+	@Override
 	public DataNode setFacility_user_id(IDataset facility_user_id) {
 		return setDataset(NX_FACILITY_USER_ID, facility_user_id);
 	}
 
+	@Override
 	public DataNode setFacility_user_idScalar(String facility_user_id) {
 		return setString(NX_FACILITY_USER_ID, facility_user_id);
 	}

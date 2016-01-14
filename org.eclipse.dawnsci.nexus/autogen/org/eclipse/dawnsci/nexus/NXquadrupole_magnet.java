@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,7 +15,6 @@ package org.eclipse.dawnsci.nexus;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * definition for a quadrupole magnet.
@@ -24,6 +23,9 @@ import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
  */
 public interface NXquadrupole_magnet extends NXobject {
 
+	public static final String NX_DESCRIPTION = "description";
+	public static final String NX_BEAMLINE_DISTANCE = "beamline_distance";
+	public static final String NX_SET_CURRENT = "set_current";
 	/**
 	 * extended description of the magnet.
 	 * <p>
@@ -32,7 +34,17 @@ public interface NXquadrupole_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDescription();	
+	public IDataset getDescription();
+	
+	/**
+	 * extended description of the magnet.
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * </p>
+	 * 
+	 * @param description the description
+	 */
+	public DataNode setDescription(IDataset description);
 
 	/**
 	 * extended description of the magnet.
@@ -40,9 +52,19 @@ public interface NXquadrupole_magnet extends NXobject {
 	 * <b>Type:</b> NX_CHAR
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getDescriptionScalar();
+	public String getDescriptionScalar();
+
+	/**
+	 * extended description of the magnet.
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * </p>
+	 * 
+	 * @param description the description
+	 */
+	public DataNode setDescriptionScalar(String description);
 
 	/**
 	 * define position of beamline element relative to production target
@@ -53,7 +75,18 @@ public interface NXquadrupole_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getBeamline_distance();	
+	public IDataset getBeamline_distance();
+	
+	/**
+	 * define position of beamline element relative to production target
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @param beamline_distance the beamline_distance
+	 */
+	public DataNode setBeamline_distance(IDataset beamline_distance);
 
 	/**
 	 * define position of beamline element relative to production target
@@ -62,9 +95,20 @@ public interface NXquadrupole_magnet extends NXobject {
 	 * <b>Units:</b> NX_LENGTH
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getBeamline_distanceScalar();
+	public double getBeamline_distanceScalar();
+
+	/**
+	 * define position of beamline element relative to production target
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @param beamline_distance the beamline_distance
+	 */
+	public DataNode setBeamline_distanceScalar(double beamline_distance);
 
 	/**
 	 * current set on supply.
@@ -75,7 +119,18 @@ public interface NXquadrupole_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSet_current();	
+	public IDataset getSet_current();
+	
+	/**
+	 * current set on supply.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_CURRENT
+	 * </p>
+	 * 
+	 * @param set_current the set_current
+	 */
+	public DataNode setSet_current(IDataset set_current);
 
 	/**
 	 * current set on supply.
@@ -84,22 +139,47 @@ public interface NXquadrupole_magnet extends NXobject {
 	 * <b>Units:</b> NX_CURRENT
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getSet_currentScalar();
+	public double getSet_currentScalar();
+
+	/**
+	 * current set on supply.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_CURRENT
+	 * </p>
+	 * 
+	 * @param set_current the set_current
+	 */
+	public DataNode setSet_currentScalar(double set_current);
 
 	/**
 	 * current read from supply.
 	 * 
 	 * @return  the value.
 	 */
-	public NXlog getRead_current();	
+	public NXlog getRead_current();
+	
+	/**
+	 * current read from supply.
+	 * 
+	 * @param read_current the read_current
+	 */
+	public void setRead_current(NXlog read_current);
 
 	/**
 	 * voltage read from supply.
 	 * 
 	 * @return  the value.
 	 */
-	public NXlog getRead_voltage();	
+	public NXlog getRead_voltage();
+	
+	/**
+	 * voltage read from supply.
+	 * 
+	 * @param read_voltage the read_voltage
+	 */
+	public void setRead_voltage(NXlog read_voltage);
 
 }

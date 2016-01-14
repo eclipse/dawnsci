@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,7 +17,6 @@ import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -37,25 +36,14 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_NAME = "name";
-	public static final String NX_DESCRIPTION = "description";
-	public static final String NX_VALUE = "value";
-	public static final String NX_RAW_VALUE = "raw_value";
-	public static final String NX_TARGET_VALUE = "target_value";
-	public static final String NX_TOLERANCE = "tolerance";
-	public static final String NX_SOFT_LIMIT_MIN = "soft_limit_min";
-	public static final String NX_SOFT_LIMIT_MAX = "soft_limit_max";
-	public static final String NX_VELOCITY = "velocity";
-	public static final String NX_ACCELERATION_TIME = "acceleration_time";
-	public static final String NX_CONTROLLER_RECORD = "controller_record";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	protected NXpositionerImpl(final NexusNodeFactory nodeFactory) {
+	public NXpositionerImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXpositionerImpl(final long oid) {
+	public NXpositionerImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -85,10 +73,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getString(NX_NAME);
 	}
 
+	@Override
 	public DataNode setName(IDataset name) {
 		return setDataset(NX_NAME, name);
 	}
 
+	@Override
 	public DataNode setNameScalar(String name) {
 		return setString(NX_NAME, name);
 	}
@@ -103,10 +93,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getString(NX_DESCRIPTION);
 	}
 
+	@Override
 	public DataNode setDescription(IDataset description) {
 		return setDataset(NX_DESCRIPTION, description);
 	}
 
+	@Override
 	public DataNode setDescriptionScalar(String description) {
 		return setString(NX_DESCRIPTION, description);
 	}
@@ -121,10 +113,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_VALUE);
 	}
 
+	@Override
 	public DataNode setValue(IDataset value) {
 		return setDataset(NX_VALUE, value);
 	}
 
+	@Override
 	public DataNode setValueScalar(Number value) {
 		return setField(NX_VALUE, value);
 	}
@@ -139,10 +133,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_RAW_VALUE);
 	}
 
+	@Override
 	public DataNode setRaw_value(IDataset raw_value) {
 		return setDataset(NX_RAW_VALUE, raw_value);
 	}
 
+	@Override
 	public DataNode setRaw_valueScalar(Number raw_value) {
 		return setField(NX_RAW_VALUE, raw_value);
 	}
@@ -157,10 +153,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_TARGET_VALUE);
 	}
 
+	@Override
 	public DataNode setTarget_value(IDataset target_value) {
 		return setDataset(NX_TARGET_VALUE, target_value);
 	}
 
+	@Override
 	public DataNode setTarget_valueScalar(Number target_value) {
 		return setField(NX_TARGET_VALUE, target_value);
 	}
@@ -175,10 +173,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_TOLERANCE);
 	}
 
+	@Override
 	public DataNode setTolerance(IDataset tolerance) {
 		return setDataset(NX_TOLERANCE, tolerance);
 	}
 
+	@Override
 	public DataNode setToleranceScalar(Number tolerance) {
 		return setField(NX_TOLERANCE, tolerance);
 	}
@@ -193,10 +193,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_SOFT_LIMIT_MIN);
 	}
 
+	@Override
 	public DataNode setSoft_limit_min(IDataset soft_limit_min) {
 		return setDataset(NX_SOFT_LIMIT_MIN, soft_limit_min);
 	}
 
+	@Override
 	public DataNode setSoft_limit_minScalar(Number soft_limit_min) {
 		return setField(NX_SOFT_LIMIT_MIN, soft_limit_min);
 	}
@@ -211,10 +213,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_SOFT_LIMIT_MAX);
 	}
 
+	@Override
 	public DataNode setSoft_limit_max(IDataset soft_limit_max) {
 		return setDataset(NX_SOFT_LIMIT_MAX, soft_limit_max);
 	}
 
+	@Override
 	public DataNode setSoft_limit_maxScalar(Number soft_limit_max) {
 		return setField(NX_SOFT_LIMIT_MAX, soft_limit_max);
 	}
@@ -229,10 +233,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_VELOCITY);
 	}
 
+	@Override
 	public DataNode setVelocity(IDataset velocity) {
 		return setDataset(NX_VELOCITY, velocity);
 	}
 
+	@Override
 	public DataNode setVelocityScalar(Number velocity) {
 		return setField(NX_VELOCITY, velocity);
 	}
@@ -247,10 +253,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getNumber(NX_ACCELERATION_TIME);
 	}
 
+	@Override
 	public DataNode setAcceleration_time(IDataset acceleration_time) {
 		return setDataset(NX_ACCELERATION_TIME, acceleration_time);
 	}
 
+	@Override
 	public DataNode setAcceleration_timeScalar(Number acceleration_time) {
 		return setField(NX_ACCELERATION_TIME, acceleration_time);
 	}
@@ -265,10 +273,12 @@ public class NXpositionerImpl extends NXobjectImpl implements NXpositioner {
 		return getString(NX_CONTROLLER_RECORD);
 	}
 
+	@Override
 	public DataNode setController_record(IDataset controller_record) {
 		return setDataset(NX_CONTROLLER_RECORD, controller_record);
 	}
 
+	@Override
 	public DataNode setController_recordScalar(String controller_record) {
 		return setString(NX_CONTROLLER_RECORD, controller_record);
 	}

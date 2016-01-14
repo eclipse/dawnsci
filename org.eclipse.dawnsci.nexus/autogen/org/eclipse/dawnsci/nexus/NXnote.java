@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -17,7 +17,6 @@ import java.util.Date;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 
 /**
@@ -28,19 +27,40 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
  */
 public interface NXnote extends NXobject {
 
+	public static final String NX_AUTHOR = "author";
+	public static final String NX_DATE = "date";
+	public static final String NX_TYPE = "type";
+	public static final String NX_FILE_NAME = "file_name";
+	public static final String NX_DESCRIPTION = "description";
+	public static final String NX_SEQUENCE_INDEX = "sequence_index";
+	public static final String NX_DATA = "data";
 	/**
 	 * Author or creator of note
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getAuthor();	
+	public IDataset getAuthor();
+	
+	/**
+	 * Author or creator of note
+	 * 
+	 * @param author the author
+	 */
+	public DataNode setAuthor(IDataset author);
 
 	/**
 	 * Author or creator of note
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getAuthorScalar();
+	public String getAuthorScalar();
+
+	/**
+	 * Author or creator of note
+	 * 
+	 * @param author the author
+	 */
+	public DataNode setAuthorScalar(String author);
 
 	/**
 	 * Date note created/added
@@ -50,7 +70,17 @@ public interface NXnote extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDate();	
+	public IDataset getDate();
+	
+	/**
+	 * Date note created/added
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * </p>
+	 * 
+	 * @param date the date
+	 */
+	public DataNode setDate(IDataset date);
 
 	/**
 	 * Date note created/added
@@ -58,51 +88,103 @@ public interface NXnote extends NXobject {
 	 * <b>Type:</b> NX_DATE_TIME
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public Date getDateScalar();
+	public Date getDateScalar();
+
+	/**
+	 * Date note created/added
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * </p>
+	 * 
+	 * @param date the date
+	 */
+	public DataNode setDateScalar(Date date);
 
 	/**
 	 * Mime content type of note data field e.g. image/jpeg, text/plain, text/html
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();	
+	public IDataset getType();
+	
+	/**
+	 * Mime content type of note data field e.g. image/jpeg, text/plain, text/html
+	 * 
+	 * @param type the type
+	 */
+	public DataNode setType(IDataset type);
 
 	/**
 	 * Mime content type of note data field e.g. image/jpeg, text/plain, text/html
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getTypeScalar();
+	public String getTypeScalar();
+
+	/**
+	 * Mime content type of note data field e.g. image/jpeg, text/plain, text/html
+	 * 
+	 * @param type the type
+	 */
+	public DataNode setTypeScalar(String type);
 
 	/**
 	 * Name of original file name if note was read from an external source
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getFile_name();	
+	public IDataset getFile_name();
+	
+	/**
+	 * Name of original file name if note was read from an external source
+	 * 
+	 * @param file_name the file_name
+	 */
+	public DataNode setFile_name(IDataset file_name);
 
 	/**
 	 * Name of original file name if note was read from an external source
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getFile_nameScalar();
+	public String getFile_nameScalar();
+
+	/**
+	 * Name of original file name if note was read from an external source
+	 * 
+	 * @param file_name the file_name
+	 */
+	public DataNode setFile_nameScalar(String file_name);
 
 	/**
 	 * Title of an image or other details of the note
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDescription();	
+	public IDataset getDescription();
+	
+	/**
+	 * Title of an image or other details of the note
+	 * 
+	 * @param description the description
+	 */
+	public DataNode setDescription(IDataset description);
 
 	/**
 	 * Title of an image or other details of the note
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getDescriptionScalar();
+	public String getDescriptionScalar();
+
+	/**
+	 * Title of an image or other details of the note
+	 * 
+	 * @param description the description
+	 */
+	public DataNode setDescriptionScalar(String description);
 
 	/**
 	 * Sequence index of note, for placing a sequence of
@@ -113,7 +195,18 @@ public interface NXnote extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSequence_index();	
+	public IDataset getSequence_index();
+	
+	/**
+	 * Sequence index of note, for placing a sequence of
+	 * multiple **NXnote** groups in an order. Starts with 1.
+	 * <p>
+	 * <b>Type:</b> NX_POSINT
+	 * </p>
+	 * 
+	 * @param sequence_index the sequence_index
+	 */
+	public DataNode setSequence_index(IDataset sequence_index);
 
 	/**
 	 * Sequence index of note, for placing a sequence of
@@ -122,9 +215,20 @@ public interface NXnote extends NXobject {
 	 * <b>Type:</b> NX_POSINT
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public long getSequence_indexScalar();
+	public long getSequence_indexScalar();
+
+	/**
+	 * Sequence index of note, for placing a sequence of
+	 * multiple **NXnote** groups in an order. Starts with 1.
+	 * <p>
+	 * <b>Type:</b> NX_POSINT
+	 * </p>
+	 * 
+	 * @param sequence_index the sequence_index
+	 */
+	public DataNode setSequence_indexScalar(long sequence_index);
 
 	/**
 	 * Binary note data - if text, line terminator is [CR][LF].
@@ -134,7 +238,17 @@ public interface NXnote extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getData();	
+	public IDataset getData();
+	
+	/**
+	 * Binary note data - if text, line terminator is [CR][LF].
+	 * <p>
+	 * <b>Type:</b> NX_BINARY
+	 * </p>
+	 * 
+	 * @param data the data
+	 */
+	public DataNode setData(IDataset data);
 
 	/**
 	 * Binary note data - if text, line terminator is [CR][LF].
@@ -142,8 +256,18 @@ public interface NXnote extends NXobject {
 	 * <b>Type:</b> NX_BINARY
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public Object getDataScalar();
+	public Object getDataScalar();
+
+	/**
+	 * Binary note data - if text, line terminator is [CR][LF].
+	 * <p>
+	 * <b>Type:</b> NX_BINARY
+	 * </p>
+	 * 
+	 * @param data the data
+	 */
+	public DataNode setDataScalar(Object data);
 
 }

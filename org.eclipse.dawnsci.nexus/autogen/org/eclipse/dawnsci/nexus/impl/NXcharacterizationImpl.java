@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,7 +17,6 @@ import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -33,20 +32,14 @@ public class NXcharacterizationImpl extends NXobjectImpl implements NXcharacteri
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_ATTRIBUTE_SOURCE = "source";
-	public static final String NX_ATTRIBUTE_LOCATION = "location";
-	public static final String NX_ATTRIBUTE_MIME_TYPE = "mime_type";
-	public static final String NX_DEFINITION = "definition";
-	public static final String NX_DEFINITION_ATTRIBUTE_VERSION = "version";
-	public static final String NX_DEFINITION_ATTRIBUTE_URL = "URL";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	protected NXcharacterizationImpl(final NexusNodeFactory nodeFactory) {
+	public NXcharacterizationImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXcharacterizationImpl(final long oid) {
+	public NXcharacterizationImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -71,6 +64,7 @@ public class NXcharacterizationImpl extends NXobjectImpl implements NXcharacteri
 		return getAttrString(null, NX_ATTRIBUTE_SOURCE);
 	}
 
+	@Override
 	public void setAttributeSource(String source) {
 		setAttribute(null, NX_ATTRIBUTE_SOURCE, source);
 	}
@@ -80,6 +74,7 @@ public class NXcharacterizationImpl extends NXobjectImpl implements NXcharacteri
 		return getAttrString(null, NX_ATTRIBUTE_LOCATION);
 	}
 
+	@Override
 	public void setAttributeLocation(String location) {
 		setAttribute(null, NX_ATTRIBUTE_LOCATION, location);
 	}
@@ -89,6 +84,7 @@ public class NXcharacterizationImpl extends NXobjectImpl implements NXcharacteri
 		return getAttrString(null, NX_ATTRIBUTE_MIME_TYPE);
 	}
 
+	@Override
 	public void setAttributeMime_type(String mime_type) {
 		setAttribute(null, NX_ATTRIBUTE_MIME_TYPE, mime_type);
 	}
@@ -103,10 +99,12 @@ public class NXcharacterizationImpl extends NXobjectImpl implements NXcharacteri
 		return getString(NX_DEFINITION);
 	}
 
+	@Override
 	public DataNode setDefinition(IDataset definition) {
 		return setDataset(NX_DEFINITION, definition);
 	}
 
+	@Override
 	public DataNode setDefinitionScalar(String definition) {
 		return setString(NX_DEFINITION, definition);
 	}
@@ -116,6 +114,7 @@ public class NXcharacterizationImpl extends NXobjectImpl implements NXcharacteri
 		return getAttrString(NX_DEFINITION, NX_DEFINITION_ATTRIBUTE_VERSION);
 	}
 
+	@Override
 	public void setDefinitionAttributeVersion(String version) {
 		setAttribute(NX_DEFINITION, NX_DEFINITION_ATTRIBUTE_VERSION, version);
 	}
@@ -125,6 +124,7 @@ public class NXcharacterizationImpl extends NXobjectImpl implements NXcharacteri
 		return getAttrString(NX_DEFINITION, NX_DEFINITION_ATTRIBUTE_URL);
 	}
 
+	@Override
 	public void setDefinitionAttributeURL(String URL) {
 		setAttribute(NX_DEFINITION, NX_DEFINITION_ATTRIBUTE_URL, URL);
 	}

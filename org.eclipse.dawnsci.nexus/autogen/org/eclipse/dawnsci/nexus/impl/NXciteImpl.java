@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,7 +17,6 @@ import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -33,19 +32,14 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_DESCRIPTION = "description";
-	public static final String NX_URL = "url";
-	public static final String NX_DOI = "doi";
-	public static final String NX_ENDNOTE = "endnote";
-	public static final String NX_BIBTEX = "bibtex";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	protected NXciteImpl(final NexusNodeFactory nodeFactory) {
+	public NXciteImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXciteImpl(final long oid) {
+	public NXciteImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -75,10 +69,12 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		return getString(NX_DESCRIPTION);
 	}
 
+	@Override
 	public DataNode setDescription(IDataset description) {
 		return setDataset(NX_DESCRIPTION, description);
 	}
 
+	@Override
 	public DataNode setDescriptionScalar(String description) {
 		return setString(NX_DESCRIPTION, description);
 	}
@@ -93,10 +89,12 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		return getString(NX_URL);
 	}
 
+	@Override
 	public DataNode setUrl(IDataset url) {
 		return setDataset(NX_URL, url);
 	}
 
+	@Override
 	public DataNode setUrlScalar(String url) {
 		return setString(NX_URL, url);
 	}
@@ -111,10 +109,12 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		return getString(NX_DOI);
 	}
 
+	@Override
 	public DataNode setDoi(IDataset doi) {
 		return setDataset(NX_DOI, doi);
 	}
 
+	@Override
 	public DataNode setDoiScalar(String doi) {
 		return setString(NX_DOI, doi);
 	}
@@ -129,10 +129,12 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		return getString(NX_ENDNOTE);
 	}
 
+	@Override
 	public DataNode setEndnote(IDataset endnote) {
 		return setDataset(NX_ENDNOTE, endnote);
 	}
 
+	@Override
 	public DataNode setEndnoteScalar(String endnote) {
 		return setString(NX_ENDNOTE, endnote);
 	}
@@ -147,10 +149,12 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 		return getString(NX_BIBTEX);
 	}
 
+	@Override
 	public DataNode setBibtex(IDataset bibtex) {
 		return setDataset(NX_BIBTEX, bibtex);
 	}
 
+	@Override
 	public DataNode setBibtexScalar(String bibtex) {
 		return setString(NX_BIBTEX, bibtex);
 	}

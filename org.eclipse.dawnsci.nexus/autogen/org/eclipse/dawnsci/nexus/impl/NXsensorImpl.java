@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,7 +17,6 @@ import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -31,19 +30,6 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_MODEL = "model";
-	public static final String NX_NAME = "name";
-	public static final String NX_SHORT_NAME = "short_name";
-	public static final String NX_ATTACHED_TO = "attached_to";
-	public static final String NX_MEASUREMENT = "measurement";
-	public static final String NX_TYPE = "type";
-	public static final String NX_RUN_CONTROL = "run_control";
-	public static final String NX_HIGH_TRIP_VALUE = "high_trip_value";
-	public static final String NX_LOW_TRIP_VALUE = "low_trip_value";
-	public static final String NX_VALUE = "value";
-	public static final String NX_VALUE_DERIV1 = "value_deriv1";
-	public static final String NX_VALUE_DERIV2 = "value_deriv2";
-	public static final String NX_EXTERNAL_FIELD_BRIEF = "external_field_brief";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY,
@@ -52,11 +38,11 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		NexusBaseClass.NX_LOG,
 		NexusBaseClass.NX_ORIENTATION);
 
-	protected NXsensorImpl(final NexusNodeFactory nodeFactory) {
+	public NXsensorImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXsensorImpl(final long oid) {
+	public NXsensorImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -86,10 +72,12 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getString(NX_MODEL);
 	}
 
+	@Override
 	public DataNode setModel(IDataset model) {
 		return setDataset(NX_MODEL, model);
 	}
 
+	@Override
 	public DataNode setModelScalar(String model) {
 		return setString(NX_MODEL, model);
 	}
@@ -104,10 +92,12 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getString(NX_NAME);
 	}
 
+	@Override
 	public DataNode setName(IDataset name) {
 		return setDataset(NX_NAME, name);
 	}
 
+	@Override
 	public DataNode setNameScalar(String name) {
 		return setString(NX_NAME, name);
 	}
@@ -122,10 +112,12 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getString(NX_SHORT_NAME);
 	}
 
+	@Override
 	public DataNode setShort_name(IDataset short_name) {
 		return setDataset(NX_SHORT_NAME, short_name);
 	}
 
+	@Override
 	public DataNode setShort_nameScalar(String short_name) {
 		return setString(NX_SHORT_NAME, short_name);
 	}
@@ -140,10 +132,12 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getString(NX_ATTACHED_TO);
 	}
 
+	@Override
 	public DataNode setAttached_to(IDataset attached_to) {
 		return setDataset(NX_ATTACHED_TO, attached_to);
 	}
 
+	@Override
 	public DataNode setAttached_toScalar(String attached_to) {
 		return setString(NX_ATTACHED_TO, attached_to);
 	}
@@ -153,6 +147,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getChild("geometry", NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(NXgeometry geometry) {
 		putChild("geometry", geometry);
 	}
@@ -167,10 +162,12 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getString(NX_MEASUREMENT);
 	}
 
+	@Override
 	public DataNode setMeasurement(IDataset measurement) {
 		return setDataset(NX_MEASUREMENT, measurement);
 	}
 
+	@Override
 	public DataNode setMeasurementScalar(String measurement) {
 		return setString(NX_MEASUREMENT, measurement);
 	}
@@ -185,10 +182,12 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getString(NX_TYPE);
 	}
 
+	@Override
 	public DataNode setType(IDataset type) {
 		return setDataset(NX_TYPE, type);
 	}
 
+	@Override
 	public DataNode setTypeScalar(String type) {
 		return setString(NX_TYPE, type);
 	}
@@ -203,10 +202,12 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getBoolean(NX_RUN_CONTROL);
 	}
 
+	@Override
 	public DataNode setRun_control(IDataset run_control) {
 		return setDataset(NX_RUN_CONTROL, run_control);
 	}
 
+	@Override
 	public DataNode setRun_controlScalar(boolean run_control) {
 		return setField(NX_RUN_CONTROL, run_control);
 	}
@@ -221,10 +222,12 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getDouble(NX_HIGH_TRIP_VALUE);
 	}
 
+	@Override
 	public DataNode setHigh_trip_value(IDataset high_trip_value) {
 		return setDataset(NX_HIGH_TRIP_VALUE, high_trip_value);
 	}
 
+	@Override
 	public DataNode setHigh_trip_valueScalar(double high_trip_value) {
 		return setField(NX_HIGH_TRIP_VALUE, high_trip_value);
 	}
@@ -239,10 +242,12 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getDouble(NX_LOW_TRIP_VALUE);
 	}
 
+	@Override
 	public DataNode setLow_trip_value(IDataset low_trip_value) {
 		return setDataset(NX_LOW_TRIP_VALUE, low_trip_value);
 	}
 
+	@Override
 	public DataNode setLow_trip_valueScalar(double low_trip_value) {
 		return setField(NX_LOW_TRIP_VALUE, low_trip_value);
 	}
@@ -257,10 +262,12 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getDouble(NX_VALUE);
 	}
 
+	@Override
 	public DataNode setValue(IDataset value) {
 		return setDataset(NX_VALUE, value);
 	}
 
+	@Override
 	public DataNode setValueScalar(double value) {
 		return setField(NX_VALUE, value);
 	}
@@ -275,10 +282,12 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getDouble(NX_VALUE_DERIV1);
 	}
 
+	@Override
 	public DataNode setValue_deriv1(IDataset value_deriv1) {
 		return setDataset(NX_VALUE_DERIV1, value_deriv1);
 	}
 
+	@Override
 	public DataNode setValue_deriv1Scalar(double value_deriv1) {
 		return setField(NX_VALUE_DERIV1, value_deriv1);
 	}
@@ -293,10 +302,12 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getDouble(NX_VALUE_DERIV2);
 	}
 
+	@Override
 	public DataNode setValue_deriv2(IDataset value_deriv2) {
 		return setDataset(NX_VALUE_DERIV2, value_deriv2);
 	}
 
+	@Override
 	public DataNode setValue_deriv2Scalar(double value_deriv2) {
 		return setField(NX_VALUE_DERIV2, value_deriv2);
 	}
@@ -306,6 +317,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getChild("value_log", NXlog.class);
 	}
 
+	@Override
 	public void setValue_log(NXlog value_log) {
 		putChild("value_log", value_log);
 	}
@@ -315,6 +327,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getChild("value_deriv1_log", NXlog.class);
 	}
 
+	@Override
 	public void setValue_deriv1_log(NXlog value_deriv1_log) {
 		putChild("value_deriv1_log", value_deriv1_log);
 	}
@@ -324,6 +337,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getChild("value_deriv2_log", NXlog.class);
 	}
 
+	@Override
 	public void setValue_deriv2_log(NXlog value_deriv2_log) {
 		putChild("value_deriv2_log", value_deriv2_log);
 	}
@@ -338,10 +352,12 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getString(NX_EXTERNAL_FIELD_BRIEF);
 	}
 
+	@Override
 	public DataNode setExternal_field_brief(IDataset external_field_brief) {
 		return setDataset(NX_EXTERNAL_FIELD_BRIEF, external_field_brief);
 	}
 
+	@Override
 	public DataNode setExternal_field_briefScalar(String external_field_brief) {
 		return setString(NX_EXTERNAL_FIELD_BRIEF, external_field_brief);
 	}
@@ -351,6 +367,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 		return getChild("external_field_full", NXorientation.class);
 	}
 
+	@Override
 	public void setExternal_field_full(NXorientation external_field_full) {
 		putChild("external_field_full", external_field_full);
 	}
