@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -19,7 +19,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -33,21 +32,15 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_DESCRIPTION = "description";
-	public static final String NX_SIZE = "size";
-	public static final String NX_X = "x";
-	public static final String NX_Y = "y";
-	public static final String NX_DISTANCE_TO_DETECTOR = "distance_to_detector";
-	public static final String NX_STATUS = "status";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY);
 
-	protected NXbeam_stopImpl(final NexusNodeFactory nodeFactory) {
+	public NXbeam_stopImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXbeam_stopImpl(final long oid) {
+	public NXbeam_stopImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -72,6 +65,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getChild("geometry", NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(NXgeometry geometry) {
 		putChild("geometry", geometry);
 	}
@@ -81,6 +75,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getChild(name, NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(String name, NXgeometry geometry) {
 		putChild(name, geometry);
 	}
@@ -89,7 +84,8 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	public Map<String, NXgeometry> getAllGeometry() {
 		return getChildren(NXgeometry.class);
 	}
-
+	
+	@Override
 	public void setAllGeometry(Map<String, NXgeometry> geometry) {
 		setChildren(geometry);
 	}
@@ -104,10 +100,12 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getString(NX_DESCRIPTION);
 	}
 
+	@Override
 	public DataNode setDescription(IDataset description) {
 		return setDataset(NX_DESCRIPTION, description);
 	}
 
+	@Override
 	public DataNode setDescriptionScalar(String description) {
 		return setString(NX_DESCRIPTION, description);
 	}
@@ -122,10 +120,12 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getDouble(NX_SIZE);
 	}
 
+	@Override
 	public DataNode setSize(IDataset size) {
 		return setDataset(NX_SIZE, size);
 	}
 
+	@Override
 	public DataNode setSizeScalar(double size) {
 		return setField(NX_SIZE, size);
 	}
@@ -140,10 +140,12 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getDouble(NX_X);
 	}
 
+	@Override
 	public DataNode setX(IDataset x) {
 		return setDataset(NX_X, x);
 	}
 
+	@Override
 	public DataNode setXScalar(double x) {
 		return setField(NX_X, x);
 	}
@@ -158,10 +160,12 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getDouble(NX_Y);
 	}
 
+	@Override
 	public DataNode setY(IDataset y) {
 		return setDataset(NX_Y, y);
 	}
 
+	@Override
 	public DataNode setYScalar(double y) {
 		return setField(NX_Y, y);
 	}
@@ -176,10 +180,12 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getDouble(NX_DISTANCE_TO_DETECTOR);
 	}
 
+	@Override
 	public DataNode setDistance_to_detector(IDataset distance_to_detector) {
 		return setDataset(NX_DISTANCE_TO_DETECTOR, distance_to_detector);
 	}
 
+	@Override
 	public DataNode setDistance_to_detectorScalar(double distance_to_detector) {
 		return setField(NX_DISTANCE_TO_DETECTOR, distance_to_detector);
 	}
@@ -194,10 +200,12 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 		return getString(NX_STATUS);
 	}
 
+	@Override
 	public DataNode setStatus(IDataset status) {
 		return setDataset(NX_STATUS, status);
 	}
 
+	@Override
 	public DataNode setStatusScalar(String status) {
 		return setString(NX_STATUS, status);
 	}

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,7 +17,6 @@ import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -67,32 +66,14 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_VARIABLE = "variable";
-	public static final String NX_VARIABLE_ATTRIBUTE_LONG_NAME = "long_name";
-	public static final String NX_VARIABLE_ATTRIBUTE_DISTRIBUTION = "distribution";
-	public static final String NX_VARIABLE_ATTRIBUTE_FIRST_GOOD = "first_good";
-	public static final String NX_VARIABLE_ATTRIBUTE_LAST_GOOD = "last_good";
-	public static final String NX_VARIABLE_ATTRIBUTE_AXIS = "axis";
-	public static final String NX_VARIABLE_ERRORS = "variable_errors";
-	public static final String NX_DATA = "data";
-	public static final String NX_DATA_ATTRIBUTE_SIGNAL = "signal";
-	public static final String NX_DATA_ATTRIBUTE_AXES = "axes";
-	public static final String NX_DATA_ATTRIBUTE_UNCERTAINTIES = "uncertainties";
-	public static final String NX_DATA_ATTRIBUTE_LONG_NAME = "long_name";
-	public static final String NX_ERRORS = "errors";
-	public static final String NX_SCALING_FACTOR = "scaling_factor";
-	public static final String NX_OFFSET = "offset";
-	public static final String NX_X = "x";
-	public static final String NX_Y = "y";
-	public static final String NX_Z = "z";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	protected NXdataImpl(final NexusNodeFactory nodeFactory) {
+	public NXdataImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXdataImpl(final long oid) {
+	public NXdataImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -122,10 +103,12 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getNumber(NX_VARIABLE);
 	}
 
+	@Override
 	public DataNode setVariable(IDataset variable) {
 		return setDataset(NX_VARIABLE, variable);
 	}
 
+	@Override
 	public DataNode setVariableScalar(Number variable) {
 		return setField(NX_VARIABLE, variable);
 	}
@@ -135,6 +118,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getAttrString(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_LONG_NAME);
 	}
 
+	@Override
 	public void setVariableAttributeLong_name(String long_name) {
 		setAttribute(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_LONG_NAME, long_name);
 	}
@@ -144,6 +128,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getAttrBoolean(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_DISTRIBUTION);
 	}
 
+	@Override
 	public void setVariableAttributeDistribution(boolean distribution) {
 		setAttribute(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_DISTRIBUTION, distribution);
 	}
@@ -153,6 +138,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getAttrLong(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_FIRST_GOOD);
 	}
 
+	@Override
 	public void setVariableAttributeFirst_good(long first_good) {
 		setAttribute(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_FIRST_GOOD, first_good);
 	}
@@ -162,6 +148,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getAttrLong(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_LAST_GOOD);
 	}
 
+	@Override
 	public void setVariableAttributeLast_good(long last_good) {
 		setAttribute(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_LAST_GOOD, last_good);
 	}
@@ -171,6 +158,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getAttrLong(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_AXIS);
 	}
 
+	@Override
 	public void setVariableAttributeAxis(long axis) {
 		setAttribute(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_AXIS, axis);
 	}
@@ -185,10 +173,12 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getNumber(NX_VARIABLE_ERRORS);
 	}
 
+	@Override
 	public DataNode setVariable_errors(IDataset variable_errors) {
 		return setDataset(NX_VARIABLE_ERRORS, variable_errors);
 	}
 
+	@Override
 	public DataNode setVariable_errorsScalar(Number variable_errors) {
 		return setField(NX_VARIABLE_ERRORS, variable_errors);
 	}
@@ -203,10 +193,12 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getNumber(NX_DATA);
 	}
 
+	@Override
 	public DataNode setData(IDataset data) {
 		return setDataset(NX_DATA, data);
 	}
 
+	@Override
 	public DataNode setDataScalar(Number data) {
 		return setField(NX_DATA, data);
 	}
@@ -216,6 +208,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getAttrLong(NX_DATA, NX_DATA_ATTRIBUTE_SIGNAL);
 	}
 
+	@Override
 	public void setDataAttributeSignal(long signal) {
 		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_SIGNAL, signal);
 	}
@@ -225,6 +218,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getAttrString(NX_DATA, NX_DATA_ATTRIBUTE_AXES);
 	}
 
+	@Override
 	public void setDataAttributeAxes(String axes) {
 		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_AXES, axes);
 	}
@@ -234,6 +228,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getAttrString(NX_DATA, NX_DATA_ATTRIBUTE_UNCERTAINTIES);
 	}
 
+	@Override
 	public void setDataAttributeUncertainties(String uncertainties) {
 		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_UNCERTAINTIES, uncertainties);
 	}
@@ -243,6 +238,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getAttrString(NX_DATA, NX_DATA_ATTRIBUTE_LONG_NAME);
 	}
 
+	@Override
 	public void setDataAttributeLong_name(String long_name) {
 		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_LONG_NAME, long_name);
 	}
@@ -257,10 +253,12 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getNumber(NX_ERRORS);
 	}
 
+	@Override
 	public DataNode setErrors(IDataset errors) {
 		return setDataset(NX_ERRORS, errors);
 	}
 
+	@Override
 	public DataNode setErrorsScalar(Number errors) {
 		return setField(NX_ERRORS, errors);
 	}
@@ -275,10 +273,12 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getDouble(NX_SCALING_FACTOR);
 	}
 
+	@Override
 	public DataNode setScaling_factor(IDataset scaling_factor) {
 		return setDataset(NX_SCALING_FACTOR, scaling_factor);
 	}
 
+	@Override
 	public DataNode setScaling_factorScalar(double scaling_factor) {
 		return setField(NX_SCALING_FACTOR, scaling_factor);
 	}
@@ -293,10 +293,12 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getDouble(NX_OFFSET);
 	}
 
+	@Override
 	public DataNode setOffset(IDataset offset) {
 		return setDataset(NX_OFFSET, offset);
 	}
 
+	@Override
 	public DataNode setOffsetScalar(double offset) {
 		return setField(NX_OFFSET, offset);
 	}
@@ -311,10 +313,12 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getDouble(NX_X);
 	}
 
+	@Override
 	public DataNode setX(IDataset x) {
 		return setDataset(NX_X, x);
 	}
 
+	@Override
 	public DataNode setXScalar(double x) {
 		return setField(NX_X, x);
 	}
@@ -329,10 +333,12 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getDouble(NX_Y);
 	}
 
+	@Override
 	public DataNode setY(IDataset y) {
 		return setDataset(NX_Y, y);
 	}
 
+	@Override
 	public DataNode setYScalar(double y) {
 		return setField(NX_Y, y);
 	}
@@ -347,10 +353,12 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return getDouble(NX_Z);
 	}
 
+	@Override
 	public DataNode setZ(IDataset z) {
 		return setDataset(NX_Z, z);
 	}
 
+	@Override
 	public DataNode setZScalar(double z) {
 		return setField(NX_Z, z);
 	}

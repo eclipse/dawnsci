@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,7 +15,6 @@ package org.eclipse.dawnsci.nexus;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Container for parameters, usually used in processing or analysis.
@@ -24,6 +23,8 @@ import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
  */
 public interface NXparameters extends NXobject {
 
+	public static final String NX_TERM = "term";
+	public static final String NX_TERM_ATTRIBUTE_UNITS = "units";
 	/**
 	 * A parameter (also known as a term) that is used in or results from processing.
 	 * <p>
@@ -32,7 +33,17 @@ public interface NXparameters extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTerm();	
+	public IDataset getTerm();
+	
+	/**
+	 * A parameter (also known as a term) that is used in or results from processing.
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * </p>
+	 * 
+	 * @param term the term
+	 */
+	public DataNode setTerm(IDataset term);
 
 	/**
 	 * A parameter (also known as a term) that is used in or results from processing.
@@ -40,14 +51,30 @@ public interface NXparameters extends NXobject {
 	 * <b>Type:</b> NX_CHAR
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getTermScalar();
+	public String getTermScalar();
+
+	/**
+	 * A parameter (also known as a term) that is used in or results from processing.
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * </p>
+	 * 
+	 * @param term the term
+	 */
+	public DataNode setTermScalar(String term);
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public String getTermAttributeUnits();	
+	public String getTermAttributeUnits();
+	
+	/**
+	 * 
+	 * @param units the units
+	 */
+	public void setTermAttributeUnits(String units);
 
 }

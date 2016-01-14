@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -19,7 +19,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -32,25 +31,16 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_TYPE = "type";
-	public static final String NX_SOLLER_ANGLE = "soller_angle";
-	public static final String NX_DIVERGENCE_X = "divergence_x";
-	public static final String NX_DIVERGENCE_Y = "divergence_y";
-	public static final String NX_FREQUENCY = "frequency";
-	public static final String NX_BLADE_THICKNESS = "blade_thickness";
-	public static final String NX_BLADE_SPACING = "blade_spacing";
-	public static final String NX_ABSORBING_MATERIAL = "absorbing_material";
-	public static final String NX_TRANSMITTING_MATERIAL = "transmitting_material";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY,
 		NexusBaseClass.NX_LOG);
 
-	protected NXcollimatorImpl(final NexusNodeFactory nodeFactory) {
+	public NXcollimatorImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXcollimatorImpl(final long oid) {
+	public NXcollimatorImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -75,6 +65,7 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getChild("geometry", NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(NXgeometry geometry) {
 		putChild("geometry", geometry);
 	}
@@ -84,6 +75,7 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getChild(name, NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(String name, NXgeometry geometry) {
 		putChild(name, geometry);
 	}
@@ -92,7 +84,8 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 	public Map<String, NXgeometry> getAllGeometry() {
 		return getChildren(NXgeometry.class);
 	}
-
+	
+	@Override
 	public void setAllGeometry(Map<String, NXgeometry> geometry) {
 		setChildren(geometry);
 	}
@@ -107,10 +100,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getString(NX_TYPE);
 	}
 
+	@Override
 	public DataNode setType(IDataset type) {
 		return setDataset(NX_TYPE, type);
 	}
 
+	@Override
 	public DataNode setTypeScalar(String type) {
 		return setString(NX_TYPE, type);
 	}
@@ -125,10 +120,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDouble(NX_SOLLER_ANGLE);
 	}
 
+	@Override
 	public DataNode setSoller_angle(IDataset soller_angle) {
 		return setDataset(NX_SOLLER_ANGLE, soller_angle);
 	}
 
+	@Override
 	public DataNode setSoller_angleScalar(double soller_angle) {
 		return setField(NX_SOLLER_ANGLE, soller_angle);
 	}
@@ -143,10 +140,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDouble(NX_DIVERGENCE_X);
 	}
 
+	@Override
 	public DataNode setDivergence_x(IDataset divergence_x) {
 		return setDataset(NX_DIVERGENCE_X, divergence_x);
 	}
 
+	@Override
 	public DataNode setDivergence_xScalar(double divergence_x) {
 		return setField(NX_DIVERGENCE_X, divergence_x);
 	}
@@ -161,10 +160,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDouble(NX_DIVERGENCE_Y);
 	}
 
+	@Override
 	public DataNode setDivergence_y(IDataset divergence_y) {
 		return setDataset(NX_DIVERGENCE_Y, divergence_y);
 	}
 
+	@Override
 	public DataNode setDivergence_yScalar(double divergence_y) {
 		return setField(NX_DIVERGENCE_Y, divergence_y);
 	}
@@ -179,10 +180,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDouble(NX_FREQUENCY);
 	}
 
+	@Override
 	public DataNode setFrequency(IDataset frequency) {
 		return setDataset(NX_FREQUENCY, frequency);
 	}
 
+	@Override
 	public DataNode setFrequencyScalar(double frequency) {
 		return setField(NX_FREQUENCY, frequency);
 	}
@@ -192,6 +195,7 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getChild("frequency_log", NXlog.class);
 	}
 
+	@Override
 	public void setFrequency_log(NXlog frequency_log) {
 		putChild("frequency_log", frequency_log);
 	}
@@ -206,10 +210,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDouble(NX_BLADE_THICKNESS);
 	}
 
+	@Override
 	public DataNode setBlade_thickness(IDataset blade_thickness) {
 		return setDataset(NX_BLADE_THICKNESS, blade_thickness);
 	}
 
+	@Override
 	public DataNode setBlade_thicknessScalar(double blade_thickness) {
 		return setField(NX_BLADE_THICKNESS, blade_thickness);
 	}
@@ -224,10 +230,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getDouble(NX_BLADE_SPACING);
 	}
 
+	@Override
 	public DataNode setBlade_spacing(IDataset blade_spacing) {
 		return setDataset(NX_BLADE_SPACING, blade_spacing);
 	}
 
+	@Override
 	public DataNode setBlade_spacingScalar(double blade_spacing) {
 		return setField(NX_BLADE_SPACING, blade_spacing);
 	}
@@ -242,10 +250,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getString(NX_ABSORBING_MATERIAL);
 	}
 
+	@Override
 	public DataNode setAbsorbing_material(IDataset absorbing_material) {
 		return setDataset(NX_ABSORBING_MATERIAL, absorbing_material);
 	}
 
+	@Override
 	public DataNode setAbsorbing_materialScalar(String absorbing_material) {
 		return setString(NX_ABSORBING_MATERIAL, absorbing_material);
 	}
@@ -260,10 +270,12 @@ public class NXcollimatorImpl extends NXobjectImpl implements NXcollimator {
 		return getString(NX_TRANSMITTING_MATERIAL);
 	}
 
+	@Override
 	public DataNode setTransmitting_material(IDataset transmitting_material) {
 		return setDataset(NX_TRANSMITTING_MATERIAL, transmitting_material);
 	}
 
+	@Override
 	public DataNode setTransmitting_materialScalar(String transmitting_material) {
 		return setString(NX_TRANSMITTING_MATERIAL, transmitting_material);
 	}

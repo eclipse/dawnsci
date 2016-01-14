@@ -24,9 +24,9 @@ import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.NexusApplicationDefinition;
 import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.appdef.NexusApplicationBuilder;
 import org.eclipse.dawnsci.nexus.impl.NXentryImpl;
-import org.eclipse.dawnsci.nexus.impl.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 
 /**
@@ -35,10 +35,10 @@ import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 public interface NexusEntryBuilder {
 
 	/**
-	 * Returns the wrapped {@link NXentryImpl} object.
-	 * @return wrapped {@link NXentryImpl} object
+	 * Returns the wrapped {@link NXentry} object.
+	 * @return wrapped {@link NXentry} object
 	 */
-	public NXentryImpl getNXentry();
+	public NXentry getNXentry();
 	
 	/**
 	 * Returns the {@link NexusNodeFactory} that can be used to create nodes. This

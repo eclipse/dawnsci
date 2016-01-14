@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,7 +15,6 @@ package org.eclipse.dawnsci.nexus;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * This is the description of the general shape and size of a
@@ -26,6 +25,9 @@ import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
  */
 public interface NXshape extends NXobject {
 
+	public static final String NX_SHAPE = "shape";
+	public static final String NX_SIZE = "size";
+	public static final String NX_DIRECTION = "direction";
 	/**
 	 * general shape of a component
 	 * <p>
@@ -43,7 +45,26 @@ public interface NXshape extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getShape();	
+	public IDataset getShape();
+	
+	/**
+	 * general shape of a component
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>nxflat</b> </li>
+	 * <li><b>nxcylinder</b> </li>
+	 * <li><b>nxbox</b> </li>
+	 * <li><b>nxsphere</b> </li>
+	 * <li><b>nxcone</b> </li>
+	 * <li><b>nxelliptical</b> </li>
+	 * <li><b>nxtoroidal</b> </li>
+	 * <li><b>nxparabolic</b> </li>
+	 * <li><b>nxpolynomial</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @param shape the shape
+	 */
+	public DataNode setShape(IDataset shape);
 
 	/**
 	 * general shape of a component
@@ -60,9 +81,28 @@ public interface NXshape extends NXobject {
 	 * <li><b>nxpolynomial</b> </li></ul></p>
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getShapeScalar();
+	public String getShapeScalar();
+
+	/**
+	 * general shape of a component
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>nxflat</b> </li>
+	 * <li><b>nxcylinder</b> </li>
+	 * <li><b>nxbox</b> </li>
+	 * <li><b>nxsphere</b> </li>
+	 * <li><b>nxcone</b> </li>
+	 * <li><b>nxelliptical</b> </li>
+	 * <li><b>nxtoroidal</b> </li>
+	 * <li><b>nxparabolic</b> </li>
+	 * <li><b>nxpolynomial</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @param shape the shape
+	 */
+	public DataNode setShapeScalar(String shape);
 
 	/**
 	 * physical extent of the object along its local axes (after NXorientation)
@@ -87,7 +127,32 @@ public interface NXshape extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSize();	
+	public IDataset getSize();
+	
+	/**
+	 * physical extent of the object along its local axes (after NXorientation)
+	 * with the center of mass at the local origin (after NXtranslation).
+	 * The meaning and location of these axes will vary according to the value
+	 * of the "shape" variable.
+	 * ``nshapepar`` defines how many parameters:
+	 * - For "nxcylinder" type the parameters are (diameter,height) and a three value orientation vector of the cylinder.
+	 * - For the "nxbox" type the parameters are (length,width,height).
+	 * - For the "nxsphere" type the parameters are (diameter).
+	 * - For nxcone cone half aperture
+	 * - For nxelliptical, semi-major axis, semi-minor-axis, angle of major axis and pole
+	 * - For nxtoroidal, major radius, minor radius
+	 * - For nxparabolic, parabolic parameter a
+	 * - For nxpolynomial, an array of polynom coefficients, the dimension of the array
+	 * encodes the degree of the polynom
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: numobj; 2: nshapepar;
+	 * </p>
+	 * 
+	 * @param size the size
+	 */
+	public DataNode setSize(IDataset size);
 
 	/**
 	 * physical extent of the object along its local axes (after NXorientation)
@@ -110,9 +175,34 @@ public interface NXshape extends NXobject {
 	 * <b>Dimensions:</b> 1: numobj; 2: nshapepar;
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getSizeScalar();
+	public double getSizeScalar();
+
+	/**
+	 * physical extent of the object along its local axes (after NXorientation)
+	 * with the center of mass at the local origin (after NXtranslation).
+	 * The meaning and location of these axes will vary according to the value
+	 * of the "shape" variable.
+	 * ``nshapepar`` defines how many parameters:
+	 * - For "nxcylinder" type the parameters are (diameter,height) and a three value orientation vector of the cylinder.
+	 * - For the "nxbox" type the parameters are (length,width,height).
+	 * - For the "nxsphere" type the parameters are (diameter).
+	 * - For nxcone cone half aperture
+	 * - For nxelliptical, semi-major axis, semi-minor-axis, angle of major axis and pole
+	 * - For nxtoroidal, major radius, minor radius
+	 * - For nxparabolic, parabolic parameter a
+	 * - For nxpolynomial, an array of polynom coefficients, the dimension of the array
+	 * encodes the degree of the polynom
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: numobj; 2: nshapepar;
+	 * </p>
+	 * 
+	 * @param size the size
+	 */
+	public DataNode setSizeScalar(double size);
 
 	/**
 	 * <p>
@@ -123,7 +213,18 @@ public interface NXshape extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDirection();	
+	public IDataset getDirection();
+	
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>concave</b> </li>
+	 * <li><b>convex</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @param direction the direction
+	 */
+	public DataNode setDirection(IDataset direction);
 
 	/**
 	 * <p>
@@ -132,8 +233,19 @@ public interface NXshape extends NXobject {
 	 * <li><b>convex</b> </li></ul></p>
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getDirectionScalar();
+	public String getDirectionScalar();
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>concave</b> </li>
+	 * <li><b>convex</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @param direction the direction
+	 */
+	public DataNode setDirectionScalar(String direction);
 
 }

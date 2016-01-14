@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,7 +17,6 @@ import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -31,16 +30,14 @@ public class NXpinholeImpl extends NXobjectImpl implements NXpinhole {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_DEPENDS_ON = "depends_on";
-	public static final String NX_DIAMETER = "diameter";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	protected NXpinholeImpl(final NexusNodeFactory nodeFactory) {
+	public NXpinholeImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXpinholeImpl(final long oid) {
+	public NXpinholeImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -70,10 +67,12 @@ public class NXpinholeImpl extends NXobjectImpl implements NXpinhole {
 		return getString(NX_DEPENDS_ON);
 	}
 
+	@Override
 	public DataNode setDepends_on(IDataset depends_on) {
 		return setDataset(NX_DEPENDS_ON, depends_on);
 	}
 
+	@Override
 	public DataNode setDepends_onScalar(String depends_on) {
 		return setString(NX_DEPENDS_ON, depends_on);
 	}
@@ -88,10 +87,12 @@ public class NXpinholeImpl extends NXobjectImpl implements NXpinhole {
 		return getNumber(NX_DIAMETER);
 	}
 
+	@Override
 	public DataNode setDiameter(IDataset diameter) {
 		return setDataset(NX_DIAMETER, diameter);
 	}
 
+	@Override
 	public DataNode setDiameterScalar(Number diameter) {
 		return setField(NX_DIAMETER, diameter);
 	}

@@ -12,18 +12,30 @@
 
 package org.eclipse.dawnsci.nexus;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
+import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.analysis.api.tree.Node;
+import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 
 /**
  * Base interface of all Nexus group nodes
+ */
+/**
+ * @author wgp76868
+ *
  */
 public interface NXobject extends GroupNode {
 
@@ -77,7 +89,7 @@ public interface NXobject extends GroupNode {
 	 * @param value
 	 * @return the new data node, for convenience
 	 */
-	public abstract DataNode setDataset(String name, IDataset value);
+	public DataNode setDataset(String name, IDataset value);
 
 	/**
 	 * Gets the dataset for the field with the given name, if it exists, otherwise <code>null</code>.
@@ -87,7 +99,7 @@ public interface NXobject extends GroupNode {
 	 * @param name dataset name
 	 * @return the dataset for the field with the given name, or <code>null</code> if the no such dataset exists
 	 */
-	public abstract IDataset getDataset(String name);
+	public IDataset getDataset(String name);
 	
 	/**
 	 * Creates and adds a new {@link ILazyWriteableDataset} to this group for the given field name,
@@ -100,9 +112,192 @@ public interface NXobject extends GroupNode {
 	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, int dtype);
 
 	/**
-	 * @param name
-	 * @return
+	 * Creates and adds a new {@link ILazyWriteableDataset} to this group for the given field name,
+	 * with the given rank (dimensionality) and of the given type (a constant from {@link Dataset}).
+	 * @param name field name
+	 * @param shape the maximum shape 
+	 * @param dtype data type constant (from {@link Dataset})
+	 * @return new lazy writable dataset
+	 */
+	public ILazyWriteableDataset initializeLazyDataset(String name, int[] shape, int dtype);
+
+	/**
+	 * Returns the {@link ILazyWriteableDataset} for the field within this object with the given name,
+	 * or <code>null</code> if no such field exists, or the dataset for this field is not a
+	 * {@link ILazyWriteableDataset}
+	 * @param name field name
+	 * @return the {@link ILazyWriteableDataset} for the given field if it exists, otherwise <code>null</code>
 	 */
 	public ILazyWriteableDataset getLazyWritableDataset(String name);
+
+	/**
+	 * Sets the field with the given name to the given value.
+	 * @param name field name
+	 * @param value field value
+	 * @return the newly created {@link DataNode}.
+	 */
+	public DataNode setField(String name, Object value);
+	
+	/**
+	 * Set the value of the given attribute. If the first argument is not <code>null</code>
+	 * then the attribute is set on the field or child group with this name
+	 * @param name name of node (if <code>null</code> then current group)
+	 * @param attrName attribute name
+	 * @param attrValue attribute value
+	 */
+	public void setAttribute(String name, String attrName, Object attrValue);
+
+	/**
+	 * Gets the value of the given field as a date.
+	 * @param name name of field
+	 * @return the value of the given field as a date, <code>null</code> if
+	 *   there is no field with the given name, or the value cannot be parsed as a date
+	 * @throws IllegalArgumentException if the node with the given name is not a {@link DataNode}.
+	 */
+	public Date getDate(String name);
+
+	/**
+	 * Gets the value of the given field as a number.
+	 * @param name name of field
+	 * @return the value of the given field as a number, <code>null</code> if
+	 *   there is no field with the given name
+	 * @throws IllegalArgumentException if the node with the given name is not a {@link DataNode}.
+	 */
+	public Number getNumber(String name);
+
+	/**
+	 * Gets the value of the given field as a double.
+	 * @param name name of field
+	 * @return the value of the given field as a double, <code>null</code> if
+	 *   there is no field with the given name
+	 * @throws IllegalArgumentException if the node with the given name is not a {@link DataNode}.
+	 */
+	public double getDouble(String name);
+
+	/**
+	 * Gets the value of the given field as a long.
+	 * @param name name of field
+	 * @return the value of the given field as a long, <code>null</code> if
+	 *   there is no field with the given name
+	 * @throws IllegalArgumentException if the node with the given name is not a {@link DataNode}.
+	 */
+	public long getLong(String name);
+
+	/**
+	 * Gets the value of the given field as a boolean.
+	 * @param name name of field
+	 * @return the value of the given field as a boolean, <code>null</code> if
+	 *   there is no field with the given name
+	 * @throws IllegalArgumentException if the node with the given name is not a {@link DataNode}.
+	 */
+	public boolean getBoolean(String name);
+
+	/**
+	 * Gets the value of the given field as a string.
+	 * @param name name of field
+	 * @return the value of the given field as a string, <code>null</code> if
+	 *   there is no field with the given name
+	 * @throws IllegalArgumentException if the node with the given name is not a {@link DataNode}.
+	 */
+	public String getString(String name);
+
+	/**
+	 * Get the value of the given attribute as a date. If the first argument is
+	 * not <code>null</code> then returns the value of attribute of the field
+	 * or child group with that name.
+	 * @param name name of node (if <code>null</code> then current group)
+	 * @param attrName attribute name
+	 * @return value of attribute as a date, or <code>null</code> if
+	 *   no such attribute or value cannot be parsed as a date
+	 */
+	public Date getAttrDate(String name, String attrName);
+
+	/**
+	 * Get the value of the given attribute as a number. If the first argument is
+	 * not <code>null</code> then returns the value of attribute of the field
+	 * or child group with that name.
+	 * @param name name of node (if <code>null</code> then current group)
+	 * @param attrName attribute name
+	 * @return value of attribute as a number
+	 */
+	public Number getAttrNumber(String name, String attrName);
+
+	/**
+	 * Get the value of the given attribute as a double. If the first argument is
+	 * not <code>null</code> then returns the value of attribute of the field
+	 * or child group with that name.
+	 * @param name name of node (if <code>null</code> then current group)
+	 * @param attrName attribute name
+	 * @return value of attribute as a double
+	 */
+	public double getAttrDouble(String name, String attrName);
+
+	/**
+	 * Get the value of the given attribute as a long. If the first argument is
+	 * not <code>null</code> then returns the value of attribute of the field
+	 * or child group with that name.
+	 * @param name name of node (if <code>null</code> then current group)
+	 * @param attrName attribute name
+	 * @return value of attribute as a long
+	 */
+	public long getAttrLong(String name, String attrName);
+
+	/**
+	 * Get the value of the given attribute as a boolean. If the first argument is
+	 * not <code>null</code> then returns the value of attribute of the field
+	 * or child group with that name.
+	 * @param name name of node (if <code>null</code> then current group)
+	 * @param attrName attribute name
+	 * @return value of attribute as a long
+	 */
+	public boolean getAttrBoolean(String name, String attrName);
+
+	/**
+	 * Get the value of the given attribute as a string. If the first argument is
+	 * not <code>null</code> then returns the value of attribute of the field
+	 * or child group with that name.
+	 * @param name name of node (if <code>null</code> then current group)
+	 * @param attrName attribute name
+	 * @return value of attribute as a long
+	 */
+	public String getAttrString(String name, String attrName);
+
+	/**
+	 * Get the value of the given attribute. If the first argument is
+	 * not <code>null</code> then returns the value of attribute of the field
+	 * or child group with that name.
+	 * @param name name of node (if <code>null</code> then current group)
+	 * @param attrName attribute name
+	 * @return value of attribute as a long
+	 */
+	public Dataset getAttr(String name, String attrName);
+
+	/**
+	 * Add a child node with the given name. This method should be used with caution
+	 * as it allows a child group to be added that may not be permitted by the NXDL
+	 * base class definition for this base class. In preference, the relevant
+	 * set method on the base class specific sub-interface of this interface
+	 * should be used.
+	 * @param name name of child group
+	 * @param child child group
+	 */
+	public <N extends NXobject> void putChild(String name, N child);
+
+	/**
+	 * Adds the child nodes with the given names.
+	 * This method should be used with caution as it allows a child group
+	 * to be added that may not be permitted by the NXDL
+	 * base class definition for this base class. In preference, the relevant
+	 * set method on the base class specific sub-interface of this interface
+	 * should be used.
+	 * @param map map from names to child nodes to add
+	 */
+	public <N extends NXobject> void setChildren(Map<String, N> map);
+
+	/**
+	 * Returns
+	 * @return
+	 */
+	public Map<String, Dataset> getAllDatasets();
 
 }

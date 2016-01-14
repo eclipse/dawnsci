@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -17,7 +17,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * This is a base class for everything which
@@ -32,6 +31,10 @@ import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
  */
 public interface NXmonochromator extends NXobject {
 
+	public static final String NX_WAVELENGTH = "wavelength";
+	public static final String NX_WAVELENGTH_ERROR = "wavelength_error";
+	public static final String NX_ENERGY = "energy";
+	public static final String NX_ENERGY_ERROR = "energy_error";
 	/**
 	 * wavelength selected
 	 * <p>
@@ -41,7 +44,18 @@ public interface NXmonochromator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getWavelength();	
+	public IDataset getWavelength();
+	
+	/**
+	 * wavelength selected
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_WAVELENGTH
+	 * </p>
+	 * 
+	 * @param wavelength the wavelength
+	 */
+	public DataNode setWavelength(IDataset wavelength);
 
 	/**
 	 * wavelength selected
@@ -50,9 +64,20 @@ public interface NXmonochromator extends NXobject {
 	 * <b>Units:</b> NX_WAVELENGTH
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getWavelengthScalar();
+	public double getWavelengthScalar();
+
+	/**
+	 * wavelength selected
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_WAVELENGTH
+	 * </p>
+	 * 
+	 * @param wavelength the wavelength
+	 */
+	public DataNode setWavelengthScalar(double wavelength);
 
 	/**
 	 * wavelength standard deviation
@@ -63,7 +88,18 @@ public interface NXmonochromator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getWavelength_error();	
+	public IDataset getWavelength_error();
+	
+	/**
+	 * wavelength standard deviation
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_WAVELENGTH
+	 * </p>
+	 * 
+	 * @param wavelength_error the wavelength_error
+	 */
+	public DataNode setWavelength_error(IDataset wavelength_error);
 
 	/**
 	 * wavelength standard deviation
@@ -72,9 +108,20 @@ public interface NXmonochromator extends NXobject {
 	 * <b>Units:</b> NX_WAVELENGTH
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getWavelength_errorScalar();
+	public double getWavelength_errorScalar();
+
+	/**
+	 * wavelength standard deviation
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_WAVELENGTH
+	 * </p>
+	 * 
+	 * @param wavelength_error the wavelength_error
+	 */
+	public DataNode setWavelength_errorScalar(double wavelength_error);
 
 	/**
 	 * energy selected
@@ -85,7 +132,18 @@ public interface NXmonochromator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEnergy();	
+	public IDataset getEnergy();
+	
+	/**
+	 * energy selected
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ENERGY
+	 * </p>
+	 * 
+	 * @param energy the energy
+	 */
+	public DataNode setEnergy(IDataset energy);
 
 	/**
 	 * energy selected
@@ -94,9 +152,20 @@ public interface NXmonochromator extends NXobject {
 	 * <b>Units:</b> NX_ENERGY
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getEnergyScalar();
+	public double getEnergyScalar();
+
+	/**
+	 * energy selected
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ENERGY
+	 * </p>
+	 * 
+	 * @param energy the energy
+	 */
+	public DataNode setEnergyScalar(double energy);
 
 	/**
 	 * energy standard deviation
@@ -107,7 +176,18 @@ public interface NXmonochromator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEnergy_error();	
+	public IDataset getEnergy_error();
+	
+	/**
+	 * energy standard deviation
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ENERGY
+	 * </p>
+	 * 
+	 * @param energy_error the energy_error
+	 */
+	public DataNode setEnergy_error(IDataset energy_error);
 
 	/**
 	 * energy standard deviation
@@ -116,28 +196,58 @@ public interface NXmonochromator extends NXobject {
 	 * <b>Units:</b> NX_ENERGY
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getEnergy_errorScalar();
+	public double getEnergy_errorScalar();
+
+	/**
+	 * energy standard deviation
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ENERGY
+	 * </p>
+	 * 
+	 * @param energy_error the energy_error
+	 */
+	public DataNode setEnergy_errorScalar(double energy_error);
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getDistribution();	
+	public NXdata getDistribution();
+	
+	/**
+	 * 
+	 * @param distribution the distribution
+	 */
+	public void setDistribution(NXdata distribution);
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();	
+	public NXgeometry getGeometry();
+	
+	/**
+	 * 
+	 * @param geometry the geometry
+	 */
+	public void setGeometry(NXgeometry geometry);
 
 	/**
 	 * Use as many crystals as necessary to describe
 	 * 
 	 * @return  the value.
 	 */
-	public NXcrystal getCrystal();	
+	public NXcrystal getCrystal();
+	
+	/**
+	 * Use as many crystals as necessary to describe
+	 * 
+	 * @param crystal the crystal
+	 */
+	public void setCrystal(NXcrystal crystal);
   
 	/**
 	 * Get a NXcrystal node by name:
@@ -152,6 +262,18 @@ public interface NXmonochromator extends NXobject {
 	public NXcrystal getCrystal(String name);
 	
 	/**
+	 * Set a NXcrystal node by name:
+	 * <ul>
+	 * <li>
+	 * Use as many crystals as necessary to describe</li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param crystal the value to set
+	 */
+	public void setCrystal(String name, NXcrystal crystal);
+	
+	/**
 	 * Get all NXcrystal nodes:
 	 * <ul>
 	 * <li>
@@ -161,12 +283,31 @@ public interface NXmonochromator extends NXobject {
 	 * @return  a map from node names to the NXcrystal for that node.
 	 */
 	public Map<String, NXcrystal> getAllCrystal();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li>
+	 * Use as many crystals as necessary to describe</li>
+	 * </ul>
+	 * 
+	 * @param crystal the child nodes to add 
+	 */
+	
+	public void setAllCrystal(Map<String, NXcrystal> crystal);
+	
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public NXvelocity_selector getVelocity_selector();	
+	public NXvelocity_selector getVelocity_selector();
+	
+	/**
+	 * 
+	 * @param velocity_selector the velocity_selector
+	 */
+	public void setVelocity_selector(NXvelocity_selector velocity_selector);
   
 	/**
 	 * Get a NXvelocity_selector node by name:
@@ -180,6 +321,17 @@ public interface NXmonochromator extends NXobject {
 	public NXvelocity_selector getVelocity_selector(String name);
 	
 	/**
+	 * Set a NXvelocity_selector node by name:
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param velocity_selector the value to set
+	 */
+	public void setVelocity_selector(String name, NXvelocity_selector velocity_selector);
+	
+	/**
 	 * Get all NXvelocity_selector nodes:
 	 * <ul>
 	 * <li></li>
@@ -188,13 +340,32 @@ public interface NXmonochromator extends NXobject {
 	 * @return  a map from node names to the NXvelocity_selector for that node.
 	 */
 	public Map<String, NXvelocity_selector> getAllVelocity_selector();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @param velocity_selector the child nodes to add 
+	 */
+	
+	public void setAllVelocity_selector(Map<String, NXvelocity_selector> velocity_selector);
+	
 
 	/**
 	 * For diffraction grating based monochromators
 	 * 
 	 * @return  the value.
 	 */
-	public NXgrating getGrating();	
+	public NXgrating getGrating();
+	
+	/**
+	 * For diffraction grating based monochromators
+	 * 
+	 * @param grating the grating
+	 */
+	public void setGrating(NXgrating grating);
   
 	/**
 	 * Get a NXgrating node by name:
@@ -209,6 +380,18 @@ public interface NXmonochromator extends NXobject {
 	public NXgrating getGrating(String name);
 	
 	/**
+	 * Set a NXgrating node by name:
+	 * <ul>
+	 * <li>
+	 * For diffraction grating based monochromators</li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param grating the value to set
+	 */
+	public void setGrating(String name, NXgrating grating);
+	
+	/**
 	 * Get all NXgrating nodes:
 	 * <ul>
 	 * <li>
@@ -218,5 +401,18 @@ public interface NXmonochromator extends NXobject {
 	 * @return  a map from node names to the NXgrating for that node.
 	 */
 	public Map<String, NXgrating> getAllGrating();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li>
+	 * For diffraction grating based monochromators</li>
+	 * </ul>
+	 * 
+	 * @param grating the child nodes to add 
+	 */
+	
+	public void setAllGrating(Map<String, NXgrating> grating);
+	
 
 }

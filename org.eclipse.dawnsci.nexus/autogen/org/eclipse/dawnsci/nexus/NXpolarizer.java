@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,7 +15,6 @@ package org.eclipse.dawnsci.nexus;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * Template of a beamline spin polarizer.
@@ -25,33 +24,65 @@ import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
  */
 public interface NXpolarizer extends NXobject {
 
+	public static final String NX_TYPE = "type";
+	public static final String NX_COMPOSITION = "composition";
+	public static final String NX_REFLECTION = "reflection";
+	public static final String NX_EFFICIENCY = "efficiency";
 	/**
 	 * one of these values: "crystal", "supermirror", "3He"
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();	
+	public IDataset getType();
+	
+	/**
+	 * one of these values: "crystal", "supermirror", "3He"
+	 * 
+	 * @param type the type
+	 */
+	public DataNode setType(IDataset type);
 
 	/**
 	 * one of these values: "crystal", "supermirror", "3He"
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getTypeScalar();
+	public String getTypeScalar();
+
+	/**
+	 * one of these values: "crystal", "supermirror", "3He"
+	 * 
+	 * @param type the type
+	 */
+	public DataNode setTypeScalar(String type);
 
 	/**
 	 * description of the composition of the polarizing material
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getComposition();	
+	public IDataset getComposition();
+	
+	/**
+	 * description of the composition of the polarizing material
+	 * 
+	 * @param composition the composition
+	 */
+	public DataNode setComposition(IDataset composition);
 
 	/**
 	 * description of the composition of the polarizing material
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getCompositionScalar();
+	public String getCompositionScalar();
+
+	/**
+	 * description of the composition of the polarizing material
+	 * 
+	 * @param composition the composition
+	 */
+	public DataNode setCompositionScalar(String composition);
 
 	/**
 	 * [hkl] values of nominal reflection
@@ -63,7 +94,19 @@ public interface NXpolarizer extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getReflection();	
+	public IDataset getReflection();
+	
+	/**
+	 * [hkl] values of nominal reflection
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Units:</b> NX_UNITLESS
+	 * <b>Dimensions:</b> 1: 3;
+	 * </p>
+	 * 
+	 * @param reflection the reflection
+	 */
+	public DataNode setReflection(IDataset reflection);
 
 	/**
 	 * [hkl] values of nominal reflection
@@ -73,9 +116,21 @@ public interface NXpolarizer extends NXobject {
 	 * <b>Dimensions:</b> 1: 3;
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public long getReflectionScalar();
+	public long getReflectionScalar();
+
+	/**
+	 * [hkl] values of nominal reflection
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * <b>Units:</b> NX_UNITLESS
+	 * <b>Dimensions:</b> 1: 3;
+	 * </p>
+	 * 
+	 * @param reflection the reflection
+	 */
+	public DataNode setReflectionScalar(long reflection);
 
 	/**
 	 * polarizing efficiency
@@ -86,7 +141,18 @@ public interface NXpolarizer extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEfficiency();	
+	public IDataset getEfficiency();
+	
+	/**
+	 * polarizing efficiency
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_DIMENSIONLESS
+	 * </p>
+	 * 
+	 * @param efficiency the efficiency
+	 */
+	public DataNode setEfficiency(IDataset efficiency);
 
 	/**
 	 * polarizing efficiency
@@ -95,8 +161,19 @@ public interface NXpolarizer extends NXobject {
 	 * <b>Units:</b> NX_DIMENSIONLESS
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getEfficiencyScalar();
+	public double getEfficiencyScalar();
+
+	/**
+	 * polarizing efficiency
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_DIMENSIONLESS
+	 * </p>
+	 * 
+	 * @param efficiency the efficiency
+	 */
+	public DataNode setEfficiencyScalar(double efficiency);
 
 }

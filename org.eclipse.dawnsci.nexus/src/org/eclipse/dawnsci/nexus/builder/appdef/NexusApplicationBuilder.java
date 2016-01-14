@@ -30,7 +30,7 @@ public interface NexusApplicationBuilder {
 	 * Returns the wrapped {@link NXsubentry}. This can be used to make custom modifications. 
 	 * @return the wrapped {@link NXsubentry}
 	 */
-	public NXsubentryImpl getNXsubentry();
+	public NXsubentry getNXsubentry();
 
 	/**
 	 * Adds the default groups to the subentry. This method should be called before

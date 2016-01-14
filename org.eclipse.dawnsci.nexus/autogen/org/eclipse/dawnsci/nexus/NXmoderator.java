@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -17,7 +17,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * This is the description for a general moderator
@@ -26,12 +25,26 @@ import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
  */
 public interface NXmoderator extends NXobject {
 
+	public static final String NX_DISTANCE = "distance";
+	public static final String NX_TYPE = "type";
+	public static final String NX_POISON_DEPTH = "poison_depth";
+	public static final String NX_COUPLED = "coupled";
+	public static final String NX_COUPLING_MATERIAL = "coupling_material";
+	public static final String NX_POISON_MATERIAL = "poison_material";
+	public static final String NX_TEMPERATURE = "temperature";
 	/**
 	 * "Engineering" position of moderator
 	 * 
 	 * @return  the value.
 	 */
-	public NXgeometry getGeometry();	
+	public NXgeometry getGeometry();
+	
+	/**
+	 * "Engineering" position of moderator
+	 * 
+	 * @param geometry the geometry
+	 */
+	public void setGeometry(NXgeometry geometry);
   
 	/**
 	 * Get a NXgeometry node by name:
@@ -46,6 +59,18 @@ public interface NXmoderator extends NXobject {
 	public NXgeometry getGeometry(String name);
 	
 	/**
+	 * Set a NXgeometry node by name:
+	 * <ul>
+	 * <li>
+	 * "Engineering" position of moderator</li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param geometry the value to set
+	 */
+	public void setGeometry(String name, NXgeometry geometry);
+	
+	/**
 	 * Get all NXgeometry nodes:
 	 * <ul>
 	 * <li>
@@ -55,6 +80,19 @@ public interface NXmoderator extends NXobject {
 	 * @return  a map from node names to the NXgeometry for that node.
 	 */
 	public Map<String, NXgeometry> getAllGeometry();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li>
+	 * "Engineering" position of moderator</li>
+	 * </ul>
+	 * 
+	 * @param geometry the child nodes to add 
+	 */
+	
+	public void setAllGeometry(Map<String, NXgeometry> geometry);
+	
 
 	/**
 	 * Effective distance as seen by measuring radiation
@@ -65,7 +103,18 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDistance();	
+	public IDataset getDistance();
+	
+	/**
+	 * Effective distance as seen by measuring radiation
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @param distance the distance
+	 */
+	public DataNode setDistance(IDataset distance);
 
 	/**
 	 * Effective distance as seen by measuring radiation
@@ -74,9 +123,20 @@ public interface NXmoderator extends NXobject {
 	 * <b>Units:</b> NX_LENGTH
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getDistanceScalar();
+	public double getDistanceScalar();
+
+	/**
+	 * Effective distance as seen by measuring radiation
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @param distance the distance
+	 */
+	public DataNode setDistanceScalar(double distance);
 
 	/**
 	 * <p>
@@ -94,7 +154,25 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getType();	
+	public IDataset getType();
+	
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>H20</b> </li>
+	 * <li><b>D20</b> </li>
+	 * <li><b>Liquid H2</b> </li>
+	 * <li><b>Liquid CH4</b> </li>
+	 * <li><b>Liquid D2</b> </li>
+	 * <li><b>Solid D2</b> </li>
+	 * <li><b>C</b> </li>
+	 * <li><b>Solid CH4</b> </li>
+	 * <li><b>Solid H2</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @param type the type
+	 */
+	public DataNode setType(IDataset type);
 
 	/**
 	 * <p>
@@ -110,9 +188,27 @@ public interface NXmoderator extends NXobject {
 	 * <li><b>Solid H2</b> </li></ul></p>
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getTypeScalar();
+	public String getTypeScalar();
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>H20</b> </li>
+	 * <li><b>D20</b> </li>
+	 * <li><b>Liquid H2</b> </li>
+	 * <li><b>Liquid CH4</b> </li>
+	 * <li><b>Liquid D2</b> </li>
+	 * <li><b>Solid D2</b> </li>
+	 * <li><b>C</b> </li>
+	 * <li><b>Solid CH4</b> </li>
+	 * <li><b>Solid H2</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @param type the type
+	 */
+	public DataNode setTypeScalar(String type);
 
 	/**
 	 * <p>
@@ -122,7 +218,17 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPoison_depth();	
+	public IDataset getPoison_depth();
+	
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @param poison_depth the poison_depth
+	 */
+	public DataNode setPoison_depth(IDataset poison_depth);
 
 	/**
 	 * <p>
@@ -130,9 +236,19 @@ public interface NXmoderator extends NXobject {
 	 * <b>Units:</b> NX_LENGTH
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getPoison_depthScalar();
+	public double getPoison_depthScalar();
+
+	/**
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @param poison_depth the poison_depth
+	 */
+	public DataNode setPoison_depthScalar(double poison_depth);
 
 	/**
 	 * whether the moderator is coupled
@@ -142,7 +258,17 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCoupled();	
+	public IDataset getCoupled();
+	
+	/**
+	 * whether the moderator is coupled
+	 * <p>
+	 * <b>Type:</b> NX_BOOLEAN
+	 * </p>
+	 * 
+	 * @param coupled the coupled
+	 */
+	public DataNode setCoupled(IDataset coupled);
 
 	/**
 	 * whether the moderator is coupled
@@ -150,23 +276,47 @@ public interface NXmoderator extends NXobject {
 	 * <b>Type:</b> NX_BOOLEAN
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public boolean getCoupledScalar();
+	public boolean getCoupledScalar();
+
+	/**
+	 * whether the moderator is coupled
+	 * <p>
+	 * <b>Type:</b> NX_BOOLEAN
+	 * </p>
+	 * 
+	 * @param coupled the coupled
+	 */
+	public DataNode setCoupledScalar(boolean coupled);
 
 	/**
 	 * The material used for coupling. Usually Cd.
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getCoupling_material();	
+	public IDataset getCoupling_material();
+	
+	/**
+	 * The material used for coupling. Usually Cd.
+	 * 
+	 * @param coupling_material the coupling_material
+	 */
+	public DataNode setCoupling_material(IDataset coupling_material);
 
 	/**
 	 * The material used for coupling. Usually Cd.
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getCoupling_materialScalar();
+	public String getCoupling_materialScalar();
+
+	/**
+	 * The material used for coupling. Usually Cd.
+	 * 
+	 * @param coupling_material the coupling_material
+	 */
+	public DataNode setCoupling_materialScalar(String coupling_material);
 
 	/**
 	 * <p>
@@ -177,7 +327,18 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPoison_material();	
+	public IDataset getPoison_material();
+	
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>Gd</b> </li>
+	 * <li><b>Cd</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @param poison_material the poison_material
+	 */
+	public DataNode setPoison_material(IDataset poison_material);
 
 	/**
 	 * <p>
@@ -186,9 +347,20 @@ public interface NXmoderator extends NXobject {
 	 * <li><b>Cd</b> </li></ul></p>
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getPoison_materialScalar();
+	public String getPoison_materialScalar();
+
+	/**
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>Gd</b> </li>
+	 * <li><b>Cd</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @param poison_material the poison_material
+	 */
+	public DataNode setPoison_materialScalar(String poison_material);
 
 	/**
 	 * average/nominal moderator temperature
@@ -199,7 +371,18 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTemperature();	
+	public IDataset getTemperature();
+	
+	/**
+	 * average/nominal moderator temperature
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TEMPERATURE
+	 * </p>
+	 * 
+	 * @param temperature the temperature
+	 */
+	public DataNode setTemperature(IDataset temperature);
 
 	/**
 	 * average/nominal moderator temperature
@@ -208,22 +391,47 @@ public interface NXmoderator extends NXobject {
 	 * <b>Units:</b> NX_TEMPERATURE
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getTemperatureScalar();
+	public double getTemperatureScalar();
+
+	/**
+	 * average/nominal moderator temperature
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TEMPERATURE
+	 * </p>
+	 * 
+	 * @param temperature the temperature
+	 */
+	public DataNode setTemperatureScalar(double temperature);
 
 	/**
 	 * log file of moderator temperature
 	 * 
 	 * @return  the value.
 	 */
-	public NXlog getTemperature_log();	
+	public NXlog getTemperature_log();
+	
+	/**
+	 * log file of moderator temperature
+	 * 
+	 * @param temperature_log the temperature_log
+	 */
+	public void setTemperature_log(NXlog temperature_log);
 
 	/**
 	 * moderator pulse shape
 	 * 
 	 * @return  the value.
 	 */
-	public NXdata getPulse_shape();	
+	public NXdata getPulse_shape();
+	
+	/**
+	 * moderator pulse shape
+	 * 
+	 * @param pulse_shape the pulse_shape
+	 */
+	public void setPulse_shape(NXdata pulse_shape);
 
 }

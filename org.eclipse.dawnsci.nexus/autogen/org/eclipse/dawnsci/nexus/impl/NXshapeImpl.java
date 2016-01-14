@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,7 +17,6 @@ import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -32,17 +31,14 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_SHAPE = "shape";
-	public static final String NX_SIZE = "size";
-	public static final String NX_DIRECTION = "direction";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	protected NXshapeImpl(final NexusNodeFactory nodeFactory) {
+	public NXshapeImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXshapeImpl(final long oid) {
+	public NXshapeImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -72,10 +68,12 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 		return getString(NX_SHAPE);
 	}
 
+	@Override
 	public DataNode setShape(IDataset shape) {
 		return setDataset(NX_SHAPE, shape);
 	}
 
+	@Override
 	public DataNode setShapeScalar(String shape) {
 		return setString(NX_SHAPE, shape);
 	}
@@ -90,10 +88,12 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 		return getDouble(NX_SIZE);
 	}
 
+	@Override
 	public DataNode setSize(IDataset size) {
 		return setDataset(NX_SIZE, size);
 	}
 
+	@Override
 	public DataNode setSizeScalar(double size) {
 		return setField(NX_SIZE, size);
 	}
@@ -108,10 +108,12 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 		return getString(NX_DIRECTION);
 	}
 
+	@Override
 	public DataNode setDirection(IDataset direction) {
 		return setDataset(NX_DIRECTION, direction);
 	}
 
+	@Override
 	public DataNode setDirectionScalar(String direction) {
 		return setString(NX_DIRECTION, direction);
 	}

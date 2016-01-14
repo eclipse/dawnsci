@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,7 +15,6 @@ package org.eclipse.dawnsci.nexus;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * definition for a magnetic kicker.
@@ -24,6 +23,12 @@ import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
  */
 public interface NXmagnetic_kicker extends NXobject {
 
+	public static final String NX_DESCRIPTION = "description";
+	public static final String NX_BEAMLINE_DISTANCE = "beamline_distance";
+	public static final String NX_TIMING = "timing";
+	public static final String NX_TIMING_ATTRIBUTE_DESCRIPTION = "description";
+	public static final String NX_SET_CURRENT = "set_current";
+	public static final String NX_SET_VOLTAGE = "set_voltage";
 	/**
 	 * extended description of the kicker.
 	 * <p>
@@ -32,7 +37,17 @@ public interface NXmagnetic_kicker extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getDescription();	
+	public IDataset getDescription();
+	
+	/**
+	 * extended description of the kicker.
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * </p>
+	 * 
+	 * @param description the description
+	 */
+	public DataNode setDescription(IDataset description);
 
 	/**
 	 * extended description of the kicker.
@@ -40,9 +55,19 @@ public interface NXmagnetic_kicker extends NXobject {
 	 * <b>Type:</b> NX_CHAR
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public String getDescriptionScalar();
+	public String getDescriptionScalar();
+
+	/**
+	 * extended description of the kicker.
+	 * <p>
+	 * <b>Type:</b> NX_CHAR
+	 * </p>
+	 * 
+	 * @param description the description
+	 */
+	public DataNode setDescriptionScalar(String description);
 
 	/**
 	 * define position of beamline element relative to production target
@@ -53,7 +78,18 @@ public interface NXmagnetic_kicker extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getBeamline_distance();	
+	public IDataset getBeamline_distance();
+	
+	/**
+	 * define position of beamline element relative to production target
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @param beamline_distance the beamline_distance
+	 */
+	public DataNode setBeamline_distance(IDataset beamline_distance);
 
 	/**
 	 * define position of beamline element relative to production target
@@ -62,9 +98,20 @@ public interface NXmagnetic_kicker extends NXobject {
 	 * <b>Units:</b> NX_LENGTH
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getBeamline_distanceScalar();
+	public double getBeamline_distanceScalar();
+
+	/**
+	 * define position of beamline element relative to production target
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * </p>
+	 * 
+	 * @param beamline_distance the beamline_distance
+	 */
+	public DataNode setBeamline_distanceScalar(double beamline_distance);
 
 	/**
 	 * kicker timing as defined by ``description`` attribute
@@ -75,7 +122,18 @@ public interface NXmagnetic_kicker extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTiming();	
+	public IDataset getTiming();
+	
+	/**
+	 * kicker timing as defined by ``description`` attribute
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param timing the timing
+	 */
+	public DataNode setTiming(IDataset timing);
 
 	/**
 	 * kicker timing as defined by ``description`` attribute
@@ -84,15 +142,32 @@ public interface NXmagnetic_kicker extends NXobject {
 	 * <b>Units:</b> NX_TIME
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getTimingScalar();
+	public double getTimingScalar();
+
+	/**
+	 * kicker timing as defined by ``description`` attribute
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param timing the timing
+	 */
+	public DataNode setTimingScalar(double timing);
 
 	/**
 	 * 
 	 * @return  the value.
 	 */
-	public String getTimingAttributeDescription();	
+	public String getTimingAttributeDescription();
+	
+	/**
+	 * 
+	 * @param description the description
+	 */
+	public void setTimingAttributeDescription(String description);
 
 	/**
 	 * current set on supply.
@@ -103,7 +178,18 @@ public interface NXmagnetic_kicker extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSet_current();	
+	public IDataset getSet_current();
+	
+	/**
+	 * current set on supply.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_CURRENT
+	 * </p>
+	 * 
+	 * @param set_current the set_current
+	 */
+	public DataNode setSet_current(IDataset set_current);
 
 	/**
 	 * current set on supply.
@@ -112,16 +198,34 @@ public interface NXmagnetic_kicker extends NXobject {
 	 * <b>Units:</b> NX_CURRENT
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getSet_currentScalar();
+	public double getSet_currentScalar();
+
+	/**
+	 * current set on supply.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_CURRENT
+	 * </p>
+	 * 
+	 * @param set_current the set_current
+	 */
+	public DataNode setSet_currentScalar(double set_current);
 
 	/**
 	 * current read from supply.
 	 * 
 	 * @return  the value.
 	 */
-	public NXlog getRead_current();	
+	public NXlog getRead_current();
+	
+	/**
+	 * current read from supply.
+	 * 
+	 * @param read_current the read_current
+	 */
+	public void setRead_current(NXlog read_current);
 
 	/**
 	 * voltage set on supply.
@@ -132,7 +236,18 @@ public interface NXmagnetic_kicker extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getSet_voltage();	
+	public IDataset getSet_voltage();
+	
+	/**
+	 * voltage set on supply.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_VOLTAGE
+	 * </p>
+	 * 
+	 * @param set_voltage the set_voltage
+	 */
+	public DataNode setSet_voltage(IDataset set_voltage);
 
 	/**
 	 * voltage set on supply.
@@ -141,15 +256,33 @@ public interface NXmagnetic_kicker extends NXobject {
 	 * <b>Units:</b> NX_VOLTAGE
 	 * </p>
 	 * 
-	 * @return  the value
+	 * @return  the value.
 	 */
-	 public double getSet_voltageScalar();
+	public double getSet_voltageScalar();
+
+	/**
+	 * voltage set on supply.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_VOLTAGE
+	 * </p>
+	 * 
+	 * @param set_voltage the set_voltage
+	 */
+	public DataNode setSet_voltageScalar(double set_voltage);
 
 	/**
 	 * voltage read from supply.
 	 * 
 	 * @return  the value.
 	 */
-	public NXlog getRead_voltage();	
+	public NXlog getRead_voltage();
+	
+	/**
+	 * voltage read from supply.
+	 * 
+	 * @param read_voltage the read_voltage
+	 */
+	public void setRead_voltage(NXlog read_voltage);
 
 }

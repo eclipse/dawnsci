@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -19,7 +19,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -33,16 +32,15 @@ public class NXorientationImpl extends NXobjectImpl implements NXorientation {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_VALUE = "value";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY);
 
-	protected NXorientationImpl(final NexusNodeFactory nodeFactory) {
+	public NXorientationImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXorientationImpl(final long oid) {
+	public NXorientationImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -67,6 +65,7 @@ public class NXorientationImpl extends NXobjectImpl implements NXorientation {
 		return getChild("geometry", NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(NXgeometry geometry) {
 		putChild("geometry", geometry);
 	}
@@ -76,6 +75,7 @@ public class NXorientationImpl extends NXobjectImpl implements NXorientation {
 		return getChild(name, NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(String name, NXgeometry geometry) {
 		putChild(name, geometry);
 	}
@@ -84,7 +84,8 @@ public class NXorientationImpl extends NXobjectImpl implements NXorientation {
 	public Map<String, NXgeometry> getAllGeometry() {
 		return getChildren(NXgeometry.class);
 	}
-
+	
+	@Override
 	public void setAllGeometry(Map<String, NXgeometry> geometry) {
 		setChildren(geometry);
 	}
@@ -99,10 +100,12 @@ public class NXorientationImpl extends NXobjectImpl implements NXorientation {
 		return getDouble(NX_VALUE);
 	}
 
+	@Override
 	public DataNode setValue(IDataset value) {
 		return setDataset(NX_VALUE, value);
 	}
 
+	@Override
 	public DataNode setValueScalar(double value) {
 		return setField(NX_VALUE, value);
 	}

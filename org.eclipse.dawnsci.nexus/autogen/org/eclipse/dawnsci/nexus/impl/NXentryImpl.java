@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -20,7 +20,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -35,31 +34,6 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_ATTRIBUTE_DEFAULT = "default";
-	public static final String NX_ATTRIBUTE_IDF_VERSION = "IDF_Version";
-	public static final String NX_TITLE = "title";
-	public static final String NX_EXPERIMENT_IDENTIFIER = "experiment_identifier";
-	public static final String NX_EXPERIMENT_DESCRIPTION = "experiment_description";
-	public static final String NX_COLLECTION_IDENTIFIER = "collection_identifier";
-	public static final String NX_COLLECTION_DESCRIPTION = "collection_description";
-	public static final String NX_ENTRY_IDENTIFIER = "entry_identifier";
-	public static final String NX_DEFINITION = "definition";
-	public static final String NX_DEFINITION_ATTRIBUTE_VERSION = "version";
-	public static final String NX_DEFINITION_ATTRIBUTE_URL = "URL";
-	public static final String NX_DEFINITION_LOCAL = "definition_local";
-	public static final String NX_DEFINITION_LOCAL_ATTRIBUTE_VERSION = "version";
-	public static final String NX_DEFINITION_LOCAL_ATTRIBUTE_URL = "URL";
-	public static final String NX_START_TIME = "start_time";
-	public static final String NX_END_TIME = "end_time";
-	public static final String NX_DURATION = "duration";
-	public static final String NX_COLLECTION_TIME = "collection_time";
-	public static final String NX_RUN_CYCLE = "run_cycle";
-	public static final String NX_PROGRAM_NAME = "program_name";
-	public static final String NX_PROGRAM_NAME_ATTRIBUTE_VERSION = "version";
-	public static final String NX_PROGRAM_NAME_ATTRIBUTE_CONFIGURATION = "configuration";
-	public static final String NX_REVISION = "revision";
-	public static final String NX_REVISION_ATTRIBUTE_COMMENT = "comment";
-	public static final String NX_PRE_SAMPLE_FLIGHTPATH = "pre_sample_flightpath";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_DATA,
@@ -76,11 +50,11 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		NexusBaseClass.NX_PROCESS,
 		NexusBaseClass.NX_SUBENTRY);
 
-	protected NXentryImpl(final NexusNodeFactory nodeFactory) {
+	public NXentryImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXentryImpl(final long oid) {
+	public NXentryImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -105,6 +79,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild("data", NXdata.class);
 	}
 
+	@Override
 	public void setData(NXdata data) {
 		putChild("data", data);
 	}
@@ -114,6 +89,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild(name, NXdata.class);
 	}
 
+	@Override
 	public void setData(String name, NXdata data) {
 		putChild(name, data);
 	}
@@ -122,7 +98,8 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	public Map<String, NXdata> getAllData() {
 		return getChildren(NXdata.class);
 	}
-
+	
+	@Override
 	public void setAllData(Map<String, NXdata> data) {
 		setChildren(data);
 	}
@@ -132,6 +109,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getAttrString(null, NX_ATTRIBUTE_DEFAULT);
 	}
 
+	@Override
 	public void setAttributeDefault(String default_) {
 		setAttribute(null, NX_ATTRIBUTE_DEFAULT, default_);
 	}
@@ -141,6 +119,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getAttrString(null, NX_ATTRIBUTE_IDF_VERSION);
 	}
 
+	@Override
 	public void setAttributeIDF_Version(String IDF_Version) {
 		setAttribute(null, NX_ATTRIBUTE_IDF_VERSION, IDF_Version);
 	}
@@ -155,10 +134,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getString(NX_TITLE);
 	}
 
+	@Override
 	public DataNode setTitle(IDataset title) {
 		return setDataset(NX_TITLE, title);
 	}
 
+	@Override
 	public DataNode setTitleScalar(String title) {
 		return setString(NX_TITLE, title);
 	}
@@ -173,10 +154,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getString(NX_EXPERIMENT_IDENTIFIER);
 	}
 
+	@Override
 	public DataNode setExperiment_identifier(IDataset experiment_identifier) {
 		return setDataset(NX_EXPERIMENT_IDENTIFIER, experiment_identifier);
 	}
 
+	@Override
 	public DataNode setExperiment_identifierScalar(String experiment_identifier) {
 		return setString(NX_EXPERIMENT_IDENTIFIER, experiment_identifier);
 	}
@@ -191,10 +174,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getString(NX_EXPERIMENT_DESCRIPTION);
 	}
 
+	@Override
 	public DataNode setExperiment_description(IDataset experiment_description) {
 		return setDataset(NX_EXPERIMENT_DESCRIPTION, experiment_description);
 	}
 
+	@Override
 	public DataNode setExperiment_descriptionScalar(String experiment_description) {
 		return setString(NX_EXPERIMENT_DESCRIPTION, experiment_description);
 	}
@@ -204,6 +189,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild("experiment_documentation", NXnote.class);
 	}
 
+	@Override
 	public void setExperiment_documentation(NXnote experiment_documentation) {
 		putChild("experiment_documentation", experiment_documentation);
 	}
@@ -218,10 +204,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getString(NX_COLLECTION_IDENTIFIER);
 	}
 
+	@Override
 	public DataNode setCollection_identifier(IDataset collection_identifier) {
 		return setDataset(NX_COLLECTION_IDENTIFIER, collection_identifier);
 	}
 
+	@Override
 	public DataNode setCollection_identifierScalar(String collection_identifier) {
 		return setString(NX_COLLECTION_IDENTIFIER, collection_identifier);
 	}
@@ -236,10 +224,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getString(NX_COLLECTION_DESCRIPTION);
 	}
 
+	@Override
 	public DataNode setCollection_description(IDataset collection_description) {
 		return setDataset(NX_COLLECTION_DESCRIPTION, collection_description);
 	}
 
+	@Override
 	public DataNode setCollection_descriptionScalar(String collection_description) {
 		return setString(NX_COLLECTION_DESCRIPTION, collection_description);
 	}
@@ -254,10 +244,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getString(NX_ENTRY_IDENTIFIER);
 	}
 
+	@Override
 	public DataNode setEntry_identifier(IDataset entry_identifier) {
 		return setDataset(NX_ENTRY_IDENTIFIER, entry_identifier);
 	}
 
+	@Override
 	public DataNode setEntry_identifierScalar(String entry_identifier) {
 		return setString(NX_ENTRY_IDENTIFIER, entry_identifier);
 	}
@@ -272,10 +264,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getString(NX_DEFINITION);
 	}
 
+	@Override
 	public DataNode setDefinition(IDataset definition) {
 		return setDataset(NX_DEFINITION, definition);
 	}
 
+	@Override
 	public DataNode setDefinitionScalar(String definition) {
 		return setString(NX_DEFINITION, definition);
 	}
@@ -285,6 +279,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getAttrString(NX_DEFINITION, NX_DEFINITION_ATTRIBUTE_VERSION);
 	}
 
+	@Override
 	public void setDefinitionAttributeVersion(String version) {
 		setAttribute(NX_DEFINITION, NX_DEFINITION_ATTRIBUTE_VERSION, version);
 	}
@@ -294,6 +289,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getAttrString(NX_DEFINITION, NX_DEFINITION_ATTRIBUTE_URL);
 	}
 
+	@Override
 	public void setDefinitionAttributeURL(String URL) {
 		setAttribute(NX_DEFINITION, NX_DEFINITION_ATTRIBUTE_URL, URL);
 	}
@@ -310,11 +306,14 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getString(NX_DEFINITION_LOCAL);
 	}
 
+	@Override
 	@Deprecated
 	public DataNode setDefinition_local(IDataset definition_local) {
 		return setDataset(NX_DEFINITION_LOCAL, definition_local);
 	}
 
+	@Override
+	@Deprecated
 	public DataNode setDefinition_localScalar(String definition_local) {
 		return setString(NX_DEFINITION_LOCAL, definition_local);
 	}
@@ -324,6 +323,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getAttrString(NX_DEFINITION_LOCAL, NX_DEFINITION_LOCAL_ATTRIBUTE_VERSION);
 	}
 
+	@Override
 	public void setDefinition_localAttributeVersion(String version) {
 		setAttribute(NX_DEFINITION_LOCAL, NX_DEFINITION_LOCAL_ATTRIBUTE_VERSION, version);
 	}
@@ -333,6 +333,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getAttrString(NX_DEFINITION_LOCAL, NX_DEFINITION_LOCAL_ATTRIBUTE_URL);
 	}
 
+	@Override
 	public void setDefinition_localAttributeURL(String URL) {
 		setAttribute(NX_DEFINITION_LOCAL, NX_DEFINITION_LOCAL_ATTRIBUTE_URL, URL);
 	}
@@ -347,10 +348,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getDate(NX_START_TIME);
 	}
 
+	@Override
 	public DataNode setStart_time(IDataset start_time) {
 		return setDataset(NX_START_TIME, start_time);
 	}
 
+	@Override
 	public DataNode setStart_timeScalar(Date start_time) {
 		return setDate(NX_START_TIME, start_time);
 	}
@@ -365,10 +368,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getDate(NX_END_TIME);
 	}
 
+	@Override
 	public DataNode setEnd_time(IDataset end_time) {
 		return setDataset(NX_END_TIME, end_time);
 	}
 
+	@Override
 	public DataNode setEnd_timeScalar(Date end_time) {
 		return setDate(NX_END_TIME, end_time);
 	}
@@ -383,10 +388,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getLong(NX_DURATION);
 	}
 
+	@Override
 	public DataNode setDuration(IDataset duration) {
 		return setDataset(NX_DURATION, duration);
 	}
 
+	@Override
 	public DataNode setDurationScalar(long duration) {
 		return setField(NX_DURATION, duration);
 	}
@@ -401,10 +408,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getDouble(NX_COLLECTION_TIME);
 	}
 
+	@Override
 	public DataNode setCollection_time(IDataset collection_time) {
 		return setDataset(NX_COLLECTION_TIME, collection_time);
 	}
 
+	@Override
 	public DataNode setCollection_timeScalar(double collection_time) {
 		return setField(NX_COLLECTION_TIME, collection_time);
 	}
@@ -419,10 +428,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getString(NX_RUN_CYCLE);
 	}
 
+	@Override
 	public DataNode setRun_cycle(IDataset run_cycle) {
 		return setDataset(NX_RUN_CYCLE, run_cycle);
 	}
 
+	@Override
 	public DataNode setRun_cycleScalar(String run_cycle) {
 		return setString(NX_RUN_CYCLE, run_cycle);
 	}
@@ -437,10 +448,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getString(NX_PROGRAM_NAME);
 	}
 
+	@Override
 	public DataNode setProgram_name(IDataset program_name) {
 		return setDataset(NX_PROGRAM_NAME, program_name);
 	}
 
+	@Override
 	public DataNode setProgram_nameScalar(String program_name) {
 		return setString(NX_PROGRAM_NAME, program_name);
 	}
@@ -450,6 +463,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getAttrString(NX_PROGRAM_NAME, NX_PROGRAM_NAME_ATTRIBUTE_VERSION);
 	}
 
+	@Override
 	public void setProgram_nameAttributeVersion(String version) {
 		setAttribute(NX_PROGRAM_NAME, NX_PROGRAM_NAME_ATTRIBUTE_VERSION, version);
 	}
@@ -459,6 +473,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getAttrString(NX_PROGRAM_NAME, NX_PROGRAM_NAME_ATTRIBUTE_CONFIGURATION);
 	}
 
+	@Override
 	public void setProgram_nameAttributeConfiguration(String configuration) {
 		setAttribute(NX_PROGRAM_NAME, NX_PROGRAM_NAME_ATTRIBUTE_CONFIGURATION, configuration);
 	}
@@ -473,10 +488,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getString(NX_REVISION);
 	}
 
+	@Override
 	public DataNode setRevision(IDataset revision) {
 		return setDataset(NX_REVISION, revision);
 	}
 
+	@Override
 	public DataNode setRevisionScalar(String revision) {
 		return setString(NX_REVISION, revision);
 	}
@@ -486,6 +503,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getAttrString(NX_REVISION, NX_REVISION_ATTRIBUTE_COMMENT);
 	}
 
+	@Override
 	public void setRevisionAttributeComment(String comment) {
 		setAttribute(NX_REVISION, NX_REVISION_ATTRIBUTE_COMMENT, comment);
 	}
@@ -500,10 +518,12 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getDouble(NX_PRE_SAMPLE_FLIGHTPATH);
 	}
 
+	@Override
 	public DataNode setPre_sample_flightpath(IDataset pre_sample_flightpath) {
 		return setDataset(NX_PRE_SAMPLE_FLIGHTPATH, pre_sample_flightpath);
 	}
 
+	@Override
 	public DataNode setPre_sample_flightpathScalar(double pre_sample_flightpath) {
 		return setField(NX_PRE_SAMPLE_FLIGHTPATH, pre_sample_flightpath);
 	}
@@ -513,6 +533,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild("notes", NXnote.class);
 	}
 
+	@Override
 	public void setNotes(NXnote notes) {
 		putChild("notes", notes);
 	}
@@ -522,6 +543,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild("thumbnail", NXnote.class);
 	}
 
+	@Override
 	public void setThumbnail(NXnote thumbnail) {
 		putChild("thumbnail", thumbnail);
 	}
@@ -531,6 +553,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild("characterization", NXcharacterization.class);
 	}
 
+	@Override
 	public void setCharacterization(NXcharacterization characterization) {
 		putChild("characterization", characterization);
 	}
@@ -540,6 +563,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild(name, NXcharacterization.class);
 	}
 
+	@Override
 	public void setCharacterization(String name, NXcharacterization characterization) {
 		putChild(name, characterization);
 	}
@@ -548,7 +572,8 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	public Map<String, NXcharacterization> getAllCharacterization() {
 		return getChildren(NXcharacterization.class);
 	}
-
+	
+	@Override
 	public void setAllCharacterization(Map<String, NXcharacterization> characterization) {
 		setChildren(characterization);
 	}
@@ -558,6 +583,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild("user", NXuser.class);
 	}
 
+	@Override
 	public void setUser(NXuser user) {
 		putChild("user", user);
 	}
@@ -567,6 +593,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild(name, NXuser.class);
 	}
 
+	@Override
 	public void setUser(String name, NXuser user) {
 		putChild(name, user);
 	}
@@ -575,7 +602,8 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	public Map<String, NXuser> getAllUser() {
 		return getChildren(NXuser.class);
 	}
-
+	
+	@Override
 	public void setAllUser(Map<String, NXuser> user) {
 		setChildren(user);
 	}
@@ -585,6 +613,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild("sample", NXsample.class);
 	}
 
+	@Override
 	public void setSample(NXsample sample) {
 		putChild("sample", sample);
 	}
@@ -594,6 +623,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild(name, NXsample.class);
 	}
 
+	@Override
 	public void setSample(String name, NXsample sample) {
 		putChild(name, sample);
 	}
@@ -602,7 +632,8 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	public Map<String, NXsample> getAllSample() {
 		return getChildren(NXsample.class);
 	}
-
+	
+	@Override
 	public void setAllSample(Map<String, NXsample> sample) {
 		setChildren(sample);
 	}
@@ -612,6 +643,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild("instrument", NXinstrument.class);
 	}
 
+	@Override
 	public void setInstrument(NXinstrument instrument) {
 		putChild("instrument", instrument);
 	}
@@ -621,6 +653,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild(name, NXinstrument.class);
 	}
 
+	@Override
 	public void setInstrument(String name, NXinstrument instrument) {
 		putChild(name, instrument);
 	}
@@ -629,7 +662,8 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	public Map<String, NXinstrument> getAllInstrument() {
 		return getChildren(NXinstrument.class);
 	}
-
+	
+	@Override
 	public void setAllInstrument(Map<String, NXinstrument> instrument) {
 		setChildren(instrument);
 	}
@@ -639,6 +673,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild("collection", NXcollection.class);
 	}
 
+	@Override
 	public void setCollection(NXcollection collection) {
 		putChild("collection", collection);
 	}
@@ -648,6 +683,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild(name, NXcollection.class);
 	}
 
+	@Override
 	public void setCollection(String name, NXcollection collection) {
 		putChild(name, collection);
 	}
@@ -656,7 +692,8 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	public Map<String, NXcollection> getAllCollection() {
 		return getChildren(NXcollection.class);
 	}
-
+	
+	@Override
 	public void setAllCollection(Map<String, NXcollection> collection) {
 		setChildren(collection);
 	}
@@ -666,6 +703,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild("monitor", NXmonitor.class);
 	}
 
+	@Override
 	public void setMonitor(NXmonitor monitor) {
 		putChild("monitor", monitor);
 	}
@@ -675,6 +713,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild(name, NXmonitor.class);
 	}
 
+	@Override
 	public void setMonitor(String name, NXmonitor monitor) {
 		putChild(name, monitor);
 	}
@@ -683,7 +722,8 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	public Map<String, NXmonitor> getAllMonitor() {
 		return getChildren(NXmonitor.class);
 	}
-
+	
+	@Override
 	public void setAllMonitor(Map<String, NXmonitor> monitor) {
 		setChildren(monitor);
 	}
@@ -693,6 +733,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild("parameters", NXparameters.class);
 	}
 
+	@Override
 	public void setParameters(NXparameters parameters) {
 		putChild("parameters", parameters);
 	}
@@ -702,6 +743,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild(name, NXparameters.class);
 	}
 
+	@Override
 	public void setParameters(String name, NXparameters parameters) {
 		putChild(name, parameters);
 	}
@@ -710,7 +752,8 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	public Map<String, NXparameters> getAllParameters() {
 		return getChildren(NXparameters.class);
 	}
-
+	
+	@Override
 	public void setAllParameters(Map<String, NXparameters> parameters) {
 		setChildren(parameters);
 	}
@@ -720,6 +763,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild("process", NXprocess.class);
 	}
 
+	@Override
 	public void setProcess(NXprocess process) {
 		putChild("process", process);
 	}
@@ -729,6 +773,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild(name, NXprocess.class);
 	}
 
+	@Override
 	public void setProcess(String name, NXprocess process) {
 		putChild(name, process);
 	}
@@ -737,7 +782,8 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	public Map<String, NXprocess> getAllProcess() {
 		return getChildren(NXprocess.class);
 	}
-
+	
+	@Override
 	public void setAllProcess(Map<String, NXprocess> process) {
 		setChildren(process);
 	}
@@ -747,6 +793,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild("subentry", NXsubentry.class);
 	}
 
+	@Override
 	public void setSubentry(NXsubentry subentry) {
 		putChild("subentry", subentry);
 	}
@@ -756,6 +803,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		return getChild(name, NXsubentry.class);
 	}
 
+	@Override
 	public void setSubentry(String name, NXsubentry subentry) {
 		putChild(name, subentry);
 	}
@@ -764,7 +812,8 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	public Map<String, NXsubentry> getAllSubentry() {
 		return getChildren(NXsubentry.class);
 	}
-
+	
+	@Override
 	public void setAllSubentry(Map<String, NXsubentry> subentry) {
 		setChildren(subentry);
 	}

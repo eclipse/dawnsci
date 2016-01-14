@@ -3,7 +3,6 @@ package org.eclipse.dawnsci.nexus;
 import org.eclipse.dawnsci.nexus.builder.AbstractNexusProvider;
 import org.eclipse.dawnsci.nexus.builder.DelegateNexusProvider;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
-import org.eclipse.dawnsci.nexus.impl.NexusNodeFactory;
 
 /**
  * Any device which can write NeXus should implement this method.
@@ -14,20 +13,20 @@ import org.eclipse.dawnsci.nexus.impl.NexusNodeFactory;
  * @author Matthew Gerring
  *
  */
-public interface INexusDevice {
+public interface INexusDevice<N extends NXobject> {
 
 	/**
 	 * The object provider required for writing correct nexus files.
 	 * @return
 	 * @throws Exception
 	 */
-	<N extends NXobject> NexusObjectProvider<N> getNexusProvider(NexusScanInfo info) ;
+	NexusObjectProvider<N> getNexusProvider(NexusScanInfo info) ;
 	
 	/**
 	 * 
 	 * @param nodeFactory
 	 * @return
 	 */
-	<N extends NXobject> N createNexusObject(NexusNodeFactory nodeFactory, NexusScanInfo info);
+	N createNexusObject(NexusNodeFactory nodeFactory, NexusScanInfo info);
 
 }

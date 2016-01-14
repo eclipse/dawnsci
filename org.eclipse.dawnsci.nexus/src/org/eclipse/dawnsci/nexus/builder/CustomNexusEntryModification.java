@@ -12,10 +12,10 @@
 
 package org.eclipse.dawnsci.nexus.builder;
 
-import org.eclipse.dawnsci.nexus.impl.NXentryImpl;
+import org.eclipse.dawnsci.nexus.NXentry;
 
 /**
- * A custom modification to the nexus tree.
+ * A custom modification to an {@link NXentry}.
  */
 public interface CustomNexusEntryModification extends NexusEntryModification {
 	
@@ -23,6 +23,6 @@ public interface CustomNexusEntryModification extends NexusEntryModification {
 	 * Perform a custom modification to the entry.
 	 * @param entry nexus entry to modify
 	 */
-	public void modifyEntry(NXentryImpl entry);
+	public void modifyEntry(NXentry entry);
 
 }

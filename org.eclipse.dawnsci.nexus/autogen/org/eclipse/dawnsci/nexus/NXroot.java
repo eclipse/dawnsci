@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -24,6 +24,16 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
  */
 public interface NXroot extends NXobject {
 
+	public static final String NX_ATTRIBUTE_NX_CLASS = "NX_class";
+	public static final String NX_ATTRIBUTE_FILE_TIME = "file_time";
+	public static final String NX_ATTRIBUTE_FILE_NAME = "file_name";
+	public static final String NX_ATTRIBUTE_FILE_UPDATE_TIME = "file_update_time";
+	public static final String NX_ATTRIBUTE_NEXUS_VERSION = "NeXus_version";
+	public static final String NX_ATTRIBUTE_HDF_VERSION = "HDF_version";
+	public static final String NX_ATTRIBUTE_HDF5_VERSION = "HDF5_Version";
+	public static final String NX_ATTRIBUTE_XML_VERSION = "XML_version";
+	public static final String NX_ATTRIBUTE_CREATOR = "creator";
+	public static final String NX_ATTRIBUTE_DEFAULT = "default";
 	/**
 	 * The root of any NeXus data file is an NXroot class
 	 * (no other choice is allowed for a valid NeXus data file).
@@ -35,42 +45,90 @@ public interface NXroot extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeNX_class();	
+	public String getAttributeNX_class();
+	
+	/**
+	 * The root of any NeXus data file is an NXroot class
+	 * (no other choice is allowed for a valid NeXus data file).
+	 * This attribute cements that definition.
+	 * <p>
+	 * <p><b>Enumeration:</b><ul>
+	 * <li><b>NXroot</b> </li></ul></p>
+	 * </p>
+	 * 
+	 * @param NX_class the NX_class
+	 */
+	public void setAttributeNX_class(String NX_class);
 
 	/**
 	 * Date and time file was originally created
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeFile_time();	
+	public String getAttributeFile_time();
+	
+	/**
+	 * Date and time file was originally created
+	 * 
+	 * @param file_time the file_time
+	 */
+	public void setAttributeFile_time(String file_time);
 
 	/**
 	 * File name of original NeXus file
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeFile_name();	
+	public String getAttributeFile_name();
+	
+	/**
+	 * File name of original NeXus file
+	 * 
+	 * @param file_name the file_name
+	 */
+	public void setAttributeFile_name(String file_name);
 
 	/**
 	 * Date and time of last file change at close
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeFile_update_time();	
+	public String getAttributeFile_update_time();
+	
+	/**
+	 * Date and time of last file change at close
+	 * 
+	 * @param file_update_time the file_update_time
+	 */
+	public void setAttributeFile_update_time(String file_update_time);
 
 	/**
 	 * Version of NeXus API used in writing the file
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeNeXus_version();	
+	public String getAttributeNeXus_version();
+	
+	/**
+	 * Version of NeXus API used in writing the file
+	 * 
+	 * @param NeXus_version the NeXus_version
+	 */
+	public void setAttributeNeXus_version(String NeXus_version);
 
 	/**
 	 * Version of NeXus API used in writing the file
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeHDF_version();	
+	public String getAttributeHDF_version();
+	
+	/**
+	 * Version of NeXus API used in writing the file
+	 * 
+	 * @param HDF_version the HDF_version
+	 */
+	public void setAttributeHDF_version(String HDF_version);
 
 	/**
 	 * Version of NeXus API used in writing the file.
@@ -79,28 +137,58 @@ public interface NXroot extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeHDF5_Version();	
+	public String getAttributeHDF5_Version();
+	
+	/**
+	 * Version of NeXus API used in writing the file.
+	 * Note this attribute is spelled with uppercase "V",
+	 * different than other version attributes.
+	 * 
+	 * @param HDF5_Version the HDF5_Version
+	 */
+	public void setAttributeHDF5_Version(String HDF5_Version);
 
 	/**
 	 * Version of NeXus API used in writing the file
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeXML_version();	
+	public String getAttributeXML_version();
+	
+	/**
+	 * Version of NeXus API used in writing the file
+	 * 
+	 * @param XML_version the XML_version
+	 */
+	public void setAttributeXML_version(String XML_version);
 
 	/**
 	 * facility or program where file originated
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeCreator();	
+	public String getAttributeCreator();
+	
+	/**
+	 * facility or program where file originated
+	 * 
+	 * @param creator the creator
+	 */
+	public void setAttributeCreator(String creator);
 
 	/**
 	 * entries
 	 * 
 	 * @return  the value.
 	 */
-	public NXentry getEntry();	
+	public NXentry getEntry();
+	
+	/**
+	 * entries
+	 * 
+	 * @param entry the entry
+	 */
+	public void setEntry(NXentry entry);
   
 	/**
 	 * Get a NXentry node by name:
@@ -115,6 +203,18 @@ public interface NXroot extends NXobject {
 	public NXentry getEntry(String name);
 	
 	/**
+	 * Set a NXentry node by name:
+	 * <ul>
+	 * <li>
+	 * entries</li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param entry the value to set
+	 */
+	public void setEntry(String name, NXentry entry);
+	
+	/**
 	 * Get all NXentry nodes:
 	 * <ul>
 	 * <li>
@@ -124,12 +224,32 @@ public interface NXroot extends NXobject {
 	 * @return  a map from node names to the NXentry for that node.
 	 */
 	public Map<String, NXentry> getAllEntry();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li>
+	 * entries</li>
+	 * </ul>
+	 * 
+	 * @param entry the child nodes to add 
+	 */
+	
+	public void setAllEntry(Map<String, NXentry> entry);
+	
 
 	/**
 	 * name of the ''NXentry'' in this file to use for the default plot
 	 * 
 	 * @return  the value.
 	 */
-	public String getAttributeDefault();	
+	public String getAttributeDefault();
+	
+	/**
+	 * name of the ''NXentry'' in this file to use for the default plot
+	 * 
+	 * @param default_ the default
+	 */
+	public void setAttributeDefault(String default_);
 
 }

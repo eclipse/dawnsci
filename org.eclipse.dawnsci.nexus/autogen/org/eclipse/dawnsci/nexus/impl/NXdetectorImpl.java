@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -20,7 +20,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -33,73 +32,6 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_TIME_OF_FLIGHT = "time_of_flight";
-	public static final String NX_TIME_OF_FLIGHT_ATTRIBUTE_AXIS = "axis";
-	public static final String NX_TIME_OF_FLIGHT_ATTRIBUTE_PRIMARY = "primary";
-	public static final String NX_TIME_OF_FLIGHT_ATTRIBUTE_LONG_NAME = "long_name";
-	public static final String NX_RAW_TIME_OF_FLIGHT = "raw_time_of_flight";
-	public static final String NX_RAW_TIME_OF_FLIGHT_ATTRIBUTE_FREQUENCY = "frequency";
-	public static final String NX_DETECTOR_NUMBER = "detector_number";
-	public static final String NX_DATA = "data";
-	public static final String NX_DATA_ATTRIBUTE_SIGNAL = "signal";
-	public static final String NX_DATA_ATTRIBUTE_AXES = "axes";
-	public static final String NX_DATA_ATTRIBUTE_LONG_NAME = "long_name";
-	public static final String NX_DATA_ATTRIBUTE_CHECK_SUM = "check_sum";
-	public static final String NX_DATA_ERROR = "data_error";
-	public static final String NX_X_PIXEL_OFFSET = "x_pixel_offset";
-	public static final String NX_X_PIXEL_OFFSET_ATTRIBUTE_AXIS = "axis";
-	public static final String NX_X_PIXEL_OFFSET_ATTRIBUTE_PRIMARY = "primary";
-	public static final String NX_X_PIXEL_OFFSET_ATTRIBUTE_LONG_NAME = "long_name";
-	public static final String NX_Y_PIXEL_OFFSET = "y_pixel_offset";
-	public static final String NX_Y_PIXEL_OFFSET_ATTRIBUTE_AXIS = "axis";
-	public static final String NX_Y_PIXEL_OFFSET_ATTRIBUTE_PRIMARY = "primary";
-	public static final String NX_Y_PIXEL_OFFSET_ATTRIBUTE_LONG_NAME = "long_name";
-	public static final String NX_DISTANCE = "distance";
-	public static final String NX_POLAR_ANGLE = "polar_angle";
-	public static final String NX_AZIMUTHAL_ANGLE = "azimuthal_angle";
-	public static final String NX_DESCRIPTION = "description";
-	public static final String NX_LOCAL_NAME = "local_name";
-	public static final String NX_SOLID_ANGLE = "solid_angle";
-	public static final String NX_X_PIXEL_SIZE = "x_pixel_size";
-	public static final String NX_Y_PIXEL_SIZE = "y_pixel_size";
-	public static final String NX_DEAD_TIME = "dead_time";
-	public static final String NX_GAS_PRESSURE = "gas_pressure";
-	public static final String NX_DETECTION_GAS_PATH = "detection_gas_path";
-	public static final String NX_CRATE = "crate";
-	public static final String NX_CRATE_ATTRIBUTE_LOCAL_NAME = "local_name";
-	public static final String NX_SLOT = "slot";
-	public static final String NX_SLOT_ATTRIBUTE_LOCAL_NAME = "local_name";
-	public static final String NX_INPUT = "input";
-	public static final String NX_INPUT_ATTRIBUTE_LOCAL_NAME = "local_name";
-	public static final String NX_TYPE = "type";
-	public static final String NX_CALIBRATION_DATE = "calibration_date";
-	public static final String NX_LAYOUT = "layout";
-	public static final String NX_COUNT_TIME = "count_time";
-	public static final String NX_SEQUENCE_NUMBER = "sequence_number";
-	public static final String NX_BEAM_CENTER_X = "beam_center_x";
-	public static final String NX_BEAM_CENTER_Y = "beam_center_y";
-	public static final String NX_FRAME_START_NUMBER = "frame_start_number";
-	public static final String NX_DIAMETER = "diameter";
-	public static final String NX_ACQUISITION_MODE = "acquisition_mode";
-	public static final String NX_ANGULAR_CALIBRATION_APPLIED = "angular_calibration_applied";
-	public static final String NX_ANGULAR_CALIBRATION = "angular_calibration";
-	public static final String NX_FLATFIELD_APPLIED = "flatfield_applied";
-	public static final String NX_FLATFIELD = "flatfield";
-	public static final String NX_FLATFIELD_ERROR = "flatfield_error";
-	public static final String NX_PIXEL_MASK_APPLIED = "pixel_mask_applied";
-	public static final String NX_PIXEL_MASK = "pixel_mask";
-	public static final String NX_COUNTRATE_CORRECTION__APPLIED = "countrate_correction__applied";
-	public static final String NX_BIT_DEPTH_READOUT = "bit_depth_readout";
-	public static final String NX_DETECTOR_READOUT_TIME = "detector_readout_time";
-	public static final String NX_TRIGGER_DELAY_TIME = "trigger_delay_time";
-	public static final String NX_TRIGGER_DEAD_TIME = "trigger_dead_time";
-	public static final String NX_FRAME_TIME = "frame_time";
-	public static final String NX_GAIN_SETTING = "gain_setting";
-	public static final String NX_SATURATION_VALUE = "saturation_value";
-	public static final String NX_NUMBER_OF_CYCLES = "number_of_cycles";
-	public static final String NX_SENSOR_MATERIAL = "sensor_material";
-	public static final String NX_SENSOR_THICKNESS = "sensor_thickness";
-	public static final String NX_THRESHOLD_ENERGY = "threshold_energy";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY,
@@ -110,11 +42,11 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		NexusBaseClass.NX_COLLECTION,
 		NexusBaseClass.NX_DETECTOR_MODULE);
 
-	protected NXdetectorImpl(final NexusNodeFactory nodeFactory) {
+	public NXdetectorImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXdetectorImpl(final long oid) {
+	public NXdetectorImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -144,10 +76,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_TIME_OF_FLIGHT);
 	}
 
+	@Override
 	public DataNode setTime_of_flight(IDataset time_of_flight) {
 		return setDataset(NX_TIME_OF_FLIGHT, time_of_flight);
 	}
 
+	@Override
 	public DataNode setTime_of_flightScalar(double time_of_flight) {
 		return setField(NX_TIME_OF_FLIGHT, time_of_flight);
 	}
@@ -157,6 +91,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrLong(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_AXIS);
 	}
 
+	@Override
 	public void setTime_of_flightAttributeAxis(long axis) {
 		setAttribute(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_AXIS, axis);
 	}
@@ -166,6 +101,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrLong(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_PRIMARY);
 	}
 
+	@Override
 	public void setTime_of_flightAttributePrimary(long primary) {
 		setAttribute(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_PRIMARY, primary);
 	}
@@ -175,6 +111,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrString(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_LONG_NAME);
 	}
 
+	@Override
 	public void setTime_of_flightAttributeLong_name(String long_name) {
 		setAttribute(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_LONG_NAME, long_name);
 	}
@@ -189,10 +126,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getLong(NX_RAW_TIME_OF_FLIGHT);
 	}
 
+	@Override
 	public DataNode setRaw_time_of_flight(IDataset raw_time_of_flight) {
 		return setDataset(NX_RAW_TIME_OF_FLIGHT, raw_time_of_flight);
 	}
 
+	@Override
 	public DataNode setRaw_time_of_flightScalar(long raw_time_of_flight) {
 		return setField(NX_RAW_TIME_OF_FLIGHT, raw_time_of_flight);
 	}
@@ -202,6 +141,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrNumber(NX_RAW_TIME_OF_FLIGHT, NX_RAW_TIME_OF_FLIGHT_ATTRIBUTE_FREQUENCY);
 	}
 
+	@Override
 	public void setRaw_time_of_flightAttributeFrequency(Number frequency) {
 		setAttribute(NX_RAW_TIME_OF_FLIGHT, NX_RAW_TIME_OF_FLIGHT_ATTRIBUTE_FREQUENCY, frequency);
 	}
@@ -216,10 +156,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getLong(NX_DETECTOR_NUMBER);
 	}
 
+	@Override
 	public DataNode setDetector_number(IDataset detector_number) {
 		return setDataset(NX_DETECTOR_NUMBER, detector_number);
 	}
 
+	@Override
 	public DataNode setDetector_numberScalar(long detector_number) {
 		return setField(NX_DETECTOR_NUMBER, detector_number);
 	}
@@ -234,10 +176,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getNumber(NX_DATA);
 	}
 
+	@Override
 	public DataNode setData(IDataset data) {
 		return setDataset(NX_DATA, data);
 	}
 
+	@Override
 	public DataNode setDataScalar(Number data) {
 		return setField(NX_DATA, data);
 	}
@@ -247,6 +191,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrLong(NX_DATA, NX_DATA_ATTRIBUTE_SIGNAL);
 	}
 
+	@Override
 	public void setDataAttributeSignal(long signal) {
 		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_SIGNAL, signal);
 	}
@@ -256,6 +201,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrString(NX_DATA, NX_DATA_ATTRIBUTE_AXES);
 	}
 
+	@Override
 	public void setDataAttributeAxes(String axes) {
 		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_AXES, axes);
 	}
@@ -265,6 +211,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrString(NX_DATA, NX_DATA_ATTRIBUTE_LONG_NAME);
 	}
 
+	@Override
 	public void setDataAttributeLong_name(String long_name) {
 		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_LONG_NAME, long_name);
 	}
@@ -274,6 +221,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrLong(NX_DATA, NX_DATA_ATTRIBUTE_CHECK_SUM);
 	}
 
+	@Override
 	public void setDataAttributeCheck_sum(long check_sum) {
 		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_CHECK_SUM, check_sum);
 	}
@@ -288,10 +236,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getNumber(NX_DATA_ERROR);
 	}
 
+	@Override
 	public DataNode setData_error(IDataset data_error) {
 		return setDataset(NX_DATA_ERROR, data_error);
 	}
 
+	@Override
 	public DataNode setData_errorScalar(Number data_error) {
 		return setField(NX_DATA_ERROR, data_error);
 	}
@@ -306,10 +256,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_X_PIXEL_OFFSET);
 	}
 
+	@Override
 	public DataNode setX_pixel_offset(IDataset x_pixel_offset) {
 		return setDataset(NX_X_PIXEL_OFFSET, x_pixel_offset);
 	}
 
+	@Override
 	public DataNode setX_pixel_offsetScalar(double x_pixel_offset) {
 		return setField(NX_X_PIXEL_OFFSET, x_pixel_offset);
 	}
@@ -319,6 +271,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrLong(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_AXIS);
 	}
 
+	@Override
 	public void setX_pixel_offsetAttributeAxis(long axis) {
 		setAttribute(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_AXIS, axis);
 	}
@@ -328,6 +281,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrLong(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_PRIMARY);
 	}
 
+	@Override
 	public void setX_pixel_offsetAttributePrimary(long primary) {
 		setAttribute(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_PRIMARY, primary);
 	}
@@ -337,6 +291,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrString(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_LONG_NAME);
 	}
 
+	@Override
 	public void setX_pixel_offsetAttributeLong_name(String long_name) {
 		setAttribute(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_LONG_NAME, long_name);
 	}
@@ -351,10 +306,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_Y_PIXEL_OFFSET);
 	}
 
+	@Override
 	public DataNode setY_pixel_offset(IDataset y_pixel_offset) {
 		return setDataset(NX_Y_PIXEL_OFFSET, y_pixel_offset);
 	}
 
+	@Override
 	public DataNode setY_pixel_offsetScalar(double y_pixel_offset) {
 		return setField(NX_Y_PIXEL_OFFSET, y_pixel_offset);
 	}
@@ -364,6 +321,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrLong(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_AXIS);
 	}
 
+	@Override
 	public void setY_pixel_offsetAttributeAxis(long axis) {
 		setAttribute(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_AXIS, axis);
 	}
@@ -373,6 +331,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrLong(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_PRIMARY);
 	}
 
+	@Override
 	public void setY_pixel_offsetAttributePrimary(long primary) {
 		setAttribute(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_PRIMARY, primary);
 	}
@@ -382,6 +341,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrString(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_LONG_NAME);
 	}
 
+	@Override
 	public void setY_pixel_offsetAttributeLong_name(String long_name) {
 		setAttribute(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_LONG_NAME, long_name);
 	}
@@ -396,10 +356,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_DISTANCE);
 	}
 
+	@Override
 	public DataNode setDistance(IDataset distance) {
 		return setDataset(NX_DISTANCE, distance);
 	}
 
+	@Override
 	public DataNode setDistanceScalar(double distance) {
 		return setField(NX_DISTANCE, distance);
 	}
@@ -414,10 +376,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_POLAR_ANGLE);
 	}
 
+	@Override
 	public DataNode setPolar_angle(IDataset polar_angle) {
 		return setDataset(NX_POLAR_ANGLE, polar_angle);
 	}
 
+	@Override
 	public DataNode setPolar_angleScalar(double polar_angle) {
 		return setField(NX_POLAR_ANGLE, polar_angle);
 	}
@@ -432,10 +396,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_AZIMUTHAL_ANGLE);
 	}
 
+	@Override
 	public DataNode setAzimuthal_angle(IDataset azimuthal_angle) {
 		return setDataset(NX_AZIMUTHAL_ANGLE, azimuthal_angle);
 	}
 
+	@Override
 	public DataNode setAzimuthal_angleScalar(double azimuthal_angle) {
 		return setField(NX_AZIMUTHAL_ANGLE, azimuthal_angle);
 	}
@@ -450,10 +416,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getString(NX_DESCRIPTION);
 	}
 
+	@Override
 	public DataNode setDescription(IDataset description) {
 		return setDataset(NX_DESCRIPTION, description);
 	}
 
+	@Override
 	public DataNode setDescriptionScalar(String description) {
 		return setString(NX_DESCRIPTION, description);
 	}
@@ -468,10 +436,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getString(NX_LOCAL_NAME);
 	}
 
+	@Override
 	public DataNode setLocal_name(IDataset local_name) {
 		return setDataset(NX_LOCAL_NAME, local_name);
 	}
 
+	@Override
 	public DataNode setLocal_nameScalar(String local_name) {
 		return setString(NX_LOCAL_NAME, local_name);
 	}
@@ -481,6 +451,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getChild("geometry", NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(NXgeometry geometry) {
 		putChild("geometry", geometry);
 	}
@@ -490,6 +461,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getChild(name, NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(String name, NXgeometry geometry) {
 		putChild(name, geometry);
 	}
@@ -498,7 +470,8 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	public Map<String, NXgeometry> getAllGeometry() {
 		return getChildren(NXgeometry.class);
 	}
-
+	
+	@Override
 	public void setAllGeometry(Map<String, NXgeometry> geometry) {
 		setChildren(geometry);
 	}
@@ -513,10 +486,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_SOLID_ANGLE);
 	}
 
+	@Override
 	public DataNode setSolid_angle(IDataset solid_angle) {
 		return setDataset(NX_SOLID_ANGLE, solid_angle);
 	}
 
+	@Override
 	public DataNode setSolid_angleScalar(double solid_angle) {
 		return setField(NX_SOLID_ANGLE, solid_angle);
 	}
@@ -531,10 +506,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_X_PIXEL_SIZE);
 	}
 
+	@Override
 	public DataNode setX_pixel_size(IDataset x_pixel_size) {
 		return setDataset(NX_X_PIXEL_SIZE, x_pixel_size);
 	}
 
+	@Override
 	public DataNode setX_pixel_sizeScalar(double x_pixel_size) {
 		return setField(NX_X_PIXEL_SIZE, x_pixel_size);
 	}
@@ -549,10 +526,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_Y_PIXEL_SIZE);
 	}
 
+	@Override
 	public DataNode setY_pixel_size(IDataset y_pixel_size) {
 		return setDataset(NX_Y_PIXEL_SIZE, y_pixel_size);
 	}
 
+	@Override
 	public DataNode setY_pixel_sizeScalar(double y_pixel_size) {
 		return setField(NX_Y_PIXEL_SIZE, y_pixel_size);
 	}
@@ -567,10 +546,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_DEAD_TIME);
 	}
 
+	@Override
 	public DataNode setDead_time(IDataset dead_time) {
 		return setDataset(NX_DEAD_TIME, dead_time);
 	}
 
+	@Override
 	public DataNode setDead_timeScalar(double dead_time) {
 		return setField(NX_DEAD_TIME, dead_time);
 	}
@@ -585,10 +566,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_GAS_PRESSURE);
 	}
 
+	@Override
 	public DataNode setGas_pressure(IDataset gas_pressure) {
 		return setDataset(NX_GAS_PRESSURE, gas_pressure);
 	}
 
+	@Override
 	public DataNode setGas_pressureScalar(double gas_pressure) {
 		return setField(NX_GAS_PRESSURE, gas_pressure);
 	}
@@ -603,10 +586,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_DETECTION_GAS_PATH);
 	}
 
+	@Override
 	public DataNode setDetection_gas_path(IDataset detection_gas_path) {
 		return setDataset(NX_DETECTION_GAS_PATH, detection_gas_path);
 	}
 
+	@Override
 	public DataNode setDetection_gas_pathScalar(double detection_gas_path) {
 		return setField(NX_DETECTION_GAS_PATH, detection_gas_path);
 	}
@@ -621,10 +606,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getLong(NX_CRATE);
 	}
 
+	@Override
 	public DataNode setCrate(IDataset crate) {
 		return setDataset(NX_CRATE, crate);
 	}
 
+	@Override
 	public DataNode setCrateScalar(long crate) {
 		return setField(NX_CRATE, crate);
 	}
@@ -634,6 +621,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrString(NX_CRATE, NX_CRATE_ATTRIBUTE_LOCAL_NAME);
 	}
 
+	@Override
 	public void setCrateAttributeLocal_name(String local_name) {
 		setAttribute(NX_CRATE, NX_CRATE_ATTRIBUTE_LOCAL_NAME, local_name);
 	}
@@ -648,10 +636,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getLong(NX_SLOT);
 	}
 
+	@Override
 	public DataNode setSlot(IDataset slot) {
 		return setDataset(NX_SLOT, slot);
 	}
 
+	@Override
 	public DataNode setSlotScalar(long slot) {
 		return setField(NX_SLOT, slot);
 	}
@@ -661,6 +651,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrString(NX_SLOT, NX_SLOT_ATTRIBUTE_LOCAL_NAME);
 	}
 
+	@Override
 	public void setSlotAttributeLocal_name(String local_name) {
 		setAttribute(NX_SLOT, NX_SLOT_ATTRIBUTE_LOCAL_NAME, local_name);
 	}
@@ -675,10 +666,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getLong(NX_INPUT);
 	}
 
+	@Override
 	public DataNode setInput(IDataset input) {
 		return setDataset(NX_INPUT, input);
 	}
 
+	@Override
 	public DataNode setInputScalar(long input) {
 		return setField(NX_INPUT, input);
 	}
@@ -688,6 +681,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getAttrString(NX_INPUT, NX_INPUT_ATTRIBUTE_LOCAL_NAME);
 	}
 
+	@Override
 	public void setInputAttributeLocal_name(String local_name) {
 		setAttribute(NX_INPUT, NX_INPUT_ATTRIBUTE_LOCAL_NAME, local_name);
 	}
@@ -702,10 +696,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getString(NX_TYPE);
 	}
 
+	@Override
 	public DataNode setType(IDataset type) {
 		return setDataset(NX_TYPE, type);
 	}
 
+	@Override
 	public DataNode setTypeScalar(String type) {
 		return setString(NX_TYPE, type);
 	}
@@ -715,6 +711,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getChild("efficiency", NXdata.class);
 	}
 
+	@Override
 	public void setEfficiency(NXdata efficiency) {
 		putChild("efficiency", efficiency);
 	}
@@ -729,10 +726,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDate(NX_CALIBRATION_DATE);
 	}
 
+	@Override
 	public DataNode setCalibration_date(IDataset calibration_date) {
 		return setDataset(NX_CALIBRATION_DATE, calibration_date);
 	}
 
+	@Override
 	public DataNode setCalibration_dateScalar(Date calibration_date) {
 		return setDate(NX_CALIBRATION_DATE, calibration_date);
 	}
@@ -742,6 +741,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getChild("calibration_method", NXnote.class);
 	}
 
+	@Override
 	public void setCalibration_method(NXnote calibration_method) {
 		putChild("calibration_method", calibration_method);
 	}
@@ -756,10 +756,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getString(NX_LAYOUT);
 	}
 
+	@Override
 	public DataNode setLayout(IDataset layout) {
 		return setDataset(NX_LAYOUT, layout);
 	}
 
+	@Override
 	public DataNode setLayoutScalar(String layout) {
 		return setString(NX_LAYOUT, layout);
 	}
@@ -774,10 +776,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getNumber(NX_COUNT_TIME);
 	}
 
+	@Override
 	public DataNode setCount_time(IDataset count_time) {
 		return setDataset(NX_COUNT_TIME, count_time);
 	}
 
+	@Override
 	public DataNode setCount_timeScalar(Number count_time) {
 		return setField(NX_COUNT_TIME, count_time);
 	}
@@ -787,6 +791,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getChild("data_file", NXnote.class);
 	}
 
+	@Override
 	public void setData_file(NXnote data_file) {
 		putChild("data_file", data_file);
 	}
@@ -797,6 +802,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getChild("characterization", NXcharacterization.class);
 	}
 
+	@Override
 	@Deprecated
 	public void setCharacterization(NXcharacterization characterization) {
 		putChild("characterization", characterization);
@@ -808,6 +814,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getChild(name, NXcharacterization.class);
 	}
 
+	@Override
 	@Deprecated
 	public void setCharacterization(String name, NXcharacterization characterization) {
 		putChild(name, characterization);
@@ -818,7 +825,8 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	public Map<String, NXcharacterization> getAllCharacterization() {
 		return getChildren(NXcharacterization.class);
 	}
-
+	
+	@Override
 	@Deprecated
 	public void setAllCharacterization(Map<String, NXcharacterization> characterization) {
 		setChildren(characterization);
@@ -829,6 +837,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getChild("collection", NXcollection.class);
 	}
 
+	@Override
 	public void setCollection(NXcollection collection) {
 		putChild("collection", collection);
 	}
@@ -838,6 +847,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getChild(name, NXcollection.class);
 	}
 
+	@Override
 	public void setCollection(String name, NXcollection collection) {
 		putChild(name, collection);
 	}
@@ -846,7 +856,8 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	public Map<String, NXcollection> getAllCollection() {
 		return getChildren(NXcollection.class);
 	}
-
+	
+	@Override
 	public void setAllCollection(Map<String, NXcollection> collection) {
 		setChildren(collection);
 	}
@@ -861,10 +872,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getString(NX_SEQUENCE_NUMBER);
 	}
 
+	@Override
 	public DataNode setSequence_number(IDataset sequence_number) {
 		return setDataset(NX_SEQUENCE_NUMBER, sequence_number);
 	}
 
+	@Override
 	public DataNode setSequence_numberScalar(String sequence_number) {
 		return setString(NX_SEQUENCE_NUMBER, sequence_number);
 	}
@@ -879,10 +892,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_BEAM_CENTER_X);
 	}
 
+	@Override
 	public DataNode setBeam_center_x(IDataset beam_center_x) {
 		return setDataset(NX_BEAM_CENTER_X, beam_center_x);
 	}
 
+	@Override
 	public DataNode setBeam_center_xScalar(double beam_center_x) {
 		return setField(NX_BEAM_CENTER_X, beam_center_x);
 	}
@@ -897,10 +912,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_BEAM_CENTER_Y);
 	}
 
+	@Override
 	public DataNode setBeam_center_y(IDataset beam_center_y) {
 		return setDataset(NX_BEAM_CENTER_Y, beam_center_y);
 	}
 
+	@Override
 	public DataNode setBeam_center_yScalar(double beam_center_y) {
 		return setField(NX_BEAM_CENTER_Y, beam_center_y);
 	}
@@ -915,10 +932,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getLong(NX_FRAME_START_NUMBER);
 	}
 
+	@Override
 	public DataNode setFrame_start_number(IDataset frame_start_number) {
 		return setDataset(NX_FRAME_START_NUMBER, frame_start_number);
 	}
 
+	@Override
 	public DataNode setFrame_start_numberScalar(long frame_start_number) {
 		return setField(NX_FRAME_START_NUMBER, frame_start_number);
 	}
@@ -933,10 +952,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_DIAMETER);
 	}
 
+	@Override
 	public DataNode setDiameter(IDataset diameter) {
 		return setDataset(NX_DIAMETER, diameter);
 	}
 
+	@Override
 	public DataNode setDiameterScalar(double diameter) {
 		return setField(NX_DIAMETER, diameter);
 	}
@@ -951,10 +972,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getString(NX_ACQUISITION_MODE);
 	}
 
+	@Override
 	public DataNode setAcquisition_mode(IDataset acquisition_mode) {
 		return setDataset(NX_ACQUISITION_MODE, acquisition_mode);
 	}
 
+	@Override
 	public DataNode setAcquisition_modeScalar(String acquisition_mode) {
 		return setString(NX_ACQUISITION_MODE, acquisition_mode);
 	}
@@ -969,10 +992,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getBoolean(NX_ANGULAR_CALIBRATION_APPLIED);
 	}
 
+	@Override
 	public DataNode setAngular_calibration_applied(IDataset angular_calibration_applied) {
 		return setDataset(NX_ANGULAR_CALIBRATION_APPLIED, angular_calibration_applied);
 	}
 
+	@Override
 	public DataNode setAngular_calibration_appliedScalar(boolean angular_calibration_applied) {
 		return setField(NX_ANGULAR_CALIBRATION_APPLIED, angular_calibration_applied);
 	}
@@ -987,10 +1012,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_ANGULAR_CALIBRATION);
 	}
 
+	@Override
 	public DataNode setAngular_calibration(IDataset angular_calibration) {
 		return setDataset(NX_ANGULAR_CALIBRATION, angular_calibration);
 	}
 
+	@Override
 	public DataNode setAngular_calibrationScalar(double angular_calibration) {
 		return setField(NX_ANGULAR_CALIBRATION, angular_calibration);
 	}
@@ -1005,10 +1032,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getBoolean(NX_FLATFIELD_APPLIED);
 	}
 
+	@Override
 	public DataNode setFlatfield_applied(IDataset flatfield_applied) {
 		return setDataset(NX_FLATFIELD_APPLIED, flatfield_applied);
 	}
 
+	@Override
 	public DataNode setFlatfield_appliedScalar(boolean flatfield_applied) {
 		return setField(NX_FLATFIELD_APPLIED, flatfield_applied);
 	}
@@ -1023,10 +1052,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_FLATFIELD);
 	}
 
+	@Override
 	public DataNode setFlatfield(IDataset flatfield) {
 		return setDataset(NX_FLATFIELD, flatfield);
 	}
 
+	@Override
 	public DataNode setFlatfieldScalar(double flatfield) {
 		return setField(NX_FLATFIELD, flatfield);
 	}
@@ -1041,10 +1072,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_FLATFIELD_ERROR);
 	}
 
+	@Override
 	public DataNode setFlatfield_error(IDataset flatfield_error) {
 		return setDataset(NX_FLATFIELD_ERROR, flatfield_error);
 	}
 
+	@Override
 	public DataNode setFlatfield_errorScalar(double flatfield_error) {
 		return setField(NX_FLATFIELD_ERROR, flatfield_error);
 	}
@@ -1059,10 +1092,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getBoolean(NX_PIXEL_MASK_APPLIED);
 	}
 
+	@Override
 	public DataNode setPixel_mask_applied(IDataset pixel_mask_applied) {
 		return setDataset(NX_PIXEL_MASK_APPLIED, pixel_mask_applied);
 	}
 
+	@Override
 	public DataNode setPixel_mask_appliedScalar(boolean pixel_mask_applied) {
 		return setField(NX_PIXEL_MASK_APPLIED, pixel_mask_applied);
 	}
@@ -1077,10 +1112,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getLong(NX_PIXEL_MASK);
 	}
 
+	@Override
 	public DataNode setPixel_mask(IDataset pixel_mask) {
 		return setDataset(NX_PIXEL_MASK, pixel_mask);
 	}
 
+	@Override
 	public DataNode setPixel_maskScalar(long pixel_mask) {
 		return setField(NX_PIXEL_MASK, pixel_mask);
 	}
@@ -1095,10 +1132,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getBoolean(NX_COUNTRATE_CORRECTION__APPLIED);
 	}
 
+	@Override
 	public DataNode setCountrate_correction__applied(IDataset countrate_correction__applied) {
 		return setDataset(NX_COUNTRATE_CORRECTION__APPLIED, countrate_correction__applied);
 	}
 
+	@Override
 	public DataNode setCountrate_correction__appliedScalar(boolean countrate_correction__applied) {
 		return setField(NX_COUNTRATE_CORRECTION__APPLIED, countrate_correction__applied);
 	}
@@ -1113,10 +1152,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getLong(NX_BIT_DEPTH_READOUT);
 	}
 
+	@Override
 	public DataNode setBit_depth_readout(IDataset bit_depth_readout) {
 		return setDataset(NX_BIT_DEPTH_READOUT, bit_depth_readout);
 	}
 
+	@Override
 	public DataNode setBit_depth_readoutScalar(long bit_depth_readout) {
 		return setField(NX_BIT_DEPTH_READOUT, bit_depth_readout);
 	}
@@ -1131,10 +1172,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_DETECTOR_READOUT_TIME);
 	}
 
+	@Override
 	public DataNode setDetector_readout_time(IDataset detector_readout_time) {
 		return setDataset(NX_DETECTOR_READOUT_TIME, detector_readout_time);
 	}
 
+	@Override
 	public DataNode setDetector_readout_timeScalar(double detector_readout_time) {
 		return setField(NX_DETECTOR_READOUT_TIME, detector_readout_time);
 	}
@@ -1149,10 +1192,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_TRIGGER_DELAY_TIME);
 	}
 
+	@Override
 	public DataNode setTrigger_delay_time(IDataset trigger_delay_time) {
 		return setDataset(NX_TRIGGER_DELAY_TIME, trigger_delay_time);
 	}
 
+	@Override
 	public DataNode setTrigger_delay_timeScalar(double trigger_delay_time) {
 		return setField(NX_TRIGGER_DELAY_TIME, trigger_delay_time);
 	}
@@ -1167,10 +1212,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_TRIGGER_DEAD_TIME);
 	}
 
+	@Override
 	public DataNode setTrigger_dead_time(IDataset trigger_dead_time) {
 		return setDataset(NX_TRIGGER_DEAD_TIME, trigger_dead_time);
 	}
 
+	@Override
 	public DataNode setTrigger_dead_timeScalar(double trigger_dead_time) {
 		return setField(NX_TRIGGER_DEAD_TIME, trigger_dead_time);
 	}
@@ -1185,10 +1232,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_FRAME_TIME);
 	}
 
+	@Override
 	public DataNode setFrame_time(IDataset frame_time) {
 		return setDataset(NX_FRAME_TIME, frame_time);
 	}
 
+	@Override
 	public DataNode setFrame_timeScalar(double frame_time) {
 		return setField(NX_FRAME_TIME, frame_time);
 	}
@@ -1203,10 +1252,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getString(NX_GAIN_SETTING);
 	}
 
+	@Override
 	public DataNode setGain_setting(IDataset gain_setting) {
 		return setDataset(NX_GAIN_SETTING, gain_setting);
 	}
 
+	@Override
 	public DataNode setGain_settingScalar(String gain_setting) {
 		return setString(NX_GAIN_SETTING, gain_setting);
 	}
@@ -1221,10 +1272,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getLong(NX_SATURATION_VALUE);
 	}
 
+	@Override
 	public DataNode setSaturation_value(IDataset saturation_value) {
 		return setDataset(NX_SATURATION_VALUE, saturation_value);
 	}
 
+	@Override
 	public DataNode setSaturation_valueScalar(long saturation_value) {
 		return setField(NX_SATURATION_VALUE, saturation_value);
 	}
@@ -1239,10 +1292,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getLong(NX_NUMBER_OF_CYCLES);
 	}
 
+	@Override
 	public DataNode setNumber_of_cycles(IDataset number_of_cycles) {
 		return setDataset(NX_NUMBER_OF_CYCLES, number_of_cycles);
 	}
 
+	@Override
 	public DataNode setNumber_of_cyclesScalar(long number_of_cycles) {
 		return setField(NX_NUMBER_OF_CYCLES, number_of_cycles);
 	}
@@ -1257,10 +1312,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getString(NX_SENSOR_MATERIAL);
 	}
 
+	@Override
 	public DataNode setSensor_material(IDataset sensor_material) {
 		return setDataset(NX_SENSOR_MATERIAL, sensor_material);
 	}
 
+	@Override
 	public DataNode setSensor_materialScalar(String sensor_material) {
 		return setString(NX_SENSOR_MATERIAL, sensor_material);
 	}
@@ -1275,10 +1332,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_SENSOR_THICKNESS);
 	}
 
+	@Override
 	public DataNode setSensor_thickness(IDataset sensor_thickness) {
 		return setDataset(NX_SENSOR_THICKNESS, sensor_thickness);
 	}
 
+	@Override
 	public DataNode setSensor_thicknessScalar(double sensor_thickness) {
 		return setField(NX_SENSOR_THICKNESS, sensor_thickness);
 	}
@@ -1293,10 +1352,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getDouble(NX_THRESHOLD_ENERGY);
 	}
 
+	@Override
 	public DataNode setThreshold_energy(IDataset threshold_energy) {
 		return setDataset(NX_THRESHOLD_ENERGY, threshold_energy);
 	}
 
+	@Override
 	public DataNode setThreshold_energyScalar(double threshold_energy) {
 		return setField(NX_THRESHOLD_ENERGY, threshold_energy);
 	}
@@ -1306,6 +1367,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getChild("detector_module", NXdetector_module.class);
 	}
 
+	@Override
 	public void setDetector_module(NXdetector_module detector_module) {
 		putChild("detector_module", detector_module);
 	}
@@ -1315,6 +1377,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		return getChild(name, NXdetector_module.class);
 	}
 
+	@Override
 	public void setDetector_module(String name, NXdetector_module detector_module) {
 		putChild(name, detector_module);
 	}
@@ -1323,7 +1386,8 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	public Map<String, NXdetector_module> getAllDetector_module() {
 		return getChildren(NXdetector_module.class);
 	}
-
+	
+	@Override
 	public void setAllDetector_module(Map<String, NXdetector_module> detector_module) {
 		setChildren(detector_module);
 	}

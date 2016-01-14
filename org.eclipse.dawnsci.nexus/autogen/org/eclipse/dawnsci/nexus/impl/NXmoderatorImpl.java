@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -19,7 +19,6 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -32,24 +31,17 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_DISTANCE = "distance";
-	public static final String NX_TYPE = "type";
-	public static final String NX_POISON_DEPTH = "poison_depth";
-	public static final String NX_COUPLED = "coupled";
-	public static final String NX_COUPLING_MATERIAL = "coupling_material";
-	public static final String NX_POISON_MATERIAL = "poison_material";
-	public static final String NX_TEMPERATURE = "temperature";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY,
 		NexusBaseClass.NX_LOG,
 		NexusBaseClass.NX_DATA);
 
-	protected NXmoderatorImpl(final NexusNodeFactory nodeFactory) {
+	public NXmoderatorImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXmoderatorImpl(final long oid) {
+	public NXmoderatorImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -74,6 +66,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getChild("geometry", NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(NXgeometry geometry) {
 		putChild("geometry", geometry);
 	}
@@ -83,6 +76,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getChild(name, NXgeometry.class);
 	}
 
+	@Override
 	public void setGeometry(String name, NXgeometry geometry) {
 		putChild(name, geometry);
 	}
@@ -91,7 +85,8 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	public Map<String, NXgeometry> getAllGeometry() {
 		return getChildren(NXgeometry.class);
 	}
-
+	
+	@Override
 	public void setAllGeometry(Map<String, NXgeometry> geometry) {
 		setChildren(geometry);
 	}
@@ -106,10 +101,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getDouble(NX_DISTANCE);
 	}
 
+	@Override
 	public DataNode setDistance(IDataset distance) {
 		return setDataset(NX_DISTANCE, distance);
 	}
 
+	@Override
 	public DataNode setDistanceScalar(double distance) {
 		return setField(NX_DISTANCE, distance);
 	}
@@ -124,10 +121,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getString(NX_TYPE);
 	}
 
+	@Override
 	public DataNode setType(IDataset type) {
 		return setDataset(NX_TYPE, type);
 	}
 
+	@Override
 	public DataNode setTypeScalar(String type) {
 		return setString(NX_TYPE, type);
 	}
@@ -142,10 +141,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getDouble(NX_POISON_DEPTH);
 	}
 
+	@Override
 	public DataNode setPoison_depth(IDataset poison_depth) {
 		return setDataset(NX_POISON_DEPTH, poison_depth);
 	}
 
+	@Override
 	public DataNode setPoison_depthScalar(double poison_depth) {
 		return setField(NX_POISON_DEPTH, poison_depth);
 	}
@@ -160,10 +161,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getBoolean(NX_COUPLED);
 	}
 
+	@Override
 	public DataNode setCoupled(IDataset coupled) {
 		return setDataset(NX_COUPLED, coupled);
 	}
 
+	@Override
 	public DataNode setCoupledScalar(boolean coupled) {
 		return setField(NX_COUPLED, coupled);
 	}
@@ -178,10 +181,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getString(NX_COUPLING_MATERIAL);
 	}
 
+	@Override
 	public DataNode setCoupling_material(IDataset coupling_material) {
 		return setDataset(NX_COUPLING_MATERIAL, coupling_material);
 	}
 
+	@Override
 	public DataNode setCoupling_materialScalar(String coupling_material) {
 		return setString(NX_COUPLING_MATERIAL, coupling_material);
 	}
@@ -196,10 +201,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getString(NX_POISON_MATERIAL);
 	}
 
+	@Override
 	public DataNode setPoison_material(IDataset poison_material) {
 		return setDataset(NX_POISON_MATERIAL, poison_material);
 	}
 
+	@Override
 	public DataNode setPoison_materialScalar(String poison_material) {
 		return setString(NX_POISON_MATERIAL, poison_material);
 	}
@@ -214,10 +221,12 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getDouble(NX_TEMPERATURE);
 	}
 
+	@Override
 	public DataNode setTemperature(IDataset temperature) {
 		return setDataset(NX_TEMPERATURE, temperature);
 	}
 
+	@Override
 	public DataNode setTemperatureScalar(double temperature) {
 		return setField(NX_TEMPERATURE, temperature);
 	}
@@ -227,6 +236,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getChild("temperature_log", NXlog.class);
 	}
 
+	@Override
 	public void setTemperature_log(NXlog temperature_log) {
 		putChild("temperature_log", temperature_log);
 	}
@@ -236,6 +246,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 		return getChild("pulse_shape", NXdata.class);
 	}
 
+	@Override
 	public void setPulse_shape(NXdata pulse_shape) {
 		putChild("pulse_shape", pulse_shape);
 	}

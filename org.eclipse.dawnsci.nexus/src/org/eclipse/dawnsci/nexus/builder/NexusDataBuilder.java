@@ -34,10 +34,10 @@ public interface NexusDataBuilder {
 	public static final String ATTR_SUFFIX_INDICES = "_indices";
 
 	/**
-	 * Returns the wrapped {@link NXdataImpl} object.
-	 * @return the {@link NXdataImpl}
+	 * Returns the wrapped {@link NXdata} object.
+	 * @return the {@link NXdata}
 	 */
-	public NXdataImpl getNxData();
+	public NXdata getNxData();
 
 	/**
 	 * Sets the device to use as the data device. Adds a field to the wrapped {@link NXdata}

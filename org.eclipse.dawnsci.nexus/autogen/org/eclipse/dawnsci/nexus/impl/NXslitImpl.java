@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2015-12-14T18:05:35.255Z
+ * Generated at: 2016-01-13T18:08:19.722Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,7 +17,6 @@ import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -31,17 +30,14 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
-	public static final String NX_DEPENDS_ON = "depends_on";
-	public static final String NX_X_GAP = "x_gap";
-	public static final String NX_Y_GAP = "y_gap";
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	protected NXslitImpl(final NexusNodeFactory nodeFactory) {
+	public NXslitImpl(final NexusNodeFactory nodeFactory) {
 		super(nodeFactory);
 	}
 
-	protected NXslitImpl(final long oid) {
+	public NXslitImpl(final long oid) {
 		super(oid);
 	}
 	
@@ -71,10 +67,12 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 		return getString(NX_DEPENDS_ON);
 	}
 
+	@Override
 	public DataNode setDepends_on(IDataset depends_on) {
 		return setDataset(NX_DEPENDS_ON, depends_on);
 	}
 
+	@Override
 	public DataNode setDepends_onScalar(String depends_on) {
 		return setString(NX_DEPENDS_ON, depends_on);
 	}
@@ -89,10 +87,12 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 		return getNumber(NX_X_GAP);
 	}
 
+	@Override
 	public DataNode setX_gap(IDataset x_gap) {
 		return setDataset(NX_X_GAP, x_gap);
 	}
 
+	@Override
 	public DataNode setX_gapScalar(Number x_gap) {
 		return setField(NX_X_GAP, x_gap);
 	}
@@ -107,10 +107,12 @@ public class NXslitImpl extends NXobjectImpl implements NXslit {
 		return getNumber(NX_Y_GAP);
 	}
 
+	@Override
 	public DataNode setY_gap(IDataset y_gap) {
 		return setDataset(NX_Y_GAP, y_gap);
 	}
 
+	@Override
 	public DataNode setY_gapScalar(Number y_gap) {
 		return setField(NX_Y_GAP, y_gap);
 	}
