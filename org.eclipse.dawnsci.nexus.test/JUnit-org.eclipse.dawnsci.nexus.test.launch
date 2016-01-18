@@ -8,7 +8,7 @@
 </listAttribute>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="LD_LIBRARY_PATH" value="${project_loc:org.dawnsci.nexus}/lib/${target.os}-${target.arch}:${project_loc:ncsa.hdf}/lib/${target.os}-${target.arch}"/>
-<mapEntry key="PATH" value="${project_loc:org.dawnsci.nexus}\lib\${target.os}-${target.arch};${project_loc:ncsa.hdf}\lib\${target.os}-${target.arch}"/>
+<mapEntry key="PATH" value="${project_loc:ncsa.hdf}\lib\${target.os}-${target.arch}"/>
 </mapAttribute>
 <stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value="=org.eclipse.dawnsci.nexus.test/src"/>
 <booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="true"/>
@@ -22,5 +22,4 @@
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value=""/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.dawnsci.nexus.test"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DGDALargeTestFilesLocation=${GDALargeTestFiles_loc}/"/>
 </launchConfiguration>
