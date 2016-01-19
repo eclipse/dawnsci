@@ -101,4 +101,9 @@ public class NexusScanInfo {
 		return new SliceND(context.getShape(), context.getMaxShape(), start, stop, null);
 	}
 
+	@Override
+	public String toString() {
+		return "NexusScanInfo [rank=" + rank + ", axisNames=" + axisNames + "]";
+	}
+
 }
