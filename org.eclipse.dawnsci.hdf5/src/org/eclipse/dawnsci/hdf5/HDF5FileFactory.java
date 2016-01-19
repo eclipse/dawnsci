@@ -91,6 +91,19 @@ public class HDF5FileFactory {
 		return heldPeriod;
 	}
 
+	private static void closeFile(long fid) throws HDF5LibraryException {
+		int openObjects = H5.H5Fget_obj_count(fid,
+				HDF5Constants.H5F_OBJ_LOCAL |
+				HDF5Constants.H5F_OBJ_DATASET |
+				HDF5Constants.H5F_OBJ_DATATYPE |
+				HDF5Constants.H5F_OBJ_GROUP |
+				HDF5Constants.H5F_OBJ_ATTR);
+		if (openObjects > 0) {
+			logger.error("There are " + openObjects + " hdf5 objects left open");
+		}
+		H5.H5Fclose(fid);
+	}
+
 	static {
 		new Thread(new Runnable() {
 			@Override
@@ -114,16 +127,7 @@ public class HDF5FileFactory {
 							if (a.count <= 0) {
 								if (a.time <= now) {
 									try {
-										int openObjects = H5.H5Fget_obj_count(a.id,
-												HDF5Constants.H5F_OBJ_LOCAL |
-												HDF5Constants.H5F_OBJ_DATASET |
-												HDF5Constants.H5F_OBJ_DATATYPE |
-												HDF5Constants.H5F_OBJ_GROUP |
-												HDF5Constants.H5F_OBJ_ATTR);
-										if (openObjects > 0) {
-											logger.error("There are " + openObjects + " hdf5 objects left open");
-										}
-										H5.H5Fclose(a.id);
+										closeFile(a.id);
 										INSTANCE.map.remove(f);
 // FIXME for CustomTomoConverter, etc 
 //										HierarchicalDataFactory.releaseLowLevelReadingAccess(f);
@@ -178,56 +182,86 @@ public class HDF5FileFactory {
 		synchronized (INSTANCE) {
 			try {
 				if (INSTANCE.map.containsKey(cPath)) {
-					if (asNew) {
-						logger.error("File already open and will need to closed: {}", cPath);
-						throw new ScanFileHolderException("File already open and will need to closed");
-					}
 					access = INSTANCE.map.get(cPath);
-					if (writeable && !access.writeable) {
-						logger.error("Cannot get file {} in writeable state as it has been opened read-only", cPath);
-						throw new ScanFileHolderException("Cannot get file in writeable state as it has been opened read-only");
-					}
-					access.count++;
-					fid = access.id;
-				} else {
-// FIXME for CustomTomoConverter, etc 
-//					HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
-					try {
-						access = new FileAccess();
-						access.count = 1;
-						fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
-						if (writeable && withLatestVersion) {
-							H5.H5Pset_libver_bounds(fapl, HDF5Constants.H5F_LIBVER_LATEST, HDF5Constants.H5F_LIBVER_LATEST);
-						}
-						if (asNew) {
-							access.writeable = true;
-							fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_TRUNC, HDF5Constants.H5P_DEFAULT, fapl);
+					if (asNew) {
+						// we should be able to create if nobody is actually using the old file handle,
+						// even though it hasn't been disposed yet
+						if (access.count > 0) {
+							logger.error("File already open and will need to closed: {}", cPath);
+							throw new ScanFileHolderException("File already open and will need to closed");
 						} else {
-							access.writeable = writeable;
-							if (new File(cPath).exists()) {
-								int a = writeable ? HDF5Constants.H5F_ACC_RDWR : withLatestVersion ? (HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ) : HDF5Constants.H5F_ACC_RDONLY;
-// Unconditionally setting SWMR will break the high-level API access (e.g. its use in PersistentFileImpl)
-//								int a = writeable ? HDF5Constants.H5F_ACC_RDWR : (HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ);
+							//close and allow fall through to file creation below
+							closeFile(access.id);
+							INSTANCE.map.remove(cPath);
+						}
+					} else {
+						if (writeable && !access.writeable) {
+							logger.error("Cannot get file {} in writeable state as it has been opened read-only", cPath);
+							throw new ScanFileHolderException("Cannot get file in writeable state as it has been opened read-only");
+						}
+						access.count++;
+						return access.id;
+					}
+				}
+// FIXME for CustomTomoConverter, etc 
+//				HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
+				try {
+					access = new FileAccess();
+					access.count = 1;
+					fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
+					if (writeable && withLatestVersion) {
+						H5.H5Pset_libver_bounds(fapl, HDF5Constants.H5F_LIBVER_LATEST, HDF5Constants.H5F_LIBVER_LATEST);
+					}
+					if (asNew) {
+						access.writeable = true;
+						fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_TRUNC, HDF5Constants.H5P_DEFAULT, fapl);
+					} else {
+						access.writeable = writeable;
+						if (new File(cPath).exists()) {
+							if (!writeable) {
+								// attempt to read with SWMR access first
+								int a = HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ;
+								try {
+									if (isWindows) {
+										fid = H5Fopen(cPath, a, fapl);
+									} else {
+										fid = H5.H5Fopen(cPath, a, fapl);
+									}
+								} catch (HDF5LibraryException e) {
+									// this can happen when someone else has already
+									// opened the file without SWMR
+									// i.e. high-level API access (e.g. its use in PersistentFileImpl)
+									a = HDF5Constants.H5F_ACC_RDONLY;
+									if (isWindows) {
+										fid = H5Fopen(cPath, a, fapl);
+									} else {
+										fid = H5.H5Fopen(cPath, a, fapl);
+									}
+								}
+							} else {
+								int a = HDF5Constants.H5F_ACC_RDWR;
 								if (isWindows) {
-									fid = H5Fopen(cPath, writeable ? HDF5Constants.H5F_ACC_RDWR : HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
+									fid = H5Fopen(cPath, a, fapl);
 								} else {
 									fid = H5.H5Fopen(cPath, a, fapl);
 								}
-							} else if (!writeable) {
-								logger.error("File {} does not exist!", cPath);
-								throw new FileNotFoundException("File does not exist!");
-							} else {
-								fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, fapl);
+
 							}
-						}
-					} finally {
-						if (fapl != -1) {
-							H5.H5Pclose(fapl);
+						} else if (!writeable) {
+							logger.error("File {} does not exist!", cPath);
+							throw new FileNotFoundException("File does not exist!");
+						} else {
+							fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, fapl);
 						}
 					}
-					access.id = fid;
-					INSTANCE.map.put(cPath, access);
+				} finally {
+					if (fapl != -1) {
+						H5.H5Pclose(fapl);
+					}
 				}
+				access.id = fid;
+				INSTANCE.map.put(cPath, access);
+				return fid;
 			} catch (Throwable le) {
 // FIXME for CustomTomoConverter, etc 
 //				if (!IDS.containsKey(cPath)) {
@@ -237,8 +271,6 @@ public class HDF5FileFactory {
 				throw new ScanFileHolderException("Could not acquire access to file: " + cPath, le);
 			}
 		}
-
-		return fid;
 	}
 
 	/**
