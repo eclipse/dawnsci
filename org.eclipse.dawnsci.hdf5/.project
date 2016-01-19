@@ -3,6 +3,7 @@
 	<name>org.eclipse.dawnsci.hdf5</name>
 	<comment></comment>
 	<projects>
+		<project>org.eclipse.dawnsci.nexus</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
