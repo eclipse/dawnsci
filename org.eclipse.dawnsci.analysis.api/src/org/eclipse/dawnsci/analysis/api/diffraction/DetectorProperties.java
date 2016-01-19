@@ -962,7 +962,7 @@ public class DetectorProperties implements Serializable, Cloneable {
 	}
 
 	/**
-	 * Calculate point of intersection of vector with detector
+	 * Calculate point of intersection of vector from lab frame origin with detector
 	 * 
 	 * @param v
 	 *            vector (does not have to be a unit vector)
