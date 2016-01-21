@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
@@ -18,11 +19,9 @@ import org.eclipse.dawnsci.analysis.api.metadata.DynamicConnectionInfo;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
-import org.eclipse.dawnsci.remotedataset.client.slice.DynamicConnectionInfoExt;
-import org.eclipse.jetty.websocket.WebSocket.Connection;
-import org.eclipse.jetty.websocket.WebSocket;
-import org.eclipse.jetty.websocket.WebSocketClient;
-import org.eclipse.jetty.websocket.WebSocketClientFactory;
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.WebSocketAdapter;
+import org.eclipse.jetty.websocket.client.WebSocketClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +62,7 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	private final URLBuilder urlBuilder;
 	
 	// Web socket stuff
-	private Connection connection;
+	private Session connection;
     private DataListenerDelegate eventDelegate;
 
 	private boolean dynamicShape = true;
@@ -129,7 +128,7 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
     
     public void disconnect() throws Exception {
         if (connection.isOpen()) {
-        	connection.sendMessage("Disconnected from "+urlBuilder.getPath());
+        	connection.getRemote().sendString("Disconnected from "+urlBuilder.getPath());
        	    connection.close();
         }
        	// TODO Close loader as well?    
@@ -139,36 +138,26 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		
         URI uri = URI.create(urlBuilder.getEventURL());
 
-        WebSocketClientFactory factory = new WebSocketClientFactory();
-        factory.start();
-        WebSocketClient        client = new WebSocketClient(factory);
+        WebSocketClient client = new WebSocketClient();
+        client.start();
 
         final DataEventSocket clientSocket = new DataEventSocket();
         // Attempt Connect
-        Future<Connection> fut = client.open(uri, clientSocket);
+        Future<Session> fut = client.connect(clientSocket, uri);
 
         // Wait for Connect
         connection = fut.get();
 
         // Send a message
-        connection.sendMessage("Connected to "+urlBuilder.getPath());
+        connection.getRemote().sendString("Connected to "+urlBuilder.getPath());
 	}
 	
-	private class DataEventSocket implements WebSocket, WebSocket.OnTextMessage {
-
+	public class DataEventSocket extends WebSocketAdapter {
 		@Override
-		public void onOpen(Connection connection) {
-			logger.debug(getClass()+" opened");
-		}
-
-		@Override
-		public void onClose(int closeCode, String message) {
-			logger.debug(getClass()+" closed");
-		}
-
-		@Override
-		public synchronized void onMessage(String data) {	
-			try {
+	    public void onWebSocketText(String data) {
+			
+	        super.onWebSocketText(data);			
+	        try {
 				DataEvent evt = DataEvent.decode(data);
 				if (evt.getShape()!=null) {
 					if (dynamicShape) {

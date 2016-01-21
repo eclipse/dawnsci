@@ -20,6 +20,7 @@ import org.eclipse.dawnsci.remotedataset.server.info.InfoServlet;
 import org.eclipse.dawnsci.remotedataset.server.slice.SliceServlet;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
@@ -69,20 +70,34 @@ public class DataServer extends PortServer {
 	
 	public void start(boolean block) throws Exception {
 		
-		this.server = new Server(getPort());
-        
-    	// We enable sessions on the server so that 
+		this.server = new Server();
+		ServerConnector connector = new ServerConnector(server);
+		connector.setPort(getPort());
+		connector.setReuseAddress(true);
+		server.addConnector(connector);   
+		
+		// We enable sessions on the server so that 
 		// we can cache LoaderFactories to a given session.
 		// The loader factory therefore needs a non-global 
 		// data soft reference cache.
 		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.setContextPath("/");
-        server.setHandler(context); 
-       
+		context.setContextPath("/");
+		server.setHandler(context);
+      
         // Make individual servlets
         // Slicing (large data in binary http)
 		ServletHolder holderSlice = new ServletHolder("slice", SliceServlet.class);
 		context.addServlet(holderSlice, "/slice/*");
+		
+//		// Doing events, like data changing shape.
+//		// FIXME Should not be needed
+//		WebSocketHandler wsHandler = new WebSocketHandler() {
+//			@Override
+//			public void configure(WebSocketServletFactory factory) {
+//				factory.register(FileMonitorSocket.class);
+//			}
+//		};
+//		context.setHandler(wsHandler);
 		
 		ServletHolder holderInfo = new ServletHolder("info", InfoServlet.class);
 		context.addServlet(holderInfo, "/info/*");

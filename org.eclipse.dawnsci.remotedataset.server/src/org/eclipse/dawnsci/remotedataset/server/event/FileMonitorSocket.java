@@ -20,24 +20,22 @@ import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
-import org.eclipse.jetty.websocket.WebSocket;
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class FileMonitorSocket implements WebSocket {
+class FileMonitorSocket extends WebSocketAdapter {
 	
 	private static final Logger logger = LoggerFactory.getLogger(FileMonitorSocket.class);
 	
 	private HttpServletRequest request;
 	private boolean            connected;
 
-	FileMonitorSocket(HttpServletRequest request) {
-		this.request = request;
-	}
 
 	@Override
-	public void onOpen(Connection connection) {
-		
+     public void onWebSocketConnect(Session sess) {
+ 		
 		connected = true;
 		final String spath = request.getParameter("path");
 		final String sset  = request.getParameter("dataset");
@@ -45,7 +43,7 @@ class FileMonitorSocket implements WebSocket {
 		try {
 			WatchService myWatcher = path.getFileSystem().newWatchService();
 			
-			QueueReader fileWatcher = new QueueReader(myWatcher, connection, spath, sset);
+			QueueReader fileWatcher = new QueueReader(myWatcher, sess, spath, sset);
 	        Thread th = new Thread(fileWatcher, path.getFileName()+" Watcher");
 	        
 	        // We may only monitor a directory
@@ -59,7 +57,7 @@ class FileMonitorSocket implements WebSocket {
     	} catch (Exception ne) {
 			ne.printStackTrace();
 			try {
-				connection.sendMessage(ne.getMessage());
+				sess.getRemote().sendString(ne.getMessage());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -68,7 +66,8 @@ class FileMonitorSocket implements WebSocket {
 	}
 
 	@Override
-	public void onClose(int closeCode, String message) {
+    public void onWebSocketClose(int statusCode, String reason) {
+		super.onWebSocketClose(statusCode, reason);
 		connected = false;
 	}
 
@@ -76,13 +75,13 @@ class FileMonitorSocket implements WebSocket {
     	 
         /** the watchService that is passed in from above */
         private WatchService watcher;
-        private Connection   connection;
+        private Session      session;
 		private String spath;
 		private String sdataset;
 		
-        public QueueReader(WatchService watcher, Connection connection, String path, String dataset) {
+        public QueueReader(WatchService watcher, Session session, String path, String dataset) {
             this.watcher    = watcher;
-            this.connection = connection;
+            this.session    = session;
             this.spath      = path;
             this.sdataset   = dataset;
         }
@@ -143,7 +142,7 @@ class FileMonitorSocket implements WebSocket {
 			                    // We manually JSON the object because we
 			                	// do not want a dependency and object simple
 			                	String json = evt.encode();
-			                	connection.sendMessage(json);
+			                	session.getRemote().sendString(json);
 			                	
 	 	             		} catch (Exception ne) {
 	 	             			logger.error("Exception getting data from "+path);
@@ -155,7 +154,7 @@ class FileMonitorSocket implements WebSocket {
              		} finally {
                     	key.reset();
                     	
-                    	if (!connection.isOpen() || !connected) {
+                    	if (!session.isOpen() || !connected) {
                     		break;
                     	}
              		}
@@ -163,7 +162,7 @@ class FileMonitorSocket implements WebSocket {
                 
             } catch (Exception e) {
             	logger.error("Exception monitoring "+path, e);
-                connection.close(403, e.getMessage());
+            	session.close(403, e.getMessage());
             } 
         }
     }

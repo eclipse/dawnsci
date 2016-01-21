@@ -1,25 +1,13 @@
 package org.eclipse.dawnsci.remotedataset.test.server;
 
-import org.eclipse.jetty.websocket.WebSocket;
+import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 
 
-public class EventClientSocket implements WebSocket, WebSocket.OnTextMessage {
-
-	@Override
-	public void onOpen(Connection connection) {
-		// TODO Auto-generated method stub
-		
-	}
+public class EventClientSocket extends WebSocketAdapter {
 
 	@Override
-	public void onClose(int closeCode, String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onMessage(String data) {
-		System.out.println("Message from server "+data);
-	}
+	public void onWebSocketText(String message) {
+	    System.out.println("Message from server "+message);
+    }
 	
 }

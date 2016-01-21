@@ -3,9 +3,8 @@ package org.eclipse.dawnsci.remotedataset.test.server;
 import java.net.URI;
 import java.util.concurrent.Future;
 
-import org.eclipse.jetty.websocket.WebSocket.Connection;
-import org.eclipse.jetty.websocket.WebSocketClient;
-import org.eclipse.jetty.websocket.WebSocketClientFactory;
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.client.WebSocketClient;
 import org.junit.Test;
 
 /**
@@ -21,22 +20,21 @@ public class EventClientTest {
 		
         URI uri = URI.create("ws://localhost:8080/event/?path=c%3A/Work/results/Test.txt");
 
-        WebSocketClientFactory factory = new WebSocketClientFactory();
-        factory.start();
-        WebSocketClient        client = new WebSocketClient(factory);
+        WebSocketClient client = new WebSocketClient();
+        client.start();
         try {
             
-        	Connection connection = null;
+        	Session connection = null;
         	try {
             	final EventClientSocket clientSocket = new EventClientSocket();
                  // Attempt Connect
-                Future<Connection> fut = client.open(uri, clientSocket);
+                Future<Session> fut = client.connect(clientSocket, uri);
                
                 // Wait for Connect
                 connection = fut.get();
                 
                 // Send a message
-                connection.sendMessage("Hello World");
+                connection.getRemote().sendString("Hello World");
                 
                 // Close session from the server
                 while(connection.isOpen()) {
@@ -47,6 +45,8 @@ public class EventClientTest {
             }
         } catch (Throwable t) {
             t.printStackTrace(System.err);
+        } finally {
+        	client.stop();
         }
     }
 }
