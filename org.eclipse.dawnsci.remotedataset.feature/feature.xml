@@ -38,7 +38,6 @@
          version="0.0.0"
          unpack="false"/>
 
-
    <plugin
          id="org.eclipse.jetty.websocket.javax.websocket"
          download-size="0"
@@ -152,23 +151,10 @@
          unpack="false"/>
 
    <plugin
-         id="javax.websocket-api"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.jetty.jaspi"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
-         id="javax.security.auth.message"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 </feature>
