@@ -26,9 +26,11 @@ import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
  * directly in the {@link HierarchicalDataFile} which 
  * are not thread safe.
  * 
- * @author gerring
+ * @author Matthew Gerring
  *
+ * @deprecated Please use ILazyWriteableDataset to write and ILoaderService to read.
  */
+@Deprecated
 public interface IHierarchicalDataFile extends AutoCloseable {
 
 	public static final int NUMBER_ARRAY              = 17061;

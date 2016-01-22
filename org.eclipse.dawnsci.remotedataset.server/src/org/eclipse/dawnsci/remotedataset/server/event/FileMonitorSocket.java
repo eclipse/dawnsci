@@ -14,8 +14,6 @@ import java.nio.file.WatchService;
 import java.nio.file.attribute.FileTime;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
@@ -100,10 +98,7 @@ public class FileMonitorSocket extends WebSocketAdapter {
         public void run() {
         	
         	final Path   path  = Paths.get(spath);
-            try {
-            	// We are monitoring this file, check it against what has happened
-       			FileTime     time  = Files.getLastModifiedTime(path);
-       			
+            try {       			
        			// We wait until the file we are told to monitor exists.
        			while(!Files.exists(path)) {
        				Thread.sleep(200);
@@ -122,14 +117,7 @@ public class FileMonitorSocket extends WebSocketAdapter {
 	
 	 	             		Path   epath = (Path)event.context();
 	 	             		if (!Files.isDirectory(path) && !path.endsWith(epath)) continue;
-	 	             		
-	 	             		FileTime tmp = Files.getLastModifiedTime(path);
-	 	             		if (time.equals(tmp)) {
-	 	             			logger.debug("Time stamp not changed: "+path);
-	 	             			continue;
-	 	             		}
-	 	             		time  = tmp;
-	 	             		
+	 	             			 	             		
 	 	             		try {
 			             		// Data has changed, read its shape and publish the event using a web socket.
 			             		final IDataHolder  holder = ServiceHolder.getLoaderService().getData(spath, new IMonitor.Stub());

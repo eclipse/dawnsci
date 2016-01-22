@@ -32,6 +32,7 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionBindingListener;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
@@ -174,6 +175,11 @@ class SliceRequest implements HttpSessionBindingListener {
 		final ILazyDataset lz = dataset!=null 
 				              ? holder.getLazyDataset(dataset)
 				              : holder.getLazyDataset(0);
+		
+	    // In order to pass RemoteDataset.testRemoteSlicingUsingSliceND() this is required.
+	    if (lz instanceof IDynamicDataset) {
+	    	((IDynamicDataset)lz).refreshShape();
+	    }
 
 	    if (dataset!=null && lz==null) throw new Exception("Dataset '"+dataset+"' not found in data holder!");
 	    

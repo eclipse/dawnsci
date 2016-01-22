@@ -35,12 +35,13 @@ public class RemoteDatasetTest extends DataServerTest {
 			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
 			data.connect();
 
-			Thread.sleep(2000); // Let it get going
+			Thread.sleep(1000); // Let it get going
 			
 			for (int i = 0; i < 10; i++) {
 				
 				SliceND sliceND = SliceND.createSlice(data, new int[]{i,0,0}, new int[]{i+1,1024,1024},new int[]{1,1,1});
 				IDataset slice = data.getSlice(sliceND);
+				if (slice == null) throw new Exception("Unable to get slice from "+data.getName()+". Index is "+i);
                 if (!Arrays.equals(slice.getShape(), new int[]{1,1024,1024})) {
                 	throw new Exception("Incorrect remote slice! "+Arrays.toString(slice.getShape()));
                 }
@@ -124,8 +125,10 @@ public class RemoteDatasetTest extends DataServerTest {
 				@Override
 				public void dataChangePerformed(DataEvent evt) {
 					try {
-						if (!Arrays.equals(evt.getShape(), data.getShape())) throw new Exception("Data shape and event shape are not the same!");
 						System.out.println("Data changed, shape is "+Arrays.toString(evt.getShape()));
+						if (!Arrays.equals(evt.getShape(), data.getShape())) {
+							throw new Exception("Data shape and event shape are not the same!");
+						}
 						events.add(evt);
 					} catch (Exception ne) {
 						ne.printStackTrace();
@@ -136,7 +139,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			Thread.sleep(time);
 			
 			if (events.isEmpty()) throw new Exception("No data events returned while thread writing to file!");
-			if (events.size() < ((time/1000)-5)) throw new Exception("Less data events than expected! Event count was "+events.size());
+			if (events.size() < ((time/1000)-5)) throw new Exception("Less data events than expected! Event count was "+events.size()+" Min expected was "+((time/1000)-5));
 		
 		} finally {
 			data.disconnect();
