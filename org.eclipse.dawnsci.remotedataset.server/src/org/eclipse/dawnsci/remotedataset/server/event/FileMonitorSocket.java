@@ -12,6 +12,7 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.nio.file.attribute.FileTime;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,11 +26,10 @@ import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class FileMonitorSocket extends WebSocketAdapter {
+public class FileMonitorSocket extends WebSocketAdapter {
 	
 	private static final Logger logger = LoggerFactory.getLogger(FileMonitorSocket.class);
 	
-	private HttpServletRequest request;
 	private boolean            connected;
 
 
@@ -37,8 +37,8 @@ class FileMonitorSocket extends WebSocketAdapter {
      public void onWebSocketConnect(Session sess) {
  		
 		connected = true;
-		final String spath = request.getParameter("path");
-		final String sset  = request.getParameter("dataset");
+		final String spath = getFirstValue(sess, "path");
+		final String sset  = getFirstValue(sess, "dataset");
 		final Path   path  = Paths.get(spath);
 		try {
 			WatchService myWatcher = path.getFileSystem().newWatchService();
@@ -63,6 +63,11 @@ class FileMonitorSocket extends WebSocketAdapter {
 			}
 		}
 		
+	}
+
+	private String getFirstValue(Session sess, String name) {
+		final List<String> vals = sess.getUpgradeRequest().getParameterMap().get(name);
+		return vals!=null?vals.get(0):null;
 	}
 
 	@Override
