@@ -179,6 +179,13 @@
          unpack="false"/>
 
    <plugin
+         id="org.objectweb.asm.analysis"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.objectweb.asm.commons"
          download-size="0"
          install-size="0"
@@ -208,6 +215,20 @@
 
    <plugin
          id="org.apache.aries.util"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="javax.security.auth.message"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="javax.websocket"
          download-size="0"
          install-size="0"
          version="0.0.0"
