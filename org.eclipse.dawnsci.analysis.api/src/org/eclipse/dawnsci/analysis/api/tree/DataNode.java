@@ -67,6 +67,12 @@ public interface DataNode extends Node {
 	 * @param chunkShape
 	 */
 	public void setChunkShape(long... chunkShape);
+	
+	/**
+	 * Get the rank of the dataset
+	 * @return rank
+	 */
+	public int getRank();
 
 	/**
 	 * @return true if this dataset is supported

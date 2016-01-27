@@ -36,6 +36,7 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	private String text;
 	private String type;
 	private int maxTextLength = -1;
+	private int rank = -1;
 
 	/**
 	 * Construct a data node with given object ID
@@ -91,14 +92,22 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 
 	@Override
 	public void setMaxShape(long... maxShape) {
-		if (maxShape != null && dataset != null && maxShape.length != dataset.getRank()) {
+		if (dataset == null) {
+			rank = maxShape.length;
+		} else if (maxShape != null && maxShape.length != dataset.getRank()) {
 			throw new IllegalArgumentException("Maximum shape must match rank of dataset");
 		}
+		
 		this.maxShape = maxShape;
 		
 		if (dataset != null && dataset instanceof IDynamicDataset) {
 			((IDynamicDataset) dataset).setMaxShape(toIntArray(maxShape));
 		}
+	}
+	
+	@Override
+	public int getRank() {
+		return rank;
 	}
 	
 	@Override
@@ -179,7 +188,7 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	@Override
 	public void setDataset(final ILazyDataset lazyDataset) {
 		dataset = lazyDataset;
-		int rank = dataset.getRank();
+		rank = dataset.getRank();
 		int[] mshape = null;
 		if (maxShape != null) {
 			mshape = new int[rank];
