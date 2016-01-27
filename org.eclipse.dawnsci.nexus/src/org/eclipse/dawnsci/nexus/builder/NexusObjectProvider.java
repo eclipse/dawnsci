@@ -12,7 +12,8 @@
 
 package org.eclipse.dawnsci.nexus.builder;
 
-import org.eclipse.dawnsci.nexus.NXdata;
+import java.util.List;
+
 import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXpositioner;
@@ -69,25 +70,26 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	public N getNexusObject();
 
 	/**
-	 * Returns the name of the default data field within the base class. This is the
-	 * field that will be linked to when this object is added to a {@link NexusDataBuilder}.
+	 * Returns the data field names for this object. These are the fields
+	 * that will be linked to when this object is added to a {@link NexusDataBuilder}.
+	 * @return
+	 */
+	public List<String> getDataFieldNames();
+	
+	/**
+	 * Returns the name of the demand field for this object. This method
+	 * will generally be set for scannables. 
+	 * @return name of demand field, or <code>null</code>
+	 */
+	public String getDemandFieldName();
+
+	/**
+	 * Returns the name of the default data field to write to within the base class.
 	 *
 	 * @return data node name
 	 */
 	public String getDefaultDataFieldName();
 
-	/**
-	 * Returns the name to use as the axis when this item is added to a {@link NexusDataBuilder}.
-	 * This is the name of the field created in the {@link NXdata} group that links to the
-	 * default data node within the nexus object for this 
-	 * nexus object provider (as returned by {@link #getNexusObject()}).
-	 * 
-	 * <p>A class implementing this interface may choose to return the same value as returned by
-	 * {@link #getName}, or the value as returned by {@link #getDefaultDataFieldName()},
-	 * or a different value entirely
-	 * @return default axis name
-	 */
-	public String getDefaultAxisName();
 	
 	/**
 	 * Returns the category for this {@link NexusObjectProvider}. When adding
@@ -100,5 +102,5 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * @return category for this object
 	 */
 	public NexusBaseClass getCategory();
-
+	
 }

@@ -12,6 +12,10 @@
 
 package org.eclipse.dawnsci.nexus.builder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
@@ -57,28 +61,22 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 
 	public static final String DEFAULT_DATA_NODE_NAME = "data";
 
-	protected N nexusObject = null;
+	private final NexusBaseClass nexusBaseClass;
 
-	protected String name;
+	private N nexusObject = null;
 
-	protected final NexusBaseClass nexusBaseClass;
+	private String name;
 
-	protected String defaultDataNodeName;
+	private List<String> dataFieldNames = null;
+	
+	private String demandFieldName = null;
+	
+	private String defaultDataFieldName = null;
 
-	protected NexusBaseClass category;
-
-	private boolean useDeviceNameAsAxisName = false;
-
-	private String axisName = null;
+	private NexusBaseClass category;
 
 	public AbstractNexusProvider(NexusBaseClass nexusBaseClass) {
 		this(getDefaultName(nexusBaseClass), nexusBaseClass);
-	}
-
-	public static String getDefaultName(NexusBaseClass nexusBaseClass) {
-		// the default name is the base class name without the initial 'NX',
-		// e.g. for 'NXpositioner' the default name is 'positioner'
-		return nexusBaseClass.toString().substring(2);
 	}
 
 	/**
@@ -87,7 +85,7 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	 * @param nexusBaseClass base class type
 	 */
 	public AbstractNexusProvider(String name, NexusBaseClass nexusBaseClass) {
-		this(name, nexusBaseClass, DEFAULT_DATA_NODE_NAME, null);
+		this(name, nexusBaseClass, null, DEFAULT_DATA_NODE_NAME);
 	}
 
 	/**
@@ -97,8 +95,8 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	 * @param nexusBaseClass base class type
 	 */
 	public AbstractNexusProvider(String name, NexusBaseClass nexusBaseClass,
-			String dataNodeName) {
-		this(name, nexusBaseClass, dataNodeName, null);
+			String defaultDataFieldName) {
+		this(name, nexusBaseClass, null, defaultDataFieldName);
 	}
 
 	/**
@@ -106,13 +104,29 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	 * data node name and category.
 	 * @param name name
 	 * @param nexusBaseClass base class type
+	 * @param category
+	 * @param defaultDataFieldName name of the default data field
 	 */
 	public AbstractNexusProvider(String name, NexusBaseClass nexusBaseClass,
-			String dataNodeName, NexusBaseClass category) {
+			NexusBaseClass category, String defaultDataFieldName, String... remainingDataFieldNames) {
 		this.name = name;
 		this.nexusBaseClass = nexusBaseClass;
-		this.defaultDataNodeName = dataNodeName;
 		this.category = category;
+		
+		this.defaultDataFieldName = defaultDataFieldName;
+		this.dataFieldNames = new ArrayList<>(remainingDataFieldNames.length + 1);
+		if (defaultDataFieldName != null) {
+			this.dataFieldNames.add(defaultDataFieldName);
+		}
+		if (remainingDataFieldNames.length > 0) {
+			this.dataFieldNames.addAll(Arrays.asList(remainingDataFieldNames));
+		}
+	}
+
+	public static String getDefaultName(NexusBaseClass nexusBaseClass) {
+		// the default name is the base class name without the initial 'NX',
+		// e.g. for 'NXpositioner' the default name is 'positioner'
+		return nexusBaseClass.toString().substring(2);
 	}
 
 	/* (non-Javadoc)
@@ -182,27 +196,44 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	 */
 	@Override
 	public String getDefaultDataFieldName() {
-		return defaultDataNodeName;
+		if (defaultDataFieldName != null) {
+			return defaultDataFieldName;
+		}
+		if (dataFieldNames != null && !dataFieldNames.isEmpty()) {
+			return dataFieldNames.get(0);
+		}
+		
+		return null;
 	}
-
+	
 	public void setDefaultDataFieldName(String defaultDataFieldName) {
-		this.defaultDataNodeName = defaultDataFieldName;
+		this.defaultDataFieldName = defaultDataFieldName;
+	}
+	
+	@Override
+	public List<String> getDataFieldNames() {
+		return dataFieldNames;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getDefaultAxisName()
-	 */
+	public void setDataFieldNames(String... dataFieldNames) {
+		this.dataFieldNames.clear();
+		this.dataFieldNames = new ArrayList<>(Arrays.asList(dataFieldNames));  
+	}
+	
+	public void addDataFieldNames(String... dataFieldName) {
+		if (this.dataFieldNames == null) {
+			this.dataFieldNames = new ArrayList<>();
+		}
+		this.dataFieldNames.addAll(Arrays.asList(dataFieldName));
+	}
+
 	@Override
-	public String getDefaultAxisName() {
-		if (axisName != null) {
-			return axisName;
-		}
-
-		if (useDeviceNameAsAxisName) {
-			return getName();
-		}
-
-		return getDefaultDataFieldName();
+	public String getDemandFieldName() {
+		return demandFieldName;
+	}
+	
+	public void setDemandFieldName(String demandFieldName) {
+		this.demandFieldName = demandFieldName; 
 	}
 
 	/* (non-Javadoc)
@@ -213,20 +244,8 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 		return category;
 	}
 
-	public AbstractNexusProvider<N> setCategory(NexusBaseClass category) {
+	public void setCategory(NexusBaseClass category) {
 		this.category = category;
-		return this;
-	}
-
-	public AbstractNexusProvider<N> useDeviceNameAsAxisName(boolean useDeviceNameAsAxisName) {
-		this.useDeviceNameAsAxisName = useDeviceNameAsAxisName;
-		this.axisName = null;
-		return this;
-	}
-
-	public AbstractNexusProvider<N> setAxisName(String axisName) {
-		this.axisName = axisName;
-		return this;
 	}
 
 	public ILazyWriteableDataset getDefaultDataset() {
