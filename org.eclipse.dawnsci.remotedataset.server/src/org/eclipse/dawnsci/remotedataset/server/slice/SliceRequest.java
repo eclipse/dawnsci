@@ -356,7 +356,7 @@ class SliceRequest implements HttpSessionBindingListener {
 		try {
 			// We remove the origin metadata because the reference
 			// to the original dataset is not desirable.
-			data.clearMetadata(OriginMetadata.class);
+			data.clearMetadata(null);
 			ostream.writeObject(data);
 			
 		} catch (Exception ne) {
