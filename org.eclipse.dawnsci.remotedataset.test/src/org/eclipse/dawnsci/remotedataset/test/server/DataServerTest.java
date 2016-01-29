@@ -13,6 +13,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.analysis.dataset.function.Downsample;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
@@ -29,7 +30,6 @@ import org.eclipse.swt.graphics.ImageData;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-import uk.ac.diamond.scisoft.analysis.dataset.function.Downsample;
 import uk.ac.diamond.scisoft.analysis.osgi.LoaderServiceImpl;
 
 public class DataServerTest {
