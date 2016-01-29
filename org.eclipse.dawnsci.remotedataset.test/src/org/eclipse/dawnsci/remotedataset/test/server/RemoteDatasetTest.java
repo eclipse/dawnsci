@@ -10,7 +10,9 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.junit.Test;
 
 /**
@@ -30,7 +32,8 @@ public class RemoteDatasetTest extends DataServerTest {
 			testIsRunning = true;
 			final File h5File = startHDF5WritingThread(1000);
 			
-			final IRemoteDataset data = ServiceHolder.getRemoteDatasetService().createRemoteDataset("localhost", 8080);
+			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
+			final IRemoteDataset data =service.createRemoteDataset("localhost", 8080);
 			data.setPath(h5File.getAbsolutePath());
 			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
 			data.connect();
@@ -60,7 +63,8 @@ public class RemoteDatasetTest extends DataServerTest {
 			testIsRunning = true;
 			final File h5File = startHDF5WritingThread();
 			
-			final IRemoteDataset data = ServiceHolder.getRemoteDatasetService().createRemoteDataset("localhost", 8080);
+			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
+			final IRemoteDataset data =service.createRemoteDataset("localhost", 8080);
 			data.setPath(h5File.getAbsolutePath());
 			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
 			data.connect();
@@ -79,7 +83,8 @@ public class RemoteDatasetTest extends DataServerTest {
 			final File dir = startFileWritingThread(true);
 			
 			// Set the into, then call connect().
-			final IRemoteDataset data = ServiceHolder.getRemoteDatasetService().createRemoteDataset("localhost", 8080);
+			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
+			final IRemoteDataset data =service.createRemoteDataset("localhost", 8080);
 			data.setPath(dir.getAbsolutePath());
 			data.setDataset("image"); // We just get the first image in the PNG file.
 			data.connect();
@@ -99,7 +104,8 @@ public class RemoteDatasetTest extends DataServerTest {
 			final File tmpData = startFileWritingThread(false);
 						
 			// Set the into, then call connect().
-			IRemoteDataset data = ServiceHolder.getRemoteDatasetService().createRemoteDataset("localhost", 8080);
+			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
+			final IRemoteDataset data =service.createRemoteDataset("localhost", 8080);
 			data.setPath(tmpData.getAbsolutePath());
 			data.setDataset(null); // We just get the first image in the PNG file.
 			data.connect();

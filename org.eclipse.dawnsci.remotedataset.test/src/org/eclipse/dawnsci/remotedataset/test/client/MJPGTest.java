@@ -42,8 +42,6 @@ public class MJPGTest {
 		ServiceHolder.setImageService(new ImageService());
 		ServiceHolder.setLoaderService(new LoaderServiceImpl());
 		ServiceHolder.setPlotImageService(new PlotImageService());
-		ServiceHolder.setRemoteDatasetService(service);
-
 	}
 	
 	@Test

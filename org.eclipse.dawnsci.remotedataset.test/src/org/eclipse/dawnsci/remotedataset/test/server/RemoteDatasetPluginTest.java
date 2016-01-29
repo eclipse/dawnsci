@@ -5,6 +5,7 @@ import java.io.File;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.eclipse.dawnsci.slicing.api.data.ITransferableDataManager;
 import org.eclipse.dawnsci.slicing.api.data.TransferableLazyDataset;
 import org.eclipse.dawnsci.slicing.api.system.ISliceSystem;
@@ -30,7 +31,7 @@ public class RemoteDatasetPluginTest extends DataServerTest {
 			testIsRunning = true;
 			final File h5File = startHDF5WritingThread(); // This is an HDF5 file which is growing as a thread writes it.
 			
-			IRemoteDatasetService service = ServiceHolder.getRemoteDatasetService();
+			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 			final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);
 			data.setPath(h5File.getAbsolutePath());
 			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.

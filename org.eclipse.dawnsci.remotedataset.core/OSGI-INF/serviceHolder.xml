@@ -5,5 +5,4 @@
    <reference bind="setImageService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.histogram.IImageService" name="IImageService" policy="static"/>
    <reference bind="setDownService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.downsample.IDownsampleService" name="IDownsampleService" policy="static"/>
    <reference bind="setPlotImageService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.image.IPlotImageService" name="IPlotImageService" policy="static"/>
-   <reference bind="setRemoteDatasetService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService" name="IRemoteDatasetService" policy="static"/>
 </scr:component>

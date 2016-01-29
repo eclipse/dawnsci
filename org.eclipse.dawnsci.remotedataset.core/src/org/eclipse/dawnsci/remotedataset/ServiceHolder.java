@@ -70,12 +70,4 @@ public class ServiceHolder {
 		ServiceHolder.plotImageService = plotImageService;
 	}
 
-	public static IRemoteDatasetService getRemoteDatasetService() {
-		return remoteDatasetService;
-	}
-
-	public static void setRemoteDatasetService(
-			IRemoteDatasetService remoteDatasetService) {
-		ServiceHolder.remoteDatasetService = remoteDatasetService;
-	}
 }

@@ -15,6 +15,7 @@ import java.nio.file.attribute.FileTime;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
+import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
@@ -128,6 +129,11 @@ public class FileMonitorSocket extends WebSocketAdapter {
 						                              : holder.getLazyDataset(0);
 			             		
 						        if (lz == null) continue; // We do not stop if the loader got nothing.
+						        
+						        if (lz instanceof IDynamicDataset) {
+						            ((IDynamicDataset)lz).refreshShape();	
+						        }
+						        
 						        
 			                	final DataEvent evt = new DataEvent(lz.getName(), lz.getShape());
 			                	evt.setFilePath(spath);
