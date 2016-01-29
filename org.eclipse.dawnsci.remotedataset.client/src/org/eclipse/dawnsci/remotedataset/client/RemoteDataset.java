@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -67,6 +68,8 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	private boolean dynamicShape = true;
 	private int[] transShape;
 
+	private Executor exec;
+
 	/**
 	 * 
 	 */
@@ -90,10 +93,11 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	 * @param serverName
 	 * @param port
 	 */
-	public RemoteDataset(String serverName, int port) {
+	public RemoteDataset(String serverName, int port, Executor exec) {
 		super("unknown", Dataset.INT, new int[]{1}, new int[]{-1}, null, null);
 		this.urlBuilder = new URLBuilder(serverName, port);
 		this.eventDelegate = new DataListenerDelegate();
+		this.exec       = exec;
 	}
 	
 	/**
@@ -137,7 +141,7 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		
         URI uri = URI.create(urlBuilder.getEventURL());
 
-        WebSocketClient client = new WebSocketClient();
+        WebSocketClient client = new WebSocketClient(exec);
         client.start();
 
         final DataEventSocket clientSocket = new DataEventSocket();

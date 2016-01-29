@@ -2,6 +2,8 @@ package org.eclipse.dawnsci.remotedataset.client;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ForkJoinPool;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
@@ -17,7 +19,7 @@ public class RemoteDatasetServiceImpl implements IRemoteDatasetService {
 	}
 	@Override
 	public IRemoteDataset createRemoteDataset(String serverName, int port) {
-    	return new RemoteDataset(serverName, port);
+    	return new RemoteDataset(serverName, port, getExecutor());
 	}
 	
 	@Override
@@ -41,5 +43,18 @@ public class RemoteDatasetServiceImpl implements IRemoteDatasetService {
     	client.setImageCache(cacheSize); // More than we will send...
     	client.setSleep(sleepTime);
 		return client;
+	}
+
+	private static Executor executor;
+	
+	@Override
+	public void setExecutor(Executor exec) {
+		executor = exec;
+	}
+
+	@Override
+	public Executor getExecutor() {
+		if (executor==null) executor = new ForkJoinPool();
+		return null;
 	}
 }

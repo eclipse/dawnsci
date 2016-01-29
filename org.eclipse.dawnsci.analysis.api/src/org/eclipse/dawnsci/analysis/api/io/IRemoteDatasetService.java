@@ -10,6 +10,7 @@
 package org.eclipse.dawnsci.analysis.api.io;
 
 import java.net.URL;
+import java.util.concurrent.Executor;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 
@@ -75,4 +76,22 @@ public interface IRemoteDatasetService {
 	 * an MJPG stream. This dataset is loaded data unlike the one above. It may be cast with impunity to IDataset
 	 */
 	public IRemoteDataset createGrayScaleMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception;
+	
+
+	/**
+	 * Set the executor used when a client connection is made.
+	 * 
+	 * NOTE Calling this method sets the executor for all future instances of the
+	 * RemoteDatasetService as well. Old IRemoteDatasets which are connected will
+	 * continue to use the old Executor.
+	 * 
+	 * @param exec
+	 */
+	public void setExecutor(Executor exec);
+	
+	/**
+	 * Get the executor used when a client connection is made.
+	 */
+	public Executor getExecutor();
+
 }
