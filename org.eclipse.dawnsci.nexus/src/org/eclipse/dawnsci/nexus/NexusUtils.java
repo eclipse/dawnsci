@@ -415,31 +415,6 @@ public class NexusUtils {
 	 * @return chunking estimate
 	 */
 	public static int[] estimateChunking(int[] expectedMaxShape, int dataByteSize) {
-		// aim for at most a 1MB chunk
-		final long targetSize = 1024 * 1024;
-		if (expectedMaxShape == null) {
-			throw new NullPointerException("Must provide an expected shape");
-		}
-		for (int d : expectedMaxShape) {
-			if (d <= 0) {
-				throw new IllegalArgumentException("Shape estimation must have dimensions greater than zero");
-			}
-		}
-		int[] chunks = Arrays.copyOf(expectedMaxShape, expectedMaxShape.length);
-		long currentSize = dataByteSize;
-		for (int i : chunks) {
-			currentSize *= (long) i;
-		}
-		int index = 0;
-		while (currentSize > targetSize) {
-			chunks[index] = (int) (Math.round((chunks[index]) / 2.0));
-			index++;
-			index %= chunks.length;
-			currentSize = dataByteSize;
-			for (int i : chunks) {
-				currentSize *= (long) i;
-			}
-		}
-		return chunks;
+		return estimateChunking(expectedMaxShape, dataByteSize, null);
 	}
 }
