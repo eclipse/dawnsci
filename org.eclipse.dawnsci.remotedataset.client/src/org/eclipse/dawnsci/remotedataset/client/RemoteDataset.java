@@ -71,6 +71,8 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 
 	private Executor exec;
 
+	private WebSocketClient client;
+
 	/**
 	 * 
 	 */
@@ -131,20 +133,23 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
     }
     
     public void disconnect() throws Exception {
+    	
         if (connection.isOpen()) {
         	connection.getRemote().sendString("Disconnected from "+urlBuilder.getPath());
        	    connection.close();
         }
-       	// TODO Close loader as well?    
+    	if (client!=null && client.isStarted()) {
+    		client.stop();
+    	}
     }
 	
 	private void createFileListener() throws Exception {
 		
         URI uri = URI.create(urlBuilder.getEventURL());
 
-        WebSocketClient client = new WebSocketClient(exec);
+        this.client = new WebSocketClient(exec);
         client.start();
-
+       
         final DataEventSocket clientSocket = new DataEventSocket();
         // Attempt Connect
         Future<Session> fut = client.connect(clientSocket, uri);
