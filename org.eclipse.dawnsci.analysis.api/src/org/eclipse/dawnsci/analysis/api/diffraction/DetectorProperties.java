@@ -1155,6 +1155,51 @@ public class DetectorProperties implements Serializable, Cloneable {
 	}
 
 	/**
+	 * Calculate solid angle subtended by pixel
+	 * @param x
+	 * @param y
+	 * @return solid angle
+	 */
+	public double calculateSolidAngle(final int x, final int y) {
+		Vector3d a = pixelPosition(x, y);
+		Vector3d ab = getPixelRow();
+		Vector3d ac = getPixelColumn();
+
+		Vector3d b = new Vector3d();
+		Vector3d c = new Vector3d();
+		b.add(a, ab);
+		c.add(a, ac);
+		double s = calculatePlaneTriangleSolidAngle(a, b, c);
+
+		a.add(b, ac);
+		return s + calculatePlaneTriangleSolidAngle(b, a, c); // order is important
+	}
+
+	/**
+	 * Calculate solid angle subtended by a plane triangle with given vertices
+	 * @param a
+	 * @param b
+	 * @param c
+	 * @return solid angle
+	 */
+	public static double calculatePlaneTriangleSolidAngle(Vector3d a, Vector3d b, Vector3d c) {
+		// A. van Oosterom & J. Strackee, "The Solid Angle of a Plane Triangle", IEEE Trans.
+		// Biom Eng BME-30(2) pp125-6 (1983)
+		// tan(Omega/2) = a . (b x c) / [ a * b * c + (a . b) * c + (b . c) * a + (c . a) *b ]
+		double al = a.length();
+		double bl = b.length();
+		double cl = c.length();
+		double denom = al * bl * cl + a.dot(b)*cl + al * b.dot(c) + a.dot(c) * bl; 
+		Vector3d bc = new Vector3d();
+		bc.cross(b, c);
+		double ang = Math.atan(Math.abs(a.dot(bc))/denom);
+		if (ang < 0) {
+			ang += Math.PI;
+		}
+		return 2 * ang;
+	}
+
+	/**
 	 * 
 	 * @param original
 	 */
