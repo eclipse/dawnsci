@@ -65,7 +65,6 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	private Session connection;
     private DataListenerDelegate eventDelegate;
 
-    private boolean writingExpected = true;
 	private boolean dynamicShape = true;
 	private int[] transShape;
 
@@ -99,6 +98,7 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	public RemoteDataset(String serverName, int port, Executor exec) {
 		super("unknown", Dataset.INT, new int[]{1}, new int[]{-1}, null, null);
 		this.urlBuilder = new URLBuilder(serverName, port);
+		urlBuilder.setWritingExpected(true);
 		this.eventDelegate = new DataListenerDelegate();
 		this.exec       = exec;
 	}
@@ -276,10 +276,10 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	}
 
 	public boolean isWritingExpected() {
-		return writingExpected;
+		return urlBuilder.isWritingExpected();
 	}
 
 	public void setWritingExpected(boolean writingExpected) {
-		this.writingExpected = writingExpected;
+		urlBuilder.setWritingExpected(writingExpected);
 	}
 }

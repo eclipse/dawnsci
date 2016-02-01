@@ -33,6 +33,7 @@ public class URLBuilder {
 	// Data
 	private String path;
 	private String dataset;
+	private boolean writingExpected=false;
 
 	/**
 	 * Used to override the slice URL, for instance for MJPG streams.
@@ -79,6 +80,7 @@ public class URLBuilder {
 			buf.append("?");
 			append(buf, "path",    path);
 			append(buf, "dataset", dataset);
+			append(buf, "writingExpected", writingExpected);
 			
 			if (isSlice) {
 				append(buf, "slice",   slice);
@@ -183,10 +185,10 @@ public class URLBuilder {
 		result = prime * result + ((histo == null) ? 0 : histo.hashCode());
 		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		result = prime * result + port;
-		result = prime * result
-				+ ((serverName == null) ? 0 : serverName.hashCode());
+		result = prime * result + ((serverName == null) ? 0 : serverName.hashCode());
 		result = prime * result + (int) (sleep ^ (sleep >>> 32));
 		result = prime * result + ((slice == null) ? 0 : slice.hashCode());
+		result = prime * result + (writingExpected ? 1231 : 1237);
 		return result;
 	}
 
@@ -237,7 +239,17 @@ public class URLBuilder {
 				return false;
 		} else if (!slice.equals(other.slice))
 			return false;
+		if (writingExpected != other.writingExpected)
+			return false;
 		return true;
+	}
+
+	public boolean isWritingExpected() {
+		return writingExpected;
+	}
+
+	public void setWritingExpected(boolean writingExpected) {
+		this.writingExpected = writingExpected;
 	}
 
 }

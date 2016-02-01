@@ -23,7 +23,7 @@ import org.eclipse.dawnsci.remotedataset.client.URLBuilder;
 import org.eclipse.dawnsci.remotedataset.client.streamer.IStreamer;
 import org.eclipse.dawnsci.remotedataset.client.streamer.StreamerFactory;
 /**
- *   
+ *    <pre>
  *    Class to look after making a connection to the HTTP Data slice server.
  *    Basically it encodes the parameters if a GET is used or if a POST is used,
  *    it deals with that. There is no need when using the client to know how the 
@@ -55,6 +55,10 @@ import org.eclipse.dawnsci.remotedataset.client.streamer.StreamerFactory;
  *              Only used when an actual image is requested.
  *    
  *    sleep   - Time to sleep between sending images, default 100ms.
+ *    
+ *    writingExpected - If you know that the remote dataset it likely to be written to, set this flag to ensure
+ *                      that limitations with SWMR datestamping and cached writable lazy datasets, do not cause the
+ *                      dataset to be incorrectly cached by the server.
  * 
  *    `URL encoded.
  *    
@@ -76,7 +80,7 @@ import org.eclipse.dawnsci.remotedataset.client.streamer.StreamerFactory;
     		throw ne;
     	}
     </code>
-
+   </pre>
  * @author Matthew Gerring
  *
  */
@@ -332,4 +336,11 @@ public class SliceClient<T> {
 		urlBuilder.setGet(get);
 	}
 
+	public boolean isWritingExpected() {
+		return urlBuilder.isWritingExpected();
+	}
+	
+	public void setWritingExpected(boolean expected) {
+		urlBuilder.setWritingExpected(expected);
+	}
 }

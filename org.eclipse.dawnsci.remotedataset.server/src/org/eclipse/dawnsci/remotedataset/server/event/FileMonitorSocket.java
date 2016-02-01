@@ -133,13 +133,11 @@ public class FileMonitorSocket extends WebSocketAdapter {
 			             		
 						        if (lz == null) continue; // We do not stop if the loader got nothing.
 						        
-//						        if (lz instanceof IDynamicDataset) { 
-//						            ((IDynamicDataset)lz).refreshShape();	
-//						        } else 
-						        	if (writing) {
+						        if (lz instanceof IDynamicDataset) { 
+						            ((IDynamicDataset)lz).refreshShape();	
+						        } else if (writing) {
 						        	ServiceHolder.getLoaderService().clearSoftReferenceCache(spath);
 						        }
-						        
 						        
 			                	final DataEvent evt = new DataEvent(lz.getName(), lz.getShape());
 			                	evt.setFilePath(spath);

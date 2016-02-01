@@ -39,7 +39,6 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 
 	private DataConnection<RGBDataset>            connection;
 	
-	private boolean writingExpected = false;
 	private boolean dynamicShape=true;
 	private int[] transShape;
 	private int[] maxShape;
@@ -196,10 +195,10 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 	}
 
 	public boolean isWritingExpected() {
-		return writingExpected;
+		return connection.getClient().isWritingExpected();
 	}
 
 	public void setWritingExpected(boolean writingExpected) {
-		this.writingExpected = writingExpected;
+		connection.getClient().setWritingExpected(writingExpected);
 	}
 }
