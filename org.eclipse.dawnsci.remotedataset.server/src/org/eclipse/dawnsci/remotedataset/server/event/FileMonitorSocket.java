@@ -36,13 +36,14 @@ public class FileMonitorSocket extends WebSocketAdapter {
      public void onWebSocketConnect(Session sess) {
  		
 		connected = true;
-		final String spath = getFirstValue(sess, "path");
-		final String sset  = getFirstValue(sess, "dataset");
+		final String spath     = getFirstValue(sess, "path");
+		final String sset      = getFirstValue(sess, "dataset");
+		final boolean writing  = Boolean.parseBoolean(getFirstValue(sess, "writingExpected"));
 		final Path   path  = Paths.get(spath);
 		try {
 			WatchService myWatcher = path.getFileSystem().newWatchService();
 			
-			QueueReader fileWatcher = new QueueReader(myWatcher, sess, spath, sset);
+			QueueReader fileWatcher = new QueueReader(myWatcher, sess, spath, sset, writing);
 	        Thread th = new Thread(fileWatcher, path.getFileName()+" Watcher");
 	        
 	        // We may only monitor a directory
@@ -82,12 +83,14 @@ public class FileMonitorSocket extends WebSocketAdapter {
         private Session      session;
 		private String spath;
 		private String sdataset;
+		private boolean writing;
 		
-        public QueueReader(WatchService watcher, Session session, String path, String dataset) {
+        public QueueReader(WatchService watcher, Session session, String path, String dataset, boolean writing) {
             this.watcher    = watcher;
             this.session    = session;
             this.spath      = path;
             this.sdataset   = dataset;
+            this.writing    = writing;
         }
  
         /**
@@ -130,8 +133,11 @@ public class FileMonitorSocket extends WebSocketAdapter {
 			             		
 						        if (lz == null) continue; // We do not stop if the loader got nothing.
 						        
-						        if (lz instanceof IDynamicDataset) {
-						            ((IDynamicDataset)lz).refreshShape();	
+//						        if (lz instanceof IDynamicDataset) { 
+//						            ((IDynamicDataset)lz).refreshShape();	
+//						        } else 
+						        	if (writing) {
+						        	ServiceHolder.getLoaderService().clearSoftReferenceCache(spath);
 						        }
 						        
 						        

@@ -28,6 +28,7 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 	
 	private DataConnection<ShortDataset>            connection;
 
+    private boolean writingExpected = false;
 
 	private boolean dynamicShape=true;
 	private int[] transShape;
@@ -184,6 +185,13 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 	public void refreshShape() {
 		//does nothing
 		
+	}
+	public boolean isWritingExpected() {
+		return writingExpected;
+	}
+
+	public void setWritingExpected(boolean writingExpected) {
+		this.writingExpected = writingExpected;
 	}
 
 }

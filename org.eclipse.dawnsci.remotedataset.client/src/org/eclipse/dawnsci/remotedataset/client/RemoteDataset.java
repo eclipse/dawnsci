@@ -65,6 +65,7 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	private Session connection;
     private DataListenerDelegate eventDelegate;
 
+    private boolean writingExpected = true;
 	private boolean dynamicShape = true;
 	private int[] transShape;
 
@@ -267,5 +268,13 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 
 	public void setDataset(String dataset) {
 		urlBuilder.setDataset(dataset);
+	}
+
+	public boolean isWritingExpected() {
+		return writingExpected;
+	}
+
+	public void setWritingExpected(boolean writingExpected) {
+		this.writingExpected = writingExpected;
 	}
 }
