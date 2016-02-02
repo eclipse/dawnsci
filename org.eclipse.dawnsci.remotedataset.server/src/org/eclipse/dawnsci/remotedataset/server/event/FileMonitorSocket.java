@@ -11,7 +11,6 @@ import java.nio.file.Paths;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
-import java.nio.file.attribute.FileTime;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;

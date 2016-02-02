@@ -48,7 +48,7 @@ import org.eclipse.dawnsci.remotedataset.client.streamer.StreamerFactory;
  *              JPG  - JPG made using IImageService to make the image
  *              PNG  - PNG made using IImageService to make the image
  *              MJPG:<dim> e.g. MJPG:0 to send the first dimension as slices in a series as JPGs. NOTE slice mist be set in this case.
- *              MDATA:<dim> e.g. MDATA:0 to send the first dimension as slices in a series as IDatasets. NOTE slice mist be set in this case.
+ *              MDATA:<dim> e.g. MDATA:0 to send the first dimension as slices in a series as IDatasets. NOTE slice must be set in this case.
  *
  *    histo`  - Encoding of histo to the rules of ImageServiceBean.encode(...) / ImageServiceBean.decode(...)
  *              Example: "MEAN", "OUTLIER_VALUES:5-95"
@@ -206,7 +206,7 @@ public class SliceClient<T> {
 		isFinished = false;
 		try {
 			// We are getting into serializing and deserializing IDataset which
-			// might come with some fruity 
+			// might come with some fruity dependencies
 			if (ServiceHolder.getClassLoaderService()!=null) ServiceHolder.getClassLoaderService().setDataAnalysisClassLoaderActive(true);
 
 			Format format = urlBuilder.getFormat();
