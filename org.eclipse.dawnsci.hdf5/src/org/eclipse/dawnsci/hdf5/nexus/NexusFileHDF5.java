@@ -794,8 +794,6 @@ public class NexusFileHDF5 implements NexusFile {
 	//TODO: lustre might prefer larger chunks (1MB or 4MB)
 	//      we might want to reconsider this later as a result
 	private long[] estimateChunking(long[] shape, long[] maxshape, int typeSize) {
-		//typesize is 1 for VLen structures which is off by a factor of 16 (ish).
-		//unlikely to cause any issues unless we have a dataset containing 65000 strings
 		boolean fixedSize = true;
 		long[] chunk = new long[shape.length];
 		boolean[] fixedDims = new boolean[shape.length];
@@ -903,20 +901,19 @@ public class NexusFileHDF5 implements NexusFile {
 						}
 					}
 				}
-				//chunks == null check is unnecessary, but compiler warns otherwise
-				if (!Arrays.equals(shape, maxShape) && (recalcChunks || chunks == null || chunks[chunks.length - 1] == 1)) {
-					logger.warn("Inappropriate chunking requested for {}; attempting to estimate suitable chunking.", name);
-					chunks = estimateChunking(shape, maxShape, H5.H5Tget_size(hdfDatatypeId));
-					iChunks = HDF5Utils.toIntArray(chunks);
-					data.setChunking(iChunks);
-				}
-
 				if (stringDataset) {
 					H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
 					H5.H5Tset_size(hdfDatatypeId, writeVlenString ? HDF5Constants.H5T_VARIABLE : DEF_FIXED_STRING_LENGTH);
 				} else if (fillValue != null) {
 					//Strings must not have a fill value set
 					H5.H5Pset_fill_value(hdfPropertiesId, hdfDatatypeId, fillValue);
+				}
+				//chunks == null check is unnecessary, but compiler warns otherwise
+				if (!Arrays.equals(shape, maxShape) && (recalcChunks || chunks == null || chunks[chunks.length - 1] == 1)) {
+					logger.warn("Inappropriate chunking requested for {}; attempting to estimate suitable chunking.", name);
+					chunks = estimateChunking(shape, maxShape, H5.H5Tget_size(hdfDatatypeId));
+					iChunks = HDF5Utils.toIntArray(chunks);
+					data.setChunking(iChunks);
 				}
 				if (chunks != null) {
 					//these have to be set in this order
