@@ -25,14 +25,14 @@ public class DelegateNexusProvider<N extends NXobject> extends AbstractNexusProv
 		this.creator = creator;
 	}
 
-	public DelegateNexusProvider(String name, NexusBaseClass nexusBaseClass, String dataNodeName, NexusBaseClass category, NexusScanInfo info, INexusDevice<N> creator) {
-		super(name, nexusBaseClass, dataNodeName, category);
+	public DelegateNexusProvider(String name, NexusBaseClass nexusBaseClass, String defaultDataFieldName, NexusBaseClass category, NexusScanInfo info, INexusDevice<N> creator) {
+		super(name, nexusBaseClass, category, defaultDataFieldName);
 		this.info    = info;
 		this.creator = creator;
 	}
 
-	public DelegateNexusProvider(String name, NexusBaseClass nexusBaseClass, String dataNodeName, NexusScanInfo info, INexusDevice<N> creator) {
-		super(name, nexusBaseClass, dataNodeName);
+	public DelegateNexusProvider(String name, NexusBaseClass nexusBaseClass, String defaultDataFieldName, NexusScanInfo info, INexusDevice<N> creator) {
+		super(name, nexusBaseClass, defaultDataFieldName);
 		this.info    = info;
 		this.creator = creator;
 	}

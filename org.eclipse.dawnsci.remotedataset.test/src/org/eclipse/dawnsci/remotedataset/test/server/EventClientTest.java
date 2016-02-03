@@ -45,6 +45,7 @@ public class EventClientTest {
             }
         } catch (Throwable t) {
             t.printStackTrace(System.err);
+            throw t;
         } finally {
         	client.stop();
         }

@@ -9,9 +9,18 @@ import javax.imageio.ImageIO;
 import org.dawnsci.plotting.services.ImageService;
 import org.dawnsci.plotting.services.PlotImageService;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.analysis.dataset.function.Downsample;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
-import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
+import org.eclipse.dawnsci.nexus.INexusFileFactory;
+import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
@@ -21,11 +30,11 @@ import org.eclipse.swt.graphics.ImageData;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-import uk.ac.diamond.scisoft.analysis.dataset.function.Downsample;
 import uk.ac.diamond.scisoft.analysis.osgi.LoaderServiceImpl;
 
 public class DataServerTest {
 
+	private   static INexusFileFactory   factory;
 	protected static DataServer server;
 	protected static String     testDir;
 	protected static int        port;
@@ -38,6 +47,8 @@ public class DataServerTest {
 	@BeforeClass
 	public static void startDataServer() throws Exception {
 		
+		factory = new NexusFileFactoryHDF5();
+		
 		// Sorry but the concrete classes for these services are not part of an eclipse project.
 		// To get these concrete services go to dawnsci.org and follow the instructions for
 		// setting up dawnsci to run in your application.
@@ -45,7 +56,6 @@ public class DataServerTest {
 		ServiceHolder.setImageService(new ImageService());
 		ServiceHolder.setLoaderService(new LoaderServiceImpl());
 		ServiceHolder.setPlotImageService(new PlotImageService());
-		ServiceHolder.setRemoteDatasetService(new RemoteDatasetServiceImpl());
 	
         // Start the DataServer
 		port   = TestUtils.getFreePort(8080);
@@ -79,39 +89,40 @@ public class DataServerTest {
         final Thread runner = new Thread(new Runnable() {
         	public void run() {
         		
+        		NexusFile file=null;
         		try {
-         			while(testIsRunning) {
+        			file = factory.newNexusFile(ret.getAbsolutePath(), false);  // DO NOT COPY!
+        			file.openToWrite(true); // DO NOT COPY!
 
-         				IHierarchicalDataFile file=null;
-         				try {
-                			file = HierarchicalDataFactory.getWriter(ret.getAbsolutePath());
-               			 
-       					    IDataset       rimage   = Random.rand(new int[]{1024, 1024});
-        					rimage.setName("image");
-        					
-        					file.group("/entry");
-        					file.group("/entry/data");
-        					String path = file.appendDataset(rimage.getName(), rimage, "/entry/data");
-
-        					Thread.sleep(sleepTime);
-        					System.out.println(">> HDF5 wrote image to "+path);
-
-        				} catch (Exception ne) {
-        					ne.printStackTrace();
-        					break;
-        				} finally {
-                			try {
-        						if (file!=null) file.close();
-        					} catch (Exception e) {
-        						e.printStackTrace();
-        					}
-                		}
-        			}
+        			GroupNode par = file.getGroup("/entry/data", true); // DO NOT COPY!
         			
+        			final int[] shape = new int[]{1, 1024, 1024};
+        			final int[] max   = new int[]{-1, 1024, 1024};
+        			ILazyWriteableDataset writer = new LazyWriteableDataset("image", Dataset.FLOAT, shape, max, shape, null); // DO NOT COPY!
+        			file.createData(par, writer); 
+					file.close();
+
+        			int index = 0;
+        			while(testIsRunning) {
+
+        				int[] start = {index, 0, 0};
+        				int[] stop  = {index+1, 1024, 1024};
+        				index++;
+        				if (index>23) index = 23; // Stall on the last image to avoid writing massive stacks
+        				
+        				IDataset       rimage   = Random.rand(new int[]{1, 1024, 1024});
+        				rimage.setName("image");
+       				    writer.setSlice(new IMonitor.Stub(), rimage, start, stop, null);
+       				    file.flush();
+       				    
+       				    Thread.sleep(sleepTime);
+        				System.out.println(">> HDF5 wrote image to "+ret);
+        			}
+       			
         		} catch (Exception ne) {
         			ne.printStackTrace();
         			
-        		}
+				}
         	}
         });
         runner.setPriority(Thread.MIN_PRIORITY);

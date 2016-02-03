@@ -11,11 +11,10 @@ import java.nio.file.Paths;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
-import java.nio.file.attribute.FileTime;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
+import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
@@ -25,11 +24,10 @@ import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class FileMonitorSocket extends WebSocketAdapter {
+public class FileMonitorSocket extends WebSocketAdapter {
 	
 	private static final Logger logger = LoggerFactory.getLogger(FileMonitorSocket.class);
 	
-	private HttpServletRequest request;
 	private boolean            connected;
 
 
@@ -37,13 +35,14 @@ class FileMonitorSocket extends WebSocketAdapter {
      public void onWebSocketConnect(Session sess) {
  		
 		connected = true;
-		final String spath = request.getParameter("path");
-		final String sset  = request.getParameter("dataset");
+		final String spath     = getFirstValue(sess, "path");
+		final String sset      = getFirstValue(sess, "dataset");
+		final boolean writing  = Boolean.parseBoolean(getFirstValue(sess, "writingExpected"));
 		final Path   path  = Paths.get(spath);
 		try {
 			WatchService myWatcher = path.getFileSystem().newWatchService();
 			
-			QueueReader fileWatcher = new QueueReader(myWatcher, sess, spath, sset);
+			QueueReader fileWatcher = new QueueReader(myWatcher, sess, spath, sset, writing);
 	        Thread th = new Thread(fileWatcher, path.getFileName()+" Watcher");
 	        
 	        // We may only monitor a directory
@@ -65,6 +64,11 @@ class FileMonitorSocket extends WebSocketAdapter {
 		
 	}
 
+	private String getFirstValue(Session sess, String name) {
+		final List<String> vals = sess.getUpgradeRequest().getParameterMap().get(name);
+		return vals!=null?vals.get(0):null;
+	}
+
 	@Override
     public void onWebSocketClose(int statusCode, String reason) {
 		super.onWebSocketClose(statusCode, reason);
@@ -78,12 +82,14 @@ class FileMonitorSocket extends WebSocketAdapter {
         private Session      session;
 		private String spath;
 		private String sdataset;
+		private boolean writing;
 		
-        public QueueReader(WatchService watcher, Session session, String path, String dataset) {
+        public QueueReader(WatchService watcher, Session session, String path, String dataset, boolean writing) {
             this.watcher    = watcher;
             this.session    = session;
             this.spath      = path;
             this.sdataset   = dataset;
+            this.writing    = writing;
         }
  
         /**
@@ -95,10 +101,7 @@ class FileMonitorSocket extends WebSocketAdapter {
         public void run() {
         	
         	final Path   path  = Paths.get(spath);
-            try {
-            	// We are monitoring this file, check it against what has happened
-       			FileTime     time  = Files.getLastModifiedTime(path);
-       			
+            try {       			
        			// We wait until the file we are told to monitor exists.
        			while(!Files.exists(path)) {
        				Thread.sleep(200);
@@ -117,14 +120,7 @@ class FileMonitorSocket extends WebSocketAdapter {
 	
 	 	             		Path   epath = (Path)event.context();
 	 	             		if (!Files.isDirectory(path) && !path.endsWith(epath)) continue;
-	 	             		
-	 	             		FileTime tmp = Files.getLastModifiedTime(path);
-	 	             		if (time.equals(tmp)) {
-	 	             			logger.debug("Time stamp not changed: "+path);
-	 	             			continue;
-	 	             		}
-	 	             		time  = tmp;
-	 	             		
+	 	             			 	             		
 	 	             		try {
 			             		// Data has changed, read its shape and publish the event using a web socket.
 			             		final IDataHolder  holder = ServiceHolder.getLoaderService().getData(spath, new IMonitor.Stub());
@@ -135,6 +131,12 @@ class FileMonitorSocket extends WebSocketAdapter {
 						                              : holder.getLazyDataset(0);
 			             		
 						        if (lz == null) continue; // We do not stop if the loader got nothing.
+						        
+						        if (lz instanceof IDynamicDataset) { 
+						            ((IDynamicDataset)lz).refreshShape();	
+						        } else if (writing) {
+						        	ServiceHolder.getLoaderService().clearSoftReferenceCache(spath);
+						        }
 						        
 			                	final DataEvent evt = new DataEvent(lz.getName(), lz.getShape());
 			                	evt.setFilePath(spath);

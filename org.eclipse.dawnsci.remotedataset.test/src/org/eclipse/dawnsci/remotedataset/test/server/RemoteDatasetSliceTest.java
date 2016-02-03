@@ -9,12 +9,14 @@ import javax.imageio.ImageIO;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
+import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.eclipse.swt.graphics.ImageData;
 import org.junit.Test;
 
@@ -25,7 +27,8 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 		
 		final File h5File = createSomeDirectoryData(10, 1024, 1024);
 		
-		final IRemoteDataset data = ServiceHolder.getRemoteDatasetService().createRemoteDataset("localhost", 8080);
+		IRemoteDatasetService service = new RemoteDatasetServiceImpl();
+		final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);
 		data.setPath(h5File.getAbsolutePath());
 		data.setDataset("image_"); // We just get the first image in the PNG file.
 		data.connect();
@@ -67,7 +70,8 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 		
 		final File h5File = createSomeH5Data(10, 1024, 1024);
 		
-		final IRemoteDataset data = ServiceHolder.getRemoteDatasetService().createRemoteDataset("localhost", 8080);
+		IRemoteDatasetService service = new RemoteDatasetServiceImpl();
+		final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);
 		data.setPath(h5File.getAbsolutePath());
 		data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
 		data.connect();

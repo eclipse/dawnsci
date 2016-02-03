@@ -151,13 +151,6 @@
          unpack="false"/>
 
    <plugin
-         id="javax.websocket-api"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.jetty.jaspi"
          download-size="0"
          install-size="0"
@@ -165,7 +158,49 @@
          unpack="false"/>
 
    <plugin
-         id="javax.security.auth.message"
+         id="org.eclipse.equinox.http.jetty"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jetty.io"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.objectweb.asm"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.objectweb.asm.analysis"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.objectweb.asm.commons"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.objectweb.asm.tree"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.objectweb.asm.util"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -186,7 +221,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.objectweb.asm.all"
+         id="javax.security.auth.message"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="javax.websocket"
          download-size="0"
          install-size="0"
          version="0.0.0"

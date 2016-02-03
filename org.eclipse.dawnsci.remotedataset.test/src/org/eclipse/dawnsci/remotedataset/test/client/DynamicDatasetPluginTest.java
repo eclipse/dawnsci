@@ -27,6 +27,7 @@ import org.eclipse.dawnsci.plotting.api.trace.IImageTrace.DownsampleType;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.remotedataset.Format;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.eclipse.dawnsci.remotedataset.client.dyn.DynamicDatasetFactory;
 import org.eclipse.dawnsci.remotedataset.client.dyn.IDynamicMonitorDataset;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
@@ -74,7 +75,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 	public void testDynamicDatasetEPICS() throws Exception {
 		
 		// Requires an EPICS stream to connect to, not for general overnight testing!
-		IRemoteDatasetService service = ServiceHolder.getRemoteDatasetService();
+		IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 		IRemoteDataset set = service.createMJPGDataset(new URL("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg"), 250, 10);
 		
 		try {

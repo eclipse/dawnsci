@@ -125,6 +125,13 @@ public interface ILoaderService {
      */
 	public void clearSoftReferenceCache();
 	
+    /**
+     * Clears the cache of soft references which the loader service keeps.
+     * This can help reduce working memory if a class is created that 
+     * swamps available memory with the soft reference cache.
+     */
+	public void clearSoftReferenceCache(String filePath);
+	
 	/**
 	 * The matcher for the expression string for parsing directories of 
 	 * similarly names files into ILazyDatasets.

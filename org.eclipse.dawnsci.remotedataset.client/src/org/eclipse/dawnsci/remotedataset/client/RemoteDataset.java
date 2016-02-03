@@ -5,9 +5,9 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -68,6 +68,10 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	private boolean dynamicShape = true;
 	private int[] transShape;
 
+	private Executor exec;
+
+	private WebSocketClient client;
+
 	/**
 	 * 
 	 */
@@ -91,10 +95,12 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	 * @param serverName
 	 * @param port
 	 */
-	public RemoteDataset(String serverName, int port) {
+	public RemoteDataset(String serverName, int port, Executor exec) {
 		super("unknown", Dataset.INT, new int[]{1}, new int[]{-1}, null, null);
 		this.urlBuilder = new URLBuilder(serverName, port);
+		urlBuilder.setWritingExpected(true);
 		this.eventDelegate = new DataListenerDelegate();
+		this.exec       = exec;
 	}
 	
 	/**
@@ -127,20 +133,23 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
     }
     
     public void disconnect() throws Exception {
+    	
         if (connection.isOpen()) {
         	connection.getRemote().sendString("Disconnected from "+urlBuilder.getPath());
        	    connection.close();
         }
-       	// TODO Close loader as well?    
+    	if (client!=null && client.isStarted()) {
+    		client.stop();
+    	}
     }
 	
 	private void createFileListener() throws Exception {
 		
         URI uri = URI.create(urlBuilder.getEventURL());
 
-        WebSocketClient client = new WebSocketClient();
+        this.client = new WebSocketClient(exec);
         client.start();
-
+       
         final DataEventSocket clientSocket = new DataEventSocket();
         // Attempt Connect
         Future<Session> fut = client.connect(clientSocket, uri);
@@ -264,5 +273,13 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 
 	public void setDataset(String dataset) {
 		urlBuilder.setDataset(dataset);
+	}
+
+	public boolean isWritingExpected() {
+		return urlBuilder.isWritingExpected();
+	}
+
+	public void setWritingExpected(boolean writingExpected) {
+		urlBuilder.setWritingExpected(writingExpected);
 	}
 }

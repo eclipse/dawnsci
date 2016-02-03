@@ -12,8 +12,6 @@
 
 package org.eclipse.dawnsci.nexus.impl;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;

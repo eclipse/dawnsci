@@ -45,8 +45,9 @@ import org.slf4j.LoggerFactory;
  * </code></usage>
  * 
  * @author Matthew Gerring
- *
+ * @deprecated Please use ILazyWriteableDataset to write and ILoaderService to read.
  */
+@Deprecated
 public class HierarchicalDataFactory {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HierarchicalDataFactory.class);

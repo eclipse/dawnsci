@@ -193,4 +193,12 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 		// does nothing
 		
 	}
+
+	public boolean isWritingExpected() {
+		return connection.getClient().isWritingExpected();
+	}
+
+	public void setWritingExpected(boolean writingExpected) {
+		connection.getClient().setWritingExpected(writingExpected);
+	}
 }
