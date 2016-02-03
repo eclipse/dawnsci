@@ -1,6 +1,6 @@
 /*-
  *******************************************************************************
- * Copyright (c) 2011, 2014 Diamond Light Source Ltd.
+ * Copyright (c) 2011-2016 Diamond Light Source Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,11 +8,13 @@
  *
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *    Baha El Kassaby - inversion and colour map type
  *******************************************************************************/
 
 package org.eclipse.dawnsci.plotting.api.histogram;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.dawnsci.plotting.api.histogram.functions.FunctionContainer;
 import org.eclipse.swt.graphics.PaletteData;
@@ -54,4 +56,21 @@ public interface IPaletteService {
 	 * @param inverted
 	 */
 	public void setInverted(boolean inverted);
+
+	/**
+	 * Returns a list of colours of a certain type as defined in
+	 * {@link IHistogramType.HistoType}
+	 * 
+	 * @param type
+	 * @return List of colours of sType
+	 */
+	public List<String> getColoursByType(String type);
+
+	/**
+	 * Returns the colour type
+	 * 
+	 * @param colour
+	 * @return type
+	 */
+	public String getColourType(String colour);
 }
