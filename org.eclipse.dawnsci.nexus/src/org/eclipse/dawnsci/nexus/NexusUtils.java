@@ -341,6 +341,71 @@ public class NexusUtils {
 	}
 
 	/**
+	 * Estimate suitable chunking parameters based on the expected final size of a dataset
+	 *
+	 * @param expectedMaxShape
+	 *            expected final size of the dataset
+	 * @param dataByteSize
+	 *            size of each element in bytes
+	 * @param fixedChunkDimensions
+	 *            provided dimensions in a chunk to be kept constant (-1 for no provided chunk)
+	 * @return chunking estimate
+	 */
+	public static int[] estimateChunking(int[] expectedMaxShape, int dataByteSize, int[] fixedChunkDimensions) {
+		final long targetSize = 1024 * 1024;
+		if (expectedMaxShape == null) {
+			throw new NullPointerException("Must provide an expected shape");
+		}
+		if (fixedChunkDimensions != null && (expectedMaxShape.length != fixedChunkDimensions.length)) {
+			throw new IllegalArgumentException("Shape estimation and provided chunk information have different dimensions");
+		}
+		for (int d : expectedMaxShape) {
+			if (d <= 0) {
+				throw new IllegalArgumentException("Shape estimation must have dimensions greater than zero");
+			}
+		}
+		int[] chunks = Arrays.copyOf(expectedMaxShape, expectedMaxShape.length);
+		int[] fixed;
+		if (fixedChunkDimensions != null) {
+			fixed = fixedChunkDimensions;
+		} else {
+			fixed = new int[chunks.length];
+			Arrays.fill(fixed, -1);
+		}
+		for (int i = 0; i < chunks.length; i++) {
+			if (fixed[i] > 0) {
+				chunks[i] = fixed[i];
+			}
+		}
+		long currentSize = dataByteSize;
+		for (int i : chunks) {
+			currentSize *= (long) i;
+		}
+		int idx = 0;
+		boolean minimal = false;
+		while (currentSize > targetSize && !minimal) {
+			//check that our chunk estimation can continue being reduced
+			for (int i = 0; i < fixed.length; i++) {
+				minimal = true;
+				if (fixed[i] <= 0 && chunks[i] > 1) {
+					minimal = false;
+					break;
+				}
+			}
+			if (fixed[idx] <= 0) {
+				chunks[idx] = (int) Math.round(chunks[idx] / 2.0);
+			}
+			idx++;
+			idx %= chunks.length;
+			currentSize = dataByteSize;
+			for (int i : chunks) {
+				currentSize *= (long) i;
+			}
+		}
+		return chunks;
+	}
+
+	/**
 	 * Estimate suitable chunking paremeters based on the expected final size of a dataset
 	 *
 	 * @param expectedMaxShape
@@ -350,31 +415,6 @@ public class NexusUtils {
 	 * @return chunking estimate
 	 */
 	public static int[] estimateChunking(int[] expectedMaxShape, int dataByteSize) {
-		// aim for at most a 1MB chunk
-		final int targetSize = 1024 * 1024;
-		if (expectedMaxShape == null) {
-			throw new NullPointerException("Must provide an expected shape");
-		}
-		for (int d : expectedMaxShape) {
-			if (d <= 0) {
-				throw new IllegalArgumentException("Shape estimation must have dimensions greater than zero");
-			}
-		}
-		int[] chunks = Arrays.copyOf(expectedMaxShape, expectedMaxShape.length);
-		int currentSize = dataByteSize;
-		for (int i : chunks) {
-			currentSize *= i;
-		}
-		int index = 0;
-		while (currentSize > targetSize) {
-			chunks[index] = (int) (Math.round((chunks[index]) / 2.0) + 0.5);
-			index++;
-			index %= chunks.length;
-			currentSize = dataByteSize;
-			for (int i : chunks) {
-				currentSize *= i;
-			}
-		}
-		return chunks;
+		return estimateChunking(expectedMaxShape, dataByteSize, null);
 	}
 }
