@@ -14,6 +14,7 @@ package org.eclipse.dawnsci.nexus.builder;
 
 import java.util.List;
 
+import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXpositioner;
@@ -70,28 +71,6 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	public N getNexusObject();
 
 	/**
-	 * Returns the data field names for this object. These are the fields
-	 * that will be linked to when this object is added to a {@link NexusDataBuilder}.
-	 * @return
-	 */
-	public List<String> getDataFieldNames();
-	
-	/**
-	 * Returns the name of the demand field for this object. This method
-	 * will generally be set for scannables. 
-	 * @return name of demand field, or <code>null</code>
-	 */
-	public String getDemandFieldName();
-
-	/**
-	 * Returns the name of the default data field to write to within the base class.
-	 *
-	 * @return data node name
-	 */
-	public String getDefaultDataFieldName();
-
-	
-	/**
 	 * Returns the category for this {@link NexusObjectProvider}. When adding
 	 * a nexus object to a {@link NexusEntryBuilder}, the nexus object will be added
 	 * to a group of this type, if one exists in the skeleton tree. For example
@@ -102,5 +81,55 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * @return category for this object
 	 */
 	public NexusBaseClass getCategory();
+
+	/**
+	 * Returns the data field names for this object. These are the fields
+	 * that will be linked to when this object is added to a {@link NexusDataBuilder}.
+	 * @return
+	 */
+	public List<String> getDataFieldNames();
+	
+	/**
+	 * Returns the name of the default data field to write to within the nexus object.
+	 * If this object is added as the primary device to an {@link NXdata} group, then
+	 * this is the field name of the default field, i.e. the field referred to by
+	 * the <code>@signal</code> attribute.
+	 *
+	 * @return default data field name
+	 */
+	public String getDefaultWritableDataFieldName();
+	
+	/**
+	 * Returns the name of the demand field for this nexus object, if any.
+	 * If this object is added as a device to an {@link NXdata}, then this
+	 * is the field that will be added as an axis of the default dataset.
+	 * @return name of demand field, or <code>null</code> if none.
+	 */
+	public String getDemandDataFieldName();
+	
+	/**
+	 * Returns the dimension of the default data field for which the field with the
+	 * given name is a default axis, or <code>null</code> if this field does
+	 * not provide a default axis to the default data field.
+	 * This method is required only when this device provides the default data field
+	 * of an {@link NXdata} group (i.e. that referred to by the <code>@signal</code> attribute),
+	 * and additional data fields within this device provide default axis for that data field
+	 * @return dimension of the default data field for which the field with the
+	 *   given name provides a default axis, or <code>null</code> if none
+	 */
+	public Integer getDefaultAxisDimension(String fieldName);
+	
+	/**
+	 * Returns the dimension mappings between the field with the given name and
+	 * the default data field of this device.
+	 * This method is required only when this device provides the default data
+	 * field of an {@link NXdata} group (i.e. that referred to by the <code>signal</code>
+	 * attribute), and additional data fields within that 
+	 * and the default data field of this device.
+	 * @param fieldName field name
+	 * @return dimension mappings between the field with the given name and the
+	 *    default data field
+	 */
+	public int[] getDimensionMappings(String fieldName);
 	
 }
