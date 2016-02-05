@@ -59,18 +59,18 @@ public interface IPaletteService {
 
 	/**
 	 * Returns a list of colours of a certain type as defined in
-	 * {@link IHistogramType.HistoType}
+	 * {@link HistoCategory}
 	 * 
 	 * @param type
-	 * @return List of colours of sType
+	 * @return List of colours of a particular category
 	 */
-	public List<String> getColoursByType(String type);
+	public List<String> getColoursByCategory(String category);
 
 	/**
-	 * Returns the colour type
+	 * Returns the colour category
 	 * 
 	 * @param colour
-	 * @return type
+	 * @return category
 	 */
-	public String getColourType(String colour);
+	public String getColourCategory(String colour);
 }
