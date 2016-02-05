@@ -14,7 +14,9 @@ package org.eclipse.dawnsci.nexus.builder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.nexus.NXobject;
@@ -58,7 +60,7 @@ import org.eclipse.dawnsci.nexus.NexusNodeFactory;
  * @param <N> nexus base class type, a subinterface of {@link NXobject}
  */
 public abstract class AbstractNexusProvider<N extends NXobject> implements NexusObjectProvider<N> {
-
+	
 	public static final String DEFAULT_DATA_NODE_NAME = "data";
 
 	private final NexusBaseClass nexusBaseClass;
@@ -67,11 +69,16 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 
 	private String name;
 
-	private List<String> dataFieldNames = null;
+	private final List<String> dataFieldNames;
 	
-	private String demandFieldName = null;
+	// map of fields in this device to the dimension of the default data field
+	// for which that field is the default axis
+	// TODO, do we need the dimension mappings as well
+	private Map<String, FieldDimensionModel> defaultAxisDimensions = null;
 	
-	private String defaultDataFieldName = null;
+	private String demandDataFieldName = null;
+	
+	private String defaultWritableDataFieldName = null;
 
 	private NexusBaseClass category;
 
@@ -113,7 +120,7 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 		this.nexusBaseClass = nexusBaseClass;
 		this.category = category;
 		
-		this.defaultDataFieldName = defaultDataFieldName;
+		this.defaultWritableDataFieldName = defaultDataFieldName;
 		this.dataFieldNames = new ArrayList<>(remainingDataFieldNames.length + 1);
 		if (defaultDataFieldName != null) {
 			this.dataFieldNames.add(defaultDataFieldName);
@@ -127,6 +134,22 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 		// the default name is the base class name without the initial 'NX',
 		// e.g. for 'NXpositioner' the default name is 'positioner'
 		return nexusBaseClass.toString().substring(2);
+	}
+
+	/**
+	 * Creates the nexus object for this {@link NexusObjectProvider} using the
+	 * given {@link NexusNodeFactory}.
+	 * @param nodeFactory node factory
+	 * @return new nexus object
+	 */
+	protected abstract N doCreateNexusObject(NexusNodeFactory nodeFactory);
+
+	protected FieldDimensionModel getFieldDimensionInfo(String fieldName) {
+		if (defaultAxisDimensions != null) {
+			return defaultAxisDimensions.get(fieldName);
+		}
+		
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -154,14 +177,6 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 
 		return nexusObject;
 	}
-
-	/**
-	 * Creates the nexus object for this {@link NexusObjectProvider} using the
-	 * given {@link NexusNodeFactory}.
-	 * @param nodeFactory node factory
-	 * @return new nexus object
-	 */
-	protected abstract N doCreateNexusObject(NexusNodeFactory nodeFactory);
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getNexusObject()
@@ -195,9 +210,9 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getDefaultDataFieldName()
 	 */
 	@Override
-	public String getDefaultDataFieldName() {
-		if (defaultDataFieldName != null) {
-			return defaultDataFieldName;
+	public String getDefaultWritableDataFieldName() {
+		if (defaultWritableDataFieldName != null) {
+			return defaultWritableDataFieldName;
 		}
 		if (dataFieldNames != null && !dataFieldNames.isEmpty()) {
 			return dataFieldNames.get(0);
@@ -206,10 +221,25 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 		return null;
 	}
 	
-	public void setDefaultDataFieldName(String defaultDataFieldName) {
-		this.defaultDataFieldName = defaultDataFieldName;
+	public void setDefaultWritableDataFieldName(String defaultWritableDataFieldName) {
+		this.defaultWritableDataFieldName = defaultWritableDataFieldName;
+		if (!dataFieldNames.contains(defaultWritableDataFieldName)) {
+			dataFieldNames.add(defaultWritableDataFieldName);
+		}
 	}
 	
+	@Override
+	public String getDemandDataFieldName() {
+		return demandDataFieldName;
+	}
+	
+	public void setDemandDataFieldName(String demandDataFieldName) {
+		this.demandDataFieldName = demandDataFieldName;
+		if (!dataFieldNames.contains(demandDataFieldName)) {
+			dataFieldNames.add(demandDataFieldName);
+		}
+	}
+
 	@Override
 	public List<String> getDataFieldNames() {
 		return dataFieldNames;
@@ -217,25 +247,30 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 
 	public void setDataFieldNames(String... dataFieldNames) {
 		this.dataFieldNames.clear();
-		this.dataFieldNames = new ArrayList<>(Arrays.asList(dataFieldNames));  
+		this.dataFieldNames.addAll(Arrays.asList(dataFieldNames));  
 	}
 	
 	public void addDataFieldNames(String... dataFieldName) {
-		if (this.dataFieldNames == null) {
-			this.dataFieldNames = new ArrayList<>();
-		}
 		this.dataFieldNames.addAll(Arrays.asList(dataFieldName));
 	}
-
-	@Override
-	public String getDemandFieldName() {
-		return demandFieldName;
+	
+	public void addDataField(String dataFieldName, Integer defaultAxisDimension, int... dimensionMappings) {
+		dataFieldNames.add(dataFieldName);
+		
+		// if defaultAxisDimension is set and no dimension mappings are specified
+		// assume this is a 1 dimensional dataset with mapping the defaultAxisDimension
+		if (dimensionMappings.length == 0 && defaultAxisDimension != null) {
+			dimensionMappings = new int[] { defaultAxisDimension };
+		}
+		
+		if (defaultAxisDimensions == null) {
+			defaultAxisDimensions = new HashMap<>();
+		}
+		
+		defaultAxisDimensions.put(dataFieldName,
+				new FieldDimensionModel(defaultAxisDimension, dimensionMappings));
 	}
 	
-	public void setDemandFieldName(String demandFieldName) {
-		this.demandFieldName = demandFieldName; 
-	}
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getCategory()
 	 */
@@ -247,9 +282,29 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	public void setCategory(NexusBaseClass category) {
 		this.category = category;
 	}
+	
+	@Override
+	public Integer getDefaultAxisDimension(String fieldName) {
+		FieldDimensionModel fieldDimensionInfo = getFieldDimensionInfo(fieldName);
+		if (fieldDimensionInfo != null) {
+			return fieldDimensionInfo.getDefaultAxisDimension();
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public int[] getDimensionMappings(String fieldName) {
+		FieldDimensionModel fieldDimensionInfo = getFieldDimensionInfo(fieldName);
+		if (fieldDimensionInfo != null) {
+			return fieldDimensionInfo.getDimensionMappings();
+		}
+		
+		return null;
+	}
 
-	public ILazyWriteableDataset getDefaultDataset() {
-		final String defaultDataFieldName = getDefaultDataFieldName();
+	public ILazyWriteableDataset getDefaultWriteableDataset() {
+		final String defaultDataFieldName = getDefaultWritableDataFieldName();
 		return getNexusObject().getLazyWritableDataset(defaultDataFieldName);
 	}
 
