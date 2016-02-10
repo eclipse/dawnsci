@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-01-13T18:08:19.722Z
+ * Generated at: 2016-02-10T11:48:37.34Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -1200,6 +1200,46 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	@Override
 	public DataNode setTrigger_delay_timeScalar(double trigger_delay_time) {
 		return setField(NX_TRIGGER_DELAY_TIME, trigger_delay_time);
+	}
+
+	@Override
+	public IDataset getTrigger_delay_time_set() {
+		return getDataset(NX_TRIGGER_DELAY_TIME_SET);
+	}
+
+	@Override
+	public double getTrigger_delay_time_setScalar() {
+		return getDouble(NX_TRIGGER_DELAY_TIME_SET);
+	}
+
+	@Override
+	public DataNode setTrigger_delay_time_set(IDataset trigger_delay_time_set) {
+		return setDataset(NX_TRIGGER_DELAY_TIME_SET, trigger_delay_time_set);
+	}
+
+	@Override
+	public DataNode setTrigger_delay_time_setScalar(double trigger_delay_time_set) {
+		return setField(NX_TRIGGER_DELAY_TIME_SET, trigger_delay_time_set);
+	}
+
+	@Override
+	public IDataset getTrigger_internal_delay_time() {
+		return getDataset(NX_TRIGGER_INTERNAL_DELAY_TIME);
+	}
+
+	@Override
+	public double getTrigger_internal_delay_timeScalar() {
+		return getDouble(NX_TRIGGER_INTERNAL_DELAY_TIME);
+	}
+
+	@Override
+	public DataNode setTrigger_internal_delay_time(IDataset trigger_internal_delay_time) {
+		return setDataset(NX_TRIGGER_INTERNAL_DELAY_TIME, trigger_internal_delay_time);
+	}
+
+	@Override
+	public DataNode setTrigger_internal_delay_timeScalar(double trigger_internal_delay_time) {
+		return setField(NX_TRIGGER_INTERNAL_DELAY_TIME, trigger_internal_delay_time);
 	}
 
 	@Override

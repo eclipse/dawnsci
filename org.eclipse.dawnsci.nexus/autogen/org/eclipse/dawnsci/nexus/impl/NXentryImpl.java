@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-01-13T18:08:19.722Z
+ * Generated at: 2016-02-10T11:48:37.34Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -252,6 +252,26 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	@Override
 	public DataNode setEntry_identifierScalar(String entry_identifier) {
 		return setString(NX_ENTRY_IDENTIFIER, entry_identifier);
+	}
+
+	@Override
+	public IDataset getFeatures() {
+		return getDataset(NX_FEATURES);
+	}
+
+	@Override
+	public String getFeaturesScalar() {
+		return getString(NX_FEATURES);
+	}
+
+	@Override
+	public DataNode setFeatures(IDataset features) {
+		return setDataset(NX_FEATURES, features);
+	}
+
+	@Override
+	public DataNode setFeaturesScalar(String features) {
+		return setString(NX_FEATURES, features);
 	}
 
 	@Override

@@ -418,17 +418,10 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 	<xsl:param name="fieldLabel"/>
 		return setString(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
 
-<xsl:template mode="setMethod" match="nx:field[nx:scalar][matches(@type, 'NX_(INT|POSINT|UINT|FLOAT|NUMBER|BOOLEAN)')]">
+<xsl:template mode="setMethod" match="nx:field[nx:scalar][matches(@type, 'NX_(INT|POSINT|UINT|FLOAT|NUMBER|BOOLEAN|BINARY)')]">
 	<xsl:param name="fieldName"/>
 	<xsl:param name="fieldLabel"/>
 		return setField(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
-
-<xsl:template mode="setMethod" match="nx:field[nx:scalar][@type='NX_BINARY']">
-	<xsl:param name="fieldName"/>
-	<xsl:param name="fieldLabel"/>
-		DataNode dataNode = getDataNode(<xsl:value-of select="$fieldLabel"/>);
-		dataNode.setDataset(DatasetFactory.createFromObject(<xsl:value-of select="$fieldName"/>));
-		return dataNode;</xsl:template>
 
 <xsl:template mode="setMethod" match="nx:definition/nx:attribute">
 	<xsl:param name="fieldName"/>
@@ -456,18 +449,11 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 	<xsl:param name="fieldLabel"/>
 		return setString(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
 		
-<xsl:template mode="setScalarMethod" match="nx:field[matches(@type, 'NX_(INT|POSINT|UNIT|FLOAT|NUMBER|BOOLEAN)')]">
+<xsl:template mode="setScalarMethod" match="nx:field[matches(@type, 'NX_(INT|POSINT|UNIT|FLOAT|NUMBER|BOOLEAN|BINARY)')]">
 	<xsl:param name="fieldName"/>
 	<xsl:param name="fieldLabel"/>
 		return setField(<xsl:value-of select="$fieldLabel"/>, <xsl:value-of select="$fieldName"/>);</xsl:template>
 		
-<xsl:template mode="setScalarMethod" match="nx:field[@type='NX_BINARY']">
-	<xsl:param name="fieldName"/>
-	<xsl:param name="fieldLabel"/>
-		DataNode dataNode = getDataNode(<xsl:value-of select="$fieldLabel"/>);
-		dataNode.setDataset(DatasetFactory.createFromObject(<xsl:value-of select="$fieldName"/>));
-		return dataNode;</xsl:template>
-
 <!-- Unprocessed -->
 
 <xsl:template mode="interface" match="*">	// Unprocessed <xsl:value-of select="concat(name(), ': ', @name)"/>

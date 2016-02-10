@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-01-13T18:08:19.722Z
+ * Generated at: 2016-02-10T11:48:37.34Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -97,6 +97,8 @@ public interface NXdetector extends NXobject {
 	public static final String NX_BIT_DEPTH_READOUT = "bit_depth_readout";
 	public static final String NX_DETECTOR_READOUT_TIME = "detector_readout_time";
 	public static final String NX_TRIGGER_DELAY_TIME = "trigger_delay_time";
+	public static final String NX_TRIGGER_DELAY_TIME_SET = "trigger_delay_time_set";
+	public static final String NX_TRIGGER_INTERNAL_DELAY_TIME = "trigger_internal_delay_time";
 	public static final String NX_TRIGGER_DEAD_TIME = "trigger_dead_time";
 	public static final String NX_FRAME_TIME = "frame_time";
 	public static final String NX_GAIN_SETTING = "gain_setting";
@@ -2632,7 +2634,7 @@ public interface NXdetector extends NXobject {
 	/**
 	 * Time it takes to start exposure after a trigger signal has been received.
 	 * This is the reaction time of the detector firmware after receiving the trigger signal
-	 * to when the detector starts to acquire the exposure.
+	 * to when the detector starts to acquire the exposure, including any user set delay..
 	 * This is important to know for time resolved experiments.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -2646,7 +2648,7 @@ public interface NXdetector extends NXobject {
 	/**
 	 * Time it takes to start exposure after a trigger signal has been received.
 	 * This is the reaction time of the detector firmware after receiving the trigger signal
-	 * to when the detector starts to acquire the exposure.
+	 * to when the detector starts to acquire the exposure, including any user set delay..
 	 * This is important to know for time resolved experiments.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -2660,7 +2662,7 @@ public interface NXdetector extends NXobject {
 	/**
 	 * Time it takes to start exposure after a trigger signal has been received.
 	 * This is the reaction time of the detector firmware after receiving the trigger signal
-	 * to when the detector starts to acquire the exposure.
+	 * to when the detector starts to acquire the exposure, including any user set delay..
 	 * This is important to know for time resolved experiments.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -2674,7 +2676,7 @@ public interface NXdetector extends NXobject {
 	/**
 	 * Time it takes to start exposure after a trigger signal has been received.
 	 * This is the reaction time of the detector firmware after receiving the trigger signal
-	 * to when the detector starts to acquire the exposure.
+	 * to when the detector starts to acquire the exposure, including any user set delay..
 	 * This is important to know for time resolved experiments.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -2684,6 +2686,110 @@ public interface NXdetector extends NXobject {
 	 * @param trigger_delay_time the trigger_delay_time
 	 */
 	public DataNode setTrigger_delay_timeScalar(double trigger_delay_time);
+
+	/**
+	 * User-specified trigger delay.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getTrigger_delay_time_set();
+	
+	/**
+	 * User-specified trigger delay.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param trigger_delay_time_set the trigger_delay_time_set
+	 */
+	public DataNode setTrigger_delay_time_set(IDataset trigger_delay_time_set);
+
+	/**
+	 * User-specified trigger delay.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public double getTrigger_delay_time_setScalar();
+
+	/**
+	 * User-specified trigger delay.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param trigger_delay_time_set the trigger_delay_time_set
+	 */
+	public DataNode setTrigger_delay_time_setScalar(double trigger_delay_time_set);
+
+	/**
+	 * Time it takes to start exposure after a trigger signal has been received.
+	 * This is the reaction time of the detector hardware after receiving the
+	 * trigger signal to when the detector starts to acquire the exposure.
+	 * It forms the lower boundary of the trigger_delay_time when the user
+	 * does not request an additional delay.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getTrigger_internal_delay_time();
+	
+	/**
+	 * Time it takes to start exposure after a trigger signal has been received.
+	 * This is the reaction time of the detector hardware after receiving the
+	 * trigger signal to when the detector starts to acquire the exposure.
+	 * It forms the lower boundary of the trigger_delay_time when the user
+	 * does not request an additional delay.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param trigger_internal_delay_time the trigger_internal_delay_time
+	 */
+	public DataNode setTrigger_internal_delay_time(IDataset trigger_internal_delay_time);
+
+	/**
+	 * Time it takes to start exposure after a trigger signal has been received.
+	 * This is the reaction time of the detector hardware after receiving the
+	 * trigger signal to when the detector starts to acquire the exposure.
+	 * It forms the lower boundary of the trigger_delay_time when the user
+	 * does not request an additional delay.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public double getTrigger_internal_delay_timeScalar();
+
+	/**
+	 * Time it takes to start exposure after a trigger signal has been received.
+	 * This is the reaction time of the detector hardware after receiving the
+	 * trigger signal to when the detector starts to acquire the exposure.
+	 * It forms the lower boundary of the trigger_delay_time when the user
+	 * does not request an additional delay.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param trigger_internal_delay_time the trigger_internal_delay_time
+	 */
+	public DataNode setTrigger_internal_delay_timeScalar(double trigger_internal_delay_time);
 
 	/**
 	 * Time during which no new trigger signal can be accepted. Typically this is the
