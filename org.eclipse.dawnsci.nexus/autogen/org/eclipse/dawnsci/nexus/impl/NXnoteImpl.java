@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-01-13T18:08:19.722Z
+ * Generated at: 2016-02-10T11:48:37.34Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -197,9 +197,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 
 	@Override
 	public DataNode setDataScalar(Object data) {
-		DataNode dataNode = getDataNode(NX_DATA);
-		dataNode.setDataset(DatasetFactory.createFromObject(data));
-		return dataNode;
+		return setField(NX_DATA, data);
 	}
 
 }
