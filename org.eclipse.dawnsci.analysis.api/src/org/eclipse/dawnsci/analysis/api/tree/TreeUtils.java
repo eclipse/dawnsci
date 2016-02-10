@@ -9,6 +9,16 @@
 
 package org.eclipse.dawnsci.analysis.api.tree;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+
+import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+
+
 public class TreeUtils {
 
 	/**
@@ -41,5 +51,73 @@ public class TreeUtils {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Breadth first search of nexus tree using visitor to determine whether a node link matches
+	 * those searched for
+	 * @param file
+	 * @param finder
+	 * @param findFirst
+	 * @param mon
+	 * @return map with full path as key and NodeLink as value
+	 */
+	public static Map<String, NodeLink> treeBreadthFirstSearch(GroupNode file, IFindInTree finder, boolean findFirst, IMonitor mon) {
+		
+		Map<String, NodeLink> map = new HashMap<String, NodeLink>();
+		List<NamedNodeLink> out = new ArrayList<NamedNodeLink>();
+		
+		Queue<NamedNodeLink> queue = new LinkedList<NamedNodeLink>();
+		for (NodeLink nxObject : file) {
+			Node node = nxObject.getDestination();
+			if (finder.found(nxObject)) {
+				
+				if (findFirst) {
+					map.put(nxObject.getName(),nxObject);
+					return map;
+				}
+				out.add(new NamedNodeLink(nxObject.getName(), nxObject));
+			}
+			
+			if(node instanceof GroupNode) {
+				queue.add(new NamedNodeLink(nxObject.getName(), nxObject));
+			}
+		}
+		
+		while (queue.size() != 0) {
+			NamedNodeLink group = queue.poll();
+			GroupNode dest = (GroupNode)group.link.getDestination();
+			for (NodeLink nxObject: dest) {
+				Node node = nxObject.getDestination();
+				if (finder.found(nxObject)) {
+					if (findFirst) {
+						map.put(group.name + Node.SEPARATOR + nxObject.getName(),nxObject);
+						return map;
+					}
+					out.add(new NamedNodeLink(group.name + Node.SEPARATOR + nxObject.getName(), nxObject));
+				}
+				
+				if(node instanceof GroupNode) {
+					queue.add(new NamedNodeLink(nxObject.getName(), nxObject));
+				}
+			}
+			
+			if (mon != null && mon.isCancelled()) return null;
+		}
+		
+		for (NamedNodeLink nnl : out) map.put(nnl.name, nnl.link);
+		
+		return map;
+	}
+	
+	private static class NamedNodeLink {
+		public String name;
+		public NodeLink link;
+		
+		public NamedNodeLink(String name, NodeLink link) {
+			this.name = name;
+			this.link = link;
+		}
+		
 	}
 }
