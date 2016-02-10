@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-01-13T18:08:19.722Z
+ * Generated at: 2016-02-10T11:48:37.34Z
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -36,6 +36,7 @@ public interface NXentry extends NXsubentry {
 	public static final String NX_COLLECTION_IDENTIFIER = "collection_identifier";
 	public static final String NX_COLLECTION_DESCRIPTION = "collection_description";
 	public static final String NX_ENTRY_IDENTIFIER = "entry_identifier";
+	public static final String NX_FEATURES = "features";
 	public static final String NX_DEFINITION = "definition";
 	public static final String NX_DEFINITION_ATTRIBUTE_VERSION = "version";
 	public static final String NX_DEFINITION_ATTRIBUTE_URL = "URL";
@@ -332,6 +333,38 @@ public interface NXentry extends NXsubentry {
 	 * @param entry_identifier the entry_identifier
 	 */
 	public DataNode setEntry_identifierScalar(String entry_identifier);
+
+	/**
+	 * Reserved for furture use by NIAC.
+	 * See https://github.com/nexusformat/definitions/issues/382
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getFeatures();
+	
+	/**
+	 * Reserved for furture use by NIAC.
+	 * See https://github.com/nexusformat/definitions/issues/382
+	 * 
+	 * @param features the features
+	 */
+	public DataNode setFeatures(IDataset features);
+
+	/**
+	 * Reserved for furture use by NIAC.
+	 * See https://github.com/nexusformat/definitions/issues/382
+	 * 
+	 * @return  the value.
+	 */
+	public String getFeaturesScalar();
+
+	/**
+	 * Reserved for furture use by NIAC.
+	 * See https://github.com/nexusformat/definitions/issues/382
+	 * 
+	 * @param features the features
+	 */
+	public DataNode setFeaturesScalar(String features);
 
 	/**
 	 * (alternate use: see same field in :ref:`NXsubentry` for preferred)
