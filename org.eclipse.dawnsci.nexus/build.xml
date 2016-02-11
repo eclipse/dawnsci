@@ -5,8 +5,7 @@
 	<property name="xslt-classpath" location="/scratch/opt/saxon9/saxon9he.jar"/>
 	<property name="java-source-path" location="src"/>
 	<property name="java-output-path" location="autogen"/>
-	<property name="gda-version" value="gda_8.47a"/>
-	<property name="nxdl-definitions-path" location="/scratch/dls_sw/all-dls/software/gda_versions/gda_8.47a/workspace_git/definitions"/>
+	<property name="nxdl-definitions-path" location="../../definitions"/>
 	
 	<!-- Delete the generated Java base classes -->
 	<target name="delete-base-classes">

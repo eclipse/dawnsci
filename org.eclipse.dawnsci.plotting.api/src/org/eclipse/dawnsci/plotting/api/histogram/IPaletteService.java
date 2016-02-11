@@ -58,11 +58,10 @@ public interface IPaletteService {
 	public void setInverted(boolean inverted);
 
 	/**
-	 * Returns a list of colours of a certain type as defined in
-	 * {@link HistoCategory}
+	 * Returns a list of colour of a particular category
 	 * 
 	 * @param type
-	 * @return List of colours of a particular category
+	 * @return List of colours
 	 */
 	public List<String> getColoursByCategory(String category);
 
