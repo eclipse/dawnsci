@@ -100,18 +100,20 @@ public class ModelUtils {
 			public int compare(ModelField o1, ModelField o2) {
 				OperationModelField an1 = ModelUtils.getAnnotation(o1.getModel(), o1.getName());
 				OperationModelField an2 = ModelUtils.getAnnotation(o2.getModel(), o2.getName());
-				if (an1.fieldPosition() != Integer.MAX_VALUE && an2.fieldPosition() != Integer.MAX_VALUE) {
-					return (an1.fieldPosition() - an2.fieldPosition());
+				
+				// It is legal for fields not to be annotated
+				if (an1!=null && an2 !=null) {
+					if (an1.fieldPosition() != Integer.MAX_VALUE && an2.fieldPosition() != Integer.MAX_VALUE) {
+						return (an1.fieldPosition() - an2.fieldPosition());
+					}
+					else if (an1.fieldPosition() != Integer.MAX_VALUE) {
+						return -1;
+					}
+					else if (an2.fieldPosition() != Integer.MAX_VALUE) {
+						return 1;
+					}
 				}
-				else if (an1.fieldPosition() != Integer.MAX_VALUE) {
-					return -1;
-				}
-				else if (an2.fieldPosition() != Integer.MAX_VALUE) {
-					return 1;
-				}
-				else {
-					return o1.getDisplayName().toLowerCase().compareTo(o2.getDisplayName().toLowerCase());
-				}
+				return o1.getDisplayName().toLowerCase().compareTo(o2.getDisplayName().toLowerCase());
 			}
 		});
 		
