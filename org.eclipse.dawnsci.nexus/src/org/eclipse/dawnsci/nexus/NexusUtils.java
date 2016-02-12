@@ -319,6 +319,8 @@ public class NexusUtils {
 	 * @throws NexusException
 	 */
 	public static TreeFile loadNexusTree(NexusFile nexusFile) throws NexusException {
+		// TODO FIXME mattd 2016-02-11 should it be possible to do this without
+		// a NexusFile? or perhaps this method should even be on NexusFile itself
 		final String filePath = nexusFile.getFilePath();
 		final TreeFile treeFile = TreeFactory.createTreeFile(filePath.hashCode(), filePath);
 		final GroupNode rootNode = nexusFile.getGroup("/", false);
