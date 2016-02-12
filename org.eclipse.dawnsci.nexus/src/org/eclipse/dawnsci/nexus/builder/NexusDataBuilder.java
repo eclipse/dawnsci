@@ -29,6 +29,10 @@ public interface NexusDataBuilder {
 	public static final String ATTR_NAME_SIGNAL = "signal";
 
 	public static final String ATTR_NAME_AXES = "axes";
+	
+	public static final String ATTR_NAME_TARGET = "target";
+	
+	public static final String ATTR_NAME_LONG_NAME = "long_name";
 
 	public static final String ATTR_SUFFIX_INDICES = "_indices";
 
