@@ -168,5 +168,12 @@ public interface NexusEntryBuilder {
 	 * @throws NexusValidationException if the entry is invalid
 	 */
 	public void validate() throws NexusValidationException;
+
+	/**
+	 * Returns the name of the wrapped {@link NXentry} within the root node
+	 * of the nexus file
+	 * @return name of entry
+	 */
+	public abstract String getEntryName();
 	
 }
