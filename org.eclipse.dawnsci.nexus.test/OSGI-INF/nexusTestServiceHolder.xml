@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="Nexus Test Service Holder" immediate="true">
+   <implementation class="org.eclipse.dawnsci.nexus.NexusTestServiceHolder"/>
+   <reference bind="setNexusBuilderFactory" cardinality="1..1" interface="org.eclipse.dawnsci.nexus.builder.NexusBuilderFactory" name="NexusBuilderFactory" policy="static"/>
+   <reference bind="setNexusFileFactory" cardinality="1..1" interface="org.eclipse.dawnsci.nexus.INexusFileFactory" name="NexusFileFactory" policy="static"/>
+</scr:component>
