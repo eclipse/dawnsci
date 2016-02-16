@@ -1300,6 +1300,10 @@ public class HDF5Utils {
 			} finally {
 				if (hdfDatasetId != -1) {
 					try {
+						H5.H5Dflush(hdfDatasetId);
+					} catch (HDF5Exception ex) {
+					}
+					try {
 						H5.H5Dclose(hdfDatasetId);
 					} catch (HDF5Exception ex) {
 					}
