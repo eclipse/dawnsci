@@ -1348,6 +1348,7 @@ public class NexusFileHDF5 implements NexusFile {
 		}
 	}
 
+	@Override
 	public void activateSwmrMode() throws NexusException {
 		if (!useSWMR) {
 			throw new IllegalStateException("File was not created to use SWMR");
