@@ -98,7 +98,7 @@ public class TreeUtils {
 				}
 				
 				if(node instanceof GroupNode) {
-					queue.add(new NamedNodeLink(nxObject.getName(), nxObject));
+					queue.add(new NamedNodeLink(group.name + Node.SEPARATOR + nxObject.getName(), nxObject));
 				}
 			}
 			
