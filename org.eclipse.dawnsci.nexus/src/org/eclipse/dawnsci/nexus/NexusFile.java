@@ -326,4 +326,12 @@ public interface NexusFile extends AutoCloseable {
 	 * @return true if path exists
 	 */
 	public boolean isPathValid(String path);
+	
+	/**
+	 * Activates SWMR mode. The file must have been created as
+	 * with SWMR enabled.
+	 * @throws NexusException if SWMR mode could not be activated
+	 */
+	public void activateSwmrMode() throws NexusException;
+
 }

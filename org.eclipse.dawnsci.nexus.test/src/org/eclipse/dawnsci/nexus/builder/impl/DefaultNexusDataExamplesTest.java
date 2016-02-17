@@ -5,14 +5,12 @@ import static org.eclipse.dawnsci.nexus.test.util.NexusAssert.assertIndices;
 import static org.eclipse.dawnsci.nexus.test.util.NexusAssert.assertShape;
 import static org.eclipse.dawnsci.nexus.test.util.NexusAssert.assertSignal;
 import static org.eclipse.dawnsci.nexus.test.util.NexusAssert.assertTarget;
-import static org.hamcrest.Matchers.equalTo;
 
 import java.util.Arrays;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.FloatDataset;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXdetector;
-import org.eclipse.dawnsci.nexus.NXnote;
 import org.eclipse.dawnsci.nexus.NXpositioner;
 import org.eclipse.dawnsci.nexus.NXroot;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
@@ -24,10 +22,6 @@ import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusFileBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
-import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusDataBuilder;
-import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
-import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
