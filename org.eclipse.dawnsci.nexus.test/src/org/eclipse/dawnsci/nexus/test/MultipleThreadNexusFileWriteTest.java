@@ -42,6 +42,7 @@ import org.eclipse.dawnsci.nexus.builder.AbstractNexusProvider;
 import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusFileBuilder;
+import org.eclipse.dawnsci.nexus.builder.NexusScanFile;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
 import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
 import org.junit.Before;
@@ -203,6 +204,8 @@ public class MultipleThreadNexusFileWriteTest {
 	private TestDetector detector;
 
 	private List<TestPositioner> positioners;
+	
+	private NexusScanFile nexusScanFile;
 
 	@Before
 	public void setUp() throws Exception {
@@ -222,7 +225,7 @@ public class MultipleThreadNexusFileWriteTest {
 	}
 
 	private void createNexusFile(final int numPositioners) throws NexusException {
-		final NexusFileBuilder fileBuilder = new DefaultNexusFileBuilder(filePath);
+		NexusFileBuilder fileBuilder = new DefaultNexusFileBuilder(filePath);
 		final NexusEntryBuilder entryBuilder = fileBuilder.newEntry();
 		entryBuilder.addDefaultGroups();
 		detector = new TestDetector(DETECTOR_ROWS, DETECTOR_COLUMNS);
@@ -236,7 +239,7 @@ public class MultipleThreadNexusFileWriteTest {
 			dataBuilder.addDataDevice(positioner);
 		}
 		
-		fileBuilder.saveFile();
+		nexusScanFile = fileBuilder.createFile();
 	}
 
 	private void initializeDevices(final long stepTime, final int numSteps) {
@@ -302,6 +305,7 @@ public class MultipleThreadNexusFileWriteTest {
 
 		final long timeout = (numSteps + 1) * stepTime * 2;
 		runThreads(numPositioners, numSteps, timeout);
+		nexusScanFile.close();
 		checkFile(numPositioners, numSteps);
 		HDF5FileFactory.releaseFile(filePath, true);
 	}

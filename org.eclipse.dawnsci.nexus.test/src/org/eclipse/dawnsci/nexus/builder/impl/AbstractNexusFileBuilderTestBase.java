@@ -30,6 +30,7 @@ import org.eclipse.dawnsci.nexus.builder.NexusBuilderFactory;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryModification;
 import org.eclipse.dawnsci.nexus.builder.NexusFileBuilder;
+import org.eclipse.dawnsci.nexus.builder.NexusScanFile;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusBuilderFactory;
 import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
 import org.junit.Before;
@@ -98,12 +99,15 @@ public abstract class AbstractNexusFileBuilderTestBase {
 		addApplicationDefinitions(entryBuilder);
 		
 		// save the nexus file
-		fileBuilder.saveFile();
+		NexusScanFile scanFile = fileBuilder.createFile();
+		scanFile.openToWrite();
 		
 		// compare with file in repository
 		final TreeFile actualNexusTree = fileBuilder.getNexusTree();
 		TreeFile expectedNexusTree = NexusTestUtils.loadNexusFile(comparisonFilePath, true);
 		assertNexusTreesEqual(expectedNexusTree, actualNexusTree);
+		
+		scanFile.close();
 	}
 	
 	protected void configureEntryModel(NexusEntryBuilder nexusEntryModel) throws NexusException {

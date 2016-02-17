@@ -25,6 +25,7 @@ import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.ServiceHolder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusFileBuilder;
+import org.eclipse.dawnsci.nexus.builder.NexusScanFile;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 
 /**
@@ -39,6 +40,8 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 	private final NXroot nxRoot;
 	
 	private Map<String, NexusEntryBuilder> entries = new HashMap<>();
+	
+	private boolean fileCreated = false;
 
 	/**
 	 * Creates a new {@link DefaultNexusFileBuilder}.
@@ -53,22 +56,6 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 		treeFile.setGroupNode(nxRoot);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.NexusFileBuilder#saveFile()
-	 */
-	@Override
-	public void saveFile() throws NexusException {
-		final INexusFileFactory nexusFileFactory = ServiceHolder.getNexusFileFactory();
-		final String filename = treeFile.getFilename();
-		// Create the nexus file, we enable SWMR mode so that the file can be read
-		// while data is being written to it (includes 5 second timeout for lazy writeable dataset
-		try (NexusFile nexusFile = nexusFileFactory.newNexusFile(filename, true)) {
-			nexusFile.createAndOpenToWrite();
-			nexusFile.addNode("/", treeFile.getGroupNode());
-			nexusFile.flush();
-		}
-	}
-	
 	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusFileBuilder#getNexusTree()
 	 */
@@ -126,6 +113,30 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 	public void validate() throws NexusValidationException {
 		for (NexusEntryBuilder entry : entries.values()) {
 			entry.validate();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.dawnsci.nexus.builder.NexusFileBuilder#createFile()
+	 */
+	@Override
+	public NexusScanFile createFile() throws NexusException {
+		if (fileCreated) {
+			throw new IllegalStateException("The Nexus file has already been created");
+		}
+		
+		final String filename = treeFile.getFilename();
+		
+		// create and open the nexus file, and save the content of the
+		// TreeFile into it
+		final INexusFileFactory nexusFileFactory = ServiceHolder.getNexusFileFactory();
+		try (NexusFile nexusFile = nexusFileFactory.newNexusFile(filename, true)) {
+			nexusFile.createAndOpenToWrite();
+			nexusFile.addNode("/", treeFile.getGroupNode());
+			nexusFile.flush();
+			fileCreated = true;
+			
+			return new DefaultNexusScanFile(nexusFile);
 		}
 	}
 

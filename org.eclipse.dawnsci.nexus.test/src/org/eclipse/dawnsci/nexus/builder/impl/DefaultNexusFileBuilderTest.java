@@ -8,21 +8,21 @@ import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXroot;
 import org.eclipse.dawnsci.nexus.NexusApplicationDefinition;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
+import org.eclipse.dawnsci.nexus.ServiceHolder;
 import org.eclipse.dawnsci.nexus.TestUtils;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusFileBuilder;
-import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
 import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class DefaultNexusFileBuilderTest {
@@ -49,12 +49,12 @@ public class DefaultNexusFileBuilderTest {
 	}
 	
 	@Test
-	@Ignore // TODO reinstate and figure out why this is throwing an exception
-	public void testSaveFile() throws NexusException {
+	public void testCreateAndOpenFile() throws NexusException {
+		ServiceHolder.setNexusFileFactory(new NexusFileFactoryHDF5());
 		NexusEntryBuilder nexusEntryBuilder = nexusFileBuilder.newEntry();
 		nexusEntryBuilder.getNXentry().setTitleScalar("test");
 		
-		nexusFileBuilder.saveFile();
+		nexusFileBuilder.createFile();
 		
 		TreeFile nexusFile = NexusTestUtils.loadNexusFile(filePath, true);
 		assertThat(nexusFile, notNullValue());

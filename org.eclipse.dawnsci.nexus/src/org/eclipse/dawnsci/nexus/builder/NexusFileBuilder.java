@@ -21,6 +21,16 @@ import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 
 /**
  * A builder for building a NeXus file. Wraps a {@link TreeFile} object.
+ * This object should first be configured with the expected content of the
+ * NeXus file by calling {@link #newEntry()}, and calling the appropriate
+ * method on that object, or by calling {@link #getNXroot()} or
+ * {@link #getNexusTree()} and manipulating the nexus objects directly.
+ * <p>
+ * Once this object has been configured with the expected NeXus tree, then
+ * the file should be created using {@link #createFile()}. This
+ * creates the NeXus file with the structure as configured.
+ * <p>
+ * 
  */
 public interface NexusFileBuilder {
 	
@@ -66,9 +76,12 @@ public interface NexusFileBuilder {
 	public void validate() throws NexusValidationException;
 
 	/**
-	 * Saves the nexus file.
+	 * Creates the NeXus file with the content as configured with this builder.
+	 * The nexus file is left open and SWMR mode activated.
+	 * This file must be closed by calling {@link #closeFile()}
+	 * (or by using try-with-resources on this object).
 	 * @throws NexusException if the nexus file could not be saved for any reason 
 	 */
-	public void saveFile() throws NexusException;
-
+	public NexusScanFile createFile() throws NexusException;
+	
 }
