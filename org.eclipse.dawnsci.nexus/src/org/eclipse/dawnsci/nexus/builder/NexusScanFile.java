@@ -11,7 +11,7 @@ import org.eclipse.dawnsci.nexus.NexusFile;
 public interface NexusScanFile extends AutoCloseable {
 	
 	/**
-	 * Opens the file to write.
+	 * Opens the file to write. SWMR mode is also enabled.
 	 * @throws NexusException if the file could not be opened for any reason
 	 */
 	public void openToWrite() throws NexusException;

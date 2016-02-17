@@ -302,7 +302,7 @@ public class MultipleThreadNexusFileWriteTest {
 	public void doTestMultiplePositioners(final int numPositioners, final int numSteps, final long stepTime) throws Exception {
 		createNexusFile(numPositioners);
 		initializeDevices(stepTime, numSteps);
-
+		nexusScanFile.openToWrite();
 		final long timeout = (numSteps + 1) * stepTime * 2;
 		runThreads(numPositioners, numSteps, timeout);
 		nexusScanFile.close();

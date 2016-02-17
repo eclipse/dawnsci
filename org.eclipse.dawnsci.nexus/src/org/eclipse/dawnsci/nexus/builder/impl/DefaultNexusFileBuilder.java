@@ -127,17 +127,16 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 		
 		final String filename = treeFile.getFilename();
 		
-		// create and open the nexus file, and save the content of the
-		// TreeFile into it
+		// create and open the nexus file
 		final INexusFileFactory nexusFileFactory = ServiceHolder.getNexusFileFactory();
 		try (NexusFile nexusFile = nexusFileFactory.newNexusFile(filename, true)) {
 			nexusFile.createAndOpenToWrite();
+			// save the content of the TreeFile into the nexus file
 			nexusFile.addNode("/", treeFile.getGroupNode());
 			nexusFile.flush();
 			fileCreated = true;
-			
-			return new DefaultNexusScanFile(nexusFile);
-		}
+			return new DefaultNexusScanFile(filename);
+		} // NexusFile is auto-closed
 	}
 
 }
