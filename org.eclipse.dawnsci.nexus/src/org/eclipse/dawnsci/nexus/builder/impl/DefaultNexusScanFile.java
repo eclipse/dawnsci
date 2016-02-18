@@ -24,23 +24,24 @@ class DefaultNexusScanFile implements NexusScanFile {
 		final INexusFileFactory nexusFileFactory = ServiceHolder.getNexusFileFactory();
 		nexusFile = nexusFileFactory.newNexusFile(filePath, true);
 		nexusFile.openToWrite(false); // file must already exist on disk
-		nexusFile.activateSwmrMode();
+		
+		try {
+		    nexusFile.activateSwmrMode();
+		} catch (NexusException nxsE) {
+			System.out.println("Scan to '"+nexusFile.getFilePath()+"' is not SWMR "+nxsE.getMessage());
+			// We are not in SWMR mode so we allow a non-SWMR write, which works but other processes may have issues.
+		}
 	}
 
 	@Override
 	public void flush() throws NexusException {
-		if (nexusFile == null) {
-			throw new IllegalStateException("NexusFile has not been opened.");
-		}
-		
+		if (nexusFile == null) return;  // Legal flush can be called on non-SWMR files and does nothing.
 		nexusFile.flush();
 	}
 
 	@Override
 	public void close() throws NexusException {
-		if (nexusFile == null) {
-			throw new IllegalStateException("NexusFile has not been opened.");
-		}
+		if (nexusFile == null) return; // Legal this is an AutoClosable that does if it can.
 		nexusFile.flush();
 		nexusFile.close();
 		nexusFile = null;
