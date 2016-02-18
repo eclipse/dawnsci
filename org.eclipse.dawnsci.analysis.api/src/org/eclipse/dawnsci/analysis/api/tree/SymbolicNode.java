@@ -12,6 +12,8 @@
 
 package org.eclipse.dawnsci.analysis.api.tree;
 
+import java.net.URI;
+
 /**
  * Symbolic node that uses a name to link to another node. Note, the destination does not have to exist.
  */
@@ -35,12 +37,12 @@ public interface SymbolicNode extends Node {
 	public boolean isData();
 
 	/**
-	 * @return tree containing linked node or null if it does not exist
-	 */
-	public Tree getTree();
-
-	/**
 	 * @return path to linked node
 	 */
 	public String getPath();
+
+	/**
+	 * @return URI to source of tree
+	 */
+	public URI getSourceURI();
 }
