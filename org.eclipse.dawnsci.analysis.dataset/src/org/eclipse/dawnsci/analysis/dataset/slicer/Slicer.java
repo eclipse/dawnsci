@@ -117,7 +117,7 @@ public class Slicer {
         return null;
 	}
 	
-	public static SliceViewIterator getSliceViewGenerator(ILazyDataset lz, Map<Integer, String> sliceDimensions){
+	public static ISliceViewIterator getSliceViewGenerator(ILazyDataset lz, Map<Integer, String> sliceDimensions){
 		SliceND sampling = getSliceNDFromSliceDimensions(sliceDimensions, lz.getShape());
 		int[] axes = getDataDimensions(lz.getShape(), sliceDimensions);
 		return new SliceViewIterator(lz, sampling, axes);
