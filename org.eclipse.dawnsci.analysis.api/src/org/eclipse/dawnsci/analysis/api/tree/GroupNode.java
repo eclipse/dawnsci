@@ -62,6 +62,7 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * Add given node with given path and name
 	 * @param name
 	 * @param node
+	 * @throws IllegalArgumentException if node of same name already exists but is of different type 
 	 */
 	public void addNode(String name, Node node);
 
@@ -88,7 +89,7 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * Add (child) group node with given path and name 
 	 * @param name
 	 * @param g group
-	 * @throws IllegalArgumentException if a data node of same name already exists
+	 * @throws IllegalArgumentException if a node of same name already exists that is not a group node
 	 */
 	public void addGroupNode(String name, GroupNode g);
 
@@ -129,7 +130,7 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * Add given data node with given path and name 
 	 * @param name
 	 * @param d dataset
-	 * @throws IllegalArgumentException if a group node of same name already exists
+	 * @throws IllegalArgumentException if a node of same name already exists that is not a data node
 	 */
 	public void addDataNode(String name, DataNode d);
 
@@ -151,6 +152,7 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * Add linked node with given path and name
 	 * @param name
 	 * @param s symbolic link
+	 * @throws IllegalArgumentException if a node of same name already exists that is not a symbolic node
 	 */
 	public void addSymbolicNode(String name, SymbolicNode s);
 

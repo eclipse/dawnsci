@@ -13,29 +13,29 @@
 package org.eclipse.dawnsci.analysis.api.tree;
 
 /**
- * Symbolic node that uses a name to link to another node
+ * Symbolic node that uses a name to link to another node. Note, the destination does not have to exist.
  */
 public interface SymbolicNode extends Node {
 
 	/**
 	 * Get node link referenced by symbolic link
-	 * @return node
+	 * @return node or null if tree or destination does not exist
 	 */
 	public NodeLink getNodeLink();
 
 	/**
 	 * Get node referenced by symbolic link
-	 * @return node
+	 * @return node or null if it does not exist
 	 */
 	public Node getNode();
 
 	/**
-	 * @return true if linked node is data
+	 * @return true if linked node is specified as data (even if it does not exist)
 	 */
 	public boolean isData();
 
 	/**
-	 * @return tree containing linked node
+	 * @return tree containing linked node or null if it does not exist
 	 */
 	public Tree getTree();
 

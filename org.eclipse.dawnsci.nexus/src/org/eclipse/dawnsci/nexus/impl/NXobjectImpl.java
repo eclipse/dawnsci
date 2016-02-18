@@ -34,7 +34,6 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DateDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
-import org.eclipse.dawnsci.analysis.tree.impl.DataNodeImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
@@ -75,7 +74,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	
 	private Dataset getCached(String name) {
 		if (!cached.containsKey(name)) {
-			DataNodeImpl dataNode = getDataNode(name);
+			DataNode dataNode = getDataNode(name);
 			if (dataNode != null) {
 				ILazyDataset lazy = dataNode.getDataset();
 				if (!(lazy instanceof IDataset)) {

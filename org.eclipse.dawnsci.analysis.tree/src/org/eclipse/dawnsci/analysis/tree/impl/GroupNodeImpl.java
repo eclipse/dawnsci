@@ -37,18 +37,11 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	private final Map<String, NodeLink> nodes;
 	private boolean populated = false;
 
-	/**
-	 * Set a reference to the global pool of nodes
-	 * @param globalPool
-	 */
 	@Override
 	public void setGlobalPool(Map<Long, Node> globalPool) {
 		pool = globalPool;
 	}
 
-	/**
-	 * @return global pool of cached nodes
-	 */
 	@Override
 	public Map<Long, Node> getGlobalPool() {
 		return pool;
@@ -70,45 +63,33 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		return populated;
 	}
 
-	/**
-	 * @return number of node links held in group
-	 */
 	@Override
 	public int getNumberOfNodelinks() {
 		return nodes.size();
 	}
 
-	/**
-	 * @param name
-	 * @return node link to child node of given name
-	 */
 	@Override
 	public NodeLink getNodeLink(String name) {
 		return nodes.get(name);
 	}
 
-	/**
-	 * Add node link
-	 * @param link
-	 */
 	@Override
 	public void addNodeLink(final NodeLink link) {
 		synchronized (nodes) {
 			final String name = link.getName();
 			if (nodes.containsKey(name)) {
 				Node n = nodes.get(name).getDestination();
-				if (n instanceof SymbolicNode)
-					n = ((SymbolicNode) n).getNode();
 				if (link.isDestinationData() && !(n instanceof DataNode)) {
 					throw new IllegalArgumentException("Cannot add a data node as there is an existing non data node of same name: " + name);
 				}
 				if (link.isDestinationGroup() && !(n instanceof GroupNode)) {
 					throw new IllegalArgumentException("Cannot add a group node as there is an existing non group node of same name: " + name);
 				}
+				if (link.isDestinationSymbolic() && !(n instanceof SymbolicNode)) {
+					throw new IllegalArgumentException("Cannot add a symbolic node as there is an existing non symbolic node of same name: " + name);
+				}
 			}
 			Node n = link.getDestination();
-			if (n instanceof SymbolicNode)
-				n = ((SymbolicNode) n).getNode();
 			if (n instanceof GroupNode) {
 				groups++;
 			} else {
@@ -119,11 +100,6 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		}
 	}
 
-	/**
-	 * Add given node with given path and name
-	 * @param name
-	 * @param node
-	 */
 	@Override
 	public void addNode(final String name, final Node node) {
 		if (node == null)
@@ -138,28 +114,16 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		}
 	}
 
-	/**
-	 * @return number of child groups in group
-	 */
 	@Override
 	public int getNumberOfGroupNodes() {
 		return groups;
 	}
 
-	/**
-	 * @param name
-	 * @return true if group contains child group of given name
-	 */
 	@Override
 	public boolean containsGroupNode(final String name) {
 		return nodes.containsKey(name) && nodes.get(name).isDestinationGroup();
 	}
 
-	/**
-	 * Get (child) group of given name 
-	 * @param name
-	 * @return group
-	 */
 	@Override
 	public GroupNode getGroupNode(final String name) {
 		if (nodes.containsKey(name)) {
@@ -170,27 +134,20 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			if (!(n instanceof GroupNode)) {
 				throw new IllegalArgumentException("A name: " + name);
 			}
-			
+
 			return (GroupNode) n;
 		}
 
 		return null;
 	}
 
-	/**
-	 * Add (child) group with given path and name 
-	 * @param name
-	 * @param g group
-	 */
 	public void addGroupNode(final String name, final GroupNode g) {
 		synchronized (nodes) {
 			// check that there is not an existing data node with the same name
 			if (nodes.containsKey(name)) {
 				Node n = nodes.get(name).getDestination();
-				if (n instanceof SymbolicNode)
-					n = ((SymbolicNode) n).getNode();
-				if (n instanceof DataNode) {
-					throw new IllegalArgumentException("Cannot add a group as there is a dataset of same name: " + name);
+				if (!(n instanceof GroupNode)) {
+					throw new IllegalArgumentException("Cannot add node as group contains node with same name that is not a group node: " + name);
 				}
 			} else {
 				groups++;
@@ -201,29 +158,24 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		}
 	}
 
-	/**
-	 * Remove group of given name
-	 * @param name
-	 */
 	@Override
 	public void removeGroupNode(final String name) {
-		if (!nodes.containsKey(name))
+		if (!nodes.containsKey(name)) {
 			throw new IllegalArgumentException("No name exists in this group: " + name);
-	
+		}
+
 		Node n = nodes.get(name).getDestination();
-		if (n instanceof SymbolicNode)
+		if (n instanceof SymbolicNode) {
 			n = ((SymbolicNode) n).getNode();
-		if (n instanceof DataNode)
+		}
+		if (n instanceof DataNode) {
 			throw new IllegalArgumentException("Group of given name does not exist in this group: " + name);
-	
+		}
+
 		nodes.remove(name);
 		groups--;
 	}
 
-	/**
-	 * Remove given group
-	 * @param g group
-	 */
 	@Override
 	public void removeGroupNode(final GroupNode g) {
 		for (String n : nodes.keySet()) {
@@ -237,57 +189,40 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		throw new IllegalArgumentException("Given group does not exist in this group");
 	}
 
-	/**
-	 * @return number of datasets held in group
-	 */
 	@Override
 	public int getNumberOfDataNodes() {
 		return datasets;
 	}
 
-	/**
-	 * @param name
-	 * @return true if group contains dataset of given name
-	 */
 	@Override
 	public boolean containsDataNode(final String name) {
 		return nodes.containsKey(name) && nodes.get(name).isDestinationData();
 	}
 
-	/**
-	 * Get dataset of given name
-	 * @param name
-	 * @return dataset
-	 */
 	@Override
-	public DataNodeImpl getDataNode(final String name) {
+	public DataNode getDataNode(final String name) {
 		if (nodes.containsKey(name)) {
 			Node n = nodes.get(name).getDestination();
-			if (n instanceof SymbolicNode)
+			if (n instanceof SymbolicNode) {
 				n = ((SymbolicNode) n).getNode();
-			if (!(n instanceof DataNodeImpl))
+			}
+			if (!(n instanceof DataNode)) {
 				throw new IllegalArgumentException("Existing node with given name is not a data node: " + name);
-			
-			return (DataNodeImpl) n;
+			}
+
+			return (DataNode) n;
 		}
 
 		return null;
 	}
 
-	/**
-	 * Add given dataset with given path and name 
-	 * @param name
-	 * @param d dataset
-	 */
 	@Override
 	public void addDataNode(final String name, final DataNode d) {
 		synchronized (nodes) {
 			if (nodes.containsKey(name)) {
 				Node n = nodes.get(name).getDestination();
-				if (n instanceof SymbolicNode)
-					n = ((SymbolicNode) n).getNode();
-				if (n instanceof GroupNode) {
-					throw new IllegalArgumentException("Cannot add a dataset as there is a group of same name: " + name);
+				if (!(n instanceof DataNode)) {
+					throw new IllegalArgumentException("Cannot add node as group contains node with same name that is not a data node: " + name);
 				}
 			} else {
 				datasets++;
@@ -301,29 +236,24 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		return new NodeLinkImpl(name, this, n);
 	}
 
-	/**
-	 * Remove dataset of given name
-	 * @param name
-	 */
 	@Override
 	public void removeDataNode(final String name) {
-		if (!nodes.containsKey(name))
+		if (!nodes.containsKey(name)) {
 			throw new IllegalArgumentException("No name exists in this group: " + name);
-	
+		}
+
 		Node n = nodes.get(name).getDestination();
-		if (n instanceof SymbolicNode)
+		if (n instanceof SymbolicNode) {
 			n = ((SymbolicNode) n).getNode();
-		if (n instanceof GroupNode)
+		}
+		if (n instanceof GroupNode) {
 			throw new IllegalArgumentException("Dataset of given name does not exist in this group: " + name);
-	
+		}
+
 		nodes.remove(name);
 		datasets--;
 	}
 
-	/**
-	 * Remove given dataset
-	 * @param d dataset
-	 */
 	@Override
 	public void removeDataNode(final DataNode d) {
 		for (String n : nodes.keySet()) {
@@ -337,20 +267,13 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		throw new IllegalArgumentException("Given dataset does not exist in this group");
 	}
 
-	/**
-	 * Add linked node with given path and name
-	 * @param name
-	 * @param s symbolic node
-	 */
 	@Override
 	public void addSymbolicNode(final String name, final SymbolicNode s) {
 		synchronized (nodes) {
 			if (nodes.containsKey(name)) {
 				Node n = nodes.get(name).getDestination();
-				if (n instanceof SymbolicNode)
-					n = ((SymbolicNode) n).getNode();
-				if (n instanceof DataNode) {
-					throw new IllegalArgumentException("Cannot add a group as there is a dataset of same name: " + name);
+				if (!(n instanceof SymbolicNode)) {
+					throw new IllegalArgumentException("Cannot add node as group contains node with same name that is not a symbolic node: " + name);
 				}
 			} else {
 				if (name.endsWith(Node.SEPARATOR)) {
@@ -361,11 +284,6 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		}
 	}
 
-	/**
-	 * Find name of node linked to this group
-	 * @param node
-	 * @return name (or null, if node is not in group)
-	 */
 	@Override
 	public String findLinkedNodeName(Node node) {
 		for (Entry<String, NodeLink> e : nodes.entrySet()) {
@@ -378,36 +296,28 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	@Override
 	public String toString() {
-			StringBuilder s = new StringBuilder(super.toString());
-			for (String n : nodes.keySet()) {
-				s.append(INDENT);
-				s.append(n);
-				Node node = nodes.get(n).getDestination();
-				if (node instanceof SymbolicNode)
-					s.append('@');
-				else if (node instanceof GroupNode)
-					s.append('/');
-	//			else
-	//				s.append(String.format("(%d)", node.getID()));
-				s.append('\n');
-			}
-	
-			return s.toString();
+		StringBuilder s = new StringBuilder(super.toString());
+		for (String n : nodes.keySet()) {
+			s.append(INDENT);
+			s.append(n);
+			Node node = nodes.get(n).getDestination();
+			if (node instanceof SymbolicNode)
+				s.append('@');
+			else if (node instanceof GroupNode)
+				s.append('/');
+//			else
+//				s.append(String.format("(%d)", node.getID()));
+			s.append('\n');
 		}
 
-	/**
-	 * @return iterator over child names in group
-	 */
+		return s.toString();
+	}
+
 	@Override
 	public Iterator<String> getNodeNameIterator() {
 		return nodes.keySet().iterator();
 	}
 
-	/**
-	 * Recursively find datasets of given name
-	 * @param name
-	 * @return list of (unique) datasets
-	 */
 	@Override
 	public List<ILazyDataset> getDatasets(final String name) {
 		final ArrayList<ILazyDataset> list = new ArrayList<ILazyDataset>();
@@ -444,11 +354,6 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		}
 	}
 
-	/**
-	 * Recursively find link to node given by path name 
-	 * @param pathname
-	 * @return node or null if not found
-	 */
 	@Override
 	public NodeLink findNodeLink(String pathname) {
 		int i = pathname.indexOf(SEPARATOR);
@@ -457,9 +362,9 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			pathname = pathname.substring(1);
 			i = pathname.indexOf(SEPARATOR);
 		}
-	
-		String link = i < 0 ? pathname: pathname.substring(0, i);
-	
+
+		String link = i < 0 ? pathname : pathname.substring(0, i);
+
 		if (nodes.containsKey(link)) {
 			NodeLink node = nodes.get(link);
 			if (i < 0) {
@@ -467,7 +372,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			}
 			String path = pathname.substring(i+1);
 			if (node.isDestinationGroup()) {
-				return ((GroupNodeImpl) node.getDestination()).findNodeLink(path);
+				return ((GroupNode) node.getDestination()).findNodeLink(path);
 			}
 		} else { // is attribute?
 			i = link.indexOf(ATTRIBUTE);

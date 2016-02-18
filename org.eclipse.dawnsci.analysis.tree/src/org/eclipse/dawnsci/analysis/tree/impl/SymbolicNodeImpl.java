@@ -42,7 +42,7 @@ public class SymbolicNodeImpl extends NodeImpl implements SymbolicNode, Serializ
 
 	@Override
 	public NodeLink getNodeLink() {
-		return tree.findNodeLink(path);
+		return tree == null ? null : tree.findNodeLink(path);
 	}
 
 	@Override
