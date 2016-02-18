@@ -1,5 +1,7 @@
 package org.eclipse.dawnsci.nexus.test.util;
 
+import java.io.File;
+
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
@@ -110,6 +112,20 @@ public class NexusTestUtils {
 	public static TreeFile loadNexusFile(String filePath, boolean readOnly) throws NexusException {
 		try (NexusFile nexusFile = readOnly ? openNexusFileReadOnly(filePath) : openNexusFile(filePath)) {
 			return NexusUtils.loadNexusTree(nexusFile);
+		}
+	}
+
+	/**
+	 * Utility method to delete a file if it exists.
+	 * @param file file to delete
+	 * @throws Exception if the file couldn't be deleted for any reason
+	 */
+	public static void deleteFile(String filename) throws Exception {
+		File file = new File(filename);
+		if (file.exists()) {
+			if (!file.delete()) {
+				throw new Exception("Could not delete file " + file);
+			}
 		}
 	}
 
