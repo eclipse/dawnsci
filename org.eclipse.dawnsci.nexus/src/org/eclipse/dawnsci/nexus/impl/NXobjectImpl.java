@@ -12,6 +12,8 @@
 
 package org.eclipse.dawnsci.nexus.impl;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -195,9 +197,15 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	}
 	
 	public void addExternalLink(String name, String externalFileName, String pathToNode) {
-		long oid = nodeFactory.getNextOid();
-		SymbolicNode linkNode = new SymbolicNodeImpl(oid, externalFileName, pathToNode);
-		addSymbolicNode(name, linkNode);
+		try {
+			long oid = nodeFactory.getNextOid();
+			URI uri = new URI(externalFileName);
+			SymbolicNode linkNode = new SymbolicNodeImpl(oid, uri, null, pathToNode);
+			addSymbolicNode(name, linkNode);
+		} catch (URISyntaxException e) {
+			// the filename is not a valid URI, not expected
+			throw new IllegalArgumentException("Filename cannot be convert to a URI", e);
+		}
 	}
 
 	private DataNode createDataNode(String name, IDataset value) {
