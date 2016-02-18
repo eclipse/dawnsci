@@ -27,12 +27,14 @@ import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.analysis.tree.impl.DataNodeImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
+import org.eclipse.dawnsci.analysis.tree.impl.SymbolicNodeImpl;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.nexus.NexusUtils;
@@ -1098,5 +1100,67 @@ public class NexusFileTest {
 			ILazyWriteableDataset lds = nf.getData("/test/data").getWriteableDataset();
 			lds.setSlice(null, ods, new int[] {0}, new int[] {3}, null);
 		}
+	}
+
+	@Test
+	public void testExternalLinkToDelayedFile() throws Exception {
+		File f2 = new File(FILE2_NAME);
+		if (f2.exists()) {
+			if (!f2.delete()) {
+				throw new Exception("Could not delete previous external file");
+			}
+		}
+		IDataset data = DatasetFactory.createRange(10.0, Dataset.FLOAT64).reshape(2, 5);
+		data.setName("d");
+		nf.linkExternal(new URI("nxfile://" + FILE2_NAME + "#a/"), "/x", true);
+		nf.linkExternal(new URI("nxfile://" + FILE2_NAME + "#g/d"), "/l/d", false);
+		assertTrue(nf.isPathValid("/x"));
+		assertTrue(nf.isPathValid("/l/d"));
+		try {
+			nf.getGroup("/x", false);
+			fail("Should not be able to traverse external link node when external file does not exist");
+		} catch (Exception e) {
+		}
+		try {
+			nf.getData("/l/d");
+			fail("Should not be able to open external data node when external file does not exist");
+		} catch (Exception e) {
+		}
+		try (NexusFile ef = NexusTestUtils.createNexusFile(FILE2_NAME)) {
+			ef.getGroup("/a/b", true);
+			ef.getGroup("/a/c", true);
+			ef.createData("/g", data, true);
+		}
+		GroupNode x = nf.getGroup("/x", false);
+		assertNotNull(x);
+		assertTrue(x.containsGroupNode("b"));
+		assertTrue(x.containsGroupNode("c"));
+		DataNode d = nf.getData("/l/d");
+		assertNotNull(d);
+		assertEquals(data, d.getDataset().getSlice());
+	}
+
+	@Test
+	public void testAddExternalLinkNode() throws Exception {
+		IDataset data = DatasetFactory.createRange(10.0, Dataset.FLOAT64).reshape(2, 5);
+		data.setName("data");
+		try (NexusFile nf2 = NexusTestUtils.createNexusFile(FILE2_NAME)) {
+			nf2.getGroup("/ext/group/a", true);
+			nf2.createData("/ext", data, true);
+		}
+		GroupNode g = new GroupNodeImpl("/g".hashCode());
+		SymbolicNode ed = new SymbolicNodeImpl("/g/ed".hashCode(), new URI(FILE2_NAME), null, "/ext/data");
+		SymbolicNode eg = new SymbolicNodeImpl("/g/eg".hashCode(), new URI(FILE2_NAME), null, "/ext/group/");
+		g.addNode("ed", ed);
+		g.addNode("eg", eg);
+		nf.addNode("/g", g);
+		nf.close();
+		nf.openToRead();
+		GroupNode readG = nf.getGroup("/g", false);
+		assertTrue(readG.containsGroupNode("eg"));
+		assertTrue(readG.containsDataNode("ed"));
+		GroupNode readEg = nf.getGroup("/g/eg", false);;
+		assertTrue(readEg.containsGroupNode("a"));
+		assertEquals(data, nf.getData(readG, "ed").getDataset().getSlice());
 	}
 }

@@ -35,6 +35,7 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
+import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
 import org.eclipse.dawnsci.analysis.api.tree.TreeUtils;
@@ -1137,6 +1138,15 @@ public class NexusFileHDF5 implements NexusFile {
 					addAttribute(existingNode, createAttribute(value));
 				}
 			}
+		} else if (node instanceof SymbolicNode) {
+			SymbolicNode linkNode = (SymbolicNode) node;
+			if (linkNode.getSourceURI() == null || linkNode.getSourceURI().getPath() == null ||
+					linkNode.getSourceURI().getPath().equals("")) {
+				throw new NexusException("Symbolic link node does not specify a target file");
+			}
+			if (!parentNode.containsDataNode(name) && !parentNode.containsGroupNode(name)) {
+				createExternalLink(linkNode.getSourceURI().getPath(), parentPath, name, linkNode.getPath());
+			}
 		} else {
 			throw new NexusException("Node to update is not a group or data node");
 		}
@@ -1289,6 +1299,24 @@ public class NexusFileHDF5 implements NexusFile {
 		addAttribute(linkName, targetAttr);
 	}
 
+	private void createExternalLink(String externalFileName, String destinationParent, String linkNodeName, String source) throws NexusException {
+		//create the destination node (the path on our side of the link)
+		getGroupNode(destinationParent, true);
+		String linkName = destinationParent + Node.SEPARATOR + linkNodeName;
+		try (HDF5Resource linkAccess = new HDF5PropertiesResource(H5.H5Pcreate(HDF5Constants.H5P_LINK_ACCESS));
+				HDF5Resource fileAccess = new HDF5PropertiesResource(H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS))) {
+			long lapl = linkAccess.getResource();
+			long fapl = fileAccess.getResource();
+			H5.H5Pset_libver_bounds(fapl, HDF5Constants.H5F_LIBVER_LATEST, HDF5Constants.H5F_LIBVER_LATEST);
+			H5.H5Pset_elink_fapl(lapl, fapl);
+			// TODO: Flag should probably be H5F_ACC_RDONLY | H5F_ACC_SWMR_READ but not yet supported
+			H5.H5Pset_elink_acc_flags(lapl, HDF5Constants.H5F_ACC_RDONLY);
+			H5.H5Lcreate_external(externalFileName, source, fileId, linkName, HDF5Constants.H5P_DEFAULT, lapl);
+		} catch (HDF5LibraryException e) {
+			throw new NexusException("Could not create external link", e);
+		}
+	}
+
 	@Override
 	public void link(String source, String destination) throws NexusException {
 		assertCanWrite();
@@ -1300,8 +1328,6 @@ public class NexusFileHDF5 implements NexusFile {
 		//creates a soft link *at* destination *to* source
 		assertCanWrite();
 		destination = NexusUtils.stripAugmentedPath(destination);
-		boolean useNameAtSource = destination.endsWith(Node.SEPARATOR);
-		String linkName = destination;
 		String sourceString = source.toString();
 		//the URI is malformed if the specified path was relative, so we have to manually extract the path
 		String externalFileName;
@@ -1323,29 +1349,18 @@ public class NexusFileHDF5 implements NexusFile {
 			externalNexusPath = Tree.ROOT + externalNexusPath;
 		}
 
+		boolean useNameAtSource = destination.endsWith(Node.SEPARATOR);
+		String linkName;
 		if (!useNameAtSource) {
-			destination = destination.substring(0, destination.lastIndexOf(Node.SEPARATOR));
+			int index = destination.lastIndexOf(Node.SEPARATOR);
+			linkName = destination.substring(index + 1);
+			destination = destination.substring(0, index);
 			if (destination.isEmpty()) destination = Tree.ROOT;
-		}
-		//create the destination node (the path on our side of the link)
-		getGroupNode(destination, true);
-		if (useNameAtSource) {
+		} else {
 			int index = externalNexusPath.lastIndexOf(Node.SEPARATOR);
-			linkName += externalNexusPath.substring(index);
+			linkName = externalNexusPath.substring(index);
 		}
-
-		try (HDF5Resource linkAccess = new HDF5PropertiesResource(H5.H5Pcreate(HDF5Constants.H5P_LINK_ACCESS));
-				HDF5Resource fileAccess = new HDF5PropertiesResource(H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS))) {
-			long lapl = linkAccess.getResource();
-			long fapl = fileAccess.getResource();
-			H5.H5Pset_libver_bounds(fapl, HDF5Constants.H5F_LIBVER_LATEST, HDF5Constants.H5F_LIBVER_LATEST);
-			H5.H5Pset_elink_fapl(lapl, fapl);
-			// TODO: Flag should probably be H5F_ACC_RDONLY | H5F_ACC_SWMR_READ but not yet supported
-			H5.H5Pset_elink_acc_flags(lapl, HDF5Constants.H5F_ACC_RDONLY);
-			H5.H5Lcreate_external(externalFileName, externalNexusPath, fileId, linkName, HDF5Constants.H5P_DEFAULT, lapl);
-		} catch (HDF5LibraryException e) {
-			throw new NexusException("Could not create external link", e);
-		}
+		createExternalLink(externalFileName, destination, linkName, externalNexusPath);
 	}
 
 	@Override
