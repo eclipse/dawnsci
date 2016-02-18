@@ -12,6 +12,8 @@
 
 package org.eclipse.dawnsci.nexus.impl;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
+import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
@@ -35,6 +38,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
+import org.eclipse.dawnsci.analysis.tree.impl.SymbolicNodeImpl;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 
@@ -190,6 +194,18 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		addDataNode(name, dataNode);
 		
 		return dataset;
+	}
+	
+	public void addExternalLink(String name, String externalFileName, String pathToNode) {
+		try {
+			long oid = nodeFactory.getNextOid();
+			URI uri = new URI(externalFileName);
+			SymbolicNode linkNode = new SymbolicNodeImpl(oid, uri, null, pathToNode);
+			addSymbolicNode(name, linkNode);
+		} catch (URISyntaxException e) {
+			// the filename is not a valid URI, not expected
+			throw new IllegalArgumentException("Filename cannot be convert to a URI", e);
+		}
 	}
 
 	private DataNode createDataNode(String name, IDataset value) {

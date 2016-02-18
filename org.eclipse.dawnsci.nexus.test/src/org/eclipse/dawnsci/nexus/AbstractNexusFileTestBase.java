@@ -24,9 +24,9 @@ public abstract class AbstractNexusFileTestBase {
 
 	protected NexusNodeFactory nexusNodeFactory;
 
-	private static String testScratchDirectoryName;
+	protected static String testScratchDirectoryName;
 
-	private String filePath;
+	protected String filePath;
 
 	@Before
 	public void setUp() throws Exception {
@@ -55,11 +55,15 @@ public abstract class AbstractNexusFileTestBase {
 	
 	@Test
 	public void testNexusFile() throws Exception {
-		TreeFile actualNexusTree = createNexusTree();
-		NexusTestUtils.saveNexusFile(actualNexusTree);
+		TreeFile createdNexusTree = createNexusTree();
+		NexusTestUtils.saveNexusFile(createdNexusTree);
+		TreeFile loadedNexusTree = NexusTestUtils.loadNexusFile(filePath, true);
 
-		TreeFile expectedTree = NexusTestUtils.loadNexusFile(filePath, true);
-		assertNexusTreesEqual(expectedTree, actualNexusTree);
+		checkNexusFile(createdNexusTree, loadedNexusTree);
+	}
+
+	protected void checkNexusFile(TreeFile createdNexusTree, TreeFile loadedNexusTree) throws Exception {
+		assertNexusTreesEqual(loadedNexusTree, createdNexusTree);
 	}
 
 }

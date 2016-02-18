@@ -12,30 +12,19 @@
 
 package org.eclipse.dawnsci.nexus;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
-import org.eclipse.dawnsci.analysis.api.tree.Node;
-import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 
 /**
  * Base interface of all Nexus group nodes
- */
-/**
- * @author wgp76868
- *
  */
 public interface NXobject extends GroupNode {
 
@@ -120,6 +109,16 @@ public interface NXobject extends GroupNode {
 	 * @return new lazy writable dataset
 	 */
 	public ILazyWriteableDataset initializeLazyDataset(String name, int[] shape, int dtype);
+	
+	/**
+	 * Adds an external link within the given name within this node to the node
+	 * with the given path within the file with the given name.
+	 * The external file need not exist at the time this method is invoked.
+	 * @param name name of link within this group
+	 * @param externalFilePath path of external file to link to
+	 * @param pathToNode path of node within external file to link to
+	 */
+	public void addExternalLink(String name, String externalFilePath, String pathToNode);
 
 	/**
 	 * Returns the {@link ILazyWriteableDataset} for the field within this object with the given name,
