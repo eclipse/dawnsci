@@ -371,6 +371,9 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 				return node;
 			}
 			String path = pathname.substring(i+1);
+			if (node.isDestinationSymbolic()) {
+				node = ((SymbolicNode) node.getDestination()).getNodeLink();
+			}
 			if (node.isDestinationGroup()) {
 				return ((GroupNode) node.getDestination()).findNodeLink(path);
 			}

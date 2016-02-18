@@ -70,13 +70,25 @@ public class TreeFactory {
 	}
 
 	/**
-	 * Create a symbolic link with given object ID, file name and node path
+	 * Create a symbolic link with given object ID, from tree, group and node path
 	 * @param oid object ID
-	 * @param treeWithNode
+	 * @param tree
+	 * @param groupWithNode (can be null if path is absolute)
 	 * @param pathToNode (ends in separator if group, otherwise a dataset)
 	 */
-	public static SymbolicNode createSymbolicNode(final long oid, final Tree treeWithNode, final String pathToNode) {
-		return new SymbolicNodeImpl(oid, treeWithNode, pathToNode);
+	public static SymbolicNode createSymbolicNode(final long oid, final Tree tree, final GroupNode groupWithNode, final String pathToNode) {
+		return new SymbolicNodeImpl(oid, tree, groupWithNode, pathToNode);
+	}
+
+	/**
+	 * Create a symbolic link with given object ID, from URI to tree, group and node path
+	 * @param oid object ID
+	 * @param uri
+	 * @param groupWithNode (can be null if path is absolute)
+	 * @param pathToNode (ends in separator if group, otherwise a dataset)
+	 */
+	public static SymbolicNode createSymbolicNode(final long oid, final URI uri, final GroupNode groupWithNode, final String pathToNode) {
+		return new SymbolicNodeImpl(oid, uri, groupWithNode, pathToNode);
 	}
 
 	/**

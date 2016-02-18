@@ -32,7 +32,7 @@ public class TreeUtils {
 		if (g == node) {
 			return Tree.ROOT;
 		}
-		String p = getPathDepthFirst(Tree.ROOT, tree.getGroupNode(), node);
+		String p = getPathDepthFirst(Tree.ROOT, g, node);
 		if (node instanceof GroupNode && !p.endsWith(Node.SEPARATOR)) {
 			p = p + Node.SEPARATOR;
 		}

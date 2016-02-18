@@ -13,11 +13,14 @@
 package org.eclipse.dawnsci.analysis.tree.impl;
 
 import java.io.Serializable;
+import java.net.URI;
 
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
+import org.eclipse.dawnsci.analysis.api.tree.TreeUtils;
 
 /**
  * Symbolic link to another node
@@ -25,24 +28,50 @@ import org.eclipse.dawnsci.analysis.api.tree.Tree;
 public class SymbolicNodeImpl extends NodeImpl implements SymbolicNode, Serializable {
 	protected static final long serialVersionUID = -2348087598312513187L;
 
+	private URI uri;
 	private Tree tree;
+	private GroupNode group;
 	private String path;
 
 	/**
-	 * Construct a symbolic link with given object ID, file name and node path
+	 * Construct a symbolic link with given object ID, from tree, group and node path
 	 * @param oid object ID
-	 * @param treeWithNode
+	 * @param tree
+	 * @param groupWithNode (can be null if path is absolute)
 	 * @param pathToNode (ends in separator if group, otherwise a dataset)
 	 */
-	public SymbolicNodeImpl(final long oid, final Tree treeWithNode, final String pathToNode) {
+	public SymbolicNodeImpl(final long oid, final Tree tree, final GroupNode groupWithNode, final String pathToNode) {
+		this(oid, tree.getSourceURI(), groupWithNode, pathToNode);
+		this.tree = tree;
+	}
+
+	/**
+	 * Construct a symbolic link with given object ID, from URI to tree, group and node path
+	 * @param oid object ID
+	 * @param uri
+	 * @param groupWithNode (can be null if path is absolute)
+	 * @param pathToNode (ends in separator if group, otherwise a dataset)
+	 */
+	public SymbolicNodeImpl(final long oid, final URI uri, final GroupNode groupWithNode, final String pathToNode) {
 		super(oid);
-		tree = treeWithNode;
+		this.uri = uri;
+		group = groupWithNode;
 		path = TreeImpl.canonicalizePath(pathToNode);
+		if (!path.startsWith(Tree.ROOT) && group == null) {
+			throw new IllegalArgumentException("A group node must be given when creating a symbolic node with a relative path");
+		}
 	}
 
 	@Override
 	public NodeLink getNodeLink() {
-		return tree == null ? null : tree.findNodeLink(path);
+		if (group == null || tree == null) {
+			return null;
+		}
+
+		if (path.startsWith(Tree.ROOT)) {
+			return tree.findNodeLink(path);
+		}
+		return tree.findNodeLink(TreeImpl.canonicalizePath(TreeUtils.getPath(tree, group) + path));
 	}
 
 	@Override
@@ -53,17 +82,18 @@ public class SymbolicNodeImpl extends NodeImpl implements SymbolicNode, Serializ
 
 	@Override
 	public boolean isData() {
-		return !path.endsWith(SEPARATOR);
-	}
-
-	@Override
-	public Tree getTree() {
-		return tree;
+		NodeLink l = getNodeLink();
+		return l == null ? !path.endsWith(SEPARATOR) : l.isDestinationData();
 	}
 
 	@Override
 	public String getPath() {
 		return path;
+	}
+
+	@Override
+	public URI getSourceURI() {
+		return uri;
 	}
 
 	@Override
