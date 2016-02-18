@@ -108,11 +108,17 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 		
 		//Clone and sort dimensions for searching
 		int[] datadims = getOriginalDataDimensions(original).clone();
+		int[] oddims = datadims.clone();
+		
+		if (datadims.length > outr) {
+			datadims = new int[]{datadims[0]};
+		}
 		Arrays.sort(datadims);
+		Arrays.sort(oddims);
 		
 		//Update rank of dataset (will automatically update rank of axes)
 		updateOutputDataShape(output.getData(), inr-rankDif, datadims, rankDif);
-		updateAxes(output.getData(),original,metadata,rankDif, datadims);
+		updateAxes(output.getData(),original,metadata,rankDif, datadims, oddims);
 		updateAuxData(output.getAuxData(), original);
 		
 		return (D)output;
@@ -162,7 +168,7 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 	 * @param rankDif
 	 * @param datadims
 	 */
-	private void updateAxes(IDataset output, IDataset original, List<AxesMetadata> ometadata, int rankDif, int[] datadims) {
+	private void updateAxes(IDataset output, IDataset original, List<AxesMetadata> ometadata, int rankDif, int[] datadims, int[] odatadim) {
 		if (ometadata != null && !ometadata.isEmpty() && ometadata.get(0) != null) {
 			List<AxesMetadata> metaout = null;
 			
@@ -197,13 +203,14 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 				Arrays.fill(shape, 1);
 				
 				for (int i = 0; i< original.getRank(); i++) {
-					if (Arrays.binarySearch(datadims, i) < 0) {
-						ILazyDataset[] axis = cloneMeta.getAxis(i);
-						if (axis != null) {
-							for (ILazyDataset ax : axis) if (ax != null) ax.setShape(shape); 
-							axOut.setAxis(i+j, cloneMeta.getAxis(i));
+					if (Arrays.binarySearch(odatadim, i) < 0) {
+						if (Arrays.binarySearch(datadims, i) < 0) {
+							ILazyDataset[] axis = cloneMeta.getAxis(i);
+							if (axis != null) {
+								for (ILazyDataset ax : axis) if (ax != null) ax.setShape(shape); 
+								axOut.setAxis(i+j, cloneMeta.getAxis(i));
+							}
 						}
-						
 					} else {
 						j--;
 					}
@@ -247,14 +254,16 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 			}
 			
 			int[] datadims = getOriginalDataDimensions(original).clone();
+			int[] oddims = datadims.clone();
 			
 			if (datadims.length > outr) {
 				datadims = new int[]{datadims[0]};
 			}
 			Arrays.sort(datadims);
+			Arrays.sort(oddims);
 			
 			updateOutputDataShape(ds, inr-rankDif, datadims, rankDif);
-			updateAxes(ds,original,metadata,rankDif, datadims);
+			updateAxes(ds,original,metadata,rankDif, datadims, oddims);
 			
 		}
 	}
