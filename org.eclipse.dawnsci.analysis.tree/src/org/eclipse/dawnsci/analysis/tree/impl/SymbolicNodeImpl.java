@@ -37,7 +37,7 @@ public class SymbolicNodeImpl extends NodeImpl implements SymbolicNode, Serializ
 	public SymbolicNodeImpl(final long oid, final Tree treeWithNode, final String pathToNode) {
 		super(oid);
 		tree = treeWithNode;
-		path = pathToNode;
+		path = TreeImpl.canonicalizePath(pathToNode);
 	}
 
 	@Override
