@@ -13,21 +13,13 @@
 package org.eclipse.dawnsci.analysis.dataset.operations;
 
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.ErrorMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.MaskMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.MetadataType;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.api.processing.IOperation;
 import org.eclipse.dawnsci.analysis.api.processing.OperationData;
 import org.eclipse.dawnsci.analysis.api.processing.OperationException;
 import org.eclipse.dawnsci.analysis.api.processing.OperationRank;
@@ -65,14 +57,14 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 		if (ssm == null) throw new OperationException(this, "Metadata not present, contact support");
 		
 		OperationData output = process(view,monitor);
-		
+
 		if (output == null) return null;
 		
 		return updateOutputToFullRank(output, slice);	
 	}
 	
 	/**
-	 * Pads the output dataset (and axes) to the match the rank of the input dataset, accouting for any loss of dimensionality
+	 * Pads the output dataset (and axes) to the match the rank of the input dataset, accounting for any loss of dimensionality
 	 * in the process. Suitable only for 2D and 1D datasets
 	 * 
 	 * @param output
@@ -193,7 +185,7 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 				for (int i = 0; i< original.getRank(); i++) {
 					if (Arrays.binarySearch(datadims, i) < 0) {
 						ILazyDataset[] axis = cloneMeta.getAxis(i);
-						if (axis != null) axOut.setAxis(i, cloneMeta.getAxis(i));
+						if (axis != null) axOut.setAxis(i, axis);
 					}
 				}
 				
