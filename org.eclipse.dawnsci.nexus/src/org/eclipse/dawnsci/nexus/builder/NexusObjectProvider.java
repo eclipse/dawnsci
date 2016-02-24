@@ -84,8 +84,9 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 
 	/**
 	 * Returns the data field names for this object. These are the fields
-	 * that will be linked to when this object is added to a {@link NexusDataBuilder}.
-	 * @return
+	 * that will be linked to when this this object is added to
+	 * an {@link NexusDataBuilder} to construct an {@link NXdata} group.
+	 * @return name of data fields for this object
 	 */
 	public List<String> getDataFieldNames();
 	
@@ -94,10 +95,24 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * If this object is added as the primary device to an {@link NXdata} group, then
 	 * this is the field name of the default field, i.e. the field referred to by
 	 * the <code>@signal</code> attribute.
+	 * <p>
+	 * If this object has more than one field for an NXdata should be created,
+	 * these can be
 	 *
-	 * @return default data field name
+	 * @return default data field name, this cannot be <code>null</code>
 	 */
-	public String getDefaultWritableDataFieldName();
+	public String getPrimaryDataFieldName();
+	
+	/**
+	 * Returns the names of any additional primary data fields for this device.
+	 * This method indicates that if this device is to be used to create an
+	 * {@link NXdata} with the field {@link #getPrimaryDataFieldName()}
+	 * as the default (signal field), then additional {@link NXdata} groups
+	 * should be created for each of these fields.
+	 * 
+	 * @return additional primary data field names
+	 */
+	public List<String> getAdditionalPrimaryDataFieldNames();
 	
 	/**
 	 * Returns the name of the demand field for this nexus object, if any.

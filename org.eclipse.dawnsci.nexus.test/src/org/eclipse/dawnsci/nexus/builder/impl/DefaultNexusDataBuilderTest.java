@@ -65,7 +65,7 @@ public class DefaultNexusDataBuilderTest {
 		
 		public MultipleFieldTestDetector() {
 			super("detector2", NexusBaseClass.NX_DETECTOR);
-			setDefaultWritableDataFieldName(NXdetector.NX_DATA);
+			setPrimaryDataFieldName(NXdetector.NX_DATA);
 			addDataField(NXdetector.NX_TIME_OF_FLIGHT, 2);
 		}
 		
@@ -74,6 +74,25 @@ public class DefaultNexusDataBuilderTest {
 			NXdetector detector = nodeFactory.createNXdetector();
 			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.FLOAT64);
 			detector.initializeLazyDataset(NXdetector.NX_TIME_OF_FLIGHT, 1, Dataset.FLOAT64);
+			
+			return detector;
+		}
+		
+	}
+	
+	public static class MultipleDataFieldTestDetector extends AbstractNexusProvider<NXdetector> {
+		
+		public MultipleDataFieldTestDetector() {
+			super("detector", NexusBaseClass.NX_DETECTOR);
+			setPrimaryDataFieldName(NXdetector.NX_DATA);
+			addDataField("sum", null);
+		}
+		
+		@Override
+		protected NXdetector doCreateNexusObject(NexusNodeFactory nodeFactory) {
+			NXdetector detector = nodeFactory.createNXdetector();
+			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.FLOAT64);
+			detector.initializeLazyDataset("sum", 3, Dataset.FLOAT64);
 			
 			return detector;
 		}
@@ -133,6 +152,27 @@ public class DefaultNexusDataBuilderTest {
 		assertAxes(nxData, ".", ".", ".");
 		assertThat(nxData.getDataNode("testDetector"), is(sameInstance(
 				detector.getNexusObject().getDataNode(NXdetector.NX_DATA))));
+	}
+	
+	@Test
+	public void testSetPrimaryDataDevice_setSignalFieldName() throws NexusException {
+		assertThat(nxData.getNumberOfAttributes(), is(1));
+		assertThat(nxData.getNumberOfGroupNodes(), is(0));
+		assertThat(nxData.getNumberOfDataNodes(), is(0));
+		
+		MultipleDataFieldTestDetector detector = new MultipleDataFieldTestDetector();
+		DataDevice<NXdetector> dataDevice = new DataDevice<>(detector, false);
+		dataDevice.setPrimaryDataSourceFieldName("sum");
+		dataBuilder.setPrimaryDevice(dataDevice);
+		
+		assertThat(nxData.getNumberOfAttributes(), is(4));
+		assertThat(nxData.getNumberOfGroupNodes(), is(0));
+		assertThat(nxData.getNumberOfDataNodes(), is(2));
+		
+		assertSignal(nxData, "sum");
+		assertAxes(nxData, ".", ".", ".");
+		assertThat(nxData.getDataNode("sum"), is(sameInstance(
+				detector.getNexusObject().getDataNode("sum"))));
 	}
 	
 	@Test
