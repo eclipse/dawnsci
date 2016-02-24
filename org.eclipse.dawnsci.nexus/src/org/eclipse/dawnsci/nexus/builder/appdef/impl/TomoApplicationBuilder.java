@@ -269,7 +269,7 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 
 	private <N extends NXobject> DataNode getDataNode(NexusObjectProvider<N> nexusObjectProvider) throws NexusException {
 		final N nexusObject = nexusObjectProvider.getNexusObject(getNexusNodeFactory(), true);
-		final String dataNodeName = nexusObjectProvider.getDefaultWritableDataFieldName();
+		final String dataNodeName = nexusObjectProvider.getPrimaryDataFieldName();
 		final DataNode dataNode = nexusObject.getDataNode(dataNodeName);
 		if (dataNode == null) {
 			throw new NexusException(MessageFormat.format("No such data node for {0} with name ''{1}''",
