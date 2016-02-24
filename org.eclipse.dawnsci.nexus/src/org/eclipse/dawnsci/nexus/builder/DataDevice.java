@@ -28,6 +28,8 @@ public class DataDevice<N extends NXobject> {
 	
 	private boolean useDeviceName;
 	
+	private String primaryDataSourceFieldName;
+	
 	private Map<String, FieldDimensionModel> sourceFields = new LinkedHashMap<>();
 	
 	private Map<String, String> fieldNameMappings = new HashMap<>();
@@ -69,7 +71,7 @@ public class DataDevice<N extends NXobject> {
 			if (demandDataFieldName != null) {
 				this.defaultAxisSourceFieldName = demandDataFieldName;
 			} else {
-				this.defaultAxisSourceFieldName = nexusObjectProvider.getDefaultWritableDataFieldName();
+				this.defaultAxisSourceFieldName = nexusObjectProvider.getPrimaryDataFieldName();
 			}
 		}
 		
@@ -217,6 +219,19 @@ public class DataDevice<N extends NXobject> {
 
 	public void setDefaultAxisDimension(Integer defaultAxisDimension) {
 		this.defaultAxisDimension = defaultAxisDimension;
+	}
+
+	public String getSignalDataSourceFieldName() {
+		if (primaryDataSourceFieldName != null) {
+			return primaryDataSourceFieldName;
+		}
+		
+		// by default use default writable data field as primary (@signal) data field
+		return nexusObjectProvider.getPrimaryDataFieldName();
+	}
+
+	public void setPrimaryDataSourceFieldName(String primaryDataSourceFieldName) {
+		this.primaryDataSourceFieldName = primaryDataSourceFieldName;
 	}
 	
 }
