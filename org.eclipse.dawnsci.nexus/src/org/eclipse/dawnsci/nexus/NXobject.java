@@ -115,10 +115,10 @@ public interface NXobject extends GroupNode {
 	 * with the given path within the file with the given name.
 	 * The external file need not exist at the time this method is invoked.
 	 * @param name name of link within this group
-	 * @param externalFilePath path of external file to link to
+	 * @param externalFileName name of external file to link to
 	 * @param pathToNode path of node within external file to link to
 	 */
-	public void addExternalLink(String name, String externalFilePath, String pathToNode);
+	public void addExternalLink(String name, String externalFileName, String pathToNode);
 
 	/**
 	 * Returns the {@link ILazyWriteableDataset} for the field within this object with the given name,

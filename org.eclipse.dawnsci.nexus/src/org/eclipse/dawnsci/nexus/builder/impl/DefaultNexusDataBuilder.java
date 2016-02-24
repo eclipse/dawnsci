@@ -68,9 +68,9 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 	public void setPrimaryDevice(DataDevice<?> primaryDeviceModel)
 			throws NexusException {
 		NexusObjectProvider<?> nexusObjectProvider = primaryDeviceModel.getNexusObjectProvider();
-		String sourceFieldName = nexusObjectProvider.getDefaultWritableDataFieldName();
-		String destinationFieldName = primaryDeviceModel.getDestinationFieldName(sourceFieldName);
-		addSignalAndAxesAttributes(nexusObjectProvider, sourceFieldName, destinationFieldName);
+		String signalSourceFieldName = primaryDeviceModel.getSignalDataSourceFieldName();
+		String signalDestFieldName = primaryDeviceModel.getDestinationFieldName(signalSourceFieldName);
+		addSignalAndAxesAttributes(nexusObjectProvider, signalSourceFieldName, signalDestFieldName);
 		
 		addDevice(primaryDeviceModel, true);
 	}

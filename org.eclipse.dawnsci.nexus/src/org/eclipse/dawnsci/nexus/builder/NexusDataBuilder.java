@@ -48,7 +48,7 @@ public interface NexusDataBuilder {
 	/**
 	 * Sets the given device as the primary device of the wrapped {@link NXdata}
 	 * group. The data node of the device with the name as returned by
-	 * {@link NexusObjectProvider#getDefaultWritableDataFieldName()} will be set
+	 * {@link NexusObjectProvider#getPrimaryDataFieldName()} will be set
 	 * as the default data field of this device, (referenced by the
 	 * <code>@signal</code> other fields as returned by
 	 * {@link NexusObjectProvider#getDataFieldNames()} will also be added.
@@ -97,7 +97,7 @@ public interface NexusDataBuilder {
 	 * <p>
 	 * Additionally the field with the name as returned by
 	 * {@link NexusObjectProvider#getDemandDataFieldName()}, or by
-	 * {@link NexusObjectProvider#getDefaultWritableDataFieldName()} if the
+	 * {@link NexusObjectProvider#getPrimaryDataFieldName()} if the
 	 * former is <code>null</code> is set as the default axis of the main data
 	 * field of the {@link NXdata} for the dimension with the given index (e.g.
 	 * the value of the <code>@axes</code> attribute at that index is set to the
@@ -126,7 +126,7 @@ public interface NexusDataBuilder {
 	 * <p>
 	 * Additionally the field with the name as returned by
 	 * {@link NexusObjectProvider#getDemandDataFieldName()}, or by
-	 * {@link NexusObjectProvider#getDefaultWritableDataFieldName()} if the
+	 * {@link NexusObjectProvider#getPrimaryDataFieldName()} if the
 	 * former is <code>null</code> is set as the default axis of the main data
 	 * field of the {@link NXdata} for the dimension with the given index (e.g.
 	 * the value of the <code>@axes</code> attribute at that index is set to the
