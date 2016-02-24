@@ -74,7 +74,7 @@ public class ROISliceUtils {
 	 * @return slices
 	 * @throws Exception 
 	 */
-	public static IDataset getDataset(ILazyDataset lz, RectangularROI roi, Slice[] slices, int[] order, int step, IMonitor monitor) throws Exception {
+	public static Dataset getDataset(ILazyDataset lz, RectangularROI roi, Slice[] slices, int[] order, int step, IMonitor monitor) throws Exception {
 		
 		Slice[] roiSlice = getSlicesFromRectangularROI(roi, step);
 		if (monitor != null && monitor.isCancelled()) return null;
@@ -83,7 +83,7 @@ public class ROISliceUtils {
 		sl[order[0]] = roiSlice[0];
 		sl[order[1]] = roiSlice[1];
 		if (monitor != null && monitor.isCancelled()) return null;
-		return lz.getSlice(monitor, sl);
+		return DatasetUtils.convertToDataset(lz.getSlice(monitor, sl));
 		
 	}
 	
@@ -131,7 +131,7 @@ public class ROISliceUtils {
 	 * @return dataset
 	 * @throws Exception 
 	 */
-	public static IDataset getAxisDatasetTrapzSum(ILazyDataset lz, IDataset axis, RectangularROI roi, Slice[] slices, int dim, int step, IMonitor monitor) throws Exception {
+	public static Dataset getAxisDatasetTrapzSum(ILazyDataset lz, IDataset axis, RectangularROI roi, Slice[] slices, int dim, int step, IMonitor monitor) throws Exception {
 		
 
 		Slice[] sl = checkSlices(lz.getRank(), slices);
@@ -141,7 +141,7 @@ public class ROISliceUtils {
 		int start = sl[dim].getStart();
 		int end = sl[dim].getEnd();
 
-		Dataset dataBlock = (Dataset)lz.getSlice(monitor, sl);
+		Dataset dataBlock = DatasetUtils.convertToDataset(lz.getSlice(monitor, sl));
 		if (monitor != null && monitor.isCancelled()) return null;
 		sl = new Slice[lz.getRank()];
 		
@@ -179,7 +179,7 @@ public class ROISliceUtils {
 	 * @param step
 	 * @return dataset
 	 */
-	public static IDataset getTrapiziumArea(ILazyDataset lz, IDataset axis, RectangularROI roi, Slice[] slices, int dim, int step, IMonitor monitor) throws Exception {
+	public static Dataset getTrapiziumArea(ILazyDataset lz, IDataset axis, RectangularROI roi, Slice[] slices, int dim, int step, IMonitor monitor) throws Exception {
 		Slice[] sl = checkSlices(lz.getRank(), slices);
 		if (monitor != null && monitor.isCancelled()) return null;
 		sl[dim] = getSliceFromRectangularXAxis1D(roi,axis, step);
@@ -214,13 +214,13 @@ public class ROISliceUtils {
 	 * @return dataset
 	 * @throws Exception 
 	 */
-	public static IDataset getAxisDatasetTrapzSumBaselined(ILazyDataset lz, IDataset axis, RectangularROI roi, Slice[] slices, int dim, int step,boolean baseline,IMonitor monitor) throws Exception {
+	public static Dataset getAxisDatasetTrapzSumBaselined(ILazyDataset lz, IDataset axis, RectangularROI roi, Slice[] slices, int dim, int step,boolean baseline,IMonitor monitor) throws Exception {
 
-		final Dataset output = ((Dataset)ROISliceUtils.getAxisDatasetTrapzSum( lz,  axis,  roi,  slices,  dim,  step, monitor));
+		final Dataset output = getAxisDatasetTrapzSum( lz,  axis,  roi,  slices,  dim,  step, monitor);
 		
 		if (baseline) {
 			if (monitor != null && monitor.isCancelled()) return null;
-			final IDataset datasetBasline = ROISliceUtils.getTrapiziumArea( lz,  axis,  roi,  slices,  dim,  step, monitor);
+			final Dataset datasetBasline = getTrapiziumArea( lz,  axis,  roi,  slices,  dim,  step, monitor);
 			output.isubtract(datasetBasline);
 		}
 
@@ -267,7 +267,7 @@ public class ROISliceUtils {
 	 * @return dataset
 	 * @throws Exception 
 	 */
-	public static IDataset getYAxisDataset2DAverage(ILazyDataset lz, RectangularROI roi, Slice[] slices, int dim, IMonitor monitor) throws Exception{
+	public static Dataset getYAxisDataset2DAverage(ILazyDataset lz, RectangularROI roi, Slice[] slices, int dim, IMonitor monitor) throws Exception{
 		
 		Slice[] sl = checkSlices(lz.getRank(), slices);
 		
@@ -278,7 +278,7 @@ public class ROISliceUtils {
 		
 		sl[dim] = xSlice;
 		
-		Dataset out = (Dataset)lz.getSlice(monitor, sl);
+		Dataset out = DatasetUtils.convertToDataset(lz.getSlice(monitor, sl));
 		if (monitor != null && monitor.isCancelled()) return null;
 		out = out.mean(dim);
 		

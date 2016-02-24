@@ -58,7 +58,7 @@ public interface ILoaderService {
 	 * Use for image files.
 	 * @param filePath
 	 * @param monitor
-	 * @return IDataHolder
+	 * @return IDataset
 	 * @throws Exception
 	 */
     public IDataset getDataset(String filePath, final IMonitor monitor) throws Exception;
@@ -79,7 +79,7 @@ public interface ILoaderService {
 	 * @param filePath
 	 * @param datasetPath for instance nexus path, may be null.
 	 * @param monitor
-	 * @return IDataHolder
+	 * @return IDataset
 	 * @throws Exception
 	 */
     public IDataset getDataset(String filePath, final String datasetPath, final IMonitor monitor) throws Exception;

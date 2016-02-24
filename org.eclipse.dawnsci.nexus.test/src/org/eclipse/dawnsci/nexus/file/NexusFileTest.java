@@ -30,6 +30,7 @@ import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.analysis.tree.impl.DataNodeImpl;
@@ -633,8 +634,8 @@ public class NexusFileTest {
 		nf.close();
 		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		DataNode node = nf.getData("/test/intarray");
-		IDataset data = node.getDataset().getSlice(new int[] {0, 0}, new int[] {2, 2}, new int[] {1, 1});
-		assertArrayEquals(new int[] {-1, -1, -1, -1}, (int[])((Dataset) data).getBuffer());
+		Dataset data = DatasetUtils.convertToDataset(node.getDataset().getSlice(new int[] {0, 0}, new int[] {2, 2}, new int[] {1, 1}));
+		assertArrayEquals(new int[] {-1, -1, -1, -1}, (int[]) data.getBuffer());
 	}
 
 	@Test
@@ -647,8 +648,8 @@ public class NexusFileTest {
 		nf.close();
 		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		DataNode node = nf.getData("/test/doublearray");
-		IDataset data = node.getDataset().getSlice(new int[] {0, 0}, new int[] {2, 2}, new int[] {1, 1});
-		assertArrayEquals(new double[] {1, 2, 3, 4}, (double[])((Dataset) data).getBuffer(), 1e-12);
+		Dataset data = DatasetUtils.convertToDataset(node.getDataset().getSlice(new int[] {0, 0}, new int[] {2, 2}, new int[] {1, 1}));
+		assertArrayEquals(new double[] {1, 2, 3, 4}, (double[]) data.getBuffer(), 1e-12);
 	}
 	
 	@Test
@@ -1033,8 +1034,8 @@ public class NexusFileTest {
 
 		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		DataNode node = nf.getData("/base/g/intarray");
-		IDataset data = node.getDataset().getSlice(new int[] { 0, 0 }, new int[] { 2, 2 }, new int[] { 1, 1 });
-		assertArrayEquals(new int[] { -1, -1, -1, -1 }, (int[]) ((Dataset) data).getBuffer());
+		Dataset data = DatasetUtils.convertToDataset(node.getDataset().getSlice(new int[] { 0, 0 }, new int[] { 2, 2 }, new int[] { 1, 1 }));
+		assertArrayEquals(new int[] { -1, -1, -1, -1 }, (int[]) data.getBuffer());
 	}
 
 	@Test

@@ -62,13 +62,13 @@ public class Downsample implements DatasetToDatasetFunction, IDownsampleService 
 	}
 
 	@Override
-	public List<IDataset> downsample(String enc, IDataset... data) throws Exception {
+	public List<Dataset> downsample(String enc, IDataset... data) throws Exception {
 		Downsample d = Downsample.decode(enc);
 		return d.value(data);
 	}
 
 	@Override
-	public List<IDataset> downsample(DownsampleMode mode, int[] binShape, IDataset... data) throws Exception{
+	public List<Dataset> downsample(DownsampleMode mode, int[] binShape, IDataset... data) throws Exception{
 	    Downsample d = new Downsample(mode, binShape);
 		return d.value(data);
 	}
@@ -79,11 +79,11 @@ public class Downsample implements DatasetToDatasetFunction, IDownsampleService 
 	 * @return a list of down-sampled datasets
 	 */
 	@Override
-	public List<IDataset> value(IDataset... datasets) {
+	public List<Dataset> value(IDataset... datasets) {
 		if (datasets.length == 0)
 			return null;
 
-		List<IDataset> result = new ArrayList<IDataset>();
+		List<Dataset> result = new ArrayList<Dataset>();
 		int brank = bshape.length;
 
 		for (IDataset idataset : datasets) {

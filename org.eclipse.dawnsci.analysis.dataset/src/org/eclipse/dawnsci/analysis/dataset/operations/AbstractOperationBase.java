@@ -157,7 +157,7 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	 * @param slice
 	 * @return mask
 	 */
-	public static ILazyDataset getFirstMask(IDataset slice) {
+	public static IDataset getFirstMask(IDataset slice) {
 
 		List<MaskMetadata> metaList = null;
 

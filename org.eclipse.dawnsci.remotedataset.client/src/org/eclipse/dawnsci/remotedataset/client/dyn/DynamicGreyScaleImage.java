@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDatasetChangeChecker;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.ShortDataset;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 
@@ -70,7 +70,7 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 	@Override
 	public void setData(IDataset sdata) {
 		
-		Serializable buffer = ((Dataset)sdata).getBuffer();	
+		Serializable buffer = DatasetUtils.convertToDataset(sdata).getBuffer();	
 		
 		odata = buffer;
 		setData();

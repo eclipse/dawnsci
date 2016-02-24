@@ -14,10 +14,10 @@ package org.eclipse.dawnsci.plotting.examples;
 import java.io.File;
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
@@ -46,20 +46,20 @@ public class CompositeExample extends PlotExample {
 
 			String fp = loc.getAbsolutePath();
 			IDataHolder dh = service.getData(fp, true, null);
-			IDataset micro = dh.getLazyDataset("/microscope1/image/data").getSlice();
-			IDataset microx = dh.getLazyDataset("/microscope1/image/x").getSlice();
-			IDataset microy = dh.getLazyDataset("/microscope1/image/y").getSlice();
-			RGBDataset microrgb = new RGBDataset((Dataset)micro.getSlice(new Slice(0,1),null,null).squeeze(),
-												 (Dataset)micro.getSlice(new Slice(1,2),null,null).squeeze(),
-												 (Dataset)micro.getSlice(new Slice(2,3),null,null).squeeze());
+			Dataset micro = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/microscope1/image/data"));
+			Dataset microx = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/microscope1/image/x"));
+			Dataset microy = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/microscope1/image/y"));
+			RGBDataset microrgb = new RGBDataset(micro.getSlice(new Slice(0,1),null,null).squeeze(),
+												 micro.getSlice(new Slice(1,2),null,null).squeeze(),
+												 micro.getSlice(new Slice(2,3),null,null).squeeze());
 
-			IDataset map = dh.getLazyDataset("/map1/map/data").getSlice();
-			IDataset mapx = dh.getLazyDataset("/map1/map/x").getSlice();
-			IDataset mapy = dh.getLazyDataset("/map1/map/y").getSlice();
+			Dataset map = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/map1/map/data"));
+			Dataset mapx = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/map1/map/x"));
+			Dataset mapy = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/map1/map/y"));
 			
 			//Nudge co-ordinates
-			((Dataset)mapx).iadd(5);
-			((Dataset)mapy).isubtract(20);
+			mapx.iadd(5);
+			mapy.isubtract(20);
 
 			//Make the composite trace to hold all the images
 			IImageTrace     back = system.createImageTrace(getFileName());
@@ -71,22 +71,22 @@ public class CompositeExample extends PlotExample {
 			globalRange[3] =microy.max().doubleValue();
 			
 			//Set RGB as background
-			back.setData(microrgb, Arrays.asList(microx,((Dataset)microy)), false);
+			back.setData(microrgb, Arrays.asList(microx,microy), false);
 			back.setGlobalRange(globalRange);
 
 			//Make a low resolution image by slicing out every other point
-			IDataset lowMap = map.getSlice(null,null,new int[]{2,2});
-			IDataset lowx = mapx.getSlice(null,null,new int[]{2});
-			IDataset lowy = mapy.getSlice(null,null,new int[]{2});
+			Dataset lowMap = map.getSlice(null,null,new int[]{2,2});
+			Dataset lowx = mapx.getSlice(null,null,new int[]{2});
+			Dataset lowy = mapy.getSlice(null,null,new int[]{2});
 			IImageTrace    mid = system.createImageTrace("mid");
-			mid.setData(lowMap, Arrays.asList(((Dataset)lowx),((Dataset)lowy)), false);
+			mid.setData(lowMap, Arrays.asList(lowx,lowy), false);
 			mid.setAlpha(90);
 			mid.setGlobalRange(globalRange);
 			
 			//Make a partial high resolution area of the map by taking one 64*64 block
-			IDataset highMap = map.getSlice(new int[]{64,0},new int[]{128,64} ,null);
-			IDataset highx = mapx.getSlice(new int[]{0},new int[]{64},null);
-			IDataset highy = mapy.getSlice(new int[]{64},new int[]{128},null);
+			Dataset highMap = map.getSlice(new int[]{64,0},new int[]{128,64} ,null);
+			Dataset highx = mapx.getSlice(new int[]{0},new int[]{64},null);
+			Dataset highy = mapy.getSlice(new int[]{64},new int[]{128},null);
 			IImageTrace    top = system.createImageTrace("top");
 			top.setData(highMap, Arrays.asList(highx,highy), false);
 			top.setAlpha(150);

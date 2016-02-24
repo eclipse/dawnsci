@@ -8,6 +8,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
@@ -39,7 +40,7 @@ class DataConnection<T extends IDataset> {
 			final BufferedImage image = client.take();
 			if (image==null) break;
 			
-			Dataset rgb = (Dataset)ServiceHolder.getPlotImageService().createDataset(image);
+			Dataset rgb = DatasetUtils.convertToDataset(ServiceHolder.getPlotImageService().createDataset(image));
 			if (greyScale) rgb = ((RGBDataset)rgb).getRedView();
 			
 			IDataset set = rgb.cast(dType);			

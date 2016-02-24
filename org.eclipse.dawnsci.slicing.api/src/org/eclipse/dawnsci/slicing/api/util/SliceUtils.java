@@ -31,6 +31,7 @@ import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.io.SliceObject;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.doe.DOEUtils;
 import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
@@ -362,7 +363,7 @@ public class SliceUtils {
 				x.setName("Indices");
 			}
 			if (x.getRank()==2) {
-				x = ((Dataset)x).mean(0).squeeze();
+				x = DatasetUtils.convertToDataset(x).mean(0).squeeze();
 				x.setName("Average '"+axisName+"'");
 			}
 
