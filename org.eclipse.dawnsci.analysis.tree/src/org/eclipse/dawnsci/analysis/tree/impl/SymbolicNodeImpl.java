@@ -41,7 +41,7 @@ public class SymbolicNodeImpl extends NodeImpl implements SymbolicNode, Serializ
 	 * @param pathToNode (ends in separator if group, otherwise a dataset)
 	 */
 	public SymbolicNodeImpl(final long oid, final Tree tree, final GroupNode groupWithNode, final String pathToNode) {
-		this(oid, tree.getSourceURI(), groupWithNode, pathToNode);
+		this(oid, tree == null ? null : tree.getSourceURI(), groupWithNode, pathToNode);
 		this.tree = tree;
 	}
 
