@@ -39,6 +39,14 @@ public class PointROI extends ROIBase implements Serializable {
 	}
 
 	@Override
+	public PointROI copy() {
+		PointROI c = new PointROI(spt.clone());
+		c.name = name;
+		c.plot = plot;
+		return c;
+	}
+
+	@Override
 	public boolean containsPoint(double x, double y) {
 		return spt[0] == x && spt[1] == y;
 	}
