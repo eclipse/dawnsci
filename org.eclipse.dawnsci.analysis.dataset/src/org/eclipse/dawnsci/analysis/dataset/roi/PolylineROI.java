@@ -27,7 +27,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 /**
  * Class for a polyline ROI (really a list of point ROIs)
  */
-public class PolylineROI extends PointROI implements IPolylineROI, Serializable {
+public class PolylineROI extends ROIBase implements IPolylineROI, Serializable {
 	protected List<IROI> pts; // first element should point to this if size > 0
 
 	/**
@@ -41,10 +41,18 @@ public class PolylineROI extends PointROI implements IPolylineROI, Serializable 
 	public PolylineROI(IPolylineROI poly) {
 		this();
 		for (IROI p: poly) {
-			addPoint(p.getPoint());
+			insertPoint(new PointROI(p.getPoint()));
 		}
 		name = poly.getName();
 		plot = poly.isPlot();
+	}
+
+	public PolylineROI(List<PointROI> points) {
+		this();
+		if (points.size() > 0) {
+			pts.addAll(points);
+			super.setPoint(points.get(0).getPointRef());
+		}
 	}
 
 	public PolylineROI(double[] start) {
@@ -67,20 +75,20 @@ public class PolylineROI extends PointROI implements IPolylineROI, Serializable 
 		setDirty();
 	}
 
-	@Override
-	public void setPoint(double[] point) {
-		super.setPoint(point);
-		if (pts.size() == 0) {
-			pts.add(this);
-		}
-	}
-
 	/**
 	 * 
 	 * @param point
 	 */
 	public void setPoint(PointROI point) {
-		setPoint(point.spt);
+		super.setPoint(point.spt);
+		if (pts.size() == 0) {
+			pts.add(point);
+		}
+	}
+
+	@Override
+	public void setPoint(double[] point) {
+		setPoint(new PointROI(point));
 	}
 
 	/**
@@ -94,8 +102,8 @@ public class PolylineROI extends PointROI implements IPolylineROI, Serializable 
 			setPoint(point.getPointRef());
 		} else {
 			pts.set(i, point instanceof PointROI ? (PointROI) point : new PointROI(point.getPointRef()));
+			setDirty();
 		}
-		setDirty();
 	}
 
 	/**
@@ -123,11 +131,11 @@ public class PolylineROI extends PointROI implements IPolylineROI, Serializable 
 	 */
 	@Override
 	public void insertPoint(IROI point) {
+		PointROI p = point instanceof PointROI ? (PointROI) point : new PointROI(point.getPointRef());
 		if (pts.size() == 0) {
-			super.setPoint(point.getPointRef());
-			pts.add(this);
+			setPoint(p);
 		} else {
-			pts.add(point instanceof PointROI ? (PointROI) point : new PointROI(point.getPointRef()));
+			pts.add(p);
 			setDirty();
 		}
 	}
@@ -164,17 +172,11 @@ public class PolylineROI extends PointROI implements IPolylineROI, Serializable 
 	 */
 	public void insertPoint(int i, PointROI point) {
 		if (i == 0) {
-			if (pts.size() == 0) {
-				setPoint(point);
-			} else { // copy current and then shift
-				pts.set(0, new PointROI(spt));
-				spt = point.spt;
-				pts.add(0, this);
-			}
+			insertPoint(point);
 		} else {
 			pts.add(i, point);
+			setDirty();
 		}
-		setDirty();
 	}
 
 	/**
@@ -252,12 +254,15 @@ public class PolylineROI extends PointROI implements IPolylineROI, Serializable 
 
 	@Override
 	public boolean isNearOutline(double x, double y, double distance) {
-		if (super.isNearOutline(x, y, distance))
+		if (!super.isNearOutline(x, y, distance))
+			return false;
+
+		if (Math.hypot(spt[0] - x, spt[1] - y) <= distance)
 			return true;
 
 		int imax = pts.size();
 		if (imax < 2)
-			return true;
+			return false;
 
 		double[] p = pts.get(0).getPointRef();
 		double ox = p[0];
@@ -272,6 +277,25 @@ public class PolylineROI extends PointROI implements IPolylineROI, Serializable 
 			oy = py;
 		}
 		return false;
+	}
+
+	/**
+	 * @return list of points
+	 */
+	@Override
+	public List<IROI> getPoints() {
+		return pts;
+	}
+
+	/**
+	 * Replace points in polyline by given list
+	 * @param points
+	 */
+	@Override
+	public void setPoints(List<IROI> points) {
+		pts.clear();
+		pts.addAll(points);
+		setDirty();
 	}
 
 	/**

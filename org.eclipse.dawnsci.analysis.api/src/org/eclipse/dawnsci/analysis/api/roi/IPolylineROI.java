@@ -12,6 +12,8 @@
 
 package org.eclipse.dawnsci.analysis.api.roi;
 
+import java.util.List;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
@@ -55,4 +57,15 @@ public interface IPolylineROI extends IROI, Iterable<IROI> {
 
 	@Override
 	public IPolylineROI copy();
+
+	/**
+	 * @return list of points
+	 */
+	public List<IROI> getPoints();
+
+	/**
+	 * Replace points in polyline by given list
+	 * @param points
+	 */
+	public void setPoints(List<IROI> points);
 }
