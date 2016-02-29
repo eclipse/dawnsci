@@ -62,5 +62,11 @@ public interface IPersistenceService {
 	 * @return string
 	 */
 	public String marshal(Object obj) throws Exception;
+	
+	/**
+	 * Persists objects to Tree file nodes
+	 * @return factory
+	 */
+	public IPersistentNodeFactory getPersistentNodeFactory();
 
 }
