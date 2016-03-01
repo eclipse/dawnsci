@@ -6,11 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import org.dawnsci.plotting.services.ImageService;
-import org.dawnsci.plotting.services.PlotImageService;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.function.Downsample;
@@ -19,18 +16,17 @@ import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
 import org.eclipse.dawnsci.nexus.INexusFileFactory;
-import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
-import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.eclipse.dawnsci.remotedataset.server.DataServer;
+import org.eclipse.dawnsci.remotedataset.test.ImageServiceMock;
+import org.eclipse.dawnsci.remotedataset.test.LoaderServiceMock;
+import org.eclipse.dawnsci.remotedataset.test.PlotImageServiceMock;
 import org.eclipse.swt.graphics.ImageData;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
-import uk.ac.diamond.scisoft.analysis.osgi.LoaderServiceImpl;
 
 public class DataServerTest {
 
@@ -53,9 +49,9 @@ public class DataServerTest {
 		// To get these concrete services go to dawnsci.org and follow the instructions for
 		// setting up dawnsci to run in your application.
 		ServiceHolder.setDownService(new Downsample());
-		ServiceHolder.setImageService(new ImageService());
-		ServiceHolder.setLoaderService(new LoaderServiceImpl());
-		ServiceHolder.setPlotImageService(new PlotImageService());
+		ServiceHolder.setImageService(new ImageServiceMock());
+		ServiceHolder.setLoaderService(new LoaderServiceMock()); // TODO Implement the mock to get the test working again.
+		ServiceHolder.setPlotImageService(new PlotImageServiceMock());
 	
         // Start the DataServer
 		port   = TestUtils.getFreePort(8080);

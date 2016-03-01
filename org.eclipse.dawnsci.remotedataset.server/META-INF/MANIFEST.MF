@@ -20,11 +20,10 @@ Require-Bundle: javax.servlet,
  org.eclipse.jetty.websocket.server;bundle-version="9.2.13",
  org.eclipse.jetty.websocket.servlet;bundle-version="9.2.13",
  org.eclipse.jetty.websocket.api;bundle-version="9.2.13"
-Import-Package: org.apache.log4j,
- org.eclipse.swt.graphics,
+Import-Package: org.eclipse.swt.graphics,
  org.eclipse.swt.widgets,
  org.osgi.framework;version="1.7.0",
- org.slf4j;version="1.7.6"
+ org.slf4j;version="1.7.2"
 Eclipse-RegisterBuddy:  org.eclipse.jetty.websocket.server, org.eclipse.jetty.websocket.servlet
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.dawnsci.remotedataset.server

@@ -17,4 +17,4 @@ Require-Bundle: org.eclipse.dawnsci.analysis.api;bundle-version="1.0.0",
  org.eclipse.jetty.websocket.api;bundle-version="9.2.13",
  org.eclipse.jetty.websocket.client;bundle-version="9.2.13",
  org.eclipse.jetty.util;bundle-version="9.2.13"
-Import-Package: org.slf4j;version="1.7.6"
+Import-Package: org.slf4j;version="1.7.2"

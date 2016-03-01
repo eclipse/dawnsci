@@ -4,21 +4,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dawnsci.plotting.services.ImageService;
-import org.dawnsci.plotting.services.PlotImageService;
 import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.analysis.dataset.function.Downsample;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
+import org.eclipse.dawnsci.remotedataset.test.ImageServiceMock;
+import org.eclipse.dawnsci.remotedataset.test.LoaderServiceMock;
+import org.eclipse.dawnsci.remotedataset.test.PlotImageServiceMock;
 import org.junit.Before;
 import org.junit.Test;
-
-import uk.ac.diamond.scisoft.analysis.osgi.LoaderServiceImpl;
 
 /**
  * Test using MJPG datasets how they are supposed to be used.
@@ -39,9 +36,9 @@ public class MJPGTest {
 		// To get these concrete services go to dawnsci.org and follow the instructions for
 		// setting up dawnsci to run in your application.
 		ServiceHolder.setDownService(new Downsample());
-		ServiceHolder.setImageService(new ImageService());
-		ServiceHolder.setLoaderService(new LoaderServiceImpl());
-		ServiceHolder.setPlotImageService(new PlotImageService());
+		ServiceHolder.setImageService(new ImageServiceMock());
+		ServiceHolder.setLoaderService(new LoaderServiceMock()); // TODO Implement the mock to get the test working again.
+		ServiceHolder.setPlotImageService(new PlotImageServiceMock());
 	}
 	
 	@Test

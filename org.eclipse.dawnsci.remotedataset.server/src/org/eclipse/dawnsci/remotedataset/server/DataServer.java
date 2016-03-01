@@ -14,7 +14,7 @@ package org.eclipse.dawnsci.remotedataset.server;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.BasicConfigurator;
+
 import org.eclipse.dawnsci.remotedataset.server.event.EventServlet;
 import org.eclipse.dawnsci.remotedataset.server.event.FileMonitorSocket;
 import org.eclipse.dawnsci.remotedataset.server.info.InfoServlet;
@@ -48,8 +48,6 @@ public class DataServer extends PortServer {
 	 */
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
-
-		BasicConfigurator.configure();
 
 		final Map      args          = context.getArguments();
 		final String[] configuration = (String[])args.get("application.args");
