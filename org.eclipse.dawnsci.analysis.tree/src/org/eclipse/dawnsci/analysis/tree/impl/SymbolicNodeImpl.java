@@ -14,6 +14,7 @@ package org.eclipse.dawnsci.analysis.tree.impl;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.util.Objects;
 
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
@@ -95,6 +96,11 @@ public class SymbolicNodeImpl extends NodeImpl implements SymbolicNode, Serializ
 	public URI getSourceURI() {
 		return uri;
 	}
+	
+	@Override
+	public boolean isSymbolicNode() {
+		return true;
+	}
 
 	@Override
 	public String toString() {
@@ -103,4 +109,25 @@ public class SymbolicNodeImpl extends NodeImpl implements SymbolicNode, Serializ
 		out.append(attrs);
 		return out.toString();
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (!(obj instanceof SymbolicNodeImpl)) return false;
+		
+		SymbolicNodeImpl other = (SymbolicNodeImpl) obj;
+		if (!Objects.equals(uri, other.uri)) return false;
+		if (!Objects.equals(tree, other.tree)) return false;
+		if (!Objects.equals(group, other.group)) return false;
+		if (!Objects.equals(path, other.path)) return false;
+		
+		return true;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(uri, tree, group, path);
+	}
+	
 }

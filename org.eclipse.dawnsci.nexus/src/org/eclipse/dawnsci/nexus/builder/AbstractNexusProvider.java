@@ -60,7 +60,7 @@ import org.eclipse.dawnsci.nexus.NexusNodeFactory;
  * @param <N> nexus base class type, a subinterface of {@link NXobject}
  */
 public abstract class AbstractNexusProvider<N extends NXobject> implements NexusObjectProvider<N> {
-	
+
 	public static final String DEFAULT_DATA_NODE_NAME = "data";
 
 	private final NexusBaseClass nexusBaseClass;
@@ -77,6 +77,8 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	// for which that field is the default axis
 	// TODO, do we need the dimension mappings as well
 	private Map<String, FieldDimensionModel> defaultAxisDimensions = null;
+	
+	private Map<String, Integer> externalDatasetRanks = null;
 	
 	private String demandDataFieldName = null;
 	
@@ -333,6 +335,42 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 		return getNexusObject().getLazyWritableDataset(fieldName);
 	}
 	
+	@Override
+	public int getExternalDatasetRank(String fieldName) {
+		if (externalDatasetRanks == null || !externalDatasetRanks.containsKey(fieldName)) {
+			throw new IllegalArgumentException("No rank set for external dataset: " + fieldName);
+		}
+		
+		return externalDatasetRanks.get(fieldName);
+	}
 	
+	public void setExternalDatasetRank(String fieldName, int rank) {
+		if (externalDatasetRanks == null) {
+			externalDatasetRanks = new HashMap<>();
+		}
+		
+		externalDatasetRanks.put(fieldName, rank);
+	}
+	
+	/**
+	 * A convenience method to add an external link to the given
+	 * group node with the given name, while also setting the rank of the
+	 * external dataset within this {@link AbstractNexusProvider}.
+	 * This is required to be set when adding a {@link NexusObjectProvider}
+	 * with external links to a {@link NexusDataBuilder} in order for the
+	 * <code>axes</code> and <code>&lt;axisname&gt;_indices</code> to be
+	 * created.
+	 *  
+	 * @param groupNode group node to add external link to
+	 * @param fieldName name of external dataset within the group
+	 * @param externalFileName name of external file to link to
+	 * @param pathToNode path of node to link to within the external file
+	 * @param rank the rank of the 
+	 */
+	public void addExternalLink(NXobject groupNode, String fieldName,
+			String externalFileName, String pathToNode, int rank) {
+		groupNode.addExternalLink(fieldName, externalFileName, pathToNode);
+		setExternalDatasetRank(fieldName, rank);
+	}
 
 }

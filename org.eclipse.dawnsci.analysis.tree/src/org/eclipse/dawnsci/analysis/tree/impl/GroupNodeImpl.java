@@ -32,7 +32,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	protected static final long serialVersionUID = 8830337783420707862L;
 
 	private Map<Long, Node> pool;
-	private int datasets;
+	private int dataNodes;
 	private int groups;
 	private final Map<String, NodeLink> nodes;
 	private boolean populated = false;
@@ -53,7 +53,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	 */
 	public GroupNodeImpl(final long oid) {
 		super(oid);
-		datasets = 0;
+		dataNodes = 0;
 		groups = 0;
 		nodes = new LinkedHashMap<String, NodeLink>();
 	}
@@ -93,7 +93,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			if (n instanceof GroupNode) {
 				groups++;
 			} else {
-				datasets++;
+				dataNodes++;
 			}
 			nodes.put(name, link);
 			populated = true;
@@ -130,9 +130,12 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			Node n = nodes.get(name).getDestination();
 			if (n instanceof SymbolicNode) {
 				n = ((SymbolicNode) n).getNode();
+				if (n == null) {
+					throw new NullPointerException("A symbolic node exists with the given name which cannot be resolved to a group node: " + name);
+				}
 			}
 			if (!(n instanceof GroupNode)) {
-				throw new IllegalArgumentException("A name: " + name);
+				throw new IllegalArgumentException("Existing node with given name is not a group node: " + name);
 			}
 
 			return (GroupNode) n;
@@ -161,12 +164,15 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	@Override
 	public void removeGroupNode(final String name) {
 		if (!nodes.containsKey(name)) {
-			throw new IllegalArgumentException("No name exists in this group: " + name);
+			throw new IllegalArgumentException("No node exists in this group with the name: " + name);
 		}
 
 		Node n = nodes.get(name).getDestination();
 		if (n instanceof SymbolicNode) {
 			n = ((SymbolicNode) n).getNode();
+			if (n == null) {
+				throw new NullPointerException("A symbolic node exists with the given name which cannot be resolved to a group node: " + name);
+			}
 		}
 		if (n instanceof DataNode) {
 			throw new IllegalArgumentException("Group of given name does not exist in this group: " + name);
@@ -191,7 +197,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	@Override
 	public int getNumberOfDataNodes() {
-		return datasets;
+		return dataNodes;
 	}
 
 	@Override
@@ -205,6 +211,9 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			Node n = nodes.get(name).getDestination();
 			if (n instanceof SymbolicNode) {
 				n = ((SymbolicNode) n).getNode();
+				if (n == null) {
+					throw new NullPointerException("A symbolic node exists with the given name which cannot be resolved to a data node: " + name);
+				}
 			}
 			if (!(n instanceof DataNode)) {
 				throw new IllegalArgumentException("Existing node with given name is not a data node: " + name);
@@ -213,6 +222,14 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			return (DataNode) n;
 		}
 
+		return null;
+	}
+	
+	public Node getNode(final String name) {
+		if (nodes.containsKey(name)) {
+			return nodes.get(name).getDestination();
+		}
+		
 		return null;
 	}
 
@@ -225,7 +242,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 					throw new IllegalArgumentException("Cannot add node as group contains node with same name that is not a data node: " + name);
 				}
 			} else {
-				datasets++;
+				dataNodes++;
 			}
 			nodes.put(name, createNodeLink(name, d));
 			populated = true;
@@ -245,13 +262,16 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		Node n = nodes.get(name).getDestination();
 		if (n instanceof SymbolicNode) {
 			n = ((SymbolicNode) n).getNode();
+			if (n == null) {
+				throw new NullPointerException("A symbolic node exists with the given name which cannot be resolved to a data node: " + name);
+			}
 		}
 		if (n instanceof GroupNode) {
 			throw new IllegalArgumentException("Dataset of given name does not exist in this group: " + name);
 		}
 
 		nodes.remove(name);
-		datasets--;
+		dataNodes--;
 	}
 
 	@Override
@@ -260,7 +280,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			NodeLink l = nodes.get(n);
 			if (l.getDestination().equals(d)) {
 				nodes.remove(n);
-				datasets--;
+				dataNodes--;
 				return;
 			}
 		}
@@ -278,10 +298,63 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			} else {
 				if (name.endsWith(Node.SEPARATOR)) {
 					groups++;
+				} else {
+					dataNodes++;
 				}
 			}
 			nodes.put(name, createNodeLink(name, s));
 		}
+	}
+
+	@Override
+	public boolean containsSymbolicNode(String name) {
+		return nodes.containsKey(name) && nodes.get(name).isDestinationSymbolic();
+	}
+
+	@Override
+	public SymbolicNode getSymbolicNode(String name) {
+		if (nodes.containsKey(name)) {
+			Node n = nodes.get(name).getDestination();
+			if (!(n instanceof SymbolicNode)) {
+				throw new IllegalArgumentException("Existing node with given name is not a symbolic node: " + name);
+			}
+			
+			return (SymbolicNode) n;
+		}
+		
+		return null;
+	}
+
+	@Override
+	public void removeSymbolicNode(String name) {
+		if (!nodes.containsKey(name)) {
+			throw new IllegalArgumentException("No node exists in this group with the name: " + name);
+		}
+		
+		Node n = nodes.get(name).getDestination();
+		if (!(n instanceof SymbolicNode)) {
+			throw new IllegalArgumentException("The node with the given name is not a symbolic node: " + name);
+		}
+		
+		nodes.remove(name);
+	}
+
+	@Override
+	public void removeSymbolicNode(SymbolicNode s) {
+		for (String n : nodes.keySet()) {
+			NodeLink l = nodes.get(n);
+			if (l.getDestination().equals(s)) {
+				nodes.remove(n);
+				return;
+			}
+		}
+		
+		throw new IllegalArgumentException("Given symbolic node does not exist in this group");
+	}
+	
+	@Override
+	public boolean isGroupNode() {
+		return true;
 	}
 
 	@Override

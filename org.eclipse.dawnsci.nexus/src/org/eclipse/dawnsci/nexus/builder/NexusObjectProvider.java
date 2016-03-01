@@ -146,5 +146,13 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 *    default data field
 	 */
 	public int[] getDimensionMappings(String fieldName);
+
+	/**
+	 * Returns the rank of the external dataset with the given field name.
+	 * @param fieldName field name
+	 * @return rank of external dataset with given field name
+	 * @throws IllegalArgumentException if no such field exists
+	 */
+	public int getExternalDatasetRank(String fieldName);
 	
 }

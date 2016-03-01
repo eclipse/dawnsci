@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 
@@ -20,6 +21,7 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
+import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -32,6 +34,21 @@ public class NexusAssert {
 
 	public static void assertNexusTreesEqual(final TreeFile expectedTree, final TreeFile actualTree) throws Exception {
 		assertGroupNodesEqual("/", expectedTree.getGroupNode(), actualTree.getGroupNode());
+	}
+	
+	public static void assertNodesEquals(String path, final Node expectedNode, final Node actualNode) throws Exception {
+		if (expectedNode.isGroupNode()) {
+			assertTrue(path, actualNode.isGroupNode());
+			assertGroupNodesEqual(path, (GroupNode) expectedNode, (GroupNode) actualNode);
+		} else if (expectedNode.isDataNode()) {
+			assertTrue(path, actualNode.isDataNode());
+			assertDataNodesEqual(path, (DataNode) expectedNode, (DataNode) actualNode);
+		} else if (expectedNode.isSymbolicNode()) {
+			assertTrue(path, actualNode.isSymbolicNode());
+			assertSymbolicNodesEqual(path, (SymbolicNode) expectedNode, (SymbolicNode) actualNode);
+		} else {
+			fail("Unknown node type"); // sanity check, shouldn't be possible
+		}
 	}
 
 	public static void assertGroupNodesEqual(String path,
@@ -51,7 +68,7 @@ public class NexusAssert {
 		assertEquals(path, expectedGroup.getNumberOfGroupNodes(), actualGroup.getNumberOfGroupNodes());
 
 		// check number of attributes same (i.e. actualGroup has no additional attributes)
-		// additional attribute "target" is allowed. This is added when loading a file with >1 hard link to same node
+		// The additional attribute "target" is allowed.
 		int expectedNumAttributes = expectedGroup.getNumberOfAttributes();
 		if (expectedGroup.containsAttribute("target") && !actualGroup.containsAttribute("target")) {
 			expectedNumAttributes--;
@@ -80,11 +97,15 @@ public class NexusAssert {
 			if (expectedGroup.containsGroupNode(nodeName)) {
 				assertTrue(nodePath, actualGroup.containsGroupNode(nodeName));
 				assertGroupNodesEqual(nodePath, expectedGroup.getGroupNode(nodeName), actualGroup.getGroupNode(nodeName));
-			} else {
+			} else if (expectedGroup.containsDataNode(nodeName)) {
 				// node is a data node
-				assertTrue(nodePath, expectedGroup.containsDataNode(nodeName));
 				assertTrue(nodePath, actualGroup.containsDataNode(nodeName));
 				assertDataNodesEqual(nodePath, expectedGroup.getDataNode(nodeName), actualGroup.getDataNode(nodeName));
+			} else if (expectedGroup.containsSymbolicNode(nodeName)) {
+				assertTrue(nodePath, actualGroup.containsSymbolicNode(nodeName));
+//				assertSymbolicNodesEqual(nodePath, expectedGroup.getDataNode(nodeName), actualGroup.getDataNode(nodeName));
+				// TODO merge this into a single assertNodesEqual method, which delegates
+				// to the appropriate method
 			}
 		}
 	}
@@ -100,7 +121,7 @@ public class NexusAssert {
 		assertDatasetsEqual(path, expectedAttr.getValue(), actualAttr.getValue());
 	}
 
-	private static void assertDataNodesEqual(final String path,
+	public static void assertDataNodesEqual(final String path,
 			final DataNode expectedDataNode, final DataNode actualDataNode) {
 		// check number of attributes same (i.e. actualDataNode has no additional attributes)
 		// additional attribute "target" is allowed, this is added automatically when saving the file
@@ -136,7 +157,7 @@ public class NexusAssert {
 		assertDatasetsEqual(path, expectedDataNode.getDataset(), actualDataNode.getDataset());
 	}
 
-	private static void assertDatasetsEqual(final String path, final ILazyDataset expectedDataset,
+	public static void assertDatasetsEqual(final String path, final ILazyDataset expectedDataset,
 			final ILazyDataset actualDataset) {
 		// Note: dataset names can be different, as long as the containing data node names are the same
 		// assertEquals(dataset1.getName(), dataset2.getName());
@@ -210,13 +231,17 @@ public class NexusAssert {
 		}
 	}
 	
+	public static void assertSymbolicNodesEqual(final String path,
+			final SymbolicNode expectedSymbolicNode, final SymbolicNode actualSymbolicNode) {
+		assertEquals(path, expectedSymbolicNode, actualSymbolicNode);
+	}
+	
 	public static void assertSignal(NXdata nxData, String expectedSignalFieldName) {
 		Attribute signalAttr = nxData.getAttribute("signal");
 		assertThat(signalAttr, is(notNullValue()));
 		assertThat(signalAttr.getRank(), is(1));
 		assertThat(signalAttr.getFirstElement(), is(equalTo(expectedSignalFieldName)));
-		assertThat(nxData.getDataNode(expectedSignalFieldName), is(notNullValue()));
-		
+		assertThat(nxData.getNode(expectedSignalFieldName), is(notNullValue()));
 	}
 
 	public static void assertAxes(NXdata nxData, String... expectedValues) {
@@ -260,5 +285,5 @@ public class NexusAssert {
 		assertTrue(nodeLink.isDestinationData());
 		assertThat(nodeLink.getDestination(), is(sameInstance(dataNode)));
 	}
-
+	
 }

@@ -221,6 +221,11 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	public void setAugmented() {
 		augmented = true;
 	}
+	
+	@Override
+	public boolean isDataNode() {
+		return true;
+	}
 
 	@Override
 	public String toString() {
