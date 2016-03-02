@@ -299,7 +299,9 @@ public class NexusUtils {
         final String parentPath = signal.getFullName().substring(0, signal.getFullName().lastIndexOf("/"));
         
         final Group parent = (Group)file.get(parentPath);
-        
+
+        int fakePosValue = Integer.MAX_VALUE;
+
         final List<HObject> children = parent.getMemberList();
 		for (HObject hObject : children) {
 			final List<?> att = hObject.getMetadata();
@@ -344,7 +346,12 @@ public class NexusUtils {
 					}
 				}
 			}
-			
+
+			//prioritise datasets that specify an axes (even with no primary attribute) over other datasets
+			if (axis != null && pos == -1) {
+				pos = fakePosValue--;
+			}
+
 			// Add any the same shape as this dimension
 			// providing that they are not signals
 			// Some nexus files set axis wrong
