@@ -19,7 +19,8 @@ import java.util.LinkedHashMap;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 
-public class NodeImpl implements Node, Serializable {
+public abstract class NodeImpl implements Node, Serializable {
+	
 	protected static final long serialVersionUID = -662872819341035983L;
 
 	protected LinkedHashMap<String, Attribute> attributes;
@@ -84,5 +85,20 @@ public class NodeImpl implements Node, Serializable {
 		}
 	
 		return out.toString();
+	}
+
+	@Override
+	public boolean isGroupNode() {
+		return false;
+	}
+
+	@Override
+	public boolean isDataNode() {
+		return false;
+	}
+
+	@Override
+	public boolean isSymbolicNode() {
+		return false;
 	}
 }

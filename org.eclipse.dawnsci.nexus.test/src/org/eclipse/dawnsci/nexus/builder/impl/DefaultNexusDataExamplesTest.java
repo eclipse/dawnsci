@@ -58,12 +58,6 @@ public class DefaultNexusDataExamplesTest {
 			return detector;
 		}
 		
-		public void includeTimeOfFlight() {
-			hasTimeOfFlight = true;
-			int tofDimension = shape.length - 1;
-			addDataField(NXdetector.NX_TIME_OF_FLIGHT, tofDimension);
-		}
-		
 	}
 
 	public static class TestPositioner extends AbstractNexusProvider<NXpositioner> {

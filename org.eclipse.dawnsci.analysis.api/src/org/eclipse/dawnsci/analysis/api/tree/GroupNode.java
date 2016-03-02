@@ -65,6 +65,13 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * @throws IllegalArgumentException if node of same name already exists but is of different type 
 	 */
 	public void addNode(String name, Node node);
+	
+	/**
+	 * Returns the child node of the given name, or <code>null</code> if no such node exists.
+	 * @param name name of child node within this group node
+	 * @return child node with given name if it exists, otherwise <code>null</code>
+	 */
+	public Node getNode(String name);
 
 	/**
 	 * @return number of child groups in group
@@ -78,7 +85,8 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	public boolean containsGroupNode(String name);
 
 	/**
-	 * Get (child) group node of given name 
+	 * Get (child) group node of given name. A {@link SymbolicNode} with the
+	 * given name is resolved to its destination node.
 	 * @param name
 	 * @return group
 	 * @throws IllegalArgumentException if named group node does not exist
@@ -103,7 +111,7 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	/**
 	 * Remove given group node
 	 * @param g group node
-	 * @throws IllegalArgumentException if node is not in group
+	 * @throws IllegalArgumentException if no group node exists with the given name
 	 */
 	public void removeGroupNode(GroupNode g);
 
@@ -119,7 +127,8 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	public boolean containsDataNode(String name);
 
 	/**
-	 * Get data node of given name
+	 * Get data node of given name. A {@link SymbolicNode} with the given name is resolved
+	 * to its destination node.
 	 * @param name
 	 * @return dataset
 	 * @throws IllegalArgumentException if named data node does not exist
@@ -135,15 +144,15 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	public void addDataNode(String name, DataNode d);
 
 	/**
-	 * Remove dataset of given name
+	 * Remove the data node of given name.
 	 * @param name
 	 * @throws IllegalArgumentException if named node does not exist or is not a data node
 	 */
 	public void removeDataNode(String name);
 
 	/**
-	 * Remove given dataset
-	 * @param d dataset
+	 * Remove the given data node from this group.
+	 * @param d data node
 	 * @throws IllegalArgumentException if node is not in group
 	 */
 	public void removeDataNode(DataNode d);
@@ -155,7 +164,37 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * @throws IllegalArgumentException if a node of same name already exists that is not a symbolic node
 	 */
 	public void addSymbolicNode(String name, SymbolicNode s);
-
+	
+	/**
+	 * Returns whether this group node contains a symbolic node of the given name.
+	 * @param name
+	 * @return <code>true</code> if group contains a symbolic node of given name,
+	 * <code>false</code> otherwise
+	 */
+	public boolean containsSymbolicNode(String name);
+	
+	/**
+	 * Removes the symbolic node with the given name.
+	 * @param name name of symbolic node to remove
+	 * @throws IllegalArgumentException if named node does not exist or is not a symbolic node
+	 */
+	public void removeSymbolicNode(String name);
+	
+	/**
+	 * Removes the given symbolic node from this tree.
+	 * @param s symbolic node
+	 * @throws IllegalArgumentException if node is not in group
+	 */
+	public void removeSymbolicNode(SymbolicNode s);
+	
+	/**
+	 * Get (child) symbolic node of given name. 
+	 * @param name
+	 * @return group
+	 * @throws IllegalArgumentException if named group node does not exist
+	 */
+	public SymbolicNode getSymbolicNode(String name);
+	
 	/**
 	 * Find name of node linked to this group
 	 * @param node

@@ -27,7 +27,7 @@ public interface Node {
 	 * String used as separator between a node and its attributes
 	 */
 	public static final String ATTRIBUTE = "@";
-
+	
 	/**
 	 * @return ID
 	 */
@@ -66,4 +66,23 @@ public interface Node {
 	 * @return iterator over attribute names in node
 	 */
 	public Iterator<? extends Attribute> getAttributeIterator();
+	
+	/**
+	 * @return <code>true</code> if this node is a {@link GroupNode},
+	 * <code>false</code> otherwise
+	 */
+	public boolean isGroupNode();
+	
+	/**
+	 * @return <code>true</code> if this node is a {@link DataNode},
+	 * <code>false</code> otherwise
+	 */
+	public boolean isDataNode();
+	
+	/**
+	 * @return <code>true</code> if this node is a {@link SymbolicNode},
+	 * <code>false</code> otherwise
+	 */
+	public boolean isSymbolicNode();
+	
 }
