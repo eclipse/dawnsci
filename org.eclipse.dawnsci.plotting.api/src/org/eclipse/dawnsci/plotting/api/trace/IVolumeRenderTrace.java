@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.plotting.api.trace;
 
-import java.awt.image.BufferedImage;
-
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
@@ -36,6 +34,6 @@ public interface IVolumeRenderTrace extends IImage3DTrace {
 	 * 
 	 * @param 
 	 */
-	public void setData(final IDataset data);
+	public void setData(final int[] size, final IDataset data, final double opacityValue);
 	
 }

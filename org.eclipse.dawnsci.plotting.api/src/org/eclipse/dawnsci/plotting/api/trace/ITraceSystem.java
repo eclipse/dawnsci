@@ -65,6 +65,14 @@ public interface ITraceSystem {
      * @return
      */
 	public IIsosurfaceTrace createIsosurfaceTrace(String string);
+	
+	
+	/**
+     * 
+     * @param string
+     * @return
+     */
+	public IVolumeRenderTrace createVolumeRenderTrace(String string);
 
 	/**
 	 * Creates a multi image trace. This does not add the trace
