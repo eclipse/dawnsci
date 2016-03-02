@@ -40,6 +40,7 @@ import org.eclipse.dawnsci.plotting.api.trace.ISurfaceTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITraceListener;
 import org.eclipse.dawnsci.plotting.api.trace.IVectorTrace;
+import org.eclipse.dawnsci.plotting.api.trace.IVolumeRenderTrace;
 import org.eclipse.dawnsci.plotting.api.trace.TraceEvent;
 import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -88,6 +89,11 @@ public class ThreadSafePlottingSystem<T> extends ThreadSafeObject implements IPl
 	@Override
 	public IIsosurfaceTrace createIsosurfaceTrace(String traceName) {
 		return new ThreadSafeTrace((IIsosurfaceTrace)call(getMethodName(Thread.currentThread().getStackTrace()), traceName));
+	}
+	
+	@Override
+	public IVolumeRenderTrace createVolumeRenderTrace(String traceName) {
+		return new ThreadSafeTrace((IVolumeRenderTrace)call(getMethodName(Thread.currentThread().getStackTrace()), traceName));
 	}
 
 	@Override
@@ -630,4 +636,5 @@ public class ThreadSafePlottingSystem<T> extends ThreadSafeObject implements IPl
 	public void moveTrace(String oldName, String name) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), oldName, name);
 	}
+
 }
