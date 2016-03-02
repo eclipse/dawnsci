@@ -35,6 +35,7 @@ import org.eclipse.dawnsci.plotting.api.trace.IStackPositionListener;
 import org.eclipse.dawnsci.plotting.api.trace.ISurfaceTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.IVectorTrace;
+import org.eclipse.dawnsci.plotting.api.trace.IVolumeRenderTrace;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.PaletteData;
 
@@ -49,11 +50,12 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
                                                           IVectorTrace,
                                                           ISurfaceTrace,
                                                           IIsosurfaceTrace,
+                                                          IVolumeRenderTrace,
                                                           IMulti2DTrace,
                                                           ILineStackTrace,
                                                           IScatter3DTrace,
                                                           IImageStackTrace,
-                                                          Serializable {
+                                                          Serializable{
 
 	/**
 	 *
@@ -515,6 +517,16 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	public void setMaterial(int red, int green, int blue, double opacity) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), red, green, blue, opacity);
 	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Volume Render stuff
+	//////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void setData(final int[] size, final IDataset data, final double opacityValue) {
+		call(getMethodName(Thread.currentThread().getStackTrace()), data);
+	}
+	
 	//////////////////////////////////////////////////////////////////////////
 	// IMulti2DTrace stuff
 	//////////////////////////////////////////////////////////////////////////
@@ -720,5 +732,5 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	public boolean hasTrueAxes() {
 		return (boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
-
+	
 }
