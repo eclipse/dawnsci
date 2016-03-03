@@ -72,4 +72,10 @@ public interface IPaletteService {
 	 * @return category
 	 */
 	public String getColourCategory(String colour);
+
+	/**
+	 * Names of categories
+	 * @return
+	 */
+	public Collection<String> getColorCategories();
 }
