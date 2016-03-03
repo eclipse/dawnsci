@@ -49,7 +49,7 @@ public class DetectorProperties implements Serializable, Cloneable {
 
 	private Vector3d origin;         // top left corner of detector's (0,0) pixel
 	private Vector3d beamVector;     // unit vector in beam direction
-	private Vector3d normal;         // unit vector perpendicular to detector surface
+	private transient Vector3d normal;         // unit vector perpendicular to detector surface
 	private int sx;                  // start x in pixels
 	private int sy;                  // start y in pixels
 	private int px;                  // width in pixels
@@ -57,13 +57,13 @@ public class DetectorProperties implements Serializable, Cloneable {
 	private double hPxSize;          // horizontal pixel size (in mm)
 	private double vPxSize;          // vertical pixel size (in mm)
 	private Matrix3d orientation;    // passive transformation from reference frame to detector frame
-	private Matrix3d invOrientation; // its inverse
+	private transient Matrix3d invOrientation; // its inverse
 	private boolean fire = true;
 
 	private transient Set<IDetectorPropertyListener> detectorPropListeners;
 
-	private Vector3d oldCentre;
-	private Vector3d oldShift;
+	private transient Vector3d oldCentre;
+	private transient Vector3d oldShift;
 
 	/**
 	 * Null constructor
