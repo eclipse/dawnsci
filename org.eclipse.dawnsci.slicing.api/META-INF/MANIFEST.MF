@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.dawnsci.analysis.dataset;bundle-version="1.0.0",
  org.eclipse.dawnsci.hdf5;bundle-version="1.2.0",
  org.eclipse.dawnsci.doe;bundle-version="1.2.0",
- org.apache.commons.beanutils;bundle-version="[1.9.1,1.9.2)"
+ org.apache.commons.beanutils
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.dawnsci.slicing.api,
