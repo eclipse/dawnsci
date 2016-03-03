@@ -421,8 +421,9 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		} else if (n instanceof DataNode) {
 			if (link.getName().equals(name)) {
 				ILazyDataset dataset = ((DataNode) n).getDataset();
-				if (!list.contains(dataset))
+				if (dataset != null && !list.contains(dataset)) {
 					list.add(dataset);
+				}
 			}
 		}
 	}
