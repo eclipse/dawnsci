@@ -92,7 +92,7 @@ public class InfoServlet extends HttpServlet {
 		
 		try {
 			final ILoaderService lservice = ServiceHolder.getLoaderService();
-			final IDataHolder holder = lservice.getData(path, new IMonitor.Stub());
+			final IDataHolder holder = lservice.getData(path, true, new IMonitor.Stub());
 			final ILazyDataset lz    = dataset!=null && !"".equals(dataset)
 					                 ? holder.getLazyDataset(dataset)
 					                 : holder.getLazyDataset(0);

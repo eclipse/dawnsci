@@ -77,11 +77,11 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder#add(org.eclipse.dawnsci.nexus.builder.NexusObjectProvider)
 	 */
 	@Override
-	public <N extends NXobject> N add(NexusObjectProvider<N> nexusAdapter) throws NexusException {
-		final N baseClassInstance = nexusAdapter.createNexusObject(nexusNodeFactory);
-		addGroupToNexusTree(nexusAdapter, baseClassInstance);
+	public <N extends NXobject> N add(NexusObjectProvider<N> nexusObjectProvider) throws NexusException {
+		final N nexusObject = nexusObjectProvider.createNexusObject(nexusNodeFactory);
+		addGroupToNexusTree(nexusObjectProvider, nexusObject);
 
-		return baseClassInstance;
+		return nexusObject;
 	}
 
 	/* (non-Javadoc)
@@ -157,10 +157,10 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder#add(java.util.Collection)
 	 */
 	@Override
-	public List<NXobject> addAll(Collection<? extends NexusObjectProvider<?>> nexusAdapters) throws NexusException {
-		final List<NXobject> nexusObjects = new ArrayList<NXobject>(nexusAdapters.size());
-		for (final NexusObjectProvider<?> nexusAdapter : nexusAdapters) {
-			final NXobject nexusObject = add(nexusAdapter);
+	public List<NXobject> addAll(Collection<? extends NexusObjectProvider<?>> nexusObjectProviders) throws NexusException {
+		final List<NXobject> nexusObjects = new ArrayList<NXobject>(nexusObjectProviders.size());
+		for (final NexusObjectProvider<?> nexusObjectProvider : nexusObjectProviders) {
+			final NXobject nexusObject = add(nexusObjectProvider);
 			nexusObjects.add(nexusObject);
 		}
 
@@ -277,7 +277,7 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 	}
 
 	/**
-	 * Adds the new nexus object instance to the first skeleton class instance that it
+	 * Adds the new nexus object to the first skeleton class instance that it
 	 * can be added to, unless category is specified, in which case it is added to the first
 	 * element of that category that it can be added to.
 	 * A special case is where the nexus object is of base class {@link NexusBaseClass#NX_SAMPLE},
@@ -335,7 +335,5 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 
 		throw new NexusException("No group found for category " + category);
 	}
-
-
 
 }
