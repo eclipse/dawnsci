@@ -34,6 +34,20 @@ public interface IVolumeRenderTrace extends IImage3DTrace {
 	 * 
 	 * @param 
 	 */
-	public void setData(final int[] size, final IDataset data, final double opacityValue);
+	public void setData(final int[] size, final IDataset data, final double intensityValue);
+	
+	/**
+	 * sets the new opacity
+	 * @param opacity - between 0.0 - 1.0
+	 */
+	public void setOpacity(double opacity);
+	
+	/**
+	 * set the colour of the volume
+	 * @param red - 0-255
+	 * @param green - 0-255
+	 * @param blue - 0-255
+	 */
+	public void setColour(int red, int green, int blue);
 	
 }
