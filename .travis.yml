@@ -1,0 +1,19 @@
+language: java
+
+# whitelist
+branches:
+ only:
+  - master
+ 
+jdk:
+ - oraclejdk8
+
+before_install:
+ - chmod +x ./org.eclipse.dawnsci.releng/build/commit-msg.sh
+ - bash ./org.eclipse.dawnsci.releng/build/commit-msg.sh
+ - git clone --depth=50 --branch=master https://github.com/eclipse/richbeans.git ../richbeans
+ - git clone --depth=50 --branch=master https://github.com/DawnScience/dawn-third.git ../../dawn-third
+ 
+# Maven compile and test 
+# No need to run this as default travis will find maven and run it
+# script: mvn clean compile surefire:test

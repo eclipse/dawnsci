@@ -1,0 +1,134 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse</groupId>
+	<artifactId>org.eclipse.dawnsci</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
+
+	<modules>
+        <module>org.eclipse.dawnsci.targetplatform</module>
+		<module>org.eclipse.dawnsci.analysis.api</module>
+		<module>../../dawn-third/ncsa.hdf</module>
+	</modules>
+
+	<properties>
+		<tycho-version>0.24.0</tycho-version>
+	</properties>
+	
+	<dependencies>
+	    <dependency>
+	      <groupId>junit</groupId>
+	      <artifactId>junit</artifactId>
+	      <version>4.11</version>
+	      <scope>test</scope>
+	    </dependency>
+    </dependencies>
+        
+    <build>
+      <plugins>
+		<plugin>
+			<groupId>org.eclipse.tycho</groupId>
+			<artifactId>tycho-maven-plugin</artifactId>
+			<version>${tycho-version}</version>
+			<extensions>true</extensions>
+		</plugin>
+		
+		<plugin>
+			<groupId>org.eclipse.tycho</groupId>
+			<artifactId>tycho-p2-repository-plugin</artifactId>
+			<version>${tycho-version}</version>
+			<configuration>
+				<includeAllDependencies>true</includeAllDependencies>
+			</configuration>
+		</plugin>
+		
+        <!-- This configures the target platform and the supported architectures. -->
+		<plugin>
+			<groupId>org.eclipse.tycho</groupId>
+			<artifactId>target-platform-configuration</artifactId>
+			<version>${tycho-version}</version>
+			<configuration>
+				<environments>
+				    <filters>
+				         <filter>
+				            <type>eclipse-plugin</type>
+				            <id>com.springsource.org.apache.xerces</id>
+				            <restrictTo>
+				               <versionRange>[0.0,0.1)</versionRange> <!-- alternative: <version> for selecting exactly one versions -->
+				            </restrictTo>
+				         </filter>
+ 				    </filters>
+				
+					<environment>
+						<os>linux</os>
+						<ws>gtk</ws>
+						<arch>x86</arch>
+					</environment>
+					<environment>
+						<os>linux</os>
+						<ws>gtk</ws>
+						<arch>x86_64</arch>
+					</environment>
+					<environment>
+						<os>win32</os>
+						<ws>win32</ws>
+						<arch>x86</arch>
+					</environment>
+					<environment>
+						<os>win32</os>
+						<ws>win32</ws>
+						<arch>x86_64</arch>
+					</environment>
+					<environment>
+						<os>macosx</os>
+						<ws>cocoa</ws>
+						<arch>x86_64</arch>
+					</environment>
+				</environments>
+				<target>
+					<artifact>
+						<groupId>org.eclipse</groupId>
+						<artifactId>org.eclipse.dawnsci.targetplatform</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</artifact>
+				</target>
+			</configuration>
+		</plugin>
+		   
+		<!--  Can run tests with 'mvn clean compile surefire:test -D -->       
+        <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>2.12.4</version>
+			<configuration>
+                <testSourceDirectory>${basedir}/src</testSourceDirectory>
+                <testClassesDirectory>${basedir}/bin</testClassesDirectory>
+				<includes>
+					<include>**/Suite.java</include>
+				</includes>
+			</configuration>
+  		  </plugin>   
+  		            
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.10.3</version>
+            <configuration>
+                <reportOutputDirectory>./</reportOutputDirectory>
+                <destDir>../javadoc</destDir>
+                <failOnError>false</failOnError>
+            </configuration>
+          </plugin>
+      </plugins>
+   </build>
+   
+    
+ </project>
+	
+	
