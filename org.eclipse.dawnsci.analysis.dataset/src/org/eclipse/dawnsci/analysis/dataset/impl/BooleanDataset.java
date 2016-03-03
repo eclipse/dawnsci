@@ -63,22 +63,13 @@ public class BooleanDataset extends BooleanDatasetBase {
 	public BooleanDataset getView() {
 		BooleanDataset view = new BooleanDataset();
 		copyToView(this, view, true, true);
-		view.data = data;
+		view.setData();
 		return view;
 	}
 
 	@Override
 	public BooleanDataset clone() {
 		return new BooleanDataset(this);
-	}
-
-	@Override
-	public BooleanDataset getSlice(SliceIterator siter) {
-		BooleanDataset slice = new BooleanDataset();
-		BooleanDatasetBase base = super.getSlice(siter);
-		copyToView(base, slice, false, false);
-		slice.setData();
-		return slice;
 	}
 
 	/**
@@ -229,10 +220,13 @@ public class BooleanDataset extends BooleanDatasetBase {
 	}
 
 	@Override
-	public BooleanDataset getSlice(final int[] start, final int[] stop, final int[] step) {
-		BooleanDatasetBase result = (BooleanDatasetBase) super.getSlice(start, stop, step);
+	public BooleanDataset getSlice(SliceIterator siter) {
+		BooleanDatasetBase base = super.getSlice(siter);
 
-		return new BooleanDataset(result.data, result.shape);
+		BooleanDataset slice = new BooleanDataset();
+		copyToView(base, slice, false, false);
+		slice.setData();
+		return slice;
 	}
 
 	/**
@@ -241,7 +235,7 @@ public class BooleanDataset extends BooleanDatasetBase {
 	@Override
 	public BooleanDataset iadd(final Object b) {
 		Dataset bds = b instanceof Dataset ? (Dataset) b : DatasetFactory.createFromObject(b);
-		final BroadcastIterator it = BroadcastIterator.createIterator(this, bds);
+		final BroadcastSelfIterator it = BroadcastSelfIterator.createIterator(this, bds);
 		while (it.hasNext()) {
 			data[it.aIndex] |= bds.getElementBooleanAbs(it.bIndex);
 		}
@@ -255,7 +249,7 @@ public class BooleanDataset extends BooleanDatasetBase {
 	@Override
 	public BooleanDataset isubtract(final Object b) {
 		Dataset bds = b instanceof Dataset ? (Dataset) b : DatasetFactory.createFromObject(b);
-		final BroadcastIterator it = BroadcastIterator.createIterator(this, bds);
+		final BroadcastSelfIterator it = BroadcastSelfIterator.createIterator(this, bds);
 		while (it.hasNext()) {
 			data[it.aIndex] ^= bds.getElementBooleanAbs(it.bIndex);
 		}
@@ -269,7 +263,7 @@ public class BooleanDataset extends BooleanDatasetBase {
 	@Override
 	public BooleanDataset imultiply(final Object b) {
 		Dataset bds = b instanceof Dataset ? (Dataset) b : DatasetFactory.createFromObject(b);
-		final BroadcastIterator it = BroadcastIterator.createIterator(this, bds);
+		final BroadcastSelfIterator it = BroadcastSelfIterator.createIterator(this, bds);
 		while (it.hasNext()) {
 			data[it.aIndex] &= bds.getElementBooleanAbs(it.bIndex);
 		}
@@ -297,7 +291,7 @@ public class BooleanDataset extends BooleanDatasetBase {
 	@Override
 	public double residual(final Object b, final Dataset w, boolean ignoreNaNs) {
 		Dataset bds = b instanceof Dataset ? (Dataset) b : DatasetFactory.createFromObject(b);
-		final BroadcastIterator it = BroadcastIterator.createIterator(this, bds);
+		final BroadcastSelfIterator it = BroadcastSelfIterator.createIterator(this, bds);
 		double sum = 0;
 		{
 			if (w == null) {

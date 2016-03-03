@@ -157,6 +157,11 @@ public abstract class AbstractDataset extends LazyDatasetBase implements Dataset
 		return dtype <= COMPLEX128 || dtype == RGB;
 	}
 
+	protected static boolean isDTypeInteger(int dtype) {
+		return dtype == INT8 || dtype == INT16 || dtype == INT32 || dtype == INT64 ||
+				dtype == ARRAYINT8 || dtype == ARRAYINT16 || dtype == ARRAYINT32 || dtype == ARRAYINT64 || dtype == RGB;
+	}
+
 	protected static boolean isDTypeFloating(int dtype) {
 		return dtype == FLOAT32 || dtype == FLOAT64 || dtype == COMPLEX64 || dtype == COMPLEX128 ||
 				dtype == ARRAYFLOAT32 || dtype == ARRAYFLOAT64;
@@ -164,6 +169,14 @@ public abstract class AbstractDataset extends LazyDatasetBase implements Dataset
 
 	protected static boolean isDTypeComplex(int dtype) {
 		return dtype == COMPLEX64 || dtype == COMPLEX128;
+	}
+
+	/**
+	 * @param dtype
+	 * @return true if dataset type is numerical, i.e. a dataset contains numbers
+	 */
+	public static boolean isDTypeNumerical(int dtype) {
+		return isDTypeInteger(dtype) || isDTypeFloating(dtype) || dtype == BOOL;
 	}
 
 	protected int size; // number of items
@@ -520,6 +533,10 @@ public abstract class AbstractDataset extends LazyDatasetBase implements Dataset
 		case ARRAYFLOAT32:
 		case ARRAYFLOAT64:
 			return ARRAYFLOAT64;
+		case STRING:
+		case RGB:
+		case OBJECT:
+			return otype;
 		}
 		throw new IllegalArgumentException("Unsupported dataset type");
 	}
@@ -1268,10 +1285,12 @@ public abstract class AbstractDataset extends LazyDatasetBase implements Dataset
 			int[] oshape = this.shape;
 			int orank = oshape.length;
 			int nrank = nshape.length;
+			int diff = nrank - orank;
 			int[] nstride = new int[nrank];
 			boolean ones = true;
+			// work forwards for broadcasting cases
 			for (int i = 0, j = 0; i < orank || j < nrank;) {
-				if (i < orank && j < nrank && oshape[i] == nshape[j]) {
+				if (j >= diff && i < orank && j < nrank && oshape[i] == nshape[j]) {
 					nstride[j++] = stride[i++];
 				} else if (j < nrank && nshape[j] == 1) {
 					nstride[j++] = 0;
@@ -2515,10 +2534,14 @@ public abstract class AbstractDataset extends LazyDatasetBase implements Dataset
 		Dataset ds;
 		if (obj instanceof Dataset) {
 			ds = (Dataset) obj;
-		} else if (!(obj instanceof IDataset)) {
-			ds = DatasetFactory.createFromObject(obj, isComplex() || getElementsPerItem() == 1 ? FLOAT64 : ARRAYFLOAT64);
-		} else {
+		} else if (obj instanceof IDataset) {
 			ds = DatasetUtils.convertToDataset((IDataset) obj);
+		} else {
+			int dtype = getDtype();
+			if (dtype != Dataset.BOOL) {
+				dtype = getLargestDType(dtype);
+			}
+			ds = DatasetFactory.createFromObject(obj, dtype);
 		}
 
 		return setSlicedView(getSliceView(slice), ds);

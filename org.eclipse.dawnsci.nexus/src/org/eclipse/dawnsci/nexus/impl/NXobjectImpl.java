@@ -345,6 +345,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 			dataset.setObjectAbs(0, value);
 		} else {
 			Dataset dataset = DatasetFactory.createFromObject(value);
+			dataset.setName(name);
 			dataNode = createDataNode(name, dataset);
 			cached.put(name, dataset);
 		}
@@ -354,14 +355,6 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 
 	protected DataNode setDate(String name, Date date) {
 		return setField(name, date);
-	}
-
-	private Node getNode(String name) {
-		final NodeLink link = getNodeLink(name);
-		if (link == null) {
-			throw new IllegalArgumentException("Node not in group");
-		}
-		return link.getDestination();
 	}
 
 	private static String makeAttributeKey(String name, String attrName) {
