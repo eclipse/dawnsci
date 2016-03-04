@@ -15,6 +15,27 @@
         <module>org.eclipse.dawnsci.targetplatform</module>
 		<module>org.eclipse.dawnsci.analysis.api</module>
 		<module>../../dawn-third/ncsa.hdf</module>
+		<module>../org.eclipse.richbeans</module>
+		<module>org.eclipse.dawnsci.analysis.dataset</module>
+		<module>org.eclipse.dawnsci.analysis.examples</module>
+		<module>org.eclipse.dawnsci.analysis.tree</module>
+		<module>org.eclipse.dawnsci.doe</module>
+		<module>org.eclipse.dawnsci.hdf5</module>
+		<module>org.eclipse.dawnsci.hdf5.editor</module>
+		<module>org.eclipse.dawnsci.hdf5.model</module>
+		<module>org.eclipse.dawnsci.hdf5.model.test</module>
+		<module>org.eclipse.dawnsci.hdf5.test</module>
+		<module>org.eclipse.dawnsci.macro.api</module>
+		<module>org.eclipse.dawnsci.nexus</module>
+		<module>org.eclipse.dawnsci.nexus.test</module>
+		<module>org.eclipse.dawnsci.plotting.api</module>
+		<module>org.eclipse.dawnsci.plotting.examples</module>
+		<module>org.eclipse.dawnsci.remotedataset.client</module>
+		<module>org.eclipse.dawnsci.remotedataset.core</module>
+		<module>org.eclipse.dawnsci.remotedataset.feature</module>
+		<module>org.eclipse.dawnsci.remotedataset.server</module>
+		<module>org.eclipse.dawnsci.remotedataset.test</module>
+		<module>org.eclipse.dawnsci.slicing.api</module>
 	</modules>
 
 	<properties>
@@ -55,15 +76,6 @@
 			<version>${tycho-version}</version>
 			<configuration>
 				<environments>
-				    <filters>
-				         <filter>
-				            <type>eclipse-plugin</type>
-				            <id>com.springsource.org.apache.xerces</id>
-				            <restrictTo>
-				               <versionRange>[0.0,0.1)</versionRange> <!-- alternative: <version> for selecting exactly one versions -->
-				            </restrictTo>
-				         </filter>
- 				    </filters>
 				
 					<environment>
 						<os>linux</os>

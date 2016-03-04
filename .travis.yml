@@ -9,12 +9,12 @@ jdk:
  - oraclejdk8
 
 # Run the commit message check and then check out some required dependencies.
-# Currently check in messages are not checked for dawnsci.
+# TODO Currently check in messages are not checked for dawnsci.
 # - chmod +x ./org.eclipse.dawnsci.releng/build/commit-msg.sh
 # - bash ./org.eclipse.dawnsci.releng/build/commit-msg.sh
 
 before_install:
- - git clone --depth=50 --branch=master https://github.com/eclipse/richbeans.git ../richbeans
+ - git clone --depth=50 --branch=master https://github.com/eclipse/richbeans.git ../org.eclipse.richbeans
  - git clone --depth=50 --branch=master https://github.com/DawnScience/dawn-third.git ../../dawn-third
  
 # Maven compile and test 
