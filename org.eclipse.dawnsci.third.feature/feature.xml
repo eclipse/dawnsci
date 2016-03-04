@@ -67,4 +67,11 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="uk.ac.diamond.org.apache.activemq"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
