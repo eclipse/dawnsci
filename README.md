@@ -10,6 +10,7 @@ Public API to the DAWN Product
  * http://www.eclipse.org/legal/epl-v10.html
  
 DAWNSCI is a collection of classes which are published as the public programming API of DAWN.
-These API's are helped by the IP Foundation which is IP checking dependencies for the project.
+These API's are helped by the Eclipse Foundation who are IP checking dependencies for the project.
 The project is in incubation and is unlikely to follow an Eclipse Foundation release train any
-time soon.
+time soon. The project is very active as it is a core component of the binary products available 
+at Diamond Light Source. You may download one of these, DAWN, from www.dawnsci.org
