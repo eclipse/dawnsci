@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus.builder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
+import org.eclipse.dawnsci.nexus.builder.impl.PrimaryDataFieldModel;
 
 /**
  * Abstract implementation of {@link NexusObjectProvider}.
@@ -69,14 +71,11 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 
 	private String name;
 
-	private final List<String> dataFieldNames;
+	private final LinkedHashSet<String> dataFieldNames;
 	
 	private final List<String> additionalPrimaryDataFieldNames;
 	
-	// map of fields in this device to the dimension of the default data field
-	// for which that field is the default axis
-	// TODO, do we need the dimension mappings as well
-	private Map<String, FieldDimensionModel> defaultAxisDimensions = null;
+	private Map<String, PrimaryDataFieldModel> primaryDataFieldModels;
 	
 	private Map<String, Integer> externalDatasetRanks = null;
 	
@@ -127,7 +126,7 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 		this.category = category;
 		
 		this.defaultWritableDataFieldName = defaultDataFieldName;
-		this.dataFieldNames = new ArrayList<>(remainingDataFieldNames.length + 1);
+		this.dataFieldNames = new LinkedHashSet<>(remainingDataFieldNames.length + 1);
 		if (defaultDataFieldName != null) {
 			this.dataFieldNames.add(defaultDataFieldName);
 		}
@@ -150,14 +149,6 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	 * @return new nexus object
 	 */
 	protected abstract N doCreateNexusObject(NexusNodeFactory nodeFactory);
-
-	protected FieldDimensionModel getFieldDimensionInfo(String fieldName) {
-		if (defaultAxisDimensions != null) {
-			return defaultAxisDimensions.get(fieldName);
-		}
-		
-		return null;
-	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#createNexusObject(org.eclipse.dawnsci.nexus.impl.NexusNodeFactory)
@@ -217,30 +208,28 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getDefaultDataFieldName()
 	 */
 	@Override
-	public String getPrimaryDataFieldName() {
+	public String getPrimaryDataField() {
 		if (defaultWritableDataFieldName != null) {
 			return defaultWritableDataFieldName;
 		}
 		if (dataFieldNames != null && !dataFieldNames.isEmpty()) {
-			return dataFieldNames.get(0);
+			return dataFieldNames.iterator().next();
 		}
 		
 		return null;
 	}
 	
-	public void setPrimaryDataFieldName(String defaultWritableDataFieldName) {
+	public void setPrimaryDataField(String defaultWritableDataFieldName) {
+		addDataFields(defaultWritableDataFieldName); // add as a data field if not already present
 		this.defaultWritableDataFieldName = defaultWritableDataFieldName;
-		if (!dataFieldNames.contains(defaultWritableDataFieldName)) {
-			dataFieldNames.add(defaultWritableDataFieldName);
-		}
 	}
 	
 	@Override
-	public String getDemandDataFieldName() {
+	public String getDemandDataField() {
 		return demandDataFieldName;
 	}
 	
-	public void setDemandDataFieldName(String demandDataFieldName) {
+	public void setDemandDataField(String demandDataFieldName) {
 		this.demandDataFieldName = demandDataFieldName;
 		if (!dataFieldNames.contains(demandDataFieldName)) {
 			dataFieldNames.add(demandDataFieldName);
@@ -248,37 +237,63 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	}
 
 	@Override
-	public List<String> getDataFieldNames() {
-		return dataFieldNames;
+	public List<String> getDataFields() {
+		return new ArrayList<String>(dataFieldNames);
 	}
 
-	public void setDataFieldNames(String... dataFieldNames) {
+	public void setDataFields(String... dataFieldNames) {
 		this.dataFieldNames.clear();
 		this.dataFieldNames.addAll(Arrays.asList(dataFieldNames));  
 	}
 	
-	public void addDataFieldNames(String... dataFieldName) {
+	public void addDataFields(String... dataFieldName) {
 		this.dataFieldNames.addAll(Arrays.asList(dataFieldName));
 	}
 	
 	public void addDataField(String dataFieldName, Integer defaultAxisDimension, int... dimensionMappings) {
+		if (defaultWritableDataFieldName == null) {
+			throw new IllegalStateException("Default writable data field not set.");
+		}
+		
+		addDataField(dataFieldName, defaultWritableDataFieldName, defaultAxisDimension, dimensionMappings);
+	}
+	
+	private PrimaryDataFieldModel getPrimaryDataFieldModel(String primaryDataFieldName, boolean create) {
+		if (primaryDataFieldModels == null) {
+			if (!create) return null;
+			primaryDataFieldModels = new HashMap<>();
+		}
+			
+		PrimaryDataFieldModel primaryDataFieldModel = primaryDataFieldModels.get(primaryDataFieldName);
+		if (primaryDataFieldModel == null) {
+			if (!create) return null;
+			primaryDataFieldModel = new PrimaryDataFieldModel();
+			primaryDataFieldModels.put(primaryDataFieldName, primaryDataFieldModel);
+		}
+		
+		return primaryDataFieldModel;
+	}
+	
+	public void addDataField(String dataFieldName, String primaryDataFieldName,
+			Integer defaultAxisDimension, int... dimensionMappings) {
 		dataFieldNames.add(dataFieldName);
 		
 		// if defaultAxisDimension is set and no dimension mappings are specified
 		// assume this is a 1 dimensional dataset with mapping the defaultAxisDimension
 		if (dimensionMappings.length == 0 && defaultAxisDimension != null) {
+			// TODO can we remove this and make this assumption at a later stage?
 			dimensionMappings = new int[] { defaultAxisDimension };
-		}
+		} 
 		
-		if (defaultAxisDimensions == null) {
-			defaultAxisDimensions = new HashMap<>();
-		}
-		
-		defaultAxisDimensions.put(dataFieldName,
-				new FieldDimensionModel(defaultAxisDimension, dimensionMappings));
+		PrimaryDataFieldModel primaryDataFieldModel = getPrimaryDataFieldModel(primaryDataFieldName, true);
+		primaryDataFieldModel.addDataField(dataFieldName, defaultAxisDimension, dimensionMappings);
 	}
 	
 	public void addAdditionalPrimaryDataField(String dataFieldName) {
+		// TODO: is this the best name for this concept? it's a bit confusing
+		// alternatives: addPrimaryDataField, addSecondarySignalField etc
+		
+		addDataFields(dataFieldName); // add as a data field if not already added
 		additionalPrimaryDataFieldNames.add(dataFieldName);
 	}
 	
@@ -290,7 +305,7 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getAdditionalPrimaryDataFieldNames()
 	 */
 	@Override
-	public List<String> getAdditionalPrimaryDataFieldNames() {
+	public List<String> getAdditionalPrimaryDataFields() {
 		return additionalPrimaryDataFieldNames;
 	}
 
@@ -307,27 +322,25 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	}
 	
 	@Override
-	public Integer getDefaultAxisDimension(String fieldName) {
-		FieldDimensionModel fieldDimensionInfo = getFieldDimensionInfo(fieldName);
-		if (fieldDimensionInfo != null) {
-			return fieldDimensionInfo.getDefaultAxisDimension();
+	public Integer getDefaultAxisDimension(String primaryDataFieldName, String dataFieldName) {
+		PrimaryDataFieldModel dataFieldModel = getPrimaryDataFieldModel(primaryDataFieldName, false);
+		if (dataFieldModel != null) {
+			return dataFieldModel.getDefaultAxisDimension(dataFieldName);
 		}
-		
 		return null;
 	}
 	
 	@Override
-	public int[] getDimensionMappings(String fieldName) {
-		FieldDimensionModel fieldDimensionInfo = getFieldDimensionInfo(fieldName);
-		if (fieldDimensionInfo != null) {
-			return fieldDimensionInfo.getDimensionMappings();
+	public int[] getDimensionMappings(String primaryDataFieldName, String dataFieldName) {
+		PrimaryDataFieldModel dataFieldModel = getPrimaryDataFieldModel(primaryDataFieldName, false);
+		if (dataFieldModel != null) {
+			return dataFieldModel.getDimensionMappings(dataFieldName);
 		}
-		
 		return null;
 	}
 
 	public ILazyWriteableDataset getDefaultWriteableDataset() {
-		final String defaultDataFieldName = getPrimaryDataFieldName();
+		final String defaultDataFieldName = getPrimaryDataField();
 		return getNexusObject().getLazyWritableDataset(defaultDataFieldName);
 	}
 
