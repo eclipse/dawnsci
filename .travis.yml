@@ -20,7 +20,7 @@ before_install:
 # Run the build from org.eclipse.dawnsci
 install:
   - cd ..
-  - git clone --depth=50 --branch=master https://github.com/eclipse/dawnsci.git org.eclipse.dawnsci
+  - mv dawnsci org.eclipse.dawnsci
   - cd org.eclipse.dawnsci
  
 # Maven compile and test 
