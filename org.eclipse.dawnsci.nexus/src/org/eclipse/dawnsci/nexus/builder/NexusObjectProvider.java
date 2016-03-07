@@ -88,7 +88,7 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * an {@link NexusDataBuilder} to construct an {@link NXdata} group.
 	 * @return name of data fields for this object
 	 */
-	public List<String> getDataFieldNames();
+	public List<String> getDataFields();
 	
 	/**
 	 * Returns the name of the default data field to write to within the nexus object.
@@ -101,18 +101,18 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 *
 	 * @return default data field name, this cannot be <code>null</code>
 	 */
-	public String getPrimaryDataFieldName();
+	public String getPrimaryDataField();
 	
 	/**
 	 * Returns the names of any additional primary data fields for this device.
 	 * This method indicates that if this device is to be used to create an
-	 * {@link NXdata} with the field {@link #getPrimaryDataFieldName()}
+	 * {@link NXdata} with the field {@link #getPrimaryDataField()}
 	 * as the default (signal field), then additional {@link NXdata} groups
 	 * should be created for each of these fields.
 	 * 
 	 * @return additional primary data field names
 	 */
-	public List<String> getAdditionalPrimaryDataFieldNames();
+	public List<String> getAdditionalPrimaryDataFields();
 	
 	/**
 	 * Returns the name of the demand field for this nexus object, if any.
@@ -120,10 +120,10 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * is the field that will be added as an axis of the default dataset.
 	 * @return name of demand field, or <code>null</code> if none.
 	 */
-	public String getDemandDataFieldName();
+	public String getDemandDataField();
 	
 	/**
-	 * Returns the dimension of the default data field for which the field with the
+	 * Returns the dimension of the given primary data field for which the data field with the
 	 * given name is a default axis, or <code>null</code> if this field does
 	 * not provide a default axis to the default data field.
 	 * This method is required only when this device provides the default data field
@@ -132,11 +132,11 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * @return dimension of the default data field for which the field with the
 	 *   given name provides a default axis, or <code>null</code> if none
 	 */
-	public Integer getDefaultAxisDimension(String fieldName);
-	
+	public Integer getDefaultAxisDimension(String primaryDataFieldName, String dataFieldName);
+
 	/**
-	 * Returns the dimension mappings between the field with the given name and
-	 * the default data field of this device.
+	 * Returns the dimension mappings between the data field  and
+	 * the primary data field with the given names.
 	 * This method is required only when this device provides the default data
 	 * field of an {@link NXdata} group (i.e. that referred to by the <code>signal</code>
 	 * attribute), and additional data fields within that 
@@ -145,7 +145,7 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * @return dimension mappings between the field with the given name and the
 	 *    default data field
 	 */
-	public int[] getDimensionMappings(String fieldName);
+	public int[] getDimensionMappings(String primaryDataFieldName, String dataFieldName);
 
 	/**
 	 * Returns the rank of the external dataset with the given field name.

@@ -166,10 +166,10 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 			if (isPrimary) {
 				// the primary device (i.e. a detector) may know its own dimension mappings for some fields
 				// as it is the owner of the default dataset of the NXdata group
-				dimensionMappings = nexusObjectProvider.getDimensionMappings(sourceFieldName);
 				if (defaultAxisDimension == null) {
-					defaultAxisDimension = nexusObjectProvider.getDefaultAxisDimension(sourceFieldName);
+					defaultAxisDimension = nexusObjectProvider.getDefaultAxisDimension(signalFieldName, sourceFieldName);
 				}
+				dimensionMappings = nexusObjectProvider.getDimensionMappings(signalFieldName, sourceFieldName);
 			}
 			addDataField(nexusObjectProvider, sourceFieldName, destinationFieldName,
 					defaultAxisDimension, dimensionMappings, targetPrefix);

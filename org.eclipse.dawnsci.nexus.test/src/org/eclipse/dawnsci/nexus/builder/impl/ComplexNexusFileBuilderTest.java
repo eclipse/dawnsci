@@ -61,7 +61,7 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 
 		public TomoScanDevicePositioner() {
 			super("tomoScanDevice", NexusBaseClass.NX_POSITIONER, "ss1_rot");
-			setDataFieldNames("imageNumber", "image_key", "ss1_X", "ss1_rot", "tomography_shutter");
+			setDataFields("imageNumber", "image_key", "ss1_X", "ss1_rot", "tomography_shutter");
 		}
 		
 		@Override

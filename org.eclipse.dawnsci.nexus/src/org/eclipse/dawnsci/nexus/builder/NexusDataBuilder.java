@@ -48,10 +48,10 @@ public interface NexusDataBuilder {
 	/**
 	 * Sets the given device as the primary device of the wrapped {@link NXdata}
 	 * group. The data node of the device with the name as returned by
-	 * {@link NexusObjectProvider#getPrimaryDataFieldName()} will be set
+	 * {@link NexusObjectProvider#getPrimaryDataField()} will be set
 	 * as the default data field of this device, (referenced by the
 	 * <code>@signal</code> other fields as returned by
-	 * {@link NexusObjectProvider#getDataFieldNames()} will also be added.
+	 * {@link NexusObjectProvider#getDataFields()} will also be added.
 	 * 
 	 * @param primaryDevice
 	 *            primary device
@@ -93,11 +93,11 @@ public interface NexusDataBuilder {
 	/**
 	 * Adds the data fields of the given device to the wrapped {@link NXdata}
 	 * group. The fields do add are determined by
-	 * {@link NexusObjectProvider#getDataFieldNames()}.
+	 * {@link NexusObjectProvider#getDataFields()}.
 	 * <p>
 	 * Additionally the field with the name as returned by
-	 * {@link NexusObjectProvider#getDemandDataFieldName()}, or by
-	 * {@link NexusObjectProvider#getPrimaryDataFieldName()} if the
+	 * {@link NexusObjectProvider#getDemandDataField()}, or by
+	 * {@link NexusObjectProvider#getPrimaryDataField()} if the
 	 * former is <code>null</code> is set as the default axis of the main data
 	 * field of the {@link NXdata} for the dimension with the given index (e.g.
 	 * the value of the <code>@axes</code> attribute at that index is set to the
@@ -122,11 +122,11 @@ public interface NexusDataBuilder {
 	/**
 	 * Adds the data fields of the given device to the wrapped {@link NXdata}
 	 * group. The fields do add are determined by
-	 * {@link NexusObjectProvider#getDataFieldNames()}.
+	 * {@link NexusObjectProvider#getDataFields()}.
 	 * <p>
 	 * Additionally the field with the name as returned by
-	 * {@link NexusObjectProvider#getDemandDataFieldName()}, or by
-	 * {@link NexusObjectProvider#getPrimaryDataFieldName()} if the
+	 * {@link NexusObjectProvider#getDemandDataField()}, or by
+	 * {@link NexusObjectProvider#getPrimaryDataField()} if the
 	 * former is <code>null</code> is set as the default axis of the main data
 	 * field of the {@link NXdata} for the dimension with the given index (e.g.
 	 * the value of the <code>@axes</code> attribute at that index is set to the

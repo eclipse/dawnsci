@@ -88,8 +88,8 @@ public class DefaultNexusDataExamplesTest {
 			super(name, NexusBaseClass.NX_POSITIONER);
 			this.dimensionIndex = dimensionIndex;
 			this.scanShape = scanShape;
-			setDataFieldNames("rbv", "demand");
-			setDemandDataFieldName("demand");
+			setDataFields("rbv", "demand");
+			setDemandDataField("demand");
 		}
 		
 		@Override

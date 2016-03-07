@@ -45,7 +45,7 @@ public class DefaultNexusDataBuilderTest {
 		
 		public MultipleFieldTestDetector() {
 			super("detector2", NexusBaseClass.NX_DETECTOR);
-			setPrimaryDataFieldName(NXdetector.NX_DATA);
+			setPrimaryDataField(NXdetector.NX_DATA);
 			addDataField(NXdetector.NX_TIME_OF_FLIGHT, 2);
 		}
 		
@@ -65,7 +65,7 @@ public class DefaultNexusDataBuilderTest {
 		
 		public MultipleDataFieldTestDetector() {
 			super("detector", NexusBaseClass.NX_DETECTOR);
-			setPrimaryDataFieldName(NXdetector.NX_DATA);
+			setPrimaryDataField(NXdetector.NX_DATA);
 			addDataField("sum", null);
 		}
 		
@@ -120,7 +120,7 @@ public class DefaultNexusDataBuilderTest {
 		
 		public MultipleFieldTestPositioner() {
 			super("ss1", NexusBaseClass.NX_POSITIONER);
-			setDataFieldNames("field1", "field2", "field3", "field4");
+			setDataFields("field1", "field2", "field3", "field4");
 		}
 		
 		@Override
@@ -212,19 +212,19 @@ public class DefaultNexusDataBuilderTest {
 		assertThat(nxData.getNumberOfGroupNodes(), is(0));
 		assertThat(nxData.getNumberOfDataNodes(), is(0));
 		
-		MultipleDataFieldTestDetector detector = new MultipleDataFieldTestDetector();
+		MultipleFieldTestDetector detector = new MultipleFieldTestDetector();
 		DataDevice<NXdetector> dataDevice = new DataDevice<>(detector, false);
-		dataDevice.setPrimaryDataSourceFieldName("sum");
+		dataDevice.setPrimaryDataSourceFieldName(NXdetector.NX_TIME_OF_FLIGHT);
 		dataBuilder.setPrimaryDevice(dataDevice);
 		
 		assertThat(nxData.getNumberOfAttributes(), is(4));
 		assertThat(nxData.getNumberOfGroupNodes(), is(0));
 		assertThat(nxData.getNumberOfDataNodes(), is(2));
 		
-		assertSignal(nxData, "sum");
-		assertAxes(nxData, ".", ".", ".");
-		assertThat(nxData.getDataNode("sum"), is(sameInstance(
-				detector.getNexusObject().getDataNode("sum"))));
+		assertSignal(nxData, NXdetector.NX_TIME_OF_FLIGHT);
+		assertAxes(nxData, ".");
+		assertThat(nxData.getDataNode(NXdetector.NX_TIME_OF_FLIGHT), is(sameInstance(
+				detector.getNexusObject().getDataNode(NXdetector.NX_TIME_OF_FLIGHT))));
 	}
 	
 	@Test
@@ -449,7 +449,7 @@ public class DefaultNexusDataBuilderTest {
 		assertThat(nxData.getNumberOfDataNodes(), is(5));
 		
 		assertAxes(nxData, ".", ".", ".");
-		for (String sourceFieldName : positioner.getDataFieldNames()) {
+		for (String sourceFieldName : positioner.getDataFields()) {
 			String destinationFieldName = positioner.getName() + "_" + sourceFieldName;
 			assertIndices(nxData, destinationFieldName, 0);
 			assertThat(nxData.getDataNode(destinationFieldName), is(sameInstance(
@@ -475,7 +475,7 @@ public class DefaultNexusDataBuilderTest {
 		assertThat(nxData.getNumberOfDataNodes(), is(5));
 		
 		assertAxes(nxData, ".", ".", "field3");
-		for (String sourceFieldName : positioner.getDataFieldNames()) {
+		for (String sourceFieldName : positioner.getDataFields()) {
 			assertIndices(nxData, sourceFieldName, sourceFieldName.equals("field3") ? 2 : 0);
 			assertThat(nxData.getDataNode(sourceFieldName), is(sameInstance(
 					positioner.getNexusObject().getDataNode(sourceFieldName))));

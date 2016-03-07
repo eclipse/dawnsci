@@ -1,22 +1,26 @@
-package org.eclipse.dawnsci.nexus.builder;
+package org.eclipse.dawnsci.nexus.builder.impl;
 
 import org.eclipse.dawnsci.nexus.NXdata;
 
 /**
- * A model for how the dimensions of a field correspond to the dimensions
- * of the default dataset of an {@link NXdata} group.
+ * A model for how the dimensions of a data field correspond to the dimensions
+ * of the primary data field (i.e. the <code>@signal</code> field ) of an {@link NXdata} group.
  */
-class FieldDimensionModel {
+public class DataFieldDimensionModel {
 	
 	private Integer defaultAxisDimension = null;
 	
 	private int[] dimensionMappings = null;
 	
-	public FieldDimensionModel() {
+	public DataFieldDimensionModel() {
 		// do nothing
 	}
 	
-	public FieldDimensionModel(Integer defaultAxisDimension, int[] dimensionMappings) {
+	public DataFieldDimensionModel(int defaultAxisDimension) {
+		this.defaultAxisDimension = defaultAxisDimension;
+	}
+	
+	public DataFieldDimensionModel(Integer defaultAxisDimension, int[] dimensionMappings) {
 		this.defaultAxisDimension = defaultAxisDimension;
 		this.dimensionMappings = dimensionMappings;
 	}

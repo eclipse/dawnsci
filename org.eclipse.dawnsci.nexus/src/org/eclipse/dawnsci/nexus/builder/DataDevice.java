@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXobject;
+import org.eclipse.dawnsci.nexus.builder.impl.DataFieldDimensionModel;
 
 /**
  * A object of this class wraps an {@link NexusObjectProvider} and contains
@@ -21,6 +22,8 @@ import org.eclipse.dawnsci.nexus.NXobject;
  *   wrapped {@link NexusObjectProvider}
  */
 public class DataDevice<N extends NXobject> {
+
+	// TODO add javadoc to methods
 	
 	private final NexusObjectProvider<N> nexusObjectProvider;
 	
@@ -30,7 +33,7 @@ public class DataDevice<N extends NXobject> {
 	
 	private String primaryDataSourceFieldName;
 	
-	private Map<String, FieldDimensionModel> sourceFields = new LinkedHashMap<>();
+	private Map<String, DataFieldDimensionModel> sourceFields = new LinkedHashMap<>();
 	
 	private Map<String, String> fieldNameMappings = new HashMap<>();
 	
@@ -67,15 +70,15 @@ public class DataDevice<N extends NXobject> {
 		if (axisFieldName == null && defaultAxisDimension != null) {
 			// The default axis dimension applies to the demand field, if there is one
 			// otherwise it applies to the the default writable data field
-			String demandDataFieldName = nexusObjectProvider.getDemandDataFieldName();
+			String demandDataFieldName = nexusObjectProvider.getDemandDataField();
 			if (demandDataFieldName != null) {
 				this.defaultAxisSourceFieldName = demandDataFieldName;
 			} else {
-				this.defaultAxisSourceFieldName = nexusObjectProvider.getPrimaryDataFieldName();
+				this.defaultAxisSourceFieldName = nexusObjectProvider.getPrimaryDataField();
 			}
 		}
 		
-		List<String> dataFieldNames = nexusObjectProvider.getDataFieldNames();
+		List<String> dataFieldNames = nexusObjectProvider.getDataFields();
 		for (String dataFieldName : dataFieldNames) {
 			sourceFields.put(dataFieldName, null);
 		}
@@ -142,7 +145,7 @@ public class DataDevice<N extends NXobject> {
 		}
 		
 		sourceFields.put(sourceFieldName,
-				new FieldDimensionModel(defaultAxisDimension, dimensionMappings));
+				new DataFieldDimensionModel(defaultAxisDimension, dimensionMappings));
 		return this;
 	}
 	
@@ -164,7 +167,7 @@ public class DataDevice<N extends NXobject> {
 	}
 	
 	public int[] getDimensionMappings(String sourceFieldName) {
-		FieldDimensionModel fieldInfo = sourceFields.get(sourceFieldName);
+		DataFieldDimensionModel fieldInfo = sourceFields.get(sourceFieldName);
 		if (fieldInfo != null) {
 			int[] dimensionMappings = fieldInfo.getDimensionMappings();
 			if (dimensionMappings != null) {
@@ -177,7 +180,7 @@ public class DataDevice<N extends NXobject> {
 	}
 	
 	public Integer getDefaultAxisDimension(String sourceFieldName) {
-		FieldDimensionModel fieldInfo = sourceFields.get(sourceFieldName);
+		DataFieldDimensionModel fieldInfo = sourceFields.get(sourceFieldName);
 		if (fieldInfo != null) {
 			return fieldInfo.getDefaultAxisDimension();
 		}
@@ -227,7 +230,7 @@ public class DataDevice<N extends NXobject> {
 		}
 		
 		// by default use default writable data field as primary (@signal) data field
-		return nexusObjectProvider.getPrimaryDataFieldName();
+		return nexusObjectProvider.getPrimaryDataField();
 	}
 
 	public void setPrimaryDataSourceFieldName(String primaryDataSourceFieldName) {
