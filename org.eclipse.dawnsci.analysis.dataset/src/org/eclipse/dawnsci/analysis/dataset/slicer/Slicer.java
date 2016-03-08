@@ -29,6 +29,8 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Methods for slicing data using visit patterns.
@@ -36,15 +38,24 @@ import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
  */
 public class Slicer {
 	
+	private final static Logger logger = LoggerFactory.getLogger(Slicer.class);
+	
 	public static void visit(ISliceViewIterator iterator, SliceVisitor visitor) throws Exception {
 		
+		long time = 0;
+		int count = 0;
+		
 		while (iterator.hasNext()) {
-
+			long t = System.currentTimeMillis();
 			IDataset data = iterator.next().getSlice();
+			time += System.currentTimeMillis()-t;
+			count++;
 			visitor.visit(data);
 
 			if (visitor.isCancelled()) break;
 		}
+		
+		logger.info("Average load time: " + time/(double)count + " ms");
 		
 	}
 
