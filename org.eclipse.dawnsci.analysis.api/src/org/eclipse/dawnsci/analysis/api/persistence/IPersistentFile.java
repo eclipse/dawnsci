@@ -321,6 +321,9 @@ public interface IPersistentFile {
 	public List<String> getFunctionNames(IMonitor mon) throws Exception;
 
 	/**
+	 * @deprecated use the Persistent node factory and NexusFile, calling throws RuntimeException
+	 * to write nexus standard metadata
+	 * 
 	 * Method to set diffraction metadata<br>
 	 * This will write the data to entry/metadata<br>
 	 * If the metadata already exists, they will be overwritten.<br>
@@ -328,9 +331,12 @@ public interface IPersistentFile {
 	 * @param metadata
 	 * @throws Exception 
 	 */
+	@Deprecated()
 	public void setDiffractionMetadata(IDiffractionMetadata metadata) throws Exception;
 
 	/**
+	 * @deprecated use the NexusDiffractionCalibrationReader instead, calling throws RuntimeException
+	 * 
 	 * Method that returns Diffraction metadata.<br>
 	 * This method reads from entry/diffraction_metadata.<br>
 	 * 
@@ -339,6 +345,7 @@ public interface IPersistentFile {
 	 * @throws Exception
 	 *              is thrown if no correct entry is found in the file
 	 */
+	@Deprecated
 	public IDiffractionMetadata getDiffractionMetadata(IMonitor mon) throws Exception;
 
 	/**
