@@ -15,6 +15,7 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -181,7 +182,7 @@ public class NexusFileHDF5 implements NexusFile {
 
 	private boolean writeable = false;
 
-	private Map<Node, String> passedNodeMap; // associate given nodes with "canonical" path (used for working out hardlinks)
+	private IdentityHashMap<Node, String> passedNodeMap; // associate given nodes with "canonical" path (used for working out hardlinks)
 
 	private boolean useSWMR = false;
 
@@ -201,7 +202,7 @@ public class NexusFileHDF5 implements NexusFile {
 			tree = TreeFactory.createTreeFile(fileName.hashCode(), fileName);
 			((TreeFileImpl) tree).setGroupNode(NexusNodeFactory.createNXroot(0l));
 			nodeMap = new HashMap<Long, Node>();
-			passedNodeMap = new HashMap<Node, String>();
+			passedNodeMap = new IdentityHashMap<Node, String>();
 		} else {
 			throw new IllegalStateException("File is already open");
 		}
