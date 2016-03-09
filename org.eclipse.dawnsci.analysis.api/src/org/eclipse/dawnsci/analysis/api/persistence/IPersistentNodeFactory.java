@@ -9,6 +9,9 @@
 
 package org.eclipse.dawnsci.analysis.api.persistence;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.diffraction.IPowderCalibrationInfo;
+import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
 import org.eclipse.dawnsci.analysis.api.metadata.OriginMetadata;
 import org.eclipse.dawnsci.analysis.api.processing.IOperation;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
@@ -41,5 +44,13 @@ public interface IPersistentNodeFactory {
 	 */
 	public GroupNode writeOriginalDataInformation(OriginMetadata origin);
 	
-	
+	/**
+	 * Write powder diffraction calibration to Nexus Standard formated nodes
+	 * 
+	 * @param metadata
+	 * @param calibrationImage
+	 * @param info
+	 * @return node
+	 */
+	public GroupNode writePowderCalibrationToFile(IDiffractionMetadata metadata, IDataset calibrationImage, IPowderCalibrationInfo info);
 }
