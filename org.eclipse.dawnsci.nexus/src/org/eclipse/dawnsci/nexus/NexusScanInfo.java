@@ -1,5 +1,6 @@
 package org.eclipse.dawnsci.nexus;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -53,14 +54,17 @@ public class NexusScanInfo {
 	 * read.
 	 * 
 	 * @param datashape
-	 * @return
+	 * @return the suggested chunk array
 	 */
 	public int[] createChunk(int... datashape) {
-		
+		// Create chunk array of correct length
 		final int[] chunk = new int[rank+datashape.length];
-		for (int i = 0; i < chunk.length-2; i++) {
-			chunk[i] = 1;
-		}
+
+		// Initialise the array to all 1
+		// TODO this is slightly redundant but ensures no zeros can ever be allowed through
+		Arrays.fill(chunk, 1);
+
+		// Change end of chunk array to match datashape
 		int index = 0;
 		for (int i = datashape.length; i>0; i--) {
 			chunk[chunk.length-i] = datashape[index];
