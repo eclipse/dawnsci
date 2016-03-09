@@ -1,6 +1,10 @@
-sudo: false
+sudo: false # use containers
 
 language: java
+
+cache:
+  directories:
+    - $HOME/.m2 # Maven dependencies
 
 # whitelist
 branches:
