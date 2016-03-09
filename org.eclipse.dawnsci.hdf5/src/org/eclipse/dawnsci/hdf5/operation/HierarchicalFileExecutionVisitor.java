@@ -44,6 +44,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * @deprecated use NexusFileExectutionVisitor instead
+ * 
  * Nexus writing implementation of IExecutionVisitor.
  * 
  * Handles writing 2D or 1D (and 0D auxiliary data) including axes to file. The name of the dataset in the file is
@@ -66,6 +68,7 @@ import org.slf4j.LoggerFactory;
  * @author vdp96513
  *
  */
+@Deprecated
 public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 
 	private static IPersistenceService service;
