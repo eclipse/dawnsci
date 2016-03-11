@@ -23,7 +23,7 @@ Export-Package: org.eclipse.dawnsci.analysis.dataset.coords,
  org.eclipse.dawnsci.analysis.dataset.slicer
 Import-Package: Jama;version="1.0.3",
  org.osgi.framework;version="1.7.0",
- org.slf4j;version="[1.7.2,1.7.7)"
+ org.slf4j;version="[1.7.2,2.0.0)"
 Bundle-ClassPath: .,
  jars/JLargeArrays-1.2.jar,
  jars/JTransforms-3.0.jar
