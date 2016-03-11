@@ -84,7 +84,7 @@ public class LoaderServiceMock implements ILoaderService {
 	}
 
 	@Override
-	public AxesMetadata getAxesMetadata(ILazyDataset parent, String path, Map<Integer, String> axesNames)
+	public AxesMetadata getAxesMetadata(ILazyDataset parent, String path, Map<Integer, String> axesNames, boolean lazy)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
