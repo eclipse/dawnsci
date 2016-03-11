@@ -44,6 +44,7 @@ private static final Logger logger = LoggerFactory.getLogger(SliceBlockIterator.
 	 * @param axes - the dimensions the correspond to data axes (i.e. length 1 for XY and 2 for an image)
 	 */
 	public SliceBlockIterator(ILazyDataset lazyDataset, SliceND sampling, int... axes) {
+		if (sampling == null) sampling = new SliceND(lazyDataset.getShape());
 		this.lazyDataset = lazyDataset.getSliceView(sampling);
 //		this.sampling = sampling != null ? sampling : new SliceND(lazyDataset.getShape());
 		this.iterator = new SliceNDIterator(new SliceND(lazyDataset.getShape()), axes);
