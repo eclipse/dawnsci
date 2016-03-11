@@ -22,4 +22,4 @@ Export-Package: org.eclipse.dawnsci.slicing.api,
  org.eclipse.dawnsci.slicing.api.system,
  org.eclipse.dawnsci.slicing.api.tool,
  org.eclipse.dawnsci.slicing.api.util
-Import-Package: org.slf4j;version="[1.7.6,1.7.7)"
+Import-Package: org.slf4j;version="[1.7.2,2.0.0)"
