@@ -154,10 +154,11 @@ public interface ILoaderService {
 	 * @param parent - the lazy dataset the metadata relates to
 	 * @param path - the path to the file
 	 * @param axesNames - a map of the dimension (Integer) against the axes dataset name (String)
+	 * @param lazy - if true keeps the datasets lazy, false reads into memory
 	 * @return axesMetadata
 	 * @throws Exception
 	 */
-	public AxesMetadata getAxesMetadata(ILazyDataset parent, String path, Map<Integer, String> axesNames) throws Exception;
+	public AxesMetadata getAxesMetadata(ILazyDataset parent, String path, Map<Integer, String> axesNames, boolean lazy) throws Exception;
 
 	/**
 	 * Get class that can load files of given extension
