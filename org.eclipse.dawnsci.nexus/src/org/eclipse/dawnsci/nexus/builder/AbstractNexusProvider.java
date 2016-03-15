@@ -77,12 +77,14 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	
 	private Map<String, PrimaryDataFieldModel> primaryDataFieldModels;
 	
+	private String externalFileName = null;
+
 	private Map<String, Integer> externalDatasetRanks = null;
 	
 	private String demandDataFieldName = null;
 	
 	private String defaultWritableDataFieldName = null;
-
+	
 	private NexusBaseClass category;
 
 	public AbstractNexusProvider(NexusBaseClass nexusBaseClass) {
@@ -202,6 +204,80 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	@Override
 	public NexusBaseClass getNexusBaseClass() {
 		return nexusBaseClass;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getExternalFileName()
+	 */
+	@Override
+	public String getExternalFileName() {
+		return externalFileName;
+	}
+	
+	/**
+	 * Set the name of the external file that this device writes its data to.
+	 * @param externalFileName external file name
+	 */
+	public void setExternalFileName(String externalFileName) {
+		this.externalFileName = externalFileName;
+	}
+
+	/**
+	 * A convenience method to add an external link to the given
+	 * group node with the given name, while also setting the rank of the
+	 * external dataset within this {@link AbstractNexusProvider}.
+	 * This is required to be set when adding a {@link NexusObjectProvider}
+	 * with external links to a {@link NexusDataBuilder} in order for the
+	 * <code>axes</code> and <code>&lt;axisname&gt;_indices</code> to be
+	 * created.
+	 * <p>
+	 * An external file must have been set by calling
+	 * {@link #setExternalDatasetRank(String, int)} prior to calling this method.
+	 *  
+	 * @param groupNode group node to add external link to
+	 * @param fieldName name of external dataset within the group
+	 * @param pathToNode path of node to link to within the external file
+	 * @param rank the rank of the 
+	 */
+	public void addExternalLink(NXobject groupNode, String fieldName,
+			String pathToNode, int rank) {
+		if (externalFileName == null) {
+			throw new IllegalStateException("External file name not set.");
+		}
+		
+		groupNode.addExternalLink(fieldName, externalFileName, pathToNode);
+		setExternalDatasetRank(fieldName, rank);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getExternalDatasetRank(java.lang.String)
+	 */
+	@Override
+	public int getExternalDatasetRank(String fieldName) {
+		if (externalDatasetRanks == null || !externalDatasetRanks.containsKey(fieldName)) {
+			throw new IllegalArgumentException("No rank set for external dataset: " + fieldName);
+		}
+		
+		return externalDatasetRanks.get(fieldName);
+	}
+
+	/**
+	 * Set the rank of an external dataset within the nexus object returned by
+	 * {@link #getNexusObject()}. The method {@link #setExternalFileName(String)} must
+	 * have been invoked before calling this method.
+	 * @param fieldName the name of the external dataset within the nexus object
+	 * @param rank the rank of the external dataset
+	 */
+	public void setExternalDatasetRank(String fieldName, int rank) {
+//		if (externalFileName == null) { 
+//			throw new IllegalStateException("External file name must be set before adding external datasets.");
+//		}
+		
+		if (externalDatasetRanks == null) {
+			externalDatasetRanks = new HashMap<>();
+		}
+		
+		externalDatasetRanks.put(fieldName, rank);
 	}
 
 	/* (non-Javadoc)
@@ -346,44 +422,6 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 
 	public ILazyWriteableDataset getWriteableDataset(String fieldName) {
 		return getNexusObject().getLazyWritableDataset(fieldName);
-	}
-	
-	@Override
-	public int getExternalDatasetRank(String fieldName) {
-		if (externalDatasetRanks == null || !externalDatasetRanks.containsKey(fieldName)) {
-			throw new IllegalArgumentException("No rank set for external dataset: " + fieldName);
-		}
-		
-		return externalDatasetRanks.get(fieldName);
-	}
-	
-	public void setExternalDatasetRank(String fieldName, int rank) {
-		if (externalDatasetRanks == null) {
-			externalDatasetRanks = new HashMap<>();
-		}
-		
-		externalDatasetRanks.put(fieldName, rank);
-	}
-	
-	/**
-	 * A convenience method to add an external link to the given
-	 * group node with the given name, while also setting the rank of the
-	 * external dataset within this {@link AbstractNexusProvider}.
-	 * This is required to be set when adding a {@link NexusObjectProvider}
-	 * with external links to a {@link NexusDataBuilder} in order for the
-	 * <code>axes</code> and <code>&lt;axisname&gt;_indices</code> to be
-	 * created.
-	 *  
-	 * @param groupNode group node to add external link to
-	 * @param fieldName name of external dataset within the group
-	 * @param externalFileName name of external file to link to
-	 * @param pathToNode path of node to link to within the external file
-	 * @param rank the rank of the 
-	 */
-	public void addExternalLink(NXobject groupNode, String fieldName,
-			String externalFileName, String pathToNode, int rank) {
-		groupNode.addExternalLink(fieldName, externalFileName, pathToNode);
-		setExternalDatasetRank(fieldName, rank);
 	}
 
 }
