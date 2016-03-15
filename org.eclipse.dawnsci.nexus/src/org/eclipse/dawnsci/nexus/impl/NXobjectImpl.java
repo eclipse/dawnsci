@@ -437,5 +437,25 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		
 		return null;
 	}
+	
+	@Override
+	protected void appendNodeString(StringBuilder s, String n) {
+		s.append(INDENT);
+		s.append(n);
+		Node node = getNode(n);
+		if (node instanceof SymbolicNode)
+			s.append('@');
+		else if (node instanceof GroupNode) {
+			if (node instanceof NXobject) { // append type of NXobject
+				s.append('[');
+				s.append(((NXobject) node).getNexusBaseClass());
+				s.append(']');
+			}
+			s.append('/');
+		}
+//			else
+//				s.append(String.format("(%d)", node.getID()));
+		s.append('\n');
+	}
 
 }

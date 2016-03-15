@@ -371,20 +371,25 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	public String toString() {
 		StringBuilder s = new StringBuilder(super.toString());
 		for (String n : nodes.keySet()) {
-			s.append(INDENT);
-			s.append(n);
-			Node node = nodes.get(n).getDestination();
-			if (node instanceof SymbolicNode)
-				s.append('@');
-			else if (node instanceof GroupNode)
-				s.append('/');
-//			else
-//				s.append(String.format("(%d)", node.getID()));
-			s.append('\n');
+			appendNodeString(s, n);
 		}
 
 		return s.toString();
 	}
+
+	protected void appendNodeString(StringBuilder s, String n) {
+		s.append(INDENT);
+		s.append(n);
+		Node node = nodes.get(n).getDestination();
+		if (node instanceof SymbolicNode)
+			s.append('@');
+		else if (node instanceof GroupNode)
+			s.append('/');
+//			else
+//				s.append(String.format("(%d)", node.getID()));
+		s.append('\n');
+	}
+	
 
 	@Override
 	public Iterator<String> getNodeNameIterator() {
