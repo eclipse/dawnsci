@@ -84,13 +84,14 @@ public class DefaultNexusDataBuilderTest {
 		
 		public TestDetectorWithExternalLink() {
 			super("testDetector", NexusBaseClass.NX_DETECTOR);
+			setExternalFileName("external.nxs");
 		}
 		
 		@Override
 		protected NXdetector doCreateNexusObject(NexusNodeFactory nodeFactory) {
 			NXdetector detector = nodeFactory.createNXdetector();
 			// create an external link instead of a lazy dataset
-			addExternalLink(detector, NXdetector.NX_DATA, "", "/entry/data", 3);
+			addExternalLink(detector, NXdetector.NX_DATA, "/entry/data", 3);
 			return detector;
 		}
 		
@@ -139,12 +140,13 @@ public class DefaultNexusDataBuilderTest {
 		
 		public TestPositionerWithExternalLink() {
 			super("positioner", NexusBaseClass.NX_POSITIONER, NXpositioner.NX_VALUE);
+			setExternalFileName("external.nxs");
 		}
 		
 		@Override
 		protected NXpositioner doCreateNexusObject(NexusNodeFactory nodeFactory) {
 			NXpositioner positioner = nodeFactory.createNXpositioner();
-			addExternalLink(positioner, NXpositioner.NX_VALUE, "", "/entry/data", 1);
+			addExternalLink(positioner, NXpositioner.NX_VALUE, "/entry/data", 1);
 			
 			return positioner;
 		}

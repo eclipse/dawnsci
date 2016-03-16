@@ -83,6 +83,23 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	public NexusBaseClass getCategory();
 
 	/**
+	 * Returns the name of the external HDF5 file that this device writes
+	 * its data to, or <code>null</code> if none
+	 * @return name of external file, or <code>null</code>
+	 */
+	public String getExternalFileName();
+	
+	/**
+	 * Returns the rank of the external dataset with the given field name.
+	 * @param fieldName field name
+	 * @return rank of external dataset with given field name
+	 * @throws IllegalArgumentException if no such field exists
+	 */
+	public int getExternalDatasetRank(String fieldName);
+
+	// methods below this line are relevant only when adding this object to a NexusDataBuilder 
+	
+	/**
 	 * Returns the data field names for this object. These are the fields
 	 * that will be linked to when this this object is added to
 	 * an {@link NexusDataBuilder} to construct an {@link NXdata} group.
@@ -146,13 +163,5 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 *    default data field
 	 */
 	public int[] getDimensionMappings(String primaryDataFieldName, String dataFieldName);
-
-	/**
-	 * Returns the rank of the external dataset with the given field name.
-	 * @param fieldName field name
-	 * @return rank of external dataset with given field name
-	 * @throws IllegalArgumentException if no such field exists
-	 */
-	public int getExternalDatasetRank(String fieldName);
 	
 }

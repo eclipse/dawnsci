@@ -1,6 +1,9 @@
 package org.eclipse.dawnsci.nexus.test.util;
 
+import static org.eclipse.dawnsci.nexus.builder.NexusDataBuilder.ATTR_NAME_AXES;
+import static org.eclipse.dawnsci.nexus.builder.NexusDataBuilder.ATTR_NAME_SIGNAL;
 import static org.eclipse.dawnsci.nexus.builder.NexusDataBuilder.ATTR_NAME_TARGET;
+import static org.eclipse.dawnsci.nexus.builder.NexusDataBuilder.ATTR_SUFFIX_INDICES;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -237,7 +240,7 @@ public class NexusAssert {
 	}
 	
 	public static void assertSignal(NXdata nxData, String expectedSignalFieldName) {
-		Attribute signalAttr = nxData.getAttribute("signal");
+		Attribute signalAttr = nxData.getAttribute(ATTR_NAME_SIGNAL);
 		assertThat(signalAttr, is(notNullValue()));
 		assertThat(signalAttr.getRank(), is(1));
 		assertThat(signalAttr.getFirstElement(), is(equalTo(expectedSignalFieldName)));
@@ -245,7 +248,7 @@ public class NexusAssert {
 	}
 
 	public static void assertAxes(NXdata nxData, String... expectedValues) {
-		Attribute axesAttr = nxData.getAttribute("axes");
+		Attribute axesAttr = nxData.getAttribute(ATTR_NAME_AXES);
 		assertThat(axesAttr, is(notNullValue()));
 		assertThat(axesAttr.getRank(), is(1));
 		assertThat(axesAttr.getShape()[0], is(expectedValues.length));
@@ -263,7 +266,7 @@ public class NexusAssert {
 	}
 
 	public static void assertIndices(NXdata nxData, String axisName, int... indices) {
-		Attribute indicesAttr = nxData.getAttribute(axisName + "_indices");
+		Attribute indicesAttr = nxData.getAttribute(axisName + ATTR_SUFFIX_INDICES);
 		assertThat(indicesAttr, is(notNullValue()));
 		assertThat(indicesAttr.getRank(), is(1));
 		assertThat(indicesAttr.getShape()[0], is(indices.length));

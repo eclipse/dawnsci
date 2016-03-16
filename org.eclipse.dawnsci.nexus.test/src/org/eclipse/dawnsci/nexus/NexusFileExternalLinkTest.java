@@ -33,7 +33,9 @@ public class NexusFileExternalLinkTest extends AbstractNexusFileTestBase {
 	}
 	
 	@After
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
+		NexusTestUtils.deleteFile(EXTERNAL_FILE_NAME);
 		linkedDataset = null;
 	}
 	
