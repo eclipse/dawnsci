@@ -9,7 +9,7 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package org.eclipse.dawnsci.hdf5;
+package org.eclipse.dawnsci.hdf.object;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,8 +29,8 @@ import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.hdf5.nexus.NexusUtils;
-import org.eclipse.dawnsci.hdf5.nexus.NexusUtils.ATTRIBUTE_TYPE;
+import org.eclipse.dawnsci.hdf.object.nexus.NexusUtils;
+import org.eclipse.dawnsci.hdf.object.nexus.NexusUtils.ATTRIBUTE_TYPE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,7 +71,7 @@ import ncsa.hdf.object.h5.H5ScalarDS;
  * @author gerring
  *
  */
-class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile {
+public class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatDataFile {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HierarchicalDataFile.class);
 	

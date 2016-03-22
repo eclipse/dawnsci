@@ -9,9 +9,9 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.hdf5.nexus;
+package org.eclipse.dawnsci.hdf.object.nexus;
 
-import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 
 public class NexusFindGroupByAttributeText implements IFindInNexus{
 	

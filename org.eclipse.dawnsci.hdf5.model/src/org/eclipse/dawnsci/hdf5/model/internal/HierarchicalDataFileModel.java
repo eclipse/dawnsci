@@ -19,8 +19,8 @@ import java.util.Map.Entry;
 import ncsa.hdf.object.Dataset;
 import ncsa.hdf.object.HObject;
 
-import org.eclipse.dawnsci.hdf5.HierarchicalDataUtils;
-import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils;
+import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf5.model.IHierarchicalDataFileModel;
 
 public class HierarchicalDataFileModel implements IHierarchicalDataFileModel {

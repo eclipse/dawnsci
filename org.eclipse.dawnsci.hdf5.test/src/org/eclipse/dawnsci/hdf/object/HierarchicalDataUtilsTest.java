@@ -9,11 +9,11 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.hdf5;
+package org.eclipse.dawnsci.hdf.object;
 
-import static org.eclipse.dawnsci.hdf5.HierarchicalDataUtils.compareScalarToString;
-import static org.eclipse.dawnsci.hdf5.HierarchicalDataUtils.compareScalars;
-import static org.eclipse.dawnsci.hdf5.HierarchicalDataUtils.extractScalar;
+import static org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils.compareScalarToString;
+import static org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils.compareScalars;
+import static org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils.extractScalar;
 import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
