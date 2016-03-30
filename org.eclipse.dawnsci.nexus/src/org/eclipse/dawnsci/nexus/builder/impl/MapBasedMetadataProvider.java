@@ -38,6 +38,13 @@ public class MapBasedMetadataProvider implements NexusMetadataProvider {
 	}
 	
 	/**
+	 * Create a new {@link MapBasedMetadataProvider}
+	 */
+	public MapBasedMetadataProvider(NexusBaseClass category) {
+		this.category = category;
+	}
+	
+	/**
 	 * Create a new {@link MapBasedMetadataProvider}.
 	 * @param map map
 	 */

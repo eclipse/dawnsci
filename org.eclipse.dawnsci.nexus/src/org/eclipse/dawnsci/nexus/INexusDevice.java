@@ -54,7 +54,8 @@ public interface INexusDevice<N extends NXobject> {
 	 *            dataset e.g. <code>info.getRank()</code>
 	 * @return The {@link NXobject} created using the <code>nodeFactory</code>
 	 *         to represent this device
+	 * @throws NexusException if the nexus object could not be created for any reason
 	 */
-	N createNexusObject(NexusNodeFactory nodeFactory, NexusScanInfo info);
+	N createNexusObject(NexusNodeFactory nodeFactory, NexusScanInfo info) throws NexusException;
 
 }
