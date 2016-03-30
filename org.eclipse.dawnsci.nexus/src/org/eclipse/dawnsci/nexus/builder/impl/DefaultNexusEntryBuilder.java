@@ -24,6 +24,7 @@ import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXsample;
+import org.eclipse.dawnsci.nexus.NXuser;
 import org.eclipse.dawnsci.nexus.NexusApplicationDefinition;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
 import org.eclipse.dawnsci.nexus.NexusException;
@@ -264,6 +265,11 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 		nxSample = nexusNodeFactory.createNXsample();
 		defaultGroups.add(nxSample);
 		nxEntry.setSample(nxSample);
+		
+		NXuser nxUser = nexusNodeFactory.createNXuser(); // TODO how to add multiple users?
+		defaultGroups.add(nxUser);
+		nxEntry.setUser(nxUser);
+		
 	}
 
 	/* (non-Javadoc)
@@ -292,12 +298,12 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 		}
 
 		if (nexusObject.getNexusBaseClass() == NexusBaseClass.NX_SAMPLE) {
-			// special case for NXsample
-			defaultGroups.remove(nxSample);
+			// special case for NXsample, replace the existing skeleton NXsample group
 			nxSample = (NXsample) nexusObject;
-			defaultGroups.add(nexusObject);
 			nxEntry.removeGroupNode("sample");
 			nxEntry.setSample(nxSample);
+			defaultGroups.remove(nxSample); // update the default groups list
+			defaultGroups.add(nexusObject);
 		} else {
 			// normal case
 			final String name = nexusObjectProvider.getName();
