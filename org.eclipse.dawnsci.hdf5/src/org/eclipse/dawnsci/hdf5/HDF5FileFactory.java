@@ -92,7 +92,7 @@ public class HDF5FileFactory {
 	}
 
 	private static void closeFile(long fid) throws HDF5LibraryException {
-		int openObjects = H5.H5Fget_obj_count(fid,
+		long openObjects = H5.H5Fget_obj_count(fid,
 				HDF5Constants.H5F_OBJ_LOCAL |
 				HDF5Constants.H5F_OBJ_DATASET |
 				HDF5Constants.H5F_OBJ_DATATYPE |

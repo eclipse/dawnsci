@@ -490,7 +490,7 @@ public class HDF5Utils {
 
 					boolean isREF = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_OBJ);
 					if (isVLEN) {
-						H5.H5DreadVL(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
+						H5.H5Dread_VLStrings(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
 					} else {
 						H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
 
@@ -499,7 +499,7 @@ public class HDF5Utils {
 							Object idata = null;
 							byte[] bdata = (byte[]) odata;
 							if (isText) {
-								idata = ncsa.hdf.object.Dataset.byteToString(bdata, H5.H5Tget_size(tid));
+								idata = ncsa.hdf.object.Dataset.byteToString(bdata, (int) H5.H5Tget_size(tid));
 							} else if (isREF) {
 								idata = HDFNativeData.byteToLong(bdata);
 							}
@@ -563,7 +563,7 @@ public class HDF5Utils {
 						boolean isREF = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_OBJ);
 						Object idata;
 						if (isVLEN) {
-							H5.H5DreadVL(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
+							H5.H5Dread_VLStrings(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
 							idata = odata;
 						} else {
 							H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
@@ -572,7 +572,7 @@ public class HDF5Utils {
 								// TODO check if this is actually used
 								byte[] bdata = (byte[]) odata;
 								if (isText) {
-									idata = ncsa.hdf.object.Dataset.byteToString(bdata, H5.H5Tget_size(tid));
+									idata = ncsa.hdf.object.Dataset.byteToString(bdata, (int) H5.H5Tget_size(tid));
 								} else if (isREF) {
 									idata = HDFNativeData.byteToLong(bdata);
 								} else {
@@ -950,7 +950,7 @@ public class HDF5Utils {
 						HDF5Constants.H5P_DEFAULT, hdfPropertiesId, HDF5Constants.H5P_DEFAULT);
 					if (stringDataset) {
 						String[] strings = (String[])DatasetUtils.serializeDataset(data);
-						H5.H5DwriteString(hdfDatasetId, hdfDatatypeId, HDF5Constants.H5S_ALL, HDF5Constants.H5S_ALL, HDF5Constants.H5P_DEFAULT, strings);
+						H5.H5Dwrite_VLStrings(hdfDatasetId, hdfDatatypeId, HDF5Constants.H5S_ALL, HDF5Constants.H5S_ALL, HDF5Constants.H5P_DEFAULT, strings);
 					} else {
 						Serializable buffer = DatasetUtils.serializeDataset(data);
 						H5.H5Dwrite(hdfDatasetId, hdfDatatypeId, HDF5Constants.H5S_ALL, HDF5Constants.H5S_ALL, HDF5Constants.H5P_DEFAULT, buffer);
@@ -1245,7 +1245,7 @@ public class HDF5Utils {
 						hdfDatatypeId = H5.H5Dget_type(hdfDatasetId);
 						int typeSize = -1;
 						try {
-							typeSize = H5.H5Tget_size(hdfDatatypeId);
+							typeSize = (int) H5.H5Tget_size(hdfDatatypeId);
 							vlenString = H5.H5Tis_variable_str(hdfDatatypeId);
 						} finally {
 							H5.H5Tclose(hdfDatatypeId);
@@ -1255,7 +1255,7 @@ public class HDF5Utils {
 						H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
 						H5.H5Tset_size(hdfDatatypeId, vlenString ? HDF5Constants.H5T_VARIABLE : typeSize);
 						if (vlenString) {
-							H5.H5DwriteString(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, (String[]) buffer);
+							H5.H5Dwrite_VLStrings(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, (String[]) buffer);
 						} else {
 							String[] strings = (String[]) buffer;
 							byte[] strBuffer = new byte[typeSize * strings.length];
@@ -1413,7 +1413,7 @@ public class HDF5Utils {
 	public static class DatasetType {
 		public int dtype = -1; // dataset type number 
 		public int isize = 1; // number of elements per item
-		public int size; // size of string in bytes
+		public long size; // size of string in bytes
 		public int bits = -1; // max number of bits for bit-fields (-1 for other types)
 		public String name;
 		public boolean vlen; // is variable length
@@ -1628,7 +1628,7 @@ public class HDF5Utils {
 						} else {
 							int w = 1;
 							try {
-								w = H5.H5Tget_size(mtype);
+								w = (int) H5.H5Tget_size(mtype);
 							} catch (HDF5Exception ex) {
 								continue;
 							} finally {
@@ -1695,8 +1695,7 @@ public class HDF5Utils {
 				long[] shape = null;
 				long[] maxShape = null;
 				long attrId = attrResource.getResource();
-				String[] name = new String[1];
-				H5.H5Aget_name(attrId, name);
+				String name = H5.H5Aget_name(attrId);
 				try (HDF5Resource spaceResource = new HDF5DataspaceResource(H5.H5Aget_space(attrId));
 						HDF5Resource typeResource = new HDF5DatatypeResource(H5.H5Aget_type(attrId));
 						HDF5Resource nativeTypeResource = new HDF5DatatypeResource(H5.H5Tget_native_type(typeResource.getResource()))) {
@@ -1726,7 +1725,7 @@ public class HDF5Utils {
 							H5.H5AreadVL(attrId, nativeTypeId, buffer);
 							dataset = DatasetFactory.createFromObject(buffer).reshape(iShape);
 						} else {
-							byte[] buffer = new byte[strCount * type.size];
+							byte[] buffer = new byte[(int) (strCount * type.size)];
 							H5.H5Aread(attrId, nativeTypeId, buffer);
 							String[] strings = new String[strCount];
 							int strIndex = 0;
@@ -1743,7 +1742,7 @@ public class HDF5Utils {
 						Serializable buffer = dataset.getBuffer();
 						H5.H5Aread(attrId, nativeTypeId, buffer);
 					}
-					dataset.setName(name[0]);
+					dataset.setName(name);
 				}
 			}
 		} catch (HDF5Exception e) {
