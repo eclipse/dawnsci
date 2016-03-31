@@ -365,7 +365,7 @@ public class TestSWMR {
 
 //		H5L_info_t info = H5.H5Lget_info(fileID, "/ext", HDF5Constants.H5P_DEFAULT);
 		String[] linkName = new String[2]; // file name and file path
-		H5.H5Lget_val(fileID, "/ext", linkName, HDF5Constants.H5P_DEFAULT);
+		H5.H5Lget_value(fileID, "/ext", linkName, HDF5Constants.H5P_DEFAULT);
 		Assert.assertEquals("/target", linkName[0]);
 		Assert.assertEquals("missing.h5", linkName[1]);
 	}
