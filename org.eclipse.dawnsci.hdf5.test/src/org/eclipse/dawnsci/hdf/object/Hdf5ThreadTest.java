@@ -9,16 +9,17 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.hdf5;
+package org.eclipse.dawnsci.hdf.object;
 
 import java.io.File;
 
 import ncsa.hdf.object.Dataset;
 
-import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf5.HierarchicalDataFile;
-import org.eclipse.dawnsci.hdf5.HierarchicalDataUtils;
-import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
+import org.eclipse.dawnsci.hdf.object.HierarchicalDataFile;
+import org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils;
+import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf5.AbstractThreadTestBase;
 import org.junit.After;
 import org.junit.Test;
 

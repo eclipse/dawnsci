@@ -9,7 +9,7 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package org.eclipse.dawnsci.hdf5.nexus;
+package org.eclipse.dawnsci.hdf.object.nexus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,10 +28,10 @@ import ncsa.hdf.object.HObject;
 import ncsa.hdf.object.h5.H5Datatype;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.hdf5.H5Utils;
-import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf5.IFileFormatDataFile;
-import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf.object.H5Utils;
+import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
+import org.eclipse.dawnsci.hdf.object.IFileFormatDataFile;
+import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
