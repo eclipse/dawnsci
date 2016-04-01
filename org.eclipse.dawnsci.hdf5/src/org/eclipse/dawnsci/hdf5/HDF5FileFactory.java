@@ -72,22 +72,6 @@ public class HDF5FileFactory {
 	}
 
 	/**
-	 * Canonicalise path so that we can use it as a standard key
-	 * @param absolutePath
-	 * @return
-	 * @throws IOException
-	 */
-	public static String canonicalisePath(String absolutePath) throws IOException {
-		try {
-			return new File(absolutePath).getCanonicalPath();
-		} catch (IOException e) {
-			logger.error("Could not get canonical path: {}", absolutePath);
-			throw e;
-		}
-	}
-
-
-	/**
 	 * Set period of time a file ID is held open for. The period specified must be greater
 	 * than or equal to 100 ms.
 	 * @param heldPeriod in milliseconds
@@ -185,7 +169,7 @@ public class HDF5FileFactory {
 	private static long acquireFile(String fileName, boolean writeable, boolean asNew, boolean withLatestVersion) throws ScanFileHolderException {
 		final String cPath;
 		try {
-			cPath = canonicalisePath(fileName);
+			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
 		} catch (IOException e) {
 			logger.error("Problem canonicalising path", e);
 			throw new ScanFileHolderException("Problem canonicalising path", e);
@@ -329,7 +313,7 @@ public class HDF5FileFactory {
 	public static void deleteFile(String fileName) throws ScanFileHolderException {
 		final String cPath;
 		try {
-			cPath = canonicalisePath(fileName);
+			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
 		} catch (IOException e) {
 			logger.error("Problem canonicalising path", e);
 			throw new ScanFileHolderException("Problem canonicalising path", e);
@@ -384,7 +368,7 @@ public class HDF5FileFactory {
 	public static void releaseFile(String fileName, boolean close) throws ScanFileHolderException {
 		final String cPath;
 		try {
-			cPath = canonicalisePath(fileName);
+			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
 		} catch (IOException e) {
 			logger.error("Problem canonicalising path", e);
 			throw new ScanFileHolderException("Problem canonicalising path", e);

@@ -10,7 +10,6 @@
 
 package org.eclipse.dawnsci.nexus;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -32,27 +31,6 @@ import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
  * Utility methods for dealing with NeXus files.
  */
 public class NexusUtils {
-
-	final static int CHUNK_TARGET_SIZE = 1024 * 1024; // 1 MB
-
-	final static ChunkingStrategy DEFAULT_CHUNK_STRATEGY = ChunkingStrategy.SKEW_LAST;
-
-	/**
-	 * Possible strategies for estimating chunking
-	 */
-	public enum ChunkingStrategy {
-		/**
-		 * Approximately balance chunking across all dimensions
-		 * Better for slicing across multiple dimensions when processing.
-		 */
-		BALANCE,
-
-		/**
-		 * Skew chunking toward later dimensions - maximally reduce earlier dimensions first
-		 * Good for writing large detector images frame by frame.
-		 */
-		SKEW_LAST
-	}
 
 	/**
 	 * Create a (top-level) NeXus augmented path
@@ -364,10 +342,19 @@ public class NexusUtils {
 		}
 	}
 
-	private static int[] estimateChunkingBalanced(int[] expectedMaxShape,
-			int dataByteSize,
-			int[] fixedChunkDimensions,
-			int targetSize) {
+	/**
+	 * Estimate suitable chunking parameters based on the expected final size of a dataset
+	 *
+	 * @param expectedMaxShape
+	 *            expected final size of the dataset
+	 * @param dataByteSize
+	 *            size of each element in bytes
+	 * @param fixedChunkDimensions
+	 *            provided dimensions in a chunk to be kept constant (-1 for no provided chunk)
+	 * @return chunking estimate
+	 */
+	public static int[] estimateChunking(int[] expectedMaxShape, int dataByteSize, int[] fixedChunkDimensions) {
+		final long targetSize = 1024 * 1024;
 		if (expectedMaxShape == null) {
 			throw new NullPointerException("Must provide an expected shape");
 		}
@@ -420,126 +407,16 @@ public class NexusUtils {
 		return chunks;
 	}
 
-	private static int[] estimateChunkingSkewed(int[] expectedMaxShape,
-			int dataByteSize,
-			int[] fixedChunkDimensions,
-			int targetSize) {
-		if (expectedMaxShape == null) {
-			throw new NullPointerException("Must provide an expected shape");
-		}
-		if (fixedChunkDimensions != null && (expectedMaxShape.length != fixedChunkDimensions.length)) {
-			throw new IllegalArgumentException("Shape estimation and provided chunk information have different dimensions");
-		}
-		for (int d : expectedMaxShape) {
-			if (d <= 0) {
-				throw new IllegalArgumentException("Shape estimation must have dimensions greater than zero");
-			}
-		}
-
-		int[] chunk = Arrays.copyOf(expectedMaxShape, expectedMaxShape.length);
-		int[] fixed = fixedChunkDimensions;
-		if (fixed == null) {
-			fixed = new int[chunk.length];
-			Arrays.fill(fixed, -1);
-		}
-		for (int i = 0; i < chunk.length; i++) {
-			if (fixed[i] > 0) {
-				chunk[i] = fixed[i];
-			}
-		}
-		long currentSize = dataByteSize;
-		for (int i : chunk) {
-			currentSize *= (long) i;
-		}
-		ArrayList<Integer> toReduce = new ArrayList<Integer>();
-		for (int i = 0; i < fixed.length; i++) {
-			if (fixed[i] < 1) toReduce.add(i);
-		}
-		outer_loop:
-		for (int idx : toReduce) {
-			while (chunk[idx] > 1) {
-				if (currentSize > targetSize) {
-					// round up to avoid needing an extra chunk to hold a tiny amount of data
-					chunk[idx] = (int) Math.ceil(chunk[idx] / 2.0);
-
-					currentSize = dataByteSize;
-					for (int c : chunk) {
-						currentSize *= (long) c;
-					}
-				} else {
-					// finished reducing chunk
-					break outer_loop;
-				}
-			}
-		}
-		return chunk;
-	}
-
 	/**
-	 * Estimate suitable chunk parameters based on the expected final size of a dataset
+	 * Estimate suitable chunking paremeters based on the expected final size of a dataset
 	 *
 	 * @param expectedMaxShape
 	 *            expected final size of the dataset
 	 * @param dataByteSize
 	 *            size of each element in bytes
-	 * @param fixedChunkDimensions
-	 *            provided dimensions in a chunk to be kept constant (-1 for no provided chunk)
-	 * @param strategy
-	 *            strategy to use for estimating
-	 * @return chunk estimate
-	 */
-	public static int[] estimateChunking(int[] expectedMaxShape,
-			int dataByteSize,
-			int[] fixedChunkDimensions,
-			ChunkingStrategy strategy) {
-		switch (strategy) {
-		case BALANCE:
-			return estimateChunkingBalanced(expectedMaxShape, dataByteSize, fixedChunkDimensions, CHUNK_TARGET_SIZE);
-		case SKEW_LAST:
-		default:
-			return estimateChunkingSkewed(expectedMaxShape, dataByteSize, fixedChunkDimensions, CHUNK_TARGET_SIZE);
-		}
-	}
-
-	/**
-	 * Estimate suitable chunk parameters based on the expected final size of a dataset
-	 * @param expectedMaxShape
-	 *            expected final size of the dataset
-	 * @param dataByteSize
-	 *            size of each element in bytes
-	 * @param strategy
-	 *            strategy to use for estimating
-	 * @return chunk estimate
-	 */
-	public static int[] estimateChunking(int[] expectedMaxShape, int dataByteSize, ChunkingStrategy strategy) {
-		return estimateChunking(expectedMaxShape, dataByteSize, null, strategy);
-	}
-
-	/**
-	 * Estimate suitable chunk parameters based on the expected final size of a dataset
-	 *
-	 * @param expectedMaxShape
-	 *            expected final size of the dataset
-	 * @param dataByteSize
-	 *            size of each element in bytes
-	 * @param fixedChunkDimensions
-	 *            provided dimensions in a chunk to be kept constant (-1 for no provided chunk)
-	 * @return chunk estimate
-	 */
-	public static int[] estimateChunking(int[] expectedMaxShape, int dataByteSize, int[] fixedChunkDimensions) {
-		return estimateChunking(expectedMaxShape, dataByteSize, fixedChunkDimensions, DEFAULT_CHUNK_STRATEGY);
-	}
-
-	/**
-	 * Estimate suitable chunk parameters based on the expected final size of a dataset
-	 *
-	 * @param expectedMaxShape
-	 *            expected final size of the dataset
-	 * @param dataByteSize
-	 *            size of each element in bytes
-	 * @return chunk estimate
+	 * @return chunking estimate
 	 */
 	public static int[] estimateChunking(int[] expectedMaxShape, int dataByteSize) {
-		return estimateChunking(expectedMaxShape, dataByteSize, null, DEFAULT_CHUNK_STRATEGY);
+		return estimateChunking(expectedMaxShape, dataByteSize, null);
 	}
 }

@@ -9,7 +9,7 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package org.eclipse.dawnsci.hdf.object;
+package org.eclipse.dawnsci.hdf5;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import ncsa.hdf.object.FileFormat;
 
-import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

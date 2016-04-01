@@ -9,7 +9,7 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package org.eclipse.dawnsci.hdf.object;
+package org.eclipse.dawnsci.hdf5;
 
 public class Nexus {
 

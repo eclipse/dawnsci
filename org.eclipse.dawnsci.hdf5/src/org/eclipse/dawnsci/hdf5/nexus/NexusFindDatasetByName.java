@@ -9,10 +9,10 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.hdf.object.nexus;
+package org.eclipse.dawnsci.hdf5.nexus;
 
 
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
 
 public class NexusFindDatasetByName implements IFindInNexus {
 
