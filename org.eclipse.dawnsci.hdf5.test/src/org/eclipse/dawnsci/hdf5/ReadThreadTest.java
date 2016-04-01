@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.eclipse.dawnsci.hdf.object;
+package org.eclipse.dawnsci.hdf5;
 
 import java.util.Arrays;
 
@@ -15,10 +15,6 @@ import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf5.AbstractThreadTestBase;
-import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
-import org.eclipse.dawnsci.hdf5.HDF5Utils;
 import org.junit.Test;
 
 import ncsa.hdf.hdf5lib.H5;

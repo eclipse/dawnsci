@@ -9,18 +9,19 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.dawnsci.hdf.object.nexus;
+package org.eclipse.dawnsci.hdf5;
 
+import ncsa.hdf.object.FileFormat;
 
 /**
- * This interface describes a single method that returns a boolean when given a
- * Hierarchical object. This allows classes to be created specifically to test
- * the type/name/contents of a Hierarchical object, and return whether the object
- * matches or not. To be used with methods that iterate over Hierarchical files to 
- * locate specific objects.
+ * Internal use only. Do not use this interface externally to the plugin
+ * TODO Create an internal package and move interface to it.
+ * 
+ * @author Matthew Gerring
+ *
  */
-public interface IFindInNexus
-{
-    boolean inNexus(String nexusObjectPath);
-    
+public interface IFileFormatDataFile extends IHierarchicalDataFile {
+
+	public FileFormat getFileFormat();
+
 }

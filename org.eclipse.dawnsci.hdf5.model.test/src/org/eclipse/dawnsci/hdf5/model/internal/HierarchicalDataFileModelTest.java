@@ -21,9 +21,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
+import org.eclipse.dawnsci.hdf5.HierarchicalDataUtils;
+import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf5.model.IHierarchicalDataFileModel;
 import org.eclipse.dawnsci.hdf5.model.internal.HierarchicalDataFileModel;
 import org.eclipse.dawnsci.hdf5.model.internal.IHierarchicalDataFileGetReader;

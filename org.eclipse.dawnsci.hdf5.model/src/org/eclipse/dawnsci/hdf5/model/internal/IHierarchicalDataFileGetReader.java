@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.hdf5.model.internal;
 
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf5.model.IHierarchicalDataModel;
 
 public interface IHierarchicalDataFileGetReader {
