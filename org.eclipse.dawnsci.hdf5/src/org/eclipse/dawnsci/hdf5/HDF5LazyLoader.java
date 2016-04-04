@@ -31,6 +31,7 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	public static final long serialVersionUID = 5057544213374303912L;
 	protected static final Logger logger = LoggerFactory.getLogger(HDF5LazyLoader.class);
 
+	private boolean isReadable;
 	private boolean isRemote;
 	protected String filePath;
 	protected String nodePath;
@@ -59,6 +60,7 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 			logger.warn("Problem finding local host so ignoring check", e);
 		}
 		filePath = filename;
+		isReadable = false;
 		nodePath = node;
 		this.name = name;
 		this.trueShape = trueShape;
@@ -69,7 +71,10 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 
 	@Override
 	public boolean isFileReadable() {
-		return !isRemote &&  new File(filePath).canRead();
+		if (!isReadable && !isRemote) { // keep trying if local
+			isReadable = new File(filePath).canRead();
+		}
+		return isReadable;
 	}
 
 	@Override
