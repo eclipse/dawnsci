@@ -82,7 +82,7 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazySaver, Seriali
 			isWriteable = f.exists() ? f.canWrite() : f.getParentFile().canWrite();
 		}
 
-		return f.getParentFile().canWrite();
+		return isWriteable;
 	}
 
 	@Override
