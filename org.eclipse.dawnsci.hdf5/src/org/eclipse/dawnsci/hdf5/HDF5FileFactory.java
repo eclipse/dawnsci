@@ -40,13 +40,10 @@ public class HDF5FileFactory {
 
 	private static long heldPeriod = 5000; // 5 seconds
 
-	private static boolean isWindows;
-
 	private final static HDF5FileFactory INSTANCE;
 
 	static {
 		INSTANCE = new HDF5FileFactory();
-		isWindows = System.getProperty("os.name").startsWith("Windows");
 	}
 
 	private ConcurrentMap<String, FileAccess> map;
@@ -222,30 +219,17 @@ public class HDF5FileFactory {
 								// attempt to read with SWMR access first
 								int a = HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ;
 								try {
-									if (isWindows) {
-										fid = H5Fopen(cPath, a, fapl);
-									} else {
-										fid = H5.H5Fopen(cPath, a, fapl);
-									}
+									fid = H5.H5Fopen(cPath, a, fapl);
 								} catch (HDF5LibraryException e) {
 									// this can happen when someone else has already
 									// opened the file without SWMR
 									// i.e. high-level API access (e.g. its use in PersistentFileImpl)
 									a = HDF5Constants.H5F_ACC_RDONLY;
-									if (isWindows) {
-										fid = H5Fopen(cPath, a, fapl);
-									} else {
-										fid = H5.H5Fopen(cPath, a, fapl);
-									}
+									fid = H5.H5Fopen(cPath, a, fapl);
 								}
 							} else {
 								int a = HDF5Constants.H5F_ACC_RDWR;
-								if (isWindows) {
-									fid = H5Fopen(cPath, a, fapl);
-								} else {
-									fid = H5.H5Fopen(cPath, a, fapl);
-								}
-
+								fid = H5.H5Fopen(cPath, a, fapl);
 							}
 						} else if (!writeable) {
 							logger.error("File {} does not exist!", cPath);
@@ -403,52 +387,5 @@ public class HDF5FileFactory {
 				throw new ScanFileHolderException("Problem releasing access to file: " + cPath, le);
 			}
 		}
-	}
-
-	/**
-	 * Used for temporarily for Windows, until Pete builds the new nxs libraries for windows
-	 * Wrapper to fix super block status flag issue
-	 * @param filePath
-	 * @param flags
-	 * @param fapl
-	 * @return file ID
-	 * @throws HDF5LibraryException
-	 * @throws NullPointerException
-	 */
-	public static long H5Fopen(String filePath, int flags, long fapl) throws HDF5LibraryException, NullPointerException {
-		long fid = -1;
-		try {
-			fid = H5.H5Fopen(filePath, flags, fapl);
-		} catch (HDF5LibraryException e) {
-			boolean isAccessDefault = fapl == HDF5Constants.H5P_DEFAULT;
-			if (isAccessDefault) {
-				fapl = -1;
-				try {
-					fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
-				} catch (HDF5LibraryException ex) {
-					logger.error("Could not create file access property list");
-					throw ex;
-				}
-			}
-			try {
-				H5.H5Pset(fapl, "clear_status_flags", 1);
-			} catch (HDF5LibraryException ex) {
-				logger.warn("Could not clear status flag but continuing to open file");
-			}
-	
-			fid = H5.H5Fopen(filePath, flags, fapl);
-	
-			if (isAccessDefault) {
-				if (fapl != -1) {
-					try {
-						H5.H5Pclose(fapl);
-					} catch (HDF5LibraryException ex) {
-						logger.error("Could not close file access property list");
-						throw ex;
-					}
-				}
-			}
-		}
-		return fid;
 	}
 }
