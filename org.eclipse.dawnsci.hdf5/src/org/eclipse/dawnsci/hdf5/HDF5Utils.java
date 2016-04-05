@@ -1161,8 +1161,38 @@ public class HDF5Utils {
 	 * @throws ScanFileHolderException
 	 */
 	public static void setDatasetSlice(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
+		setDatasetSlice(fileName, parentPath, name, slice, value, false, false);
+	}
+
+	/**
+	 * Set slice of dataset in HDF5 file. Create file if necessary
+	 * @param fileName
+	 * @param parentPath
+	 * @param name
+	 * @param slice
+	 * @param value
+	 * @throws ScanFileHolderException
+	 */
+	public static void setExistingDatasetSlice(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
+		setDatasetSlice(fileName, parentPath, name, slice, value, false, true);
+	}
+
+	/**
+	 * Set slice of dataset in HDF5 file. Create file if necessary
+	 * @param fileName
+	 * @param parentPath
+	 * @param name
+	 * @param slice
+	 * @param value
+	 * @param close
+	 * @param exists 
+	 * @throws ScanFileHolderException
+	 */
+	private static void setDatasetSlice(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value, final boolean close, boolean exists) throws ScanFileHolderException {
 		try {
-			prepareFile(fileName, parentPath, name, slice, value);
+			if (!exists) {
+				prepareFile(fileName, parentPath, name, slice, value);
+			}
 			long fid = HDF5FileFactory.acquireFile(fileName, true);
 
 			String dataPath = absolutePathToData(parentPath, name);
