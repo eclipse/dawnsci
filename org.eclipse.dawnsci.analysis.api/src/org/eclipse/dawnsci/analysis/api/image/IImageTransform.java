@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.analysis.api.image;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 
 /**
@@ -61,6 +62,20 @@ public interface IImageTransform {
 	 * @throws Exception
 	 */
 	public List<IDataset> align(List<IDataset> images, IMonitor monitor) throws Exception;
+
+	/**
+	 * Aligns lazily a stack of images using feature association: given a lazy dataset, it returns a lazy dataset. This
+	 * alignment process saves the aligned data in an hdf5 file saved on disk and this method can be used without
+	 * running into a MemoryOverflowError.
+	 * 
+	 * @param images
+	 *            stack of images
+	 * @param monitor
+	 *            progress monitor
+	 * @return aligned stack of images
+	 * @throws Exception
+	 */
+	public ILazyDataset align(ILazyDataset images, IMonitor monitor) throws Exception;
 
 	/**
 	 * <p>
