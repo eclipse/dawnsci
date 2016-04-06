@@ -523,8 +523,13 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	//////////////////////////////////////////////////////////////////////////
 	
 	@Override
-	public void setData(final int[] size, final IDataset data, final double intensityValue) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), size, data, intensityValue);
+	public void setData(final int[] size, 
+			final IDataset data, 
+			final double intensityValue, 
+			final double opacityValue,
+			final double[] minMaxValue,
+			final double[] minMaxCulling) {
+		call(getMethodName(Thread.currentThread().getStackTrace()), size, data, intensityValue, opacityValue, minMaxValue, minMaxCulling);
 	}
 	
 	@Override
