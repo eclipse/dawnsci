@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Json Marshaller
+Bundle-SymbolicName: org.eclipse.dawnsci.json
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Diamond Light Source
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Activator: org.eclipse.dawnsci.json.internal.Activator
+Service-Component: OSGI-INF/*.xml
+Require-Bundle: com.fasterxml.jackson.core.jackson-annotations;bundle-version="2.2.0",
+ com.fasterxml.jackson.core.jackson-core;bundle-version="2.2.0",
+ com.fasterxml.jackson.core.jackson-databind;bundle-version="[2.2.0,2.6.0)",
+ org.eclipse.dawnsci.analysis.api;bundle-version="1.0.0",
+ org.eclipse.dawnsci.analysis.dataset,
+ org.eclipse.core.runtime;bundle-version="3.11.1"
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.dawnsci.json
+Import-Package: org.osgi.framework;version="1.7.0",
+ org.slf4j;version="1.7.2"
+
