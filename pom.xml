@@ -40,6 +40,8 @@
 		<module>org.eclipse.dawnsci.remotedataset.server</module>
 		<module>org.eclipse.dawnsci.remotedataset.test</module>
 		<module>org.eclipse.dawnsci.slicing.api</module>
+		<module>org.eclipse.dawnsci.json</module>
+		<module>org.eclipse.dawnsci.json.test</module>
 	</modules>
 	
 	<dependencies>
