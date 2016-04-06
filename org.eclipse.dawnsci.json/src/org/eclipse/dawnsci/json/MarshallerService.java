@@ -115,7 +115,7 @@ public class MarshallerService implements IMarshallerService {
 	}
 
 	public MarshallerService(List<IMarshaller> marshallers, BundleProvider bundleProvider) {
-		this.marshallers    = Collections.unmodifiableList(marshallers);
+		if (marshallers!=null) this.marshallers = Collections.unmodifiableList(marshallers);
 		this.bundleProvider = bundleProvider;
 	}
 
