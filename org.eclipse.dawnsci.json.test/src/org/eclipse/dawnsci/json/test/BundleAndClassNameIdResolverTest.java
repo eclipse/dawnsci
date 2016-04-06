@@ -48,13 +48,13 @@ public class BundleAndClassNameIdResolverTest {
 	private static final String OBJECT_ID = "bundle=&version=&class=java.lang.Object";
 	private static final String STRING_ID = "bundle=&version=&class=java.lang.String";
 	private static final String ARRAY_LIST_ID = "bundle=&version=&class=java.util.ArrayList";
-	private static final String PERSON_ID = "bundle=uk.ac.diamond.daq.test.example&version=1.2.0.test&class=uk.ac.diamond.json.test.testobject.Person";
-	private static final String PERSON_ARRAY_ID = "bundle=&version=&class=[Luk.ac.diamond.json.test.testobject.Person;";
-	private static final String BIRD_ID = "bundle=uk.ac.diamond.daq.test.example&version=2.0.0&class=uk.ac.diamond.json.test.testobject.Bird";
-	private static final String CAT_ID = "bundle=uk.ac.diamond.daq.test.other_example&version=0.0.0&class=uk.ac.diamond.json.test.testobject.Cat";
-	private static final String NONEXISTENT_BIRD_ID = "bundle=uk.ac.diamond.daq.test.example&version=1.2.0.test&class=uk.ac.diamond.json.test.testobject.Bird";
-	private static final String NONEXISTENT_CORE_CLASS_ID = "bundle=&version=&class=uk.ac.diamond.json.internal.ClassNotFound";
-	private static final String NONEXISTENT_BUNDLE_ID = "bundle=uk.ac.diamond.daq.nonexistent&version=1.0.0&classuk.ac.diamond.json.internal.ClassNotFound";
+	private static final String PERSON_ID = "bundle=uk.ac.diamond.daq.test.example&version=1.2.0.test&class=org.eclipse.dawnsci.json.test.testobject.Person";
+	private static final String PERSON_ARRAY_ID = "bundle=&version=&class=[Lorg.eclipse.dawnsci.json.test.testobject.Person;";
+	private static final String BIRD_ID = "bundle=uk.ac.diamond.daq.test.example&version=2.0.0&class=org.eclipse.dawnsci.json.test.testobject.Bird";
+	private static final String CAT_ID = "bundle=uk.ac.diamond.daq.test.other_example&version=0.0.0&class=org.eclipse.dawnsci.json.test.testobject.Cat";
+	private static final String NONEXISTENT_BIRD_ID = "bundle=uk.ac.diamond.daq.test.example&version=1.2.0.test&class=org.eclipse.dawnsci.json.test.testobject.Bird";
+	private static final String NONEXISTENT_CORE_CLASS_ID = "bundle=&version=&class=org.eclipse.dawnsci.json.internal.ClassNotFound";
+	private static final String NONEXISTENT_BUNDLE_ID = "bundle=uk.ac.diamond.daq.nonexistent&version=1.0.0&classorg.eclipse.dawnsci.json.internal.ClassNotFound";
 
 	private BundleAndClassNameIdResolver resolver;
 	private TestBundleProvider bundleProvider;
