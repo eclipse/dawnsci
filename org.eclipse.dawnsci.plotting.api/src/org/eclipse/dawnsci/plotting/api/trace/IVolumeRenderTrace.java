@@ -34,7 +34,13 @@ public interface IVolumeRenderTrace extends IImage3DTrace {
 	 * 
 	 * @param 
 	 */
-	public void setData(final int[] size, final IDataset data, final double intensityValue);
+	public void setData(
+			final int[] size, 
+			final IDataset data, 
+			final double intensityValue, 
+			final double opacityValue,
+			final double[] minMaxValue,
+			final double[] minMaxCulling);
 	
 	/**
 	 * sets the new opacity
