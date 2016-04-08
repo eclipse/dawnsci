@@ -77,7 +77,7 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazySaver, Seriali
 
 	@Override
 	public boolean isFileWriteable() {
-		if (!isWriteable && (create || isFileReadable())) {
+		if (!isWriteable && (!init || create || isFileReadable())) {
 			File f = new File(filePath);
 			isWriteable = f.exists() ? f.canWrite() : f.getParentFile().canWrite();
 		}
