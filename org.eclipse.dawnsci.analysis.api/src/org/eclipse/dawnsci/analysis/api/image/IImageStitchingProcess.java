@@ -32,8 +32,9 @@ public interface IImageStitchingProcess {
 	 * @param monitor
 	 *            To monitor progress
 	 * @return output stitched image
+	 * @throws Exception 
 	 */
-	public IDataset stitch(List<IDataset> input, IMonitor monitor);
+	public IDataset stitch(List<IDataset> input, IMonitor monitor) throws Exception;
 
 	/**
 	 * Stitches a list of images
@@ -44,8 +45,9 @@ public interface IImageStitchingProcess {
 	 * @param monitor
 	 *            To monitor progress
 	 * @return output stitched image
+	 * @throws Exception 
 	 */
-	public IDataset stitch(List<IDataset> input, int rows, int columns, IMonitor monitor);
+	public IDataset stitch(List<IDataset> input, int rows, int columns, IMonitor monitor) throws Exception;
 
 	/**
 	 * Crops a list of images given a ROI then stitches them together
@@ -57,8 +59,9 @@ public interface IImageStitchingProcess {
 	 * @param monitor
 	 *            To monitor progress
 	 * @return output stitched image
+	 * @throws Exception 
 	 */
-	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView, IMonitor monitor);
+	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView, IMonitor monitor) throws Exception;
 
 	/**
 	 * Stiches a list of images previously cropped with the given roi. Use the theoretical image position from the
@@ -76,9 +79,10 @@ public interface IImageStitchingProcess {
 	 * @param monitor
 	 *            To monitor progress
 	 * @return output stitched image
+	 * @throws Exception 
 	 */
 	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView, List<double[]> translations, 
-			boolean hasFeatureAssociation, IMonitor monitor);
+			boolean hasFeatureAssociation, IMonitor monitor) throws Exception;
 
 	/**
 	 * Stiches a list of images previously cropped with the given roi. Use the theoretical image position from the
@@ -98,9 +102,10 @@ public interface IImageStitchingProcess {
 	 * @param monitor
 	 *            To monitor progress
 	 * @return output stitched image
+	 * @throws Exception 
 	 */
 	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView,
-			List<double[]> translations, boolean hasFeatureAssociation, int[] originalShape, IMonitor monitor);
+			List<double[]> translations, boolean hasFeatureAssociation, int[] originalShape, IMonitor monitor) throws Exception;
 
 	/**
 	 * Stiches a list of images loaded lazily previously cropped with the given roi. Use the theoretical image position from the
