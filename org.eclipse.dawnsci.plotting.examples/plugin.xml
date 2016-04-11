@@ -77,6 +77,13 @@
             name="Composite Example"
             restorable="true">
       </view>
+      <view
+            category="org.dawnsci.plotting.examples.category"
+            class="org.eclipse.dawnsci.plotting.examples.VolumeExample"
+            id="org.dawnsci.plotting.examples.volumeExample"
+            name="Volume Example"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
