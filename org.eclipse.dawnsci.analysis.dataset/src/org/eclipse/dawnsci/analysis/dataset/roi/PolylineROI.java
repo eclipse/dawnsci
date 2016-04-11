@@ -83,6 +83,8 @@ public class PolylineROI extends ROIBase implements IPolylineROI, Serializable {
 		super.setPoint(point.spt);
 		if (pts.size() == 0) {
 			pts.add(point);
+		} else {
+			pts.set(0, point);
 		}
 	}
 

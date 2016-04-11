@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshaller;
@@ -172,7 +171,7 @@ public class MarshallerService implements IMarshallerService {
 		}
 	}
 
-	private final ObjectMapper createJacksonMapper() throws InstantiationException, IllegalAccessException, CoreException {
+	private final ObjectMapper createJacksonMapper() throws InstantiationException, IllegalAccessException {
 
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -205,9 +204,8 @@ public class MarshallerService implements IMarshallerService {
 		return mapper;
 	}
 
-	@SuppressWarnings("unchecked")
-	private void createModuleExtensions(SimpleModule module) throws CoreException, InstantiationException, IllegalAccessException {
-
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void createModuleExtensions(SimpleModule module) throws InstantiationException, IllegalAccessException {
 
         List<IMarshaller> ms = new ArrayList<>(7);
 		try {
