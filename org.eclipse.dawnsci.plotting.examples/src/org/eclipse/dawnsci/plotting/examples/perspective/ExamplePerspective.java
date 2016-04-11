@@ -37,6 +37,7 @@ public class ExamplePerspective implements IPerspectiveFactory {
 			folderLayout.addView("org.dawnsci.plotting.examples.surfaceExample");
 			folderLayout.addView("org.dawnsci.plotting.examples.vectorExample");
 			folderLayout.addView("org.dawnsci.plotting.examples.compositeExample");
+			folderLayout.addView("org.dawnsci.plotting.examples.volumeExample");
 		}
 	}
 
