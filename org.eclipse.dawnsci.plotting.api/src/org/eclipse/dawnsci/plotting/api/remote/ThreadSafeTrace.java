@@ -26,6 +26,7 @@ import org.eclipse.dawnsci.plotting.api.trace.IDownSampleListener;
 import org.eclipse.dawnsci.plotting.api.trace.IImageStackTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IIsosurfaceTrace;
+import org.eclipse.dawnsci.plotting.api.trace.IJavafxPlaneTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineStackTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IMulti2DTrace;
@@ -51,6 +52,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
                                                           ISurfaceTrace,
                                                           IIsosurfaceTrace,
                                                           IVolumeRenderTrace,
+                                                          IJavafxPlaneTrace,
                                                           IMulti2DTrace,
                                                           ILineStackTrace,
                                                           IScatter3DTrace,
@@ -541,7 +543,19 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public void setColour(int red, int green, int blue) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), red, green, blue);
-		
+	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	// javafx 3D image plane stuff
+	//////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void setData(
+			int[] size, 
+			IDataset data, 
+			double[] offsets,
+			double[] planeNormal) {
+		call(getMethodName(Thread.currentThread().getStackTrace()), size, data, offsets, planeNormal);		
 	}
 	
 	//////////////////////////////////////////////////////////////////////////
@@ -551,7 +565,6 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public void setData(List<? extends IDataset> axes, IDataset... s) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), axes, s);
-
 	}
 
 	@Override
