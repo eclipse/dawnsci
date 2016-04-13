@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-02-10T11:48:37.34Z
+ * Generated at: 2016-04-13T10:39:11+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -46,8 +46,6 @@ public interface NXdetector extends NXobject {
 	public static final String NX_RAW_TIME_OF_FLIGHT_ATTRIBUTE_FREQUENCY = "frequency";
 	public static final String NX_DETECTOR_NUMBER = "detector_number";
 	public static final String NX_DATA = "data";
-	public static final String NX_DATA_ATTRIBUTE_SIGNAL = "signal";
-	public static final String NX_DATA_ATTRIBUTE_AXES = "axes";
 	public static final String NX_DATA_ATTRIBUTE_LONG_NAME = "long_name";
 	public static final String NX_DATA_ATTRIBUTE_CHECK_SUM = "check_sum";
 	public static final String NX_DATA_ERROR = "data_error";
@@ -161,8 +159,10 @@ public interface NXdetector extends NXobject {
 	 * <li><b>3</b> </li></ul></p>
 	 * </p>
 	 * 
+	 * @deprecated see: https://github.com/nexusformat/definitions/issues/436
 	 * @return  the value.
 	 */
+	@Deprecated
 	public long getTime_of_flightAttributeAxis();
 	
 	/**
@@ -171,8 +171,10 @@ public interface NXdetector extends NXobject {
 	 * <li><b>3</b> </li></ul></p>
 	 * </p>
 	 * 
+	 * @deprecated see: https://github.com/nexusformat/definitions/issues/436
 	 * @param axis the axis
 	 */
+	@Deprecated
 	public void setTime_of_flightAttributeAxis(long axis);
 
 	/**
@@ -181,8 +183,10 @@ public interface NXdetector extends NXobject {
 	 * <li><b>1</b> </li></ul></p>
 	 * </p>
 	 * 
+	 * @deprecated see: https://github.com/nexusformat/definitions/issues/436
 	 * @return  the value.
 	 */
+	@Deprecated
 	public long getTime_of_flightAttributePrimary();
 	
 	/**
@@ -191,19 +195,21 @@ public interface NXdetector extends NXobject {
 	 * <li><b>1</b> </li></ul></p>
 	 * </p>
 	 * 
+	 * @deprecated see: https://github.com/nexusformat/definitions/issues/436
 	 * @param primary the primary
 	 */
+	@Deprecated
 	public void setTime_of_flightAttributePrimary(long primary);
 
 	/**
-	 * Axis label
+	 * Total time of flight
 	 * 
 	 * @return  the value.
 	 */
 	public String getTime_of_flightAttributeLong_name();
 	
 	/**
-	 * Axis label
+	 * Total time of flight
 	 * 
 	 * @param long_name the long_name
 	 */
@@ -364,40 +370,6 @@ public interface NXdetector extends NXobject {
 	public DataNode setDataScalar(Number data);
 
 	/**
-	 * <p>
-	 * <p><b>Enumeration:</b><ul>
-	 * <li><b>1</b> </li></ul></p>
-	 * </p>
-	 * 
-	 * @return  the value.
-	 */
-	public long getDataAttributeSignal();
-	
-	/**
-	 * <p>
-	 * <p><b>Enumeration:</b><ul>
-	 * <li><b>1</b> </li></ul></p>
-	 * </p>
-	 * 
-	 * @param signal the signal
-	 */
-	public void setDataAttributeSignal(long signal);
-
-	/**
-	 * ``[number of scan points,x_offset?,y_offset?,time_of_flight?]``
-	 * 
-	 * @return  the value.
-	 */
-	public String getDataAttributeAxes();
-	
-	/**
-	 * ``[number of scan points,x_offset?,y_offset?,time_of_flight?]``
-	 * 
-	 * @param axes the axes
-	 */
-	public void setDataAttributeAxes(String axes);
-
-	/**
 	 * Title of measurement
 	 * 
 	 * @return  the value.
@@ -539,8 +511,10 @@ public interface NXdetector extends NXobject {
 	 * <li><b>1</b> </li></ul></p>
 	 * </p>
 	 * 
+	 * @deprecated see: https://github.com/nexusformat/definitions/issues/436
 	 * @return  the value.
 	 */
+	@Deprecated
 	public long getX_pixel_offsetAttributeAxis();
 	
 	/**
@@ -549,8 +523,10 @@ public interface NXdetector extends NXobject {
 	 * <li><b>1</b> </li></ul></p>
 	 * </p>
 	 * 
+	 * @deprecated see: https://github.com/nexusformat/definitions/issues/436
 	 * @param axis the axis
 	 */
+	@Deprecated
 	public void setX_pixel_offsetAttributeAxis(long axis);
 
 	/**
@@ -559,8 +535,10 @@ public interface NXdetector extends NXobject {
 	 * <li><b>1</b> </li></ul></p>
 	 * </p>
 	 * 
+	 * @deprecated see: https://github.com/nexusformat/definitions/issues/436
 	 * @return  the value.
 	 */
+	@Deprecated
 	public long getX_pixel_offsetAttributePrimary();
 	
 	/**
@@ -569,19 +547,21 @@ public interface NXdetector extends NXobject {
 	 * <li><b>1</b> </li></ul></p>
 	 * </p>
 	 * 
+	 * @deprecated see: https://github.com/nexusformat/definitions/issues/436
 	 * @param primary the primary
 	 */
+	@Deprecated
 	public void setX_pixel_offsetAttributePrimary(long primary);
 
 	/**
-	 * Axis label
+	 * x-axis offset from detector center
 	 * 
 	 * @return  the value.
 	 */
 	public String getX_pixel_offsetAttributeLong_name();
 	
 	/**
-	 * Axis label
+	 * x-axis offset from detector center
 	 * 
 	 * @param long_name the long_name
 	 */
@@ -645,8 +625,10 @@ public interface NXdetector extends NXobject {
 	 * <li><b>2</b> </li></ul></p>
 	 * </p>
 	 * 
+	 * @deprecated see: https://github.com/nexusformat/definitions/issues/436
 	 * @return  the value.
 	 */
+	@Deprecated
 	public long getY_pixel_offsetAttributeAxis();
 	
 	/**
@@ -655,8 +637,10 @@ public interface NXdetector extends NXobject {
 	 * <li><b>2</b> </li></ul></p>
 	 * </p>
 	 * 
+	 * @deprecated see: https://github.com/nexusformat/definitions/issues/436
 	 * @param axis the axis
 	 */
+	@Deprecated
 	public void setY_pixel_offsetAttributeAxis(long axis);
 
 	/**
@@ -665,8 +649,10 @@ public interface NXdetector extends NXobject {
 	 * <li><b>1</b> </li></ul></p>
 	 * </p>
 	 * 
+	 * @deprecated see: https://github.com/nexusformat/definitions/issues/436
 	 * @return  the value.
 	 */
+	@Deprecated
 	public long getY_pixel_offsetAttributePrimary();
 	
 	/**
@@ -675,27 +661,31 @@ public interface NXdetector extends NXobject {
 	 * <li><b>1</b> </li></ul></p>
 	 * </p>
 	 * 
+	 * @deprecated see: https://github.com/nexusformat/definitions/issues/436
 	 * @param primary the primary
 	 */
+	@Deprecated
 	public void setY_pixel_offsetAttributePrimary(long primary);
 
 	/**
-	 * Axis label
+	 * y-axis offset from detector center
 	 * 
 	 * @return  the value.
 	 */
 	public String getY_pixel_offsetAttributeLong_name();
 	
 	/**
-	 * Axis label
+	 * y-axis offset from detector center
 	 * 
 	 * @param long_name the long_name
 	 */
 	public void setY_pixel_offsetAttributeLong_name(String long_name);
 
 	/**
-	 * This is the distance to the previous component in the instrument; most often the sample. The usage depends on the
-	 * nature of the detector: Most often it is the distance of the detector assembly. But there are irregular detectors. In this
+	 * This is the distance to the previous component in the
+	 * instrument; most often the sample. The usage depends on the
+	 * nature of the detector: Most often it is the distance of the
+	 * detector assembly. But there are irregular detectors. In this
 	 * case the distance must be specified for each detector pixel.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -708,8 +698,10 @@ public interface NXdetector extends NXobject {
 	public IDataset getDistance();
 	
 	/**
-	 * This is the distance to the previous component in the instrument; most often the sample. The usage depends on the
-	 * nature of the detector: Most often it is the distance of the detector assembly. But there are irregular detectors. In this
+	 * This is the distance to the previous component in the
+	 * instrument; most often the sample. The usage depends on the
+	 * nature of the detector: Most often it is the distance of the
+	 * detector assembly. But there are irregular detectors. In this
 	 * case the distance must be specified for each detector pixel.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -722,8 +714,10 @@ public interface NXdetector extends NXobject {
 	public DataNode setDistance(IDataset distance);
 
 	/**
-	 * This is the distance to the previous component in the instrument; most often the sample. The usage depends on the
-	 * nature of the detector: Most often it is the distance of the detector assembly. But there are irregular detectors. In this
+	 * This is the distance to the previous component in the
+	 * instrument; most often the sample. The usage depends on the
+	 * nature of the detector: Most often it is the distance of the
+	 * detector assembly. But there are irregular detectors. In this
 	 * case the distance must be specified for each detector pixel.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -736,8 +730,10 @@ public interface NXdetector extends NXobject {
 	public double getDistanceScalar();
 
 	/**
-	 * This is the distance to the previous component in the instrument; most often the sample. The usage depends on the
-	 * nature of the detector: Most often it is the distance of the detector assembly. But there are irregular detectors. In this
+	 * This is the distance to the previous component in the
+	 * instrument; most often the sample. The usage depends on the
+	 * nature of the detector: Most often it is the distance of the
+	 * detector assembly. But there are irregular detectors. In this
 	 * case the distance must be specified for each detector pixel.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -750,9 +746,14 @@ public interface NXdetector extends NXobject {
 	public DataNode setDistanceScalar(double distance);
 
 	/**
-	 * This is the polar angle of the detector towards the previous component in the instrument; most often the sample. The usage depends on the
-	 * nature of the detector: Most often it is the polar_angle of the detector assembly. But there are irregular detectors. In this
-	 * case the polar_angle must be specified for each detector pixel.
+	 * This is the polar angle of the detector towards the previous
+	 * component in the instrument; most often the sample.
+	 * The usage depends on the
+	 * nature of the detector.
+	 * Most often it is the polar_angle of the detector assembly.
+	 * But there are irregular detectors.
+	 * In this
+	 * case, the polar_angle must be specified for each detector pixel.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_ANGLE
@@ -764,9 +765,14 @@ public interface NXdetector extends NXobject {
 	public IDataset getPolar_angle();
 	
 	/**
-	 * This is the polar angle of the detector towards the previous component in the instrument; most often the sample. The usage depends on the
-	 * nature of the detector: Most often it is the polar_angle of the detector assembly. But there are irregular detectors. In this
-	 * case the polar_angle must be specified for each detector pixel.
+	 * This is the polar angle of the detector towards the previous
+	 * component in the instrument; most often the sample.
+	 * The usage depends on the
+	 * nature of the detector.
+	 * Most often it is the polar_angle of the detector assembly.
+	 * But there are irregular detectors.
+	 * In this
+	 * case, the polar_angle must be specified for each detector pixel.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_ANGLE
@@ -778,9 +784,14 @@ public interface NXdetector extends NXobject {
 	public DataNode setPolar_angle(IDataset polar_angle);
 
 	/**
-	 * This is the polar angle of the detector towards the previous component in the instrument; most often the sample. The usage depends on the
-	 * nature of the detector: Most often it is the polar_angle of the detector assembly. But there are irregular detectors. In this
-	 * case the polar_angle must be specified for each detector pixel.
+	 * This is the polar angle of the detector towards the previous
+	 * component in the instrument; most often the sample.
+	 * The usage depends on the
+	 * nature of the detector.
+	 * Most often it is the polar_angle of the detector assembly.
+	 * But there are irregular detectors.
+	 * In this
+	 * case, the polar_angle must be specified for each detector pixel.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_ANGLE
@@ -792,9 +803,14 @@ public interface NXdetector extends NXobject {
 	public double getPolar_angleScalar();
 
 	/**
-	 * This is the polar angle of the detector towards the previous component in the instrument; most often the sample. The usage depends on the
-	 * nature of the detector: Most often it is the polar_angle of the detector assembly. But there are irregular detectors. In this
-	 * case the polar_angle must be specified for each detector pixel.
+	 * This is the polar angle of the detector towards the previous
+	 * component in the instrument; most often the sample.
+	 * The usage depends on the
+	 * nature of the detector.
+	 * Most often it is the polar_angle of the detector assembly.
+	 * But there are irregular detectors.
+	 * In this
+	 * case, the polar_angle must be specified for each detector pixel.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_ANGLE
@@ -806,9 +822,14 @@ public interface NXdetector extends NXobject {
 	public DataNode setPolar_angleScalar(double polar_angle);
 
 	/**
-	 * This is the azimuthal angle angle of the detector towards the previous component in the instrument; most often the sample. The usage depends on the
-	 * nature of the detector: Most often it is the azimuthal_angle of the detector assembly. But there are irregular detectors. In this
-	 * case the azimuthal_angle must be specified for each detector pixel.
+	 * This is the azimuthal angle angle of the detector towards
+	 * the previous component in the instrument; most often the sample.
+	 * The usage depends on the
+	 * nature of the detector.
+	 * Most often it is the azimuthal_angle of the detector assembly.
+	 * But there are irregular detectors.
+	 * In this
+	 * case, the azimuthal_angle must be specified for each detector pixel.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_ANGLE
@@ -820,9 +841,14 @@ public interface NXdetector extends NXobject {
 	public IDataset getAzimuthal_angle();
 	
 	/**
-	 * This is the azimuthal angle angle of the detector towards the previous component in the instrument; most often the sample. The usage depends on the
-	 * nature of the detector: Most often it is the azimuthal_angle of the detector assembly. But there are irregular detectors. In this
-	 * case the azimuthal_angle must be specified for each detector pixel.
+	 * This is the azimuthal angle angle of the detector towards
+	 * the previous component in the instrument; most often the sample.
+	 * The usage depends on the
+	 * nature of the detector.
+	 * Most often it is the azimuthal_angle of the detector assembly.
+	 * But there are irregular detectors.
+	 * In this
+	 * case, the azimuthal_angle must be specified for each detector pixel.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_ANGLE
@@ -834,9 +860,14 @@ public interface NXdetector extends NXobject {
 	public DataNode setAzimuthal_angle(IDataset azimuthal_angle);
 
 	/**
-	 * This is the azimuthal angle angle of the detector towards the previous component in the instrument; most often the sample. The usage depends on the
-	 * nature of the detector: Most often it is the azimuthal_angle of the detector assembly. But there are irregular detectors. In this
-	 * case the azimuthal_angle must be specified for each detector pixel.
+	 * This is the azimuthal angle angle of the detector towards
+	 * the previous component in the instrument; most often the sample.
+	 * The usage depends on the
+	 * nature of the detector.
+	 * Most often it is the azimuthal_angle of the detector assembly.
+	 * But there are irregular detectors.
+	 * In this
+	 * case, the azimuthal_angle must be specified for each detector pixel.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_ANGLE
@@ -848,9 +879,14 @@ public interface NXdetector extends NXobject {
 	public double getAzimuthal_angleScalar();
 
 	/**
-	 * This is the azimuthal angle angle of the detector towards the previous component in the instrument; most often the sample. The usage depends on the
-	 * nature of the detector: Most often it is the azimuthal_angle of the detector assembly. But there are irregular detectors. In this
-	 * case the azimuthal_angle must be specified for each detector pixel.
+	 * This is the azimuthal angle angle of the detector towards
+	 * the previous component in the instrument; most often the sample.
+	 * The usage depends on the
+	 * nature of the detector.
+	 * Most often it is the azimuthal_angle of the detector assembly.
+	 * But there are irregular detectors.
+	 * In this
+	 * case, the azimuthal_angle must be specified for each detector pixel.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_ANGLE
@@ -2388,9 +2424,11 @@ public interface NXdetector extends NXobject {
 	 * * bit 8: user defined mask (e.g. around beamstop)
 	 * * bits 9-30: -undefined-
 	 * * bit 31: virtual pixel (corner pixel with interpolated value)
-	 * The normal data analysis software would not take pixels into account when a bit in (mask & 0x00FF) is set.
-	 * Tag bit in the upper two bytes would indicate special pixel properties that normally would not be a sole reason to
-	 * reject the intensity value (unless lower bits are set as well of course).
+	 * The normal data analysis software would not take pixels into
+	 * account when a bit in (mask & 0x00FF) is set.
+	 * Tag bit in the upper two bytes would indicate special pixel
+	 * properties that normally would not be a sole reason to
+	 * reject the intensity value (unless lower bits are also set).
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Dimensions:</b> 1: i; 2: j;
@@ -2417,9 +2455,11 @@ public interface NXdetector extends NXobject {
 	 * * bit 8: user defined mask (e.g. around beamstop)
 	 * * bits 9-30: -undefined-
 	 * * bit 31: virtual pixel (corner pixel with interpolated value)
-	 * The normal data analysis software would not take pixels into account when a bit in (mask & 0x00FF) is set.
-	 * Tag bit in the upper two bytes would indicate special pixel properties that normally would not be a sole reason to
-	 * reject the intensity value (unless lower bits are set as well of course).
+	 * The normal data analysis software would not take pixels into
+	 * account when a bit in (mask & 0x00FF) is set.
+	 * Tag bit in the upper two bytes would indicate special pixel
+	 * properties that normally would not be a sole reason to
+	 * reject the intensity value (unless lower bits are also set).
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Dimensions:</b> 1: i; 2: j;
@@ -2446,9 +2486,11 @@ public interface NXdetector extends NXobject {
 	 * * bit 8: user defined mask (e.g. around beamstop)
 	 * * bits 9-30: -undefined-
 	 * * bit 31: virtual pixel (corner pixel with interpolated value)
-	 * The normal data analysis software would not take pixels into account when a bit in (mask & 0x00FF) is set.
-	 * Tag bit in the upper two bytes would indicate special pixel properties that normally would not be a sole reason to
-	 * reject the intensity value (unless lower bits are set as well of course).
+	 * The normal data analysis software would not take pixels into
+	 * account when a bit in (mask & 0x00FF) is set.
+	 * Tag bit in the upper two bytes would indicate special pixel
+	 * properties that normally would not be a sole reason to
+	 * reject the intensity value (unless lower bits are also set).
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Dimensions:</b> 1: i; 2: j;
@@ -2475,9 +2517,11 @@ public interface NXdetector extends NXobject {
 	 * * bit 8: user defined mask (e.g. around beamstop)
 	 * * bits 9-30: -undefined-
 	 * * bit 31: virtual pixel (corner pixel with interpolated value)
-	 * The normal data analysis software would not take pixels into account when a bit in (mask & 0x00FF) is set.
-	 * Tag bit in the upper two bytes would indicate special pixel properties that normally would not be a sole reason to
-	 * reject the intensity value (unless lower bits are set as well of course).
+	 * The normal data analysis software would not take pixels into
+	 * account when a bit in (mask & 0x00FF) is set.
+	 * Tag bit in the upper two bytes would indicate special pixel
+	 * properties that normally would not be a sole reason to
+	 * reject the intensity value (unless lower bits are also set).
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Dimensions:</b> 1: i; 2: j;
@@ -2792,7 +2836,8 @@ public interface NXdetector extends NXobject {
 	public DataNode setTrigger_internal_delay_timeScalar(double trigger_internal_delay_time);
 
 	/**
-	 * Time during which no new trigger signal can be accepted. Typically this is the
+	 * Time during which no new trigger signal can be accepted.
+	 * Typically this is the
 	 * trigger_delay_time + exposure_time + readout_time.
 	 * This is important to know for time resolved experiments.
 	 * <p>
@@ -2805,7 +2850,8 @@ public interface NXdetector extends NXobject {
 	public IDataset getTrigger_dead_time();
 	
 	/**
-	 * Time during which no new trigger signal can be accepted. Typically this is the
+	 * Time during which no new trigger signal can be accepted.
+	 * Typically this is the
 	 * trigger_delay_time + exposure_time + readout_time.
 	 * This is important to know for time resolved experiments.
 	 * <p>
@@ -2818,7 +2864,8 @@ public interface NXdetector extends NXobject {
 	public DataNode setTrigger_dead_time(IDataset trigger_dead_time);
 
 	/**
-	 * Time during which no new trigger signal can be accepted. Typically this is the
+	 * Time during which no new trigger signal can be accepted.
+	 * Typically this is the
 	 * trigger_delay_time + exposure_time + readout_time.
 	 * This is important to know for time resolved experiments.
 	 * <p>
@@ -2831,7 +2878,8 @@ public interface NXdetector extends NXobject {
 	public double getTrigger_dead_timeScalar();
 
 	/**
-	 * Time during which no new trigger signal can be accepted. Typically this is the
+	 * Time during which no new trigger signal can be accepted.
+	 * Typically this is the
 	 * trigger_delay_time + exposure_time + readout_time.
 	 * This is important to know for time resolved experiments.
 	 * <p>
@@ -2953,7 +3001,8 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * The value at which the detector goes into saturation.
-	 * Especially common to CCD detectors, the data is known to be invalid above this value.
+	 * Especially common to CCD detectors, the data
+	 * is known to be invalid above this value.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * </p>
@@ -2964,7 +3013,8 @@ public interface NXdetector extends NXobject {
 	
 	/**
 	 * The value at which the detector goes into saturation.
-	 * Especially common to CCD detectors, the data is known to be invalid above this value.
+	 * Especially common to CCD detectors, the data
+	 * is known to be invalid above this value.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * </p>
@@ -2975,7 +3025,8 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * The value at which the detector goes into saturation.
-	 * Especially common to CCD detectors, the data is known to be invalid above this value.
+	 * Especially common to CCD detectors, the data
+	 * is known to be invalid above this value.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * </p>
@@ -2986,7 +3037,8 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * The value at which the detector goes into saturation.
-	 * Especially common to CCD detectors, the data is known to be invalid above this value.
+	 * Especially common to CCD detectors, the data
+	 * is known to be invalid above this value.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * </p>
@@ -2996,8 +3048,10 @@ public interface NXdetector extends NXobject {
 	public DataNode setSaturation_valueScalar(long saturation_value);
 
 	/**
-	 * CCD images are sometimes constructed by summing together multiple short exposures in the
-	 * electronics. This reduces background etc. This is the number of short exposures used to sum
+	 * CCD images are sometimes constructed by summing
+	 * together multiple short exposures in the
+	 * electronics. This reduces background etc.
+	 * This is the number of short exposures used to sum
 	 * images for an image.
 	 * <p>
 	 * <b>Type:</b> NX_INT
@@ -3008,8 +3062,10 @@ public interface NXdetector extends NXobject {
 	public IDataset getNumber_of_cycles();
 	
 	/**
-	 * CCD images are sometimes constructed by summing together multiple short exposures in the
-	 * electronics. This reduces background etc. This is the number of short exposures used to sum
+	 * CCD images are sometimes constructed by summing
+	 * together multiple short exposures in the
+	 * electronics. This reduces background etc.
+	 * This is the number of short exposures used to sum
 	 * images for an image.
 	 * <p>
 	 * <b>Type:</b> NX_INT
@@ -3020,8 +3076,10 @@ public interface NXdetector extends NXobject {
 	public DataNode setNumber_of_cycles(IDataset number_of_cycles);
 
 	/**
-	 * CCD images are sometimes constructed by summing together multiple short exposures in the
-	 * electronics. This reduces background etc. This is the number of short exposures used to sum
+	 * CCD images are sometimes constructed by summing
+	 * together multiple short exposures in the
+	 * electronics. This reduces background etc.
+	 * This is the number of short exposures used to sum
 	 * images for an image.
 	 * <p>
 	 * <b>Type:</b> NX_INT
@@ -3032,8 +3090,10 @@ public interface NXdetector extends NXobject {
 	public long getNumber_of_cyclesScalar();
 
 	/**
-	 * CCD images are sometimes constructed by summing together multiple short exposures in the
-	 * electronics. This reduces background etc. This is the number of short exposures used to sum
+	 * CCD images are sometimes constructed by summing
+	 * together multiple short exposures in the
+	 * electronics. This reduces background etc.
+	 * This is the number of short exposures used to sum
 	 * images for an image.
 	 * <p>
 	 * <b>Type:</b> NX_INT
@@ -3152,7 +3212,8 @@ public interface NXdetector extends NXobject {
 	public DataNode setSensor_thicknessScalar(double sensor_thickness);
 
 	/**
-	 * Single photon counter detectors can be adjusted for a certain energy range in which they
+	 * Single photon counter detectors can be adjusted
+	 * for a certain energy range in which they
 	 * work optimally. This is the energy setting for this.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -3164,7 +3225,8 @@ public interface NXdetector extends NXobject {
 	public IDataset getThreshold_energy();
 	
 	/**
-	 * Single photon counter detectors can be adjusted for a certain energy range in which they
+	 * Single photon counter detectors can be adjusted
+	 * for a certain energy range in which they
 	 * work optimally. This is the energy setting for this.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -3176,7 +3238,8 @@ public interface NXdetector extends NXobject {
 	public DataNode setThreshold_energy(IDataset threshold_energy);
 
 	/**
-	 * Single photon counter detectors can be adjusted for a certain energy range in which they
+	 * Single photon counter detectors can be adjusted
+	 * for a certain energy range in which they
 	 * work optimally. This is the energy setting for this.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -3188,7 +3251,8 @@ public interface NXdetector extends NXobject {
 	public double getThreshold_energyScalar();
 
 	/**
-	 * Single photon counter detectors can be adjusted for a certain energy range in which they
+	 * Single photon counter detectors can be adjusted
+	 * for a certain energy range in which they
 	 * work optimally. This is the energy setting for this.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT

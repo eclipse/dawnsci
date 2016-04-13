@@ -118,6 +118,11 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	public int getNumberOfGroupNodes() {
 		return groups;
 	}
+	
+	@Override
+	public boolean containsNode(final String name) {
+		return nodes.containsKey(name);
+	}
 
 	@Override
 	public boolean containsGroupNode(final String name) {

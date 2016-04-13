@@ -172,8 +172,8 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder#modifyEntry(org.eclipse.dawnsci.nexus.builder.CustomNexusEntryModification)
 	 */
 	@Override
-	public void modifyEntry(CustomNexusEntryModification modification) {
-		modification.modifyEntry(nxEntry);
+	public void modifyEntry(CustomNexusEntryModification modification) throws NexusException {
+		modification.modifyEntry(nxEntry, nexusNodeFactory);
 	}
 
 	/* (non-Javadoc)

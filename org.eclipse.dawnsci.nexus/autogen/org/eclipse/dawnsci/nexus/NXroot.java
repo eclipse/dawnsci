@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-02-10T11:48:37.34Z
+ * Generated at: 2016-04-13T10:39:11+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -35,7 +35,7 @@ public interface NXroot extends NXobject {
 	public static final String NX_ATTRIBUTE_CREATOR = "creator";
 	public static final String NX_ATTRIBUTE_DEFAULT = "default";
 	/**
-	 * The root of any NeXus data file is an NXroot class
+	 * The root of any NeXus data file is an ``NXroot`` class
 	 * (no other choice is allowed for a valid NeXus data file).
 	 * This attribute cements that definition.
 	 * <p>
@@ -48,7 +48,7 @@ public interface NXroot extends NXobject {
 	public String getAttributeNX_class();
 	
 	/**
-	 * The root of any NeXus data file is an NXroot class
+	 * The root of any NeXus data file is an ``NXroot`` class
 	 * (no other choice is allowed for a valid NeXus data file).
 	 * This attribute cements that definition.
 	 * <p>
@@ -239,14 +239,32 @@ public interface NXroot extends NXobject {
 	
 
 	/**
-	 * name of the ''NXentry'' in this file to use for the default plot
+	 * .. index:: plotting
+	 * Declares which :ref:`NXentry` group contains
+	 * the data to be shown by default.
+	 * It is needed to resolve ambiguity when
+	 * more than one :ref:`NXentry` group exists.
+	 * The value is the name of the default :ref:`NXentry` group.
+	 * It is recommended (as of NIAC2014) to use this attribute
+	 * to help define the path to the default dataset to be plotted.
+	 * See http://wiki.nexusformat.org/2014_How_to_find_default_data
+	 * for a summary of the discussion.
 	 * 
 	 * @return  the value.
 	 */
 	public String getAttributeDefault();
 	
 	/**
-	 * name of the ''NXentry'' in this file to use for the default plot
+	 * .. index:: plotting
+	 * Declares which :ref:`NXentry` group contains
+	 * the data to be shown by default.
+	 * It is needed to resolve ambiguity when
+	 * more than one :ref:`NXentry` group exists.
+	 * The value is the name of the default :ref:`NXentry` group.
+	 * It is recommended (as of NIAC2014) to use this attribute
+	 * to help define the path to the default dataset to be plotted.
+	 * See http://wiki.nexusformat.org/2014_How_to_find_default_data
+	 * for a summary of the discussion.
 	 * 
 	 * @param default_ the default
 	 */

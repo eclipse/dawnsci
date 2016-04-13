@@ -85,7 +85,7 @@ public class DefaultNexusEntryBuilderTest {
 	private CustomNexusEntryModification customModification = new CustomNexusEntryModification() {
 		
 		@Override
-		public void modifyEntry(NXentry entry) {
+		public void modifyEntry(NXentry entry, NexusNodeFactory nodeFactory) {
 			entry.setField("foo", "bar");
 		}
 		

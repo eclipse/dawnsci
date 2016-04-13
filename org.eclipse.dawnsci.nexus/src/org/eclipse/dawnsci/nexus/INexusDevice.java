@@ -2,6 +2,7 @@ package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyDataset;
 import org.eclipse.dawnsci.nexus.builder.AbstractNexusProvider;
+import org.eclipse.dawnsci.nexus.builder.CustomNexusEntryModification;
 import org.eclipse.dawnsci.nexus.builder.DelegateNexusProvider;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 
@@ -17,11 +18,10 @@ import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 public interface INexusDevice<N extends NXobject> {
 
 	/**
-	 * The object provider required for writing correct NeXus files.
-	 * @return
-	 * @throws Exception
+	 * Returns the object provider required for writing correct NeXus files.
+	 * @return the nexus object provider, or <code>null</code>
 	 */
-	NexusObjectProvider<N> getNexusProvider(NexusScanInfo info) ;
+	NexusObjectProvider<N> getNexusProvider(NexusScanInfo info);
 	
 	/**
 	 * <p>
@@ -45,7 +45,16 @@ public interface INexusDevice<N extends NXobject> {
 	 * <code>detector.setField("exposure_time", model.getExposure());</code>. Or
 	 * static datasets such as the image axis data
 	 * <code>detector.setDataset("image_x_axis", DatasetFactory.createLinearSpace(minX, maxX, xPoints, Dataset.FLOAT64));</code>
+	 * For fields that are defined in the NXDL base class definition for the
+	 * returned nexus object, a setXXX or setXXXScalar method may be used as
+	 * appropriate, e.g. <code>detector.setLocalName(DatasetFactory.createFromObject("my detector"));</code>
+	 * or <code>detector.setLocalNameScalar("my detector");</code>
 	 * <p>
+	 * If this device is a 'metadata scannable', then the device should write
+	 * its data at this point directly into the returned nexus object. This can be
+	 * done with the {@link NXobject#setField(String, Object)} method, or the
+	 * <code>setXXXScalar</code> methods for fields defined in the appropriate 
+	 * NXDL base class definition.
 	 * 
 	 * @param nodeFactory
 	 *            Factory you can use to create an appropriate NeXus node
@@ -57,5 +66,28 @@ public interface INexusDevice<N extends NXobject> {
 	 * @throws NexusException if the nexus object could not be created for any reason
 	 */
 	N createNexusObject(NexusNodeFactory nodeFactory, NexusScanInfo info) throws NexusException;
-
+	
+	/**
+	 * Returns an object that performs a custom modification to
+	 * an {@link NXentry}
+	 * <em>NOTE: Use this method with caution as can be used to break the central
+	 * design concept of the new Nexus writing framework, namely that the nexus framework itself
+	 * knows where to put the nexus groups for devices and build any required {@link NXdata} groups.
+	 * </em> It is currently used by the new Nexus framework to partially support legacy GDA8 spring
+	 * configurations, in particular the 'locationmap'.
+	 * <p>
+	 * The nexus framework will call this method after {@link #createNexusObject(NexusNodeFactory, NexusScanInfo)},
+	 * so this method create links to nodes created in that method if appropriate.
+	 * <p>
+	 * The easiest way to implement this method is to make this object itself also implement
+	 * {@link CustomNexusEntryModification}. This method can then be overridden to simply
+	 * return <code>this</code>.
+	 * 
+	 * @return a {@link CustomNexusEntryModification} that makes a custom modification,
+	 *    or <code>null</code> if this device should not make custom modifications
+	 */
+	default CustomNexusEntryModification getCustomNexusModification() {
+		return null;
+	}
+	
 }
