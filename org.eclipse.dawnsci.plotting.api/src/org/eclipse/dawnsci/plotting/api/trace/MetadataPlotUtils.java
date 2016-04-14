@@ -96,9 +96,8 @@ public class MetadataPlotUtils {
 		IDataset x = null;
 		IDataset y = null;
 		
-		data = data.getSliceView().squeeze();
 		
-		IDataset[] axes = getAxesFromMetadata(data);
+		IDataset[] axes = getAxesFromMetadata(data, false);
 		
 		x = axes == null ? null : axes[0];
 		y = axes == null ? null : axes[1];
@@ -118,9 +117,7 @@ public class MetadataPlotUtils {
 		IDataset x = null;
 		IDataset y = null;
 		
-		data = data.getSliceView().squeeze();
-		
-		IDataset[] axes = getAxesFromMetadata(data);
+		IDataset[] axes = getAxesFromMetadata(data, false);
 		
 		x = axes == null ? null : axes[0];
 		y = axes == null ? null : axes[1];
@@ -179,9 +176,14 @@ public class MetadataPlotUtils {
 	}
 	
 	public static IDataset[] getAxesFromMetadata(IDataset data) {
-		data = data.getSliceView().squeeze();
+		return getAxesFromMetadata(data,true);
+	}
+	
+	public static IDataset[] getAxesFromMetadata(IDataset data, boolean squeeze) {
+		if (squeeze) data = data.getSliceView().squeeze();
 		return getAxesFromMetadata((ILazyDataset)data);
 	}
+	
 	
 	public static IDataset[] getAxesFromMetadata(ILazyDataset data) {
 		IDataset x = null;
