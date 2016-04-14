@@ -165,7 +165,14 @@ public class FileMonitorSocket extends WebSocketAdapter {
             } catch (Exception e) {
             	logger.error("Exception monitoring "+path, e);
             	session.close(403, e.getMessage());
-            } 
+            }  finally {
+            	try {
+					watcher.close();
+				} catch (IOException e) {
+					logger.error("Error closing watcher",e);
+				}
+            }
+      
         }
     }
 
