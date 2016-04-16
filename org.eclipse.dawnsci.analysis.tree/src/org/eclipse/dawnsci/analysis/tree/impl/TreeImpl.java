@@ -124,13 +124,18 @@ public class TreeImpl implements Tree, Serializable {
 		StringBuilder path = new StringBuilder(pathname);
 		int i = 0;
 		while ((i = path.indexOf(UPDIR)) >= 0) {
-			int j = path.lastIndexOf(Node.SEPARATOR, i - 1);
-			if (j <= 0) {
-				// can not find SEPARATOR or preserve ROOT
-				path.insert(0, ROOT);
-				i++;
-				j++;
-			}
+			int k;
+			int j = i;
+			do {
+				k = j;
+				j = path.lastIndexOf(Node.SEPARATOR, k - 1);
+				if (j <= 0) {
+					// can not find SEPARATOR or preserve ROOT
+					path.insert(0, ROOT);
+					i++;
+					j++;
+				}
+			} while (path.substring(j, k).equals(CURDIR));
 			path.delete(j, i + UPDIR.length());
 		}
 	
