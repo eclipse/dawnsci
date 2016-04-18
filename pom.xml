@@ -123,6 +123,9 @@
 			<configuration>
                 <testSourceDirectory>${basedir}/src</testSourceDirectory>
                 <testClassesDirectory>${basedir}/bin</testClassesDirectory>
+				<excludes>
+					<exclude>org/eclipse/richbeans/**</exclude>
+				</excludes>
 				<includes>
 					<include>**/Suite.java</include>
 				</includes>
