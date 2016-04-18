@@ -30,7 +30,7 @@ public class RemoteDatasetTest extends DataServerTest {
 		
 		try {
 			testIsRunning = true;
-			final File h5File = startHDF5WritingThread(1000);
+			final File h5File = startHDF5WritingThread(100);
 			
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 			final IRemoteDataset data =service.createRemoteDataset("localhost", 8080);
@@ -38,7 +38,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
 			data.connect();
 
-			Thread.sleep(1000); // Let it get going
+			Thread.sleep(200); // Let it get going
 			
 			for (int i = 0; i < 10; i++) {
 				
@@ -48,7 +48,7 @@ public class RemoteDatasetTest extends DataServerTest {
                 if (!Arrays.equals(slice.getShape(), new int[]{1,1024,1024})) {
                 	throw new Exception("Incorrect remote slice! "+Arrays.toString(slice.getShape()));
                 }
-    			Thread.sleep(1000);
+    			Thread.sleep(100);
 			}
 			
 		} finally {

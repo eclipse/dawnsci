@@ -73,10 +73,6 @@ public class DataServer extends PortServer {
     	return server;// We are done with this application now.
 	}
 
-	public void start() throws Exception {
-		start(false);
-	}
-
 	public void start(boolean block) throws Exception {
 		
 		this.server = new Server();

@@ -26,14 +26,16 @@ import org.eclipse.dawnsci.remotedataset.test.LoaderServiceMock;
 import org.eclipse.dawnsci.remotedataset.test.PlotImageServiceMock;
 import org.eclipse.swt.graphics.ImageData;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 
 public class DataServerTest {
 
-	private   static INexusFileFactory   factory;
+	protected static INexusFileFactory   factory;
 	protected static DataServer server;
 	protected static String     testDir;
 	protected static int        port;
+
 
 	/**
 	 * Programmatically start the DataServer OSGi application which runs
@@ -50,14 +52,14 @@ public class DataServerTest {
 		// setting up dawnsci to run in your application.
 		ServiceHolder.setDownService(new Downsample());
 		ServiceHolder.setImageService(new ImageServiceMock());
-		ServiceHolder.setLoaderService(new LoaderServiceMock()); // TODO Implement the mock to get the test working again.
 		ServiceHolder.setPlotImageService(new PlotImageServiceMock());
 	
         // Start the DataServer
 		port   = TestUtils.getFreePort(8080);
+		
 		server = new DataServer();
 		server.setPort(port);
-		server.start(false);
+		server.start();
 		
 		System.out.println("Started DataServer on port "+port);
 		
@@ -65,6 +67,11 @@ public class DataServerTest {
 		testDir = (new File(pluginDir, "testfiles")).getAbsolutePath();
 	}
 	
+	@Before
+	public void setLoader() {
+		ServiceHolder.setLoaderService(new LoaderServiceMock(factory, "/entry/data/image"));
+	}
+
 	@AfterClass
 	public static void stop() {
 		server.stop();
