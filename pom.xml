@@ -124,7 +124,7 @@
                 <testSourceDirectory>${basedir}/src</testSourceDirectory>
                 <testClassesDirectory>${basedir}/bin</testClassesDirectory>
 				<includes>
-					<include>**/Suite.java</include>
+					<include>org/eclipse/dawnsci/**/Suite.java</include>
 				</includes>
 			</configuration>
   		  </plugin>   
