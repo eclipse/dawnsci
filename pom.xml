@@ -13,6 +13,8 @@
 
 	<properties>
 		<tycho-version>0.24.0</tycho-version>
+		<richbean-includes>NULL</richbean-includes> <!-- set the rich beans tests to nothing -->
+		<dawnsci-includes>org/eclipse/dawnsci/**/Suite.java</dawnsci-includes>
 	</properties>
 
 	<modules>
@@ -124,7 +126,7 @@
                 <testSourceDirectory>${basedir}/src</testSourceDirectory>
                 <testClassesDirectory>${basedir}/bin</testClassesDirectory>
 				<includes>
-					<include>**/Suite.java</include>
+					<include>${dawnsci-includes}</include>
 				</includes>
 			</configuration>
   		  </plugin>   
