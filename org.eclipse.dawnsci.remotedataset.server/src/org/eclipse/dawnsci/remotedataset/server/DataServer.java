@@ -54,6 +54,7 @@ public class DataServer extends PortServer {
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
 
+		@SuppressWarnings("rawtypes")
 		final Map      args          = context.getArguments();
 		final String[] configuration = (String[])args.get("application.args");
         
@@ -68,12 +69,12 @@ public class DataServer extends PortServer {
     	if (conf.containsKey("port")) {
     		setPort(Integer.parseInt(conf.get("port").toString()));
     	} 
-    	start(); // blocking
+    	start(true); // blocking
     	
     	return server;// We are done with this application now.
 	}
 
-	public void start() throws Exception {
+	public void startWithoutBlocking() throws Exception {
 		start(false);
 	}
 
@@ -111,7 +112,7 @@ public class DataServer extends PortServer {
 		ServletHolder holderInfo = new ServletHolder("info", InfoServlet.class);
 		context.addServlet(holderInfo, "/info/*");
      
-		// Events json objects to notifyu of problems.
+		// Events json objects to notify of problems.
 		ServletHolder holderEvent = new ServletHolder("event", EventServlet.class);
 		context.addServlet(holderEvent, "/event/*");
 		
