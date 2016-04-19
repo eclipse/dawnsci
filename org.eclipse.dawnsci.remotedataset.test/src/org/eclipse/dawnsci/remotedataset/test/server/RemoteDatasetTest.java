@@ -48,7 +48,7 @@ public class RemoteDatasetTest extends DataServerTest {
 		}
 	}
 	
-	//@Test
+	@Test
 	public void testRemoteSlicingUsingSliceND() throws Exception {
 		
 		IRemoteDataset data = null;
