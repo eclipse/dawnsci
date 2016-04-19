@@ -25,8 +25,7 @@ import org.junit.Test;
  */
 public class RemoteDatasetTest extends DataServerTest {
 	
-    @Ignore
-	@Test
+	//@Test
 	public void testHDF5FileMonitoring() throws Exception {
 		
 		IRemoteDataset data = null;
@@ -43,14 +42,14 @@ public class RemoteDatasetTest extends DataServerTest {
 		
 			checkAndWait(data, 2000, 100, 2); // This one is unreliable so we reduced the required events.
 			
+			System.out.println("> testHDF5FileMonitoring ok");
 		} finally {
 			testIsRunning = false;
 			if (data!=null) data.disconnect();
 		}
 	}
 	
-    @Ignore
-	@Test
+	//@Test
 	public void testRemoteSlicingUsingSliceND() throws Exception {
 		
 		IRemoteDataset data = null;
@@ -81,6 +80,7 @@ public class RemoteDatasetTest extends DataServerTest {
                 }
     			Thread.sleep(freq);
 			}
+			System.out.println("> testRemoteSlicingUsingSliceND ok");
 			
 		} finally {
 			testIsRunning = false;
@@ -105,6 +105,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			data.connect();
 			
 			checkAndWait(data, 1000, 100);
+			System.out.println("> testDirectoryMonitoring ok");
 
 		} finally {
 			testIsRunning = false;
@@ -132,6 +133,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			if (!Arrays.equals(data.getShape(), new int[]{1024,1024})) throw new Exception("Incorrect remote dataset size!");
 			
 			checkAndWait(data, 5000, 500);
+			System.out.println("> testImageFileMonitoring ok");
 			
 		} finally {
 			testIsRunning = false;

@@ -16,8 +16,6 @@ import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
@@ -40,6 +38,7 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 		data.connect();
 		
         checkSlices(data);
+		System.out.println("> testRemoteSliceDirectory ok");
 	}
 	
 
@@ -86,6 +85,7 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 		data.connect();
 		
 		checkSlices(data);
+		System.out.println("> testRemoteSliceH5 ok");
 	}
 	
 	
