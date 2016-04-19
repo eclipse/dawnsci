@@ -15,6 +15,8 @@
 		<tycho-version>0.24.0</tycho-version>
 		<richbean-includes>NULL</richbean-includes> <!-- set the rich beans tests to nothing -->
 		<dawnsci-includes>org/eclipse/dawnsci/**/Suite.java</dawnsci-includes>
+		<!--  Warning hard coded path -->
+		<library-path>/home/travis/build/dawn-third/ncsa.hdf/lib/linux-x86_64</library-path>
 	</properties>
 
 	<modules>
@@ -57,6 +59,28 @@
         
     <build>
       <plugins>
+         <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-antrun-plugin</artifactId>
+			<version>1.1</version>
+			<executions>
+				<execution>
+					<phase>validate</phase>
+					<goals>
+						<goal>run</goal>
+					</goals>
+					<configuration>
+						<tasks>
+							<echo>Displaying value of 'library-path' property</echo>
+							<echo>[library-path] ${library-path}</echo>
+							<echo>[os.name] ${os.name}</echo>
+							<echo>[os.arch] ${os.arch}</echo>
+						</tasks>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+      
 		<plugin>
 			<groupId>org.eclipse.tycho</groupId>
 			<artifactId>tycho-maven-plugin</artifactId>
@@ -128,7 +152,10 @@
 				<includes>
 					<include>${dawnsci-includes}</include>
 				</includes>
-			</configuration>
+                <environmentVariables>
+                    <LD_LIBRARY_PATH>${library.path}</LD_LIBRARY_PATH>
+                </environmentVariables>
+   			</configuration>
   		  </plugin>   
   		            
           <plugin>

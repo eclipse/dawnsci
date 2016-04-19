@@ -36,7 +36,7 @@ abstract class PortServer implements IApplication {
 	}
 
 	public void start() throws Exception {
-		start(true);
+		start(Boolean.getBoolean("org.eclipse.dawnsci.remotedataset.server.blocking"));
 	}
 	public int getPort() {
 		return port;
