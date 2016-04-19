@@ -18,21 +18,6 @@
 		<library-path>${project.basedir}/../../dawn-third/ncsa.hdf/lib/${target.os}-${target.arch}</library-path>
 	</properties>
 
-	<executions>
-		<execution>
-			<phase>validate</phase>
-			<goals>
-				<goal>run</goal>
-			</goals>
-			<configuration>
-				<tasks>
-					<echo>Displaying value of 'library-path' property</echo>
-					<echo>[library-path] ${library-path}</echo>
-				</tasks>
-			</configuration>
-		</execution>
-	</executions>
-
 	<modules>
         <module>org.eclipse.dawnsci.targetplatform</module>
 		<module>org.eclipse.dawnsci.analysis.api</module>
@@ -73,6 +58,26 @@
         
     <build>
       <plugins>
+         <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-antrun-plugin</artifactId>
+			<version>1.1</version>
+			<executions>
+				<execution>
+					<phase>validate</phase>
+					<goals>
+						<goal>run</goal>
+					</goals>
+					<configuration>
+						<tasks>
+							<echo>Displaying value of 'library-path' property</echo>
+							<echo>[library-path] ${library-path}</echo>
+						</tasks>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+      
 		<plugin>
 			<groupId>org.eclipse.tycho</groupId>
 			<artifactId>tycho-maven-plugin</artifactId>
