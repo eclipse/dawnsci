@@ -58,7 +58,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			
 			final long freq = 100;
 			final File h5File = startHDF5WritingThread(freq);
-			Thread.sleep(2*freq); // Let it get going
+			Thread.sleep(4*freq); // Let it get going
 			
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 			data = service.createRemoteDataset("localhost", 8080);
