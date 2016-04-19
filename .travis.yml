@@ -28,7 +28,12 @@ install:
   - cd ..
   - mv dawnsci org.eclipse.dawnsci
   - cd org.eclipse.dawnsci
- 
+
+# Set LD_LIBRARY_PATH for the tests
+env:
+  - LD_LIBRARY_PATH=/home/travis/build/dawn-third/ncsa.hdf/lib/linux-x86_64
+
 # Maven compile and test 
 # No need to run this as default travis will find maven and run it
-script: mvn clean install surefire:test
+script: 
+  - mvn clean install surefire:test
