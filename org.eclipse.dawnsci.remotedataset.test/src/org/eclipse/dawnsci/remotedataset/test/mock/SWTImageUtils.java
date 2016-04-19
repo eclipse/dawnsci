@@ -7,7 +7,12 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.eclipse.dawnsci.remotedataset.test;
+package org.eclipse.dawnsci.remotedataset.test.mock;
+
+import java.awt.image.BufferedImage;
+import java.awt.image.DirectColorModel;
+import java.awt.image.IndexColorModel;
+import java.awt.image.WritableRaster;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
@@ -237,5 +242,65 @@ class SWTImageUtils {
 
 		return rgb;
 	}
+    static RGBDataset convertToRGBDataset(BufferedImage bufferedImage) {
+    	
+        RGBDataset data = new RGBDataset(bufferedImage.getHeight(), bufferedImage.getWidth());
+       
+        if (bufferedImage.getColorModel() instanceof DirectColorModel) {
+            DirectColorModel colorModel = (DirectColorModel)bufferedImage.getColorModel();
+            for (int y = 0; y < bufferedImage.getHeight(); y++) {
+                    for (int x = 0; x < bufferedImage.getWidth(); x++) {
+                            int value = bufferedImage.getRGB(x, y);
+                            RGB rgb = new RGB((value >> 16) & 0xFF, (value >> 8) & 0xFF, value & 0xFF); 
+                            data.set(new short[]{(short)rgb.red, (short)rgb.green, (short)rgb.blue}, y, x);
+                            if (colorModel.hasAlpha()) {
+                            	// TODO
+                                    //data.set(x, y, (rgb >> 24) & 0xFF);
+                            }
+                    }
+            }
+            return data;
+            
+        } else if (bufferedImage.getColorModel() instanceof IndexColorModel) {
+        	
+            IndexColorModel colorModel = (IndexColorModel)bufferedImage.getColorModel();
+            int size = colorModel.getMapSize();
+            byte[] reds = new byte[size];
+            byte[] greens = new byte[size];
+            byte[] blues = new byte[size];
+            colorModel.getReds(reds);
+            colorModel.getGreens(greens);
+            colorModel.getBlues(blues);
+            RGB[] rgbs = new RGB[size];
+            for (int i = 0; i < rgbs.length; i++) {
+                    rgbs[i] = new RGB(reds[i] & 0xFF, greens[i] & 0xFF, blues[i] & 0xFF);
+            }
+            PaletteData palette = new PaletteData(rgbs);
+            WritableRaster raster = bufferedImage.getRaster();
+            int[] pixelArray = new int[1];
+            for (int y = 0; y < bufferedImage.getHeight(); y++) {
+            	for (int x = 0; x < bufferedImage.getWidth(); x++) {
+            		raster.getPixel(x, y, pixelArray);
+            		RGB rgb = palette.getRGB(pixelArray[0]);
+            		data.set(new short[]{(short)rgb.red, (short)rgb.green, (short)rgb.blue}, y, x);
+            	}
+            }
+        } else {
+
+        	WritableRaster raster = bufferedImage.getRaster();
+        	int[] pixelArray = new int[3];
+        	for (int y = 0; y < bufferedImage.getHeight(); y++) {
+        		for (int x = 0; x < bufferedImage.getWidth(); x++) {
+        			raster.getPixel(x, y, pixelArray);
+        			data.set(new short[]{
+        					(short)pixelArray[0], 
+        					(short)pixelArray[1], 
+        					(short)pixelArray[2]},
+        					y, x);
+        		}
+        	}  
+        }
+       return data;
+    }
 
 }
