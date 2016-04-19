@@ -31,8 +31,8 @@ public class RemoteDatasetTest extends DataServerTest {
 		IRemoteDataset data = null;
 		try {
 			testIsRunning = true;
-			final File h5File = startHDF5WritingThread(100);
-			Thread.sleep(200);
+			final File h5File = startHDF5WritingThread(200);
+			Thread.sleep(400);
 			
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 			data = service.createRemoteDataset("localhost", 8080);
@@ -40,7 +40,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
 			data.connect();
 		
-			checkAndWait(data, 1000, 100, 2); // This one is unreliable so we reduced the required events.
+			checkAndWait(data, 2000, 200, 2); // This one is unreliable so we reduced the required events.
 			
 		} finally {
 			testIsRunning = false;
