@@ -30,7 +30,10 @@ public class RemoteDatasetTest extends DataServerTest {
 		
 		try {
 			testIsRunning = true;
-			final File h5File = startHDF5WritingThread(100);
+			
+			final long freq = 100;
+			final File h5File = startHDF5WritingThread(freq);
+			Thread.sleep(2*freq); // Let it get going
 			
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 			final IRemoteDataset data =service.createRemoteDataset("localhost", 8080);
@@ -38,7 +41,6 @@ public class RemoteDatasetTest extends DataServerTest {
 			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
 			data.connect();
 
-			Thread.sleep(200); // Let it get going
 			
 			for (int i = 0; i < 10; i++) {
 				
@@ -48,7 +50,7 @@ public class RemoteDatasetTest extends DataServerTest {
                 if (!Arrays.equals(slice.getShape(), new int[]{1,1024,1024})) {
                 	throw new Exception("Incorrect remote slice! "+Arrays.toString(slice.getShape()));
                 }
-    			Thread.sleep(100);
+    			Thread.sleep(freq/10);
 			}
 			
 		} finally {
@@ -59,72 +61,83 @@ public class RemoteDatasetTest extends DataServerTest {
 	@Test
 	public void testHDF5FileMonitoring() throws Exception {
 		
+		IRemoteDataset data = null;
 		try {
 			testIsRunning = true;
-			final File h5File = startHDF5WritingThread();
+			final File h5File = startHDF5WritingThread(100);
+			Thread.sleep(200);
 			
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
-			final IRemoteDataset data =service.createRemoteDataset("localhost", 8080);
+			data = service.createRemoteDataset("localhost", 8080);
 			data.setPath(h5File.getAbsolutePath());
 			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
 			data.connect();
 		
-			checkAndWait(data, 20000);
+			checkAndWait(data, 1000, 100);
 			
 		} finally {
 			testIsRunning = false;
+			if (data!=null) data.disconnect();
 		}
 	}
 
 	@Test
 	public void testDirectoryMonitoring() throws Exception {
+		
+		IRemoteDataset data = null;
 		try {
 			testIsRunning = true;
-			final File dir = startFileWritingThread(true);
+			final File dir = startFileWritingThread(100, true);
+			Thread.sleep(1000);
 			
 			// Set the into, then call connect().
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
-			final IRemoteDataset data =service.createRemoteDataset("localhost", 8080);
+		    data =service.createRemoteDataset("localhost", 8080);
 			data.setPath(dir.getAbsolutePath());
-			data.setDataset("image"); // We just get the first image in the PNG file.
+			data.setDataset("Image Stack"); // We just get the first image in the PNG file.
 			data.connect();
 			
-			checkAndWait(data, 20000);
+			checkAndWait(data, 1000, 100);
 
 		} finally {
 			testIsRunning = false;
+			data.disconnect();
 		}
 	}
 	
 	@Test
 	public void testImageFileMonitoring() throws Exception {
 		
+		IRemoteDataset data = null;
 		try {
 			testIsRunning = true;
-			final File tmpData = startFileWritingThread(false);
-						
+			final File tmpData = startFileWritingThread(500, false);
+			Thread.sleep(1000);
+					
 			// Set the into, then call connect().
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
-			final IRemoteDataset data =service.createRemoteDataset("localhost", 8080);
+			data =service.createRemoteDataset("localhost", 8080);
 			data.setPath(tmpData.getAbsolutePath());
-			data.setDataset(null); // We just get the first image in the PNG file.
+			data.setDataset(null); // Should get the dataset at the position of 0
 			data.connect();
 			
 			// Check that we got the 1024x1024 as expected
 			if (!Arrays.equals(data.getShape(), new int[]{1024,1024})) throw new Exception("Incorrect remote dataset size!");
 			
-			checkAndWait(data, 10000);
+			checkAndWait(data, 5000, 500);
 			
 		} finally {
 			testIsRunning = false;
+			data.disconnect();
 		}
 	}
 
 	
-	private void checkAndWait(final IRemoteDataset data, long time) throws Exception {
+	private void checkAndWait(final IRemoteDataset data, long time, long imageTime) throws Exception {
 		
+		final int count = (int)time/(int)imageTime;
 		try {
-			final List<DataEvent> events = new ArrayList<DataEvent>((int)time/1000);
+			final List<DataEvent> events = new ArrayList<DataEvent>(count);
 			
 			// Check that we get events about the image changing.			
 			data.addDataListener(new IDataListener() {
@@ -144,8 +157,7 @@ public class RemoteDatasetTest extends DataServerTest {
 	
 			Thread.sleep(time);
 			
-			if (events.isEmpty()) throw new Exception("No data events returned while thread writing to file!");
-			if (events.size() < ((time/1000)-5)) throw new Exception("Less data events than expected! Event count was "+events.size()+" Min expected was "+((time/1000)-5));
+			if (events.size() < count-5) throw new Exception("Less data events than expected! Event count was "+events.size()+" Min expected was "+(count-5));
 		
 		} finally {
 			data.disconnect();

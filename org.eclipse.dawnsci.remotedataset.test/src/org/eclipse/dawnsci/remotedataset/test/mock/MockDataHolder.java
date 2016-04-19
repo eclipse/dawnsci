@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.eclipse.dawnsci.remotedataset.test;
+package org.eclipse.dawnsci.remotedataset.test.mock;
 
 import java.io.Serializable;
 import java.util.ArrayList;

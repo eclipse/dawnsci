@@ -3,11 +3,14 @@ package org.eclipse.dawnsci.remotedataset.test.server;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
+import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
+import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.function.Downsample;
@@ -16,14 +19,15 @@ import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
 import org.eclipse.dawnsci.nexus.INexusFileFactory;
+import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.server.DataServer;
-import org.eclipse.dawnsci.remotedataset.test.ImageServiceMock;
-import org.eclipse.dawnsci.remotedataset.test.LoaderServiceMock;
-import org.eclipse.dawnsci.remotedataset.test.PlotImageServiceMock;
+import org.eclipse.dawnsci.remotedataset.test.mock.ImageServiceMock;
+import org.eclipse.dawnsci.remotedataset.test.mock.LoaderServiceMock;
+import org.eclipse.dawnsci.remotedataset.test.mock.PlotImageServiceMock;
 import org.eclipse.swt.graphics.ImageData;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -103,7 +107,6 @@ public class DataServerTest {
         			final int[] max   = new int[]{-1, 1024, 1024};
         			ILazyWriteableDataset writer = new LazyWriteableDataset("image", Dataset.FLOAT, shape, max, shape, null); // DO NOT COPY!
         			file.createData(par, writer); 
-					file.close();
 
         			int index = 0;
         			while(testIsRunning) {
@@ -119,12 +122,19 @@ public class DataServerTest {
        				    file.flush();
        				    
        				    Thread.sleep(sleepTime);
-        				System.out.println(">> HDF5 wrote image to "+ret);
+        				System.out.println("> HDF5 wrote image to "+ret);
+        				System.out.println("> New shape "+getShape(ret, "/entry/data/image"));
         			}
        			
         		} catch (Exception ne) {
         			ne.printStackTrace();
         			
+				} finally {
+					try {
+						file.close();
+					} catch (NexusException e) {
+						e.printStackTrace();
+					}
 				}
         	}
         });
@@ -133,12 +143,18 @@ public class DataServerTest {
         runner.start();
         
 		// Wait for a bit to ensure file is being written
-		Thread.sleep(2000);
+		Thread.sleep(2*sleepTime);
 
         return ret;
 	}
 
-	protected File startFileWritingThread(final boolean dir) throws IOException, InterruptedException {
+	protected String getShape(File ret, String path) throws Exception {
+		final ILoaderService lservice = ServiceHolder.getLoaderService();
+		IDataHolder holder = lservice.getData(ret.getAbsolutePath(), new IMonitor.Stub());
+		return Arrays.toString(holder.getLazyDataset(path).getShape());
+	}
+
+	protected File startFileWritingThread(final long waitTime, final boolean dir) throws IOException, InterruptedException {
 		
         final File ret = dir
         		       ? new File(File.createTempFile("temp_transient_file", ".png").getParentFile(), "test")
@@ -167,12 +183,13 @@ public class DataServerTest {
 	        			File file = dir
 	        					  ? new File(ret, "image_"+index+".png")
 	        				      : ret;
+	        					  
 	        			file.deleteOnExit();
 	        			index++;
 	        			
 	        			ImageIO.write(bi, "PNG", file);
 	        			
-	        			Thread.sleep(1000);
+	        			Thread.sleep(waitTime);
 	        			System.out.println(">> Thread wrote "+file.getAbsolutePath());
 	        			
         			} catch (Exception ne) {
@@ -188,7 +205,7 @@ public class DataServerTest {
         runner.start();
         
 		// Wait for a bit to ensure file is being written
-		Thread.sleep(2000);
+		Thread.sleep(2*waitTime);
 
         return ret;
 	}
