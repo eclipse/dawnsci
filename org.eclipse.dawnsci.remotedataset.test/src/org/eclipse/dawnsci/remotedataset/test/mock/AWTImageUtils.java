@@ -10,23 +10,15 @@
 package org.eclipse.dawnsci.remotedataset.test.mock;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
 import java.awt.image.DataBufferUShort;
 import java.awt.image.PixelInterleavedSampleModel;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
-import java.awt.image.SinglePixelPackedSampleModel;
 import java.awt.image.WritableRaster;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.media.jai.DataBufferFloat;
-import javax.media.jai.PlanarImage;
-import javax.media.jai.RasterFactory;
-import javax.media.jai.TiledImage;
 
 import org.eclipse.dawnsci.analysis.api.metadata.Metadata;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
@@ -226,81 +218,6 @@ public class AWTImageUtils {
 		}
 
 		return image;
-	}
-
-	/**
-	 * Get image from a dataset
-	 * @param data
-	 * @param bits number of bits (> 32 for float image)
-	 * @return tiled image
-	 */
-	static public TiledImage makeTiledImage(final Dataset data, final int bits) {
-		final int[] shape = data.getShape();
-		int height = shape[0];
-		int width = shape.length == 1 ? 1 : shape[1]; // allow 1D datasets to be saved
-		final int size = data.getSize();
-
-		SampleModel sampleModel;
-		DataBuffer buffer;
-
-		if (data instanceof RGBDataset) {
-			RGBDataset rgbds = (RGBDataset) data;
-
-			buffer = new DataBufferInt(size);
-			sampleModel = new SinglePixelPackedSampleModel(DataBuffer.TYPE_INT, width, height, new int[] { 0xff0000, 0x00ff00, 0x0000ff} );
-
-			short maxv = rgbds.max().shortValue();
-			final IndexIterator iter = rgbds.getIterator(true);
-			final int[] pos = iter.getPos();
-			final short[] rgbdata = rgbds.getData();
-
-			if (maxv < 256) { // 888
-				while (iter.hasNext()) {
-					final int n = iter.index;
-					final int rgb = ((rgbdata[n] & 0xff) << 16) | ((rgbdata[n + 1] & 0xff) << 8) | (rgbdata[n + 2] & 0xff);
-					sampleModel.setSample(pos[1], pos[0], 0, rgb, buffer);
-				}			
-			} else {
-				int shift = 0;
-				while (maxv >= 256) {
-					shift++;
-					maxv >>= 2;
-				}
-
-				while (iter.hasNext()) {
-					final int n = iter.index;
-					final int rgb = (((rgbdata[n] >> shift) & 0xff) << 16) | (((rgbdata[n + 1] >> shift) & 0xff) << 8) | ((rgbdata[n + 2] >> shift) & 0xff);
-					sampleModel.setSample(pos[1], pos[0], 0, rgb, buffer);
-				}			
-			}
-
-		} else {
-			// reconcile data with output format
-
-			// populate data buffer using sample model
-			if (bits <= 32) {
-				buffer = new DataBufferInt(size);
-				sampleModel = RasterFactory.createBandedSampleModel(DataBuffer.TYPE_INT,
-								width, height, 1);
-
-				IntegerDataset tmp = (IntegerDataset) data.cast(Dataset.INT32);
-				sampleModel.setPixels(0, 0, width, height, tmp.getData(), buffer);
-			} else { // Only TIFF supports floats (so far)
-				buffer = new DataBufferFloat(size);
-				sampleModel = RasterFactory.createBandedSampleModel(DataBuffer.TYPE_FLOAT,
-								width, height, 1);
-
-				FloatDataset ftmp = (FloatDataset) data.cast(Dataset.FLOAT32);
-				sampleModel.setPixels(0, 0, width, height, ftmp.getData(), buffer);
-			}
-
-		}
-
-		WritableRaster wRas = Raster.createWritableRaster(sampleModel, buffer, null);
-		ColorModel cm = PlanarImage.createColorModel(sampleModel);
-		TiledImage timage = new TiledImage(0, 0, width, height, 0, 0, sampleModel, cm);
-		timage.setData(wRas);
-		return timage;
 	}
 	
 }

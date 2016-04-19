@@ -35,6 +35,12 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
     {@literal <bean id="dataServer" class="org.eclipse.dawnsci.remotedataset.server.DataServer" init-method="start">}
     {@literal    <property name="port"      value="8690" />}
     {@literal </bean>}
+    
+    <pre>
+    o DataServer should default to non-blocking on start() and this be used from spring.
+    o DataServer started from an IApplication should be blocking.
+    o DataServer can be optionally started blocking by setting org.eclipse.dawnsci.remotedataset.server.blocking=true
+    </pre> 
 
  * @author Matthew Gerring
  *
@@ -49,7 +55,7 @@ public class DataServer extends PortServer {
 	/**
 	 * Method replaces main(...) when running things with OSGi
 	 * 
-	 * Not called on GDA server will will probably start the server by calling
+	 * Not called on GDA server will will probably start the Data Server by calling 'start' from spring, no arguments.
 	 */
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
@@ -69,7 +75,7 @@ public class DataServer extends PortServer {
     	if (conf.containsKey("port")) {
     		setPort(Integer.parseInt(conf.get("port").toString()));
     	} 
-    	start(); // blocking
+    	start(true); // blocking
     	
     	return server;// We are done with this application now.
 	}
