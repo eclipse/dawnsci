@@ -30,6 +30,7 @@ install:
   - cd org.eclipse.dawnsci
   - export LD_LIBRARY_PATH=/home/travis/build/dawn-third/ncsa.hdf/lib/linux-x86_64
   - env | grep LD_LIBRARY_PATH
+  - ls /home/travis/build/dawn-third/ncsa.hdf/lib/linux-x86_64
  
 # Maven compile and test 
 # No need to run this as default travis will find maven and run it
