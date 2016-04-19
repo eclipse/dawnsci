@@ -13,6 +13,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -24,7 +25,7 @@ import org.junit.Test;
  */
 public class RemoteDatasetTest extends DataServerTest {
 	
-
+    @Ignore
 	@Test
 	public void testHDF5FileMonitoring() throws Exception {
 		
@@ -48,6 +49,7 @@ public class RemoteDatasetTest extends DataServerTest {
 		}
 	}
 	
+    @Ignore
 	@Test
 	public void testRemoteSlicingUsingSliceND() throws Exception {
 		
