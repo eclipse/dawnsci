@@ -11,9 +11,9 @@ import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.analysis.dataset.function.Downsample;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
-import org.eclipse.dawnsci.remotedataset.test.ImageServiceMock;
-import org.eclipse.dawnsci.remotedataset.test.LoaderServiceMock;
-import org.eclipse.dawnsci.remotedataset.test.PlotImageServiceMock;
+import org.eclipse.dawnsci.remotedataset.test.mock.ImageServiceMock;
+import org.eclipse.dawnsci.remotedataset.test.mock.LoaderServiceMock;
+import org.eclipse.dawnsci.remotedataset.test.mock.PlotImageServiceMock;
 import org.junit.Before;
 import org.junit.Test;
 
