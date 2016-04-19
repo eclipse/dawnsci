@@ -152,6 +152,9 @@
 				<includes>
 					<include>${dawnsci-includes}</include>
 				</includes>
+                <systemPropertyVariables>
+                    <java.library.path>${library.path}</java.library.path>
+                </systemPropertyVariables>
                 <environmentVariables>
                     <LD_LIBRARY_PATH>${library.path}</LD_LIBRARY_PATH>
                 </environmentVariables>
