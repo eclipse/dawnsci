@@ -15,8 +15,8 @@
 		<tycho-version>0.24.0</tycho-version>
 		<richbean-includes>NULL</richbean-includes> <!-- set the rich beans tests to nothing -->
 		<dawnsci-includes>org/eclipse/dawnsci/**/Suite.java</dawnsci-includes>
-		<!--  Warning  -->
-		<library-path>${project.basedir}/../../dawn-third/ncsa.hdf/lib/linux-x86_64</library-path>
+		<!--  Warning hard coded path -->
+		<library-path/home/travis/build/dawn-third/ncsa.hdf/lib/linux-x86_64</library-path>
 	</properties>
 
 	<modules>
