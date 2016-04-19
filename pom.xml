@@ -73,6 +73,8 @@
 						<tasks>
 							<echo>Displaying value of 'library-path' property</echo>
 							<echo>[library-path] ${library-path}</echo>
+							<echo>[os.name] ${os.name}</echo>
+							<echo>[os.arch] ${os.arch}</echo>
 						</tasks>
 					</configuration>
 				</execution>
