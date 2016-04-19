@@ -16,7 +16,10 @@ import java.util.Arrays;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.remotedataset.Format;
+import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
+import org.eclipse.dawnsci.remotedataset.test.mock.LoaderServiceMock;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -33,6 +36,13 @@ import org.junit.Test;
  */ 
 public class SliceClientTest extends DataServerTest {
 	
+	
+	@Before
+	@Override
+	public void setLoader() {
+		ServiceHolder.setLoaderService(new LoaderServiceMock(factory, "/entry/edf/data"));
+	}
+
 	@Test
 	public void testFullData() throws Exception {
 		
@@ -124,7 +134,7 @@ public class SliceClientTest extends DataServerTest {
 			if (image.getHeight()!=512) throw new Exception("Unexpected image height '"+image.getHeight()+"'");
 			if (image.getWidth()!=512)  throw new Exception("Unexpected image height '"+image.getWidth()+"'");
 			++i;
-			if (i>1000) {
+			if (i>100) {
 				client.setFinished(true);
 				break; // That's enough of that
 			}
@@ -154,7 +164,7 @@ public class SliceClientTest extends DataServerTest {
 			if (image.getShape()[0]!=512) throw new Exception("Unexpected image height '"+image.getShape()[0]+"'");
 			if (image.getShape()[1]!=512)  throw new Exception("Unexpected image height '"+image.getShape()[1]+"'");
 			++i;
-			if (i>1000) {
+			if (i>100) {
 				client.setFinished(true);
 				break; // That's enough of that
 			}

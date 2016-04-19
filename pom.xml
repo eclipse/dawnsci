@@ -15,7 +15,23 @@
 		<tycho-version>0.24.0</tycho-version>
 		<richbean-includes>NULL</richbean-includes> <!-- set the rich beans tests to nothing -->
 		<dawnsci-includes>org/eclipse/dawnsci/**/Suite.java</dawnsci-includes>
+		<library-path>${project.basedir}/../../dawn-third/ncsa.hdf/lib/${target.os}-${target.arch}</library-path>
 	</properties>
+
+	<executions>
+		<execution>
+			<phase>validate</phase>
+			<goals>
+				<goal>run</goal>
+			</goals>
+			<configuration>
+				<tasks>
+					<echo>Displaying value of 'library-path' property</echo>
+					<echo>[library-path] ${library-path}</echo>
+				</tasks>
+			</configuration>
+		</execution>
+	</executions>
 
 	<modules>
         <module>org.eclipse.dawnsci.targetplatform</module>
@@ -123,6 +139,7 @@
 			<artifactId>maven-surefire-plugin</artifactId>
 			<version>2.12.4</version>
 			<configuration>
+                <argLine>-Djava.library.path=${library.path}</argLine>
                 <testSourceDirectory>${basedir}/src</testSourceDirectory>
                 <testClassesDirectory>${basedir}/bin</testClassesDirectory>
 				<includes>
