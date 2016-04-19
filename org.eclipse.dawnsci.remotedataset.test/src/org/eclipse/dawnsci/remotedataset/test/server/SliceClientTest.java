@@ -55,6 +55,7 @@ public class SliceClientTest extends DataServerTest {
 		if (!Arrays.equals(data.getShape(), new int[]{2048, 2048})) {
 			throw new Exception("Unexpected shape "+Arrays.toString(data.getShape()));
 		}
+		System.out.println("> testFullData ok");
 	}
 
 	@Test
@@ -70,6 +71,7 @@ public class SliceClientTest extends DataServerTest {
 		if (!Arrays.equals(data.getShape(), new int[]{512, 512})) {
 			throw new Exception("Unexpected shape "+Arrays.toString(data.getShape()));
 		}
+		System.out.println("> testDownsampledData ok");
 
 	}
 	
@@ -87,6 +89,8 @@ public class SliceClientTest extends DataServerTest {
 		final BufferedImage image = client.get();
 		if (image.getHeight()!=512) throw new Exception("Unexpected image height '"+image.getHeight()+"'");
 		if (image.getWidth()!=512)  throw new Exception("Unexpected image height '"+image.getWidth()+"'");
+		
+		System.out.println("> testDownsampledJPG ok");
 	}
 
 	
@@ -115,6 +119,7 @@ public class SliceClientTest extends DataServerTest {
 		}
 	
 		if (i != 4) throw new Exception("4 images were not found! "+i+" were!");
+		System.out.println("> testDownsampledMJPG ok");
 	}
 	
 	@Test
@@ -145,6 +150,7 @@ public class SliceClientTest extends DataServerTest {
 		// We say
 		System.out.println("Received images = "+i);
 		System.out.println("Dropped images = "+client.getDroppedImageCount());
+		System.out.println("> testFastMJPG ok");
 	}
 
 	@Test
@@ -175,5 +181,6 @@ public class SliceClientTest extends DataServerTest {
 		// We say
 		System.out.println("Received images = "+i);
 		System.out.println("Dropped images = "+client.getDroppedImageCount());
+		System.out.println("> testFastMDATA ok");
 	}
 }
