@@ -30,6 +30,7 @@ public class RemoteDatasetPluginTest extends DataServerTest {
 		try {
 			testIsRunning = true;
 			final File h5File = startHDF5WritingThread(); // This is an HDF5 file which is growing as a thread writes it.
+			Thread.sleep(2000);
 			
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 			final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);
