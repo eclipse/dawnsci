@@ -6,7 +6,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 	SliceClientTest.class,
     RemoteDatasetTest.class,
-    RemoteDatasetSliceTest.class
+    RemoteDatasetSliceTest.class,
+    FileMonitoringTest.class
 })
 public class Suite {
 
