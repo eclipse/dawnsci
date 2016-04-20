@@ -81,6 +81,7 @@ public interface IImageStitchingProcess {
 	 * @return output stitched image
 	 * @throws Exception 
 	 */
+	@Deprecated
 	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView, List<double[]> translations, 
 			boolean hasFeatureAssociation, IMonitor monitor) throws Exception;
 
@@ -104,6 +105,7 @@ public interface IImageStitchingProcess {
 	 * @return output stitched image
 	 * @throws Exception 
 	 */
+	@Deprecated
 	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView,
 			List<double[]> translations, boolean hasFeatureAssociation, int[] originalShape, IMonitor monitor) throws Exception;
 
@@ -127,6 +129,30 @@ public interface IImageStitchingProcess {
 	 * @return output stitched image
 	 * @throws Exception 
 	 */
+	@Deprecated
 	IDataset stitch(ILazyDataset input, int rows, int columns, double fieldOfView, List<double[]> translations,
+			boolean hasFeatureAssociation, int[] originalShape, IMonitor monitor) throws Exception;
+
+	/**
+	 * Stiches a list of images loaded lazily previously cropped with the given roi. Use the theoretical image position from the
+	 * metadata to stitch the images. Translations are in an array.
+	 * 
+	 * @param input
+	 * @param rows
+	 * @param columns
+	 * @param fieldOfView
+	 *            in microns
+	 * @param translations
+	 *            X/Y expected translations in microns (mainly used if no feature association)
+	 * @param hasFeatureAssociation
+	 *            if True then feature association will be used to find the translation coordinates<br>
+	 * @param originalShape
+	 *            if input data is cropped, original shape of data
+	 * @param monitor
+	 *            To monitor progress
+	 * @return output stitched image
+	 * @throws Exception 
+	 */
+	IDataset stitch(ILazyDataset input, int rows, int columns, double fieldOfView, double[][][] translations,
 			boolean hasFeatureAssociation, int[] originalShape, IMonitor monitor) throws Exception;
 }
