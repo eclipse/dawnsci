@@ -1,8 +1,10 @@
 package org.eclipse.dawnsci.nexus;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
@@ -19,9 +21,12 @@ import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 public class NexusScanInfo {
 
 	private int rank;
-	private List<String> axisNames;
+	private List<String> scannableNames;
+	private Set<String> monitorNames;
+	private Set<String> metadataScannableNames;
+	
 	public NexusScanInfo() {
-		
+		this(Collections.emptyList());
 	}
 	
 	/**
@@ -30,21 +35,61 @@ public class NexusScanInfo {
 	 */
 	public NexusScanInfo(List<String> axisNames) {
 		super();
-		this.axisNames = axisNames;
+		this.scannableNames = axisNames;
 		this.rank = axisNames.size();
 	}
 	
 	public int getRank() {
 		return rank;
 	}
+	
 	public void setRank(int rank) {
 		this.rank = rank;
 	}
-	public List<String> getAxisNames() {
-		return axisNames;
+	
+	public List<String> getScannableNames() {
+		if (scannableNames == null) {
+			return Collections.emptyList();
+		}
+		return scannableNames;
 	}
-	public void setAxisNames(List<String> axisNames) {
-		this.axisNames = axisNames;
+	
+	public void setScannableNames(List<String> axisNames) {
+		this.scannableNames = axisNames;
+	}
+	
+	public boolean isScannable(String name) {
+		return scannableNames != null && scannableNames.contains(name);
+	}
+	
+	public Set<String> getMonitorNames() {
+		if (monitorNames == null) {
+			return Collections.emptySet();
+		}
+		return monitorNames;
+	}
+	
+	public void setMonitorNames(Set<String> monitorNames) {
+		this.monitorNames = monitorNames;
+	}
+	
+	public boolean isMonitor(String name) {
+		return monitorNames != null && monitorNames.contains(name);
+	}
+	
+	public Set<String> getMetadataScannableNames() {
+		if (metadataScannableNames == null) {
+			return Collections.emptySet();
+		}
+		return metadataScannableNames;
+	}
+	
+	public void setMetadataScannableNames(Set<String> metadataScannableNames) {
+		this.metadataScannableNames = metadataScannableNames;
+	}
+	
+	public boolean isMetadataScannable(String name) {
+		return metadataScannableNames != null && metadataScannableNames.contains(name);
 	}
 
 	/**
@@ -107,7 +152,7 @@ public class NexusScanInfo {
 
 	@Override
 	public String toString() {
-		return "NexusScanInfo [rank=" + rank + ", axisNames=" + axisNames + "]";
+		return "NexusScanInfo [rank=" + rank + ", axisNames=" + scannableNames + "]";
 	}
 
 }

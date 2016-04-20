@@ -95,6 +95,8 @@ public enum NexusBaseClass {
 	
 	/**
 	 * Returns the nexus base class constant for the given name string.
+	 * @throws IllegalArgumentException if there is no such base class for the given name
+	 * @return the base class with the given name
 	 */
 	public static NexusBaseClass getBaseClassForName(final String name) {
 		// Note: this method will not work correctly if any base classes include
@@ -102,6 +104,5 @@ public enum NexusBaseClass {
 		final String enumName = name.substring(0, 2) + '_' + name.substring(2).toUpperCase();
 		return NexusBaseClass.valueOf(enumName);
 	}
-	
 
 }
