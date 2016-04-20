@@ -19,6 +19,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.dawnsci.remotedataset.server.DiagnosticInfo;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.slf4j.Logger;
@@ -27,6 +28,8 @@ import org.slf4j.LoggerFactory;
 public class FileMonitorSocket extends WebSocketAdapter {
 	
 	private static final Logger logger = LoggerFactory.getLogger(FileMonitorSocket.class);
+
+	private static DiagnosticInfo diagInfo;
 	
 	private boolean            connected;
 
@@ -53,6 +56,7 @@ public class FileMonitorSocket extends WebSocketAdapter {
 	        Thread th = new Thread(fileWatcher, path.getFileName()+" Watcher");
 	        th.setDaemon(true);
 	        th.start();
+	        if (diagInfo!=null) diagInfo.record("Start Thread", th.getName());
 	 
     	} catch (Exception ne) {
 			ne.printStackTrace();
@@ -146,6 +150,7 @@ public class FileMonitorSocket extends WebSocketAdapter {
 			                	// do not want a dependency and object simple
 			                	String json = evt.encode();
 			                	session.getRemote().sendString(json);
+			                    if (diagInfo!=null) diagInfo.record("JSON Send", json);
 			                	
 	 	             		} catch (Exception ne) {
 	 	             			logger.error("Exception getting data from "+path);
@@ -158,12 +163,14 @@ public class FileMonitorSocket extends WebSocketAdapter {
                     	key.reset();                    	
              		}
                 }
+ 
                 
             } catch (Exception e) {
             	logger.error("Exception monitoring "+path, e);
             	if (session.isOpen()) session.close(403, e.getMessage());
             	
             }  finally {
+                if (diagInfo!=null) diagInfo.record("Close Thread", Thread.currentThread().getName());
             	try {
 					watcher.close();
 				} catch (IOException e) {
@@ -173,5 +180,18 @@ public class FileMonitorSocket extends WebSocketAdapter {
       
         }
     }
+
+	public static void setRecordThreads(boolean recordThreads) {
+		if (recordThreads) {
+			FileMonitorSocket.diagInfo = new DiagnosticInfo();
+		} else {
+			FileMonitorSocket.diagInfo = null;
+
+		}
+	}
+
+	public static DiagnosticInfo getDiagnosticInfo() {
+		return diagInfo;
+	}
 
 }
