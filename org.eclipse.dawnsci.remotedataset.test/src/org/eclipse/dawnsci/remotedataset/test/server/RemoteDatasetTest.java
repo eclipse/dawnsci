@@ -49,7 +49,7 @@ public class RemoteDatasetTest extends DataServerTest {
 		}
 	}
 	
-	//@Test
+	@Test
 	public void testRemoteSlicingUsingSliceND() throws Exception {
 		
 		IRemoteDataset data = null;
@@ -113,7 +113,7 @@ public class RemoteDatasetTest extends DataServerTest {
 		}
 	}
 	
-	//@Test
+	@Test
 	public void testImageFileMonitoring() throws Exception {
 		
 		IRemoteDataset data = null;
