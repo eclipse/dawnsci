@@ -33,10 +33,11 @@ public class FileMonitoringTest extends DataServerTest {
 			doConnectionAndDisconnect(i, true);
 		}
 		
-		Thread.sleep(400);
+		Thread.sleep(1000); // Give it a chance to close out.
+		
 		DiagnosticInfo info = server.getDiagnosticInfo();
-		assertTrue(info.getCount("Start Thread")==5);
-		assertTrue(info.getCount("Close Thread")==5);
+		assertTrue("The started thread count was "+info.getCount("Start Thread")+" and should have been 5", info.getCount("Start Thread")==5);
+		assertTrue("The closed thread count was "+info.getCount("Close Thread")+" and should have been 5", info.getCount("Close Thread")==5);
 		System.out.println("> testHDF5FileConnections ok");
 	}
 	
@@ -48,10 +49,11 @@ public class FileMonitoringTest extends DataServerTest {
 		// Connect to five different chaining files and ensure that only one thread is there.
 		doConnectionAndDisconnect(0, false);
 
-		Thread.sleep(400);
+		Thread.sleep(1000); // Give it a chance to close out.
+
 		DiagnosticInfo info = server.getDiagnosticInfo();
-		assertTrue(info.getCount("Start Thread")==0);
-		assertTrue(info.getCount("Close Thread")==0);
+		assertTrue("There should be no file monitor threads started", info.getCount("Start Thread")==0);
+		assertTrue("There should be no file monitor threads closed", info.getCount("Close Thread")==0);
 		System.out.println("> testHDF5FileConnectionsNoListener ok");
 	}
 
