@@ -3,12 +3,17 @@ package org.eclipse.dawnsci.remotedataset.test.server;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
+import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
@@ -33,6 +38,19 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
+/**
+ * 
+ * <pre>
+ * To run this test from the IDE or it's subsclasses:
+ * o Run as junit test (will fail)
+ * o Add all org.eclipse.jetty and javax.serlvet to classpath
+ * o Set LD_LIBRARY_PATH(linux) or PATH(windows) to:
+ *     ${project_loc:uk.ac.diamond.CBFlib}/lib/${target.os}-${target.arch};${project_loc:ncsa.hdf}/lib/${target.os}-${target.arch}
+ * </pre>
+ * 
+ * @author Matthew Gerring
+ *
+ */
 public class DataServerTest {
 
 	protected static INexusFileFactory   factory;
@@ -208,6 +226,44 @@ public class DataServerTest {
 		Thread.sleep(2*waitTime);
 
         return ret;
+	}
+
+	
+
+	protected void checkAndWait(final IRemoteDataset data, long time, long imageTime) throws Exception {
+		final int count = (int)time/(int)imageTime;
+		checkAndWait(data, time, imageTime, count-6);
+	}
+	
+	protected void checkAndWait(final IRemoteDataset data, long time, long imageTime, int min) throws Exception {
+		
+		final int count = (int)time/(int)imageTime;
+		try {
+			final List<DataEvent> events = new ArrayList<DataEvent>(count);
+			
+			// Check that we get events about the image changing.			
+			data.addDataListener(new IDataListener() {
+				@Override
+				public void dataChangePerformed(DataEvent evt) {
+					try {
+						System.out.println("Data changed, shape is "+Arrays.toString(evt.getShape()));
+						if (!Arrays.equals(evt.getShape(), data.getShape())) {
+							throw new Exception("Data shape and event shape are not the same!");
+						}
+						events.add(evt);
+					} catch (Exception ne) {
+						ne.printStackTrace();
+					}
+				}
+			});
+	
+			Thread.sleep(time);
+			
+			if (events.size() < min) throw new Exception("Less data events than expected! Event count was "+events.size()+" Min expected was "+min);
+		
+		} finally {
+			data.disconnect();
+		}
 	}
 
 }
