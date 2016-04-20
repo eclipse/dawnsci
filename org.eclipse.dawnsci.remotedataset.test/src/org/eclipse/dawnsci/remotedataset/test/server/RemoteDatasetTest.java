@@ -1,19 +1,13 @@
 package org.eclipse.dawnsci.remotedataset.test.server;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
-import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -137,42 +131,6 @@ public class RemoteDatasetTest extends DataServerTest {
 			
 		} finally {
 			testIsRunning = false;
-			data.disconnect();
-		}
-	}
-
-	private void checkAndWait(final IRemoteDataset data, long time, long imageTime) throws Exception {
-		final int count = (int)time/(int)imageTime;
-		checkAndWait(data, time, imageTime, count-6);
-	}
-	
-	private void checkAndWait(final IRemoteDataset data, long time, long imageTime, int min) throws Exception {
-		
-		final int count = (int)time/(int)imageTime;
-		try {
-			final List<DataEvent> events = new ArrayList<DataEvent>(count);
-			
-			// Check that we get events about the image changing.			
-			data.addDataListener(new IDataListener() {
-				@Override
-				public void dataChangePerformed(DataEvent evt) {
-					try {
-						System.out.println("Data changed, shape is "+Arrays.toString(evt.getShape()));
-						if (!Arrays.equals(evt.getShape(), data.getShape())) {
-							throw new Exception("Data shape and event shape are not the same!");
-						}
-						events.add(evt);
-					} catch (Exception ne) {
-						ne.printStackTrace();
-					}
-				}
-			});
-	
-			Thread.sleep(time);
-			
-			if (events.size() < min) throw new Exception("Less data events than expected! Event count was "+events.size()+" Min expected was "+min);
-		
-		} finally {
 			data.disconnect();
 		}
 	}

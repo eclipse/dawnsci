@@ -48,6 +48,8 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 public class DataServer extends PortServer {
 	
 	
+	private DataServerMode mode = DataServerMode.NORMAL;
+	
 	public DataServer() {
          	
 	}
@@ -123,5 +125,22 @@ public class DataServer extends PortServer {
 	    if (block) server.join();
 
 	}
+	
+	public void setMode(DataServerMode mode) {
+		this.mode = mode;
+		
+		// TODO Other diagnostic things...
+		if (mode.equals(DataServerMode.DIAGNOSTIC)) {
+			FileMonitorSocket.setRecordThreads(true);
+		} else {
+			FileMonitorSocket.setRecordThreads(false);
+		}
+	}
 
+	public DiagnosticInfo getDiagnosticInfo() {
+		DiagnosticInfo ret = new DiagnosticInfo();
+		ret.merge(FileMonitorSocket.getDiagnosticInfo());
+		// TODO Other info?
+		return ret;
+	}
 }
