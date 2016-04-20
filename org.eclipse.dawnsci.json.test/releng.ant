@@ -31,6 +31,7 @@
 				<path refid="libs.jars.path" />
 				<path refid="tp.slf4j.path" />  <!-- ensure that required org.slf4j.LoggerFactory appears first in classpath -->
 				<path refid="tp.jcl-over-slf4j.path" />  <!-- ensure that matching imp appears first in classpath -->
+				<path refid="tp.hamcrest.path" />  <!-- ensure that latest version appears first in classpath -->
 				<path refid="tp.path" />  <!-- target platform -->
 			</classpath>
 			<batchtest todir="@{report.dir}">
