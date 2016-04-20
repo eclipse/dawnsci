@@ -37,6 +37,7 @@ public class FileMonitoringTest extends DataServerTest {
 		DiagnosticInfo info = server.getDiagnosticInfo();
 		assertTrue(info.getCount("Start Thread")==5);
 		assertTrue(info.getCount("Close Thread")==5);
+		System.out.println("> testHDF5FileConnections ok");
 	}
 	
 	@Test
@@ -51,6 +52,7 @@ public class FileMonitoringTest extends DataServerTest {
 		DiagnosticInfo info = server.getDiagnosticInfo();
 		assertTrue(info.getCount("Start Thread")==0);
 		assertTrue(info.getCount("Close Thread")==0);
+		System.out.println("> testHDF5FileConnectionsNoListener ok");
 	}
 
 
@@ -81,7 +83,6 @@ public class FileMonitoringTest extends DataServerTest {
 				assertTrue(info.getCount("Close Thread")==index); // Ensure all closed picked up.
 			} 
 			System.out.println(info);
-			System.out.println("> testHDF5FileConnections ok");
 
 		} finally {
 			testIsRunning = false;
