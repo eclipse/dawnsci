@@ -36,8 +36,8 @@ public class FileMonitoringTest extends DataServerTest {
 		Thread.sleep(1000); // Give it a chance to close out.
 		
 		DiagnosticInfo info = server.getDiagnosticInfo();
-		assertTrue("The started thread count was "+info.getCount("Start Thread")+" and should have been 5", info.getCount("Start Thread")==5);
-		assertTrue("The closed thread count was "+info.getCount("Close Thread")+" and should have been 5", info.getCount("Close Thread")==5);
+		assertTrue("The started thread count was "+info.getCount("Start Thread")+" and should have been 5 or less", info.getCount("Start Thread")<=5);
+		assertTrue("The closed thread count was "+info.getCount("Close Thread")+" and should have been 5 or less", info.getCount("Close Thread")<=5);
 		System.out.println("> testHDF5FileConnections ok");
 	}
 	
