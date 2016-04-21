@@ -39,6 +39,14 @@ public class HDF5FileFactory {
 	}
 
 	private static long heldPeriod = 5000; // 5 seconds
+	private static boolean verbose = false;
+
+	/**
+	 * @param verbose if true, print to standard error when opening, closing, creating or deleting files
+	 */
+	public static void setVerbose(boolean verbose) {
+		HDF5FileFactory.verbose = verbose;
+	}
 
 	private final static HDF5FileFactory INSTANCE;
 
@@ -227,10 +235,16 @@ public class HDF5FileFactory {
 					}
 					if (asNew) {
 						access.writeable = true;
+						if (verbose) {
+							System.err.println("Creating " + cPath);
+						}
 						fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_TRUNC, HDF5Constants.H5P_DEFAULT, fapl);
 					} else {
 						access.writeable = writeable;
 						if (new File(cPath).exists()) {
+							if (verbose) {
+								System.err.println("Opening " + cPath + " with writeable " + writeable);
+							}
 							if (!writeable) {
 								// attempt to read with SWMR access first
 								int a = HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ;
@@ -251,6 +265,9 @@ public class HDF5FileFactory {
 							logger.error("File {} does not exist!", cPath);
 							throw new FileNotFoundException("File does not exist!");
 						} else {
+							if (verbose) {
+								System.err.println("Creating " + cPath);
+							}
 							fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, fapl);
 						}
 					}
@@ -325,6 +342,9 @@ public class HDF5FileFactory {
 					FileAccess access = INSTANCE.map.get(cPath);
 					if (access.count <= 0) {
 						try {
+							if (verbose) {
+								System.err.println("Closing and deleting " + cPath);
+							}
 							H5.H5Fclose(access.id);
 							INSTANCE.map.remove(cPath);
 // FIXME for CustomTomoConverter, etc 
@@ -386,6 +406,9 @@ public class HDF5FileFactory {
 				if (access.count <= 0) {
 					if (close) {
 						try {
+							if (verbose) {
+								System.err.println("Closing " + cPath);
+							}
 							H5.H5Fclose(access.id);
 							INSTANCE.map.remove(cPath);
 // FIXME for CustomTomoConverter, etc 

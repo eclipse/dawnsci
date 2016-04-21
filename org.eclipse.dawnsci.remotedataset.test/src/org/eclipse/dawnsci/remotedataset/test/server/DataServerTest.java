@@ -14,8 +14,6 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
-import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
-import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.function.Downsample;
@@ -123,49 +121,39 @@ public class DataServerTest {
 					final int[] max = new int[] { -1, 1024, 1024 };
 					writer = new LazyWriteableDataset("image", Dataset.FLOAT, shape, max, shape, null); // DO NOT COPY!
 					file.createData(par, writer);
+
+					int index = 0;
+					while (testIsRunning) {
+
+						int[] start = { index, 0, 0 };
+						int[] stop = { index + 1, 1024, 1024 };
+						index++;
+						if (index > 23)
+							index = 23; // Stall on the last image to avoid writing massive stacks
+
+						IDataset rimage = Random.rand(new int[] { 1, 1024, 1024 });
+						rimage.setName("image");
+						writer.setSlice(new IMonitor.Stub(), rimage, start, stop, null);
+						// file.flush(); // remove explicit flush
+
+						System.err.println("> HDF5 wrote image to " + ret);
+						System.err.println("> New shape " + Arrays.toString(writer.getShape()));
+						Thread.sleep(sleepTime);
+					}
 				} catch (Exception ne) {
 					ne.printStackTrace();
 				}
-				if (writer != null) {
-					try {
-						int index = 0;
-						while (testIsRunning) {
-
-							int[] start = { index, 0, 0 };
-							int[] stop = { index + 1, 1024, 1024 };
-							index++;
-							if (index > 23)
-								index = 23; // Stall on the last image to avoid writing massive stacks
-
-							IDataset rimage = Random.rand(new int[] { 1, 1024, 1024 });
-							rimage.setName("image");
-							writer.setSlice(new IMonitor.Stub(), rimage, start, stop, null);
-							// file.flush(); // remove explicit flush
-
-							System.err.println("> HDF5 wrote image to " + ret);
-							System.err.println("> New shape " + getShape(ret, "/entry/data/image"));
-							Thread.sleep(sleepTime);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
 			}
 		});
-        runner.setPriority(Thread.MIN_PRIORITY);
-        runner.setDaemon(true);
-        runner.start();
-        
+
+		runner.setPriority(Thread.MIN_PRIORITY);
+		runner.setDaemon(true);
+		runner.start();
+
 		// Wait for a bit to ensure file is being written
 		Thread.sleep(2*sleepTime);
 
         return ret;
-	}
-
-	protected String getShape(File ret, String path) throws Exception {
-		final ILoaderService lservice = ServiceHolder.getLoaderService();
-		IDataHolder holder = lservice.getData(ret.getAbsolutePath(), new IMonitor.Stub());
-		return Arrays.toString(holder.getLazyDataset(path).getShape());
 	}
 
 	protected File startFileWritingThread(final long waitTime, final boolean dir) throws IOException, InterruptedException {
