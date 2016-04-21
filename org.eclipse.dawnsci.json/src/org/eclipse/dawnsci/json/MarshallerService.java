@@ -38,6 +38,8 @@ import org.eclipse.dawnsci.json.mixin.roi.IRectangularROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.LinearROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.PolylineROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.RectangularROIMixIn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -82,6 +84,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 public class MarshallerService implements IMarshallerService {
 
 	private static final String TYPE_INFO_FIELD_NAME = "@bundle_and_class";
+
+	private static final Logger logger = LoggerFactory.getLogger(MarshallerService.class);
 
 	private BundleProvider bundleProvider;
 	private ObjectMapper osgiMapper;
@@ -161,12 +165,22 @@ public class MarshallerService implements IMarshallerService {
 			U result = (U) osgiMapper.readValue(string, Object.class);
 			return result;
 		} catch (JsonMappingException | IllegalArgumentException ex) {
+			// Check if this is due to missing type info. This can appear in two ways: the type info field can be
+			// missing from an object, in which case JsonMappingException is thrown; or the first element of an array
+			// might be wrongly interpreted as a class name, in which case we get a ClassNotFoundException
 			if ((ex instanceof JsonMappingException && ex.getMessage().contains(TYPE_INFO_FIELD_NAME))
 					|| ex instanceof IllegalArgumentException && ex.getCause() instanceof ClassNotFoundException) {
-				// No bundle and class information in the JSON - fall back to old mapper in case JSON has come from an older version
-				if (nonOsgiMapper == null) nonOsgiMapper = createNonOsgiMapper();
-				return nonOsgiMapper.readValue(string, beanClass);
+				// Possibly no bundle and class information in the JSON - fall back to old mapper in case JSON has come
+				// from an older version
+				try {
+					if (nonOsgiMapper == null) nonOsgiMapper = createNonOsgiMapper();
+					return nonOsgiMapper.readValue(string, beanClass);
+				} catch (Exception withoutTypeException) {
+					logger.error("Could not deserialize string assuming no type info present: {}", string, withoutTypeException);
+				}
 			}
+			// Log and re-throw the original exception since this is more likely to be useful to clients
+			logger.error("Could not deserialize string assuming type info present: {}", string, ex);
 			throw ex;
 		}
 	}
