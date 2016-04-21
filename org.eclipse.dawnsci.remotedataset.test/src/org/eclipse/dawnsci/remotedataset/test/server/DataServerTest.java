@@ -14,8 +14,6 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
-import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
-import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.function.Downsample;
@@ -139,7 +137,7 @@ public class DataServerTest {
 						// file.flush(); // remove explicit flush
 
 						System.err.println("> HDF5 wrote image to " + ret);
-						System.err.println("> New shape " + getShape(ret, "/entry/data/image"));
+						System.err.println("> New shape " + Arrays.toString(writer.getShape()));
 						Thread.sleep(sleepTime);
 					}
 				} catch (Exception ne) {
@@ -156,12 +154,6 @@ public class DataServerTest {
 		Thread.sleep(2*sleepTime);
 
         return ret;
-	}
-
-	protected String getShape(File ret, String path) throws Exception {
-		final ILoaderService lservice = ServiceHolder.getLoaderService();
-		IDataHolder holder = lservice.getData(ret.getAbsolutePath(), new IMonitor.Stub());
-		return Arrays.toString(holder.getLazyDataset(path).getShape());
 	}
 
 	protected File startFileWritingThread(final long waitTime, final boolean dir) throws IOException, InterruptedException {
