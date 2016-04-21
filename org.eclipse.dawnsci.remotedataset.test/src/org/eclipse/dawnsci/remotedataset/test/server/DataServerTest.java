@@ -107,55 +107,53 @@ public class DataServerTest {
 	}
 
 	protected File startHDF5WritingThread(final long sleepTime) throws IOException, InterruptedException {
-		
-        final File ret = File.createTempFile("temp_transient_file", ".h5");
-        ret.deleteOnExit();
-         
-        final Thread runner = new Thread(new Runnable() {
-        	public void run() {
-        		
-        		NexusFile file=null;
-        		try {
-        			file = factory.newNexusFile(ret.getAbsolutePath(), false);  // DO NOT COPY!
-        			file.openToWrite(true); // DO NOT COPY!
 
-        			GroupNode par = file.getGroup("/entry/data", true); // DO NOT COPY!
-        			
-        			final int[] shape = new int[]{1, 1024, 1024};
-        			final int[] max   = new int[]{-1, 1024, 1024};
-        			ILazyWriteableDataset writer = new LazyWriteableDataset("image", Dataset.FLOAT, shape, max, shape, null); // DO NOT COPY!
-        			file.createData(par, writer); 
+		final File ret = File.createTempFile("temp_transient_file", ".h5");
+		ret.deleteOnExit();
 
-        			int index = 0;
-        			while(testIsRunning) {
+		final Thread runner = new Thread(new Runnable() {
+			public void run() {
+				ILazyWriteableDataset writer = null;
+				try (NexusFile file = factory.newNexusFile(ret.getAbsolutePath(), false)) {
 
-        				int[] start = {index, 0, 0};
-        				int[] stop  = {index+1, 1024, 1024};
-        				index++;
-        				if (index>23) index = 23; // Stall on the last image to avoid writing massive stacks
-        				
-        				IDataset       rimage   = Random.rand(new int[]{1, 1024, 1024});
-        				rimage.setName("image");
-       				    writer.setSlice(new IMonitor.Stub(), rimage, start, stop, null);
-       				    file.flush();
-       				    
-       				    Thread.sleep(sleepTime);
-        				System.out.println("> HDF5 wrote image to "+ret);
-        				System.out.println("> New shape "+getShape(ret, "/entry/data/image"));
-        			}
-       			
-        		} catch (Exception ne) {
-        			ne.printStackTrace();
-        			
-				} finally {
+					file.openToWrite(true); // DO NOT COPY!
+
+					GroupNode par = file.getGroup("/entry/data", true); // DO NOT COPY!
+
+					final int[] shape = new int[] { 1, 1024, 1024 };
+					final int[] max = new int[] { -1, 1024, 1024 };
+					writer = new LazyWriteableDataset("image", Dataset.FLOAT, shape, max, shape, null); // DO NOT COPY!
+					file.createData(par, writer);
+				} catch (Exception ne) {
+					ne.printStackTrace();
+				}
+				if (writer != null) {
 					try {
-						file.close();
-					} catch (NexusException e) {
+						int index = 0;
+						while (testIsRunning) {
+
+							int[] start = { index, 0, 0 };
+							int[] stop = { index + 1, 1024, 1024 };
+							index++;
+							if (index > 23)
+								index = 23; // Stall on the last image to avoid writing massive stacks
+
+							IDataset rimage = Random.rand(new int[] { 1, 1024, 1024 });
+							rimage.setName("image");
+							writer.setSlice(new IMonitor.Stub(), rimage, start, stop, null);
+							// file.flush(); // remove explicit flush
+
+							System.out.println("> HDF5 wrote image to " + ret);
+							System.out.println("> New shape " + getShape(ret, "/entry/data/image"));
+							System.out.flush();
+							Thread.sleep(sleepTime);
+						}
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
-        	}
-        });
+			}
+		});
         runner.setPriority(Thread.MIN_PRIORITY);
         runner.setDaemon(true);
         runner.start();

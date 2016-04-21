@@ -137,6 +137,7 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
     
     public void disconnect() throws Exception {
     	
+    	eventDelegate.clear();
         if (connection!=null && connection.isOpen()) {
         	connection.getRemote().sendString("Disconnected from "+urlBuilder.getPath());
        	    connection.close();

@@ -29,7 +29,9 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 	// For some reason this test intermittently crashes the test VM on travis.
 	//@Test
 	public void testRemoteSliceDirectory() throws Exception {
-		
+		System.out.println("> testRemoteSliceDirectory start");
+		System.out.flush();
+
 		final File dir = createSomeDirectoryData(10, 1024, 1024);
 		
 		IRemoteDatasetService service = new RemoteDatasetServiceImpl();
@@ -76,7 +78,8 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 
 	@Test
 	public void testRemoteSliceH5() throws Exception {
-		
+		System.out.println("> testRemoteSliceH5 start");
+		System.out.flush();
 		final File h5File = createSomeH5Data(10, 1024, 1024);
 		
 		IRemoteDatasetService service = new RemoteDatasetServiceImpl();
