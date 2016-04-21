@@ -143,9 +143,10 @@ public class DataServerTest {
 							writer.setSlice(new IMonitor.Stub(), rimage, start, stop, null);
 							// file.flush(); // remove explicit flush
 
-							Thread.sleep(sleepTime);
 							System.out.println("> HDF5 wrote image to " + ret);
 							System.out.println("> New shape " + getShape(ret, "/entry/data/image"));
+							System.out.flush();
+							Thread.sleep(sleepTime);
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
