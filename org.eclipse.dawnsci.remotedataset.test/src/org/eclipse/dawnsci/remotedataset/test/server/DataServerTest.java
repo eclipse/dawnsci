@@ -175,7 +175,7 @@ public class DataServerTest {
         		while(testIsRunning) {
         			
         			try {
-	        			IDataset       rimage   = Random.rand(new int[]{1024, 1024});
+	        			IDataset       rimage   = Random.rand(new int[]{64, 64});
 	        			IImageService  iservice = ServiceHolder.getImageService();
 	        			ImageServiceBean bean   = iservice.createBeanFromPreferences();
 	        			bean.setImage(rimage);

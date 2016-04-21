@@ -141,7 +141,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			data.connect();
 			
 			// Check that we got the 1024x1024 as expected
-			if (!Arrays.equals(data.getShape(), new int[]{1024,1024})) throw new Exception("Incorrect remote dataset size!");
+			if (!Arrays.equals(data.getShape(), new int[]{64,64})) throw new Exception("Incorrect remote dataset size!");
 			
 			checkAndWait(data, 5000, 500);
 			System.out.println("> testImageFileMonitoring ok");
