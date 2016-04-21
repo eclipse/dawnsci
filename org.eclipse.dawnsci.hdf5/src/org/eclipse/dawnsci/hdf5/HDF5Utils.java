@@ -1729,7 +1729,7 @@ public class HDF5Utils {
 			}
 		} catch (HDF5Exception e) {
 			logger.error("Could not retrieve attribute: {} in {}", name, path, e);
-			throw new NexusException("Could not retrieve attribute", e);
+			throw new NexusException("Could not retrieve attribute: " + name + " in " + path, e);
 		}
 		return dataset;
 	}
