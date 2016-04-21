@@ -24,6 +24,8 @@ public class RemoteDatasetTest extends DataServerTest {
 		
 		IRemoteDataset data = null;
 		try {
+			System.out.println("> testHDF5FileMonitoring start");
+			System.out.flush();
 			testIsRunning = true;
 			final File h5File = startHDF5WritingThread(100);
 			Thread.sleep(400);
@@ -48,6 +50,8 @@ public class RemoteDatasetTest extends DataServerTest {
 		
 		IRemoteDataset data = null;
 		try {
+			System.out.println("> testRemoteSlicingUsingSliceND start");
+			System.out.flush();
 			testIsRunning = true;
 			
 			final long freq = 100;
@@ -87,6 +91,8 @@ public class RemoteDatasetTest extends DataServerTest {
 		
 		IRemoteDataset data = null;
 		try {
+			System.out.println("> testDirectoryMonitoring start");
+			System.out.flush();
 			testIsRunning = true;
 			final File dir = startFileWritingThread(100, true);
 			Thread.sleep(1000);
@@ -112,6 +118,8 @@ public class RemoteDatasetTest extends DataServerTest {
 		
 		IRemoteDataset data = null;
 		try {
+			System.out.println("> testImageFileMonitoring start");
+			System.out.flush();
 			testIsRunning = true;
 			final File tmpData = startFileWritingThread(500, false);
 			Thread.sleep(1000);
