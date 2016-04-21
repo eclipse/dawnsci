@@ -7,6 +7,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
+import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.junit.Test;
 
@@ -47,10 +48,10 @@ public class RemoteDatasetTest extends DataServerTest {
 
 	@Test
 	public void testRemoteSlicingUsingSliceND() throws Exception {
-		
 		IRemoteDataset data = null;
 		Thread.sleep(2500); // rest up first
 		try {
+			HDF5FileFactory.setVerbose(true);
 			System.out.println("> testRemoteSlicingUsingSliceND start");
 			System.out.flush();
 			testIsRunning = true;
@@ -84,6 +85,7 @@ public class RemoteDatasetTest extends DataServerTest {
 		} finally {
 			testIsRunning = false;
 			if (data!=null) data.disconnect();
+			HDF5FileFactory.setVerbose(false);
 		}
 	}
 

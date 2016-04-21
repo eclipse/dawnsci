@@ -78,6 +78,7 @@ public class SliceClientTest extends DataServerTest {
 	
 	@Test
 	public void testDownsampledJPG() throws Exception {
+		System.out.println("> testDownsampledJPG start");
 		System.out.flush();
 		final SliceClient<BufferedImage> client =  new SliceClient<BufferedImage>("localhost", port);
 		client.setPath(testDir+"/export.h5");
