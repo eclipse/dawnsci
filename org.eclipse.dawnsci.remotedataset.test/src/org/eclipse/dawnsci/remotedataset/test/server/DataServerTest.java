@@ -123,39 +123,35 @@ public class DataServerTest {
 					final int[] max = new int[] { -1, 1024, 1024 };
 					writer = new LazyWriteableDataset("image", Dataset.FLOAT, shape, max, shape, null); // DO NOT COPY!
 					file.createData(par, writer);
+
+					int index = 0;
+					while (testIsRunning) {
+
+						int[] start = { index, 0, 0 };
+						int[] stop = { index + 1, 1024, 1024 };
+						index++;
+						if (index > 23)
+							index = 23; // Stall on the last image to avoid writing massive stacks
+
+						IDataset rimage = Random.rand(new int[] { 1, 1024, 1024 });
+						rimage.setName("image");
+						writer.setSlice(new IMonitor.Stub(), rimage, start, stop, null);
+						// file.flush(); // remove explicit flush
+
+						System.err.println("> HDF5 wrote image to " + ret);
+						System.err.println("> New shape " + getShape(ret, "/entry/data/image"));
+						Thread.sleep(sleepTime);
+					}
 				} catch (Exception ne) {
 					ne.printStackTrace();
 				}
-				if (writer != null) {
-					try {
-						int index = 0;
-						while (testIsRunning) {
-
-							int[] start = { index, 0, 0 };
-							int[] stop = { index + 1, 1024, 1024 };
-							index++;
-							if (index > 23)
-								index = 23; // Stall on the last image to avoid writing massive stacks
-
-							IDataset rimage = Random.rand(new int[] { 1, 1024, 1024 });
-							rimage.setName("image");
-							writer.setSlice(new IMonitor.Stub(), rimage, start, stop, null);
-							// file.flush(); // remove explicit flush
-
-							System.err.println("> HDF5 wrote image to " + ret);
-							System.err.println("> New shape " + getShape(ret, "/entry/data/image"));
-							Thread.sleep(sleepTime);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
 			}
 		});
-        runner.setPriority(Thread.MIN_PRIORITY);
-        runner.setDaemon(true);
-        runner.start();
-        
+
+		runner.setPriority(Thread.MIN_PRIORITY);
+		runner.setDaemon(true);
+		runner.start();
+
 		// Wait for a bit to ensure file is being written
 		Thread.sleep(2*sleepTime);
 
