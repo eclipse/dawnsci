@@ -65,9 +65,10 @@ public class FileMonitoringTest extends DataServerTest {
 	private void doConnectionAndDisconnect(int index, boolean checkListen) throws Exception {
 		
 		IRemoteDataset data = null;
+		File h5File = null;
 		try {
 			testIsRunning = true;
-			final File h5File = startHDF5WritingThread(100);
+			h5File = startHDF5WritingThread(100);
 			Thread.sleep(400);
 			
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
@@ -94,6 +95,7 @@ public class FileMonitoringTest extends DataServerTest {
 		} finally {
 			testIsRunning = false;
 			if (data!=null) data.disconnect();
+			if (h5File!=null) h5File.delete();
 		}
 	}
 

@@ -51,7 +51,7 @@ public class RemoteDatasetTest extends DataServerTest {
 	//@Test
 	public void testRemoteSlicingUsingSliceND() throws Exception {
 		IRemoteDataset data = null;
-		Thread.sleep(2500); // rest up first
+		File h5File = null;
 		try {
 			HDF5FileFactory.setVerbose(true);
 			System.out.println("> testRemoteSlicingUsingSliceND start");
@@ -59,7 +59,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			testIsRunning = true;
 			
 			final long freq = 100;
-			final File h5File = startHDF5WritingThread(freq);
+		    h5File = startHDF5WritingThread(freq);
 			Thread.sleep(4*freq); // Let it get going
 			
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
@@ -87,6 +87,7 @@ public class RemoteDatasetTest extends DataServerTest {
 		} finally {
 			testIsRunning = false;
 			if (data!=null) data.disconnect();
+			if (h5File!=null)h5File.delete();
 			HDF5FileFactory.setVerbose(false);
 		}
 	}
@@ -95,11 +96,12 @@ public class RemoteDatasetTest extends DataServerTest {
 	public void testDirectoryMonitoring() throws Exception {
 		
 		IRemoteDataset data = null;
+		File dir=null;
 		try {
 			System.out.println("> testDirectoryMonitoring start");
 			System.out.flush();
 			testIsRunning = true;
-			final File dir = startFileWritingThread(100, true);
+			dir = startFileWritingThread(100, true);
 			Thread.sleep(1000);
 			
 			// Set the into, then call connect().
@@ -115,6 +117,7 @@ public class RemoteDatasetTest extends DataServerTest {
 		} finally {
 			testIsRunning = false;
 			data.disconnect();
+			if (dir!=null) TestUtils.recursiveDelete(dir);
 		}
 	}
 	
@@ -122,11 +125,12 @@ public class RemoteDatasetTest extends DataServerTest {
 	public void testImageFileMonitoring() throws Exception {
 		
 		IRemoteDataset data = null;
+		File tmpData =null;
 		try {
 			System.out.println("> testImageFileMonitoring start");
 			System.out.flush();
 			testIsRunning = true;
-			final File tmpData = startFileWritingThread(500, false);
+			tmpData = startFileWritingThread(500, false);
 			Thread.sleep(1000);
 
 			// Set the into, then call connect().
@@ -145,6 +149,7 @@ public class RemoteDatasetTest extends DataServerTest {
 		} finally {
 			testIsRunning = false;
 			data.disconnect();
+			if (tmpData!=null) tmpData.delete();
 		}
 	}
 }
