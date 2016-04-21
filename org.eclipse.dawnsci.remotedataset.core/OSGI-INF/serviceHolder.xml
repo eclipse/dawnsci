@@ -2,7 +2,7 @@
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="Data Slice Service Holder">
    <implementation class="org.eclipse.dawnsci.remotedataset.ServiceHolder"/>
    <reference bind="setLoaderService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.io.ILoaderService" name="ILoaderService" policy="static"/>
-   <reference bind="setImageService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.histogram.IImageService" name="IImageService" policy="static"/>
+   <reference bind="setImageService" cardinality="0..1" interface="org.eclipse.dawnsci.plotting.api.histogram.IImageService" name="IImageService" policy="dynamic"/>
    <reference bind="setDownService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.downsample.IDownsampleService" name="IDownsampleService" policy="static"/>
-   <reference bind="setPlotImageService" cardinality="1..1" interface="org.eclipse.dawnsci.plotting.api.image.IPlotImageService" name="IPlotImageService" policy="static"/>
+   <reference bind="setPlotImageService" cardinality="0..1" interface="org.eclipse.dawnsci.plotting.api.image.IPlotImageService" name="IPlotImageService" policy="dynamic"/>
 </scr:component>

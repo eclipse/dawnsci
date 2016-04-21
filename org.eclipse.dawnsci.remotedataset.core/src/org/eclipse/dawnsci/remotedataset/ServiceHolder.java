@@ -14,7 +14,6 @@ package org.eclipse.dawnsci.remotedataset;
 import org.eclipse.dawnsci.analysis.api.IClassLoaderService;
 import org.eclipse.dawnsci.analysis.api.downsample.IDownsampleService;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
-import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
 
@@ -24,12 +23,11 @@ import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
 public class ServiceHolder {
 
 	private static ILoaderService loaderService;
-	private static IImageService  imageService;
+	private static IImageService imageService;
 	private static IDownsampleService downService;
 	private static IPlotImageService plotImageService;
-    private static IRemoteDatasetService remoteDatasetService;
-    private static IClassLoaderService classLoaderService;
-	
+	private static IClassLoaderService classLoaderService;
+
 	public static IClassLoaderService getClassLoaderService() {
 		return classLoaderService;
 	}
