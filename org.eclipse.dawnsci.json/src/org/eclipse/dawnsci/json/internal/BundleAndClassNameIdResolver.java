@@ -11,10 +11,14 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.json.internal;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.osgi.framework.Bundle;
+import org.osgi.framework.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +44,13 @@ import com.fasterxml.jackson.databind.util.ClassUtil;
  */
 public class BundleAndClassNameIdResolver extends TypeIdResolverBase {
 
+	/**
+	 * Interface to allow Jackson ClassUtil to be mocked for testing
+	 */
+	public interface ClassFinder {
+		public Class<?> findClass(String className) throws ClassNotFoundException;
+	}
+
 	private static final Logger logger = LoggerFactory.getLogger(BundleAndClassNameIdResolver.class);
 	private static final Map<BundleAndClassInfo, Bundle> cachedBundles = new ConcurrentHashMap<BundleAndClassInfo, Bundle>();
 
@@ -52,10 +63,20 @@ public class BundleAndClassNameIdResolver extends TypeIdResolverBase {
 
 	private final BundleProvider bundleProvider;
 	private final ClassNameIdResolver classNameIdResolver;
+	private final ClassFinder classFinder;
 
 	public BundleAndClassNameIdResolver(JavaType baseType, TypeFactory typeFactory, BundleProvider bundleProvider) {
+		// Create a default ClassFinder to use Jackson ClassUtil
+		this(baseType, typeFactory, bundleProvider, className -> ClassUtil.findClass(className));
+	}
+
+	/**
+	 * Constructor only for use in testing to allow a mock ClassFinder to be passed in.
+	 */
+	public BundleAndClassNameIdResolver(JavaType baseType, TypeFactory typeFactory, BundleProvider bundleProvider, ClassFinder classFinder) {
 		super(baseType, typeFactory);
 		this.bundleProvider = bundleProvider;
+		this.classFinder = classFinder;
 
 		// Create a ClassNameIdResolver to delegate to when handling class names (i.e. after we have handled the bundle information)
 		this.classNameIdResolver = new ClassNameIdResolver(baseType, typeFactory);
@@ -96,7 +117,7 @@ public class BundleAndClassNameIdResolver extends TypeIdResolverBase {
 		// If there is no bundle name, try loading the class using the standard Jackson utility method
 		// See ClassNameIdResolver for complexity regarding generics here - not supported for now
 		if (info.getBundleSymbolicName().length() == 0) {
-			return ClassUtil.findClass(info.getClassName());
+			return classFinder.findClass(info.getClassName());
 		}
 
 		Bundle bundleToUse = getBundle(info);
@@ -111,7 +132,7 @@ public class BundleAndClassNameIdResolver extends TypeIdResolverBase {
 			logger.warn("Bundle {} (version {}) not found when trying to load class {}", info.getBundleSymbolicName(), info.getBundleVersion(), info.getClassName());
 		}
 		// If the bundle is not found, or cannot load the required class, fall back and try to load the class with ClassUtil
-		return ClassUtil.findClass(info.getClassName());
+		return classFinder.findClass(info.getClassName());
 	}
 
 	private Bundle getBundle(BundleAndClassInfo info) {
@@ -125,12 +146,34 @@ public class BundleAndClassNameIdResolver extends TypeIdResolverBase {
 		}
 		Bundle[] bundles = bundleProvider.getBundles();
 		Bundle bundleToUse = null;
+		List<Bundle> bundlesWithCorrectName = new ArrayList<>();
 		for (Bundle bundle : bundles) {
-			if (info.getBundleSymbolicName().equals(bundle.getSymbolicName())
-					&& bundle.getVersion().toString().equals(info.getBundleVersion())) {
-				bundleToUse = bundle;
-				break;
-				// TODO cache bundles with incorrect version and try them if correct version is not found?
+			if (info.getBundleSymbolicName().equals(bundle.getSymbolicName())) {
+				// Correct name. If correct version, select this bundle and exit the loop.
+				if (bundle.getVersion().toString().equals(info.getBundleVersion())) {
+					bundleToUse = bundle;
+					break;
+				}
+				// Otherwise, keep a reference to it and we will fall back to it later if a better match is not found.
+				bundlesWithCorrectName.add(bundle);
+			}
+		}
+		if (bundleToUse == null && !bundlesWithCorrectName.isEmpty()) {
+			// We haven't found an exact match, but there are some bundles with the same name.
+			// Sort them in decreasing order by version number. Select the last one with a version greater than the
+			// target version to try and ensure a close match.
+			// (Perhaps we should also try to match major version first? Doesn't seem like a big enough issue to be
+			// worth implementing for now.)
+			bundlesWithCorrectName.sort(Comparator.comparing(Bundle::getVersion).reversed());
+			Version requiredVersion = Version.parseVersion(info.getBundleVersion());
+			for (Bundle bundle : bundlesWithCorrectName) {
+				if (bundle.getVersion().compareTo(requiredVersion) > 0) {
+					bundleToUse = bundle;
+				}
+			}
+			// We have no bundles of higher version than the target. Select the highest version we have.
+			if (bundleToUse == null) {
+				bundleToUse = bundlesWithCorrectName.get(0);
 			}
 		}
 		if (bundleToUse != null) {

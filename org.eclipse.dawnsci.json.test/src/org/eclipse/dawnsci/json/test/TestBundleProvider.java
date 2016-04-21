@@ -12,7 +12,9 @@
 package org.eclipse.dawnsci.json.test;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.dawnsci.json.internal.BundleProvider;
 import org.osgi.framework.Bundle;
@@ -31,10 +33,16 @@ public class TestBundleProvider implements BundleProvider {
 	private static final Bundle[] EMPTY_BUNDLE_ARRAY = new Bundle[0];
 
 	private Map<Class<?>, Bundle> classBundleMap = new HashMap<>();
+	private Set<Bundle> bundles = new HashSet<>();
 	private boolean getBundlesWasCalled = false;
 
 	public void registerBundleForClass(Class<?> clazz, Bundle bundle) {
 		classBundleMap.put(clazz, bundle);
+		addBundle(bundle);
+	}
+
+	public void addBundle(Bundle bundle) {
+		bundles.add(bundle);
 	}
 
 	@Override
@@ -45,7 +53,7 @@ public class TestBundleProvider implements BundleProvider {
 	@Override
 	public Bundle[] getBundles() {
 		getBundlesWasCalled = true;
-		return classBundleMap.values().toArray(EMPTY_BUNDLE_ARRAY);
+		return bundles.toArray(EMPTY_BUNDLE_ARRAY);
 	}
 
 	boolean wasGetBundlesCalled() {
