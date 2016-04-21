@@ -49,6 +49,7 @@ public class RemoteDatasetTest extends DataServerTest {
 	public void testRemoteSlicingUsingSliceND() throws Exception {
 		
 		IRemoteDataset data = null;
+		Thread.sleep(2500); // rest up first
 		try {
 			System.out.println("> testRemoteSlicingUsingSliceND start");
 			System.out.flush();
@@ -68,15 +69,15 @@ public class RemoteDatasetTest extends DataServerTest {
 			
 			for (int i = 0; i < 10; i++) {
 				
-				System.out.println("Shape is "+Arrays.toString(data.getShape()));
-				System.out.println("i = "+i);
+				System.err.println("Shape is "+Arrays.toString(data.getShape()));
+				System.err.println("i = "+i);
 				SliceND sliceND = SliceND.createSlice(data, new int[]{i,0,0}, new int[]{i+1,1024,1024},new int[]{1,1,1});
 				IDataset slice = data.getSlice(sliceND);
 				if (slice == null) throw new Exception("Unable to get slice from "+data.getName()+". Index is "+i);
-                if (!Arrays.equals(slice.getShape(), new int[]{1,1024,1024})) {
-                	throw new Exception("Incorrect remote slice! "+Arrays.toString(slice.getShape()));
-                }
-    			Thread.sleep(freq);
+				if (!Arrays.equals(slice.getShape(), new int[] { 1, 1024, 1024 })) {
+					throw new Exception("Incorrect remote slice! " + Arrays.toString(slice.getShape()));
+				}
+				Thread.sleep(freq);
 			}
 			System.out.println("> testRemoteSlicingUsingSliceND ok");
 			
@@ -99,7 +100,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			
 			// Set the into, then call connect().
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
-		    data =service.createRemoteDataset("localhost", 8080);
+			data =service.createRemoteDataset("localhost", 8080);
 			data.setPath(dir.getAbsolutePath());
 			data.setDataset("Image Stack"); // We just get the first image in the PNG file.
 			data.connect();
@@ -123,7 +124,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			testIsRunning = true;
 			final File tmpData = startFileWritingThread(500, false);
 			Thread.sleep(1000);
-					
+
 			// Set the into, then call connect().
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 			data =service.createRemoteDataset("localhost", 8080);
@@ -142,6 +143,4 @@ public class RemoteDatasetTest extends DataServerTest {
 			data.disconnect();
 		}
 	}
-
-
 }

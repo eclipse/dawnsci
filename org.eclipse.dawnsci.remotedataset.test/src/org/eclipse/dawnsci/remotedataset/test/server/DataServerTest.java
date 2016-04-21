@@ -24,7 +24,6 @@ import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
 import org.eclipse.dawnsci.nexus.INexusFileFactory;
-import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
@@ -143,9 +142,8 @@ public class DataServerTest {
 							writer.setSlice(new IMonitor.Stub(), rimage, start, stop, null);
 							// file.flush(); // remove explicit flush
 
-							System.out.println("> HDF5 wrote image to " + ret);
-							System.out.println("> New shape " + getShape(ret, "/entry/data/image"));
-							System.out.flush();
+							System.err.println("> HDF5 wrote image to " + ret);
+							System.err.println("> New shape " + getShape(ret, "/entry/data/image"));
 							Thread.sleep(sleepTime);
 						}
 					} catch (Exception e) {
@@ -206,7 +204,7 @@ public class DataServerTest {
 	        			ImageIO.write(bi, "PNG", file);
 	        			
 	        			Thread.sleep(waitTime);
-	        			System.out.println(">> Thread wrote "+file.getAbsolutePath());
+	        			System.err.println(">> Thread wrote "+file.getAbsolutePath());
 	        			
         			} catch (Exception ne) {
         				ne.printStackTrace();
@@ -244,7 +242,7 @@ public class DataServerTest {
 				@Override
 				public void dataChangePerformed(DataEvent evt) {
 					try {
-						System.out.println("Data changed, shape is "+Arrays.toString(evt.getShape()));
+						System.err.println("Data changed, shape is "+Arrays.toString(evt.getShape()));
 						if (!Arrays.equals(evt.getShape(), data.getShape())) {
 							throw new Exception("Data shape and event shape are not the same!");
 						}
