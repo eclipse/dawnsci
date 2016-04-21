@@ -44,8 +44,8 @@ public class RemoteDatasetTest extends DataServerTest {
 			if (data!=null) data.disconnect();
 		}
 	}
-	
-	//@Test
+
+	@Test
 	public void testRemoteSlicingUsingSliceND() throws Exception {
 		
 		IRemoteDataset data = null;

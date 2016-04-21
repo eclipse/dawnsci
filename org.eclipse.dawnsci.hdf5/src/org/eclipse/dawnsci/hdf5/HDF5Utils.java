@@ -1669,6 +1669,7 @@ public class HDF5Utils {
 
 	public static Dataset getAttrDataset(long locId, String path, long i) throws NexusException {
 		Dataset dataset = null;
+		String name = null;
 		try {
 			try (HDF5Resource attrResource = new HDF5AttributeResource(
 					H5.H5Aopen_by_idx(locId, path, HDF5Constants.H5_INDEX_NAME, HDF5Constants.H5_ITER_INC, i,
@@ -1676,7 +1677,7 @@ public class HDF5Utils {
 				long[] shape = null;
 				long[] maxShape = null;
 				long attrId = attrResource.getResource();
-				String name = H5.H5Aget_name(attrId);
+				name = H5.H5Aget_name(attrId);
 				try (HDF5Resource spaceResource = new HDF5DataspaceResource(H5.H5Aget_space(attrId));
 						HDF5Resource typeResource = new HDF5DatatypeResource(H5.H5Aget_type(attrId));
 						HDF5Resource nativeTypeResource = new HDF5DatatypeResource(H5.H5Tget_native_type(typeResource.getResource()))) {
@@ -1727,6 +1728,7 @@ public class HDF5Utils {
 				}
 			}
 		} catch (HDF5Exception e) {
+			logger.error("Could not retrieve attribute: {} in {}", name, path, e);
 			throw new NexusException("Could not retrieve attribute", e);
 		}
 		return dataset;
