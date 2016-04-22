@@ -25,6 +25,8 @@ public class FileMonitoringTest extends DataServerTest {
 
 	@Test
 	public void testHDF5FileConnections() throws Exception {
+		System.out.println("> testHDF5FileConnections start");
+		System.out.flush();
 		// We force the DataServer into diagnostic mode.
 		server.setMode(DataServerMode.DIAGNOSTIC);
 		
@@ -43,6 +45,8 @@ public class FileMonitoringTest extends DataServerTest {
 	
 	@Test
 	public void testHDF5FileConnectionsNoListener() throws Exception {
+		System.out.println("> testHDF5FileConnectionsNoListener start");
+		System.out.flush();
 		// We force the DataServer into diagnostic mode.
 		server.setMode(DataServerMode.DIAGNOSTIC);
 		
@@ -61,9 +65,10 @@ public class FileMonitoringTest extends DataServerTest {
 	private void doConnectionAndDisconnect(int index, boolean checkListen) throws Exception {
 		
 		IRemoteDataset data = null;
+		File h5File = null;
 		try {
 			testIsRunning = true;
-			final File h5File = startHDF5WritingThread(100);
+			h5File = startHDF5WritingThread(100);
 			Thread.sleep(400);
 			
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
@@ -90,6 +95,7 @@ public class FileMonitoringTest extends DataServerTest {
 		} finally {
 			testIsRunning = false;
 			if (data!=null) data.disconnect();
+			if (h5File!=null) h5File.delete();
 		}
 	}
 

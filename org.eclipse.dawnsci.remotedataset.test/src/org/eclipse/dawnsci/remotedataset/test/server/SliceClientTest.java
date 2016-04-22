@@ -45,7 +45,8 @@ public class SliceClientTest extends DataServerTest {
 
 	@Test
 	public void testFullData() throws Exception {
-		
+		System.out.println("> testFullData start");
+		System.out.flush();
 		final SliceClient<IDataset> client = new SliceClient<IDataset>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
@@ -60,7 +61,8 @@ public class SliceClientTest extends DataServerTest {
 
 	@Test
 	public void testDownsampledData() throws Exception {
-		
+		System.out.println("> testDownsampledData start");
+		System.out.flush();
 		final SliceClient<IDataset> client = new SliceClient<IDataset>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
@@ -72,12 +74,12 @@ public class SliceClientTest extends DataServerTest {
 			throw new Exception("Unexpected shape "+Arrays.toString(data.getShape()));
 		}
 		System.out.println("> testDownsampledData ok");
-
 	}
 	
 	@Test
 	public void testDownsampledJPG() throws Exception {
-		
+		System.out.println("> testDownsampledJPG start");
+		System.out.flush();
 		final SliceClient<BufferedImage> client =  new SliceClient<BufferedImage>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
@@ -96,7 +98,8 @@ public class SliceClientTest extends DataServerTest {
 	
 	@Test
 	public void testDownsampledMJPG() throws Exception {
-		
+		System.out.println("> testDownsampledMJPG start");
+		System.out.flush();
 		final SliceClient<BufferedImage> client =  new SliceClient<BufferedImage>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
@@ -124,7 +127,8 @@ public class SliceClientTest extends DataServerTest {
 	
 	@Test
 	public void testFastMJPG() throws Exception {
-		
+		System.out.println("> testFastMJPG start");
+		System.out.flush();
 		final SliceClient<BufferedImage> client =  new SliceClient<BufferedImage>("localhost", port);
 		client.setPath("RANDOM:512x512");
 		client.setFormat(Format.MJPG);
@@ -155,7 +159,8 @@ public class SliceClientTest extends DataServerTest {
 
 	@Test
 	public void testFastMDATA() throws Exception {
-		
+		System.out.println("> testFastMDATA start");
+		System.out.flush();
 		final SliceClient<IDataset> client = new SliceClient<IDataset>("localhost", port);
 		client.setPath("RANDOM:512x512");
 		client.setFormat(Format.MDATA);
