@@ -1143,33 +1143,6 @@ final class FileUtils {
 
 	}
 
-	/**
-	 * Formats a file size
-	 * 
-	 * @param longSize
-	 * @param decimalPos
-	 * @return formatted string for size.
-	 */
-	public static String formatSize(long longSize, int decimalPos) {
-		NumberFormat fmt = NumberFormat.getNumberInstance();
-		if (decimalPos >= 0) {
-			fmt.setMaximumFractionDigits(decimalPos);
-		}
-		final double size = longSize;
-		double val = size / (1024 * 1024 * 1024);
-		if (val > 1) {
-			return fmt.format(val).concat(" GB");
-		}
-		val = size / (1024 * 1024);
-		if (val > 1) {
-			return fmt.format(val).concat(" MB");
-		}
-		val = size / 1024;
-		if (val > 10) {
-			return fmt.format(val).concat(" KB");
-		}
-		return fmt.format(size).concat(" bytes");
-	}
 
 	public static String setExtension(final String path, final String ext) {
 		

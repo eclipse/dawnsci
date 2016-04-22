@@ -8,7 +8,7 @@ public class DataEventTest {
 	@Test
 	public void testSerializationNoPath() throws Exception {
 		
-		DataEvent evt = new DataEvent("Tests", new int[]{1024, 1024});
+		DataEvent evt = new DataEvent("Tests", new int[]{64,64});
 		evt.setFilePath(null);
 		
 		String json = evt.encode();
@@ -22,7 +22,7 @@ public class DataEventTest {
 	@Test
 	public void testSerialization() throws Exception {
 		
-		DataEvent evt = new DataEvent("Tests", new int[]{1024, 1024});
+		DataEvent evt = new DataEvent("Tests", new int[]{64, 64});
 		evt.setFilePath("C:/tmp/Fred.txt");
 		
 		String json = evt.encode();
