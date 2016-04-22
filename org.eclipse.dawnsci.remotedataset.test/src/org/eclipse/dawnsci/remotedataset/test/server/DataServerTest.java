@@ -117,8 +117,8 @@ public class DataServerTest {
 
 					GroupNode par = file.getGroup("/entry/data", true); // DO NOT COPY!
 
-					final int[] shape = new int[] { 1, 1024, 1024 };
-					final int[] max = new int[] { -1, 1024, 1024 };
+					final int[] shape = new int[] { 1, 64, 64 };
+					final int[] max = new int[] { -1, 64, 64 };
 					writer = new LazyWriteableDataset("image", Dataset.FLOAT, shape, max, shape, null); // DO NOT COPY!
 					file.createData(par, writer);
 
@@ -126,12 +126,12 @@ public class DataServerTest {
 					while (testIsRunning) {
 
 						int[] start = { index, 0, 0 };
-						int[] stop = { index + 1, 1024, 1024 };
+						int[] stop = { index + 1, 64, 64 };
 						index++;
 						if (index > 23)
 							index = 23; // Stall on the last image to avoid writing massive stacks
 
-						IDataset rimage = Random.rand(new int[] { 1, 1024, 1024 });
+						IDataset rimage = Random.rand(new int[] { 1, 64, 64 });
 						rimage.setName("image");
 						writer.setSlice(new IMonitor.Stub(), rimage, start, stop, null);
 						// file.flush(); // remove explicit flush

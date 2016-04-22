@@ -32,7 +32,7 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 		System.out.println("> testRemoteSliceDirectory start");
 		System.out.flush();
 
-		final File dir = createSomeDirectoryData(10, 1024, 1024);
+		final File dir = createSomeDirectoryData(10, 64, 64);
 		
 		IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 		final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);
@@ -56,7 +56,7 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 
 		for (int i = 0; i < nimages; i++) {
 
-			IDataset       rimage   = Random.rand(new int[]{1024, 1024});
+			IDataset       rimage   = Random.rand(new int[]{64, 64});
 			IImageService  iservice = ServiceHolder.getImageService();
 			ImageServiceBean bean   = iservice.createBeanFromPreferences();
 			bean.setImage(rimage);
@@ -80,7 +80,7 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 	public void testRemoteSliceH5() throws Exception {
 		System.out.println("> testRemoteSliceH5 start");
 		System.out.flush();
-		final File h5File = createSomeH5Data(10, 1024, 1024);
+		final File h5File = createSomeH5Data(10, 64, 64);
 		
 		IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 		final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);
@@ -96,16 +96,16 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 	private void checkSlices(IRemoteDataset data) throws Exception {
 		try { // New we have the opportunity to slice this remote blighter as much as we like...
 			IDataset slice = data.getSlice(new Slice(0,1,1)); 
-			if (!Arrays.equals(slice.getShape(), new int[]{1,1024, 1024})) throw new Exception("Wrong shape of remote data!");
+			if (!Arrays.equals(slice.getShape(), new int[]{1,64, 64})) throw new Exception("Wrong shape of remote data!");
 			
 			slice = data.getSlice(new Slice(0,5,1)); 
-			if (!Arrays.equals(slice.getShape(), new int[]{5,1024, 1024})) throw new Exception("Wrong shape of remote data!");
+			if (!Arrays.equals(slice.getShape(), new int[]{5,64, 64})) throw new Exception("Wrong shape of remote data!");
 			
 			slice = data.getSlice(new Slice(0,1,1), new Slice(100,101,1)); 
-			if (!Arrays.equals(slice.getShape(), new int[]{1,1,1024})) throw new Exception("Wrong shape of remote data!");
+			if (!Arrays.equals(slice.getShape(), new int[]{1,1,64})) throw new Exception("Wrong shape of remote data!");
 			
 			slice = data.getSlice(new Slice(0,5,1), new Slice(100,105,1)); 
-			if (!Arrays.equals(slice.getShape(), new int[]{5,5,1024})) throw new Exception("Wrong shape of remote data!");			
+			if (!Arrays.equals(slice.getShape(), new int[]{5,5,64})) throw new Exception("Wrong shape of remote data!");			
 			
 		} finally {
 			data.disconnect();
@@ -133,11 +133,11 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 			while(index<nimages) {
 
 				int[] start = {index, 0, 0};
-				int[] stop  = {index+1, 1024, 1024};
+				int[] stop  = {index+1, 64, 64};
 				index++;
 				if (index>23) index = 23; // Stall on the last image to avoid writing massive stacks
 				
-				IDataset       rimage   = Random.rand(new int[]{1, 1024, 1024});
+				IDataset       rimage   = Random.rand(new int[]{1, 64, 64});
 				rimage.setName("image");
 				writer.setSlice(new IMonitor.Stub(), rimage, start, stop, null);
 				file.flush();

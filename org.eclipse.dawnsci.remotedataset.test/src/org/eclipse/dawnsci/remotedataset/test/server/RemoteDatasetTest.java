@@ -74,10 +74,10 @@ public class RemoteDatasetTest extends DataServerTest {
 				
 				System.err.println("Shape is "+Arrays.toString(data.getShape()));
 				System.err.println("i = "+i);
-				SliceND sliceND = SliceND.createSlice(data, new int[]{i,0,0}, new int[]{i+1,1024,1024},new int[]{1,1,1});
+				SliceND sliceND = SliceND.createSlice(data, new int[]{i,0,0}, new int[]{i+1,64,64},new int[]{1,1,1});
 				IDataset slice = data.getSlice(sliceND);
 				if (slice == null) throw new Exception("Unable to get slice from "+data.getName()+". Index is "+i);
-				if (!Arrays.equals(slice.getShape(), new int[] { 1, 1024, 1024 })) {
+				if (!Arrays.equals(slice.getShape(), new int[] { 1, 64, 64 })) {
 					throw new Exception("Incorrect remote slice! " + Arrays.toString(slice.getShape()));
 				}
 				Thread.sleep(freq);
@@ -140,7 +140,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			data.setDataset(null); // Should get the dataset at the position of 0
 			data.connect();
 			
-			// Check that we got the 1024x1024 as expected
+			// Check that we got the 64x64 as expected
 			if (!Arrays.equals(data.getShape(), new int[]{64,64})) throw new Exception("Incorrect remote dataset size!");
 			
 			checkAndWait(data, 5000, 500);
