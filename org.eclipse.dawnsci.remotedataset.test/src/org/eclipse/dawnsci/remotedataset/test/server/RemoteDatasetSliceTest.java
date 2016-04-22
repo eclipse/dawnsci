@@ -101,10 +101,10 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 			slice = data.getSlice(new Slice(0,5,1)); 
 			if (!Arrays.equals(slice.getShape(), new int[]{5,64, 64})) throw new Exception("Wrong shape of remote data!");
 			
-			slice = data.getSlice(new Slice(0,1,1), new Slice(100,101,1)); 
+			slice = data.getSlice(new Slice(0,1,1), new Slice(48,49,1)); 
 			if (!Arrays.equals(slice.getShape(), new int[]{1,1,64})) throw new Exception("Wrong shape of remote data!");
 			
-			slice = data.getSlice(new Slice(0,5,1), new Slice(100,105,1)); 
+			slice = data.getSlice(new Slice(0,5,1), new Slice(58,63,1)); 
 			if (!Arrays.equals(slice.getShape(), new int[]{5,5,64})) throw new Exception("Wrong shape of remote data!");			
 			
 		} finally {
