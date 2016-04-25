@@ -178,7 +178,7 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 		
 	}
 	
-	private static final String FILE_NAME = "complexTestFile.nx5";
+	private static final String FILE_NAME = "complexTestFile.nxs";
 	
 	@Override
 	protected String getFilename() {
