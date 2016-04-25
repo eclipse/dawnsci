@@ -13,6 +13,8 @@
 package org.eclipse.dawnsci.nexus.builder;
 
 import org.eclipse.dawnsci.nexus.NXentry;
+import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 
 /**
  * A custom modification to an {@link NXentry}.
@@ -22,7 +24,8 @@ public interface CustomNexusEntryModification extends NexusEntryModification {
 	/**
 	 * Perform a custom modification to the entry.
 	 * @param entry nexus entry to modify
+	 * @param nodeFactory node factory for creating nexus objects
 	 */
-	public void modifyEntry(NXentry entry);
+	public void modifyEntry(NXentry entry, NexusNodeFactory nodeFactory) throws NexusException;
 
 }

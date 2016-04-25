@@ -67,7 +67,7 @@ public class SimpleNexusFileBuilderTest extends AbstractNexusFileBuilderTestBase
 
 	}
 
-	private static final String FILE_NAME = "simpleTestFile.nx5";
+	private static final String FILE_NAME = "simpleTestFile.nxs";
 	
 	private TestDetector detector;
 	

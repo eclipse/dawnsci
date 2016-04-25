@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-02-10T11:48:37.34Z
+ * Generated at: 2016-04-13T10:39:11+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -75,6 +75,16 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	
 
 	@Override
+	public String getAttributeDefault() {
+		return getAttrString(null, NX_ATTRIBUTE_DEFAULT);
+	}
+
+	@Override
+	public void setAttributeDefault(String default_) {
+		setAttribute(null, NX_ATTRIBUTE_DEFAULT, default_);
+	}
+
+	@Override
 	public NXdata getData() {
 		return getChild("data", NXdata.class);
 	}
@@ -102,16 +112,6 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	@Override
 	public void setAllData(Map<String, NXdata> data) {
 		setChildren(data);
-	}
-
-	@Override
-	public String getAttributeDefault() {
-		return getAttrString(null, NX_ATTRIBUTE_DEFAULT);
-	}
-
-	@Override
-	public void setAttributeDefault(String default_) {
-		setAttribute(null, NX_ATTRIBUTE_DEFAULT, default_);
 	}
 
 	@Override

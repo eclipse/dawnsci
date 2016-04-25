@@ -97,16 +97,18 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 	/**
 	 * Sets the source to that provided by the given {@link NexusObjectProvider}.
 	 * @param source
+	 * @throws NexusException if the source could not be added for any reason
 	 */
-	public void setSource(NexusObjectProvider<NXsource> source) {
+	public void setSource(NexusObjectProvider<NXsource> source) throws NexusException {
 		instrument.setSource(source.getNexusObject(getNexusNodeFactory(), true));
 	}
 
 	/**
 	 * Sets the detector to that provided by the given {@link NexusObjectProvider}.
 	 * @param detector
+	 * @throws NexusException if the detector could not be added for any reason
 	 */
-	public void setDetector(NexusObjectProvider<NXdetector> detector) {
+	public void setDetector(NexusObjectProvider<NXdetector> detector) throws NexusException {
 		instrument.setDetector(detector.getNexusObject(getNexusNodeFactory(), true));
 	}
 	

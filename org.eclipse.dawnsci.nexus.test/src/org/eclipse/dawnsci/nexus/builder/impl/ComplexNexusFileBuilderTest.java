@@ -178,7 +178,7 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 		
 	}
 	
-	private static final String FILE_NAME = "complexTestFile.nx5";
+	private static final String FILE_NAME = "complexTestFile.nxs";
 	
 	@Override
 	protected String getFilename() {
@@ -238,7 +238,7 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 		nexusObjects.add(new CustomNexusEntryModification() {
 			
 			@Override
-			public void modifyEntry(NXentry entry) {
+			public void modifyEntry(NXentry entry, NexusNodeFactory nodeFactory) {
 				entry.setAttribute("title", "target", "/entry/title");
 			}
 		});

@@ -712,7 +712,9 @@ import org.eclipse.dawnsci.analysis.tree.impl.TreeImpl;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
 </xsl:text>
 <xsl:for-each select="$nexus-classes">
-import org.eclipse.dawnsci.nexus.impl.<xsl:value-of select="@name"/>Impl;
+<xsl:text>import org.eclipse.dawnsci.nexus.impl.</xsl:text>
+<xsl:value-of select="@name"/>
+<xsl:text>Impl;&#10;</xsl:text>
 </xsl:for-each>
 
 <xsl:text>
@@ -736,7 +738,23 @@ public class NexusNodeFactory {
 		<xsl:text>			case </xsl:text><xsl:value-of select="dawnsci:base-class-enum-name(@name)"/><xsl:text>:&#10;</xsl:text>
 		<xsl:text>				return create</xsl:text><xsl:value-of select="@name"/><xsl:text>(oid);&#10;</xsl:text>
 	</xsl:for-each>
+	<xsl:text>		}&#10;</xsl:text>
+	<xsl:text>		throw new IllegalArgumentException("Unknown base class: " + baseClass);&#10;</xsl:text>
+	<xsl:text>	}&#10;</xsl:text>
 	
+<xsl:text>
+
+	public NXobject createNXobjectForClass(String baseClassName) {
+		final NexusBaseClass baseClass = NexusBaseClass.getBaseClassForName(baseClassName);
+		return createNXobjectForClass(baseClass);
+	}
+
+	public NXobject createNXobjectForClass(NexusBaseClass baseClass) {
+		switch (baseClass) {&#10;</xsl:text>
+	<xsl:for-each select="$nexus-classes">
+		<xsl:text>			case </xsl:text><xsl:value-of select="dawnsci:base-class-enum-name(@name)"/><xsl:text>:&#10;</xsl:text>
+		<xsl:text>				return create</xsl:text><xsl:value-of select="@name"/><xsl:text>();&#10;</xsl:text>
+	</xsl:for-each>
 	<xsl:text>		}&#10;</xsl:text>
 	<xsl:text>		throw new IllegalArgumentException("Unknown base class: " + baseClass);&#10;</xsl:text>
 	<xsl:text>	}&#10;</xsl:text>
@@ -788,9 +806,11 @@ public class NexusNodeFactory {
 </xsl:template>
 
 <xsl:template mode="factory-methods" match="nx:definition">
+	<!-- Method to create an object of a particular NXclass, taking an oid -->
 	<xsl:apply-templates mode="factory-method" select=".">
 		<xsl:with-param name="has-oid-param" select="true()"/>
 	</xsl:apply-templates>
+	<!--  Methdo to create an object of a particular NXclass, taking this node factory -->
 	<xsl:apply-templates mode="factory-method" select=".">
 		<xsl:with-param name="has-oid-param" select="false()"/>
 	</xsl:apply-templates>
@@ -800,11 +820,14 @@ public class NexusNodeFactory {
 <xsl:template mode="factory-method" match="nx:definition">
 	<xsl:param name="has-oid-param"/>
 
+	<!-- Javadoc for factory method -->
 	<xsl:text>	/**&#10;</xsl:text>
 	<xsl:text>	 * Create a new </xsl:text><xsl:value-of select="@name"/>
 	<xsl:if test="$has-oid-param"><xsl:text> with the given oid</xsl:text></xsl:if>
 	<xsl:text>.&#10;</xsl:text>
 	<xsl:text>	 */&#10;</xsl:text>
+	
+	<!-- Method implementation -->
 	<xsl:text>	public </xsl:text><xsl:if test="$has-oid-param">static </xsl:if><xsl:value-of select="@name"/>
 	<xsl:text> create</xsl:text><xsl:value-of select="@name"/>
 	<xsl:value-of select="if ($has-oid-param) then '(long oid)' else '()'"/><xsl:text> {&#10;</xsl:text>
@@ -817,22 +840,25 @@ public class NexusNodeFactory {
 </xsl:template>
 
 <!-- Java identifier transform functions -->
-
+<!-- capitalises the first letter of its string argument -->
 <xsl:function name="dawnsci:capitalise-first" as="xs:string?">
 	<xsl:param name="arg" as="xs:string?"/>
 	<xsl:sequence select="concat(upper-case(substring($arg,1,1)), substring($arg,2))"/>
 </xsl:function>
 
+<!-- Returns the name for the Java interface for an NX base class name. -->
 <xsl:function name="dawnsci:interface-name" as="xs:string?">
 	<xsl:param name="arg" as="xs:string?"/>
 	<xsl:sequence select="$arg"/>
 </xsl:function>
 
+<!-- Returns the name for the Java class for an NX base class name. -->
 <xsl:function name="dawnsci:class-name" as="xs:string?">
 	<xsl:param name="arg" as="xs:string?"/>
 	<xsl:sequence select="concat($arg, 'Impl')"/>
 </xsl:function>
 
+<!-- Returns the name of the enum for an NX base class name -->
 <xsl:function name="dawnsci:base-class-enum-name" as="xs:string">
 	<xsl:param name="arg" as="xs:string"/>
 	<xsl:sequence select="concat(substring($arg, 1, 2), '_', upper-case(substring($arg, 3)))"/>

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-02-10T11:48:37.34Z
+ * Generated at: 2016-04-13T10:39:11+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -42,8 +42,6 @@ public interface NXmonitor extends NXobject {
 	public static final String NX_TIME_OF_FLIGHT = "time_of_flight";
 	public static final String NX_EFFICIENCY = "efficiency";
 	public static final String NX_DATA = "data";
-	public static final String NX_DATA_ATTRIBUTE_SIGNAL = "signal";
-	public static final String NX_DATA_ATTRIBUTE_AXES = "axes";
 	public static final String NX_SAMPLED_FRACTION = "sampled_fraction";
 	public static final String NX_COUNT_TIME = "count_time";
 	/**
@@ -558,12 +556,6 @@ public interface NXmonitor extends NXobject {
 
 	/**
 	 * Monitor data
-	 * The signal and axes attributes take the same definitions as in :ref:`NXdata`:
-	 * :signal:
-	 * ``signal=1`` means this is the plottable data
-	 * :axes:
-	 * ``axes="names"`` where names are defined as a colon-delimited string
-	 * within this attribute in the C-order of the data array
 	 * <p>
 	 * <b>Type:</b> NX_NUMBER
 	 * <b>Units:</b> NX_ANY
@@ -576,12 +568,6 @@ public interface NXmonitor extends NXobject {
 	
 	/**
 	 * Monitor data
-	 * The signal and axes attributes take the same definitions as in :ref:`NXdata`:
-	 * :signal:
-	 * ``signal=1`` means this is the plottable data
-	 * :axes:
-	 * ``axes="names"`` where names are defined as a colon-delimited string
-	 * within this attribute in the C-order of the data array
 	 * <p>
 	 * <b>Type:</b> NX_NUMBER
 	 * <b>Units:</b> NX_ANY
@@ -594,12 +580,6 @@ public interface NXmonitor extends NXobject {
 
 	/**
 	 * Monitor data
-	 * The signal and axes attributes take the same definitions as in :ref:`NXdata`:
-	 * :signal:
-	 * ``signal=1`` means this is the plottable data
-	 * :axes:
-	 * ``axes="names"`` where names are defined as a colon-delimited string
-	 * within this attribute in the C-order of the data array
 	 * <p>
 	 * <b>Type:</b> NX_NUMBER
 	 * <b>Units:</b> NX_ANY
@@ -612,12 +592,6 @@ public interface NXmonitor extends NXobject {
 
 	/**
 	 * Monitor data
-	 * The signal and axes attributes take the same definitions as in :ref:`NXdata`:
-	 * :signal:
-	 * ``signal=1`` means this is the plottable data
-	 * :axes:
-	 * ``axes="names"`` where names are defined as a colon-delimited string
-	 * within this attribute in the C-order of the data array
 	 * <p>
 	 * <b>Type:</b> NX_NUMBER
 	 * <b>Units:</b> NX_ANY
@@ -627,34 +601,6 @@ public interface NXmonitor extends NXobject {
 	 * @param data the data
 	 */
 	public DataNode setDataScalar(Number data);
-
-	/**
-	 * as defined for NXdata
-	 * 
-	 * @return  the value.
-	 */
-	public long getDataAttributeSignal();
-	
-	/**
-	 * as defined for NXdata
-	 * 
-	 * @param signal the signal
-	 */
-	public void setDataAttributeSignal(long signal);
-
-	/**
-	 * as defined for NXdata
-	 * 
-	 * @return  the value.
-	 */
-	public String getDataAttributeAxes();
-	
-	/**
-	 * as defined for NXdata
-	 * 
-	 * @param axes the axes
-	 */
-	public void setDataAttributeAxes(String axes);
 
 	/**
 	 * Proportion of incident beam sampled by the monitor (0<x<1)

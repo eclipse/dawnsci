@@ -112,9 +112,10 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 	 * @param nexusObjectProvider nexus object provider
 	 * @param fieldName field name
 	 * @return node within the {@link NexusObjectProvider} with the given name
+	 * @throws NexusException if the nexus object could not be created for any reason
 	 */
 	private Node getFieldNode(NexusObjectProvider<? extends NXobject> nexusObjectProvider,
-			String fieldName) {
+			String fieldName) throws NexusException {
 		final NXobject nexusObject = nexusObjectProvider.getNexusObject(entryBuilder.getNodeFactory(), true);
 		final Node childNode = nexusObject.getNode(fieldName);
 		if (childNode == null || childNode.isGroupNode()) {
