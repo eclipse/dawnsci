@@ -126,6 +126,7 @@ class SliceRequest implements HttpSessionBindingListener {
 		final String  path    = decode(request.getParameter("path"));
 		final String  dataset = decode(request.getParameter("dataset"));
 		ILazyDataset lz       = getLazyDataset(path, dataset);
+		lz.clearMetadata(null);
 	    
 		final String slice  = decode(request.getParameter("slice"));		
 		final Slice[] slices    = slice!=null ? Slice.convertFromString(slice) : null;
@@ -169,7 +170,7 @@ class SliceRequest implements HttpSessionBindingListener {
 		
 		final File   file = new File(path); // Can we see the file using the local file system?
 		if (!file.exists()) throw new IOException("Path '"+path+"' does not exist!");
-		
+		ServiceHolder.getLoaderService().clearSoftReferenceCache();
 		final IDataHolder holder = ServiceHolder.getLoaderService().getData(path, new IMonitor.Stub()); // TOOD Make it cancellable?
 		
 		final ILazyDataset lz = dataset!=null 

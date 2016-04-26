@@ -147,6 +147,15 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
     	}
     }
 	
+    @Override
+    public void refreshShape(){
+    	try {
+			createInfo();
+		} catch (Exception e) {
+			//TODO log
+		}
+    }
+    
 	private void createFileListener() throws Exception {
 		
         URI uri = URI.create(urlBuilder.getEventURL());
