@@ -20,9 +20,9 @@ import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ncsa.hdf.hdf5lib.H5;
-import ncsa.hdf.hdf5lib.HDF5Constants;
-import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
+import hdf.hdf5lib.H5;
+import hdf.hdf5lib.HDF5Constants;
+import hdf.hdf5lib.exceptions.HDF5LibraryException;
 
 /**
  * This contains method to access low level HDF5 file IDs and allows them to

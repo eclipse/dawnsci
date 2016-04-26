@@ -11,9 +11,6 @@
  *******************************************************************************/ 
 package org.eclipse.dawnsci.hdf.object;
 
-import ncsa.hdf.object.Datatype;
-import ncsa.hdf.object.h5.H5Datatype;
-
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
@@ -21,6 +18,9 @@ import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+
+import hdf.object.Datatype;
+import hdf.object.h5.H5Datatype;
 
 public class H5Utils {
 
@@ -53,7 +53,7 @@ public class H5Utils {
 	
 	public static Dataset getSet(final IHierarchicalDataFile file, String fullPath) throws Exception {
 		@SuppressWarnings("deprecation") // We are allowed to use this method internally.
-		ncsa.hdf.object.Dataset dataset = (ncsa.hdf.object.Dataset) file.getData(fullPath);
+		hdf.object.Dataset dataset = (hdf.object.Dataset) file.getData(fullPath);
 		return H5Utils.getSet(dataset.getData(), dataset);
 	}
 
@@ -65,7 +65,7 @@ public class H5Utils {
 	 * @return dataset
 	 * @throws Exception
 	 */
-	public static Dataset getSet(final Object  val, final ncsa.hdf.object.Dataset set) throws Exception {
+	public static Dataset getSet(final Object  val, final hdf.object.Dataset set) throws Exception {
 	    return H5Utils.getSet(val, set.getDims(), set);
 	}
 
@@ -77,7 +77,7 @@ public class H5Utils {
 	 * @return dataset
 	 * @throws Exception
 	 */
-	public static Dataset getSet(final Object  val, final long[] longShape, final ncsa.hdf.object.Dataset set) throws Exception {
+	public static Dataset getSet(final Object  val, final long[] longShape, final hdf.object.Dataset set) throws Exception {
 		final int[] intShape  = getInt(longShape);
          
 		Dataset ret = DatasetFactory.createFromObject(val);

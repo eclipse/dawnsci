@@ -16,12 +16,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import ncsa.hdf.object.Dataset;
-import ncsa.hdf.object.HObject;
-
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf5.model.IHierarchicalDataFileModel;
+
+import hdf.object.Dataset;
+import hdf.object.HObject;
 
 public class HierarchicalDataFileModel implements IHierarchicalDataFileModel {
 	private static class Node {

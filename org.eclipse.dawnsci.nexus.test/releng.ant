@@ -27,8 +27,7 @@
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.analysis.dataset/bin" />
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.analysis.tree/bin" />
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.nexus/bin" />
-				<pathelement location="${workspace.git.loc}/dawn-third.git/ncsa.hdf/bin" />
-				<pathelement location="${workspace.git.loc}/dawn-third.git/ncsa.hdf/jars/*" />
+				<pathelement location="${workspace.git.loc}/dawn-third.git/hdf.hdf5lib/bin" />
 				<path refid="tp.slf4j.path" />  <!-- ensure that required org.slf4j.LoggerFactory appears first in classpath -->
 				<path refid="tp.jcl-over-slf4j.path" />  <!-- ensure that matching imp appears first in classpath -->
 				<path refid="hamcrest.tp.path" />  <!-- ensure that latest version appears first in classpath -->
