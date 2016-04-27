@@ -109,13 +109,15 @@ public interface DataNode extends Node {
 	public void setMaxStringLength(int length);
 
 	/**
+	 * Returns the dataset for the data node.
 	 * This can return null for empty datasets
 	 * @return lazy dataset
 	 */
 	public ILazyDataset getDataset();
 
 	/**
-	 * This can return null if not writeable or is empty
+	 * Returns the {@link ILazyWriteableDataset} for the data node
+	 * This can return null if the dataset for this datanode is not writeable or is empty
 	 * @return lazy writeable dataset
 	 */
 	public ILazyWriteableDataset getWriteableDataset();

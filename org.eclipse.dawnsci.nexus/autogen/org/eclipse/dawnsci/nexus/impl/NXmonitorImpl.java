@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-02-10T11:48:37.34Z
+ * Generated at: 2016-04-13T10:39:11+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -313,26 +313,6 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 	@Override
 	public DataNode setDataScalar(Number data) {
 		return setField(NX_DATA, data);
-	}
-
-	@Override
-	public long getDataAttributeSignal() {
-		return getAttrLong(NX_DATA, NX_DATA_ATTRIBUTE_SIGNAL);
-	}
-
-	@Override
-	public void setDataAttributeSignal(long signal) {
-		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_SIGNAL, signal);
-	}
-
-	@Override
-	public String getDataAttributeAxes() {
-		return getAttrString(NX_DATA, NX_DATA_ATTRIBUTE_AXES);
-	}
-
-	@Override
-	public void setDataAttributeAxes(String axes) {
-		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_AXES, axes);
 	}
 
 	@Override

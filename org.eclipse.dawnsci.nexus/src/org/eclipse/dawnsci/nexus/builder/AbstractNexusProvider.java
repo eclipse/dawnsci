@@ -22,6 +22,7 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
+import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.impl.PrimaryDataFieldModel;
 
@@ -149,14 +150,15 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	 * given {@link NexusNodeFactory}.
 	 * @param nodeFactory node factory
 	 * @return new nexus object
+	 * @throws NexusException if the nexus object could not be created for any reason
 	 */
-	protected abstract N doCreateNexusObject(NexusNodeFactory nodeFactory);
+	protected abstract N doCreateNexusObject(NexusNodeFactory nodeFactory) throws NexusException;
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#createNexusObject(org.eclipse.dawnsci.nexus.impl.NexusNodeFactory)
 	 */
 	@Override
-	public final N createNexusObject(NexusNodeFactory nodeFactory) {
+	public final N createNexusObject(NexusNodeFactory nodeFactory) throws NexusException {
 		if (nexusObject != null) {
 			throw new IllegalStateException("The nexus object for this provider already exists");
 		}
@@ -170,7 +172,7 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	 */
 	@Override
 	public N getNexusObject(NexusNodeFactory nodeFactory,
-			boolean createIfNecessary) {
+			boolean createIfNecessary) throws NexusException {
 		if (nexusObject == null && createIfNecessary) {
 			this.nexusObject = doCreateNexusObject(nodeFactory);
 		}
@@ -269,9 +271,9 @@ public abstract class AbstractNexusProvider<N extends NXobject> implements Nexus
 	 * @param rank the rank of the external dataset
 	 */
 	public void setExternalDatasetRank(String fieldName, int rank) {
-//		if (externalFileName == null) { 
-//			throw new IllegalStateException("External file name must be set before adding external datasets.");
-//		}
+		if (externalFileName == null) { 
+			throw new IllegalStateException("External file name must be set before adding external datasets.");
+		}
 		
 		if (externalDatasetRanks == null) {
 			externalDatasetRanks = new HashMap<>();

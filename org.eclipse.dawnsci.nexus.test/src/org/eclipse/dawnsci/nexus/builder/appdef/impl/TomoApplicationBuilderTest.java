@@ -84,7 +84,7 @@ public class TomoApplicationBuilderTest {
 	}
 	
 	@Test
-	public void testSetSource() {
+	public void testSetSource() throws Exception {
 		tomoBuilder.addDefaultGroups();
 		NexusObjectProvider<NXsource> sourceProvider = new AbstractNexusProvider<NXsource>(NexusBaseClass.NX_SOURCE) {
 
@@ -106,7 +106,7 @@ public class TomoApplicationBuilderTest {
 	}
 	
 	@Test
-	public void testSetDetector() {
+	public void testSetDetector() throws Exception {
 		tomoBuilder.addDefaultGroups();
 		NexusObjectProvider<NXdetector> detectorProvider = new AbstractNexusProvider<NXdetector>(NexusBaseClass.NX_DETECTOR) {
 

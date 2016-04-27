@@ -3,6 +3,7 @@ package org.eclipse.dawnsci.nexus.builder;
 import org.eclipse.dawnsci.nexus.INexusDevice;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
+import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.NexusScanInfo;
 
@@ -44,7 +45,7 @@ public class DelegateNexusProvider<N extends NXobject> extends AbstractNexusProv
 	}
 
 	@Override
-	protected N doCreateNexusObject(NexusNodeFactory nodeFactory) {
+	protected N doCreateNexusObject(NexusNodeFactory nodeFactory) throws NexusException {
 		return creator.createNexusObject(nodeFactory, info);
 	}
 

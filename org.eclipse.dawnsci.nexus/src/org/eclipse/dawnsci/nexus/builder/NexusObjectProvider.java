@@ -20,6 +20,7 @@ import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXpositioner;
 import org.eclipse.dawnsci.nexus.NXsample;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
+import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 
 /**
@@ -51,15 +52,17 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * Creates and returns the nexus object for this provider.
 	 * @param nodeFactory node factory node factory to use to create the nexus object
 	 * @return new nexus object
+	 * @throws NexusException if the nexus object could not be created for any reason 
 	 */
-	public N createNexusObject(NexusNodeFactory nodeFactory);
+	public N createNexusObject(NexusNodeFactory nodeFactory) throws NexusException;
 	
 	/**
 	 * Returns the nexus object, creating it if necessary
 	 * @param createIfNecessary
 	 * @return nexus object
+	 * @throws NexusException if the nexus object could not be created for any reason 
 	 */
-	public N getNexusObject(NexusNodeFactory nodeFactory, boolean createIfNecessary);
+	public N getNexusObject(NexusNodeFactory nodeFactory, boolean createIfNecessary) throws NexusException;
 	
 	/**
 	 * If {@link #createNexusObject(NexusNodeFactory)} has previously been invoked
@@ -67,6 +70,7 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * otherwise returns <code>null</code>. This method should <em>not</em> return a new
 	 * NeXus object each time.
 	 * @return NeXus object or <code>null</code>
+	 * @throws NexusException if the nexus object could not be created for any reason 
 	 */
 	public N getNexusObject();
 

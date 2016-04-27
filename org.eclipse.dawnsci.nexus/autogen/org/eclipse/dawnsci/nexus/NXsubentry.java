@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-02-10T11:48:37.34Z
+ * Generated at: 2016-04-13T10:39:11+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -20,7 +20,7 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
- * ``NXsubentry`` is a base class virtually identical to ``NXentry``
+ * ``NXsubentry`` is a base class virtually identical to :ref:`NXentry`
  * and is used as the (overlay) location for application definitions.
  * Use a separate ``NXsubentry`` for each application definition.
  * To use ``NXsubentry`` with a hypothetical application definition
@@ -29,17 +29,18 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
  * * Within that group, create a field called ``definition="NXmyappdef"``.
  * * There are two optional attributes of definition: ``version`` and ``URL``
  * The intended use is to define application definitions for a
- * multi-technique ``NXentry``. Previously, an application definition
- * replaced ``NXentry`` with its own definition.
+ * multi-technique :ref:`NXentry`. Previously, an application definition
+ * replaced :ref:`NXentry` with its own definition.
  * With the increasing popularity of instruments combining
  * multiple techniques for data collection (such as SAXS/WAXS instruments),
  * it was recognized the application definitions must be entered in the NeXus
- * data file tree as children of ``NXentry``.
+ * data file tree as children of :ref:`NXentry`.
  * 
  * @version 1.0
  */
 public interface NXsubentry extends NXobject {
 
+	public static final String NX_ATTRIBUTE_DEFAULT = "default";
 	public static final String NX_ATTRIBUTE_IDF_VERSION = "IDF_Version";
 	public static final String NX_TITLE = "title";
 	public static final String NX_EXPERIMENT_IDENTIFIER = "experiment_identifier";
@@ -64,6 +65,38 @@ public interface NXsubentry extends NXobject {
 	public static final String NX_REVISION = "revision";
 	public static final String NX_REVISION_ATTRIBUTE_COMMENT = "comment";
 	public static final String NX_PRE_SAMPLE_FLIGHTPATH = "pre_sample_flightpath";
+	/**
+	 * .. index:: plotting
+	 * Declares which :ref:`NXdata` group contains the data
+	 * to be shown by default.
+	 * It is needed to resolve ambiguity when more than
+	 * one :ref:`NXdata` group exists.
+	 * The value is the name of the default :ref:`NXdata` group.
+	 * It is recommended (as of NIAC2014) to use this attribute
+	 * to help define the path to the default dataset to be plotted.
+	 * See http://wiki.nexusformat.org/2014_How_to_find_default_data
+	 * for a summary of the discussion.
+	 * 
+	 * @return  the value.
+	 */
+	public String getAttributeDefault();
+	
+	/**
+	 * .. index:: plotting
+	 * Declares which :ref:`NXdata` group contains the data
+	 * to be shown by default.
+	 * It is needed to resolve ambiguity when more than
+	 * one :ref:`NXdata` group exists.
+	 * The value is the name of the default :ref:`NXdata` group.
+	 * It is recommended (as of NIAC2014) to use this attribute
+	 * to help define the path to the default dataset to be plotted.
+	 * See http://wiki.nexusformat.org/2014_How_to_find_default_data
+	 * for a summary of the discussion.
+	 * 
+	 * @param default_ the default
+	 */
+	public void setAttributeDefault(String default_);
+
 	/**
 	 * ISIS Muon IDF_Version
 	 * 
@@ -181,28 +214,28 @@ public interface NXsubentry extends NXobject {
 	public void setExperiment_documentation(NXnote experiment_documentation);
 
 	/**
-	 * User or Data Acquisition defined group of NeXus files or NXentry
+	 * User or Data Acquisition defined group of NeXus files or :ref:`NXentry`
 	 * 
 	 * @return  the value.
 	 */
 	public IDataset getCollection_identifier();
 	
 	/**
-	 * User or Data Acquisition defined group of NeXus files or NXentry
+	 * User or Data Acquisition defined group of NeXus files or :ref:`NXentry`
 	 * 
 	 * @param collection_identifier the collection_identifier
 	 */
 	public DataNode setCollection_identifier(IDataset collection_identifier);
 
 	/**
-	 * User or Data Acquisition defined group of NeXus files or NXentry
+	 * User or Data Acquisition defined group of NeXus files or :ref:`NXentry`
 	 * 
 	 * @return  the value.
 	 */
 	public String getCollection_identifierScalar();
 
 	/**
-	 * User or Data Acquisition defined group of NeXus files or NXentry
+	 * User or Data Acquisition defined group of NeXus files or :ref:`NXentry`
 	 * 
 	 * @param collection_identifier the collection_identifier
 	 */

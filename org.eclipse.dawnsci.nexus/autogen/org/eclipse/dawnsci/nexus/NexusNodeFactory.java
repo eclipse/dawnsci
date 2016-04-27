@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-02-10T11:48:37.34Z
+ * Generated at: 2016-04-13T10:39:11+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -19,121 +19,63 @@ import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeImpl;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
-
 import org.eclipse.dawnsci.nexus.impl.NXfresnel_zone_plateImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXxraylensImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXfermi_chopperImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXmonochromatorImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXvelocity_selectorImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXnoteImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXgratingImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXbending_magnetImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXlogImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXdisk_chopperImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXcharacterizationImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXshapeImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXcapillaryImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXguideImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXbeamImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXsampleImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXmirrorImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXciteImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXentryImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXflipperImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXpositionerImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXcollimatorImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXmoderatorImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXgeometryImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXparametersImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXorientationImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXenvironmentImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXmonitorImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXrootImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXprocessImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXsourceImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXuserImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXcrystalImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXtranslationImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXinstrumentImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXpolarizerImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXdataImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXpinholeImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXsubentryImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXapertureImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXfilterImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXevent_dataImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXslitImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXdetector_groupImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXdetector_moduleImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXinsertion_deviceImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXbeam_stopImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXtransformationsImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXsensorImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXattenuatorImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXdetectorImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXcollectionImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXmagnetic_kickerImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXquadrupole_magnetImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXspin_rotatorImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXsolenoid_magnetImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXelectrostatic_kickerImpl;
-
 import org.eclipse.dawnsci.nexus.impl.NXseparatorImpl;
 
 /**
@@ -266,6 +208,134 @@ public class NexusNodeFactory {
 				return createNXelectrostatic_kicker(oid);
 			case NX_SEPARATOR:
 				return createNXseparator(oid);
+		}
+		throw new IllegalArgumentException("Unknown base class: " + baseClass);
+	}
+
+
+	public NXobject createNXobjectForClass(String baseClassName) {
+		final NexusBaseClass baseClass = NexusBaseClass.getBaseClassForName(baseClassName);
+		return createNXobjectForClass(baseClass);
+	}
+
+	public NXobject createNXobjectForClass(NexusBaseClass baseClass) {
+		switch (baseClass) {
+			case NX_FRESNEL_ZONE_PLATE:
+				return createNXfresnel_zone_plate();
+			case NX_XRAYLENS:
+				return createNXxraylens();
+			case NX_FERMI_CHOPPER:
+				return createNXfermi_chopper();
+			case NX_MONOCHROMATOR:
+				return createNXmonochromator();
+			case NX_VELOCITY_SELECTOR:
+				return createNXvelocity_selector();
+			case NX_NOTE:
+				return createNXnote();
+			case NX_GRATING:
+				return createNXgrating();
+			case NX_BENDING_MAGNET:
+				return createNXbending_magnet();
+			case NX_LOG:
+				return createNXlog();
+			case NX_DISK_CHOPPER:
+				return createNXdisk_chopper();
+			case NX_CHARACTERIZATION:
+				return createNXcharacterization();
+			case NX_SHAPE:
+				return createNXshape();
+			case NX_CAPILLARY:
+				return createNXcapillary();
+			case NX_GUIDE:
+				return createNXguide();
+			case NX_BEAM:
+				return createNXbeam();
+			case NX_SAMPLE:
+				return createNXsample();
+			case NX_MIRROR:
+				return createNXmirror();
+			case NX_CITE:
+				return createNXcite();
+			case NX_ENTRY:
+				return createNXentry();
+			case NX_FLIPPER:
+				return createNXflipper();
+			case NX_POSITIONER:
+				return createNXpositioner();
+			case NX_COLLIMATOR:
+				return createNXcollimator();
+			case NX_MODERATOR:
+				return createNXmoderator();
+			case NX_GEOMETRY:
+				return createNXgeometry();
+			case NX_PARAMETERS:
+				return createNXparameters();
+			case NX_ORIENTATION:
+				return createNXorientation();
+			case NX_ENVIRONMENT:
+				return createNXenvironment();
+			case NX_MONITOR:
+				return createNXmonitor();
+			case NX_ROOT:
+				return createNXroot();
+			case NX_PROCESS:
+				return createNXprocess();
+			case NX_SOURCE:
+				return createNXsource();
+			case NX_USER:
+				return createNXuser();
+			case NX_CRYSTAL:
+				return createNXcrystal();
+			case NX_TRANSLATION:
+				return createNXtranslation();
+			case NX_INSTRUMENT:
+				return createNXinstrument();
+			case NX_POLARIZER:
+				return createNXpolarizer();
+			case NX_DATA:
+				return createNXdata();
+			case NX_PINHOLE:
+				return createNXpinhole();
+			case NX_SUBENTRY:
+				return createNXsubentry();
+			case NX_APERTURE:
+				return createNXaperture();
+			case NX_FILTER:
+				return createNXfilter();
+			case NX_EVENT_DATA:
+				return createNXevent_data();
+			case NX_SLIT:
+				return createNXslit();
+			case NX_DETECTOR_GROUP:
+				return createNXdetector_group();
+			case NX_DETECTOR_MODULE:
+				return createNXdetector_module();
+			case NX_INSERTION_DEVICE:
+				return createNXinsertion_device();
+			case NX_BEAM_STOP:
+				return createNXbeam_stop();
+			case NX_TRANSFORMATIONS:
+				return createNXtransformations();
+			case NX_SENSOR:
+				return createNXsensor();
+			case NX_ATTENUATOR:
+				return createNXattenuator();
+			case NX_DETECTOR:
+				return createNXdetector();
+			case NX_COLLECTION:
+				return createNXcollection();
+			case NX_MAGNETIC_KICKER:
+				return createNXmagnetic_kicker();
+			case NX_QUADRUPOLE_MAGNET:
+				return createNXquadrupole_magnet();
+			case NX_SPIN_ROTATOR:
+				return createNXspin_rotator();
+			case NX_SOLENOID_MAGNET:
+				return createNXsolenoid_magnet();
+			case NX_ELECTROSTATIC_KICKER:
+				return createNXelectrostatic_kicker();
+			case NX_SEPARATOR:
+				return createNXseparator();
 		}
 		throw new IllegalArgumentException("Unknown base class: " + baseClass);
 	}

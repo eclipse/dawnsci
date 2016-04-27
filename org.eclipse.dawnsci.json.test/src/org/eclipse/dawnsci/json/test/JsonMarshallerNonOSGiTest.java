@@ -333,6 +333,26 @@ public class JsonMarshallerNonOSGiTest {
 		Object actual = marshaller.unmarshal(json, Object.class);
 		assertEquals(expected, actual);
 	}
+
+	@Test
+	public void testWrappedStringSerialization() throws Exception {
+		ObjectWrapper<String> wrapper = new ObjectWrapper<>("Test string");
+		json = marshaller.marshal(wrapper);
+	}
+
+	@Test
+	public void testWrappedStringDeserialization() throws Exception {
+		ObjectWrapper<String> expected = new ObjectWrapper<>("Test string");
+		Object actual = marshaller.unmarshal("{\n  \"@bundle_and_class\" : \"bundle=&version=&class=org.eclipse.dawnsci.json.test.ObjectWrapper\",\n  \"object\" : \"Test string\"\n}", null);
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testWrappedStringDeserializationWithoutTypeInfo() throws Exception {
+		ObjectWrapper<String> expected = new ObjectWrapper<>("Test string");
+		Object actual = marshaller.unmarshal("{\n  \"object\" : \"Test string\"\n}", ObjectWrapper.class);
+		assertEquals(expected, actual);
+	}
 }
 
 class ObjectWrapper<T> {

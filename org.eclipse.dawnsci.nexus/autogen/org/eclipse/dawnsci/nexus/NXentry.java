@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-02-10T11:48:37.34Z
+ * Generated at: 2016-04-13T10:39:11+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -54,6 +54,36 @@ public interface NXentry extends NXsubentry {
 	public static final String NX_REVISION = "revision";
 	public static final String NX_REVISION_ATTRIBUTE_COMMENT = "comment";
 	public static final String NX_PRE_SAMPLE_FLIGHTPATH = "pre_sample_flightpath";
+	/**
+	 * .. index:: plotting
+	 * Declares which :ref:`NXdata` (or :ref:`NXsubentry`) group
+	 * contains the data to be shown by default.
+	 * It is needed to resolve ambiguity when more than one :ref:`NXdata` group exists.
+	 * The value is the name of the default :ref:`NXdata` group.
+	 * It is recommended (as of NIAC2014) to use this attribute
+	 * to help define the path to the default dataset to be plotted.
+	 * See http://wiki.nexusformat.org/2014_How_to_find_default_data
+	 * for a summary of the discussion.
+	 * 
+	 * @return  the value.
+	 */
+	public String getAttributeDefault();
+	
+	/**
+	 * .. index:: plotting
+	 * Declares which :ref:`NXdata` (or :ref:`NXsubentry`) group
+	 * contains the data to be shown by default.
+	 * It is needed to resolve ambiguity when more than one :ref:`NXdata` group exists.
+	 * The value is the name of the default :ref:`NXdata` group.
+	 * It is recommended (as of NIAC2014) to use this attribute
+	 * to help define the path to the default dataset to be plotted.
+	 * See http://wiki.nexusformat.org/2014_How_to_find_default_data
+	 * for a summary of the discussion.
+	 * 
+	 * @param default_ the default
+	 */
+	public void setAttributeDefault(String default_);
+
 	/**
 	 * The required data group
 	 * 
@@ -115,20 +145,6 @@ public interface NXentry extends NXsubentry {
 	
 	public void setAllData(Map<String, NXdata> data);
 	
-
-	/**
-	 * name of the ''NXdata'' in this ''NXentry'' to use for the default plot
-	 * 
-	 * @return  the value.
-	 */
-	public String getAttributeDefault();
-	
-	/**
-	 * name of the ''NXdata'' in this ''NXentry'' to use for the default plot
-	 * 
-	 * @param default_ the default
-	 */
-	public void setAttributeDefault(String default_);
 
 	/**
 	 * ISIS Muon IDF_Version
@@ -369,7 +385,7 @@ public interface NXentry extends NXsubentry {
 	/**
 	 * (alternate use: see same field in :ref:`NXsubentry` for preferred)
 	 * Official NeXus NXDL schema to which this entry conforms.
-	 * This field is provided so that **NXentry** can be the overlay position
+	 * This field is provided so that :ref:`NXentry` can be the overlay position
 	 * in a NeXus data file for an application definition and its
 	 * set of groups, fields, and attributes.
 	 * *It is advised* to use :ref:`NXsubentry`, instead, as the overlay position.
@@ -381,7 +397,7 @@ public interface NXentry extends NXsubentry {
 	/**
 	 * (alternate use: see same field in :ref:`NXsubentry` for preferred)
 	 * Official NeXus NXDL schema to which this entry conforms.
-	 * This field is provided so that **NXentry** can be the overlay position
+	 * This field is provided so that :ref:`NXentry` can be the overlay position
 	 * in a NeXus data file for an application definition and its
 	 * set of groups, fields, and attributes.
 	 * *It is advised* to use :ref:`NXsubentry`, instead, as the overlay position.
@@ -393,7 +409,7 @@ public interface NXentry extends NXsubentry {
 	/**
 	 * (alternate use: see same field in :ref:`NXsubentry` for preferred)
 	 * Official NeXus NXDL schema to which this entry conforms.
-	 * This field is provided so that **NXentry** can be the overlay position
+	 * This field is provided so that :ref:`NXentry` can be the overlay position
 	 * in a NeXus data file for an application definition and its
 	 * set of groups, fields, and attributes.
 	 * *It is advised* to use :ref:`NXsubentry`, instead, as the overlay position.
@@ -405,7 +421,7 @@ public interface NXentry extends NXsubentry {
 	/**
 	 * (alternate use: see same field in :ref:`NXsubentry` for preferred)
 	 * Official NeXus NXDL schema to which this entry conforms.
-	 * This field is provided so that **NXentry** can be the overlay position
+	 * This field is provided so that :ref:`NXentry` can be the overlay position
 	 * in a NeXus data file for an application definition and its
 	 * set of groups, fields, and attributes.
 	 * *It is advised* to use :ref:`NXsubentry`, instead, as the overlay position.
