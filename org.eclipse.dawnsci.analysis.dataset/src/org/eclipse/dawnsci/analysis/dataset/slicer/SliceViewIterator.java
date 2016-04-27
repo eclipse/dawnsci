@@ -137,15 +137,6 @@ public class SliceViewIterator implements ISliceViewIterator{
 		return count;
 	}
 	
-	/**
-	 * Get the SliceND that describes the current views position in the subsampled data
-	 * 
-	 * @return output
-	 */
-	@Override
-	public SliceND getSliceND(){
-		return iterator.getOutputSlice();
-	}
 	
 	/**
 	 * Get the shape of the subsampled view
