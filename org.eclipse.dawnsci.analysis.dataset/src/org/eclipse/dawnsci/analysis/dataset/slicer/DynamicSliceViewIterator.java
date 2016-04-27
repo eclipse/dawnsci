@@ -145,16 +145,6 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	}
 	
 	/**
-	 * Get the SliceND that describes the current views position in the subsampled data
-	 * 
-	 * @return output
-	 */
-	@Override
-	public SliceND getSliceND(){
-		return iterator.getCurrentSlice();
-	}
-	
-	/**
 	 * Get the shape of the subsampled view
 	 * 
 	 * @return shape
