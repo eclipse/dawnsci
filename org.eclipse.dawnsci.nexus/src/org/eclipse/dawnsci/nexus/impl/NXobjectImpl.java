@@ -179,23 +179,29 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	 */
 	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, int dtype) {
 		int[] shape = new int[rank];
+		Arrays.fill(shape, ILazyWriteableDataset.UNLIMITED);
 		return initializeLazyDataset(name, shape, dtype);
 	}
 	
 	@Override
 	public ILazyWriteableDataset initializeLazyDataset(String name,
-			int[] shape, int dtype) {
-		DataNode dataNode = nodeFactory.createDataNode();
-		
-		Arrays.fill(shape, ILazyWriteableDataset.UNLIMITED);
-		
-		ILazyWriteableDataset dataset = new LazyWriteableDataset(name, dtype, shape, null, null, null);
-		dataNode.setDataset(dataset);
-		addDataNode(name, dataNode);
+			int[] maxShape, int dtype) {
+		ILazyWriteableDataset dataset = new LazyWriteableDataset(name, dtype, maxShape, null, null, null);
+		createDataNode(name, dataset);
 		
 		return dataset;
 	}
 	
+	@Override
+	public ILazyWriteableDataset initializeFixedSizeLazyDataset(String name, int[] shape,
+			int dtype) {
+		ILazyWriteableDataset dataset = new LazyWriteableDataset(name, dtype, shape, shape, null, null);
+		createDataNode(name, dataset);
+		
+		return dataset;
+	}
+
+	@Override
 	public void addExternalLink(String name, String externalFileName, String pathToNode) {
 		try {
 			long oid = nodeFactory.getNextOid();
@@ -208,7 +214,8 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		}
 	}
 
-	private DataNode createDataNode(String name, IDataset value) {
+	@Override
+	public DataNode createDataNode(String name, ILazyDataset value) {
 		// note that this method should only be used when creating a new NeXus tree
 		DataNode dataNode = nodeFactory.createDataNode();
 		addDataNode(name, dataNode);

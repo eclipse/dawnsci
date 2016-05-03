@@ -9,6 +9,7 @@
 
 package org.eclipse.dawnsci.nexus.impl;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
@@ -18,12 +19,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.dawnsci.analysis.api.dataset.Dtype;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.nexus.NXaperture;
+import org.eclipse.dawnsci.nexus.NXcollection;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXinstrument;
@@ -135,13 +139,32 @@ public class NXobjectTest {
 	@Test
 	public void testInitializeLazyDataset() {
 		NXdetector detector = nexusNodeFactory.createNXdetector();
-		ILazyWriteableDataset dataset = detector.initializeLazyDataset(NXdetector.NX_DATA, 2, Dataset.FLOAT64);
+		ILazyWriteableDataset dataset = detector.initializeLazyDataset(NXdetector.NX_DATA, 2, Dtype.FLOAT64);
 		assertNotNull(dataset);
 		assertEquals(2, dataset.getRank());
 		assertEquals(Double.class, dataset.elementClass());
+		assertEquals(AbstractDataset.getDType(dataset), Dtype.FLOAT64);
 		
 		assertSame(dataset, detector.getLazyWritableDataset(NXdetector.NX_DATA));
 		DataNode dataNode = detector.getDataNode(NXdetector.NX_DATA);
+		assertNotNull(dataNode);
+		assertSame(dataset, dataNode.getDataset());
+	}
+	
+	@Test
+	public void testInitializeFixedSizeLazyDataset() {
+		NXcollection scanPointsCollection = nexusNodeFactory.createNXcollection();
+		final int[] shape = new int[] { 1 };
+		ILazyWriteableDataset dataset = scanPointsCollection.initializeFixedSizeLazyDataset("scan_finished", shape, Dtype.INT32);
+		assertNotNull(dataset);
+		assertEquals(1, dataset.getRank());
+		assertArrayEquals(shape, dataset.getShape());
+		assertArrayEquals(shape, dataset.getMaxShape());
+		assertEquals(Integer.class, dataset.elementClass());
+		assertEquals(AbstractDataset.getDType(dataset), Dtype.INT32);
+		
+		assertSame(dataset, scanPointsCollection.getLazyWritableDataset("scan_finished"));
+		DataNode dataNode = scanPointsCollection.getDataNode("scan_finished");
 		assertNotNull(dataNode);
 		assertSame(dataset, dataNode.getDataset());
 	}

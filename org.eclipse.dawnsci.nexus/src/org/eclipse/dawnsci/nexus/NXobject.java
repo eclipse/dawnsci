@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.dawnsci.analysis.api.dataset.Dtype;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
@@ -92,23 +93,43 @@ public interface NXobject extends GroupNode {
 	
 	/**
 	 * Creates and adds a new {@link ILazyWriteableDataset} to this group for the given field name,
-	 * with the given rank (dimensionality) and of the given type (a constant from {@link Dataset}).
+	 * with the given rank (dimensionality) and of the given type, a constant from {@link Dtype}.
 	 * @param name field name
 	 * @param rank rank
-	 * @param dtype data type constant (from {@link Dataset})
+	 * @param dtype data type constant from {@link Dtype}
 	 * @return new lazy writable dataset
 	 */
 	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, int dtype);
+	
+	/**
+	 * Creates and adds a new {@link ILazyWriteableDataset} to this group for the given field
+	 * name with the given fixed shape and of the given type, a constant from {@link Dtype}.
+	 * @param name field name
+	 * @param size the shape
+	 * @param dtype data type constant from {@link Dtype}
+	 * @return new lazy writable dataset
+	 */
+	public ILazyWriteableDataset initializeFixedSizeLazyDataset(String name, int[] shape, int dtype);
 
 	/**
 	 * Creates and adds a new {@link ILazyWriteableDataset} to this group for the given field name,
-	 * with the given rank (dimensionality) and of the given type (a constant from {@link Dataset}).
+	 * with the given maximum shape and of the given type, a constant from {@link Dtype}.
 	 * @param name field name
-	 * @param shape the maximum shape 
-	 * @param dtype data type constant (from {@link Dataset})
+	 * @param maxShape the maximum shape 
+	 * @param dtype data type constant from {@link Dtype}
 	 * @return new lazy writable dataset
 	 */
-	public ILazyWriteableDataset initializeLazyDataset(String name, int[] shape, int dtype);
+	public ILazyWriteableDataset initializeLazyDataset(String name, int[] maxShape, int dtype);
+	
+	/**
+	 * Creates and adds a new datanode to this group for the given field name and
+	 * with the given dataset as its value. The given dataset may be either a
+	 * {@link ILazyWriteableDataset} or an {@link IDataset}.
+	 * @param name field name
+	 * @param dataset dataset
+	 * @return new data node
+	 */
+	public DataNode createDataNode(String name, ILazyDataset dataset);
 	
 	/**
 	 * Adds an external link within the given name within this node to the node
