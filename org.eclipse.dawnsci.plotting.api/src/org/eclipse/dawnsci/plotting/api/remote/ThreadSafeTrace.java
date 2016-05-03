@@ -26,11 +26,12 @@ import org.eclipse.dawnsci.plotting.api.trace.IDownSampleListener;
 import org.eclipse.dawnsci.plotting.api.trace.IImageStackTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IIsosurfaceTrace;
-import org.eclipse.dawnsci.plotting.api.trace.IJavafxPlaneTrace;
+import org.eclipse.dawnsci.plotting.api.trace.ILine3DTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineStackTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IMulti2DTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IPaletteListener;
+import org.eclipse.dawnsci.plotting.api.trace.IPlane3DTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IScatter3DTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IStackPositionListener;
 import org.eclipse.dawnsci.plotting.api.trace.ISurfaceTrace;
@@ -52,7 +53,8 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
                                                           ISurfaceTrace,
                                                           IIsosurfaceTrace,
                                                           IVolumeRenderTrace,
-                                                          IJavafxPlaneTrace,
+                                                          IPlane3DTrace,
+                                                          ILine3DTrace,
                                                           IMulti2DTrace,
                                                           ILineStackTrace,
                                                           IScatter3DTrace,
@@ -471,12 +473,6 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	// IIsosurfaceTrace stuff
 	//////////////////////////////////////////////////////////////////////////
 
-//	@Override
-//	public void setData(IDataset data, List<? extends IDataset> axes) {
-//		call(getMethodName(Thread.currentThread().getStackTrace()), axes);
-//
-//	}
-
 	@Override
 	public IROI getWindow() {
 		return (IROI)call(getMethodName(Thread.currentThread().getStackTrace()));
@@ -552,10 +548,20 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public void setData(
 			int[] size, 
-			IDataset data, 
-			double[] offsets,
+			IDataset imageData, 
+			double[] offset,
 			double[] planeNormal) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), size, data, offsets, planeNormal);		
+		call(getMethodName(Thread.currentThread().getStackTrace()), size, imageData, offset, planeNormal);		
+	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	// javafx 3D line stuff
+	//////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void setData(
+			IDataset points) {
+		call(getMethodName(Thread.currentThread().getStackTrace()), points);		
 	}
 	
 	//////////////////////////////////////////////////////////////////////////
