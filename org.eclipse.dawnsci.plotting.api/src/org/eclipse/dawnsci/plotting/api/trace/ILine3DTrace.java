@@ -22,27 +22,10 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
  * @author Joel Ogden
  *
  */
-public interface IJavafxPlaneTrace extends IImage3DTrace {
+public interface ILine3DTrace extends IImage3DTrace {
 
-	/**
-	 * Plot a volume on the plotting system.
-	 * 
-	 * Requires the images for each plane in the volume
-	 * 
-	 * Thread safe
-	 * 
-	 * @param 
-	 */
-	public void setData(
-			final int[] size,
-			final IDataset data, 
-			final double [] offsets,
-			final double[] planeNormal);
 	
-	/**
-	 * sets the new opacity
-	 * @param opacity - between 0.0 - 1.0
-	 */
-	public void setOpacity(double opacity);
+	public void setData(final IDataset points);
+	
 	
 }
