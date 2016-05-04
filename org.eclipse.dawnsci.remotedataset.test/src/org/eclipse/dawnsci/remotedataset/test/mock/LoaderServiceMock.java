@@ -20,11 +20,9 @@ import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
 import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
 import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyDataset;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
 import org.eclipse.dawnsci.nexus.INexusFileFactory;
-import org.eclipse.dawnsci.nexus.NexusFile;
 
 /**
  * This mocks the loader service, only implementing dataset loading
@@ -35,20 +33,14 @@ import org.eclipse.dawnsci.nexus.NexusFile;
  */
 public class LoaderServiceMock implements ILoaderService {
 
-	private INexusFileFactory nexusFileFactoryHDF5;
-	private String dataset;
+	private INexusFileFactory factory;
 
 	public LoaderServiceMock() {
 		this(new NexusFileFactoryHDF5());
 	}
 	
 	public LoaderServiceMock(INexusFileFactory nexusFileFactoryHDF5) {
-		this(nexusFileFactoryHDF5, "/entry/data/image");
-	}
-
-	public LoaderServiceMock(INexusFileFactory nexusFileFactoryHDF52, String dataset) {
-		this.nexusFileFactoryHDF5 = nexusFileFactoryHDF52;
-		this.dataset              = dataset;
+		this.factory = nexusFileFactoryHDF5;
 	}
 
 	@Override
@@ -72,7 +64,7 @@ public class LoaderServiceMock implements ILoaderService {
 
 	private IDataHolder createFolderLoader(File dir, IMonitor monitor) throws Exception {
 		
-		final IDataHolder ret = new MockDataHolder();
+		final IDataHolder ret = new MockDataHolder(factory, dir.getAbsolutePath());
 		
 		final Map<String, List<String>> imageFilenames = new TreeMap<String, List<String>>();
 		imageFilenames.put("Image Stack", new ArrayList<String>(31));
@@ -119,17 +111,7 @@ public class LoaderServiceMock implements ILoaderService {
 	}
 
 	private IDataHolder getNexusHolder(String filePath, boolean lazily, IMonitor monitor)  throws Exception{
-		NexusFile file = nexusFileFactoryHDF5.newNexusFile(filePath);
-		try {
-			file.openToRead();
-			final DataNode node = file.getData(dataset);
-			ILazyDataset ds = node.getDataset();
-			MockDataHolder dh = new MockDataHolder();
-			dh.addDataset(dataset, ds);
-			return dh;
-		} finally {
-			file.close();
-		}
+		return new MockDataHolder(factory, filePath);
 	}
 
 	@Override

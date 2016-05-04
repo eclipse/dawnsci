@@ -34,3 +34,4 @@ Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/*.xml
 Import-Package: org.eclipse.dawnsci.analysis.tree,
  org.slf4j;version="1.7.2"
+Export-Package: org.eclipse.dawnsci.remotedataset.test.mock

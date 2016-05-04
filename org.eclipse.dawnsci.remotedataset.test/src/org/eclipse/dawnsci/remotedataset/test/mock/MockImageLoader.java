@@ -78,7 +78,7 @@ public class MockImageLoader extends MockJavaImageLoader {
 		}
 
 		// TODO cope with multiple images (tiff)
-		IDataHolder output = new MockDataHolder();
+		IDataHolder output = new MockDataHolder(null, fileName);
 		ImageReader reader = null;
 		try {
 			int count = 0;
