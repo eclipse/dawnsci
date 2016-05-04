@@ -10,6 +10,7 @@
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
@@ -34,7 +35,7 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	
 	boolean last = false;
 	
-	private int timeout = 5;
+	private int timeout = 50;
 	
 	public DynamicSliceViewIterator(IDynamicDataset lazy, IDynamicDataset key) {
 		iterator = new DynamicSliceNDIterator(lazy.getShape(), key.getSlice());
@@ -63,7 +64,6 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 			lazy.refreshShape();
 			key.refreshShape();
 			int[] s = DynamicMetadataUtils.refreshDynamicAxesMetadata(lazy.getMetadata(AxesMetadata.class), lazy.getShape());
-			System.out.println(Arrays.toString(s));
 			lazy.resize(s);
 			iterator.updateShape(lazy.getShape(), key.getSlice());
 		} catch (Exception e) {
