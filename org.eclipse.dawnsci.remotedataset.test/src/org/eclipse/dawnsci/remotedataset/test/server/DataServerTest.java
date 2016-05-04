@@ -88,7 +88,7 @@ public class DataServerTest {
 	
 	@Before
 	public void setLoader() {
-		ServiceHolder.setLoaderService(new LoaderServiceMock(factory, "/entry/data/image"));
+		ServiceHolder.setLoaderService(new LoaderServiceMock(factory));
 	}
 
 	@AfterClass

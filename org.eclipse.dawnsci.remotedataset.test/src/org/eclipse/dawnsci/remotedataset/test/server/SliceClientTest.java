@@ -40,7 +40,7 @@ public class SliceClientTest extends DataServerTest {
 	@Before
 	@Override
 	public void setLoader() {
-		ServiceHolder.setLoaderService(new LoaderServiceMock(factory, "/entry/edf/data"));
+		ServiceHolder.setLoaderService(new LoaderServiceMock(factory));
 	}
 
 	@Test
