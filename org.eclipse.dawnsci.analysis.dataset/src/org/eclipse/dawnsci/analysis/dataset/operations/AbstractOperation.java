@@ -183,7 +183,7 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 			if (rankDif == 0) {
 				
 				for (int i = 0; i< original.getRank(); i++) {
-					if (Arrays.binarySearch(datadims, i) < 0) {
+					if (Arrays.binarySearch(datadims, i) < 0 && Arrays.binarySearch(odatadim, i)<0) {
 						ILazyDataset[] axis = cloneMeta.getAxis(i);
 						if (axis != null) axOut.setAxis(i, axis);
 					}
