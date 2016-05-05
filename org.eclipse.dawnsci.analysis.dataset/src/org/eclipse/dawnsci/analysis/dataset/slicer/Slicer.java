@@ -120,13 +120,13 @@ public class Slicer {
         return null;
 	}
 	
-	public static IDataset getDynamicFirstSlice(ILazyDataset lz, ILazyDataset key) {
-
-		DynamicSliceViewIterator generator = new DynamicSliceViewIterator((IDynamicDataset)lz, (IDynamicDataset)key);
-		if (generator.hasNext()) return generator.next().getSlice();
-		
-        return null;
-	}
+//	public static IDataset getDynamicFirstSlice(ILazyDataset lz, ILazyDataset key) {
+//
+//		DynamicSliceViewIterator generator = new DynamicSliceViewIterator((IDynamicDataset)lz, (IDynamicDataset)key);
+//		if (generator.hasNext()) return generator.next().getSlice();
+//		
+//        return null;
+//	}
 	
 	public static ISliceViewIterator getSliceViewGenerator(ILazyDataset lz, Map<Integer, String> sliceDimensions){
 		SliceND sampling = getSliceNDFromSliceDimensions(sliceDimensions, lz.getShape());

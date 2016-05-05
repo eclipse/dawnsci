@@ -23,11 +23,11 @@ public class DynamicSliceNDIterator {
 	private int currentMax = 0;
 	private SliceND currentSlice;
 	
-	public DynamicSliceNDIterator(int[] initialShape, IDataset key) {
-		scanShape = new int[key.getRank()];
+	public DynamicSliceNDIterator(int[] initialShape, IDataset key, int scanRank) {
+		scanShape = new int[scanRank];
 		this.key = DatasetUtils.convertToDataset(key);
 		updateScanShape(initialShape);
-		buildInitialSlice(initialShape,initialShape.length - key.getRank());
+		buildInitialSlice(initialShape,initialShape.length - scanRank);
 	}
 	
 	private void buildInitialSlice(int[] initialShape, int dataRank) {
@@ -92,6 +92,10 @@ public class DynamicSliceNDIterator {
 	
 	public void reset() {
 		absCurrentPosition = -1;
+	}
+	
+	public int getCurrentMax() {
+		return currentMax;
 	}
 	
 }
