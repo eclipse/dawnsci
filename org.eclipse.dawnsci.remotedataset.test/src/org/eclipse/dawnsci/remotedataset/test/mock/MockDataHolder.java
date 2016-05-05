@@ -23,9 +23,12 @@ import org.eclipse.dawnsci.analysis.api.io.IFileLoader;
 import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
 import org.eclipse.dawnsci.analysis.api.metadata.Metadata;
 import org.eclipse.dawnsci.analysis.api.metadata.MetadataType;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.dawnsci.nexus.INexusFileFactory;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,12 +67,16 @@ public class MockDataHolder implements IMetadataProvider, IDataHolder, Serializa
 
 	private Tree tree;
 
+	private INexusFileFactory factory;
+
 	/**
 	 * This must create the three objects which will be put into the ScanFileHolder
 	 */
-	public MockDataHolder() {
+	public MockDataHolder(INexusFileFactory factory, String filePath) {
 		nameDataMappings = new LinkedHashMap<String, ILazyDataset>();
 		metadata = new Metadata();
+		this.factory = factory;
+		this.filePath = filePath;
 	}
 
 	/**
@@ -96,7 +103,7 @@ public class MockDataHolder implements IMetadataProvider, IDataHolder, Serializa
 	 */
 	@Override
 	public IDataHolder clone() {
-		MockDataHolder ret = new MockDataHolder();
+		MockDataHolder ret = new MockDataHolder(factory, filePath);
 		ret.nameDataMappings.putAll(nameDataMappings);
 		ret.metadata    = metadata;
 		ret.filePath    = filePath;
@@ -208,7 +215,22 @@ public class MockDataHolder implements IMetadataProvider, IDataHolder, Serializa
 	 */
 	@Override
 	public ILazyDataset getLazyDataset(String name) {
-		return nameDataMappings.get(name);
+		if (nameDataMappings.containsKey(name)) return nameDataMappings.get(name);
+		
+		try {
+			NexusFile file = factory.newNexusFile(filePath);
+			try {
+				file.openToRead();
+				final DataNode node = file.getData(name);
+				ILazyDataset ds = node.getDataset();
+				return ds;
+			} finally {
+				file.close();
+			}
+		} catch (Exception ne) {
+			throw new RuntimeException(ne);
+		}
+
 	}
 
 	/**

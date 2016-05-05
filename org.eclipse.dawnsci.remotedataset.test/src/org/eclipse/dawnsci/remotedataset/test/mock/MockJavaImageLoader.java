@@ -123,7 +123,7 @@ public class MockJavaImageLoader extends MockAbstractFileLoader {
 			f = findCorrectSuffix();
 		}
 
-		IDataHolder output = new MockDataHolder();
+		IDataHolder output = new MockDataHolder(null, fileName);
 		// test to see if the filename passed will load
 		f = new File(fileName);
 
@@ -251,7 +251,7 @@ public class MockJavaImageLoader extends MockAbstractFileLoader {
 			try {
 				data = createDataset(reader.read(num), asGrey, keepBitWidth);
 				data.setName(name);
-				IDataHolder holder = new MockDataHolder();
+				IDataHolder holder = new MockDataHolder(null, path);
 				holder.setLoaderClass(MockJavaImageLoader.class);
 				holder.setFilePath(path);
 				holder.addDataset(name, data);
