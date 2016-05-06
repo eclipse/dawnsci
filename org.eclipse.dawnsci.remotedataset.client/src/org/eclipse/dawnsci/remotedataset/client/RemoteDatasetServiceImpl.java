@@ -5,14 +5,18 @@ import java.net.URL;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IRemoteData;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
+import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.remotedataset.Format;
 import org.eclipse.dawnsci.remotedataset.client.dyn.DynamicDatasetFactory;
 import org.eclipse.dawnsci.remotedataset.client.dyn.IDynamicMonitorDataset;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 
 public class RemoteDatasetServiceImpl implements IRemoteDatasetService {
+	
+	private static IMarshallerService marshallerService;
 
 	static {
 		System.out.println("Starting remote dataset service.");
@@ -56,5 +60,18 @@ public class RemoteDatasetServiceImpl implements IRemoteDatasetService {
 	public Executor getExecutor() {
 		if (executor==null) executor = Executors.newCachedThreadPool();
 		return executor;
+	}
+
+	@Override
+	public IRemoteData createRemoteData(String serverName, int port) {
+		return new RemoteData(this, serverName, port, getExecutor());
+	}
+
+	public static IMarshallerService getMarshallerService() {
+		return marshallerService;
+	}
+
+	public void setMarshallerService(IMarshallerService marshallerService) {
+		RemoteDatasetServiceImpl.marshallerService = marshallerService;
 	}
 }

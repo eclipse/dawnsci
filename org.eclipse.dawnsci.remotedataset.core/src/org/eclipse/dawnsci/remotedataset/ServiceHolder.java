@@ -14,6 +14,7 @@ package org.eclipse.dawnsci.remotedataset;
 import org.eclipse.dawnsci.analysis.api.IClassLoaderService;
 import org.eclipse.dawnsci.analysis.api.downsample.IDownsampleService;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
+import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
 
@@ -27,6 +28,7 @@ public class ServiceHolder {
 	private static IDownsampleService downService;
 	private static IPlotImageService plotImageService;
 	private static IClassLoaderService classLoaderService;
+	private static IMarshallerService marshallerService;
 
 	public static IClassLoaderService getClassLoaderService() {
 		return classLoaderService;
@@ -66,6 +68,14 @@ public class ServiceHolder {
 
 	public static void setPlotImageService(IPlotImageService plotImageService) {
 		ServiceHolder.plotImageService = plotImageService;
+	}
+
+	public static IMarshallerService getMarshallerService() {
+		return marshallerService;
+	}
+
+	public static void setMarshallerService(IMarshallerService marshallerService) {
+		ServiceHolder.marshallerService = marshallerService;
 	}
 
 }

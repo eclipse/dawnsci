@@ -9,6 +9,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -19,6 +20,14 @@ import org.junit.Test;
  *
  */
 public class RemoteDatasetTest extends DataServerTest {
+	
+	private IRemoteDatasetService service;
+	
+	@Before
+	public void before() {
+		service = new RemoteDatasetServiceImpl(); // Instead of OSGi - do not copy!
+	}
+
 	
 	@Test
 	public void testHDF5FileMonitoring() throws Exception {
@@ -32,7 +41,6 @@ public class RemoteDatasetTest extends DataServerTest {
 			h5File = startHDF5WritingThread(100);
 			Thread.sleep(400);
 			
-			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 			data = service.createRemoteDataset("localhost", 8080);
 			data.setPath(h5File.getAbsolutePath());
 			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
@@ -62,7 +70,6 @@ public class RemoteDatasetTest extends DataServerTest {
 		    h5File = startHDF5WritingThread(freq);
 			Thread.sleep(4*freq); // Let it get going
 			
-			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 			data = service.createRemoteDataset("localhost", 8080);
 			data.setPath(h5File.getAbsolutePath());
 			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
@@ -105,7 +112,6 @@ public class RemoteDatasetTest extends DataServerTest {
 			Thread.sleep(1000);
 			
 			// Set the into, then call connect().
-			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 			data =service.createRemoteDataset("localhost", 8080);
 			data.setPath(dir.getAbsolutePath());
 			data.setDataset("Image Stack"); // We just get the first image in the PNG file.
@@ -134,7 +140,6 @@ public class RemoteDatasetTest extends DataServerTest {
 			Thread.sleep(1000);
 
 			// Set the into, then call connect().
-			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 			data =service.createRemoteDataset("localhost", 8080);
 			data.setPath(tmpData.getAbsolutePath());
 			data.setDataset(null); // Should get the dataset at the position of 0
