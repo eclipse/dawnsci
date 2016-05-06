@@ -12,6 +12,7 @@ package org.eclipse.dawnsci.analysis.api.io;
 import java.net.URL;
 import java.util.concurrent.Executor;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IRemoteData;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 
 /**
@@ -36,6 +37,14 @@ import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
  * 
  */
 public interface IRemoteDatasetService {
+	
+	/**
+	 * 
+	 * @param serverName
+	 * @param port
+	 * @return IRemoteData
+	 */
+	IRemoteData createRemoteData(String serverName, int port);
 
 	/**
      * 

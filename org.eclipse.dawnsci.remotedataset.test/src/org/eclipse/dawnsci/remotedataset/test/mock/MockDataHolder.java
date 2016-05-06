@@ -11,6 +11,7 @@ package org.eclipse.dawnsci.remotedataset.test.mock;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +21,19 @@ import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IMetadataProvider;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.IFileLoader;
+import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
 import org.eclipse.dawnsci.analysis.api.metadata.Metadata;
 import org.eclipse.dawnsci.analysis.api.metadata.MetadataType;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
+import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.dawnsci.analysis.tree.TreeFactory;
+import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
 import org.eclipse.dawnsci.nexus.INexusFileFactory;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.slf4j.Logger;
@@ -373,8 +380,26 @@ public class MockDataHolder implements IMetadataProvider, IDataHolder, Serializa
 		this.tree = tree;
 	}
 
+	private static final long DEFAULT_OBJECT_ID = -1;
+
 	@Override
 	public Tree getTree() {
+		if (tree==null) {
+			try {
+				try {
+					long fid = HDF5FileFactory.acquireFile(getFilePath(), false);
+	
+					final long oid = getFilePath().hashCode(); // include file name in ID
+					TreeFile f = TreeFactory.createTreeFile(oid, getFilePath());
+				    tree = f;
+				} finally {
+					HDF5FileFactory.releaseFile(getFilePath());
+				}
+			} catch (Exception ne) {
+				throw new RuntimeException(ne);
+			}
+		}
+		
 		return tree;
 	}
 

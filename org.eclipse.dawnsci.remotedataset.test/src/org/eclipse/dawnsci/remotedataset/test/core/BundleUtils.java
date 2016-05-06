@@ -30,7 +30,7 @@ import org.osgi.framework.Bundle;
  *   @author gerring
  *   @date Aug 2, 2010
  **/
-class BundleUtils {
+public class BundleUtils {
 	
 	/**
 	 * @param bundleName

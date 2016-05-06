@@ -5,4 +5,5 @@
    <reference bind="setImageService" cardinality="0..1" interface="org.eclipse.dawnsci.plotting.api.histogram.IImageService" name="IImageService" policy="dynamic"/>
    <reference bind="setDownService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.downsample.IDownsampleService" name="IDownsampleService" policy="static"/>
    <reference bind="setPlotImageService" cardinality="0..1" interface="org.eclipse.dawnsci.plotting.api.image.IPlotImageService" name="IPlotImageService" policy="dynamic"/>
+   <reference bind="setMarshallerService" cardinality="1..1" interface="org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService" name="IMarshallerService" policy="static"/>
 </scr:component>

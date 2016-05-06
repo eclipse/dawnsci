@@ -51,7 +51,6 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectMapper.DefaultTypeResolverBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
@@ -214,7 +213,7 @@ public class MarshallerService implements IMarshallerService {
 		mapper.setSerializationInclusion(Include.NON_NULL);
 		mapper.setDefaultTyping(createOSGiTypeIdResolver());
 		mapper.enable(MapperFeature.REQUIRE_SETTERS_FOR_GETTERS);
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		//mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		return mapper;
 	}
 
@@ -327,7 +326,7 @@ public class MarshallerService implements IMarshallerService {
 		// Be careful adjusting these settings - changing them will probably cause various unit tests to fail which
 		// check the exact contents of the serialized JSON string
 		mapper.setSerializationInclusion(Include.NON_NULL);
-		mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+		//mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 		return mapper;
 	}
 }

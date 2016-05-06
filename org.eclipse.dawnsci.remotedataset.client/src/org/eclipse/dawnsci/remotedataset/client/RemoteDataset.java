@@ -102,15 +102,7 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		this.eventDelegate = new DataListenerDelegate();
 		this.exec       = exec;
 	}
-	
-	/**
-	 * Call to read the dataset, set current shape and create event connnection for
-	 * IDynamicDataset part of the dataset
-	 */
-    public String connect() throws Exception {
-        return connect(500, TimeUnit.MILLISECONDS);
-    }
-	
+		
 	/**
 	 * Call to read the dataset, set current shape and create event connnection for
 	 * IDynamicDataset part of the dataset

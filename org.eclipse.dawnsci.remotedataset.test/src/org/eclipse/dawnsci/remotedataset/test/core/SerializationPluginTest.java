@@ -1,20 +1,12 @@
 package org.eclipse.dawnsci.remotedataset.test.core;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.net.URL;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
-import org.eclipse.dawnsci.analysis.api.tree.Attribute;
-import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.IFindInTree;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
@@ -47,8 +39,7 @@ public class SerializationPluginTest {
 	@Test
 	public void testTreeSerialize() throws Exception {
 		
-		URL loc = getClass().getResource("163245_Cu_formate_1_processed_150604_145331.nxs");
-		String file = BundleUtils.getBundleLocation("org.eclipse.dawnsci.remotedataset.test")+"/src"+loc.getFile();
+		String file = BundleUtils.getBundleLocation("org.eclipse.dawnsci.remotedataset.test")+"/testfiles/38323_processed.nxs";
 		IDataHolder dh = lservice.getData(file, null);
 		
 		final Tree   tree = dh.getTree();
@@ -56,10 +47,13 @@ public class SerializationPluginTest {
 		Map<String, NodeLink> bfs = TreeUtils.treeBreadthFirstSearch(tree.getGroupNode(), getFinder(), true, null);
 		String key = bfs.keySet().iterator().next();
 		
+		final Map<String, Object> map = TreeToMapUtils.treeToMap(tree);
+		final String json = marshaller.marshal(map);
+		final Map<String, Object>  ntree = marshaller.unmarshal(json, Map.class);
 		
-		final String json = marshaller.marshal(TreeToMapUtils.treeToMap(tree));
-		final Map  ntree = marshaller.unmarshal(json, Map.class);
-		Tree myTree = TreeToMapUtils.mapToTree(ntree, "163245_Cu_formate_1_processed_150604_145331.nxs");
+		assertTrue(map.keySet().containsAll(ntree.keySet()));
+		
+		Tree myTree = TreeToMapUtils.mapToTree(ntree, "38323_processed.nxs");
 		
 		Map<String, NodeLink> bfst = TreeUtils.treeBreadthFirstSearch(myTree.getGroupNode(), getFinder(), true, null);
 		String keyt = bfst.keySet().iterator().next();
