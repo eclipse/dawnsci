@@ -67,6 +67,7 @@ public class RemoteDataTest extends DataServerTest {
 		final Map<String, Object> tmap2 = TreeToMapUtils.treeToMap(dh.getTree());
 
 		assertTrue(tmap1.keySet().containsAll(tmap2.keySet()));
+		System.out.println("Test Empty Tree Passed!");
 	}
 
 }
