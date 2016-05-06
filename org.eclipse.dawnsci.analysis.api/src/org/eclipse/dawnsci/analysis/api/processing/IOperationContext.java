@@ -182,8 +182,8 @@ public interface IOperationContext {
 	 */
 	public void setPoolSize(int count);
 	
-	public void setKey(ILazyDataset key);
+	public void setLiveInfo(ILiveOperationInfo info);
 	
-	public ILazyDataset getKey();
+	public ILiveOperationInfo getLiveInfo();
 
 }
