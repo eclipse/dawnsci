@@ -21,6 +21,7 @@
 		<module>../../dawn-third/ncsa.hdf</module>
 		<module>../org.eclipse.richbeans</module>
 		<module>org.eclipse.dawnsci.analysis.dataset</module>
+		<module>org.eclipse.dawnsci.analysis.dataset.test</module>
 		<module>org.eclipse.dawnsci.analysis.examples</module>
 		<module>org.eclipse.dawnsci.analysis.tree</module>
 		<module>org.eclipse.dawnsci.doe</module>
