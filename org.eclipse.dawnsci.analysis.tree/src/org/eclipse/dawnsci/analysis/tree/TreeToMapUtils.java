@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
@@ -20,6 +21,7 @@ import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
+import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 
 public class TreeToMapUtils {
 	
@@ -85,10 +87,9 @@ public class TreeToMapUtils {
 				if (parent instanceof GroupNode) ((GroupNode)parent).addNode(key, gn);
 			}
 			
-			if (o instanceof String) {
-				parent.addAttribute(TreeFactory.createAttribute(key));
+			if (o instanceof String || o instanceof String[]) {
+				parent.addAttribute(TreeFactory.createAttribute(key,o));
 			}
-			
 			
 		}
 		
@@ -106,7 +107,19 @@ public class TreeToMapUtils {
 		
 		while (it.hasNext()) {
 			Attribute next = it.next();
-			map.put(next.getName(), next.getFirstElement());
+			if (next.getSize() == 1) {
+				map.put(next.getName(), next.getFirstElement());
+			} else {
+				
+				IDataset value = next.getValue();
+				
+				if (value instanceof StringDataset) {
+					map.put(next.getName(), ((StringDataset)value).getData());
+				}
+				
+			}
+			
+			
 		}
 		
 		if (destination instanceof GroupNode) {
