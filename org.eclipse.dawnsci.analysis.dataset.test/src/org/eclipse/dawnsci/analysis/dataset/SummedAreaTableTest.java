@@ -29,7 +29,7 @@ public class SummedAreaTableTest {
 	}
 
 	private static final int[] smallShape = new int[] { 10, 10 };
-	private static final int[] largeShape = new int[] { 512, 512};
+	private static final int[] largeShape = new int[] { 256, 256};
 
 	@Test
 	public void testSmallDiagonal() throws Exception {
