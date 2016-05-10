@@ -211,7 +211,7 @@ public class SummedAreaTableTest {
 		
 		if (!Arrays.equals(fano.getShape(), image.getShape())) throw new Exception("Fano image changed shape!");
 		
-		System.out.println("Calculated fano of size "+Arrays.toString(fano.getShape())+" with box "+Arrays.toString(box)+" in "+(end-start)+"ms");
+		TestUtils.verbosePrintf("Calculated fano of size %s with box %s in %dms\n", Arrays.toString(fano.getShape()), Arrays.toString(box), end-start);
 		
 	}
 
