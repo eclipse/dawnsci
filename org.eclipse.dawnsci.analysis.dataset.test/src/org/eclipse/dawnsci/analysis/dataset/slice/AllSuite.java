@@ -10,14 +10,14 @@
  *    Peter Chang - initial API and implementation and/or initial documentation
  *******************************************************************************/
 
-package org.eclipse.dawnsci.analysis.dataset.function;
+package org.eclipse.dawnsci.analysis.dataset.slice;
 
+import org.eclipse.dawnsci.analysis.dataset.TestUtils;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-@RunWith(Suite.class)
-@SuiteClasses({ CentroidTest.class, MapToRotatedCartesianTest.class, SumTest.class })
-public class TestSuite {
+@RunWith(TestUtils.VerboseSuite.class)
+@SuiteClasses({ DynamicSliceNDIteratorTest.class, SliceInformationTest.class, SliceNDGeneratorTest.class })
+public class AllSuite {
 
 }
