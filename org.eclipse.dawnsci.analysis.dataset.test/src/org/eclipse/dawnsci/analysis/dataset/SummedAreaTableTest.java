@@ -28,10 +28,13 @@ public class SummedAreaTableTest {
 		VALUE, MEAN, VARIANCE, FANO;
 	}
 
+	private static final int[] smallShape = new int[] { 10, 10 };
+	private static final int[] largeShape = new int[] { 512, 512};
+
 	@Test
 	public void testSmallDiagonal() throws Exception {
 
-		final Dataset image = Random.rand(new int[] { 10, 10 });
+		final Dataset image = Random.rand(smallShape);
 		final SummedAreaTable sum = new SummedAreaTable(image);
 		testDiagonal(image, sum, TestType.VALUE);
 	}
@@ -40,7 +43,7 @@ public class SummedAreaTableTest {
 	public void testLargeDiagonal() throws Exception {
 
 		long start = System.currentTimeMillis();
-		final Dataset image = Random.rand(new int[] { 1024, 1024 });
+		final Dataset image = Random.rand(largeShape);
 		final SummedAreaTable sum = new SummedAreaTable(image);
 		long end = System.currentTimeMillis();
 
@@ -57,7 +60,7 @@ public class SummedAreaTableTest {
 	@Test
 	public void testSmallMeanDiagonal() throws Exception {
 
-		final Dataset image = Random.rand(new int[] { 10, 10 });
+		final Dataset image = Random.rand(smallShape);
 		final SummedAreaTable sum = new SummedAreaTable(image);
 		testDiagonal(image, sum, TestType.MEAN, 3, 3);
 	}
@@ -66,7 +69,7 @@ public class SummedAreaTableTest {
 	public void testLargeMeanDiagonal() throws Exception {
 
 		long start = System.currentTimeMillis();
-		final Dataset image = Random.rand(new int[] { 1024, 1024 });
+		final Dataset image = Random.rand(largeShape);
 		final SummedAreaTable sum = new SummedAreaTable(image);
 		long end = System.currentTimeMillis();
 
@@ -83,7 +86,7 @@ public class SummedAreaTableTest {
 	@Test
 	public void testSmallVarianceDiagonal() throws Exception {
 
-		final Dataset image = Maths.multiply(Random.rand(new int[] { 10, 10 }), 100);
+		final Dataset image = Maths.multiply(Random.rand(smallShape), 100);
 		final SummedAreaTable sum = new SummedAreaTable(image);
 		testDiagonal(image, sum, TestType.VARIANCE, 3, 3);
 	}
@@ -92,7 +95,7 @@ public class SummedAreaTableTest {
 	public void testLargeVarianceDiagonal() throws Exception {
 
 		long start = System.currentTimeMillis();
-		final Dataset image = Maths.multiply(Random.rand(new int[] { 1024, 1024 }), 100);
+		final Dataset image = Maths.multiply(Random.rand(largeShape), 100);
 		final SummedAreaTable sum = new SummedAreaTable(image);
 		long end = System.currentTimeMillis();
 
@@ -109,7 +112,7 @@ public class SummedAreaTableTest {
 	@Test
 	public void testSmallFanoDiagonal() throws Exception {
 
-		final Dataset image = Maths.multiply(Random.rand(new int[] { 10, 10 }), 100);
+		final Dataset image = Maths.multiply(Random.rand(smallShape), 100);
 		final SummedAreaTable sum = new SummedAreaTable(image, true);
 		testDiagonal(image, sum, TestType.FANO, 3, 3);
 	}
@@ -118,7 +121,7 @@ public class SummedAreaTableTest {
 	public void testLargeFanoDiagonal() throws Exception {
 
 		long start = System.currentTimeMillis();
-		final Dataset image = Maths.multiply(Random.rand(new int[] { 1024, 1024 }), 100);
+		final Dataset image = Maths.multiply(Random.rand(largeShape), 100);
 		final SummedAreaTable sum = new SummedAreaTable(image, true);
 		long end = System.currentTimeMillis();
 
@@ -185,7 +188,7 @@ public class SummedAreaTableTest {
 	@Test
 	public void testZeroBox() throws Exception {
 		try {
-			SummedAreaTable table = new SummedAreaTable(Random.rand(new int[] { 10, 10 }), true);
+			SummedAreaTable table = new SummedAreaTable(Random.rand(smallShape), true);
 			table.getFanoImage(0, 0);
 		} catch (Exception required) {
 			return;
@@ -196,7 +199,7 @@ public class SummedAreaTableTest {
 	@Test
 	public void testEvenBox() throws Exception {
 		try {
-			SummedAreaTable table = new SummedAreaTable(Random.rand(new int[] { 10, 10 }), true);
+			SummedAreaTable table = new SummedAreaTable(Random.rand(smallShape), true);
 			table.getFanoImage(2, 2);
 		} catch (Exception required) {
 			return;
@@ -271,7 +274,7 @@ public class SummedAreaTableTest {
 	@Test
 	public void testDatasetVariance() throws Exception {
 
-		final Dataset image = Maths.multiply(Random.rand(new int[] { 10, 10 }), 100);
+		final Dataset image = Maths.multiply(Random.rand(smallShape), 100);
 		double mean = ((Number) image.mean()).doubleValue();
 		Dataset minus = Maths.subtract(image, mean);
 		Dataset square = Maths.square(minus);
