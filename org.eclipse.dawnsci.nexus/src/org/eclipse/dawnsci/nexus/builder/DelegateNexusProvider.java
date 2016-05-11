@@ -7,40 +7,30 @@ import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.NexusScanInfo;
 
-
 /**
- * Use this concrete class to make a given class implement INexusDevice properly.
+ * Use this concrete class to make a given class implement INexusDevice
+ * properly.
  * 
  * @author Matthew Gerring
  *
  * @param <N>
  */
-public class DelegateNexusProvider<N extends NXobject> extends AbstractNexusProvider<N> {
-	
+public class DelegateNexusProvider<N extends NXobject> extends AbstractNexusObjectProvider<N> {
+
 	private INexusDevice<N> creator;
 	private NexusScanInfo info;
 
-	public DelegateNexusProvider(NexusBaseClass nexusBaseClass, NexusScanInfo info, INexusDevice<N> creator) {
-		super(nexusBaseClass);
-		this.info    = info;
-		this.creator = creator;
-	}
-
-	public DelegateNexusProvider(String name, NexusBaseClass nexusBaseClass, String defaultDataFieldName, NexusBaseClass category, NexusScanInfo info, INexusDevice<N> creator) {
-		super(name, nexusBaseClass, category, defaultDataFieldName);
-		this.info    = info;
-		this.creator = creator;
-	}
-
-	public DelegateNexusProvider(String name, NexusBaseClass nexusBaseClass, String defaultDataFieldName, NexusScanInfo info, INexusDevice<N> creator) {
-		super(name, nexusBaseClass, defaultDataFieldName);
-		this.info    = info;
-		this.creator = creator;
-	}
-
-	public DelegateNexusProvider(String name, NexusBaseClass nexusBaseClass, NexusScanInfo info, INexusDevice<N> creator) {
+	public DelegateNexusProvider(String name, NexusBaseClass nexusBaseClass, NexusScanInfo info,
+			INexusDevice<N> creator) {
 		super(name, nexusBaseClass);
-		this.info    = info;
+		this.info = info;
+		this.creator = creator;
+	}
+
+	public DelegateNexusProvider(String name, NexusBaseClass nexusBaseClass,
+			String defaultDataFieldName, NexusScanInfo info, INexusDevice<N> creator) {
+		super(name, nexusBaseClass, defaultDataFieldName);
+		this.info = info;
 		this.creator = creator;
 	}
 
