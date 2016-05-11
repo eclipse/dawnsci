@@ -32,6 +32,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
 import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Maths;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -65,8 +66,14 @@ public class MathsTest {
 		classes.put("ArrayL", Dataset.ARRAYINT64);
 		classes.put("ArrayF", Dataset.ARRAYFLOAT32);
 		classes.put("ArrayD", Dataset.ARRAYFLOAT64);
+		TestUtils.verboseOutput = false;
 	}
 
+	@After
+	public void closeDown() {
+		TestUtils.verboseOutput = false;
+	}
+	
 	private Map<String, Integer> classes;
 
 	private void checkDatasets(Object a, Object b, Dataset c, Dataset d) {
@@ -2050,7 +2057,6 @@ public class MathsTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void testBitwise() {
 		Dataset xa = DatasetFactory.createRange(-4, 4, 1, Dataset.INT8);
@@ -2092,7 +2098,6 @@ public class MathsTest {
 				Maths.unsignedRightShift(xa, xa), ABSERRD, ABSERRD);
 	}
 
-	@Ignore
 	@Test
 	public void testDivideTowardsFloor() {
 		Dataset xa = DatasetFactory.createRange(-4, 4, 1, Dataset.INT8);
@@ -2109,7 +2114,6 @@ public class MathsTest {
 				Maths.divideTowardsFloor(xa, -2.5f), true, ABSERRD, ABSERRD);
 	}
 
-	@Ignore
 	@Test
 	public void testFloorDivide() {
 		Dataset xa = DatasetFactory.createRange(-4, 4, 1, Dataset.INT8);
