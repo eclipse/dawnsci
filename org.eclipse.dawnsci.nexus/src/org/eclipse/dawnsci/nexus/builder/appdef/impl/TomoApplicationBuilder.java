@@ -28,10 +28,10 @@ import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.NexusApplicationDefinition;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
-import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.appdef.NexusApplicationBuilder;
+import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.validation.NXtomoValidator;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 
@@ -145,7 +145,7 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 
 	/**
 	 * Sets the rotation angle
-	 * @param rotationAnglePositioner rotation angle data node
+	 * @param rotationAngle rotation angle data node
 	 * @throws NexusException
 	 */
 	public void setRotationAngle(DataNode rotationAngle) throws NexusException {
@@ -271,7 +271,7 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 
 	private <N extends NXobject> DataNode getDataNode(NexusObjectProvider<N> nexusObjectProvider) throws NexusException {
 		final N nexusObject = nexusObjectProvider.getNexusObject(getNexusNodeFactory(), true);
-		final String dataNodeName = nexusObjectProvider.getPrimaryDataField();
+		final String dataNodeName = nexusObjectProvider.getPrimaryDataFieldName();
 		final DataNode dataNode = nexusObject.getDataNode(dataNodeName);
 		if (dataNode == null) {
 			throw new NexusException(MessageFormat.format("No such data node for {0} with name ''{1}''",

@@ -14,13 +14,15 @@ package org.eclipse.dawnsci.nexus.builder.appdef.impl;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.nexus.NXdata;
+import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.builder.DataDevice;
-import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.appdef.NexusApplicationBuilder;
-import org.eclipse.dawnsci.nexus.builder.impl.AbstractNexusDataBuilder;
+import org.eclipse.dawnsci.nexus.builder.data.AxisDataDevice;
+import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
+import org.eclipse.dawnsci.nexus.builder.data.PrimaryDataDevice;
+import org.eclipse.dawnsci.nexus.builder.data.impl.AbstractNexusDataBuilder;
 
 /**
  * A data builder, wrapping an {@link NXdata} base class instance, within an application definition where
@@ -31,7 +33,7 @@ import org.eclipse.dawnsci.nexus.builder.impl.AbstractNexusDataBuilder;
  * for an application definition where the NeXus application definition specifies links for the
  * locations. NXtomo is an example of this.
  * when its {@link NexusApplicationBuilder#newData()} method is invoked. It should then add
- * the appropriate links using the {@link #addLink(String, String)} method of this class.
+ * the appropriate links using the {@link #addLink(String, DataNode)} method of this class.
  */
 public class PredeterminedLinksApplicationDataBuilder extends AbstractNexusDataBuilder implements NexusDataBuilder {
 
@@ -55,22 +57,21 @@ public class PredeterminedLinksApplicationDataBuilder extends AbstractNexusDataB
 	}
 
 	@Override
-	public void setPrimaryDevice(DataDevice<?> primaryDeviceModel)
+	public <N extends NXobject> void setPrimaryDevice(PrimaryDataDevice<N> primaryDeviceModel)
 			throws NexusException {
 		// this data model already has all the information it needs to be fully populated
 		throw new UnsupportedOperationException("No additional objects are required for this data model");
 	}
 
 	@Override
-	public void addDataDevice(NexusObjectProvider<?> dataDevice,
-			Integer defaultAxisDimension, int... dimensionMappings)
-			throws NexusException {
+	public <N extends NXobject> void addAxisDevice(NexusObjectProvider<N> dataDevice,
+			Integer defaultAxisDimension, int... dimensionMappings) throws NexusException {
 		// this data model already has all the information it needs to be fully populated
 		throw new UnsupportedOperationException("No additional objects are required for this data model");
 	}
 
 	@Override
-	public void addDataDevice(DataDevice<?> dataDeviceModel)
+	public <N extends NXobject> void addAxisDevice(AxisDataDevice<N> dataDeviceModel)
 			throws NexusException {
 		// this data model already has all the information it needs to be fully populated
 		throw new UnsupportedOperationException("No additional objects are required for this data model");
