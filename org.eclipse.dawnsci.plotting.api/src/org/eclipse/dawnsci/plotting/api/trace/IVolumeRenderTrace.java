@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.plotting.api.trace;
 
+import java.util.List;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
@@ -40,7 +42,8 @@ public interface IVolumeRenderTrace extends IImage3DTrace {
 			final double intensityValue, 
 			final double opacityValue,
 			final double[] minMaxValue,
-			final double[] minMaxCulling);
+			final double[] minMaxCulling,
+            final List<? extends IDataset> axes);
 	
 	/**
 	 * sets the new opacity
