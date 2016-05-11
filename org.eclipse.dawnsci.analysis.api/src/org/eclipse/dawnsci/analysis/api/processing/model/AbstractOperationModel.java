@@ -89,13 +89,17 @@ public abstract class AbstractOperationModel implements IOperationModel {
 	}
 
 	@Override
-	public boolean isModelField(String name) throws NoSuchFieldException, SecurityException {
+	public boolean isModelField(String name) throws SecurityException {
 		
 		Field field = null;
 		try {
 		    field = getClass().getDeclaredField(name);
 		} catch (Exception ne) {
+			try {
 			field = getClass().getSuperclass().getDeclaredField(name);
+			} catch (Exception ne2) {
+				return false;
+			}
 		}
 
 		OperationModelField omf = field.getAnnotation(OperationModelField.class);

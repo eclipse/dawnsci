@@ -87,7 +87,8 @@ public @interface OperationModelField {
 	public FileType file() default FileType.NONE;
 	
 	/**
-	 * Used to specify a dataset from a specific file
+	 * Used to specify a dataset from a specific file, or the file being processed if the file
+	 * variable doesnt exist
 	 * 
 	 * @return the field name the corresponds to file path in the model
 	 */
