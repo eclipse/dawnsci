@@ -14,6 +14,12 @@ branches:
 jdk:
  - oraclejdk8
 
+# use updated jdk (as current build environment is still on 8u31: http://docs.travis-ci.com/user/build-environment-updates/2015-04-09/)
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+
 # Run the commit message check and then check out some required dependencies.
 # TODO Currently check in messages are not checked for dawnsci.
 # - chmod +x ./org.eclipse.dawnsci.releng/build/commit-msg.sh
