@@ -344,7 +344,6 @@ public class MathsTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void testSubtraction() {
 		Dataset a, b, c = null, d = null;
