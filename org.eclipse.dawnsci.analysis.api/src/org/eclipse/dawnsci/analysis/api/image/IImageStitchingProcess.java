@@ -155,4 +155,16 @@ public interface IImageStitchingProcess {
 	 */
 	IDataset stitch(ILazyDataset input, int rows, int columns, double fieldOfView, double[][][] translations,
 			boolean hasFeatureAssociation, int[] originalShape, IMonitor monitor) throws Exception;
+
+	/**
+	 * Stiches two images together given x and y translations
+	 * 
+	 * @param imageA
+	 * @param imageB
+	 * @param translations
+	 *            where translations[0] is for the Y axes and translations[1] is for the X axes
+	 * @return stitched image of imageA and imageB
+	 * @throws Exception
+	 */
+	IDataset stitch(IDataset imageA, IDataset imageB, double[] translations) throws Exception;
 }
