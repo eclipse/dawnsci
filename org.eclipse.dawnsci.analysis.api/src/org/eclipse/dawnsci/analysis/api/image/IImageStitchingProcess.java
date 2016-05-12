@@ -26,7 +26,19 @@ import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 public interface IImageStitchingProcess {
 
 	/**
-	 * Stitches a list of images with a default matrix size and angle
+	 * Stitches a list of images with a default matrix size and angle.
+	 * Use {@link #stitch(ILazyDataset, IMonitor)} instead.
+	 * @param input
+	 * @param monitor
+	 *            To monitor progress
+	 * @return output stitched image
+	 * @throws Exception 
+	 */
+	@Deprecated
+	public IDataset stitch(List<IDataset> input, IMonitor monitor) throws Exception;
+
+	/**
+	 * Stitches a lazy list of images with a default matrix size and angle
 	 * 
 	 * @param input
 	 * @param monitor
@@ -34,10 +46,24 @@ public interface IImageStitchingProcess {
 	 * @return output stitched image
 	 * @throws Exception 
 	 */
-	public IDataset stitch(List<IDataset> input, IMonitor monitor) throws Exception;
+	public IDataset stitch(ILazyDataset input, IMonitor monitor) throws Exception;
 
 	/**
-	 * Stitches a list of images
+	 * Stitches a list of images.
+	 * Use {@link #stitch(ILazyDataset, int, int, IMonitor)} instead.
+	 * @param input
+	 * @param rows
+	 * @param columns
+	 * @param monitor
+	 *            To monitor progress
+	 * @return output stitched image
+	 * @throws Exception 
+	 */
+	@Deprecated
+	public IDataset stitch(List<IDataset> input, int rows, int columns, IMonitor monitor) throws Exception;
+
+	/**
+	 * Stitches a lazy list of images
 	 * 
 	 * @param input
 	 * @param rows
@@ -47,10 +73,25 @@ public interface IImageStitchingProcess {
 	 * @return output stitched image
 	 * @throws Exception 
 	 */
-	public IDataset stitch(List<IDataset> input, int rows, int columns, IMonitor monitor) throws Exception;
+	public IDataset stitch(ILazyDataset input, int rows, int columns, IMonitor monitor) throws Exception;
 
 	/**
 	 * Crops a list of images given a ROI then stitches them together
+	 * Use {@link #stitch(ILazyDataset, int, int, double, IMonitor)} instead.
+	 * @param input
+	 * @param rows
+	 * @param columns
+	 * @param fieldOfView
+	 * @param monitor
+	 *            To monitor progress
+	 * @return output stitched image
+	 * @throws Exception 
+	 */
+	@Deprecated
+	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView, IMonitor monitor) throws Exception;
+
+	/**
+	 * Crops a lazy list of images given a ROI then stitches them together.
 	 * 
 	 * @param input
 	 * @param rows
@@ -61,12 +102,12 @@ public interface IImageStitchingProcess {
 	 * @return output stitched image
 	 * @throws Exception 
 	 */
-	public IDataset stitch(List<IDataset> input, int rows, int columns, double fieldOfView, IMonitor monitor) throws Exception;
+	public IDataset stitch(ILazyDataset input, int rows, int columns, double fieldOfView, IMonitor monitor) throws Exception;
 
 	/**
 	 * Stiches a list of images previously cropped with the given roi. Use the theoretical image position from the
 	 * metadata to stitch the images.
-	 * 
+	 * Use {@link #stitch(ILazyDataset, int, int, double, double[][][], boolean, int[], IMonitor)} instead.
 	 * @param input
 	 * @param rows
 	 * @param columns
@@ -88,7 +129,7 @@ public interface IImageStitchingProcess {
 	/**
 	 * Stiches a list of images previously cropped with the given roi. Use the theoretical image position from the
 	 * metadata to stitch the images.
-	 * 
+	 * Use {@link #stitch(ILazyDataset, int, int, double, double[][][], boolean, int[], IMonitor)} instead.
 	 * @param input
 	 * @param rows
 	 * @param columns
@@ -155,4 +196,16 @@ public interface IImageStitchingProcess {
 	 */
 	IDataset stitch(ILazyDataset input, int rows, int columns, double fieldOfView, double[][][] translations,
 			boolean hasFeatureAssociation, int[] originalShape, IMonitor monitor) throws Exception;
+
+	/**
+	 * Stiches two images together given x and y translations
+	 * 
+	 * @param imageA
+	 * @param imageB
+	 * @param translations
+	 *            where translations[0] is for the Y axes and translations[1] is for the X axes
+	 * @return stitched image of imageA and imageB
+	 * @throws Exception
+	 */
+	IDataset stitch(IDataset imageA, IDataset imageB, double[] translations) throws Exception;
 }
