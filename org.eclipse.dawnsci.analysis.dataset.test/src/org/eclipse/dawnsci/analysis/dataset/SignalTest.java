@@ -13,6 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
+import org.eclipse.dawnsci.analysis.asserts.TestUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
