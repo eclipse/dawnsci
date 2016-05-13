@@ -526,8 +526,9 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 			final double intensityValue, 
 			final double opacityValue,
 			final double[] minMaxValue,
-			final double[] minMaxCulling) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), size, data, intensityValue, opacityValue, minMaxValue, minMaxCulling);
+			final double[] minMaxCulling,
+			final List<? extends IDataset> axes) {
+		call(getMethodName(Thread.currentThread().getStackTrace()), size, data, intensityValue, opacityValue, minMaxValue, minMaxCulling, axes);
 	}
 	
 	@Override
