@@ -4,6 +4,8 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.dawnsci.plotting.api.tool.IToolPageSystem;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A view with a plotting system on it and connected to python.
@@ -16,6 +18,8 @@ import org.eclipse.ui.part.ViewPart;
  */
 public class VanillaPlottingSystemView extends ViewPart implements IAdaptable {
 	
+	private static final Logger logger = LoggerFactory.getLogger(VanillaPlottingSystemView.class);
+	
 	protected IPlottingSystem<Composite>     system;
 
 	public VanillaPlottingSystemView() {
@@ -23,7 +27,8 @@ public class VanillaPlottingSystemView extends ViewPart implements IAdaptable {
 			system = PlottingFactory.createPlottingSystem(); // TODO Change to service
 
 		} catch (Exception ne) {
-			throw new RuntimeException(ne); // Lazy
+			logger.error("Unable to make plotting system", ne);
+			system = null; // It creates the view but there will be no plotting system 
 		}
 
 	}
@@ -45,12 +50,12 @@ public class VanillaPlottingSystemView extends ViewPart implements IAdaptable {
 
 	@Override
 	public void setFocus() {
-		system.setFocus();
+		if (system!=null) system.setFocus();
 	}
 
 	@Override
 	public void dispose() {
-		system.dispose();
+		if (system!=null) system.dispose();
 		super.dispose();
 	}
 	
