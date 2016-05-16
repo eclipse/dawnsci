@@ -1164,4 +1164,29 @@ public class NexusFileTest {
 		assertTrue(readEg.containsGroupNode("a"));
 		assertEquals(data, nf.getData(readG, "ed").getDataset().getSlice());
 	}
+
+	@Test
+	public void testHardLinkWithExistingTargetAttribute() throws Exception {
+		// test that creating a hard link does not overwrite an already set "target" attribute
+		IDataset target = DatasetFactory.createFromObject("/g/d");
+		target.setName("target");
+		GroupNode h = nf.getGroup("/g/h/", true);
+		Attribute t = nf.createAttribute(target);
+		nf.addAttribute(h, t);
+		nf.link("/g/h", "/g/d"); // would normally set target to /g/h
+		GroupNode d = nf.getGroup("/g/d", false);
+		IDataset readBack = d.getAttribute("target").getValue();
+		if (readBack.getRank() == 0) {
+			readBack.resize(new int[] {1});
+		}
+		assertEquals(target, readBack.getSlice());
+		nf.close();
+		nf.openToRead();
+		d = nf.getGroup("/g/d", false);
+		readBack = d.getAttribute("target").getValue();
+		if (readBack.getRank() == 0) {
+			readBack.resize(new int[] {1});
+		}
+		assertEquals(target, readBack.getSlice());
+	}
 }
