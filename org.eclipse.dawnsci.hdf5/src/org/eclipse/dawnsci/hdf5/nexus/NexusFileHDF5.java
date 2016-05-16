@@ -1301,7 +1301,9 @@ public class NexusFileHDF5 implements NexusFile {
 		IDataset target = DatasetFactory.createFromObject(source);
 		target.setName("target");
 		Attribute targetAttr = createAttribute(target);
-		addAttribute(linkName, targetAttr);
+		if (!sourceData.node.containsAttribute("target")) {
+			addAttribute(linkName, targetAttr);
+		}
 	}
 
 	private void createExternalLink(String externalFileName, String destinationParent, String linkNodeName, String source) throws NexusException {
