@@ -1176,7 +1176,6 @@ public class NexusFileHDF5 implements NexusFile {
 				throw new NullPointerException("Attribute must have a name");
 			}
 			Node node = getNode(path, false).node;
-			node.addAttribute(attr);
 			try {
 				//if an attribute with the same name already exists, we delete it to be consistent with NAPI
 				if (H5.H5Aexists_by_name(fileId, path, attrName, HDF5Constants.H5P_DEFAULT)) {
@@ -1235,6 +1234,7 @@ public class NexusFileHDF5 implements NexusFile {
 						}
 					}
 				}
+				node.addAttribute(attr);
 			} catch (HDF5Exception e) {
 				throw new NexusException("Could not create attribute", e);
 			}
