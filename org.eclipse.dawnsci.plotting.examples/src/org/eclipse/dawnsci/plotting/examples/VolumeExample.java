@@ -10,9 +10,16 @@
 package org.eclipse.dawnsci.plotting.examples;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.trace.IVolumeRenderTrace;
 import org.eclipse.dawnsci.plotting.examples.util.BundleUtils;
@@ -40,6 +47,8 @@ public class VolumeExample extends PlotExample {
 			final IVolumeRenderTrace volume = system
 					.createVolumeRenderTrace("Volume1");
 
+			final List<? extends IDataset> axes = generateAxes(lazyDataset);
+			
 			volume.setData(
 					lazyDataset.getShape(),
 					lazyDataset.getSlice(
@@ -49,7 +58,9 @@ public class VolumeExample extends PlotExample {
 							0.42, 
 							0.61, 
 							new double[] { 0.2, 8.0 }, 
-							new double[] { 0.1, 10000 });
+							new double[] { 0.1, 10000 },
+							axes
+					);
 
 			system.addTrace(volume);
 
@@ -58,7 +69,18 @@ public class VolumeExample extends PlotExample {
 		}
 
 	}
-
+	
+	
+	private List<IDataset> generateAxes(ILazyDataset dataset) {
+		return Stream.of(0,1,2).map(i -> {		
+			return generateIndexAxis(dataset.getShape()[i]);	
+		}).collect(Collectors.toList());
+	}
+	private IDataset generateIndexAxis(int max) {
+		double[] axis = IntStream.range(0, max).mapToDouble(i -> i).toArray();
+		return new DoubleDataset(axis, max);
+	}
+	
 	protected String getFileName() {
 		return "volumeExample.nxs";
 	}
