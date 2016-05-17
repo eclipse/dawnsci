@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Tree
 Bundle-SymbolicName: org.eclipse.dawnsci.analysis.tree
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.dawnsci.analysis.tree,
  org.eclipse.dawnsci.analysis.tree.impl
 Require-Bundle: org.eclipse.dawnsci.analysis.api;bundle-version="1.0.0",
