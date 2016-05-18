@@ -13,28 +13,32 @@ import java.util.Map;
 
 public interface IOperationBean {
 
-	void setDataKey(String dataKey);
+	public void setDataKey(String dataKey);
 
-	void setFilePath(String fileName);
+	public void setFilePath(String fileName);
 
-	void setOutputFilePath(String outputFilePath);
+	public void setOutputFilePath(String outputFilePath);
 
-	void setDatasetPath(String datasetPath);
+	public void setDatasetPath(String datasetPath);
 
-	void setSlicing(String slicing);
+	public void setSlicing(String slicing);
 
-	void setPersistencePath(String persistencePath);
+	public void setPersistencePath(String persistencePath);
 
-	void setAxesNames(Map<Integer, String> axesNames);
+	public void setAxesNames(Map<Integer, String> axesNames);
 
-	void setParallelTimeout(long parallelTimeout);
+	public void setParallelTimeout(long parallelTimeout);
 
-	void setDeletePersistenceFile(boolean deletePersistenceFile);
+	public void setDeletePersistenceFile(boolean deletePersistenceFile);
 
-	void setXmx(String xmx);
+	public void setXmx(String xmx);
 
-	void setDataDimensions(int[] dataDimensions);
+	public void setDataDimensions(int[] dataDimensions);
 
-	void setReadable(boolean readable);
+	public void setReadable(boolean readable);
+	
+	public void setName(String name);
+	
+	public void setRunDirectory(String visitDir);
 
 }
