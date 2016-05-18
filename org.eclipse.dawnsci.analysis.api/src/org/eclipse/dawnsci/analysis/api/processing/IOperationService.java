@@ -187,4 +187,10 @@ public interface IOperationService {
 	 */
 	public OperationCategory getCategory(String operationId);
 	
+	/**
+	 * Creates an operation bean for use with remote/headless processing
+	 * @return operationBean
+	 */
+	public IOperationBean createBean();
+	
 }
