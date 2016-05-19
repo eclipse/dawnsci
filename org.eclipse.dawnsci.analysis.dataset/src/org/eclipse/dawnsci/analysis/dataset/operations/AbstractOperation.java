@@ -102,11 +102,13 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 		int[] datadims = getOriginalDataDimensions(original).clone();
 		int[] oddims = datadims.clone();
 		
+		Arrays.sort(datadims);
+		Arrays.sort(oddims);
+		
 		if (datadims.length > outr) {
 			datadims = new int[]{datadims[0]};
 		}
-		Arrays.sort(datadims);
-		Arrays.sort(oddims);
+		
 		
 		//Update rank of dataset (will automatically update rank of axes)
 		updateOutputDataShape(output.getData(), inr-rankDif, datadims, rankDif);
