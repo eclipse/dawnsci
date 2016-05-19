@@ -37,14 +37,14 @@ import org.eclipse.dawnsci.nexus.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ncsa.hdf.hdf5lib.H5;
-import ncsa.hdf.hdf5lib.HDF5Constants;
-import ncsa.hdf.hdf5lib.HDFNativeData;
-import ncsa.hdf.hdf5lib.exceptions.HDF5Exception;
-import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
-import ncsa.hdf.hdf5lib.structs.H5O_info_t;
-import ncsa.hdf.object.Datatype;
-import ncsa.hdf.object.h5.H5Datatype;
+import hdf.hdf5lib.H5;
+import hdf.hdf5lib.HDF5Constants;
+import hdf.hdf5lib.HDFNativeData;
+import hdf.hdf5lib.exceptions.HDF5Exception;
+import hdf.hdf5lib.exceptions.HDF5LibraryException;
+import hdf.hdf5lib.structs.H5O_info_t;
+import hdf.object.Datatype;
+import hdf.object.h5.H5Datatype;
 
 public class HDF5Utils {
 	private static final Logger logger = LoggerFactory.getLogger(HDF5Utils.class);
@@ -490,7 +490,7 @@ public class HDF5Utils {
 							Object idata = null;
 							byte[] bdata = (byte[]) odata;
 							if (isText) {
-								idata = ncsa.hdf.object.Dataset.byteToString(bdata, (int) H5.H5Tget_size(tid));
+								idata = hdf.object.Dataset.byteToString(bdata, (int) H5.H5Tget_size(tid));
 							} else if (isREF) {
 								idata = HDFNativeData.byteToLong(bdata);
 							}
@@ -563,7 +563,7 @@ public class HDF5Utils {
 								// TODO check if this is actually used
 								byte[] bdata = (byte[]) odata;
 								if (isText) {
-									idata = ncsa.hdf.object.Dataset.byteToString(bdata, (int) H5.H5Tget_size(tid));
+									idata = hdf.object.Dataset.byteToString(bdata, (int) H5.H5Tget_size(tid));
 								} else if (isREF) {
 									idata = HDFNativeData.byteToLong(bdata);
 								} else {

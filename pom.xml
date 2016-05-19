@@ -18,7 +18,8 @@
 	<modules>
         <module>org.eclipse.dawnsci.targetplatform</module>
 		<module>org.eclipse.dawnsci.analysis.api</module>
-		<module>../../dawn-third/ncsa.hdf</module>
+		<module>../../dawn-hdf/hdf.hdf5lib</module>
+		<module>../../dawn-hdf/hdf.object</module>
 		<module>../org.eclipse.richbeans</module>
 		<module>org.eclipse.dawnsci.analysis.asserts</module>
 		<module>org.eclipse.dawnsci.analysis.dataset</module>

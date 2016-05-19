@@ -79,7 +79,7 @@ public interface IHierarchicalDataFile extends AutoCloseable {
 	 * @param fullPath
 	 * @return an HObject e.g. Dataset or Group located at that path
 	 * @throws Exception
-	 * @Deprecated This method allows the API user to get ncsa objects directly.
+	 * @Deprecated This method allows the API user to get HDF objects directly.
 	 */
 	@Deprecated
 	public Object getData(String fullPath) throws Exception;

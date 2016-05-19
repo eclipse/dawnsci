@@ -12,6 +12,7 @@
 package org.eclipse.dawnsci.analysis.api.io;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
@@ -159,6 +160,18 @@ public interface ILoaderService {
 	 * @throws Exception
 	 */
 	public AxesMetadata getAxesMetadata(ILazyDataset parent, String path, Map<Integer, String> axesNames, boolean lazy) throws Exception;
+	
+	/**
+	 * Creates a AxesMetadata object containing lazy datasets for the axes specified in the axesNames <Dimension,DatasetName> map
+	 * 
+	 * @param parent - the lazy dataset the metadata relates to
+	 * @param path - the path to the file
+	 * @param axesNames - An array of lists of Strings containing the axes names for each dimension. Array must be same length as datasets rank.
+	 * @param lazy - if true keeps the datasets lazy, false reads into memory
+	 * @return axesMetadata
+	 * @throws Exception
+	 */
+	public AxesMetadata getAxesMetadata(ILazyDataset parent, String path, List<String>[] axesNames, boolean lazy) throws Exception;
 
 	/**
 	 * Get class that can load files of given extension

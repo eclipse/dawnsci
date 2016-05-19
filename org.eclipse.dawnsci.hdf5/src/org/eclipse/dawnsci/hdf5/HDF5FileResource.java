@@ -18,12 +18,11 @@
 
 package org.eclipse.dawnsci.hdf5;
 
-import ncsa.hdf.hdf5lib.H5;
-import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
-
-import org.eclipse.dawnsci.hdf5.HDF5BaseResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import hdf.hdf5lib.H5;
+import hdf.hdf5lib.exceptions.HDF5LibraryException;
 
 public class HDF5FileResource extends HDF5BaseResource {
 
