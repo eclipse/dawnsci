@@ -9,7 +9,7 @@
 
 package org.eclipse.dawnsci.analysis.api.processing;
 
-import java.util.Map;
+import java.util.List;
 
 public interface IOperationBean {
 
@@ -25,7 +25,7 @@ public interface IOperationBean {
 
 	public void setPersistencePath(String persistencePath);
 
-	public void setAxesNames(Map<Integer, String> axesNames);
+	public void setAxesNames(List<String>[] axesNames);
 
 	public void setParallelTimeout(long parallelTimeout);
 
@@ -40,5 +40,6 @@ public interface IOperationBean {
 	public void setName(String name);
 	
 	public void setRunDirectory(String visitDir);
+	
 
 }
