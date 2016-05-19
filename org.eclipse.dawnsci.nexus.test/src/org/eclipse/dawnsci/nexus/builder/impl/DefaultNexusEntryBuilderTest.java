@@ -24,13 +24,13 @@ import org.eclipse.dawnsci.nexus.NexusApplicationDefinition;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
-import org.eclipse.dawnsci.nexus.builder.AbstractNexusProvider;
+import org.eclipse.dawnsci.nexus.builder.AbstractNexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.CustomNexusEntryModification;
-import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryModification;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.appdef.NexusApplicationBuilder;
+import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
 import org.eclipse.dawnsci.nexus.builder.impl.MapBasedMetadataProvider;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
@@ -39,7 +39,7 @@ import org.junit.Test;
 
 public class DefaultNexusEntryBuilderTest {
 	
-	public static class TestPositioner extends AbstractNexusProvider<NXpositioner> {
+	public static class TestPositioner extends AbstractNexusObjectProvider<NXpositioner> {
 	
 		public TestPositioner() {
 			super("positioner", NexusBaseClass.NX_POSITIONER, NXpositioner.NX_VALUE);
@@ -56,10 +56,10 @@ public class DefaultNexusEntryBuilderTest {
 
 	}
 	
-	public static class TestDetector extends AbstractNexusProvider<NXdetector> {
+	public static class TestDetector extends AbstractNexusObjectProvider<NXdetector> {
 
 		public TestDetector() {
-			super(NexusBaseClass.NX_DETECTOR);
+			super("detector",  NexusBaseClass.NX_DETECTOR);
 		}
 		
 		@Override
@@ -69,10 +69,10 @@ public class DefaultNexusEntryBuilderTest {
 		
 	}
 	
-	public static class TestSource extends AbstractNexusProvider<NXsource> {
+	public static class TestSource extends AbstractNexusObjectProvider<NXsource> {
 		
 		public TestSource() {
-			super(NexusBaseClass.NX_SOURCE);
+			super("source", NexusBaseClass.NX_SOURCE);
 		}
 		
 		@Override
@@ -171,7 +171,8 @@ public class DefaultNexusEntryBuilderTest {
 	
 	@Test
 	public void testAdd_sample() throws NexusException {
-		NexusObjectProvider<NXsample> sampleProvider = new AbstractNexusProvider<NXsample>(NexusBaseClass.NX_SAMPLE) {
+		NexusObjectProvider<NXsample> sampleProvider =
+				new AbstractNexusObjectProvider<NXsample>("sample", NexusBaseClass.NX_SAMPLE) {
 
 			@Override
 			protected NXsample doCreateNexusObject(NexusNodeFactory nodeFactory) {
