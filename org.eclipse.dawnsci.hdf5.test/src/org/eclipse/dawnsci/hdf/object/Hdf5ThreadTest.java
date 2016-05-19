@@ -13,15 +13,11 @@ package org.eclipse.dawnsci.hdf.object;
 
 import java.io.File;
 
-import ncsa.hdf.object.Dataset;
-
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFile;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf5.AbstractThreadTestBase;
 import org.junit.After;
 import org.junit.Test;
+
+import hdf.object.Dataset;
 
 public class Hdf5ThreadTest extends AbstractThreadTestBase {
 

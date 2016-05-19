@@ -42,7 +42,7 @@ import org.junit.BeforeClass;
  * o Run as junit test (will fail)
  * o Add all org.eclipse.jetty and javax.serlvet to classpath
  * o Set LD_LIBRARY_PATH(linux) or PATH(windows) to:
- *     ${project_loc:uk.ac.diamond.CBFlib}/lib/${target.os}-${target.arch};${project_loc:ncsa.hdf}/lib/${target.os}-${target.arch}
+ *     ${project_loc:uk.ac.diamond.CBFlib}/lib/${target.os}-${target.arch};${project_loc:hdf.hdf5lib}/lib/${target.os}-${target.arch}
  * </pre>
  * 
  * @author Matthew Gerring

@@ -34,17 +34,17 @@ import org.eclipse.dawnsci.hdf.object.nexus.NexusUtils.ATTRIBUTE_TYPE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ncsa.hdf.hdf5lib.H5;
-import ncsa.hdf.hdf5lib.HDF5Constants;
-import ncsa.hdf.object.Attribute;
-import ncsa.hdf.object.Dataset;
-import ncsa.hdf.object.Datatype;
-import ncsa.hdf.object.FileFormat;
-import ncsa.hdf.object.Group;
-import ncsa.hdf.object.HObject;
-import ncsa.hdf.object.h5.H5Datatype;
-import ncsa.hdf.object.h5.H5File;
-import ncsa.hdf.object.h5.H5ScalarDS;
+import hdf.hdf5lib.H5;
+import hdf.hdf5lib.HDF5Constants;
+import hdf.object.Attribute;
+import hdf.object.Dataset;
+import hdf.object.Datatype;
+import hdf.object.FileFormat;
+import hdf.object.Group;
+import hdf.object.HObject;
+import hdf.object.h5.H5Datatype;
+import hdf.object.h5.H5File;
+import hdf.object.h5.H5ScalarDS;
 
 /**
  * 
@@ -211,17 +211,17 @@ public class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatD
 
 		try {
 		    file.open();
-		} catch (ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException ne) {
+		} catch (hdf.hdf5lib.exceptions.HDF5LibraryException ne) {
 			long fapl = -1; // FIXME revert once upstream has fixed broken backward compatibility
 			try {
 				fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
-			} catch (ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException e) {
+			} catch (hdf.hdf5lib.exceptions.HDF5LibraryException e) {
 				logger.error("Could not create file access property list");
 				throw e;
 			}
 			try {
 				H5.H5Pset(fapl, "clear_status_flags", 1);
-			} catch (ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException e) {
+			} catch (hdf.hdf5lib.exceptions.HDF5LibraryException e) {
 				logger.warn("Could not clear status flag but continuing to open file");
 			}
 			try {
@@ -230,12 +230,12 @@ public class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatD
 				if (fapl != -1) {
 					try {
 						H5.H5Pclose(fapl);
-					} catch (ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException e2) {
+					} catch (hdf.hdf5lib.exceptions.HDF5LibraryException e2) {
 						logger.error("Could not close file access property list");
 						throw e2;
 					}
 				}
-				} catch (ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException ex) {
+				} catch (hdf.hdf5lib.exceptions.HDF5LibraryException ex) {
 				fileFormat = FileFormat.getFileFormat(FileFormat.FILE_TYPE_HDF4);
 				
 				this.file = fileFormat.createInstance(path, openType);

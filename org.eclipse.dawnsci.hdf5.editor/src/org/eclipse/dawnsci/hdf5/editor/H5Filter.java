@@ -14,10 +14,10 @@ package org.eclipse.dawnsci.hdf5.editor;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-import ncsa.hdf.object.HObject;
-
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+
+import hdf.object.HObject;
 
 class H5Filter extends ViewerFilter {
 

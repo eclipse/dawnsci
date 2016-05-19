@@ -26,9 +26,9 @@ import org.eclipse.swt.graphics.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ncsa.hdf.object.Dataset;
-import ncsa.hdf.object.Group;
-import ncsa.hdf.object.HObject;
+import hdf.object.Dataset;
+import hdf.object.Group;
+import hdf.object.HObject;
 
 public class H5LabelProvider extends ColumnLabelProvider implements ITableLabelProvider {
 

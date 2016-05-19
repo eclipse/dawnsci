@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
-import ncsa.hdf.object.FileFormat;
-
 import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import hdf.object.FileFormat;
 
 /**
  * This class should be used to access HDF5 files from Java as long as the limitations like those

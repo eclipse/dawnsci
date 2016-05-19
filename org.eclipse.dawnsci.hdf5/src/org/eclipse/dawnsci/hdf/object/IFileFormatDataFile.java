@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.hdf.object;
 
-import ncsa.hdf.object.FileFormat;
+import hdf.object.FileFormat;
 
 /**
  * Internal use only. Do not use this interface externally to the plugin
