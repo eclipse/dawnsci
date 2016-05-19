@@ -15,7 +15,6 @@ Export-Package: org.eclipse.dawnsci.nexus,
  org.eclipse.dawnsci.nexus.builder,
  org.eclipse.dawnsci.nexus.builder.appdef,
  org.eclipse.dawnsci.nexus.builder.appdef.impl,
- org.eclipse.dawnsci.nexus.builder.data,
  org.eclipse.dawnsci.nexus.builder.impl,
  org.eclipse.dawnsci.nexus.validation
 Bundle-ActivationPolicy: lazy

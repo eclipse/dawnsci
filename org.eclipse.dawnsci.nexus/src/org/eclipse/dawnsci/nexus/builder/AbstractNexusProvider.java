@@ -14,20 +14,17 @@ package org.eclipse.dawnsci.nexus.builder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
-import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
-import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
-import org.eclipse.dawnsci.nexus.builder.data.impl.PrimaryDataFieldModel;
+import org.eclipse.dawnsci.nexus.builder.impl.PrimaryDataFieldModel;
 
 /**
  * Abstract implementation of {@link NexusObjectProvider}.
@@ -41,7 +38,7 @@ import org.eclipse.dawnsci.nexus.builder.data.impl.PrimaryDataFieldModel;
 		private NexusObjectProvider prov;
       
 		public Detector() {
-			prov = new AbstractNexusObjectProvider<NXdetector>(NexusBaseClass.NX_DETECTOR) {
+			prov = new AbstractNexusProvider<NXdetector>(NexusBaseClass.NX_DETECTOR) {
 			   
 				protected NXdetector doCreateNexusObject(NexusNodeFactory nodeFactory) {
 					final NXdetectorImpl detector = nodeFactory.createNXdetector();
@@ -65,7 +62,7 @@ import org.eclipse.dawnsci.nexus.builder.data.impl.PrimaryDataFieldModel;
  *
  * @param <N> nexus base class type, a subinterface of {@link NXobject}
  */
-public abstract class AbstractNexusObjectProvider<N extends NXobject> implements NexusObjectProvider<N> {
+public abstract class AbstractNexusProvider<N extends NXobject> implements NexusObjectProvider<N> {
 
 	public static final String DEFAULT_DATA_NODE_NAME = "data";
 
@@ -75,71 +72,75 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 
 	private String name;
 
-	private String primaryDataFieldName = null;
-	
-	private final LinkedHashSet<String> axisDataFieldNames;
+	private final LinkedHashSet<String> dataFieldNames;
 	
 	private final List<String> additionalPrimaryDataFieldNames;
 	
-	private Map<String, PrimaryDataFieldModel> primaryDataFieldModels = null;
+	private Map<String, PrimaryDataFieldModel> primaryDataFieldModels;
 	
 	private String externalFileName = null;
 
 	private Map<String, Integer> externalDatasetRanks = null;
 	
-	private String defaultAxisDataFieldName = null;
+	private String demandDataFieldName = null;
 	
-	private NexusBaseClass category = null;
+	private String defaultWritableDataFieldName = null;
 	
-	private Boolean useDeviceNameInNXdata = null;
+	private NexusBaseClass category;
+
+	public AbstractNexusProvider(NexusBaseClass nexusBaseClass) {
+		this(getDefaultName(nexusBaseClass), nexusBaseClass);
+	}
 
 	/**
-	 * Creates a new {@link AbstractNexusObjectProvider} for given name, base class type
+	 * Creates a new {@link AbstractNexusProvider} for given name and base class type,
+	 * with "data" as the name of the default data field - used as the default
+	 * data field (i.e. the signal field) when this device is added to an NXdata.
+	 * @param name name
+	 * @param nexusBaseClass base class type
+	 */
+	public AbstractNexusProvider(String name, NexusBaseClass nexusBaseClass) {
+		this(name, nexusBaseClass, null, DEFAULT_DATA_NODE_NAME);
+	}
+
+	/**
+	 * Creates a new {@link AbstractNexusProvider} for given name, base class type
 	 * and data node name.
 	 * @param name name
 	 * @param nexusBaseClass base class type
 	 */
-	public AbstractNexusObjectProvider(String name, NexusBaseClass nexusBaseClass) {
-		this(name, nexusBaseClass, null);
+	public AbstractNexusProvider(String name, NexusBaseClass nexusBaseClass,
+			String defaultDataFieldName) {
+		this(name, nexusBaseClass, null, defaultDataFieldName);
 	}
 
 	/**
-	 * Creates a new {@link AbstractNexusObjectProvider} for given name, base class type
-	 * and data node name. The default data field will be used as the <code>@signal</code>
-	 * for an {@link NexusBaseClass#NX_DETECTOR} when building an {@link NXdata} for this object,
-	 * otherwise if this device is the default axis for a particular dimension of the
-	 * <code>@signal</code> field of the device, this is the field that will be added to the
-	 * <code>@axes</code> attribute of the {@link NXdata} group for that dimension.
-	 *  
+	 * Creates a new {@link AbstractNexusProvider} for given name, base class type,
+	 * data node name and category.
 	 * @param name name
 	 * @param nexusBaseClass base class type
-	 * @param defaultDataFieldName default data field, the default signal field for a detector,
-	 *    the default axis field for any other type of nexus object
-	 * @param additionalDataFieldNames the names of any additional data fields
+	 * @param category
+	 * @param defaultDataFieldName name of the default data field
 	 */
-	public AbstractNexusObjectProvider(String name, NexusBaseClass nexusBaseClass,
-			String defaultDataFieldName, String... additionalDataFieldNames) {
+	public AbstractNexusProvider(String name, NexusBaseClass nexusBaseClass,
+			NexusBaseClass category, String defaultDataFieldName, String... remainingDataFieldNames) {
 		this.name = name;
 		this.nexusBaseClass = nexusBaseClass;
-		this.axisDataFieldNames = new LinkedHashSet<>(additionalDataFieldNames.length);
+		this.category = category;
 		
-		if (nexusBaseClass == NexusBaseClass.NX_DETECTOR) {
-			setPrimaryDataFieldName(defaultDataFieldName);
-		} else {
-			setDefaultAxisDataFieldName(defaultDataFieldName);
+		this.defaultWritableDataFieldName = defaultDataFieldName;
+		this.dataFieldNames = new LinkedHashSet<>(remainingDataFieldNames.length + 1);
+		if (defaultDataFieldName != null) {
+			this.dataFieldNames.add(defaultDataFieldName);
 		}
-		
-		if (additionalDataFieldNames.length > 0) {
-			this.axisDataFieldNames.addAll(Arrays.asList(additionalDataFieldNames));
+		if (remainingDataFieldNames.length > 0) {
+			this.dataFieldNames.addAll(Arrays.asList(remainingDataFieldNames));
 		}
-		// field names should be prefixed by the device name for axis devices (e.g. positioners)
-		setUseDeviceNameInNXdata(nexusBaseClass != NexusBaseClass.NX_DETECTOR);
-		
 		this.additionalPrimaryDataFieldNames = new ArrayList<>();
 	}
 
 	public static String getDefaultName(NexusBaseClass nexusBaseClass) {
-		// the default name is the base class name without the initial 'NX' prefix,
+		// the default name is the base class name without the initial 'NX',
 		// e.g. for 'NXpositioner' the default name is 'positioner'
 		return nexusBaseClass.toString().substring(2);
 	}
@@ -226,7 +227,7 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	/**
 	 * A convenience method to add an external link to the given
 	 * group node with the given name, while also setting the rank of the
-	 * external dataset within this {@link AbstractNexusObjectProvider}.
+	 * external dataset within this {@link AbstractNexusProvider}.
 	 * This is required to be set when adding a {@link NexusObjectProvider}
 	 * with external links to a {@link NexusDataBuilder} in order for the
 	 * <code>axes</code> and <code>&lt;axisname&gt;_indices</code> to be
@@ -285,114 +286,54 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getDefaultDataFieldName()
 	 */
 	@Override
-	public String getPrimaryDataFieldName() {
-		if (primaryDataFieldName != null) {
-			return primaryDataFieldName;
+	public String getPrimaryDataField() {
+		if (defaultWritableDataFieldName != null) {
+			return defaultWritableDataFieldName;
 		}
-
-		// if the primary data field name hasn't been set, just use the first field
-		if (axisDataFieldNames != null && !axisDataFieldNames.isEmpty()) {
-			return axisDataFieldNames.iterator().next();
+		if (dataFieldNames != null && !dataFieldNames.isEmpty()) {
+			return dataFieldNames.iterator().next();
 		}
 		
 		return null;
 	}
 	
-	/**
-	 * Sets the name of the field to use as the primary data field. If this device is the
-	 * primary device for a scan then this field is used as the <code>@signal</code> field
-	 * for the {@link NXdata} group.
-	 * @param primaryDataFieldName name of the primary data field
-	 */
-	public void setPrimaryDataFieldName(String primaryDataFieldName) {
-		this.primaryDataFieldName = primaryDataFieldName;
+	public void setPrimaryDataField(String defaultWritableDataFieldName) {
+		addDataFields(defaultWritableDataFieldName); // add as a data field if not already present
+		this.defaultWritableDataFieldName = defaultWritableDataFieldName;
 	}
 	
 	@Override
-	public String getDefaultAxisDataFieldName() {
-		return defaultAxisDataFieldName;
+	public String getDemandDataField() {
+		return demandDataFieldName;
 	}
 	
-	/**
-	 * Sets the name of the data field for this device that acts as an axis.
-	 * This field should only be set if this device is a scannable, i.e. a device that is
-	 * set to a position at a particular point in the scan. 
-	 * @param defaultAxisDataFieldName
-	 */
-	public void setDefaultAxisDataFieldName(String defaultAxisDataFieldName) {
-		this.defaultAxisDataFieldName = defaultAxisDataFieldName;
-		axisDataFieldNames.add(defaultAxisDataFieldName);
+	public void setDemandDataField(String demandDataFieldName) {
+		this.demandDataFieldName = demandDataFieldName;
+		if (!dataFieldNames.contains(demandDataFieldName)) {
+			dataFieldNames.add(demandDataFieldName);
+		}
 	}
 
 	@Override
-	public List<String> getAxisDataFieldNames() {
-		return new ArrayList<String>(axisDataFieldNames);
+	public List<String> getDataFields() {
+		return new ArrayList<String>(dataFieldNames);
 	}
 
-	/**
-	 * Sets the names of the data fields for this device. Each data field will be added
-	 * to any {@link NXdata} group created for this scan.
-	 * @param axisDataFieldNames names of data fields
-	 */
-	public void setAxisDataFieldNames(String... axisDataFieldNames) {
-		this.axisDataFieldNames.clear();
-		this.axisDataFieldNames.addAll(Arrays.asList(axisDataFieldNames));  
+	public void setDataFields(String... dataFieldNames) {
+		this.dataFieldNames.clear();
+		this.dataFieldNames.addAll(Arrays.asList(dataFieldNames));  
 	}
 	
-	/**
-	 * Adds the given name to the names of the axis data fields for this device. Each data field
-	 * will be added to any {@link NXdata} group created for this scan (an {@link NXdata} group is
-	 * created for each primary data field). In order to add a data field that should only
-	 * be added to the {@link NXdata} group for a specific primary data field use
-	 * {@link #addAxisDataFieldForPrimaryDataField(String, String, Integer, int...)}
-	 * @param dataFieldName names of data fields
-	 */
-	public void addAxisDataFieldName(String dataFieldName) {
-		this.axisDataFieldNames.add(dataFieldName);
+	public void addDataFields(String... dataFieldName) {
+		this.dataFieldNames.addAll(Arrays.asList(dataFieldName));
 	}
 	
-	/**
-	 * Adds the given names to the names of the data fields for this device. Each data field
-	 * will be added to any {@link NXdata} group created for this scan (an {@link NXdata} group is
-	 * created for each primary data field). In order to add a data field that should only
-	 * be added to the {@link NXdata} group for a specific primary data field use
-	 * {@link #addAxisDataFieldForPrimaryDataField(String, String, Integer, int...)}
-	 * @param axisDataFieldNames names of data fields
-	 */
-	public void addAxisDataFieldNames(String... axisDataFieldNames) {
-		this.axisDataFieldNames.addAll(Arrays.asList(axisDataFieldNames));
-	}
-	
-	/**
-	 * Adds the given data field. This field with this name will be added to any {@link NXdata}
-	 * groups created for this scan.
-	 * @param dataFieldName name of data field
-	 * @param defaultAxisDimension the dimension
-	 * @param dimensionMappings mappings between the dimensions of the data field and the
-	 *    primary data field for this device 
-	 */
-	public void addAxisDataField(String dataFieldName, Integer defaultAxisDimension, int... dimensionMappings) {
-		if (primaryDataFieldName == null) {
+	public void addDataField(String dataFieldName, Integer defaultAxisDimension, int... dimensionMappings) {
+		if (defaultWritableDataFieldName == null) {
 			throw new IllegalStateException("Default writable data field not set.");
 		}
 		
-		addAxisDataFieldForPrimaryDataField(dataFieldName, primaryDataFieldName,
-				defaultAxisDimension, dimensionMappings);
-	}
-	
-	/**
-	 * Returns the names of the data fields that are axes for the given primary data field
-	 * within this device.
-	 * @param primaryDataFieldName primary data field name
-	 * @return names of data fields
-	 */
-	public List<String> getAxisDataFieldsForPrimaryDataField(String primaryDataFieldName) {
-		PrimaryDataFieldModel primaryDataFieldModel = getPrimaryDataFieldModel(primaryDataFieldName, false);
-		if (primaryDataFieldModel == null) {
-			return Collections.emptyList();
-		}
-		
-		return primaryDataFieldModel.getAxisFieldNames();
+		addDataField(dataFieldName, defaultWritableDataFieldName, defaultAxisDimension, dimensionMappings);
 	}
 	
 	private PrimaryDataFieldModel getPrimaryDataFieldModel(String primaryDataFieldName, boolean create) {
@@ -411,41 +352,38 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 		return primaryDataFieldModel;
 	}
 	
-	/**
-	 * Adds a data field as an axis to a given primary data field. This field is only added
-	 * to the {@link NXdata} group for the given primary data field (i.e. where it is the
-	 * <code>@signal</code> field). 
-	 * @param dataFieldName name of data field to add
-	 * @param primaryDataFieldName name of primary data field that the new data field is an axis for
-	 * @param defaultAxisDimension 
-	 * @param dimensionMappings (optional) dimension mappings between the new data field
-	 *    and the primary data. If this argument is not specified then the dimension mappings will
-	 *    be assumed to be {0, 1, 2, etc} if the data field is multidimensional, or
-	 *    { defaultAxisDimension } if the data field has a single dimension  
-	 */
-	public void addAxisDataFieldForPrimaryDataField(String dataFieldName, String primaryDataFieldName,
+	public void addDataField(String dataFieldName, String primaryDataFieldName,
 			Integer defaultAxisDimension, int... dimensionMappings) {
+		dataFieldNames.add(dataFieldName);
+		
+		// if defaultAxisDimension is set and no dimension mappings are specified
+		// assume this is a 1 dimensional dataset with mapping the defaultAxisDimension
+		if (dimensionMappings.length == 0 && defaultAxisDimension != null) {
+			// TODO can we remove this and make this assumption at a later stage?
+			dimensionMappings = new int[] { defaultAxisDimension };
+		} 
+		
 		PrimaryDataFieldModel primaryDataFieldModel = getPrimaryDataFieldModel(primaryDataFieldName, true);
-		primaryDataFieldModel.addAxisField(dataFieldName, defaultAxisDimension, dimensionMappings);
+		primaryDataFieldModel.addDataField(dataFieldName, defaultAxisDimension, dimensionMappings);
 	}
 	
-	/**
-	 * Add an additional primary data field. This is a data field for which, when this
-	 * device is the primary device in a scan, an additional {@link NXdata} group should be
-	 * created with this field as the <code>@signal</code> field.
-	 * @param dataFieldName the name of the additional primary data field
-	 */
-	public void addAdditionalPrimaryDataFieldName(String dataFieldName) {
+	public void addAdditionalPrimaryDataField(String dataFieldName) {
 		// TODO: is this the best name for this concept? it's a bit confusing
 		// alternatives: addPrimaryDataField, addSecondarySignalField etc
+		
+		addDataFields(dataFieldName); // add as a data field if not already added
 		additionalPrimaryDataFieldNames.add(dataFieldName);
+	}
+	
+	public void addAdditionalPrimaryDataFields(String... dataFieldNames) {
+		additionalPrimaryDataFieldNames.addAll(Arrays.asList(dataFieldNames));
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getAdditionalPrimaryDataFieldNames()
 	 */
 	@Override
-	public List<String> getAdditionalPrimaryDataFieldNames() {
+	public List<String> getAdditionalPrimaryDataFields() {
 		return additionalPrimaryDataFieldNames;
 	}
 
@@ -479,16 +417,13 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 		return null;
 	}
 
+	public ILazyWriteableDataset getDefaultWriteableDataset() {
+		final String defaultDataFieldName = getPrimaryDataField();
+		return getNexusObject().getLazyWritableDataset(defaultDataFieldName);
+	}
+
 	public ILazyWriteableDataset getWriteableDataset(String fieldName) {
 		return getNexusObject().getLazyWritableDataset(fieldName);
-	}
-	
-	public Boolean getUseDeviceNameInNXdata() {
-		return useDeviceNameInNXdata;
-	}
-	
-	public void setUseDeviceNameInNXdata(boolean useDeviceNameInNXdata) {
-		this.useDeviceNameInNXdata = useDeviceNameInNXdata;
 	}
 
 }

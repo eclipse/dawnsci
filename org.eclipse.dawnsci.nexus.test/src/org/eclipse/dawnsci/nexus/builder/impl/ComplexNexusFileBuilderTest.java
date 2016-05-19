@@ -27,20 +27,23 @@ import org.eclipse.dawnsci.nexus.NexusApplicationDefinition;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
-import org.eclipse.dawnsci.nexus.builder.AbstractNexusObjectProvider;
+import org.eclipse.dawnsci.nexus.builder.AbstractNexusProvider;
 import org.eclipse.dawnsci.nexus.builder.CustomNexusEntryModification;
+import org.eclipse.dawnsci.nexus.builder.DataDevice;
+import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryModification;
 import org.eclipse.dawnsci.nexus.builder.appdef.impl.TomoApplicationBuilder;
-import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
+import org.eclipse.dawnsci.nexus.builder.impl.MapBasedMetadataProvider;
+import org.eclipse.dawnsci.nexus.builder.impl.NexusUser;
 
 
 public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBase {
 	
-	private static class SimplePositioner extends AbstractNexusObjectProvider<NXpositioner> {
+	private static class SimplePositioner extends AbstractNexusProvider<NXpositioner> {
 
 		public SimplePositioner(final String name) {
-			super(name, NexusBaseClass.NX_POSITIONER, NXpositioner.NX_VALUE);
+			super(name, NexusBaseClass.NX_POSITIONER, NexusBaseClass.NX_INSTRUMENT, NXpositioner.NX_VALUE);
 		}
 		
 		@Override
@@ -54,12 +57,11 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 
 	}
 	
-	private static final class TomoScanDevicePositioner extends AbstractNexusObjectProvider<NXpositioner> {
+	private static final class TomoScanDevicePositioner extends AbstractNexusProvider<NXpositioner> {
 
 		public TomoScanDevicePositioner() {
 			super("tomoScanDevice", NexusBaseClass.NX_POSITIONER, "ss1_rot");
-			setUseDeviceNameInNXdata(false);
-			setAxisDataFieldNames("imageNumber", "image_key", "ss1_X", "ss1_rot", "tomography_shutter");
+			setDataFields("imageNumber", "image_key", "ss1_X", "ss1_rot", "tomography_shutter");
 		}
 		
 		@Override
@@ -77,11 +79,10 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 
 	}
 	
-	private static class TestDetector extends AbstractNexusObjectProvider<NXdetector> {
+	private static class TestDetector extends AbstractNexusProvider<NXdetector> {
 		
 		public TestDetector() {
-			super("pc01_hw_hdf", NexusBaseClass.NX_DETECTOR, NXdetector.NX_DATA,
-					NXdetector.NX_COUNT_TIME, "start_time", "time_ms");
+			super("pc01_hw_hdf", NexusBaseClass.NX_DETECTOR);
 		}
 		
 		@Override
@@ -105,7 +106,7 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 
 	}
 	
-	private static class TestSource extends AbstractNexusObjectProvider<NXsource> {
+	private static class TestSource extends AbstractNexusProvider<NXsource> {
 
 		public TestSource() {
 			super("source", NexusBaseClass.NX_SOURCE);
@@ -129,7 +130,7 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 	 * In the real world the before_scan collection is used by GDA to store additional data it needs.
 	 * In a real world system this provider could fetch the details from the scan.
 	 */
-	private static class BeforeScan extends AbstractNexusObjectProvider<NXcollection> {
+	private static class BeforeScan extends AbstractNexusProvider<NXcollection> {
 
 		public BeforeScan() {
 			super("before_scan", NexusBaseClass.NX_COLLECTION);
@@ -223,6 +224,7 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 		scanData.addMetadataEntry("scan_identifier", "a3d668c0-e3c4-4ed9-b127-4a202b2b6bac");
 		scanData.addMetadataEntry("title", "AKingUVA_7050wSSwire_InSitu_95RH_2MMgCl2_p4ul_p4h");
 		
+		
 		List<NexusEntryModification> nexusObjects = new ArrayList<>();
 		nexusObjects.add(beforeScan);
 		nexusObjects.add(scanData);
@@ -253,19 +255,15 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 	protected void addDataBuilder(NexusEntryBuilder entryModel) throws NexusException {
 		NexusDataBuilder dataBuilder = entryModel.newData(testDetector.getName());
 		dataBuilder.setPrimaryDevice(testDetector);
-		
-		dataBuilder.addAxisDevice(tomoScanDevicePositioner, 0);
-		dataBuilder.addAxisDevice(actualTimePositioner);
-		dataBuilder.addAxisDevice(beamOkPositioner);
-		dataBuilder.addAxisDevice(ioncIPositioner);
+		dataBuilder.addDataDevice(new DataDevice<>(tomoScanDevicePositioner, false, 0, 0));
+		dataBuilder.addDataDevice(actualTimePositioner, null, 0);
+		dataBuilder.addDataDevice(beamOkPositioner, null, 0);
+		dataBuilder.addDataDevice(ioncIPositioner, null, 0);
 
-		// TODO, add these fields as part of the detector (primary) device
-		// TODO also add region_origin and region_size
-//		AxisDataDevice<NXdetector> detectorAxisDevice = new DataDevice<>(testDetector), null, 0);
-//		detectorAxisDevice.setSourceFields("count_time", "start_time", "time_ms");
-//		detectorAxisDevice.set
-//		detectorAxisDevice.setIsPrimary(true);
-//		dataBuilder.addDataDevice(detectorAxisDevice);
+		DataDevice<NXdetector> detectorAxisDevice = new DataDevice<>(testDetector, null, 0);
+		detectorAxisDevice.setSourceFields("count_time", "start_time", "time_ms");
+		detectorAxisDevice.setUseDeviceName(false);
+		dataBuilder.addDataDevice(detectorAxisDevice);
 	}
 	
 	protected void addApplicationDefinitions(NexusEntryBuilder nexusEntryModel) throws NexusException {

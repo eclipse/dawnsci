@@ -1,13 +1,11 @@
-package org.eclipse.dawnsci.nexus.builder.data.impl;
+package org.eclipse.dawnsci.nexus.builder.impl;
 
 import org.eclipse.dawnsci.nexus.NXdata;
-import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.builder.DataDevice;
+import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
-import org.eclipse.dawnsci.nexus.builder.data.DataDeviceBuilder;
-import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
-import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusEntryBuilder;
 
 public abstract class AbstractNexusDataBuilder implements NexusDataBuilder {
 
@@ -35,21 +33,20 @@ public abstract class AbstractNexusDataBuilder implements NexusDataBuilder {
 		return nxData;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder#setPrimaryDevice(org.eclipse.dawnsci.nexus.builder.NexusObjectProvider)
-	 */
 	@Override
-	public <N extends NXobject> void setPrimaryDevice(NexusObjectProvider<N> primaryDevice)
+	public void setPrimaryDevice(NexusObjectProvider<?> primaryDevice)
 			throws NexusException {
-		setPrimaryDevice(DataDeviceBuilder.newPrimaryDataDevice(primaryDevice));
+		setPrimaryDevice(new DataDevice<>(primaryDevice, false));
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder#addDataDevice(org.eclipse.dawnsci.nexus.builder.NexusObjectProvider)
-	 */
 	@Override
-	public <N extends NXobject> void addAxisDevice(NexusObjectProvider<N> dataDevice) throws NexusException {
-		addAxisDevice(DataDeviceBuilder.newAxisDataDevice(dataDevice));
+	public void addDataDevice(NexusObjectProvider<?> dataDevice) throws NexusException {
+		addDataDevice(new DataDevice<>(dataDevice, true));
+	}
+
+	@Override
+	public void addDataDevice(NexusObjectProvider<?> dataDevice, int defaultAxisDimension) throws NexusException {
+		addDataDevice(dataDevice, defaultAxisDimension, null);
 	}
 
 }
