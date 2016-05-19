@@ -414,7 +414,7 @@ public class HDF5Utils {
 				rank = H5.H5Sget_simple_extent_ndims(sid);
 
 				isText = type.dtype == Dataset.STRING;
-				isVLEN = type.vlen;
+				isVLEN = type.isVariableLength;
 
 				final int ldtype = dtype >= 0 ? dtype : type.dtype;
 				final int lisize = isize >= 0 ? isize : type.isize;
@@ -1316,6 +1316,7 @@ public class HDF5Utils {
 
 	private static final Map<Long, Integer> HDF_TYPES_TO_DATASET_TYPES;
 	private static final Map<Integer, Long> DATASET_TYPES_TO_HDF_TYPES;
+	private static final Map<Long, Long> ENUM_SIZE_TO_HDF_TYPES;
 	private static final Set<Long> UNSIGNED_HDF_TYPES;
 
 	private static long getTypeRepresentation(long nativeHdfTypeId) throws NexusException {
@@ -1335,18 +1336,20 @@ public class HDF5Utils {
 	static {
 		HDF_TYPES_TO_DATASET_TYPES = new HashMap<Long, Integer>();
 		DATASET_TYPES_TO_HDF_TYPES = new HashMap<Integer, Long>();
+		ENUM_SIZE_TO_HDF_TYPES = new HashMap<Long, Long>();
 		UNSIGNED_HDF_TYPES = new HashSet<Long>();
 
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT8, Dataset.INT8);
 		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT8, HDF5Constants.H5T_NATIVE_INT8);
-
+		ENUM_SIZE_TO_HDF_TYPES.put(1l, HDF5Constants.H5T_NATIVE_INT8);
 
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT16, Dataset.INT16);
 		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT16, HDF5Constants.H5T_NATIVE_INT16);
-
+		ENUM_SIZE_TO_HDF_TYPES.put(2l, HDF5Constants.H5T_NATIVE_INT16);
 
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT32, Dataset.INT32);
 		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT32, HDF5Constants.H5T_NATIVE_INT32);
+		ENUM_SIZE_TO_HDF_TYPES.put(4l, HDF5Constants.H5T_NATIVE_INT32);
 
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_B8, Dataset.INT8);
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_B16, Dataset.INT16);
@@ -1355,6 +1358,7 @@ public class HDF5Utils {
 
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT64, Dataset.INT64);
 		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT64, HDF5Constants.H5T_NATIVE_INT64);
+		ENUM_SIZE_TO_HDF_TYPES.put(8l, HDF5Constants.H5T_NATIVE_INT64);
 
 
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_UINT8, Dataset.INT8);
@@ -1396,8 +1400,9 @@ public class HDF5Utils {
 		public int isize = 1; // number of elements per item
 		public long size; // size of string in bytes
 		public int bits = -1; // max number of bits for bit-fields (-1 for other types)
+		public int nEnum; // number of enumerations
 		public String name;
-		public boolean vlen; // is variable length
+		public boolean isVariableLength; // is variable length
 		public boolean isComplex = false;
 		public boolean unsigned; // is unsigned
 	}
@@ -1653,16 +1658,19 @@ public class HDF5Utils {
 	
 			long typeRepresentation;
 			if (tclass == HDF5Constants.H5T_STRING) {
-				type.vlen = H5.H5Tis_variable_str(nativeTypeId);
+				type.isVariableLength = H5.H5Tis_variable_str(nativeTypeId);
 				typeRepresentation = HDF5Constants.H5T_C_S1;
+			} else if (tclass == HDF5Constants.H5T_ENUM) {
+				// TODO maybe convert to string dataset eventually
+				type.nEnum = H5.H5Tget_nmembers(nativeTypeId);
+				typeRepresentation = ENUM_SIZE_TO_HDF_TYPES.get(type.size);
 			} else {
-				type.vlen = tclass == HDF5Constants.H5T_VLEN;
+				type.isVariableLength = tclass == HDF5Constants.H5T_VLEN;
 				typeRepresentation = getTypeRepresentation(nativeTypeId);
 			}
 			type.dtype = HDF_TYPES_TO_DATASET_TYPES.get(typeRepresentation);
 			type.unsigned = UNSIGNED_HDF_TYPES.contains(typeRepresentation);
 		}
-//		isEnum = tclass == HDF5Constants.H5T_ENUM;
 //		isRegRef = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_DSETREG);
 		return type;
 	}
@@ -1702,7 +1710,7 @@ public class HDF5Utils {
 						strCount *= d;
 					}
 					if (type.dtype == Dataset.STRING) {
-						if (type.vlen) {
+						if (type.isVariableLength) {
 							String[] buffer = new String[strCount];
 							H5.H5AreadVL(attrId, nativeTypeId, buffer);
 							dataset = DatasetFactory.createFromObject(buffer).reshape(iShape);
