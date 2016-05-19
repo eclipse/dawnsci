@@ -175,4 +175,10 @@ public class LoaderServiceMock implements ILoaderService {
 		return null;
 	}
 
+	@Override
+	public AxesMetadata getAxesMetadata(ILazyDataset parent, String path, List<String>[] axesNames, boolean lazy)
+			throws Exception {
+		return null;
+	}
+
 }
