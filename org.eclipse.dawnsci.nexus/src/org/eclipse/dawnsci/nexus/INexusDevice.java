@@ -1,7 +1,7 @@
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyDataset;
-import org.eclipse.dawnsci.nexus.builder.AbstractNexusObjectProvider;
+import org.eclipse.dawnsci.nexus.builder.AbstractNexusProvider;
 import org.eclipse.dawnsci.nexus.builder.CustomNexusEntryModification;
 import org.eclipse.dawnsci.nexus.builder.DelegateNexusProvider;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
@@ -9,7 +9,7 @@ import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 /**
  * Any device which can write NeXus should implement this interface.
  * 
- * This can be done easily by extending {@link AbstractNexusObjectProvider} or
+ * This can be done easily by extending {@link AbstractNexusProvider} or
  * {@link DelegateNexusProvider}
  * 
  * @author Matthew Gerring

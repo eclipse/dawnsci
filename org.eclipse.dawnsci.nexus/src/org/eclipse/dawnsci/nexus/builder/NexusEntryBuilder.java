@@ -26,7 +26,6 @@ import org.eclipse.dawnsci.nexus.NexusApplicationDefinition;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.appdef.NexusApplicationBuilder;
-import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.impl.NXentryImpl;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 

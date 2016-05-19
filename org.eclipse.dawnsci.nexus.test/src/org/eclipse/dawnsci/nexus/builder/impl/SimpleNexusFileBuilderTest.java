@@ -23,15 +23,15 @@ import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
-import org.eclipse.dawnsci.nexus.builder.AbstractNexusObjectProvider;
+import org.eclipse.dawnsci.nexus.builder.AbstractNexusProvider;
+import org.eclipse.dawnsci.nexus.builder.DataDevice;
+import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryModification;
-import org.eclipse.dawnsci.nexus.builder.data.DataDeviceBuilder;
-import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 
 public class SimpleNexusFileBuilderTest extends AbstractNexusFileBuilderTestBase {
 	
-	private static class TestDetector extends AbstractNexusObjectProvider<NXdetector> {
+	private static class TestDetector extends AbstractNexusProvider<NXdetector> {
 
 		public TestDetector() {
 			super("analyser", NexusBaseClass.NX_DETECTOR, NXdetector.NX_DATA);
@@ -50,11 +50,10 @@ public class SimpleNexusFileBuilderTest extends AbstractNexusFileBuilderTestBase
 
 	}
 
-	private static class TestBeam extends AbstractNexusObjectProvider<NXbeam> {
+	private static class TestBeam extends AbstractNexusProvider<NXbeam> {
 
 		public TestBeam() {
-			super("beam", NexusBaseClass.NX_BEAM);
-			setCategory(NexusBaseClass.NX_SAMPLE);
+			super("beam", NexusBaseClass.NX_BEAM, NexusBaseClass.NX_SAMPLE, null);
 		}
 		
 		@Override
@@ -80,7 +79,7 @@ public class SimpleNexusFileBuilderTest extends AbstractNexusFileBuilderTestBase
 	
 	protected void addDataBuilder(NexusEntryBuilder entryModel) throws NexusException {
 		NexusDataBuilder dataModel = entryModel.createDefaultData();
-		dataModel.setPrimaryDevice(DataDeviceBuilder.newPrimaryDataDevice(detector));
+		dataModel.setPrimaryDevice(new DataDevice<>(detector, false));
 	}
 	
 	protected List<NexusEntryModification> getNexusTreeModifications() {

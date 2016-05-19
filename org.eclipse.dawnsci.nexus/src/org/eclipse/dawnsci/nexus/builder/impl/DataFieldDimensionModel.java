@@ -1,6 +1,4 @@
-package org.eclipse.dawnsci.nexus.builder.data.impl;
-
-import java.util.Arrays;
+package org.eclipse.dawnsci.nexus.builder.impl;
 
 import org.eclipse.dawnsci.nexus.NXdata;
 
@@ -8,16 +6,29 @@ import org.eclipse.dawnsci.nexus.NXdata;
  * A model for how the dimensions of a data field correspond to the dimensions
  * of the primary data field (i.e. the <code>@signal</code> field ) of an {@link NXdata} group.
  */
-public class AxisFieldModel extends DataFieldModel {
+public class DataFieldDimensionModel {
 	
 	private Integer defaultAxisDimension = null;
 	
 	private int[] dimensionMappings = null;
 	
-	public AxisFieldModel(String sourceFieldName, int fieldRank) {
-		super(sourceFieldName, fieldRank);
+	public DataFieldDimensionModel() {
+		// do nothing
 	}
 	
+	public DataFieldDimensionModel(int defaultAxisDimension) {
+		this.defaultAxisDimension = defaultAxisDimension;
+	}
+	
+	public DataFieldDimensionModel(Integer defaultAxisDimension, int[] dimensionMappings) {
+		this.defaultAxisDimension = defaultAxisDimension;
+		this.dimensionMappings = dimensionMappings;
+	}
+
+	public Integer getDefaultAxisDimension() {
+		return defaultAxisDimension;
+	}
+
 	/**
 	 * Sets the default axis dimension for this data field to the given value.
 	 * This is the dimension of the default data field of the {@link NXdata} group
@@ -28,8 +39,8 @@ public class AxisFieldModel extends DataFieldModel {
 		this.defaultAxisDimension = defaultAxisDimension;
 	}
 
-	public Integer getDefaultAxisDimension() {
-		return defaultAxisDimension;
+	public int[] getDimensionMappings() {
+		return dimensionMappings;
 	}
 
 	/**
@@ -40,17 +51,6 @@ public class AxisFieldModel extends DataFieldModel {
 	 */
 	public void setDimensionMappings(int... dimensionMappings) {
 		this.dimensionMappings = dimensionMappings;
-	}
-
-	public int[] getDimensionMappings() {
-		return dimensionMappings;
-	}
-
-	@Override
-	protected void appendMemberFields(StringBuilder sb) {
-		super.appendMemberFields(sb);
-		sb.append(", defaultAxisDimension = " + defaultAxisDimension);
-		sb.append(", dimensionMappings = " + Arrays.toString(dimensionMappings));
 	}
 	
 }

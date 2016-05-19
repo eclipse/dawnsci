@@ -30,6 +30,7 @@ import org.eclipse.dawnsci.nexus.NexusBaseClass;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.CustomNexusEntryModification;
+import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryModification;
 import org.eclipse.dawnsci.nexus.builder.NexusMetadataProvider;
@@ -37,8 +38,6 @@ import org.eclipse.dawnsci.nexus.builder.NexusMetadataProvider.MetadataEntry;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.appdef.NexusApplicationBuilder;
 import org.eclipse.dawnsci.nexus.builder.appdef.impl.DefaultApplicationFactory;
-import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
-import org.eclipse.dawnsci.nexus.builder.data.impl.DefaultNexusDataBuilder;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 
 /**

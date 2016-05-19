@@ -1,4 +1,4 @@
-package org.eclipse.dawnsci.nexus.builder.data.impl;
+package org.eclipse.dawnsci.nexus.builder.impl;
 
 import static org.eclipse.dawnsci.nexus.test.util.NexusAssert.assertAxes;
 import static org.eclipse.dawnsci.nexus.test.util.NexusAssert.assertIndices;
@@ -16,24 +16,23 @@ import org.eclipse.dawnsci.nexus.NXroot;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
-import org.eclipse.dawnsci.nexus.builder.AbstractNexusObjectProvider;
+import org.eclipse.dawnsci.nexus.builder.AbstractNexusProvider;
+import org.eclipse.dawnsci.nexus.builder.DataDevice;
+import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusFileBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
-import org.eclipse.dawnsci.nexus.builder.data.DataDeviceBuilder;
-import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
-import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * This test class tests that DefaultNexusDataBuilder
+ * This test class tests that the {@link DefaultNexusDataBuilder}
  * can construct the example {@link NXdata} structures from the
  * document http://wiki.nexusformat.org/2014_axes_and_uncertainties.
  */
 public class DefaultNexusDataExamplesTest {
 	
-	public static class TestDetector extends AbstractNexusObjectProvider<NXdetector> {
+	public static class TestDetector extends AbstractNexusProvider<NXdetector> {
 	
 		private final int[] shape;
 		
@@ -44,15 +43,9 @@ public class DefaultNexusDataExamplesTest {
 		}
 		
 		public TestDetector(String name, int... shape) {
-			this(name, true, shape);
-		}
-		
-		public TestDetector(String name, boolean useDeviceName, int... shape) {
 			super(name, NexusBaseClass.NX_DETECTOR, NXdetector.NX_DATA);
-			setUseDeviceNameInNXdata(useDeviceName);
 			this.shape = shape;
 		}
-		
 		
 		@Override
 		protected NXdetector doCreateNexusObject(NexusNodeFactory nodeFactory) {
@@ -67,7 +60,7 @@ public class DefaultNexusDataExamplesTest {
 		
 	}
 
-	public static class TestPositioner extends AbstractNexusObjectProvider<NXpositioner> {
+	public static class TestPositioner extends AbstractNexusProvider<NXpositioner> {
 		
 		private final int[] shape;
 		
@@ -85,7 +78,7 @@ public class DefaultNexusDataExamplesTest {
 		
 	}
 	
-	public static class PolarAnglePositioner extends AbstractNexusObjectProvider<NXpositioner> {
+	public static class PolarAnglePositioner extends AbstractNexusProvider<NXpositioner> {
 		
 		private final int dimensionIndex; 
 		
@@ -95,8 +88,8 @@ public class DefaultNexusDataExamplesTest {
 			super(name, NexusBaseClass.NX_POSITIONER);
 			this.dimensionIndex = dimensionIndex;
 			this.scanShape = scanShape;
-			setAxisDataFieldNames("rbv", "demand");
-			setDefaultAxisDataFieldName("demand");
+			setDataFields("rbv", "demand");
+			setDemandDataField("demand");
 		}
 		
 		@Override
@@ -138,7 +131,7 @@ public class DefaultNexusDataExamplesTest {
 		
 		addToEntry(detector, positioner);
 		dataBuilder.setPrimaryDevice(detector);
-		dataBuilder.addAxisDevice(positioner, 0);
+		dataBuilder.addDataDevice(positioner, 0);
 		
 		assertSignal(nxData, "data");
 		assertAxes(nxData, "x");
@@ -160,9 +153,9 @@ public class DefaultNexusDataExamplesTest {
 		
 		addToEntry(mainDetector, pressureDet, temperatureDet, timeDet);
 		dataBuilder.setPrimaryDevice(mainDetector);
-		dataBuilder.addAxisDevice(pressureDet, 1);
-		dataBuilder.addAxisDevice(temperatureDet, null, 1);
-		dataBuilder.addAxisDevice(timeDet, 0);
+		dataBuilder.addDataDevice(pressureDet, 1);
+		dataBuilder.addDataDevice(temperatureDet, null, 1);
+		dataBuilder.addDataDevice(timeDet, 0);
 		
 		assertSignal(nxData, "data");
 		assertAxes(nxData, "time", "pressure");
@@ -188,14 +181,14 @@ public class DefaultNexusDataExamplesTest {
 	 */
 	@Test
 	public void testExample3() throws NexusException {
-		TestDetector mainDetector = new TestDetector("det", true, 100, 100000);
+		TestDetector mainDetector = new TestDetector("det", 100, 100000);
 		TestDetector pressureDetector = new TestDetector("pressure", 100);
 		TestDetector tofDetector = new TestDetector("tof", 100000);
 		
 		addToEntry(mainDetector, pressureDetector, tofDetector);
-		dataBuilder.setPrimaryDevice(mainDetector);
-		dataBuilder.addAxisDevice(pressureDetector, 0);
-		dataBuilder.addAxisDevice(tofDetector, 1);
+		dataBuilder.setPrimaryDevice(new DataDevice<>(mainDetector, true));
+		dataBuilder.addDataDevice(pressureDetector, 0);
+		dataBuilder.addDataDevice(tofDetector, 1);
 		
 		assertSignal(nxData, "det");
 		assertAxes(nxData, "pressure", "tof");
@@ -220,10 +213,10 @@ public class DefaultNexusDataExamplesTest {
 		TestPositioner yPositioner = new TestPositioner("y", 100, 512);
 
 		addToEntry(mainDetector, tofDetector, xPositioner, yPositioner);
-		dataBuilder.setPrimaryDevice(DataDeviceBuilder.newPrimaryDataDevice(mainDetector));
-		dataBuilder.addAxisDevice(tofDetector, 2);
-		dataBuilder.addAxisDevice(xPositioner, 0, 0, 1);
-		dataBuilder.addAxisDevice(yPositioner, 1, 0, 1);
+		dataBuilder.setPrimaryDevice(new DataDevice<>(mainDetector));
+		dataBuilder.addDataDevice(tofDetector, 2);
+		dataBuilder.addDataDevice(xPositioner, 0, 0, 1);
+		dataBuilder.addDataDevice(yPositioner, 1, 0, 1);
 		
 		assertSignal(nxData, "det");
 		assertAxes(nxData, "x", "y", "tof");
@@ -248,10 +241,10 @@ public class DefaultNexusDataExamplesTest {
 		TestPositioner timePositioner = new TestPositioner("time", 50, 5);
 
 		addToEntry(mainDetector, polarAnglePositioner, frameNumberPositioner, timePositioner);
-		dataBuilder.setPrimaryDevice(DataDeviceBuilder.newPrimaryDataDevice(mainDetector));
-		dataBuilder.addAxisDevice(polarAnglePositioner, 0, 0, 1);
-		dataBuilder.addAxisDevice(frameNumberPositioner, 1);
-		dataBuilder.addAxisDevice(timePositioner, null, 0, 1);
+		dataBuilder.setPrimaryDevice(new DataDevice<>(mainDetector));
+		dataBuilder.addDataDevice(polarAnglePositioner, 0, 0, 1);
+		dataBuilder.addDataDevice(frameNumberPositioner, 1);
+		dataBuilder.addDataDevice(timePositioner, null, 0, 1);
 		
 		assertSignal(nxData, "det1");
 		assertAxes(nxData, "polar_angle_demand", "frame_number", ".");
