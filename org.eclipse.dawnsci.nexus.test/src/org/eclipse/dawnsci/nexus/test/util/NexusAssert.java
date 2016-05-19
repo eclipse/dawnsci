@@ -1,9 +1,9 @@
 package org.eclipse.dawnsci.nexus.test.util;
 
-import static org.eclipse.dawnsci.nexus.builder.NexusDataBuilder.ATTR_NAME_AXES;
-import static org.eclipse.dawnsci.nexus.builder.NexusDataBuilder.ATTR_NAME_SIGNAL;
-import static org.eclipse.dawnsci.nexus.builder.NexusDataBuilder.ATTR_NAME_TARGET;
-import static org.eclipse.dawnsci.nexus.builder.NexusDataBuilder.ATTR_SUFFIX_INDICES;
+import static org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder.ATTR_NAME_AXES;
+import static org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder.ATTR_NAME_SIGNAL;
+import static org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder.ATTR_NAME_TARGET;
+import static org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder.ATTR_SUFFIX_INDICES;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
