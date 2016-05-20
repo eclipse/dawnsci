@@ -1,11 +1,13 @@
-package org.eclipse.dawnsci.nexus.builder.impl;
+package org.eclipse.dawnsci.nexus.builder.data.impl;
 
 import org.eclipse.dawnsci.nexus.NXdata;
+import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.builder.DataDevice;
-import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
+import org.eclipse.dawnsci.nexus.builder.data.DataDeviceBuilder;
+import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
+import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusEntryBuilder;
 
 public abstract class AbstractNexusDataBuilder implements NexusDataBuilder {
 
@@ -33,20 +35,21 @@ public abstract class AbstractNexusDataBuilder implements NexusDataBuilder {
 		return nxData;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder#setPrimaryDevice(org.eclipse.dawnsci.nexus.builder.NexusObjectProvider)
+	 */
 	@Override
-	public void setPrimaryDevice(NexusObjectProvider<?> primaryDevice)
+	public <N extends NXobject> void setPrimaryDevice(NexusObjectProvider<N> primaryDevice)
 			throws NexusException {
-		setPrimaryDevice(new DataDevice<>(primaryDevice, false));
+		setPrimaryDevice(DataDeviceBuilder.newPrimaryDataDevice(primaryDevice));
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder#addDataDevice(org.eclipse.dawnsci.nexus.builder.NexusObjectProvider)
+	 */
 	@Override
-	public void addDataDevice(NexusObjectProvider<?> dataDevice) throws NexusException {
-		addDataDevice(new DataDevice<>(dataDevice, true));
-	}
-
-	@Override
-	public void addDataDevice(NexusObjectProvider<?> dataDevice, int defaultAxisDimension) throws NexusException {
-		addDataDevice(dataDevice, defaultAxisDimension, null);
+	public <N extends NXobject> void addAxisDevice(NexusObjectProvider<N> dataDevice) throws NexusException {
+		addAxisDevice(DataDeviceBuilder.newAxisDataDevice(dataDevice));
 	}
 
 }

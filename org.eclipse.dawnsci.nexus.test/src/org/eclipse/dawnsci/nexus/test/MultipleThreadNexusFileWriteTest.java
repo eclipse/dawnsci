@@ -38,11 +38,11 @@ import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.ServiceHolder;
 import org.eclipse.dawnsci.nexus.TestUtils;
-import org.eclipse.dawnsci.nexus.builder.AbstractNexusProvider;
-import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
+import org.eclipse.dawnsci.nexus.builder.AbstractNexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusFileBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusScanFile;
+import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
 import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
 import org.junit.Before;
@@ -52,7 +52,7 @@ import org.junit.Test;
 public class MultipleThreadNexusFileWriteTest {
 
 	private static abstract class AbstractTestDevice<N extends NXobject>
-		extends AbstractNexusProvider<N>
+		extends AbstractNexusObjectProvider<N>
 		implements Callable<Boolean> {
 
 		private int nextStepNumber = 0;
@@ -130,7 +130,7 @@ public class MultipleThreadNexusFileWriteTest {
 
 		@Override
 		protected void writeNewData(int stepNumber) throws Exception {
-			final ILazyWriteableDataset dataset = getDefaultWriteableDataset();
+			final ILazyWriteableDataset dataset = getWriteableDataset(NXdetector.NX_DATA);
 
 			final int[] startPos = new int[] { stepNumber, 0, 0 };
 			final int[] stopPos = new int[] { stepNumber + 1, numRows, numColumns };
@@ -181,7 +181,7 @@ public class MultipleThreadNexusFileWriteTest {
 
 		@Override
 		protected void writeNewData(int stepNumber) throws Exception {
-			final ILazyWriteableDataset dataset = getDefaultWriteableDataset();
+			final ILazyWriteableDataset dataset = getWriteableDataset(NXpositioner.NX_VALUE);
 
 			final int[] startPos = new int[] { stepNumber };
 			final int[] stopPos = new int[] { stepNumber + 1 };
@@ -236,7 +236,7 @@ public class MultipleThreadNexusFileWriteTest {
 		final NexusDataBuilder dataBuilder = entryBuilder.createDefaultData();
 		dataBuilder.setPrimaryDevice(detector);
 		for (TestPositioner positioner : positioners) {
-			dataBuilder.addDataDevice(positioner);
+			dataBuilder.addAxisDevice(positioner);
 		}
 		
 		nexusScanFile = fileBuilder.createFile();
