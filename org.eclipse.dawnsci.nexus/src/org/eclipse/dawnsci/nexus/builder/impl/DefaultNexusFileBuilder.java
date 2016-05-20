@@ -84,7 +84,7 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusFileBuilder#newEntry()
 	 */
 	@Override
-	public NexusEntryBuilder newEntry() throws NexusException {
+	public DefaultNexusEntryBuilder newEntry() throws NexusException {
 		return newEntry("entry");
 	}
 
@@ -92,7 +92,7 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusFileBuilder#newEntry(java.lang.String)
 	 */
 	@Override
-	public NexusEntryBuilder newEntry(String entryName) throws NexusException {
+	public DefaultNexusEntryBuilder newEntry(String entryName) throws NexusException {
 		if (entries.containsKey(entryName)) {
 			throw new NexusException("An entry with the name " + entryName + " already exists");
 		}
@@ -100,7 +100,7 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 		final NXentry entry = nexusNodeFactory.createNXentry();
 		nxRoot.setEntry(entryName, entry);
 
-		NexusEntryBuilder entryModel = new DefaultNexusEntryBuilder(nexusNodeFactory, entryName, entry);
+		DefaultNexusEntryBuilder entryModel = new DefaultNexusEntryBuilder(nexusNodeFactory, entryName, entry);
 		entries.put(entryName, entryModel);
 		
 		return entryModel;
