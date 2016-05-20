@@ -120,7 +120,7 @@ public class DataDeviceBuilder<N extends NXobject> {
 	/**
 	 * Create a new {@link DataDeviceBuilder} for the given {@link NexusObjectProvider}.
 	 * 
-	 * @param nexusObjectProvider nexus object provider wrapping an
+	 * @param nexusObjectProvider nexus object provider wrapping a {@link NXobject}
 	 * @param isPrimary <code>true</code> to build a {@link PrimaryDataDevice}, containing
 	 *   the <code>@signal</code> field for the {@link NXdata} group,
 	 *   <code>false</code> to build an {@link AxisDataDevice}.
