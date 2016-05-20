@@ -10,7 +10,7 @@
  *    Matthew Dickie - initial API and implementation and/or initial documentation
  *******************************************************************************/
 
-package org.eclipse.dawnsci.nexus.builder.impl;
+package org.eclipse.dawnsci.nexus.builder.data.impl;
 
 import java.text.MessageFormat;
 import java.util.Iterator;
@@ -29,10 +29,14 @@ import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.builder.DataDevice;
-import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
+import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
+import org.eclipse.dawnsci.nexus.builder.data.AxisDataDevice;
+import org.eclipse.dawnsci.nexus.builder.data.DataDevice;
+import org.eclipse.dawnsci.nexus.builder.data.DataDeviceBuilder;
+import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
+import org.eclipse.dawnsci.nexus.builder.data.PrimaryDataDevice;
 
 /**
  * Default implementation of {@link NexusDataBuilder}.
@@ -46,7 +50,9 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 	
 	private StringDataset dimensionDefaultAxisNames;
 	
-	private String signalFieldName;
+	private String signalFieldSourceName;
+	
+	private String signalFieldDestName;
 
 	/**
 	 * Create a new {@link DefaultNexusDataBuilder}. This constructor should only be
@@ -54,8 +60,7 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 	 * @param entryBuilder parent entry builder
 	 * @param nxData {@link NXdata} object to wrap
 	 */
-	protected DefaultNexusDataBuilder(NexusEntryBuilder entryBuilder,
-			final NXdata nxData) {
+	public DefaultNexusDataBuilder(NexusEntryBuilder entryBuilder, final NXdata nxData) {
 		super(entryBuilder, nxData);
 	}
 
@@ -72,83 +77,40 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.NexusDataBuilder#setPrimaryDevice(org.eclipse.dawnsci.nexus.builder.DataDevice)
+	 * @see org.eclipse.dawnsci.nexus.builder.NexusDataBuilder#setPrimaryDevice(org.eclipse.dawnsci.nexus.builder.DataDevice.PrimaryDataDevice)
 	 */
 	@Override
-	public void setPrimaryDevice(DataDevice<?> primaryDeviceModel)
+	public <N extends NXobject> void setPrimaryDevice(PrimaryDataDevice<N> primaryDataDevice)
 			throws NexusException {
-		NexusObjectProvider<?> nexusObjectProvider = primaryDeviceModel.getNexusObjectProvider();
-		String signalSourceFieldName = primaryDeviceModel.getSignalDataSourceFieldName();
-		String signalDestFieldName = primaryDeviceModel.getDestinationFieldName(signalSourceFieldName);
-		addSignalAndAxesAttributes(nexusObjectProvider, signalSourceFieldName, signalDestFieldName);
+		addSignalAndAxesAttributes(primaryDataDevice);
 		
-		addDevice(primaryDeviceModel, true);
+		addDevice(primaryDataDevice, true);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusDataBuilder#addDataDevice(org.eclipse.dawnsci.nexus.builder.NexusObjectProvider, java.lang.Integer, int[])
 	 */
 	@Override
-	public void addDataDevice(NexusObjectProvider<?> dataDevice,
+	public <N extends NXobject>  void addAxisDevice(NexusObjectProvider<N> dataDevice,
 			Integer defaultAxisDimension, int... dimensionMappings) throws NexusException {
-		addDataDevice(new DataDevice<>(dataDevice, true, defaultAxisDimension, dimensionMappings));
+		DataDeviceBuilder<N> builder = DataDeviceBuilder.newAxisDataDeviceBuilder(dataDevice, defaultAxisDimension);
+		builder.setDefaultDimensionMappings(dimensionMappings);
+		
+		addAxisDevice((AxisDataDevice<N>) builder.build());
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.NexusDataBuilder#addDataDevice(org.eclipse.dawnsci.nexus.builder.DataDevice)
+	 * @see org.eclipse.dawnsci.nexus.builder.NexusDataBuilder#addDataDevice(org.eclipse.dawnsci.nexus.builder.DataDevice.AxisDataDevice)
 	 */
 	@Override
-	public void addDataDevice(DataDevice<?> dataDevice) throws NexusException {
+	public <N extends NXobject> void addAxisDevice(AxisDataDevice<N> axisDataDevice) throws NexusException {
 		if (!isPrimaryDeviceAdded()) {
 			throw new IllegalStateException("The primary device has not been set.");
 		}
 		
-		addDevice(dataDevice, false);
+		addDevice(axisDataDevice, false);
 	}
 
-	/**
-	 * Returns the node for the field with the given name within the nexus object for the given
-	 * {@link NexusObjectProvider}. The node may be a {@link DataNode} or a {@link SymbolicNode}.
-	 * @param nexusObjectProvider nexus object provider
-	 * @param fieldName field name
-	 * @return node within the {@link NexusObjectProvider} with the given name
-	 * @throws NexusException if the nexus object could not be created for any reason
-	 */
-	private Node getFieldNode(NexusObjectProvider<? extends NXobject> nexusObjectProvider,
-			String fieldName) throws NexusException {
-		final NXobject nexusObject = nexusObjectProvider.getNexusObject(entryBuilder.getNodeFactory(), true);
-		final Node childNode = nexusObject.getNode(fieldName);
-		if (childNode == null || childNode.isGroupNode()) {
-			throw new IllegalArgumentException(MessageFormat.format(
-					"The {0} does not have a data node or symbolic node with the name: {1}",
-					nexusObject.getNXclass().getSimpleName(), fieldName));
-		}
-	
-		return childNode;
-	}
-
-	private int getFieldRank(NexusObjectProvider<? extends NXobject> nexusObjectProvider,
-			String fieldName) throws NexusException {
-		final NXobject nexusObject = nexusObjectProvider.getNexusObject(entryBuilder.getNodeFactory(), true);
-		final Node childNode = nexusObject.getNode(fieldName);
-		if (childNode == null || childNode.isGroupNode()) {
-			throw new IllegalArgumentException(MessageFormat.format(
-					"The {0} does not have a data node or symbolic node with the name: {1}",
-					nexusObject.getNXclass().getSimpleName(), fieldName));
-		}
-		
-		if (childNode.isSymbolicNode()) {
-			try {
-				return nexusObjectProvider.getExternalDatasetRank(fieldName);
-			} catch (IllegalArgumentException e) {
-				throw new NexusException(MessageFormat.format(
-						"The rank of the external dataset ''{0}'' must be specified.", fieldName));
-			}
-		}
-		
-		return ((DataNode) childNode).getRank();
-	}
-	
 	/**
 	 * Adds the data fields for the given device to the {@link NXdata}
 	 * @param dataDevice data device, wrapping an {@link NexusObjectProvider}
@@ -156,24 +118,16 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 	 * @throws NexusException
 	 */
 	private void addDevice(DataDevice<?> dataDevice, boolean isPrimary) throws NexusException {
-		NexusObjectProvider<?> nexusObjectProvider = dataDevice.getNexusObjectProvider();
-		String targetPrefix = getPath(nexusObjectProvider.getNexusObject());
+		String targetPrefix = getPath(dataDevice.getNexusObject());
+
+		// if this is the primary device, add the signal field
+		if (isPrimary) {
+			addDataField(dataDevice, signalFieldSourceName, targetPrefix);
+		}
 		
-		for (String sourceFieldName : dataDevice.getSourceFieldNames()) {
-			String destinationFieldName = dataDevice.getDestinationFieldName(sourceFieldName);
-			int[] dimensionMappings = dataDevice.getDimensionMappings(sourceFieldName);
-			Integer defaultAxisDimension = dataDevice.getDefaultAxisDimension(sourceFieldName);
-			
-			if (isPrimary) {
-				// the primary device (i.e. a detector) may know its own dimension mappings for some fields
-				// as it is the owner of the default dataset of the NXdata group
-				if (defaultAxisDimension == null) {
-					defaultAxisDimension = nexusObjectProvider.getDefaultAxisDimension(signalFieldName, sourceFieldName);
-				}
-				dimensionMappings = nexusObjectProvider.getDimensionMappings(signalFieldName, sourceFieldName);
-			}
-			addDataField(nexusObjectProvider, sourceFieldName, destinationFieldName,
-					defaultAxisDimension, dimensionMappings, targetPrefix);
+		// add the axis fields for this device
+		for (String sourceFieldName : dataDevice.getAxisFieldNames()) {
+			addDataField(dataDevice, sourceFieldName, targetPrefix);
 		}
 	}
 	
@@ -237,25 +191,19 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 	 * 
 	 * @param nexusObjectProvider nexus object provider to get the nexus object from
 	 * @param sourceFieldName name of field within the nexus object
-	 * @param destinationFieldName name of new link for field from the NXdata group
-	 * @param defaultAxisDimension default axis dimensions for field, or <code>null</code>
-	 * 		for none
-	 * @param dimensionMappings dimension mappings for field, or <code>null</code> for default
 	 * @param targetPrefix prefix of <code>@target</code> attribute
 	 * @throws NexusException
 	 */
-	private <N extends NXobject> void addDataField(NexusObjectProvider<?> nexusObjectProvider,
-			String sourceFieldName, String destinationFieldName, Integer defaultAxisDimension,
-			int[] dimensionMappings, String targetPrefix) throws NexusException {
-		// get the node for the given field (a DataNode or SymbolicNode, exception if doesn't exist)
-		final Node fieldNode = getFieldNode(nexusObjectProvider, sourceFieldName);
-		final int fieldRank = getFieldRank(nexusObjectProvider, sourceFieldName);
-		
+	private <N extends NXobject> void addDataField(DataDevice<N> dataDevice,
+			String sourceFieldName, String targetPrefix) throws NexusException {
+		String destinationFieldName = dataDevice.getDestinationFieldName(sourceFieldName);
 		// check that there is not an existing node with the same name
 		if (nxData.containsDataNode(destinationFieldName)) {
 			throw new IllegalArgumentException("The NXdata element already contains a data node with the name: " + destinationFieldName);
 		}
+		
 		// add the node to the nxData group 
+		final Node fieldNode = dataDevice.getFieldNode(sourceFieldName);
 		addFieldNode(destinationFieldName, fieldNode);
 		
 		// create the @target attribute if not already present
@@ -268,18 +216,18 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 //			dataNode.addAttribute(TreeFactory.createAttribute(ATTR_NAME_LONG_NAME, sourceFieldName));
 //		}
 		
-		// create the @axis indices attribute
-		if (!destinationFieldName.equals(signalFieldName)) {
-			final Attribute axisIndicesAttribute = createAxisIndicesAttribute(
-					sourceFieldName, destinationFieldName, defaultAxisDimension,
-					dimensionMappings, fieldNode, fieldRank);
+		// create the @{axisname}_indices attribute
+		if (!destinationFieldName.equals(signalFieldDestName)) {
+			final Attribute axisIndicesAttribute = createAxisIndicesAttribute(dataDevice, sourceFieldName);
 			nxData.addAttribute(axisIndicesAttribute);
+
+			// add the axis dimension to the default axes - the @axes attribute
+			Integer defaultAxisDimension = dataDevice.getDefaultAxisDimension(sourceFieldName); 
+			if (defaultAxisDimension != null) {
+				addDeviceToDefaultAxes(defaultAxisDimension, destinationFieldName);
+			}
 		}
 		
-		// add the axis dimension to the default axes - the @axes attribute
-		if (defaultAxisDimension != null) {
-			addDeviceToDefaultAxes(defaultAxisDimension, destinationFieldName);
-		}
 	}
 	
 	private void addFieldNode(String destinationFieldName, Node node) {
@@ -300,26 +248,27 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 	
 	/**
 	 * Adds the <code>@signal</code> and <code>@axes</code> attributes to the {@link NXdata} group.
-	 * @param nexusObjectProvider
+	 * @param primaryDataDevice
 	 * @param sourceFieldName
 	 * @param destinationFieldName
 	 * @throws NexusException
 	 */
-	private void addSignalAndAxesAttributes(
-			NexusObjectProvider<? extends NXobject> nexusObjectProvider,
-			String sourceFieldName, String destinationFieldName) throws NexusException {
+	private void addSignalAndAxesAttributes(PrimaryDataDevice<?> primaryDataDevice) throws NexusException {
 		if (isPrimaryDeviceAdded()) {
 			throw new IllegalArgumentException("Primary device already added");
 		}
+
+		// get the source and destination name for the signal field
+		signalFieldSourceName = primaryDataDevice.getSignalFieldSourceName();
+		signalFieldDestName = primaryDataDevice.getDestinationFieldName(signalFieldSourceName);
 		
-		signalFieldName = destinationFieldName;
-		final Attribute signalAttribute = TreeFactory.createAttribute(ATTR_NAME_SIGNAL, signalFieldName, false);
+		final Attribute signalAttribute = TreeFactory.createAttribute(ATTR_NAME_SIGNAL, signalFieldDestName, false);
 		nxData.addAttribute(signalAttribute);
 		
 		// create the 'axes' attribute of the NXgroup and set each axis name
 		// to the placeholder value "."
-		signalNode = getFieldNode(nexusObjectProvider, sourceFieldName);
-		signalFieldRank = getFieldRank(nexusObjectProvider, sourceFieldName); 
+		signalNode = primaryDataDevice.getFieldNode(signalFieldSourceName);
+		signalFieldRank = primaryDataDevice.getFieldRank(signalFieldSourceName);
 		dimensionDefaultAxisNames = new StringDataset(signalFieldRank);
 		dimensionDefaultAxisNames.fill(NO_DEFAULT_AXIS_PLACEHOLDER);
 		
@@ -327,11 +276,14 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 		nxData.addAttribute(axesAttribute);
 	}
 	
-	private Attribute createAxisIndicesAttribute(String sourceFieldName,
-			String destinationFieldName, Integer defaultAxisDimension,
-			int[] dimensionMappings, Node dataNode, int fieldRank) {
+	private Attribute createAxisIndicesAttribute(DataDevice<?> dataDevice, String sourceFieldName) {
 		// if the default axis dimension is specified and the dataset has a rank of 1,
 		// then this has to be the dimension mapping as well
+		final String destinationFieldName = dataDevice.getDestinationFieldName(sourceFieldName);
+		final int fieldRank = dataDevice.getFieldRank(sourceFieldName);
+		final Integer defaultAxisDimension = dataDevice.getDefaultAxisDimension(sourceFieldName);
+		int[] dimensionMappings = dataDevice.getDimensionMappings(sourceFieldName);
+		
 		if (defaultAxisDimension != null && fieldRank == 1) {
 			dimensionMappings = new int[] { defaultAxisDimension };
 		}
