@@ -12,6 +12,7 @@
 
 package org.eclipse.dawnsci.nexus.builder.impl;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -126,6 +127,12 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 		}
 		
 		final String filename = treeFile.getFilename();
+		
+		// create the parent dir if it doesn't exist
+		File parentDir = new File(filename).getParentFile();
+		if (!parentDir.exists()) {
+			parentDir.mkdirs();
+		}
 		
 		// create and open the nexus file
 		final INexusFileFactory nexusFileFactory = ServiceHolder.getNexusFileFactory();
