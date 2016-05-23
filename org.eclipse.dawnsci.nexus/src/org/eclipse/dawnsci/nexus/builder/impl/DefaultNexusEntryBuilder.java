@@ -18,7 +18,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
+import org.eclipse.dawnsci.nexus.NXcollection;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXinstrument;
@@ -66,10 +68,11 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 	 * Creates a new {@link DefaultNexusEntryBuilder}. This constructor should only be called
 	 * by {@link DefaultNexusFileBuilder}.
 	 * @param nexusNodeFactory node factory
-	 * @param entryName TODO
+	 * @param entryName name of entry
 	 * @param nxEntry entry to wrap
 	 */
-	protected DefaultNexusEntryBuilder(final NexusNodeFactory nexusNodeFactory, String entryName, final NXentry nxEntry) {
+	protected DefaultNexusEntryBuilder(final NexusNodeFactory nexusNodeFactory,
+			String entryName, final NXentry nxEntry) {
 		this.nexusNodeFactory = nexusNodeFactory;
 		this.nxEntry = nxEntry;
 		this.entryName = entryName;
@@ -250,7 +253,6 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 
 	/**
 	 * Adds the default groups for the entry. Subclasses may override as appropriate.
-	 * @return
 	 */
 	@Override
 	public void addDefaultGroups() {
@@ -310,10 +312,13 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 			final String name = nexusObjectProvider.getName();
 			final NexusBaseClass category = nexusObjectProvider.getCategory();
 
+			// find the parent group
 			NXobject parentGroup = null;
 			if (category != null) {
+				// if a category is specified, the parent group is the first group for this category
 				parentGroup = findGroupForCategory(category);
 			} else {
+				// otherwise the parent group is the first group we can add this type of object to
 				for (final NXobject group : defaultGroups) {
 					if (group.canAddChild(nexusObject)) {
 						parentGroup = group;
@@ -324,9 +329,32 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 					throw new NexusException("Cannot find a parent group that accepts a " + nexusObject.getNexusBaseClass());
 				}
 			}
+			
+			// if a collection name is specified, get the parent collection - creating it if necessary
+			String collectionName = nexusObjectProvider.getCollectionName();
+			if (collectionName != null) {
+				parentGroup = getCollection(parentGroup, collectionName);
+			}
 
 			parentGroup.addGroupNode(name, nexusObject);
 		}
+	}
+	
+	private NXcollection getCollection(NXobject group, String collectionName) {
+		NXcollection collection = null;
+		
+		GroupNode collectionGroup = group.getGroupNode(collectionName);
+		if (collectionGroup == null) {
+			collection = nexusNodeFactory.createNXcollection();
+			group.addGroupNode(collectionName, collection);
+		} else if (collectionGroup instanceof NXcollection) {
+			collection = (NXcollection) collectionGroup;
+		} else {
+			throw new IllegalArgumentException("Cannot add collection " + collectionName +
+					". A child group with that name already exists");
+		}
+
+		return collection;
 	}
 
 	private NXobject findGroupForCategory(NexusBaseClass category) throws NexusException {
