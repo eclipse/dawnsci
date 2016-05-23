@@ -14,6 +14,7 @@ package org.eclipse.dawnsci.nexus.builder;
 
 import java.util.List;
 
+import org.eclipse.dawnsci.nexus.NXcollection;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXobject;
@@ -88,6 +89,16 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 */
 	public NexusBaseClass getCategory();
 
+	/**
+	 * Returns the name of the collection for this {@link NexusObjectProvider}. When adding
+	 * a nexus object to a {@link NexusEntryBuilder}, if this method does not return
+	 * <code>null</code>, then the nexus object will be added to the {@link NXcollection} with this
+	 * name within the group that it would have been added to otherwise. The collection will be
+	 * created if it does not already exist.
+	 * @return collection name or <code>null</code>
+	 */
+	public String getCollectionName();
+	
 	/**
 	 * Returns the name of the external HDF5 file that this device writes
 	 * its data to, or <code>null</code> if none

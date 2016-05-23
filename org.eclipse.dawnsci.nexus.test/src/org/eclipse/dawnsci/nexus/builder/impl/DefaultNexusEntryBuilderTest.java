@@ -10,10 +10,12 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 
+import org.eclipse.dawnsci.nexus.NXcollection;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXinstrument;
@@ -31,8 +33,6 @@ import org.eclipse.dawnsci.nexus.builder.NexusEntryModification;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.appdef.NexusApplicationBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
-import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
-import org.eclipse.dawnsci.nexus.builder.impl.MapBasedMetadataProvider;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 import org.junit.Before;
 import org.junit.Test;
@@ -149,6 +149,27 @@ public class DefaultNexusEntryBuilderTest {
 		assertThat(instrument.getNumberOfGroupNodes(), is(1));
 		assertThat(instrument.getPositioner(), is(nullValue()));
 		assertThat(instrument.getPositioner("x"), is(sameInstance(positionerProvider.getNexusObject())));
+	}
+	
+	@Test
+	public void testAdd_positionerWithCollectionName() throws NexusException {
+		entryBuilder.addDefaultGroups();
+		assertThat(nxEntry.getNumberOfGroupNodes(), is(3));
+		NXinstrument instrument = nxEntry.getInstrument();
+		assertThat(instrument.getNumberOfGroupNodes(), is(0));
+		
+		AbstractNexusObjectProvider<NXpositioner> positioner = new TestPositioner("xPos");
+		positioner.setCollectionName("scannables");
+		entryBuilder.add(positioner);
+		
+		assertThat(nxEntry.getNumberOfGroupNodes(), is(3));
+		assertThat(instrument.getNumberOfGroupNodes(), is(1));
+		
+		NXcollection collection = instrument.getCollection("scannables");
+		assertNotNull(collection);
+		NXpositioner xPositioner = (NXpositioner) collection.getGroupNode("xPos");
+		assertNotNull(xPositioner);
+		assertThat(xPositioner, is(sameInstance(positioner.getNexusObject())));
 	}
 	
 	@Test
