@@ -17,10 +17,10 @@
 
 	<modules>
         <module>org.eclipse.dawnsci.targetplatform</module>
-		<module>org.eclipse.dawnsci.analysis.api</module>
 		<module>../../dawn-hdf/hdf.hdf5lib</module>
 		<module>../../dawn-hdf/hdf.object</module>
 		<module>../org.eclipse.richbeans</module>
+		<module>org.eclipse.dawnsci.analysis.api</module>
 		<module>org.eclipse.dawnsci.analysis.asserts</module>
 		<module>org.eclipse.dawnsci.analysis.dataset</module>
 		<module>org.eclipse.dawnsci.analysis.dataset.test</module>
@@ -32,6 +32,8 @@
 		<module>org.eclipse.dawnsci.hdf5.model</module>
 		<module>org.eclipse.dawnsci.hdf5.model.test</module>
 		<module>org.eclipse.dawnsci.hdf5.test</module>
+		<module>org.eclipse.dawnsci.json</module>
+		<module>org.eclipse.dawnsci.json.test</module>
 		<module>org.eclipse.dawnsci.macro.api</module>
 		<module>org.eclipse.dawnsci.nexus</module>
 		<module>org.eclipse.dawnsci.nexus.test</module>
@@ -43,8 +45,6 @@
 		<module>org.eclipse.dawnsci.remotedataset.server</module>
 		<module>org.eclipse.dawnsci.remotedataset.test</module>
 		<module>org.eclipse.dawnsci.slicing.api</module>
-		<module>org.eclipse.dawnsci.json</module>
-		<module>org.eclipse.dawnsci.json.test</module>
 	</modules>
 	
 	<dependencies>
