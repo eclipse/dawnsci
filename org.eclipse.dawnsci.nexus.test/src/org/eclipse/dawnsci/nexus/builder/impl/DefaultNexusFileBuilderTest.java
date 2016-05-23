@@ -33,6 +33,8 @@ public class DefaultNexusFileBuilderTest {
 	
 	private static String filePath;
 	
+	private static String fileInSubDirPath;
+	
 	private NexusFileBuilder nexusFileBuilder;
 	
 	@BeforeClass
@@ -41,6 +43,7 @@ public class DefaultNexusFileBuilderTest {
 				DefaultNexusFileBuilderTest.class.getSimpleName());
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
 		filePath = testScratchDirectoryName + fileName;
+		fileInSubDirPath = testScratchDirectoryName +  "subdir/" + filePath; 
 	}
 	
 	@Before
@@ -57,6 +60,24 @@ public class DefaultNexusFileBuilderTest {
 		nexusFileBuilder.createFile();
 		
 		TreeFile nexusFile = NexusTestUtils.loadNexusFile(filePath, true);
+		assertThat(nexusFile, notNullValue());
+		NXroot root = (NXroot) nexusFile.getGroupNode();
+		assertThat(nexusFile.getGroupNode(), notNullValue());
+		NXentry entry = root.getEntry();
+		assertThat(entry, notNullValue());
+		assertThat(entry.getTitleScalar(), equalTo("test"));
+	}
+	
+	@Test
+	public void testCreateAndOpenFileInSubDir() throws NexusException {
+		ServiceHolder.setNexusFileFactory(new NexusFileFactoryHDF5());
+		NexusFileBuilder nexusSubdirFileBuilder = new DefaultNexusFileBuilder(fileInSubDirPath);
+		NexusEntryBuilder nexusEntryBuilder = nexusSubdirFileBuilder.newEntry();
+
+		nexusEntryBuilder.getNXentry().setTitleScalar("test");
+		nexusSubdirFileBuilder.createFile();
+		
+		TreeFile nexusFile = NexusTestUtils.loadNexusFile(fileInSubDirPath, true);
 		assertThat(nexusFile, notNullValue());
 		NXroot root = (NXroot) nexusFile.getGroupNode();
 		assertThat(nexusFile.getGroupNode(), notNullValue());
