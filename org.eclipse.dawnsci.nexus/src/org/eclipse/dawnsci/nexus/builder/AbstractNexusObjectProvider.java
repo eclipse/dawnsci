@@ -89,6 +89,8 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	
 	private String defaultAxisDataFieldName = null;
 	
+	private String collectionName = null;
+	
 	private NexusBaseClass category = null;
 	
 	private Boolean useDeviceNameInNXdata = null;
@@ -461,6 +463,14 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 		this.category = category;
 	}
 	
+	public String getCollectionName() {
+		return collectionName;
+	}
+	
+	public void setCollectionName(String collectionName) {
+		this.collectionName = collectionName;
+	}
+
 	@Override
 	public Integer getDefaultAxisDimension(String primaryDataFieldName, String dataFieldName) {
 		PrimaryDataFieldModel dataFieldModel = getPrimaryDataFieldModel(primaryDataFieldName, false);
