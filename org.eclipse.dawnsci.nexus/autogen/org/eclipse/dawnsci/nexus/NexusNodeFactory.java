@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,9 @@ package org.eclipse.dawnsci.nexus;
 import java.net.URI;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
+import org.eclipse.dawnsci.analysis.api.tree.Tree;
+import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeImpl;
@@ -83,7 +86,14 @@ import org.eclipse.dawnsci.nexus.impl.NXseparatorImpl;
  */
 public class NexusNodeFactory {
 	
-	private long nextOid = 1l;
+	// static field so that we can create unique oids without having access to
+	// the same node factory instances. Values should be unique within this VM,
+	// except in the unlikely case that the value rolls over
+	private static long nextOid = 1l;
+
+	private NexusNodeFactory() {
+		// private constructor to prevent instantiation
+	}
 
 	public static NXobject createNXobjectForClass(String baseClassName, long oid) {
 		final NexusBaseClass baseClass = NexusBaseClass.getBaseClassForName(baseClassName);
@@ -213,12 +223,12 @@ public class NexusNodeFactory {
 	}
 
 
-	public NXobject createNXobjectForClass(String baseClassName) {
+	public static NXobject createNXobjectForClass(String baseClassName) {
 		final NexusBaseClass baseClass = NexusBaseClass.getBaseClassForName(baseClassName);
 		return createNXobjectForClass(baseClass);
 	}
 
-	public NXobject createNXobjectForClass(NexusBaseClass baseClass) {
+	public static NXobject createNXobjectForClass(NexusBaseClass baseClass) {
 		switch (baseClass) {
 			case NX_FRESNEL_ZONE_PLATE:
 				return createNXfresnel_zone_plate();
@@ -340,852 +350,1164 @@ public class NexusNodeFactory {
 		throw new IllegalArgumentException("Unknown base class: " + baseClass);
 	}
 
-	public long getNextOid() {
-		return nextOid++;
+	/**
+	 * Get the next unique object id. Note that this value is unique across all instances in
+	 * this VM (i.e. it is a static field).
+	 * @return the next oid
+	 */
+	public static long getNextOid() {
+		long oid = nextOid++;
+		if (oid == 0) { // oids may no longer be unique
+			throw new RuntimeException("maximum number of oids reached");
+		}
+		return oid;
 	}
 	
 	/**
-	 * Create a new tree with given URI
+	 * Create a new {@link Tree} with given URI.
 	 * @param uri
+	 * @return new tree
 	 */
-	public TreeImpl createTree(final URI uri) {
+	public static Tree createTree(final URI uri) {
 		return new TreeImpl(getNextOid(), uri);
 	}
 	
 	/**
-	 * Create a new tree file with given URI
+	 * Create a new {@link TreeFile} given URI.
 	 * @param uri uri
+	 * @return new tree file
 	 */
-	public TreeFileImpl createTreeFile(final URI uri) {
+	public static TreeFile createTreeFile(final URI uri) {
 		return new TreeFileImpl(getNextOid(), uri);
 	}
 	
 	/**
 	 * Create a new tree file with given file name
-	 * @param filename filename
-	 * @return
+	 * @param fileName filename
+	 * @return new tree file
 	 */
-	public TreeFileImpl createTreeFile(final String fileName) {
+	public static TreeFileImpl createTreeFile(final String fileName) {
 		return new TreeFileImpl(getNextOid(), fileName);
 	}
 	
 	/**
 	 * Create a new data node.
+	 * @return new data node
 	 */
-	public DataNode createDataNode() {
+	public static DataNode createDataNode() {
 		return TreeFactory.createDataNode(getNextOid());
 	}
 	
 	/**
-	 * Create a new NXfresnel_zone_plate with the given oid.
+	 * Create a new symbolic node
+	 * @param uri uri
+	 * @param pathToNode path to node
+	 * @return new symbolic node
+	 */
+	public static SymbolicNode createSymbolicNode(URI uri, String pathToNode) {
+		return TreeFactory.createSymbolicNode(getNextOid(), uri, null, pathToNode);
+	}
+	
+	/**
+	 * Create a new {@link NXfresnel_zone_plate} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXfresnel_zone_plate
 	 */
 	public static NXfresnel_zone_plate createNXfresnel_zone_plate(long oid) {
 		return new NXfresnel_zone_plateImpl(oid);
 	}
 
 	/**
-	 * Create a new NXfresnel_zone_plate.
+	 * Create a new {@link NXfresnel_zone_plate}.
+	 *
+	 * @return new NXfresnel_zone_plate
 	 */
-	public NXfresnel_zone_plate createNXfresnel_zone_plate() {
-		return new NXfresnel_zone_plateImpl(this);
+	public static NXfresnel_zone_plate createNXfresnel_zone_plate() {
+		return new NXfresnel_zone_plateImpl();
 	}
 
 	/**
-	 * Create a new NXxraylens with the given oid.
+	 * Create a new {@link NXxraylens} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXxraylens
 	 */
 	public static NXxraylens createNXxraylens(long oid) {
 		return new NXxraylensImpl(oid);
 	}
 
 	/**
-	 * Create a new NXxraylens.
+	 * Create a new {@link NXxraylens}.
+	 *
+	 * @return new NXxraylens
 	 */
-	public NXxraylens createNXxraylens() {
-		return new NXxraylensImpl(this);
+	public static NXxraylens createNXxraylens() {
+		return new NXxraylensImpl();
 	}
 
 	/**
-	 * Create a new NXfermi_chopper with the given oid.
+	 * Create a new {@link NXfermi_chopper} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXfermi_chopper
 	 */
 	public static NXfermi_chopper createNXfermi_chopper(long oid) {
 		return new NXfermi_chopperImpl(oid);
 	}
 
 	/**
-	 * Create a new NXfermi_chopper.
+	 * Create a new {@link NXfermi_chopper}.
+	 *
+	 * @return new NXfermi_chopper
 	 */
-	public NXfermi_chopper createNXfermi_chopper() {
-		return new NXfermi_chopperImpl(this);
+	public static NXfermi_chopper createNXfermi_chopper() {
+		return new NXfermi_chopperImpl();
 	}
 
 	/**
-	 * Create a new NXmonochromator with the given oid.
+	 * Create a new {@link NXmonochromator} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXmonochromator
 	 */
 	public static NXmonochromator createNXmonochromator(long oid) {
 		return new NXmonochromatorImpl(oid);
 	}
 
 	/**
-	 * Create a new NXmonochromator.
+	 * Create a new {@link NXmonochromator}.
+	 *
+	 * @return new NXmonochromator
 	 */
-	public NXmonochromator createNXmonochromator() {
-		return new NXmonochromatorImpl(this);
+	public static NXmonochromator createNXmonochromator() {
+		return new NXmonochromatorImpl();
 	}
 
 	/**
-	 * Create a new NXvelocity_selector with the given oid.
+	 * Create a new {@link NXvelocity_selector} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXvelocity_selector
 	 */
 	public static NXvelocity_selector createNXvelocity_selector(long oid) {
 		return new NXvelocity_selectorImpl(oid);
 	}
 
 	/**
-	 * Create a new NXvelocity_selector.
+	 * Create a new {@link NXvelocity_selector}.
+	 *
+	 * @return new NXvelocity_selector
 	 */
-	public NXvelocity_selector createNXvelocity_selector() {
-		return new NXvelocity_selectorImpl(this);
+	public static NXvelocity_selector createNXvelocity_selector() {
+		return new NXvelocity_selectorImpl();
 	}
 
 	/**
-	 * Create a new NXnote with the given oid.
+	 * Create a new {@link NXnote} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXnote
 	 */
 	public static NXnote createNXnote(long oid) {
 		return new NXnoteImpl(oid);
 	}
 
 	/**
-	 * Create a new NXnote.
+	 * Create a new {@link NXnote}.
+	 *
+	 * @return new NXnote
 	 */
-	public NXnote createNXnote() {
-		return new NXnoteImpl(this);
+	public static NXnote createNXnote() {
+		return new NXnoteImpl();
 	}
 
 	/**
-	 * Create a new NXgrating with the given oid.
+	 * Create a new {@link NXgrating} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXgrating
 	 */
 	public static NXgrating createNXgrating(long oid) {
 		return new NXgratingImpl(oid);
 	}
 
 	/**
-	 * Create a new NXgrating.
+	 * Create a new {@link NXgrating}.
+	 *
+	 * @return new NXgrating
 	 */
-	public NXgrating createNXgrating() {
-		return new NXgratingImpl(this);
+	public static NXgrating createNXgrating() {
+		return new NXgratingImpl();
 	}
 
 	/**
-	 * Create a new NXbending_magnet with the given oid.
+	 * Create a new {@link NXbending_magnet} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXbending_magnet
 	 */
 	public static NXbending_magnet createNXbending_magnet(long oid) {
 		return new NXbending_magnetImpl(oid);
 	}
 
 	/**
-	 * Create a new NXbending_magnet.
+	 * Create a new {@link NXbending_magnet}.
+	 *
+	 * @return new NXbending_magnet
 	 */
-	public NXbending_magnet createNXbending_magnet() {
-		return new NXbending_magnetImpl(this);
+	public static NXbending_magnet createNXbending_magnet() {
+		return new NXbending_magnetImpl();
 	}
 
 	/**
-	 * Create a new NXlog with the given oid.
+	 * Create a new {@link NXlog} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXlog
 	 */
 	public static NXlog createNXlog(long oid) {
 		return new NXlogImpl(oid);
 	}
 
 	/**
-	 * Create a new NXlog.
+	 * Create a new {@link NXlog}.
+	 *
+	 * @return new NXlog
 	 */
-	public NXlog createNXlog() {
-		return new NXlogImpl(this);
+	public static NXlog createNXlog() {
+		return new NXlogImpl();
 	}
 
 	/**
-	 * Create a new NXdisk_chopper with the given oid.
+	 * Create a new {@link NXdisk_chopper} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXdisk_chopper
 	 */
 	public static NXdisk_chopper createNXdisk_chopper(long oid) {
 		return new NXdisk_chopperImpl(oid);
 	}
 
 	/**
-	 * Create a new NXdisk_chopper.
+	 * Create a new {@link NXdisk_chopper}.
+	 *
+	 * @return new NXdisk_chopper
 	 */
-	public NXdisk_chopper createNXdisk_chopper() {
-		return new NXdisk_chopperImpl(this);
+	public static NXdisk_chopper createNXdisk_chopper() {
+		return new NXdisk_chopperImpl();
 	}
 
 	/**
-	 * Create a new NXcharacterization with the given oid.
+	 * Create a new {@link NXcharacterization} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXcharacterization
 	 */
 	public static NXcharacterization createNXcharacterization(long oid) {
 		return new NXcharacterizationImpl(oid);
 	}
 
 	/**
-	 * Create a new NXcharacterization.
+	 * Create a new {@link NXcharacterization}.
+	 *
+	 * @return new NXcharacterization
 	 */
-	public NXcharacterization createNXcharacterization() {
-		return new NXcharacterizationImpl(this);
+	public static NXcharacterization createNXcharacterization() {
+		return new NXcharacterizationImpl();
 	}
 
 	/**
-	 * Create a new NXshape with the given oid.
+	 * Create a new {@link NXshape} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXshape
 	 */
 	public static NXshape createNXshape(long oid) {
 		return new NXshapeImpl(oid);
 	}
 
 	/**
-	 * Create a new NXshape.
+	 * Create a new {@link NXshape}.
+	 *
+	 * @return new NXshape
 	 */
-	public NXshape createNXshape() {
-		return new NXshapeImpl(this);
+	public static NXshape createNXshape() {
+		return new NXshapeImpl();
 	}
 
 	/**
-	 * Create a new NXcapillary with the given oid.
+	 * Create a new {@link NXcapillary} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXcapillary
 	 */
 	public static NXcapillary createNXcapillary(long oid) {
 		return new NXcapillaryImpl(oid);
 	}
 
 	/**
-	 * Create a new NXcapillary.
+	 * Create a new {@link NXcapillary}.
+	 *
+	 * @return new NXcapillary
 	 */
-	public NXcapillary createNXcapillary() {
-		return new NXcapillaryImpl(this);
+	public static NXcapillary createNXcapillary() {
+		return new NXcapillaryImpl();
 	}
 
 	/**
-	 * Create a new NXguide with the given oid.
+	 * Create a new {@link NXguide} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXguide
 	 */
 	public static NXguide createNXguide(long oid) {
 		return new NXguideImpl(oid);
 	}
 
 	/**
-	 * Create a new NXguide.
+	 * Create a new {@link NXguide}.
+	 *
+	 * @return new NXguide
 	 */
-	public NXguide createNXguide() {
-		return new NXguideImpl(this);
+	public static NXguide createNXguide() {
+		return new NXguideImpl();
 	}
 
 	/**
-	 * Create a new NXbeam with the given oid.
+	 * Create a new {@link NXbeam} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXbeam
 	 */
 	public static NXbeam createNXbeam(long oid) {
 		return new NXbeamImpl(oid);
 	}
 
 	/**
-	 * Create a new NXbeam.
+	 * Create a new {@link NXbeam}.
+	 *
+	 * @return new NXbeam
 	 */
-	public NXbeam createNXbeam() {
-		return new NXbeamImpl(this);
+	public static NXbeam createNXbeam() {
+		return new NXbeamImpl();
 	}
 
 	/**
-	 * Create a new NXsample with the given oid.
+	 * Create a new {@link NXsample} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXsample
 	 */
 	public static NXsample createNXsample(long oid) {
 		return new NXsampleImpl(oid);
 	}
 
 	/**
-	 * Create a new NXsample.
+	 * Create a new {@link NXsample}.
+	 *
+	 * @return new NXsample
 	 */
-	public NXsample createNXsample() {
-		return new NXsampleImpl(this);
+	public static NXsample createNXsample() {
+		return new NXsampleImpl();
 	}
 
 	/**
-	 * Create a new NXmirror with the given oid.
+	 * Create a new {@link NXmirror} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXmirror
 	 */
 	public static NXmirror createNXmirror(long oid) {
 		return new NXmirrorImpl(oid);
 	}
 
 	/**
-	 * Create a new NXmirror.
+	 * Create a new {@link NXmirror}.
+	 *
+	 * @return new NXmirror
 	 */
-	public NXmirror createNXmirror() {
-		return new NXmirrorImpl(this);
+	public static NXmirror createNXmirror() {
+		return new NXmirrorImpl();
 	}
 
 	/**
-	 * Create a new NXcite with the given oid.
+	 * Create a new {@link NXcite} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXcite
 	 */
 	public static NXcite createNXcite(long oid) {
 		return new NXciteImpl(oid);
 	}
 
 	/**
-	 * Create a new NXcite.
+	 * Create a new {@link NXcite}.
+	 *
+	 * @return new NXcite
 	 */
-	public NXcite createNXcite() {
-		return new NXciteImpl(this);
+	public static NXcite createNXcite() {
+		return new NXciteImpl();
 	}
 
 	/**
-	 * Create a new NXentry with the given oid.
+	 * Create a new {@link NXentry} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXentry
 	 */
 	public static NXentry createNXentry(long oid) {
 		return new NXentryImpl(oid);
 	}
 
 	/**
-	 * Create a new NXentry.
+	 * Create a new {@link NXentry}.
+	 *
+	 * @return new NXentry
 	 */
-	public NXentry createNXentry() {
-		return new NXentryImpl(this);
+	public static NXentry createNXentry() {
+		return new NXentryImpl();
 	}
 
 	/**
-	 * Create a new NXflipper with the given oid.
+	 * Create a new {@link NXflipper} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXflipper
 	 */
 	public static NXflipper createNXflipper(long oid) {
 		return new NXflipperImpl(oid);
 	}
 
 	/**
-	 * Create a new NXflipper.
+	 * Create a new {@link NXflipper}.
+	 *
+	 * @return new NXflipper
 	 */
-	public NXflipper createNXflipper() {
-		return new NXflipperImpl(this);
+	public static NXflipper createNXflipper() {
+		return new NXflipperImpl();
 	}
 
 	/**
-	 * Create a new NXpositioner with the given oid.
+	 * Create a new {@link NXpositioner} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXpositioner
 	 */
 	public static NXpositioner createNXpositioner(long oid) {
 		return new NXpositionerImpl(oid);
 	}
 
 	/**
-	 * Create a new NXpositioner.
+	 * Create a new {@link NXpositioner}.
+	 *
+	 * @return new NXpositioner
 	 */
-	public NXpositioner createNXpositioner() {
-		return new NXpositionerImpl(this);
+	public static NXpositioner createNXpositioner() {
+		return new NXpositionerImpl();
 	}
 
 	/**
-	 * Create a new NXcollimator with the given oid.
+	 * Create a new {@link NXcollimator} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXcollimator
 	 */
 	public static NXcollimator createNXcollimator(long oid) {
 		return new NXcollimatorImpl(oid);
 	}
 
 	/**
-	 * Create a new NXcollimator.
+	 * Create a new {@link NXcollimator}.
+	 *
+	 * @return new NXcollimator
 	 */
-	public NXcollimator createNXcollimator() {
-		return new NXcollimatorImpl(this);
+	public static NXcollimator createNXcollimator() {
+		return new NXcollimatorImpl();
 	}
 
 	/**
-	 * Create a new NXmoderator with the given oid.
+	 * Create a new {@link NXmoderator} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXmoderator
 	 */
 	public static NXmoderator createNXmoderator(long oid) {
 		return new NXmoderatorImpl(oid);
 	}
 
 	/**
-	 * Create a new NXmoderator.
+	 * Create a new {@link NXmoderator}.
+	 *
+	 * @return new NXmoderator
 	 */
-	public NXmoderator createNXmoderator() {
-		return new NXmoderatorImpl(this);
+	public static NXmoderator createNXmoderator() {
+		return new NXmoderatorImpl();
 	}
 
 	/**
-	 * Create a new NXgeometry with the given oid.
+	 * Create a new {@link NXgeometry} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXgeometry
 	 */
 	public static NXgeometry createNXgeometry(long oid) {
 		return new NXgeometryImpl(oid);
 	}
 
 	/**
-	 * Create a new NXgeometry.
+	 * Create a new {@link NXgeometry}.
+	 *
+	 * @return new NXgeometry
 	 */
-	public NXgeometry createNXgeometry() {
-		return new NXgeometryImpl(this);
+	public static NXgeometry createNXgeometry() {
+		return new NXgeometryImpl();
 	}
 
 	/**
-	 * Create a new NXparameters with the given oid.
+	 * Create a new {@link NXparameters} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXparameters
 	 */
 	public static NXparameters createNXparameters(long oid) {
 		return new NXparametersImpl(oid);
 	}
 
 	/**
-	 * Create a new NXparameters.
+	 * Create a new {@link NXparameters}.
+	 *
+	 * @return new NXparameters
 	 */
-	public NXparameters createNXparameters() {
-		return new NXparametersImpl(this);
+	public static NXparameters createNXparameters() {
+		return new NXparametersImpl();
 	}
 
 	/**
-	 * Create a new NXorientation with the given oid.
+	 * Create a new {@link NXorientation} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXorientation
 	 */
 	public static NXorientation createNXorientation(long oid) {
 		return new NXorientationImpl(oid);
 	}
 
 	/**
-	 * Create a new NXorientation.
+	 * Create a new {@link NXorientation}.
+	 *
+	 * @return new NXorientation
 	 */
-	public NXorientation createNXorientation() {
-		return new NXorientationImpl(this);
+	public static NXorientation createNXorientation() {
+		return new NXorientationImpl();
 	}
 
 	/**
-	 * Create a new NXenvironment with the given oid.
+	 * Create a new {@link NXenvironment} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXenvironment
 	 */
 	public static NXenvironment createNXenvironment(long oid) {
 		return new NXenvironmentImpl(oid);
 	}
 
 	/**
-	 * Create a new NXenvironment.
+	 * Create a new {@link NXenvironment}.
+	 *
+	 * @return new NXenvironment
 	 */
-	public NXenvironment createNXenvironment() {
-		return new NXenvironmentImpl(this);
+	public static NXenvironment createNXenvironment() {
+		return new NXenvironmentImpl();
 	}
 
 	/**
-	 * Create a new NXmonitor with the given oid.
+	 * Create a new {@link NXmonitor} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXmonitor
 	 */
 	public static NXmonitor createNXmonitor(long oid) {
 		return new NXmonitorImpl(oid);
 	}
 
 	/**
-	 * Create a new NXmonitor.
+	 * Create a new {@link NXmonitor}.
+	 *
+	 * @return new NXmonitor
 	 */
-	public NXmonitor createNXmonitor() {
-		return new NXmonitorImpl(this);
+	public static NXmonitor createNXmonitor() {
+		return new NXmonitorImpl();
 	}
 
 	/**
-	 * Create a new NXroot with the given oid.
+	 * Create a new {@link NXroot} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXroot
 	 */
 	public static NXroot createNXroot(long oid) {
 		return new NXrootImpl(oid);
 	}
 
 	/**
-	 * Create a new NXroot.
+	 * Create a new {@link NXroot}.
+	 *
+	 * @return new NXroot
 	 */
-	public NXroot createNXroot() {
-		return new NXrootImpl(this);
+	public static NXroot createNXroot() {
+		return new NXrootImpl();
 	}
 
 	/**
-	 * Create a new NXprocess with the given oid.
+	 * Create a new {@link NXprocess} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXprocess
 	 */
 	public static NXprocess createNXprocess(long oid) {
 		return new NXprocessImpl(oid);
 	}
 
 	/**
-	 * Create a new NXprocess.
+	 * Create a new {@link NXprocess}.
+	 *
+	 * @return new NXprocess
 	 */
-	public NXprocess createNXprocess() {
-		return new NXprocessImpl(this);
+	public static NXprocess createNXprocess() {
+		return new NXprocessImpl();
 	}
 
 	/**
-	 * Create a new NXsource with the given oid.
+	 * Create a new {@link NXsource} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXsource
 	 */
 	public static NXsource createNXsource(long oid) {
 		return new NXsourceImpl(oid);
 	}
 
 	/**
-	 * Create a new NXsource.
+	 * Create a new {@link NXsource}.
+	 *
+	 * @return new NXsource
 	 */
-	public NXsource createNXsource() {
-		return new NXsourceImpl(this);
+	public static NXsource createNXsource() {
+		return new NXsourceImpl();
 	}
 
 	/**
-	 * Create a new NXuser with the given oid.
+	 * Create a new {@link NXuser} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXuser
 	 */
 	public static NXuser createNXuser(long oid) {
 		return new NXuserImpl(oid);
 	}
 
 	/**
-	 * Create a new NXuser.
+	 * Create a new {@link NXuser}.
+	 *
+	 * @return new NXuser
 	 */
-	public NXuser createNXuser() {
-		return new NXuserImpl(this);
+	public static NXuser createNXuser() {
+		return new NXuserImpl();
 	}
 
 	/**
-	 * Create a new NXcrystal with the given oid.
+	 * Create a new {@link NXcrystal} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXcrystal
 	 */
 	public static NXcrystal createNXcrystal(long oid) {
 		return new NXcrystalImpl(oid);
 	}
 
 	/**
-	 * Create a new NXcrystal.
+	 * Create a new {@link NXcrystal}.
+	 *
+	 * @return new NXcrystal
 	 */
-	public NXcrystal createNXcrystal() {
-		return new NXcrystalImpl(this);
+	public static NXcrystal createNXcrystal() {
+		return new NXcrystalImpl();
 	}
 
 	/**
-	 * Create a new NXtranslation with the given oid.
+	 * Create a new {@link NXtranslation} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXtranslation
 	 */
 	public static NXtranslation createNXtranslation(long oid) {
 		return new NXtranslationImpl(oid);
 	}
 
 	/**
-	 * Create a new NXtranslation.
+	 * Create a new {@link NXtranslation}.
+	 *
+	 * @return new NXtranslation
 	 */
-	public NXtranslation createNXtranslation() {
-		return new NXtranslationImpl(this);
+	public static NXtranslation createNXtranslation() {
+		return new NXtranslationImpl();
 	}
 
 	/**
-	 * Create a new NXinstrument with the given oid.
+	 * Create a new {@link NXinstrument} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXinstrument
 	 */
 	public static NXinstrument createNXinstrument(long oid) {
 		return new NXinstrumentImpl(oid);
 	}
 
 	/**
-	 * Create a new NXinstrument.
+	 * Create a new {@link NXinstrument}.
+	 *
+	 * @return new NXinstrument
 	 */
-	public NXinstrument createNXinstrument() {
-		return new NXinstrumentImpl(this);
+	public static NXinstrument createNXinstrument() {
+		return new NXinstrumentImpl();
 	}
 
 	/**
-	 * Create a new NXpolarizer with the given oid.
+	 * Create a new {@link NXpolarizer} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXpolarizer
 	 */
 	public static NXpolarizer createNXpolarizer(long oid) {
 		return new NXpolarizerImpl(oid);
 	}
 
 	/**
-	 * Create a new NXpolarizer.
+	 * Create a new {@link NXpolarizer}.
+	 *
+	 * @return new NXpolarizer
 	 */
-	public NXpolarizer createNXpolarizer() {
-		return new NXpolarizerImpl(this);
+	public static NXpolarizer createNXpolarizer() {
+		return new NXpolarizerImpl();
 	}
 
 	/**
-	 * Create a new NXdata with the given oid.
+	 * Create a new {@link NXdata} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXdata
 	 */
 	public static NXdata createNXdata(long oid) {
 		return new NXdataImpl(oid);
 	}
 
 	/**
-	 * Create a new NXdata.
+	 * Create a new {@link NXdata}.
+	 *
+	 * @return new NXdata
 	 */
-	public NXdata createNXdata() {
-		return new NXdataImpl(this);
+	public static NXdata createNXdata() {
+		return new NXdataImpl();
 	}
 
 	/**
-	 * Create a new NXpinhole with the given oid.
+	 * Create a new {@link NXpinhole} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXpinhole
 	 */
 	public static NXpinhole createNXpinhole(long oid) {
 		return new NXpinholeImpl(oid);
 	}
 
 	/**
-	 * Create a new NXpinhole.
+	 * Create a new {@link NXpinhole}.
+	 *
+	 * @return new NXpinhole
 	 */
-	public NXpinhole createNXpinhole() {
-		return new NXpinholeImpl(this);
+	public static NXpinhole createNXpinhole() {
+		return new NXpinholeImpl();
 	}
 
 	/**
-	 * Create a new NXsubentry with the given oid.
+	 * Create a new {@link NXsubentry} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXsubentry
 	 */
 	public static NXsubentry createNXsubentry(long oid) {
 		return new NXsubentryImpl(oid);
 	}
 
 	/**
-	 * Create a new NXsubentry.
+	 * Create a new {@link NXsubentry}.
+	 *
+	 * @return new NXsubentry
 	 */
-	public NXsubentry createNXsubentry() {
-		return new NXsubentryImpl(this);
+	public static NXsubentry createNXsubentry() {
+		return new NXsubentryImpl();
 	}
 
 	/**
-	 * Create a new NXaperture with the given oid.
+	 * Create a new {@link NXaperture} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXaperture
 	 */
 	public static NXaperture createNXaperture(long oid) {
 		return new NXapertureImpl(oid);
 	}
 
 	/**
-	 * Create a new NXaperture.
+	 * Create a new {@link NXaperture}.
+	 *
+	 * @return new NXaperture
 	 */
-	public NXaperture createNXaperture() {
-		return new NXapertureImpl(this);
+	public static NXaperture createNXaperture() {
+		return new NXapertureImpl();
 	}
 
 	/**
-	 * Create a new NXfilter with the given oid.
+	 * Create a new {@link NXfilter} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXfilter
 	 */
 	public static NXfilter createNXfilter(long oid) {
 		return new NXfilterImpl(oid);
 	}
 
 	/**
-	 * Create a new NXfilter.
+	 * Create a new {@link NXfilter}.
+	 *
+	 * @return new NXfilter
 	 */
-	public NXfilter createNXfilter() {
-		return new NXfilterImpl(this);
+	public static NXfilter createNXfilter() {
+		return new NXfilterImpl();
 	}
 
 	/**
-	 * Create a new NXevent_data with the given oid.
+	 * Create a new {@link NXevent_data} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXevent_data
 	 */
 	public static NXevent_data createNXevent_data(long oid) {
 		return new NXevent_dataImpl(oid);
 	}
 
 	/**
-	 * Create a new NXevent_data.
+	 * Create a new {@link NXevent_data}.
+	 *
+	 * @return new NXevent_data
 	 */
-	public NXevent_data createNXevent_data() {
-		return new NXevent_dataImpl(this);
+	public static NXevent_data createNXevent_data() {
+		return new NXevent_dataImpl();
 	}
 
 	/**
-	 * Create a new NXslit with the given oid.
+	 * Create a new {@link NXslit} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXslit
 	 */
 	public static NXslit createNXslit(long oid) {
 		return new NXslitImpl(oid);
 	}
 
 	/**
-	 * Create a new NXslit.
+	 * Create a new {@link NXslit}.
+	 *
+	 * @return new NXslit
 	 */
-	public NXslit createNXslit() {
-		return new NXslitImpl(this);
+	public static NXslit createNXslit() {
+		return new NXslitImpl();
 	}
 
 	/**
-	 * Create a new NXdetector_group with the given oid.
+	 * Create a new {@link NXdetector_group} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXdetector_group
 	 */
 	public static NXdetector_group createNXdetector_group(long oid) {
 		return new NXdetector_groupImpl(oid);
 	}
 
 	/**
-	 * Create a new NXdetector_group.
+	 * Create a new {@link NXdetector_group}.
+	 *
+	 * @return new NXdetector_group
 	 */
-	public NXdetector_group createNXdetector_group() {
-		return new NXdetector_groupImpl(this);
+	public static NXdetector_group createNXdetector_group() {
+		return new NXdetector_groupImpl();
 	}
 
 	/**
-	 * Create a new NXdetector_module with the given oid.
+	 * Create a new {@link NXdetector_module} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXdetector_module
 	 */
 	public static NXdetector_module createNXdetector_module(long oid) {
 		return new NXdetector_moduleImpl(oid);
 	}
 
 	/**
-	 * Create a new NXdetector_module.
+	 * Create a new {@link NXdetector_module}.
+	 *
+	 * @return new NXdetector_module
 	 */
-	public NXdetector_module createNXdetector_module() {
-		return new NXdetector_moduleImpl(this);
+	public static NXdetector_module createNXdetector_module() {
+		return new NXdetector_moduleImpl();
 	}
 
 	/**
-	 * Create a new NXinsertion_device with the given oid.
+	 * Create a new {@link NXinsertion_device} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXinsertion_device
 	 */
 	public static NXinsertion_device createNXinsertion_device(long oid) {
 		return new NXinsertion_deviceImpl(oid);
 	}
 
 	/**
-	 * Create a new NXinsertion_device.
+	 * Create a new {@link NXinsertion_device}.
+	 *
+	 * @return new NXinsertion_device
 	 */
-	public NXinsertion_device createNXinsertion_device() {
-		return new NXinsertion_deviceImpl(this);
+	public static NXinsertion_device createNXinsertion_device() {
+		return new NXinsertion_deviceImpl();
 	}
 
 	/**
-	 * Create a new NXbeam_stop with the given oid.
+	 * Create a new {@link NXbeam_stop} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXbeam_stop
 	 */
 	public static NXbeam_stop createNXbeam_stop(long oid) {
 		return new NXbeam_stopImpl(oid);
 	}
 
 	/**
-	 * Create a new NXbeam_stop.
+	 * Create a new {@link NXbeam_stop}.
+	 *
+	 * @return new NXbeam_stop
 	 */
-	public NXbeam_stop createNXbeam_stop() {
-		return new NXbeam_stopImpl(this);
+	public static NXbeam_stop createNXbeam_stop() {
+		return new NXbeam_stopImpl();
 	}
 
 	/**
-	 * Create a new NXtransformations with the given oid.
+	 * Create a new {@link NXtransformations} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXtransformations
 	 */
 	public static NXtransformations createNXtransformations(long oid) {
 		return new NXtransformationsImpl(oid);
 	}
 
 	/**
-	 * Create a new NXtransformations.
+	 * Create a new {@link NXtransformations}.
+	 *
+	 * @return new NXtransformations
 	 */
-	public NXtransformations createNXtransformations() {
-		return new NXtransformationsImpl(this);
+	public static NXtransformations createNXtransformations() {
+		return new NXtransformationsImpl();
 	}
 
 	/**
-	 * Create a new NXsensor with the given oid.
+	 * Create a new {@link NXsensor} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXsensor
 	 */
 	public static NXsensor createNXsensor(long oid) {
 		return new NXsensorImpl(oid);
 	}
 
 	/**
-	 * Create a new NXsensor.
+	 * Create a new {@link NXsensor}.
+	 *
+	 * @return new NXsensor
 	 */
-	public NXsensor createNXsensor() {
-		return new NXsensorImpl(this);
+	public static NXsensor createNXsensor() {
+		return new NXsensorImpl();
 	}
 
 	/**
-	 * Create a new NXattenuator with the given oid.
+	 * Create a new {@link NXattenuator} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXattenuator
 	 */
 	public static NXattenuator createNXattenuator(long oid) {
 		return new NXattenuatorImpl(oid);
 	}
 
 	/**
-	 * Create a new NXattenuator.
+	 * Create a new {@link NXattenuator}.
+	 *
+	 * @return new NXattenuator
 	 */
-	public NXattenuator createNXattenuator() {
-		return new NXattenuatorImpl(this);
+	public static NXattenuator createNXattenuator() {
+		return new NXattenuatorImpl();
 	}
 
 	/**
-	 * Create a new NXdetector with the given oid.
+	 * Create a new {@link NXdetector} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXdetector
 	 */
 	public static NXdetector createNXdetector(long oid) {
 		return new NXdetectorImpl(oid);
 	}
 
 	/**
-	 * Create a new NXdetector.
+	 * Create a new {@link NXdetector}.
+	 *
+	 * @return new NXdetector
 	 */
-	public NXdetector createNXdetector() {
-		return new NXdetectorImpl(this);
+	public static NXdetector createNXdetector() {
+		return new NXdetectorImpl();
 	}
 
 	/**
-	 * Create a new NXcollection with the given oid.
+	 * Create a new {@link NXcollection} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXcollection
 	 */
 	public static NXcollection createNXcollection(long oid) {
 		return new NXcollectionImpl(oid);
 	}
 
 	/**
-	 * Create a new NXcollection.
+	 * Create a new {@link NXcollection}.
+	 *
+	 * @return new NXcollection
 	 */
-	public NXcollection createNXcollection() {
-		return new NXcollectionImpl(this);
+	public static NXcollection createNXcollection() {
+		return new NXcollectionImpl();
 	}
 
 	/**
-	 * Create a new NXmagnetic_kicker with the given oid.
+	 * Create a new {@link NXmagnetic_kicker} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXmagnetic_kicker
 	 */
 	public static NXmagnetic_kicker createNXmagnetic_kicker(long oid) {
 		return new NXmagnetic_kickerImpl(oid);
 	}
 
 	/**
-	 * Create a new NXmagnetic_kicker.
+	 * Create a new {@link NXmagnetic_kicker}.
+	 *
+	 * @return new NXmagnetic_kicker
 	 */
-	public NXmagnetic_kicker createNXmagnetic_kicker() {
-		return new NXmagnetic_kickerImpl(this);
+	public static NXmagnetic_kicker createNXmagnetic_kicker() {
+		return new NXmagnetic_kickerImpl();
 	}
 
 	/**
-	 * Create a new NXquadrupole_magnet with the given oid.
+	 * Create a new {@link NXquadrupole_magnet} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXquadrupole_magnet
 	 */
 	public static NXquadrupole_magnet createNXquadrupole_magnet(long oid) {
 		return new NXquadrupole_magnetImpl(oid);
 	}
 
 	/**
-	 * Create a new NXquadrupole_magnet.
+	 * Create a new {@link NXquadrupole_magnet}.
+	 *
+	 * @return new NXquadrupole_magnet
 	 */
-	public NXquadrupole_magnet createNXquadrupole_magnet() {
-		return new NXquadrupole_magnetImpl(this);
+	public static NXquadrupole_magnet createNXquadrupole_magnet() {
+		return new NXquadrupole_magnetImpl();
 	}
 
 	/**
-	 * Create a new NXspin_rotator with the given oid.
+	 * Create a new {@link NXspin_rotator} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXspin_rotator
 	 */
 	public static NXspin_rotator createNXspin_rotator(long oid) {
 		return new NXspin_rotatorImpl(oid);
 	}
 
 	/**
-	 * Create a new NXspin_rotator.
+	 * Create a new {@link NXspin_rotator}.
+	 *
+	 * @return new NXspin_rotator
 	 */
-	public NXspin_rotator createNXspin_rotator() {
-		return new NXspin_rotatorImpl(this);
+	public static NXspin_rotator createNXspin_rotator() {
+		return new NXspin_rotatorImpl();
 	}
 
 	/**
-	 * Create a new NXsolenoid_magnet with the given oid.
+	 * Create a new {@link NXsolenoid_magnet} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXsolenoid_magnet
 	 */
 	public static NXsolenoid_magnet createNXsolenoid_magnet(long oid) {
 		return new NXsolenoid_magnetImpl(oid);
 	}
 
 	/**
-	 * Create a new NXsolenoid_magnet.
+	 * Create a new {@link NXsolenoid_magnet}.
+	 *
+	 * @return new NXsolenoid_magnet
 	 */
-	public NXsolenoid_magnet createNXsolenoid_magnet() {
-		return new NXsolenoid_magnetImpl(this);
+	public static NXsolenoid_magnet createNXsolenoid_magnet() {
+		return new NXsolenoid_magnetImpl();
 	}
 
 	/**
-	 * Create a new NXelectrostatic_kicker with the given oid.
+	 * Create a new {@link NXelectrostatic_kicker} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXelectrostatic_kicker
 	 */
 	public static NXelectrostatic_kicker createNXelectrostatic_kicker(long oid) {
 		return new NXelectrostatic_kickerImpl(oid);
 	}
 
 	/**
-	 * Create a new NXelectrostatic_kicker.
+	 * Create a new {@link NXelectrostatic_kicker}.
+	 *
+	 * @return new NXelectrostatic_kicker
 	 */
-	public NXelectrostatic_kicker createNXelectrostatic_kicker() {
-		return new NXelectrostatic_kickerImpl(this);
+	public static NXelectrostatic_kicker createNXelectrostatic_kicker() {
+		return new NXelectrostatic_kickerImpl();
 	}
 
 	/**
-	 * Create a new NXseparator with the given oid.
+	 * Create a new {@link NXseparator} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXseparator
 	 */
 	public static NXseparator createNXseparator(long oid) {
 		return new NXseparatorImpl(oid);
 	}
 
 	/**
-	 * Create a new NXseparator.
+	 * Create a new {@link NXseparator}.
+	 *
+	 * @return new NXseparator
 	 */
-	public NXseparator createNXseparator() {
-		return new NXseparatorImpl(this);
+	public static NXseparator createNXseparator() {
+		return new NXseparatorImpl();
 	}
 
 }

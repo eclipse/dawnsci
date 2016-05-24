@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -34,8 +34,8 @@ public class NXquadrupole_magnetImpl extends NXobjectImpl implements NXquadrupol
 		NexusBaseClass.NX_LOG,
 		NexusBaseClass.NX_LOG);
 
-	public NXquadrupole_magnetImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXquadrupole_magnetImpl() {
+		super();
 	}
 
 	public NXquadrupole_magnetImpl(final long oid) {

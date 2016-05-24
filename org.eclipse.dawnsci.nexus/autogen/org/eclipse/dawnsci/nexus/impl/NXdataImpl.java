@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -21,9 +21,8 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
+ * (**required**) :ref:`NXdata` describes the plottable data and related dimension scales.
  * .. index:: plotting
- * (**required**) :ref:`NXdata` is a template of
- * plottable data and their dimension scales.
  * It is mandatory that there is at least one :ref:`NXdata` group
  * in each :ref:`NXentry` group.
  * Note that the ``variable`` and ``data``
@@ -99,8 +98,8 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	public NXdataImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXdataImpl() {
+		super();
 	}
 
 	public NXdataImpl(final long oid) {
@@ -124,16 +123,6 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	
 
 	@Override
-	public String getAttributeAxes() {
-		return getAttrString(null, NX_ATTRIBUTE_AXES);
-	}
-
-	@Override
-	public void setAttributeAxes(String axes) {
-		setAttribute(null, NX_ATTRIBUTE_AXES, axes);
-	}
-
-	@Override
 	public String getAttributeSignal() {
 		return getAttrString(null, NX_ATTRIBUTE_SIGNAL);
 	}
@@ -141,6 +130,16 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	@Override
 	public void setAttributeSignal(String signal) {
 		setAttribute(null, NX_ATTRIBUTE_SIGNAL, signal);
+	}
+
+	@Override
+	public String getAttributeAxes() {
+		return getAttrString(null, NX_ATTRIBUTE_AXES);
+	}
+
+	@Override
+	public void setAttributeAxes(String axes) {
+		setAttribute(null, NX_ATTRIBUTE_AXES, axes);
 	}
 
 	@Override

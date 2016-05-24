@@ -146,48 +146,18 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 		return nexusBaseClass.toString().substring(2);
 	}
 
-	/**
-	 * Creates the nexus object for this {@link NexusObjectProvider} using the
-	 * given {@link NexusNodeFactory}.
-	 * @param nodeFactory node factory
-	 * @return new nexus object
-	 * @throws NexusException if the nexus object could not be created for any reason
-	 */
-	protected abstract N doCreateNexusObject(NexusNodeFactory nodeFactory) throws NexusException;
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#createNexusObject(org.eclipse.dawnsci.nexus.impl.NexusNodeFactory)
-	 */
-	@Override
-	public final N createNexusObject(NexusNodeFactory nodeFactory) throws NexusException {
-		if (nexusObject != null) {
-			throw new IllegalStateException("The nexus object for this provider already exists");
-		}
-
-		this.nexusObject = doCreateNexusObject(nodeFactory);
-		return nexusObject;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getNexusObject(org.eclipse.dawnsci.nexus.impl.NexusNodeFactory, boolean)
-	 */
-	@Override
-	public N getNexusObject(NexusNodeFactory nodeFactory,
-			boolean createIfNecessary) throws NexusException {
-		if (nexusObject == null && createIfNecessary) {
-			this.nexusObject = doCreateNexusObject(nodeFactory);
-		}
-
-		return nexusObject;
-	}
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getNexusObject()
 	 */
 	@Override
 	public final N getNexusObject() {
+		if (nexusObject == null) {
+			nexusObject = createNexusObject();
+		}
 		return nexusObject;
 	}
+	
+	protected abstract N createNexusObject();
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getName()

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -36,8 +36,8 @@ public class NXseparatorImpl extends NXobjectImpl implements NXseparator {
 		NexusBaseClass.NX_LOG,
 		NexusBaseClass.NX_LOG);
 
-	public NXseparatorImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXseparatorImpl() {
+		super();
 	}
 
 	public NXseparatorImpl(final long oid) {

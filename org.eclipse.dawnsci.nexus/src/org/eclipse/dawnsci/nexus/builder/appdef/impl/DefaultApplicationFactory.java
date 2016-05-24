@@ -47,8 +47,7 @@ public class DefaultApplicationFactory implements NexusApplicationFactory {
 	@Override
 	public NexusApplicationBuilder newApplicationDefinitionModel(NexusEntryBuilder entryModel,
 			NexusApplicationDefinition appDef, String subentryName) throws NexusException {
-		NexusNodeFactory nodeFactory = entryModel.getNodeFactory();
-		NXsubentry nxSubentry = nodeFactory.createNXsubentry();
+		NXsubentry nxSubentry = NexusNodeFactory.createNXsubentry();
 		NexusApplicationBuilder appDefModel = null;
 		switch (appDef) {
 		case NX_TOMO:

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -24,7 +24,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
- * Template of a detector, detector bank, or multidetector.
+ * A detector, detector bank, or multidetector.
  * 
  * @version 1.1
  */
@@ -42,8 +42,8 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		NexusBaseClass.NX_COLLECTION,
 		NexusBaseClass.NX_DETECTOR_MODULE);
 
-	public NXdetectorImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXdetectorImpl() {
+		super();
 	}
 
 	public NXdetectorImpl(final long oid) {

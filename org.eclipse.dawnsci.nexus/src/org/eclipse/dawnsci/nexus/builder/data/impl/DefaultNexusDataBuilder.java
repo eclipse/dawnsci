@@ -24,12 +24,11 @@ import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
-import org.eclipse.dawnsci.analysis.tree.impl.SymbolicNodeImpl;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusEntryBuilder;
+import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.data.AxisDataDevice;
@@ -37,6 +36,7 @@ import org.eclipse.dawnsci.nexus.builder.data.DataDevice;
 import org.eclipse.dawnsci.nexus.builder.data.DataDeviceBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.PrimaryDataDevice;
+import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusEntryBuilder;
 
 /**
  * Default implementation of {@link NexusDataBuilder}.
@@ -234,12 +234,11 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 		if (node.isDataNode()) {
 			nxData.addDataNode(destinationFieldName, (DataNode) node); 
 		} else if (node.isSymbolicNode()) {
-			// we have the symbolic node as the NexusFileHDF5 cannot create a hard link
+			// we have to copy the symbolic node as the NexusFileHDF5 cannot create a hard link
 			// to a symbolic node when saving the tree
-			SymbolicNode symbolicNode = (SymbolicNode) node;
-			final long oid = entryBuilder.getNodeFactory().getNextOid();
-			SymbolicNode newSymbolicNode = new SymbolicNodeImpl(
-					oid, symbolicNode.getSourceURI(), null, symbolicNode.getPath());
+			SymbolicNode oldSymbolicNode = (SymbolicNode) node;
+			SymbolicNode newSymbolicNode = NexusNodeFactory.createSymbolicNode(
+					oldSymbolicNode.getSourceURI(), oldSymbolicNode.getPath());
 			nxData.addSymbolicNode(destinationFieldName, newSymbolicNode);
 		} else {
 			throw new IllegalArgumentException("Node must be a DataNode or SymbolicNode");

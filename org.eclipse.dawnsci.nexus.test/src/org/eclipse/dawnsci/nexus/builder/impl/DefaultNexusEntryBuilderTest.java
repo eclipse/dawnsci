@@ -50,8 +50,8 @@ public class DefaultNexusEntryBuilderTest {
 		}
 		
 		@Override
-		protected NXpositioner doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			return nodeFactory.createNXpositioner();
+		protected NXpositioner createNexusObject() {
+			return NexusNodeFactory.createNXpositioner();
 		}
 
 	}
@@ -63,8 +63,8 @@ public class DefaultNexusEntryBuilderTest {
 		}
 		
 		@Override
-		protected NXdetector doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			return nodeFactory.createNXdetector();
+		protected NXdetector createNexusObject() {
+			return NexusNodeFactory.createNXdetector();
 		}
 		
 	}
@@ -76,8 +76,8 @@ public class DefaultNexusEntryBuilderTest {
 		}
 		
 		@Override
-		protected NXsource doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			return nodeFactory.createNXsource();
+		protected NXsource createNexusObject() {
+			return NexusNodeFactory.createNXsource();
 		}
 		
 	}
@@ -85,7 +85,7 @@ public class DefaultNexusEntryBuilderTest {
 	private CustomNexusEntryModification customModification = new CustomNexusEntryModification() {
 		
 		@Override
-		public void modifyEntry(NXentry entry, NexusNodeFactory nodeFactory) {
+		public void modifyEntry(NXentry entry) {
 			entry.setField("foo", "bar");
 		}
 		
@@ -105,11 +105,6 @@ public class DefaultNexusEntryBuilderTest {
 	@Test
 	public void testGetNXentry() {
 		assertThat(entryBuilder.getNXentry(), notNullValue(NXentry.class));
-	}
-	
-	@Test
-	public void testGetNodeFactory() {
-		assertThat(entryBuilder.getNodeFactory(), notNullValue(NexusNodeFactory.class));
 	}
 	
 	@Test
@@ -196,8 +191,8 @@ public class DefaultNexusEntryBuilderTest {
 				new AbstractNexusObjectProvider<NXsample>("sample", NexusBaseClass.NX_SAMPLE) {
 
 			@Override
-			protected NXsample doCreateNexusObject(NexusNodeFactory nodeFactory) {
-				return nodeFactory.createNXsample();
+			protected NXsample createNexusObject() {
+				return NexusNodeFactory.createNXsample();
 			}
 			
 		};

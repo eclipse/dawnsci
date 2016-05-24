@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -24,7 +24,8 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
- * (**required**) Template of the top-level NeXus group which contains all the data and associated
+ * (**required**) :ref:`NXentry` describes the measurement.
+ * The top-level NeXus group which contains all the data and associated
  * information that comprise a single measurement. It is mandatory that there is at least one
  * group of this type in the NeXus file.
  * 
@@ -50,8 +51,8 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		NexusBaseClass.NX_PROCESS,
 		NexusBaseClass.NX_SUBENTRY);
 
-	public NXentryImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXentryImpl() {
+		super();
 	}
 
 	public NXentryImpl(final long oid) {

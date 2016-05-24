@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -23,6 +23,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
+ * Collection of the components of the instrument or beamline.
  * Template of instrument descriptions comprising various beamline components.
  * Each component will also be a NeXus group defined by its distance from the
  * sample. Negative distances represent beamline components that are before the
@@ -65,8 +66,8 @@ public class NXinstrumentImpl extends NXobjectImpl implements NXinstrument {
 		NexusBaseClass.NX_VELOCITY_SELECTOR,
 		NexusBaseClass.NX_XRAYLENS);
 
-	public NXinstrumentImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXinstrumentImpl() {
+		super();
 	}
 
 	public NXinstrumentImpl(final long oid) {

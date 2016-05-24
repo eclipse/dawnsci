@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -17,8 +17,8 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
- * This class describes a sensor used to monitor an external condition
- * - the condition itself is described in NXenvironment
+ * A sensor used to monitor an external condition
+ * The condition itself is described in :ref:`NXenvironment`.
  * 
  * @version 1.0
  */

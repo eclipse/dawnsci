@@ -20,7 +20,7 @@ public class SimpleNexusFileTest extends AbstractNexusFileTestBase {
 	@Override
 	protected NXroot createNXroot() {
 		// create the root object of the nexus file
-		NXroot root = nexusNodeFactory.createNXroot();
+		NXroot root = NexusNodeFactory.createNXroot();
 		root.setAttributeFile_name(FILE_NAME);
 		root.setAttributeFile_time("2014-09-08T09:07:11.939912");
 		root.setAttributeNeXus_version("4.3.0");
@@ -28,10 +28,10 @@ public class SimpleNexusFileTest extends AbstractNexusFileTestBase {
 		root.setAttribute(null, "h5py_version", "2.3.0");
 
 		// create the single entry object of the nexus file
-		NXentry entry = nexusNodeFactory.createNXentry();
+		NXentry entry = NexusNodeFactory.createNXentry();
 		root.setEntry(entry);
 
-		NXdata dataGroup = nexusNodeFactory.createNXdata();
+		NXdata dataGroup = NexusNodeFactory.createNXdata();
 		entry.setData(dataGroup);
 
 		long[] countsData = new long[] {

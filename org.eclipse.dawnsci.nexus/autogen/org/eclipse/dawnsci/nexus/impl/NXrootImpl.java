@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -34,8 +34,8 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_ENTRY);
 
-	public NXrootImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXrootImpl() {
+		super();
 	}
 
 	public NXrootImpl(final long oid) {
@@ -136,6 +136,16 @@ public class NXrootImpl extends NXobjectImpl implements NXroot {
 	@Override
 	public void setAttributeXML_version(String XML_version) {
 		setAttribute(null, NX_ATTRIBUTE_XML_VERSION, XML_version);
+	}
+
+	@Override
+	public String getAttributeH5py_version() {
+		return getAttrString(null, NX_ATTRIBUTE_H5PY_VERSION);
+	}
+
+	@Override
+	public void setAttributeH5py_version(String h5py_version) {
+		setAttribute(null, NX_ATTRIBUTE_H5PY_VERSION, h5py_version);
 	}
 
 	@Override

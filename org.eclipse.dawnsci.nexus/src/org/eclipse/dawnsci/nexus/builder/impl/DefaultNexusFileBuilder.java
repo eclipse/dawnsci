@@ -34,8 +34,6 @@ import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
  */
 public class DefaultNexusFileBuilder implements NexusFileBuilder {
 
-	private final NexusNodeFactory nexusNodeFactory = new NexusNodeFactory();
-
 	private final TreeFile treeFile;
 
 	private final NXroot nxRoot;
@@ -49,8 +47,8 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 	 * @param filePath
 	 */
 	public DefaultNexusFileBuilder(final String filePath) {
-		treeFile = nexusNodeFactory.createTreeFile(filePath);
-		nxRoot = nexusNodeFactory.createNXroot();
+		treeFile = NexusNodeFactory.createTreeFile(filePath);
+		nxRoot = NexusNodeFactory.createNXroot();
 		
 		// TODO: do we need to set any attributes on root?
 		nxRoot.setAttributeFile_name(filePath);
@@ -63,14 +61,6 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 	@Override
 	public TreeFile getNexusTree() {
 		return treeFile;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.NexusFileBuilder#getNodeFactory()
-	 */
-	@Override
-	public NexusNodeFactory getNodeFactory() {
-		return nexusNodeFactory;
 	}
 
 	/* (non-Javadoc)
@@ -98,10 +88,10 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 			throw new NexusException("An entry with the name " + entryName + " already exists");
 		}
 		
-		final NXentry entry = nexusNodeFactory.createNXentry();
+		final NXentry entry = NexusNodeFactory.createNXentry();
 		nxRoot.setEntry(entryName, entry);
 
-		DefaultNexusEntryBuilder entryModel = new DefaultNexusEntryBuilder(nexusNodeFactory, entryName, entry);
+		DefaultNexusEntryBuilder entryModel = new DefaultNexusEntryBuilder(entryName, entry);
 		entries.put(entryName, entryModel);
 		
 		return entryModel;

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -19,10 +19,10 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
- * Description of a device that reduces the intensity of a beam by attenuation.
- * If uncertain whether to use ``NXfilter`` (band-pass filter)
- * or ``NXattenuator`` (reduces beam intensity), then choose
- * ``NXattenuator``.
+ * A device that reduces the intensity of a beam by attenuation.
+ * If uncertain whether to use :ref:`NXfilter` (band-pass filter)
+ * or :ref:`NXattenuator` (reduces beam intensity), then choose
+ * :ref:`NXattenuator`.
  * 
  * @version 1.0
  */

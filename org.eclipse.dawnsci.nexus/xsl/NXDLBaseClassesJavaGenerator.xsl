@@ -228,8 +228,8 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 			<xsl:otherwise>EnumSet.noneOf(NexusBaseClass.class</xsl:otherwise>
 		</xsl:choose>);
 
-	public <xsl:value-of select="$className"/>(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public <xsl:value-of select="$className"/>() {
+		super();
 	}
 
 	public <xsl:value-of select="$className"/>(final long oid) {
@@ -706,6 +706,8 @@ package org.eclipse.dawnsci.nexus;
 import java.net.URI;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+import org.eclipse.dawnsci.analysis.api.tree.Tree;
+import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeImpl;
@@ -723,11 +725,16 @@ import org.eclipse.dawnsci.nexus.NexusBaseClass;
  */
 public class NexusNodeFactory {
 	
-	private long nextOid = 1l;
+	// static field so that we can create unique oids without having access to
+	// the same node factory instances. Values should be unique within this VM,
+	// except in the unlikely case that the value rolls over
+	private static long nextOid = 1l;
 
-</xsl:text>
+	private NexusNodeFactory() {
+		// private constructor to prevent instantiation
+	}
 
-	<xsl:text>	public static NXobject createNXobjectForClass(String baseClassName, long oid) {
+	public static NXobject createNXobjectForClass(String baseClassName, long oid) {
 		final NexusBaseClass baseClass = NexusBaseClass.getBaseClassForName(baseClassName);
 		return createNXobjectForClass(baseClass, oid);
 	}
@@ -744,12 +751,12 @@ public class NexusNodeFactory {
 	
 <xsl:text>
 
-	public NXobject createNXobjectForClass(String baseClassName) {
+	public static NXobject createNXobjectForClass(String baseClassName) {
 		final NexusBaseClass baseClass = NexusBaseClass.getBaseClassForName(baseClassName);
 		return createNXobjectForClass(baseClass);
 	}
 
-	public NXobject createNXobjectForClass(NexusBaseClass baseClass) {
+	public static NXobject createNXobjectForClass(NexusBaseClass baseClass) {
 		switch (baseClass) {&#10;</xsl:text>
 	<xsl:for-each select="$nexus-classes">
 		<xsl:text>			case </xsl:text><xsl:value-of select="dawnsci:base-class-enum-name(@name)"/><xsl:text>:&#10;</xsl:text>
@@ -760,39 +767,51 @@ public class NexusNodeFactory {
 	<xsl:text>	}&#10;</xsl:text>
 	
 	<xsl:text>
-	public long getNextOid() {
-		return nextOid++;
+	/**
+	 * Get the next unique object id. Note that this value is unique across all instances in
+	 * this VM (i.e. it is a static field).
+	 * @return the next oid
+	 */
+	public static long getNextOid() {
+		long oid = nextOid++;
+		if (oid == 0) { // oids may no longer be unique
+			throw new RuntimeException("maximum number of oids reached");
+		}
+		return oid;
 	}
 	
 	/**
-	 * Create a new tree with given URI
+	 * Create a new {@link Tree} with given URI.
 	 * @param uri
+	 * @return new tree
 	 */
-	public TreeImpl createTree(final URI uri) {
+	public static Tree createTree(final URI uri) {
 		return new TreeImpl(getNextOid(), uri);
 	}
 	
 	/**
-	 * Create a new tree file with given URI
+	 * Create a new {@link TreeFile} given URI.
 	 * @param uri uri
+	 * @return new tree file
 	 */
-	public TreeFileImpl createTreeFile(final URI uri) {
+	public static TreeFile createTreeFile(final URI uri) {
 		return new TreeFileImpl(getNextOid(), uri);
 	}
 	
 	/**
 	 * Create a new tree file with given file name
-	 * @param filename filename
-	 * @return
+	 * @param fileName filename
+	 * @return new tree file
 	 */
-	public TreeFileImpl createTreeFile(final String fileName) {
+	public static TreeFileImpl createTreeFile(final String fileName) {
 		return new TreeFileImpl(getNextOid(), fileName);
 	}
 	
 	/**
 	 * Create a new data node.
+	 * @return new data node
 	 */
-	public DataNode createDataNode() {
+	public static DataNode createDataNode() {
 		return TreeFactory.createDataNode(getNextOid());
 	}
 	
@@ -810,7 +829,7 @@ public class NexusNodeFactory {
 	<xsl:apply-templates mode="factory-method" select=".">
 		<xsl:with-param name="has-oid-param" select="true()"/>
 	</xsl:apply-templates>
-	<!--  Methdo to create an object of a particular NXclass, taking this node factory -->
+	<!--  Method to create an object of a particular NXclass, taking this node factory -->
 	<xsl:apply-templates mode="factory-method" select=".">
 		<xsl:with-param name="has-oid-param" select="false()"/>
 	</xsl:apply-templates>
@@ -822,18 +841,23 @@ public class NexusNodeFactory {
 
 	<!-- Javadoc for factory method -->
 	<xsl:text>	/**&#10;</xsl:text>
-	<xsl:text>	 * Create a new </xsl:text><xsl:value-of select="@name"/>
+	<xsl:text>	 * Create a new {@link </xsl:text><xsl:value-of select="@name"/>
+	<xsl:text>}</xsl:text>
 	<xsl:if test="$has-oid-param"><xsl:text> with the given oid</xsl:text></xsl:if>
 	<xsl:text>.&#10;</xsl:text>
+	<xsl:text>	 *&#10;</xsl:text>
+	<xsl:if test="$has-oid-param"><xsl:text>	 * @param oid unique object oid.&#10;</xsl:text></xsl:if>
+	<xsl:text>	 * @return new </xsl:text><xsl:value-of select="@name"/>
+	<xsl:text>&#10;</xsl:text>
 	<xsl:text>	 */&#10;</xsl:text>
 	
 	<!-- Method implementation -->
-	<xsl:text>	public </xsl:text><xsl:if test="$has-oid-param">static </xsl:if><xsl:value-of select="@name"/>
+	<xsl:text>	public static </xsl:text><xsl:value-of select="@name"/>
 	<xsl:text> create</xsl:text><xsl:value-of select="@name"/>
 	<xsl:value-of select="if ($has-oid-param) then '(long oid)' else '()'"/><xsl:text> {&#10;</xsl:text>
 	<xsl:text>		return new </xsl:text>
 	<xsl:value-of select="@name"/><xsl:text>Impl(</xsl:text>
-	<xsl:value-of select="if ($has-oid-param) then 'oid' else 'this'"/><xsl:text>);&#10;</xsl:text>
+	<xsl:value-of select="if ($has-oid-param) then 'oid' else ''"/><xsl:text>);&#10;</xsl:text>
 	<xsl:text>	}&#10;</xsl:text>
 	<xsl:text>&#10;</xsl:text>
 

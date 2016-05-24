@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -19,7 +19,7 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
- * Template of a beamline aperture.
+ * A beamline aperture.
  * 
  * @version 1.0
  */
@@ -29,12 +29,12 @@ public interface NXaperture extends NXobject {
 	public static final String NX_DESCRIPTION = "description";
 	/**
 	 * location and shape of aperture
-	 * .. TODO:
-	 * description of terms is poor and leaves much to interpretation
-	 * Describe what is meant by translation _here_ and ...
-	 * Similar throughout base classes
-	 * Some base classes do this much better
-	 * Such as where is the gap written?
+	 * .. TODO: documentation needs improvement, contributions welcome
+	 * * description of terms is poor and leaves much to interpretation
+	 * * Describe what is meant by translation _here_ and ...
+	 * * Similar throughout base classes
+	 * * Some base classes do this much better
+	 * * Such as where is the gap written?
 	 * 
 	 * @return  the value.
 	 */
@@ -42,12 +42,12 @@ public interface NXaperture extends NXobject {
 	
 	/**
 	 * location and shape of aperture
-	 * .. TODO:
-	 * description of terms is poor and leaves much to interpretation
-	 * Describe what is meant by translation _here_ and ...
-	 * Similar throughout base classes
-	 * Some base classes do this much better
-	 * Such as where is the gap written?
+	 * .. TODO: documentation needs improvement, contributions welcome
+	 * * description of terms is poor and leaves much to interpretation
+	 * * Describe what is meant by translation _here_ and ...
+	 * * Similar throughout base classes
+	 * * Some base classes do this much better
+	 * * Such as where is the gap written?
 	 * 
 	 * @param geometry the geometry
 	 */
@@ -58,12 +58,12 @@ public interface NXaperture extends NXobject {
 	 * <ul>
 	 * <li>
 	 * location and shape of aperture
-	 * .. TODO:
-	 * description of terms is poor and leaves much to interpretation
-	 * Describe what is meant by translation _here_ and ...
-	 * Similar throughout base classes
-	 * Some base classes do this much better
-	 * Such as where is the gap written?</li>
+	 * .. TODO: documentation needs improvement, contributions welcome
+	 * * description of terms is poor and leaves much to interpretation
+	 * * Describe what is meant by translation _here_ and ...
+	 * * Similar throughout base classes
+	 * * Some base classes do this much better
+	 * * Such as where is the gap written?</li>
 	 * <li>
 	 * location and shape of each blade</li>
 	 * </ul>
@@ -78,12 +78,12 @@ public interface NXaperture extends NXobject {
 	 * <ul>
 	 * <li>
 	 * location and shape of aperture
-	 * .. TODO:
-	 * description of terms is poor and leaves much to interpretation
-	 * Describe what is meant by translation _here_ and ...
-	 * Similar throughout base classes
-	 * Some base classes do this much better
-	 * Such as where is the gap written?</li>
+	 * .. TODO: documentation needs improvement, contributions welcome
+	 * * description of terms is poor and leaves much to interpretation
+	 * * Describe what is meant by translation _here_ and ...
+	 * * Similar throughout base classes
+	 * * Some base classes do this much better
+	 * * Such as where is the gap written?</li>
 	 * <li>
 	 * location and shape of each blade</li>
 	 * </ul>
@@ -98,12 +98,12 @@ public interface NXaperture extends NXobject {
 	 * <ul>
 	 * <li>
 	 * location and shape of aperture
-	 * .. TODO:
-	 * description of terms is poor and leaves much to interpretation
-	 * Describe what is meant by translation _here_ and ...
-	 * Similar throughout base classes
-	 * Some base classes do this much better
-	 * Such as where is the gap written?</li>
+	 * .. TODO: documentation needs improvement, contributions welcome
+	 * * description of terms is poor and leaves much to interpretation
+	 * * Describe what is meant by translation _here_ and ...
+	 * * Similar throughout base classes
+	 * * Some base classes do this much better
+	 * * Such as where is the gap written?</li>
 	 * <li>
 	 * location and shape of each blade</li>
 	 * </ul>
@@ -117,12 +117,12 @@ public interface NXaperture extends NXobject {
 	 * <ul>
 	 * <li>
 	 * location and shape of aperture
-	 * .. TODO:
-	 * description of terms is poor and leaves much to interpretation
-	 * Describe what is meant by translation _here_ and ...
-	 * Similar throughout base classes
-	 * Some base classes do this much better
-	 * Such as where is the gap written?</li>
+	 * .. TODO: documentation needs improvement, contributions welcome
+	 * * description of terms is poor and leaves much to interpretation
+	 * * Describe what is meant by translation _here_ and ...
+	 * * Similar throughout base classes
+	 * * Some base classes do this much better
+	 * * Such as where is the gap written?</li>
 	 * <li>
 	 * location and shape of each blade</li>
 	 * </ul>

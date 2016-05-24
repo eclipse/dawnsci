@@ -38,8 +38,8 @@ public class SimpleNexusFileBuilderTest extends AbstractNexusFileBuilderTestBase
 		}
 		
 		@Override
-		protected NXdetector doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			final NXdetector nxDetector = nodeFactory.createNXdetector();
+		protected NXdetector createNexusObject() {
+			final NXdetector nxDetector = NexusNodeFactory.createNXdetector();
 
 			nxDetector.setDescription(StringDataset.createFromObject("Test Detector"));
 			nxDetector.initializeLazyDataset(NXdetector.NX_DATA, 2, Dataset.FLOAT64);
@@ -58,8 +58,8 @@ public class SimpleNexusFileBuilderTest extends AbstractNexusFileBuilderTestBase
 		}
 		
 		@Override
-		protected NXbeam doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			final NXbeam beam = nodeFactory.createNXbeam();
+		protected NXbeam createNexusObject() {
+			final NXbeam beam = NexusNodeFactory.createNXbeam();
 			beam.setIncident_wavelength(DatasetFactory.createFromObject(123.456));
 			beam.setFlux(DatasetFactory.createFromObject(12.34f));
 

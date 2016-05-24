@@ -34,7 +34,6 @@ public class NexusFileExternalLinkTest extends AbstractNexusFileTestBase {
 	
 	@After
 	public void tearDown() throws Exception {
-		super.tearDown();
 		NexusTestUtils.deleteFile(EXTERNAL_FILE_NAME);
 		linkedDataset = null;
 	}
@@ -46,15 +45,15 @@ public class NexusFileExternalLinkTest extends AbstractNexusFileTestBase {
 	
 	@Override
 	protected NXroot createNXroot() {
-		NXroot root = nexusNodeFactory.createNXroot();
+		NXroot root = NexusNodeFactory.createNXroot();
 		
-		NXentry entry = nexusNodeFactory.createNXentry();
+		NXentry entry = NexusNodeFactory.createNXentry();
 		root.setEntry(entry);
 		
-		NXinstrument instrument = nexusNodeFactory.createNXinstrument();
+		NXinstrument instrument = NexusNodeFactory.createNXinstrument();
 		entry.setInstrument(instrument);
 		
-		NXdetector detector = nexusNodeFactory.createNXdetector();
+		NXdetector detector = NexusNodeFactory.createNXdetector();
 		detector.addExternalLink(NXdetector.NX_DATA, EXTERNAL_FILE_NAME, "/entry/data/data");
 		instrument.setDetector(detector);
 		
@@ -110,13 +109,12 @@ public class NexusFileExternalLinkTest extends AbstractNexusFileTestBase {
 
 	private void createExternalNexusFile() throws NexusException {
 		// create the external file
-		NexusNodeFactory extFileNodeFactory = new NexusNodeFactory();
-		TreeFile externalFileTree = nexusNodeFactory.createTreeFile(EXTERNAL_FILE_NAME);
-		NXroot extRoot = extFileNodeFactory.createNXroot();
+		TreeFile externalFileTree = NexusNodeFactory.createTreeFile(EXTERNAL_FILE_NAME);
+		NXroot extRoot = NexusNodeFactory.createNXroot();
 		externalFileTree.setGroupNode(extRoot);
-		NXentry extEntry = extFileNodeFactory.createNXentry();
+		NXentry extEntry = NexusNodeFactory.createNXentry();
 		extRoot.setEntry(extEntry);
-		NXdata extData = extFileNodeFactory.createNXdata();
+		NXdata extData = NexusNodeFactory.createNXdata();
 		extEntry.setData(extData);
 		
 		linkedDataset = DatasetFactory.createRange(10.0, Dataset.FLOAT64).reshape(2, 5);

@@ -15,7 +15,6 @@ package org.eclipse.dawnsci.nexus.builder;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
 import org.eclipse.dawnsci.nexus.NXroot;
 import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.impl.NXrootImpl;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 
@@ -33,13 +32,6 @@ import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
  * 
  */
 public interface NexusFileBuilder {
-	
-	/**
-	 * Returns the {@link NexusNodeFactory} that can be used to create nodes. This
-	 * factory object should be used to create new nodes so that each node has a sequential oid.
-	 * @return wrapped node factory
-	 */
-	public NexusNodeFactory getNodeFactory();
 	
 	/**
 	 * Returns the wrapped {@link TreeFile}.

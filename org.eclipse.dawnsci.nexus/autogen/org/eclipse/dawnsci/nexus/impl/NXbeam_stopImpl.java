@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -23,7 +23,8 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
- * A class for a beamstop. Beamstops and their positions are important for SANS
+ * A device that blocks the beam completely, usually to protect a detector.
+ * Beamstops and their positions are important for SANS
  * and SAXS experiments.
  * 
  * @version 1.0
@@ -36,8 +37,8 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY);
 
-	public NXbeam_stopImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXbeam_stopImpl() {
+		super();
 	}
 
 	public NXbeam_stopImpl(final long oid) {

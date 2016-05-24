@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -32,6 +32,7 @@ public interface NXroot extends NXobject {
 	public static final String NX_ATTRIBUTE_HDF_VERSION = "HDF_version";
 	public static final String NX_ATTRIBUTE_HDF5_VERSION = "HDF5_Version";
 	public static final String NX_ATTRIBUTE_XML_VERSION = "XML_version";
+	public static final String NX_ATTRIBUTE_H5PY_VERSION = "h5py_version";
 	public static final String NX_ATTRIBUTE_CREATOR = "creator";
 	public static final String NX_ATTRIBUTE_DEFAULT = "default";
 	/**
@@ -103,35 +104,41 @@ public interface NXroot extends NXobject {
 	public void setAttributeFile_update_time(String file_update_time);
 
 	/**
-	 * Version of NeXus API used in writing the file
+	 * Version of NeXus API used in writing the file.
+	 * Only used when the NAPI has written the file.
+	 * Note that this is different from the version of the
+	 * base class or application definition version number.
 	 * 
 	 * @return  the value.
 	 */
 	public String getAttributeNeXus_version();
 	
 	/**
-	 * Version of NeXus API used in writing the file
+	 * Version of NeXus API used in writing the file.
+	 * Only used when the NAPI has written the file.
+	 * Note that this is different from the version of the
+	 * base class or application definition version number.
 	 * 
 	 * @param NeXus_version the NeXus_version
 	 */
 	public void setAttributeNeXus_version(String NeXus_version);
 
 	/**
-	 * Version of NeXus API used in writing the file
+	 * Version of HDF (version 4) library used in writing the file
 	 * 
 	 * @return  the value.
 	 */
 	public String getAttributeHDF_version();
 	
 	/**
-	 * Version of NeXus API used in writing the file
+	 * Version of HDF (version 4) library used in writing the file
 	 * 
 	 * @param HDF_version the HDF_version
 	 */
 	public void setAttributeHDF_version(String HDF_version);
 
 	/**
-	 * Version of NeXus API used in writing the file.
+	 * Version of HDF5 library used in writing the file.
 	 * Note this attribute is spelled with uppercase "V",
 	 * different than other version attributes.
 	 * 
@@ -140,7 +147,7 @@ public interface NXroot extends NXobject {
 	public String getAttributeHDF5_Version();
 	
 	/**
-	 * Version of NeXus API used in writing the file.
+	 * Version of HDF5 library used in writing the file.
 	 * Note this attribute is spelled with uppercase "V",
 	 * different than other version attributes.
 	 * 
@@ -149,18 +156,32 @@ public interface NXroot extends NXobject {
 	public void setAttributeHDF5_Version(String HDF5_Version);
 
 	/**
-	 * Version of NeXus API used in writing the file
+	 * Version of XML support library used in writing the XML file
 	 * 
 	 * @return  the value.
 	 */
 	public String getAttributeXML_version();
 	
 	/**
-	 * Version of NeXus API used in writing the file
+	 * Version of XML support library used in writing the XML file
 	 * 
 	 * @param XML_version the XML_version
 	 */
 	public void setAttributeXML_version(String XML_version);
+
+	/**
+	 * Version of h5py Python package used in writing the file
+	 * 
+	 * @return  the value.
+	 */
+	public String getAttributeH5py_version();
+	
+	/**
+	 * Version of h5py Python package used in writing the file
+	 * 
+	 * @param h5py_version the h5py_version
+	 */
+	public void setAttributeH5py_version(String h5py_version);
 
 	/**
 	 * facility or program where file originated

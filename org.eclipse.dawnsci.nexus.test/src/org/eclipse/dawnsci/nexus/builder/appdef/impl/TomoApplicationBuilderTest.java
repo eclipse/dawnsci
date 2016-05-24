@@ -27,7 +27,6 @@ import org.eclipse.dawnsci.nexus.builder.AbstractNexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusFileBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
-import org.eclipse.dawnsci.nexus.builder.appdef.impl.TomoApplicationBuilder;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 import org.junit.Before;
@@ -46,8 +45,8 @@ public class TomoApplicationBuilderTest {
 		}
 		
 		@Override
-		protected NXpositioner doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXpositioner positioner = nodeFactory.createNXpositioner();
+		protected NXpositioner createNexusObject() {
+			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
 			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Dataset.FLOAT64);
 			return positioner;
 		}
@@ -58,15 +57,12 @@ public class TomoApplicationBuilderTest {
 	
 	private NXsubentry subentry;
 	
-	private NexusNodeFactory nodeFactory;
-	
 	@Before
 	public void setUp() throws Exception {
 		NexusFileBuilder fileBuilder = new DefaultNexusFileBuilder("test");
 		NexusEntryBuilder entryBuilder = fileBuilder.newEntry();
 		tomoBuilder = (TomoApplicationBuilder) entryBuilder.newApplication(NexusApplicationDefinition.NX_TOMO);
 		subentry = tomoBuilder.getNXsubentry();
-		nodeFactory = fileBuilder.getNodeFactory();
 	}
 	
 	@Test
@@ -77,7 +73,7 @@ public class TomoApplicationBuilderTest {
 	
 	@Test
 	public void testSetTitle_dataNode() {
-		DataNode dataNode = nodeFactory.createDataNode();
+		DataNode dataNode = NexusNodeFactory.createDataNode();
 		dataNode.setDataset(DatasetFactory.createFromObject("tomo appdef"));
 		tomoBuilder.setTitle(dataNode);
 		assertThat(subentry.getTitleScalar(), is(equalTo("tomo appdef")));
@@ -90,8 +86,8 @@ public class TomoApplicationBuilderTest {
 				"source", NexusBaseClass.NX_SOURCE) {
 
 			@Override
-			protected NXsource doCreateNexusObject(NexusNodeFactory nodeFactory) {
-				NXsource source = nodeFactory.createNXsource();
+			protected NXsource createNexusObject() {
+				NXsource source = NexusNodeFactory.createNXsource();
 				source.setTypeScalar("Synchotron X-Ray source");
 				source.setNameScalar("DLS");
 				source.setProbeScalar("x-ray");
@@ -113,9 +109,8 @@ public class TomoApplicationBuilderTest {
 				new AbstractNexusObjectProvider<NXdetector>("detector", NexusBaseClass.NX_DETECTOR) {
 
 			@Override
-			protected NXdetector doCreateNexusObject(
-					NexusNodeFactory nodeFactory) {
-				NXdetector detector = nodeFactory.createNXdetector();
+			protected NXdetector createNexusObject() {
+				NXdetector detector = NexusNodeFactory.createNXdetector();
 				detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.FLOAT64);
 				detector.initializeLazyDataset("image_key", 1, Dataset.INT16);
 				detector.setX_pixel_sizeScalar(1.5);
@@ -141,8 +136,8 @@ public class TomoApplicationBuilderTest {
 				"sample", NexusBaseClass.NX_SAMPLE) {
 
 			@Override
-			protected NXsample doCreateNexusObject(NexusNodeFactory nodeFactory) {
-				NXsample sample = nodeFactory.createNXsample();
+			protected NXsample createNexusObject() {
+				NXsample sample = NexusNodeFactory.createNXsample();
 				sample.setNameScalar("my sample");
 				sample.setRotation_angleScalar(123.456);
 				sample.setX_translationScalar(23.432);
@@ -179,7 +174,7 @@ public class TomoApplicationBuilderTest {
 	@Test
 	public void testSetRotationAngle_dataNode() throws NexusException {
 		tomoBuilder.addDefaultGroups();
-		DataNode rotationAngle = nodeFactory.createDataNode();
+		DataNode rotationAngle = NexusNodeFactory.createDataNode();
 		ILazyWriteableDataset dataset = new LazyWriteableDataset("rotation_angle", Dataset.FLOAT64, new int[] { 100 }, null, null, null);
 		rotationAngle.setDataset(dataset);
 		tomoBuilder.setRotationAngle(rotationAngle);
@@ -202,7 +197,7 @@ public class TomoApplicationBuilderTest {
 	@Test
 	public void testSetXTranslation_dataNode() throws NexusException {
 		tomoBuilder.addDefaultGroups();
-		DataNode xTranslation = nodeFactory.createDataNode();
+		DataNode xTranslation = NexusNodeFactory.createDataNode();
 		ILazyWriteableDataset dataset = new LazyWriteableDataset("x_translation", Dataset.FLOAT64, new int[] { 100 }, null, null, null);
 		xTranslation.setDataset(dataset);
 		tomoBuilder.setXTranslation(xTranslation);
@@ -224,7 +219,7 @@ public class TomoApplicationBuilderTest {
 	@Test
 	public void testSetYTranslation_dataNode() throws NexusException {
 		tomoBuilder.addDefaultGroups();
-		DataNode yTranslation = nodeFactory.createDataNode();
+		DataNode yTranslation = NexusNodeFactory.createDataNode();
 		ILazyWriteableDataset dataset = new LazyWriteableDataset("x_translation", Dataset.FLOAT64, new int[] { 100 }, null, null, null);
 		yTranslation.setDataset(dataset);
 		tomoBuilder.setYTranslation(yTranslation);
@@ -246,7 +241,7 @@ public class TomoApplicationBuilderTest {
 	@Test
 	public void testSetZTranslation_dataNode() throws NexusException {
 		tomoBuilder.addDefaultGroups();
-		DataNode zTranslation = nodeFactory.createDataNode();
+		DataNode zTranslation = NexusNodeFactory.createDataNode();
 		ILazyWriteableDataset dataset = new LazyWriteableDataset("z_translation", Dataset.FLOAT64, new int[] { 100 }, null, null, null);
 		zTranslation.setDataset(dataset);
 		tomoBuilder.setZTranslation(zTranslation);
@@ -268,7 +263,7 @@ public class TomoApplicationBuilderTest {
 	public void testSetNewData() throws NexusException {
 		tomoBuilder.addDefaultGroups();
 		NXinstrument instrument = subentry.getInstrument();
-		NXdetector detector = nodeFactory.createNXdetector();
+		NXdetector detector = NexusNodeFactory.createNXdetector();
 		instrument.setDetector(detector);
 		detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.FLOAT64);
 		detector.initializeLazyDataset("image_key", 1, Dataset.INT16);

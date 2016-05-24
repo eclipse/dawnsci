@@ -55,8 +55,8 @@ public class DefaultNexusDataExamplesTest {
 		
 		
 		@Override
-		protected NXdetector doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXdetector detector = nodeFactory.createNXdetector();
+		protected NXdetector createNexusObject() {
+			NXdetector detector = NexusNodeFactory.createNXdetector();
 			detector.setData(new FloatDataset(shape));
 			if (hasTimeOfFlight) {
 				detector.setTime_of_flight(new FloatDataset(shape[shape.length - 1]));
@@ -77,8 +77,8 @@ public class DefaultNexusDataExamplesTest {
 		}
 		
 		@Override
-		protected NXpositioner doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXpositioner positioner = nodeFactory.createNXpositioner();
+		protected NXpositioner createNexusObject() {
+			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
 			positioner.setValue(new FloatDataset(shape));
 			return positioner;
 		}
@@ -100,8 +100,8 @@ public class DefaultNexusDataExamplesTest {
 		}
 		
 		@Override
-		protected NXpositioner doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXpositioner positioner = nodeFactory.createNXpositioner();
+		protected NXpositioner createNexusObject() {
+			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
 			positioner.setField("rbv", new FloatDataset(scanShape));
 			positioner.setField("demand", new FloatDataset(scanShape[dimensionIndex]));
 			return positioner;

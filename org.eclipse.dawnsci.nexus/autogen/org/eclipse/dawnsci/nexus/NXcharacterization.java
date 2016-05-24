@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -17,6 +17,7 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
+ * legacy only - not intended for new use - may be removed in the future
  * Note: This base class may be removed in future releases of NXDL.
  * If you have a use for this base class, please provide a description
  * of your intended use to the NIAC (nexus-committee@nexusformat.org).

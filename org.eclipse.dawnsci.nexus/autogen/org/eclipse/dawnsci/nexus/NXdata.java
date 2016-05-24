@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -17,9 +17,8 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
+ * (**required**) :ref:`NXdata` describes the plottable data and related dimension scales.
  * .. index:: plotting
- * (**required**) :ref:`NXdata` is a template of
- * plottable data and their dimension scales.
  * It is mandatory that there is at least one :ref:`NXdata` group
  * in each :ref:`NXentry` group.
  * Note that the ``variable`` and ``data``
@@ -102,8 +101,8 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
  */
 public interface NXdata extends NXobject {
 
-	public static final String NX_ATTRIBUTE_AXES = "axes";
 	public static final String NX_ATTRIBUTE_SIGNAL = "signal";
+	public static final String NX_ATTRIBUTE_AXES = "axes";
 	public static final String NX_ATTRIBUTE_AXISNAME_INDICES = "AXISNAME_indices";
 	public static final String NX_VARIABLE = "variable";
 	public static final String NX_VARIABLE_ATTRIBUTE_LONG_NAME = "long_name";
@@ -123,6 +122,36 @@ public interface NXdata extends NXobject {
 	public static final String NX_X = "x";
 	public static final String NX_Y = "y";
 	public static final String NX_Z = "z";
+	/**
+	 * .. index:: plotting
+	 * Declares which dataset is the default.
+	 * The value is the name of the dataset to be plotted.
+	 * A field of this name *must* exist (either as dataset
+	 * or as a link to a dataset).
+	 * It is recommended (as of NIAC2014) to use this attribute
+	 * rather than adding a signal attribute to the dataset.
+	 * See http://wiki.nexusformat.org/2014_How_to_find_default_data
+	 * for a summary of the discussion.
+	 * 
+	 * @return  the value.
+	 */
+	public String getAttributeSignal();
+	
+	/**
+	 * .. index:: plotting
+	 * Declares which dataset is the default.
+	 * The value is the name of the dataset to be plotted.
+	 * A field of this name *must* exist (either as dataset
+	 * or as a link to a dataset).
+	 * It is recommended (as of NIAC2014) to use this attribute
+	 * rather than adding a signal attribute to the dataset.
+	 * See http://wiki.nexusformat.org/2014_How_to_find_default_data
+	 * for a summary of the discussion.
+	 * 
+	 * @param signal the signal
+	 */
+	public void setAttributeSignal(String signal);
+
 	/**
 	 * .. index:: plotting
 	 * String array that defines the independent data fields used in
@@ -166,36 +195,6 @@ public interface NXdata extends NXobject {
 	 * @param axes the axes
 	 */
 	public void setAttributeAxes(String axes);
-
-	/**
-	 * .. index:: plotting
-	 * Declares which dataset is the default.
-	 * The value is the name of the dataset to be plotted.
-	 * A field of this name *must* exist (either as dataset
-	 * or as a link to a dataset).
-	 * It is recommended (as of NIAC2014) to use this attribute
-	 * rather than adding a signal attribute to the dataset.
-	 * See http://wiki.nexusformat.org/2014_How_to_find_default_data
-	 * for a summary of the discussion.
-	 * 
-	 * @return  the value.
-	 */
-	public String getAttributeSignal();
-	
-	/**
-	 * .. index:: plotting
-	 * Declares which dataset is the default.
-	 * The value is the name of the dataset to be plotted.
-	 * A field of this name *must* exist (either as dataset
-	 * or as a link to a dataset).
-	 * It is recommended (as of NIAC2014) to use this attribute
-	 * rather than adding a signal attribute to the dataset.
-	 * See http://wiki.nexusformat.org/2014_How_to_find_default_data
-	 * for a summary of the discussion.
-	 * 
-	 * @param signal the signal
-	 */
-	public void setAttributeSignal(String signal);
 
 	/**
 	 * Each ``AXISNAME_indices`` attribute indicates the dependency

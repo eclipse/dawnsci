@@ -38,7 +38,6 @@ import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
-import org.eclipse.dawnsci.analysis.tree.impl.SymbolicNodeImpl;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 
@@ -58,24 +57,28 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	
 	private static final int CACHE_LIMIT = 1024;
 
-	/**
-	 * Node factory for creating new nodes, so that oids don't clash.
-	 */
-	private final NexusNodeFactory nodeFactory;
-
 	private Map<String, Dataset> cached = new HashMap<>();
 
 	/**
 	 * Creates a new NeXus group node. This constructor is used when
 	 * create a new NeXus file
-	 * @param nodeFactory
 	 */
-	protected NXobjectImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory.getNextOid());
-		this.nodeFactory = nodeFactory;
+	protected NXobjectImpl() {
+		super(NexusNodeFactory.getNextOid());
 		createNxClassAttribute();
 	}
 	
+	/**
+	 * Creates a new NeXus group node. This constructor is used when loading
+	 * a new NeXus file. No further nodes should be added to a NeXus tree that has
+	 * been loaded from disk.
+	 * @param oid
+	 */
+	protected NXobjectImpl(long oid) {
+		super(oid);
+		createNxClassAttribute();
+	}
+
 	private Dataset getCached(String name) {
 		if (!cached.containsKey(name)) {
 			DataNode dataNode = getDataNode(name);
@@ -100,18 +103,6 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	@Override
 	public boolean canAddChild(NXobject nexusObject) {
 		return getPermittedChildGroupClasses().contains(nexusObject.getNexusBaseClass());
-	}
-
-	/**
-	 * Creates a new NeXus group node. This constructor is used when loading
-	 * a new NeXus file. No further nodes should be added to a NeXus tree that has
-	 * been loaded from disk.
-	 * @param oid
-	 */
-	protected NXobjectImpl(long oid) {
-		super(oid);
-		this.nodeFactory = null;
-		createNxClassAttribute();
 	}
 
 	private void createNxClassAttribute() {
@@ -204,9 +195,8 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	@Override
 	public void addExternalLink(String name, String externalFileName, String pathToNode) {
 		try {
-			long oid = nodeFactory.getNextOid();
 			URI uri = new URI(externalFileName);
-			SymbolicNode linkNode = new SymbolicNodeImpl(oid, uri, null, pathToNode);
+			SymbolicNode linkNode = NexusNodeFactory.createSymbolicNode(uri, pathToNode);
 			addSymbolicNode(name, linkNode);
 		} catch (URISyntaxException e) {
 			// the filename is not a valid URI, not expected
@@ -217,7 +207,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	@Override
 	public DataNode createDataNode(String name, ILazyDataset value) {
 		// note that this method should only be used when creating a new NeXus tree
-		DataNode dataNode = nodeFactory.createDataNode();
+		DataNode dataNode = NexusNodeFactory.createDataNode();
 		addDataNode(name, dataNode);
 		dataNode.setDataset(value);
 		

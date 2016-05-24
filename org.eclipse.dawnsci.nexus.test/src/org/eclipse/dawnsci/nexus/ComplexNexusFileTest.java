@@ -25,19 +25,6 @@ import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.LongDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.ShortDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
-import org.eclipse.dawnsci.nexus.NXcollection;
-import org.eclipse.dawnsci.nexus.NXdata;
-import org.eclipse.dawnsci.nexus.NXdetector;
-import org.eclipse.dawnsci.nexus.NXentry;
-import org.eclipse.dawnsci.nexus.NXinstrument;
-import org.eclipse.dawnsci.nexus.NXmonitor;
-import org.eclipse.dawnsci.nexus.NXpositioner;
-import org.eclipse.dawnsci.nexus.NXroot;
-import org.eclipse.dawnsci.nexus.NXsample;
-import org.eclipse.dawnsci.nexus.NXsource;
-import org.eclipse.dawnsci.nexus.NXsubentry;
-import org.eclipse.dawnsci.nexus.NXuser;
-import org.junit.After;
 import org.junit.Before;
 
 public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
@@ -53,12 +40,6 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 	public void setUp() throws Exception {
 		super.setUp();
 		setupTestData();
-	}
-
-	@Override
-	@After
-	public void tearDown() {
-		nexusNodeFactory = null;
 	}
 
 	private void setupTestData() {
@@ -212,7 +193,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 	}
 
 	private NXcollection createCS1Collection() {
-		NXcollection cs1Collection = nexusNodeFactory.createNXcollection();
+		NXcollection cs1Collection = NexusNodeFactory.createNXcollection();
 
 		final String[] csFieldNames = new String[] { "cs1_x", "cs1_y", "cs1_z" };
 		for (String fieldName : csFieldNames) {
@@ -227,7 +208,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 	}
 
 	private NXcollection createSampleStageCollection() {
-		NXcollection sampleStageCollection = nexusNodeFactory.createNXcollection();
+		NXcollection sampleStageCollection = NexusNodeFactory.createNXcollection();
 
 		String[] sampleStageFields = new String[] { "ss1_X", "ss1_Y", "ss1_Z", "ss1_rot", "ss1_samplex", "ss1_sampley", "ss1_samplez" };
 		for (String fieldName : sampleStageFields) {
@@ -251,24 +232,24 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 	}
 
 	private NXinstrument createInstrument() {
-		NXinstrument instrument = nexusNodeFactory.createNXinstrument();
+		NXinstrument instrument = NexusNodeFactory.createNXinstrument();
 
 		// actualTime : NXpositioner
-		NXpositioner actualTimePositioner = nexusNodeFactory.createNXpositioner();
+		NXpositioner actualTimePositioner = NexusNodeFactory.createNXpositioner();
 		instrument.setPositioner("actualTime", actualTimePositioner);
 		actualTimePositioner.setDataset("actualTime", getTestData("actualTime"));
 		actualTimePositioner.setAttribute("actualTime", "local_name", "actualTime.actualTime");
 		actualTimePositioner.setAttribute("actualTime", "target", "/entry1/instrument/actualTime/actualTime");
 
 		// beamok : NXpositioner
-		NXpositioner beamokPositioner = nexusNodeFactory.createNXpositioner();
+		NXpositioner beamokPositioner = NexusNodeFactory.createNXpositioner();
 		instrument.setPositioner("beamok", beamokPositioner);
 		beamokPositioner.setDataset("beamok", getTestData("beamok"));
 		beamokPositioner.setAttribute("beamok", "local_name", "beamok.beamok");
 		beamokPositioner.setAttribute("beamok", "target", "/entry1/instrument/beamok/beamok");
 
 		// icon_i : NXpositioner
-		NXpositioner ioncIPositioner = nexusNodeFactory.createNXpositioner();
+		NXpositioner ioncIPositioner = NexusNodeFactory.createNXpositioner();
 		instrument.setPositioner("ionc_i", ioncIPositioner);
 		// use a range for the dataset (not the actual data from the example file)
 		ioncIPositioner.setDataset("ionc_i", getTestData("ionc_i"));
@@ -278,7 +259,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		instrument.setName(DatasetFactory.createFromObject("i13"));
 
 		// pc01_hw_hdf: NXdetector
-		NXdetector pco1HwHdfDectector = nexusNodeFactory.createNXdetector();
+		NXdetector pco1HwHdfDectector = NexusNodeFactory.createNXdetector();
 		instrument.setDetector("pco1_hw_hdf", pco1HwHdfDectector);
 
 		pco1HwHdfDectector.setDataset("count_time", getTestData("count_time"));
@@ -303,7 +284,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		pco1HwHdfDectector.setAttribute("time_ms", "target", "/entry1/instrument/pco1_hw_hdf/time_ms");
 
 		// source : NXsource
-		NXsource source = nexusNodeFactory.createNXsource();
+		NXsource source = NexusNodeFactory.createNXsource();
 		instrument.setSource(source);
 		source.setDataset("current", getTestData("current"));
 		source.setAttribute("current", "units", "mA");
@@ -316,7 +297,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		source.setType(getTestData("sourceType"));
 
 		// tomoScanDevice : NXpositioner
-		NXpositioner tomoScanDevice = nexusNodeFactory.createNXpositioner();
+		NXpositioner tomoScanDevice = NexusNodeFactory.createNXpositioner();
 		instrument.setPositioner("tomoScanDevice", tomoScanDevice);
 		tomoScanDevice.setDataset("imageNumber", getTestData("imageNumber"));
 		tomoScanDevice.setAttribute("imageNumber", "axis", "1");
@@ -349,7 +330,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 	}
 
 	private NXdata createPco1HwHdfData() {
-		NXdata data = nexusNodeFactory.createNXdata();
+		NXdata data = NexusNodeFactory.createNXdata();
 
 		data.addDataNode("actualTime", getDataNode("/entry1/instrument/actualTime/actualTime"));
 		data.addDataNode("beamok", getDataNode("/entry1/instrument/beamok/beamok"));
@@ -369,15 +350,15 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 	}
 
 	private NXsubentry createTomoEntry() {
-		NXsubentry tomoEntry = nexusNodeFactory.createNXsubentry();
+		NXsubentry tomoEntry = NexusNodeFactory.createNXsubentry();
 
 		// control : NXmonitor
-		NXmonitor controlMonitor = nexusNodeFactory.createNXmonitor();
+		NXmonitor controlMonitor = NexusNodeFactory.createNXmonitor();
 		tomoEntry.setMonitor("control", controlMonitor);
 		controlMonitor.addDataNode("data", getDataNode("entry1/instrument/ionc_i/ionc_i"));
 
 		// data : NXdata
-		NXdata dataGroupNode = nexusNodeFactory.createNXdata();
+		NXdata dataGroupNode = NexusNodeFactory.createNXdata();
 		tomoEntry.setData(dataGroupNode);
 
 		dataGroupNode.addDataNode("data", getDataNode("/entry1/instrument/pco1_hw_hdf/data"));
@@ -386,11 +367,11 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		tomoEntry.setDefinition(StringDataset.createFromObject("definition"));
 
 		// instrument : NXinstrument
-		NXinstrument instrument = nexusNodeFactory.createNXinstrument();
+		NXinstrument instrument = NexusNodeFactory.createNXinstrument();
 		tomoEntry.setInstrument(instrument);
 
 		// detector : NXdetector
-		NXdetector detector = nexusNodeFactory.createNXdetector();
+		NXdetector detector = NexusNodeFactory.createNXdetector();
 		instrument.setDetector(detector);
 		// tomo_entry/instrument/detector/data has the same data as tomo_entry/data/data
 		detector.addDataNode("data", dataGroupNode.getDataNode("data"));
@@ -406,7 +387,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		instrument.addGroupNode("source", source);
 
 		// sample : NXsample
-		NXsample sample = nexusNodeFactory.createNXsample();
+		NXsample sample = NexusNodeFactory.createNXsample();
 		tomoEntry.setSample(sample);
 		sample.addDataNode("rotation_angle", getDataNode("/entry1/instrument/tomoScanDevice/ss1_rot"));
 		sample.addDataNode("x_translation", getDataNode("/entry1/before_scan/sample_stage/ss1_samplex"));
@@ -420,15 +401,15 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 
 	@Override
 	protected NXroot createNXroot() {
-		root = nexusNodeFactory.createNXroot();
+		root = NexusNodeFactory.createNXroot();
 
 		// create the single entry object of the nexus file
-		NXentry entry1 = nexusNodeFactory.createNXentry();
+		NXentry entry1 = NexusNodeFactory.createNXentry();
 		root.setEntry("entry1", entry1);
 		// TODO, should we set any attributes on the root, or are they only set when a file is loaded?
 		assertNotNull(root.getEntry("entry1"));
 
-		NXcollection beforeScanCollection = nexusNodeFactory.createNXcollection();
+		NXcollection beforeScanCollection = NexusNodeFactory.createNXcollection();
 		entry1.setCollection("before_scan", beforeScanCollection);
 
 		NXcollection cs1Collection = createCS1Collection();
@@ -458,7 +439,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		NXsubentry tomoEntry = createTomoEntry();
 		entry1.setSubentry("tomo_entry", tomoEntry);
 
-		NXuser user = nexusNodeFactory.createNXuser();
+		NXuser user = NexusNodeFactory.createNXuser();
 		entry1.setUser(user);
 		user.setField("username", "ssg37927");
 
