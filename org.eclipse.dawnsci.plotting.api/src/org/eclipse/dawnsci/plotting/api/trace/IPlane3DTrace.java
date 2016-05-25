@@ -1,17 +1,17 @@
 /*-
  *******************************************************************************
- * Copyright (c) 2011, 2014 Diamond Light Source Ltd.
+ * Copyright (c) 2016 Diamond Light Source Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
 package org.eclipse.dawnsci.plotting.api.trace;
 
+import java.util.List;
+
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 
 /**
  * This trace is currently only available with Java8 and there is
@@ -31,18 +31,17 @@ public interface IPlane3DTrace extends IImage3DTrace {
 	 * 
 	 * Thread safe
 	 * 
-	 * @param 
+	 * @param data
+	 * @param size extent of image rectangle
+	 * @param offset top-left corner of rectangle
+	 * @param planeNormal direction of plane normal TODO missing is rotation, i.e. this should be orientation
+	 * @param axes
 	 */
-	public void setData(
-			final int[] size,
-			final IDataset data, 
-			final double [] offset,
-			final double[] planeNormal);
-	
+	public void setData(final ILazyDataset data, final double[] size, final double[] offset, final double[] planeNormal, final List<? extends IDataset> axes);
+
 	/**
 	 * sets the new opacity
 	 * @param opacity - between 0.0 - 1.0
 	 */
 	public void setOpacity(double opacity);
-	
 }

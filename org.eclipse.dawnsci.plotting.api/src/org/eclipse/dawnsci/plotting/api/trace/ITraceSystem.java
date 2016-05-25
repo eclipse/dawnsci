@@ -116,6 +116,15 @@ public interface ITraceSystem {
 	public IImageStackTrace createImageStackTrace(String traceName);
 
 	/**
+	 * Creates a plane image trace used for 3D plotting. This does not add the trace
+	 * or give it any data.
+	 * 
+	 * @param traceName
+	 * @return
+	 */
+	public IPlane3DTrace createPlane3DTrace(String traceName);
+
+	/**
 	 * Adds and plots the trace. Not Thread safe
 	 * @param trace
 	 */
