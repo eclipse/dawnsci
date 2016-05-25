@@ -43,7 +43,7 @@ public interface IVolumeRenderTrace extends IImage3DTrace {
 			final double opacityValue,
 			final double[] minMaxValue,
 			final double[] minMaxCulling,
-            final List<? extends IDataset> axes);
+			final List<? extends IDataset> axes);
 	
 	/**
 	 * sets the new opacity

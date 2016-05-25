@@ -21,8 +21,10 @@ public enum PlotType {
 
 	ISOSURFACE(3, 3),   // dimensions=3 X, Y, Z
 	
-	VOLUME(3, 3),		// dimensions=3 X, Y, Z
+	VOLUME(3, 3),       // dimensions=3 X, Y, Z
 	
+	PLANE3D(3, 2),      // dimensions=2 X and Y
+
 	XY(1, 1),           // dimensions=1 X
 
 	XY_STACKED(1, 2),   // dimensions=2 X and Many Y
