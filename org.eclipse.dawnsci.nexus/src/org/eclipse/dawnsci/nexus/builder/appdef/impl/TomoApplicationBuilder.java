@@ -28,10 +28,10 @@ import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.NexusApplicationDefinition;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
-import org.eclipse.dawnsci.nexus.builder.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.appdef.NexusApplicationBuilder;
+import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.validation.NXtomoValidator;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
 
@@ -97,16 +97,18 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 	/**
 	 * Sets the source to that provided by the given {@link NexusObjectProvider}.
 	 * @param source
+	 * @throws NexusException if the source could not be added for any reason
 	 */
-	public void setSource(NexusObjectProvider<NXsource> source) {
+	public void setSource(NexusObjectProvider<NXsource> source) throws NexusException {
 		instrument.setSource(source.getNexusObject(getNexusNodeFactory(), true));
 	}
 
 	/**
 	 * Sets the detector to that provided by the given {@link NexusObjectProvider}.
 	 * @param detector
+	 * @throws NexusException if the detector could not be added for any reason
 	 */
-	public void setDetector(NexusObjectProvider<NXdetector> detector) {
+	public void setDetector(NexusObjectProvider<NXdetector> detector) throws NexusException {
 		instrument.setDetector(detector.getNexusObject(getNexusNodeFactory(), true));
 	}
 	
@@ -143,7 +145,7 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 
 	/**
 	 * Sets the rotation angle
-	 * @param rotationAnglePositioner rotation angle data node
+	 * @param rotationAngle rotation angle data node
 	 * @throws NexusException
 	 */
 	public void setRotationAngle(DataNode rotationAngle) throws NexusException {
@@ -269,7 +271,7 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 
 	private <N extends NXobject> DataNode getDataNode(NexusObjectProvider<N> nexusObjectProvider) throws NexusException {
 		final N nexusObject = nexusObjectProvider.getNexusObject(getNexusNodeFactory(), true);
-		final String dataNodeName = nexusObjectProvider.getPrimaryDataField();
+		final String dataNodeName = nexusObjectProvider.getPrimaryDataFieldName();
 		final DataNode dataNode = nexusObject.getDataNode(dataNodeName);
 		if (dataNode == null) {
 			throw new NexusException(MessageFormat.format("No such data node for {0} with name ''{1}''",

@@ -21,12 +21,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf5.HierarchicalDataUtils;
-import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
+import org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils;
+import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf5.model.IHierarchicalDataFileModel;
-import org.eclipse.dawnsci.hdf5.model.internal.HierarchicalDataFileModel;
-import org.eclipse.dawnsci.hdf5.model.internal.IHierarchicalDataFileGetReader;
 import org.junit.Test;
 
 public class HierarchicalDataFileModelTest {
@@ -73,7 +71,7 @@ public class HierarchicalDataFileModelTest {
 			String childPath = members.get(i);
 			System.out.print(childPath);
 			if (reader.isDataset(childPath)) {
-				ncsa.hdf.object.Dataset dataset = (ncsa.hdf.object.Dataset) reader.getData(childPath);
+				hdf.object.Dataset dataset = (hdf.object.Dataset) reader.getData(childPath);
 				Object value = dataset.read();
 				System.out.print("=DIMS(");
 				System.out.print(Arrays.toString(dataset.getDims()));

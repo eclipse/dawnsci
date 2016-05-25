@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.dawnsci.remotedataset.server.event.EventServlet;
 import org.eclipse.dawnsci.remotedataset.server.event.FileMonitorSocket;
 import org.eclipse.dawnsci.remotedataset.server.info.InfoServlet;
+import org.eclipse.dawnsci.remotedataset.server.info.TreeServlet;
 import org.eclipse.dawnsci.remotedataset.server.slice.SliceServlet;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.jetty.server.Server;
@@ -30,12 +31,25 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 /**
  * This object is designed to start the server and 
  * can be used as a spring object for instance.
+ * 
  *  
+    {@literal <bean id="dataServer" class="org.eclipse.dawnsci.remotedataset.server.DataServer" init-method="start">}
+    {@literal    <property name="port"      value="8690" />}
+    {@literal </bean>}
+    
+    <pre>
+    o DataServer should default to non-blocking on start() and this be used from spring.
+    o DataServer started from an IApplication should be blocking.
+    o DataServer can be optionally started blocking by setting org.eclipse.dawnsci.remotedataset.server.blocking=true
+    </pre> 
+
  * @author Matthew Gerring
  *
  */
 public class DataServer extends PortServer {
 	
+	
+	private DataServerMode mode = DataServerMode.NORMAL;
 	
 	public DataServer() {
          	
@@ -44,11 +58,12 @@ public class DataServer extends PortServer {
 	/**
 	 * Method replaces main(...) when running things with OSGi
 	 * 
-	 * Not called on GDA server will will probably start the server by calling
+	 * Not called on GDA server will will probably start the Data Server by calling 'start' from spring, no arguments.
 	 */
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
 
+		@SuppressWarnings("rawtypes")
 		final Map      args          = context.getArguments();
 		final String[] configuration = (String[])args.get("application.args");
         
@@ -63,12 +78,12 @@ public class DataServer extends PortServer {
     	if (conf.containsKey("port")) {
     		setPort(Integer.parseInt(conf.get("port").toString()));
     	} 
-    	start(); // blocking
+    	start(true); // blocking
     	
     	return server;// We are done with this application now.
 	}
 
-	
+
 	public void start(boolean block) throws Exception {
 		
 		this.server = new Server();
@@ -100,10 +115,15 @@ public class DataServer extends PortServer {
 		};
 		context.setHandler(wsHandler);
 		// FIXME End should not be needed.		
+		
 		ServletHolder holderInfo = new ServletHolder("info", InfoServlet.class);
 		context.addServlet(holderInfo, "/info/*");
+		
+		ServletHolder holderTree = new ServletHolder("tree", TreeServlet.class);
+		context.addServlet(holderTree, "/tree/*");
+
      
-		// Events json objects to notifyu of problems.
+		// Events json objects to notify of problems.
 		ServletHolder holderEvent = new ServletHolder("event", EventServlet.class);
 		context.addServlet(holderEvent, "/event/*");
 		
@@ -111,49 +131,22 @@ public class DataServer extends PortServer {
 	    if (block) server.join();
 
 	}
-
 	
-	/**
-	 * 
-	 * 	
-	 * 
-	    JETTY 9 
+	public void setMode(DataServerMode mode) {
+		this.mode = mode;
 		
-		ServerConnector connector = new ServerConnector(server);
-		connector.setPort(getPort());
-		connector.setReuseAddress(true);
-		server.addConnector(connector);   	
-
-		// We enable sessions on the server so that 
-		// we can cache LoaderFactories to a given session.
-		// The loader factory therefore needs a non-global 
-		// data soft reference cache.
-		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-		context.setContextPath("/");
-		server.setHandler(context);
-
-		// Doing slicing
-		ServletHolder holderSlice = new ServletHolder("slice", SliceServlet.class);
-		context.addServlet(holderSlice, "/slice/*");
-
-		// Doing events, like data changing shape.
-		// FIXME Should not be needed
-		WebSocketHandler wsHandler = new WebSocketHandler() {
-			@Override
-			public void configure(WebSocketServletFactory factory) {
-				factory.register(EventServerSocket.class);
-			}
-		};
-		context.setHandler(wsHandler);
-		// FIXME End should not be needed.
-
-		ServletHolder holderEvents = new ServletHolder("event", EventServlet.class);
-		context.addServlet(holderEvents, "/event/*");
-
-		server.start();
-		if (block) server.join();
-
+		// TODO Other diagnostic things...
+		if (mode.equals(DataServerMode.DIAGNOSTIC)) {
+			FileMonitorSocket.setRecordThreads(true);
+		} else {
+			FileMonitorSocket.setRecordThreads(false);
+		}
 	}
 
-	 */
+	public DiagnosticInfo getDiagnosticInfo() {
+		DiagnosticInfo ret = new DiagnosticInfo();
+		ret.merge(FileMonitorSocket.getDiagnosticInfo());
+		// TODO Other info?
+		return ret;
+	}
 }

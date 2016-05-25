@@ -16,7 +16,10 @@ import java.util.Arrays;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.remotedataset.Format;
+import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
+import org.eclipse.dawnsci.remotedataset.test.mock.LoaderServiceMock;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -33,9 +36,17 @@ import org.junit.Test;
  */ 
 public class SliceClientTest extends DataServerTest {
 	
+	
+	@Before
+	@Override
+	public void setLoader() {
+		ServiceHolder.setLoaderService(new LoaderServiceMock(factory));
+	}
+
 	@Test
 	public void testFullData() throws Exception {
-		
+		System.out.println("> testFullData start");
+		System.out.flush();
 		final SliceClient<IDataset> client = new SliceClient<IDataset>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
@@ -45,11 +56,13 @@ public class SliceClientTest extends DataServerTest {
 		if (!Arrays.equals(data.getShape(), new int[]{2048, 2048})) {
 			throw new Exception("Unexpected shape "+Arrays.toString(data.getShape()));
 		}
+		System.out.println("> testFullData ok");
 	}
 
 	@Test
 	public void testDownsampledData() throws Exception {
-		
+		System.out.println("> testDownsampledData start");
+		System.out.flush();
 		final SliceClient<IDataset> client = new SliceClient<IDataset>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
@@ -60,12 +73,13 @@ public class SliceClientTest extends DataServerTest {
 		if (!Arrays.equals(data.getShape(), new int[]{512, 512})) {
 			throw new Exception("Unexpected shape "+Arrays.toString(data.getShape()));
 		}
-
+		System.out.println("> testDownsampledData ok");
 	}
 	
 	@Test
 	public void testDownsampledJPG() throws Exception {
-		
+		System.out.println("> testDownsampledJPG start");
+		System.out.flush();
 		final SliceClient<BufferedImage> client =  new SliceClient<BufferedImage>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
@@ -77,12 +91,15 @@ public class SliceClientTest extends DataServerTest {
 		final BufferedImage image = client.get();
 		if (image.getHeight()!=512) throw new Exception("Unexpected image height '"+image.getHeight()+"'");
 		if (image.getWidth()!=512)  throw new Exception("Unexpected image height '"+image.getWidth()+"'");
+		
+		System.out.println("> testDownsampledJPG ok");
 	}
 
 	
 	@Test
 	public void testDownsampledMJPG() throws Exception {
-		
+		System.out.println("> testDownsampledMJPG start");
+		System.out.flush();
 		final SliceClient<BufferedImage> client =  new SliceClient<BufferedImage>("localhost", port);
 		client.setPath(testDir+"/export.h5");
 		client.setDataset("/entry/edf/data");
@@ -105,11 +122,13 @@ public class SliceClientTest extends DataServerTest {
 		}
 	
 		if (i != 4) throw new Exception("4 images were not found! "+i+" were!");
+		System.out.println("> testDownsampledMJPG ok");
 	}
 	
 	@Test
 	public void testFastMJPG() throws Exception {
-		
+		System.out.println("> testFastMJPG start");
+		System.out.flush();
 		final SliceClient<BufferedImage> client =  new SliceClient<BufferedImage>("localhost", port);
 		client.setPath("RANDOM:512x512");
 		client.setFormat(Format.MJPG);
@@ -124,7 +143,7 @@ public class SliceClientTest extends DataServerTest {
 			if (image.getHeight()!=512) throw new Exception("Unexpected image height '"+image.getHeight()+"'");
 			if (image.getWidth()!=512)  throw new Exception("Unexpected image height '"+image.getWidth()+"'");
 			++i;
-			if (i>1000) {
+			if (i>100) {
 				client.setFinished(true);
 				break; // That's enough of that
 			}
@@ -135,11 +154,13 @@ public class SliceClientTest extends DataServerTest {
 		// We say
 		System.out.println("Received images = "+i);
 		System.out.println("Dropped images = "+client.getDroppedImageCount());
+		System.out.println("> testFastMJPG ok");
 	}
 
 	@Test
 	public void testFastMDATA() throws Exception {
-		
+		System.out.println("> testFastMDATA start");
+		System.out.flush();
 		final SliceClient<IDataset> client = new SliceClient<IDataset>("localhost", port);
 		client.setPath("RANDOM:512x512");
 		client.setFormat(Format.MDATA);
@@ -154,7 +175,7 @@ public class SliceClientTest extends DataServerTest {
 			if (image.getShape()[0]!=512) throw new Exception("Unexpected image height '"+image.getShape()[0]+"'");
 			if (image.getShape()[1]!=512)  throw new Exception("Unexpected image height '"+image.getShape()[1]+"'");
 			++i;
-			if (i>1000) {
+			if (i>100) {
 				client.setFinished(true);
 				break; // That's enough of that
 			}
@@ -165,5 +186,6 @@ public class SliceClientTest extends DataServerTest {
 		// We say
 		System.out.println("Received images = "+i);
 		System.out.println("Dropped images = "+client.getDroppedImageCount());
+		System.out.println("> testFastMDATA ok");
 	}
 }

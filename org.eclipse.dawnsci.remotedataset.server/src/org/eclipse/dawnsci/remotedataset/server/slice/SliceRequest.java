@@ -126,6 +126,7 @@ class SliceRequest implements HttpSessionBindingListener {
 		final String  path    = decode(request.getParameter("path"));
 		final String  dataset = decode(request.getParameter("dataset"));
 		ILazyDataset lz       = getLazyDataset(path, dataset);
+		lz.clearMetadata(null);
 	    
 		final String slice  = decode(request.getParameter("slice"));		
 		final Slice[] slices    = slice!=null ? Slice.convertFromString(slice) : null;
@@ -169,7 +170,7 @@ class SliceRequest implements HttpSessionBindingListener {
 		
 		final File   file = new File(path); // Can we see the file using the local file system?
 		if (!file.exists()) throw new IOException("Path '"+path+"' does not exist!");
-		
+		ServiceHolder.getLoaderService().clearSoftReferenceCache();
 		final IDataHolder holder = ServiceHolder.getLoaderService().getData(path, new IMonitor.Stub()); // TOOD Make it cancellable?
 		
 		final ILazyDataset lz = dataset!=null 
@@ -216,8 +217,7 @@ class SliceRequest implements HttpSessionBindingListener {
 		
 		String delemeter_str = getClass().getName()+Long.toHexString(System.currentTimeMillis());
 		response.setContentType(Constants.MCONTENT_TYPE+";boundary=" + delemeter_str);
-				
-		IImageService service = ServiceHolder.getImageService();
+
 		ImageServiceBean bean = createImageServiceBean();
 
 		// Override histo if they set it.
@@ -297,12 +297,17 @@ class SliceRequest implements HttpSessionBindingListener {
 			bean.setImage(data);
 
 			IImageService service = ServiceHolder.getImageService();
-			final ImageData    imdata = service.getImageData(bean);
+
+			if (service == null) {
+				throw new NullPointerException("Image service not set");
+			}
+
+			final ImageData imdata = service.getImageData(bean);
 			final BufferedImage image = service.getBufferedImage(imdata);
-            
+
 			stream = new ByteArrayOutputStream();
 			ImageIO.write(image, "jpg", stream);
-	        
+
 		} else if (format == Format.MDATA) {
 			
 			stream = new ByteArrayOutputStream();
@@ -329,14 +334,19 @@ class SliceRequest implements HttpSessionBindingListener {
 		response.setContentType("image/jpeg");
 		response.setStatus(HttpServletResponse.SC_OK);
 
-		IImageService service = ServiceHolder.getImageService();
 		ImageServiceBean bean = createImageServiceBean();
 		bean.setImage(data);
 		
 		// Override histo if they set it.
 		String histo = decode(request.getParameter("histo"));
 		if (histo!=null) bean.decode(histo);
-		
+
+		IImageService service = ServiceHolder.getImageService();
+
+		if (service == null) {
+			throw new NullPointerException("Image service not set");
+		}
+
 		final ImageData    imdata = service.getImageData(bean);
 		final BufferedImage image = service.getBufferedImage(imdata);
 		

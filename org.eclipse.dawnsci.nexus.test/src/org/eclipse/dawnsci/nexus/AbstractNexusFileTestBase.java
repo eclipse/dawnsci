@@ -37,7 +37,7 @@ public abstract class AbstractNexusFileTestBase {
 	}
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws Exception {
 		nexusNodeFactory = null;
 	}
 

@@ -67,6 +67,10 @@ public class URLBuilder {
 		return getURL("http", "/info/", false);
 	}
 	
+	public String getTreeURL() throws Exception {
+		return getURL("http", "/tree/", false);
+	}
+
 	private String getURL(String proto, String servlet, boolean isSlice) throws Exception {
 		
 		final StringBuilder buf = new StringBuilder();
@@ -250,6 +254,14 @@ public class URLBuilder {
 
 	public void setWritingExpected(boolean writingExpected) {
 		this.writingExpected = writingExpected;
+	}
+
+	public String getServerName() {
+		return serverName;
+	}
+
+	public int getPort() {
+		return port;
 	}
 
 }

@@ -12,6 +12,7 @@
 
 package org.eclipse.dawnsci.nexus.builder.impl;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,7 +85,7 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusFileBuilder#newEntry()
 	 */
 	@Override
-	public NexusEntryBuilder newEntry() throws NexusException {
+	public DefaultNexusEntryBuilder newEntry() throws NexusException {
 		return newEntry("entry");
 	}
 
@@ -92,7 +93,7 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusFileBuilder#newEntry(java.lang.String)
 	 */
 	@Override
-	public NexusEntryBuilder newEntry(String entryName) throws NexusException {
+	public DefaultNexusEntryBuilder newEntry(String entryName) throws NexusException {
 		if (entries.containsKey(entryName)) {
 			throw new NexusException("An entry with the name " + entryName + " already exists");
 		}
@@ -100,7 +101,7 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 		final NXentry entry = nexusNodeFactory.createNXentry();
 		nxRoot.setEntry(entryName, entry);
 
-		NexusEntryBuilder entryModel = new DefaultNexusEntryBuilder(nexusNodeFactory, entryName, entry);
+		DefaultNexusEntryBuilder entryModel = new DefaultNexusEntryBuilder(nexusNodeFactory, entryName, entry);
 		entries.put(entryName, entryModel);
 		
 		return entryModel;
@@ -126,6 +127,12 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 		}
 		
 		final String filename = treeFile.getFilename();
+		
+		// create the parent dir if it doesn't exist
+		File parentDir = new File(filename).getParentFile();
+		if (!parentDir.exists()) {
+			parentDir.mkdirs();
+		}
 		
 		// create and open the nexus file
 		final INexusFileFactory nexusFileFactory = ServiceHolder.getNexusFileFactory();

@@ -74,6 +74,14 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	public Node getNode(String name);
 
 	/**
+	 * Returns whether this group contains a child node with the given name
+	 * @param name name
+	 * @return <code>true</code> if this node contains a child node with the given name,
+	 *    <code>false</code> otherwise
+	 */
+	boolean containsNode(String name);
+
+	/**
 	 * @return number of child groups in group
 	 */
 	public int getNumberOfGroupNodes();
@@ -88,8 +96,8 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * Get (child) group node of given name. A {@link SymbolicNode} with the
 	 * given name is resolved to its destination node.
 	 * @param name
-	 * @return group
-	 * @throws IllegalArgumentException if named group node does not exist
+	 * @return group, or <code>null</code> if no such group exists
+	 * @throws IllegalArgumentException if a node exists with the given name but is not a group node
 	 */
 	public GroupNode getGroupNode(String name);
 
@@ -130,8 +138,8 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * Get data node of given name. A {@link SymbolicNode} with the given name is resolved
 	 * to its destination node.
 	 * @param name
-	 * @return dataset
-	 * @throws IllegalArgumentException if named data node does not exist
+	 * @return datanode, or <code>null</code> if no such data node exists
+	 * @throws IllegalArgumentException if a node with the given name exists that is not a data node
 	 */
 	public DataNode getDataNode(String name);
 
@@ -190,8 +198,9 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	/**
 	 * Get (child) symbolic node of given name. 
 	 * @param name
-	 * @return group
-	 * @throws IllegalArgumentException if named group node does not exist
+	 * @return symbolic node, or <code>null</code> if no such node exists
+	 * @throws IllegalArgumentException if a node exists with the given name that is not a
+	 * 		symbolic node
 	 */
 	public SymbolicNode getSymbolicNode(String name);
 	

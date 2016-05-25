@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-02-10T11:48:37.34Z
+ * Generated at: 2016-04-13T10:39:11+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -24,7 +24,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
- * ``NXsubentry`` is a base class virtually identical to ``NXentry``
+ * ``NXsubentry`` is a base class virtually identical to :ref:`NXentry`
  * and is used as the (overlay) location for application definitions.
  * Use a separate ``NXsubentry`` for each application definition.
  * To use ``NXsubentry`` with a hypothetical application definition
@@ -33,12 +33,12 @@ import org.eclipse.dawnsci.nexus.*;
  * * Within that group, create a field called ``definition="NXmyappdef"``.
  * * There are two optional attributes of definition: ``version`` and ``URL``
  * The intended use is to define application definitions for a
- * multi-technique ``NXentry``. Previously, an application definition
- * replaced ``NXentry`` with its own definition.
+ * multi-technique :ref:`NXentry`. Previously, an application definition
+ * replaced :ref:`NXentry` with its own definition.
  * With the increasing popularity of instruments combining
  * multiple techniques for data collection (such as SAXS/WAXS instruments),
  * it was recognized the application definitions must be entered in the NeXus
- * data file tree as children of ``NXentry``.
+ * data file tree as children of :ref:`NXentry`.
  * 
  * @version 1.0
  */
@@ -84,6 +84,16 @@ public class NXsubentryImpl extends NXobjectImpl implements NXsubentry {
 		return PERMITTED_CHILD_GROUP_CLASSES;
 	}
 	
+
+	@Override
+	public String getAttributeDefault() {
+		return getAttrString(null, NX_ATTRIBUTE_DEFAULT);
+	}
+
+	@Override
+	public void setAttributeDefault(String default_) {
+		setAttribute(null, NX_ATTRIBUTE_DEFAULT, default_);
+	}
 
 	@Override
 	public String getAttributeIDF_Version() {

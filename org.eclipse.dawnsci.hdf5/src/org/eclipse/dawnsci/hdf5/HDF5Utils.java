@@ -10,7 +10,6 @@
 package org.eclipse.dawnsci.hdf5;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -38,14 +37,14 @@ import org.eclipse.dawnsci.nexus.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ncsa.hdf.hdf5lib.H5;
-import ncsa.hdf.hdf5lib.HDF5Constants;
-import ncsa.hdf.hdf5lib.HDFNativeData;
-import ncsa.hdf.hdf5lib.exceptions.HDF5Exception;
-import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
-import ncsa.hdf.hdf5lib.structs.H5O_info_t;
-import ncsa.hdf.object.Datatype;
-import ncsa.hdf.object.h5.H5Datatype;
+import hdf.hdf5lib.H5;
+import hdf.hdf5lib.HDF5Constants;
+import hdf.hdf5lib.HDFNativeData;
+import hdf.hdf5lib.exceptions.HDF5Exception;
+import hdf.hdf5lib.exceptions.HDF5LibraryException;
+import hdf.hdf5lib.structs.H5O_info_t;
+import hdf.object.Datatype;
+import hdf.object.h5.H5Datatype;
 
 public class HDF5Utils {
 	private static final Logger logger = LoggerFactory.getLogger(HDF5Utils.class);
@@ -193,36 +192,7 @@ public class HDF5Utils {
 				final int dtype, final int isize, final boolean extend)
 				throws ScanFileHolderException {
 
-		final String cPath;
-		try {
-			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
-		} catch (IOException e) {
-			throw new ScanFileHolderException("Problem canonicalising path", e);
-		}
-
-		Dataset data = null;
-		long fid = -1;
-		try {
-			HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
-
-			fid = H5.H5Fopen(cPath, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
-
-			data = readDataset(fid, node, start, count, step, dtype, isize, extend);
-		} catch (Throwable le) {
-			logger.error("Problem loading dataset in file: {}", fileName, le);
-			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
-		} finally {
-			if (fid != -1) {
-				try {
-					H5.H5Fclose(fid);
-				} catch (Throwable e) {
-					logger.error("Could not close HDF5 file: {}", fileName, e);
-				}
-			}
-			HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
-		}
-
-		return data;
+		return loadDataset(fileName, node, start, count, step, dtype, isize, extend, true);
 	}
 
 	/**
@@ -273,6 +243,27 @@ public class HDF5Utils {
 				final int dtype, final int isize, final boolean extend)
 				throws ScanFileHolderException {
 
+		return loadDataset(fileName, node, start, count, step, dtype, isize, extend, false);
+	}
+
+	/**
+	 * Load dataset from given file
+	 * @param fileName
+	 * @param node
+	 * @param start
+	 * @param count
+	 * @param step
+	 * @param dtype
+	 * @param isize
+	 * @param extend
+	 * @return dataset
+	 * @throws Exception
+	 */
+	private static Dataset loadDataset(final String fileName, final String node,
+				final int[] start, final int[] count, final int[] step,
+				final int dtype, final int isize, final boolean extend, final boolean close)
+				throws ScanFileHolderException {
+
 		Dataset data = null;
 		try {
 			long fid = HDF5FileFactory.acquireFile(fileName, false);
@@ -282,7 +273,7 @@ public class HDF5Utils {
 			logger.error("Problem loading dataset in file: {}", fileName, le);
 			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
 		} finally {
-			HDF5FileFactory.releaseFile(fileName);
+			HDF5FileFactory.releaseFile(fileName, close);
 		}
 
 		return data;
@@ -423,7 +414,7 @@ public class HDF5Utils {
 				rank = H5.H5Sget_simple_extent_ndims(sid);
 
 				isText = type.dtype == Dataset.STRING;
-				isVLEN = type.vlen;
+				isVLEN = type.isVariableLength;
 
 				final int ldtype = dtype >= 0 ? dtype : type.dtype;
 				final int lisize = isize >= 0 ? isize : type.isize;
@@ -490,7 +481,7 @@ public class HDF5Utils {
 
 					boolean isREF = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_OBJ);
 					if (isVLEN) {
-						H5.H5DreadVL(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
+						H5.H5Dread_VLStrings(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
 					} else {
 						H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
 
@@ -499,7 +490,7 @@ public class HDF5Utils {
 							Object idata = null;
 							byte[] bdata = (byte[]) odata;
 							if (isText) {
-								idata = ncsa.hdf.object.Dataset.byteToString(bdata, H5.H5Tget_size(tid));
+								idata = hdf.object.Dataset.byteToString(bdata, (int) H5.H5Tget_size(tid));
 							} else if (isREF) {
 								idata = HDFNativeData.byteToLong(bdata);
 							}
@@ -563,7 +554,7 @@ public class HDF5Utils {
 						boolean isREF = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_OBJ);
 						Object idata;
 						if (isVLEN) {
-							H5.H5DreadVL(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
+							H5.H5Dread_VLStrings(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
 							idata = odata;
 						} else {
 							H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
@@ -572,7 +563,7 @@ public class HDF5Utils {
 								// TODO check if this is actually used
 								byte[] bdata = (byte[]) odata;
 								if (isText) {
-									idata = ncsa.hdf.object.Dataset.byteToString(bdata, H5.H5Tget_size(tid));
+									idata = hdf.object.Dataset.byteToString(bdata, (int) H5.H5Tget_size(tid));
 								} else if (isREF) {
 									idata = HDFNativeData.byteToLong(bdata);
 								} else {
@@ -673,6 +664,24 @@ public class HDF5Utils {
 	 * @throws ScanFileHolderException
 	 */
 	public static void createDataset(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned) throws ScanFileHolderException {
+		createDataset(fileName, parentPath, name, initialShape, maxShape, chunking, dtype, fill, asUnsigned, false);
+	}
+
+	/**
+	 * Create a dataset in HDF5 file. Create the file if necessary
+	 * @param fileName
+	 * @param parentPath path to group containing dataset
+	 * @param name name of dataset
+	 * @param initialShape
+	 * @param maxShape
+	 * @param chunking
+	 * @param dtype dataset type
+	 * @param fill
+	 * @param asUnsigned
+	 * @param close
+	 * @throws ScanFileHolderException
+	 */
+	private static void createDataset(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned, final boolean close) throws ScanFileHolderException {
 
 		try {
 			long fid = HDF5FileFactory.acquireFile(fileName, true);
@@ -684,7 +693,7 @@ public class HDF5Utils {
 			logger.error("Problem creating dataset in file: {}", fileName, le);
 			throw new ScanFileHolderException("Problem creating dataset in file: " + fileName, le);
 		} finally {
-			HDF5FileFactory.releaseFile(fileName);
+			HDF5FileFactory.releaseFile(fileName, close);
 		}
 	}
 
@@ -724,40 +733,7 @@ public class HDF5Utils {
 	 * @throws ScanFileHolderException
 	 */
 	public static void createDatasetWithClose(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned) throws ScanFileHolderException {
-
-		final String cPath;
-		try {
-			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
-		} catch (IOException e) {
-			throw new ScanFileHolderException("Problem canonicalising path", e);
-		}
-
-		long fid = -1;
-		try {
-			HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
-
-			if (new File(cPath).exists()) {
-				fid = H5.H5Fopen(fileName, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
-			} else {
-				fid = H5.H5Fcreate(fileName, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
-			}
-
-			requireDestination(fid, parentPath);
-			String dataPath = absolutePathToData(parentPath, name);
-			createDataset(fid, NexusFile.COMPRESSION_NONE, dataPath, dtype, initialShape, maxShape, chunking, fill);
-		} catch (Throwable le) {
-			logger.error("Problem creating dataset in file: {}", fileName, le);
-			throw new ScanFileHolderException("Problem creating dataset in file: " + fileName, le);
-		} finally {
-			if (fid != -1) {
-				try {
-					H5.H5Fclose(fid);
-				} catch (Throwable e) {
-					logger.error("Could not close HDF5 file: {}", fileName, e);
-				}
-			}
-			HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
-		}
+		createDataset(fileName, parentPath, name, initialShape, maxShape, chunking, dtype, fill, asUnsigned, true);
 	}
 
 	private static void requireDestination(long fileID, String group) throws HDF5Exception {
@@ -954,7 +930,7 @@ public class HDF5Utils {
 						HDF5Constants.H5P_DEFAULT, hdfPropertiesId, HDF5Constants.H5P_DEFAULT);
 					if (stringDataset) {
 						String[] strings = (String[])DatasetUtils.serializeDataset(data);
-						H5.H5DwriteString(hdfDatasetId, hdfDatatypeId, HDF5Constants.H5S_ALL, HDF5Constants.H5S_ALL, HDF5Constants.H5P_DEFAULT, strings);
+						H5.H5Dwrite_VLStrings(hdfDatasetId, hdfDatatypeId, HDF5Constants.H5S_ALL, HDF5Constants.H5S_ALL, HDF5Constants.H5P_DEFAULT, strings);
 					} else {
 						Serializable buffer = DatasetUtils.serializeDataset(data);
 						H5.H5Dwrite(hdfDatasetId, hdfDatatypeId, HDF5Constants.H5S_ALL, HDF5Constants.H5S_ALL, HDF5Constants.H5P_DEFAULT, buffer);
@@ -1119,40 +1095,7 @@ public class HDF5Utils {
 	 * @throws ScanFileHolderException
 	 */
 	public static void setDatasetSliceWithClose(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
-		final String cPath;
-		try {
-			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
-		} catch (IOException e) {
-			throw new ScanFileHolderException("Problem canonicalising path", e);
-		}
-
-		long fid = -1;
-		try {
-			HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
-			if (!new File(cPath).exists()) {
-				int[] mshape = slice.getMaxShape();
-				if (mshape == null) {
-					mshape = slice.getShape();
-				}
-				createDataset(fileName, parentPath, name, slice.getStart(), mshape, slice.getShape(), AbstractDataset.getDType(value), null, false);
-			}
-			fid = H5.H5Fopen(fileName, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
-
-			String dataPath = absolutePathToData(parentPath, name);
-			writeDatasetSlice(fid, dataPath, slice, value);
-		} catch (Throwable le) {
-			logger.error("Problem setting slice of dataset in file: {}", fileName, le);
-			throw new ScanFileHolderException("Problem setting slice of dataset in file: " + fileName, le);
-		} finally {
-			if (fid != -1) {
-				try {
-					H5.H5Fclose(fid);
-				} catch (Throwable e) {
-					logger.error("Could not close HDF5 file: {}", fileName, e);
-				}
-			}
-			HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
-		}
+		setDatasetSlice(fileName, parentPath, name, slice, value, true, false);
 	}
 
 	/**
@@ -1165,8 +1108,38 @@ public class HDF5Utils {
 	 * @throws ScanFileHolderException
 	 */
 	public static void setDatasetSlice(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
+		setDatasetSlice(fileName, parentPath, name, slice, value, false, false);
+	}
+
+	/**
+	 * Set slice of dataset in HDF5 file. Create file if necessary
+	 * @param fileName
+	 * @param parentPath
+	 * @param name
+	 * @param slice
+	 * @param value
+	 * @throws ScanFileHolderException
+	 */
+	public static void setExistingDatasetSlice(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
+		setDatasetSlice(fileName, parentPath, name, slice, value, false, true);
+	}
+
+	/**
+	 * Set slice of dataset in HDF5 file. Create file if necessary
+	 * @param fileName
+	 * @param parentPath
+	 * @param name
+	 * @param slice
+	 * @param value
+	 * @param close
+	 * @param exists 
+	 * @throws ScanFileHolderException
+	 */
+	private static void setDatasetSlice(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value, final boolean close, boolean exists) throws ScanFileHolderException {
 		try {
-			prepareFile(fileName, parentPath, name, slice, value);
+			if (!exists) {
+				prepareFile(fileName, parentPath, name, slice, value);
+			}
 			long fid = HDF5FileFactory.acquireFile(fileName, true);
 
 			String dataPath = absolutePathToData(parentPath, name);
@@ -1175,7 +1148,7 @@ public class HDF5Utils {
 			logger.error("Problem setting slice of dataset in file: {}", fileName, le);
 			throw new ScanFileHolderException("Problem setting slice of dataset in file: " + fileName, le);
 		} finally {
-			HDF5FileFactory.releaseFile(fileName);
+			HDF5FileFactory.releaseFile(fileName, close);
 		}
 	}
 
@@ -1249,7 +1222,7 @@ public class HDF5Utils {
 						hdfDatatypeId = H5.H5Dget_type(hdfDatasetId);
 						int typeSize = -1;
 						try {
-							typeSize = H5.H5Tget_size(hdfDatatypeId);
+							typeSize = (int) H5.H5Tget_size(hdfDatatypeId);
 							vlenString = H5.H5Tis_variable_str(hdfDatatypeId);
 						} finally {
 							H5.H5Tclose(hdfDatatypeId);
@@ -1259,7 +1232,7 @@ public class HDF5Utils {
 						H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
 						H5.H5Tset_size(hdfDatatypeId, vlenString ? HDF5Constants.H5T_VARIABLE : typeSize);
 						if (vlenString) {
-							H5.H5DwriteString(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, (String[]) buffer);
+							H5.H5Dwrite_VLStrings(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, (String[]) buffer);
 						} else {
 							String[] strings = (String[]) buffer;
 							byte[] strBuffer = new byte[typeSize * strings.length];
@@ -1343,6 +1316,7 @@ public class HDF5Utils {
 
 	private static final Map<Long, Integer> HDF_TYPES_TO_DATASET_TYPES;
 	private static final Map<Integer, Long> DATASET_TYPES_TO_HDF_TYPES;
+	private static final Map<Long, Long> ENUM_SIZE_TO_HDF_TYPES;
 	private static final Set<Long> UNSIGNED_HDF_TYPES;
 
 	private static long getTypeRepresentation(long nativeHdfTypeId) throws NexusException {
@@ -1362,18 +1336,20 @@ public class HDF5Utils {
 	static {
 		HDF_TYPES_TO_DATASET_TYPES = new HashMap<Long, Integer>();
 		DATASET_TYPES_TO_HDF_TYPES = new HashMap<Integer, Long>();
+		ENUM_SIZE_TO_HDF_TYPES = new HashMap<Long, Long>();
 		UNSIGNED_HDF_TYPES = new HashSet<Long>();
 
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT8, Dataset.INT8);
 		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT8, HDF5Constants.H5T_NATIVE_INT8);
-
+		ENUM_SIZE_TO_HDF_TYPES.put(1l, HDF5Constants.H5T_NATIVE_INT8);
 
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT16, Dataset.INT16);
 		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT16, HDF5Constants.H5T_NATIVE_INT16);
-
+		ENUM_SIZE_TO_HDF_TYPES.put(2l, HDF5Constants.H5T_NATIVE_INT16);
 
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT32, Dataset.INT32);
 		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT32, HDF5Constants.H5T_NATIVE_INT32);
+		ENUM_SIZE_TO_HDF_TYPES.put(4l, HDF5Constants.H5T_NATIVE_INT32);
 
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_B8, Dataset.INT8);
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_B16, Dataset.INT16);
@@ -1382,6 +1358,7 @@ public class HDF5Utils {
 
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_INT64, Dataset.INT64);
 		DATASET_TYPES_TO_HDF_TYPES.put(Dataset.INT64, HDF5Constants.H5T_NATIVE_INT64);
+		ENUM_SIZE_TO_HDF_TYPES.put(8l, HDF5Constants.H5T_NATIVE_INT64);
 
 
 		HDF_TYPES_TO_DATASET_TYPES.put(HDF5Constants.H5T_NATIVE_UINT8, Dataset.INT8);
@@ -1421,10 +1398,11 @@ public class HDF5Utils {
 	public static class DatasetType {
 		public int dtype = -1; // dataset type number 
 		public int isize = 1; // number of elements per item
-		public int size; // size of string in bytes
+		public long size; // size of string in bytes
 		public int bits = -1; // max number of bits for bit-fields (-1 for other types)
+		public int nEnum; // number of enumerations
 		public String name;
-		public boolean vlen; // is variable length
+		public boolean isVariableLength; // is variable length
 		public boolean isComplex = false;
 		public boolean unsigned; // is unsigned
 	}
@@ -1636,7 +1614,7 @@ public class HDF5Utils {
 						} else {
 							int w = 1;
 							try {
-								w = H5.H5Tget_size(mtype);
+								w = (int) H5.H5Tget_size(mtype);
 							} catch (HDF5Exception ex) {
 								continue;
 							} finally {
@@ -1680,22 +1658,26 @@ public class HDF5Utils {
 	
 			long typeRepresentation;
 			if (tclass == HDF5Constants.H5T_STRING) {
-				type.vlen = H5.H5Tis_variable_str(nativeTypeId);
+				type.isVariableLength = H5.H5Tis_variable_str(nativeTypeId);
 				typeRepresentation = HDF5Constants.H5T_C_S1;
+			} else if (tclass == HDF5Constants.H5T_ENUM) {
+				// TODO maybe convert to string dataset eventually
+				type.nEnum = H5.H5Tget_nmembers(nativeTypeId);
+				typeRepresentation = ENUM_SIZE_TO_HDF_TYPES.get(type.size);
 			} else {
-				type.vlen = tclass == HDF5Constants.H5T_VLEN;
+				type.isVariableLength = tclass == HDF5Constants.H5T_VLEN;
 				typeRepresentation = getTypeRepresentation(nativeTypeId);
 			}
 			type.dtype = HDF_TYPES_TO_DATASET_TYPES.get(typeRepresentation);
 			type.unsigned = UNSIGNED_HDF_TYPES.contains(typeRepresentation);
 		}
-//		isEnum = tclass == HDF5Constants.H5T_ENUM;
 //		isRegRef = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_DSETREG);
 		return type;
 	}
 
 	public static Dataset getAttrDataset(long locId, String path, long i) throws NexusException {
 		Dataset dataset = null;
+		String name = null;
 		try {
 			try (HDF5Resource attrResource = new HDF5AttributeResource(
 					H5.H5Aopen_by_idx(locId, path, HDF5Constants.H5_INDEX_NAME, HDF5Constants.H5_ITER_INC, i,
@@ -1703,8 +1685,7 @@ public class HDF5Utils {
 				long[] shape = null;
 				long[] maxShape = null;
 				long attrId = attrResource.getResource();
-				String[] name = new String[1];
-				H5.H5Aget_name(attrId, name);
+				name = H5.H5Aget_name(attrId);
 				try (HDF5Resource spaceResource = new HDF5DataspaceResource(H5.H5Aget_space(attrId));
 						HDF5Resource typeResource = new HDF5DatatypeResource(H5.H5Aget_type(attrId));
 						HDF5Resource nativeTypeResource = new HDF5DatatypeResource(H5.H5Tget_native_type(typeResource.getResource()))) {
@@ -1729,12 +1710,12 @@ public class HDF5Utils {
 						strCount *= d;
 					}
 					if (type.dtype == Dataset.STRING) {
-						if (type.vlen) {
+						if (type.isVariableLength) {
 							String[] buffer = new String[strCount];
 							H5.H5AreadVL(attrId, nativeTypeId, buffer);
 							dataset = DatasetFactory.createFromObject(buffer).reshape(iShape);
 						} else {
-							byte[] buffer = new byte[strCount * type.size];
+							byte[] buffer = new byte[(int) (strCount * type.size)];
 							H5.H5Aread(attrId, nativeTypeId, buffer);
 							String[] strings = new String[strCount];
 							int strIndex = 0;
@@ -1751,11 +1732,12 @@ public class HDF5Utils {
 						Serializable buffer = dataset.getBuffer();
 						H5.H5Aread(attrId, nativeTypeId, buffer);
 					}
-					dataset.setName(name[0]);
+					dataset.setName(name);
 				}
 			}
 		} catch (HDF5Exception e) {
-			throw new NexusException("Could not retrieve attribute", e);
+			logger.error("Could not retrieve attribute: {} in {}", name, path, e);
+			throw new NexusException("Could not retrieve attribute: " + name + " in " + path, e);
 		}
 		return dataset;
 	}

@@ -10,6 +10,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
+import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 
@@ -31,22 +32,26 @@ class DataConnection<T extends IDataset> {
 		this.dType    = dType; // Should match parameterized type
 		this.greyScale= greyScale; 
 	}
-	
+
 	public void start(int maxImages) throws Exception {
-		
+
 		int count = 0;
 		while(!client.isFinished()) {
-			
+
 			final BufferedImage image = client.take();
 			if (image==null) break;
-			
-			Dataset rgb = DatasetUtils.convertToDataset(ServiceHolder.getPlotImageService().createDataset(image));
+
+			IPlotImageService plotImageService = ServiceHolder.getPlotImageService();
+			if (plotImageService == null) {
+				throw new NullPointerException("Plot image service not set");
+			}
+			Dataset rgb = DatasetUtils.convertToDataset(plotImageService.createDataset(image));
 			if (greyScale) rgb = ((RGBDataset)rgb).getRedView();
-			
-			IDataset set = rgb.cast(dType);			
-			dataset.setData((T)set);
+
+			IDataset set = rgb.cast(dType);
+			dataset.setData(set);
 			delegate.fire(new DataEvent(set.getName(), set.getShape()));
-			
+
 			++count;
 			if (count>maxImages && maxImages>-1) return;
 			

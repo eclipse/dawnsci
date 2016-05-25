@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-02-10T11:48:37.34Z
+ * Generated at: 2016-04-13T10:39:11+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -22,23 +22,36 @@ import org.eclipse.dawnsci.nexus.*;
 
 /**
  * .. index:: plotting
- * (**required**) ``NXdata`` is a template of
+ * (**required**) :ref:`NXdata` is a template of
  * plottable data and their dimension scales.
- * It is mandatory that there is at least one ``NXdata`` group
- * in each NXentry group.
+ * It is mandatory that there is at least one :ref:`NXdata` group
+ * in each :ref:`NXentry` group.
  * Note that the ``variable`` and ``data``
  * can be defined with different names.
- * The ``signal`` and ``axes`` attribute of the
- * ``data`` item define which items
- * are plottable data and which are *dimension scales*.
- * * Each ``NXdata`` group will consist of only one data set
- * containing plottable data and their standard deviations.
- * * This data set may be of arbitrary rank up to a maximum
+ * The ``signal`` and ``axes`` attributes of the
+ * ``data`` group define which items
+ * are plottable data and which are *dimension scales*, respectively.
+ * :ref:`NXdata` is used to implement one of the basic motivations in NeXus,
+ * to provide a default plot for the data of this :ref:`NXentry`. The actual data
+ * might be stored in another group and (hard) linked to the :ref:`NXdata` group.
+ * * Each :ref:`NXdata` group will define only one data set
+ * containing plottable data, dimension scales, and
+ * possibly associated standard deviations.
+ * Other data sets may be present in the group.
+ * * The plottable data may be of arbitrary rank up to a maximum
  * of ``NX_MAXRANK=32``.
- * * The plottable data will be identified by the attribute:
- * ``signal=1``
- * * The plottable data will identify the *dimension scale*
- * specification(s) in the ``axes`` attribute.
+ * * The plottable data will be named as the value of
+ * the group ``signal`` attribute, such as::
+ * data:NXdata
+ * @signal = "counts"
+ * @axes = "mr"
+ * @mr_indices = 0
+ * counts: float[100] --> the default dependent data
+ * mr: float[100] --> the default independent data
+ * The field named in the ``signal`` attribute **must** exist, either
+ * directly as a dataset or defined through a link.
+ * * The group ``axes`` attribute will name the
+ * *dimension scale* associated with the plottable data.
  * If available, the standard deviations of the data are to be
  * stored in a data set of the same rank and dimensions, with the name ``errors``.
  * * For each data dimension, there should be a one-dimensional array
@@ -47,18 +60,35 @@ import org.eclipse.dawnsci.nexus.*;
  * data, *i.e*. the values of the independent variables at which the data
  * is measured, such as scattering angle or energy transfer.
  * .. index:: link
- * There are two methods of linking
- * each data dimension to its respective dimension scale.
  * .. index:: axes (attribute)
- * The preferred (and recommended) method uses the ``axes``
+ * The preferred method to associate each data dimension with
+ * its respective dimension scale is to specify the field name
+ * of each dimension scale in the group ``axes`` attribute as a string list.
+ * Here is an example for a 2-D data set *data* plotted
+ * against *time*, and *pressure*. (An additional *temperature* data set
+ * is provided and could be selected as an alternate for the *pressure* axis.)::
+ * data_2d:NXdata
+ * @signal="data"
+ * @axes="time","pressure"
+ * @pressure_indices=1
+ * @temperature_indices=1
+ * @time_indices=0
+ * data: float[1000,20]
+ * pressure: float[20]
+ * temperature: float[20]
+ * time: float[1000]
+ * .. rubric:: Old methods to identify the plottable data
+ * There are two older methods of associating
+ * each data dimension to its respective dimension scale.
+ * Both are now out of date and
+ * should not be used when writing new data files.
+ * However, client software should expect to see data files
+ * written either of these methods.
+ * * One method uses the ``axes``
  * attribute to specify the names of each *dimension scale*.
- * The older method uses the ``axis`` attribute on each
- * *dimension scale*
- * to identify
+ * * The oldest method uses the ``axis`` attribute on each
+ * *dimension scale* to identify
  * with an integer the axis whose value is the number of the dimension.
- * ``NXdata`` is used to implement one of the basic motivations in NeXus,
- * to provide a default plot for the data of this ``NXentry``. The actual data
- * might be stored in another group and (hard) linked to the ``NXdata`` group.
  * 
  * @version 1.0
  */
@@ -92,6 +122,36 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 		return PERMITTED_CHILD_GROUP_CLASSES;
 	}
 	
+
+	@Override
+	public String getAttributeAxes() {
+		return getAttrString(null, NX_ATTRIBUTE_AXES);
+	}
+
+	@Override
+	public void setAttributeAxes(String axes) {
+		setAttribute(null, NX_ATTRIBUTE_AXES, axes);
+	}
+
+	@Override
+	public String getAttributeSignal() {
+		return getAttrString(null, NX_ATTRIBUTE_SIGNAL);
+	}
+
+	@Override
+	public void setAttributeSignal(String signal) {
+		setAttribute(null, NX_ATTRIBUTE_SIGNAL, signal);
+	}
+
+	@Override
+	public String getAttributeAXISNAME_indices() {
+		return getAttrString(null, NX_ATTRIBUTE_AXISNAME_INDICES);
+	}
+
+	@Override
+	public void setAttributeAXISNAME_indices(String AXISNAME_indices) {
+		setAttribute(null, NX_ATTRIBUTE_AXISNAME_INDICES, AXISNAME_indices);
+	}
 
 	@Override
 	public IDataset getVariable() {
@@ -154,11 +214,13 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
+	@Deprecated
 	public long getVariableAttributeAxis() {
 		return getAttrLong(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_AXIS);
 	}
 
 	@Override
+	@Deprecated
 	public void setVariableAttributeAxis(long axis) {
 		setAttribute(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_AXIS, axis);
 	}
@@ -204,21 +266,25 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
+	@Deprecated
 	public long getDataAttributeSignal() {
 		return getAttrLong(NX_DATA, NX_DATA_ATTRIBUTE_SIGNAL);
 	}
 
 	@Override
+	@Deprecated
 	public void setDataAttributeSignal(long signal) {
 		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_SIGNAL, signal);
 	}
 
 	@Override
+	@Deprecated
 	public String getDataAttributeAxes() {
 		return getAttrString(NX_DATA, NX_DATA_ATTRIBUTE_AXES);
 	}
 
 	@Override
+	@Deprecated
 	public void setDataAttributeAxes(String axes) {
 		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_AXES, axes);
 	}

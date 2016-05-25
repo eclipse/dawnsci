@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-01-07T18:23:28.198Z
+ * Generated at: 2016-04-13T10:38:46.532+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.validation;
@@ -265,10 +265,10 @@ public class NXmxValidator extends AbstractNexusValidator implements NexusApplic
 			validateFieldDimensions("pixel_mask", pixel_mask, null, "i", "j");
 		}
 
-		// validate optional field 'countrate_correction__applied' of type NX_BOOLEAN.
-		final IDataset countrate_correction__applied = group.getCountrate_correction__applied();
-		if (countrate_correction__applied != null) {
-			validateFieldType("countrate_correction__applied", countrate_correction__applied, NX_BOOLEAN);
+		// validate optional field 'countrate_correction_applied' of type NX_BOOLEAN. Note: field not defined in base class.
+		final IDataset countrate_correction_applied = group.getDataset("countrate_correction_applied");
+		if (countrate_correction_applied != null) {
+			validateFieldType("countrate_correction_applied", countrate_correction_applied, NX_BOOLEAN);
 		}
 
 		// validate optional field 'bit_depth_readout' of type NX_INT.

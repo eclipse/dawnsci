@@ -19,21 +19,15 @@ import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import ncsa.hdf.object.Attribute;
-import ncsa.hdf.object.Dataset;
-import ncsa.hdf.object.Datatype;
-import ncsa.hdf.object.Group;
-import ncsa.hdf.object.HObject;
-
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.TreeAdaptable;
-import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf5.HierarchicalDataUtils;
-import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
+import org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils;
+import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -54,6 +48,12 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import hdf.object.Attribute;
+import hdf.object.Dataset;
+import hdf.object.Datatype;
+import hdf.object.Group;
+import hdf.object.HObject;
 
 public class H5ValuePage extends Page  implements ISelectionListener, IPartListener {
 

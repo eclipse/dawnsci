@@ -31,7 +31,8 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	public static final long serialVersionUID = 5057544213374303912L;
 	protected static final Logger logger = LoggerFactory.getLogger(HDF5LazyLoader.class);
 
-	private String host;
+	private boolean isReadable;
+	private boolean isRemote;
 	protected String filePath;
 	protected String nodePath;
 	protected int[] trueShape;
@@ -52,8 +53,14 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	 */
 	public HDF5LazyLoader(String hostname, String filename, String node, String name, int[] trueShape, int isize, int dtype,
 			boolean extendUnsigned) {
-		host = hostname;
+		try {
+			isRemote = hostname != null && hostname.length() > 0 && !hostname.equals(InetAddress.getLocalHost().getHostName());
+		} catch (UnknownHostException e) {
+			isRemote = false;
+			logger.warn("Problem finding local host so ignoring check", e);
+		}
 		filePath = filename;
+		isReadable = false;
 		nodePath = node;
 		this.name = name;
 		this.trueShape = trueShape;
@@ -64,13 +71,10 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 
 	@Override
 	public boolean isFileReadable() {
-		try {
-			if (host != null && host.length() > 0 && !host.equals(InetAddress.getLocalHost().getHostName()))
-				return false;
-		} catch (UnknownHostException e) {
-			logger.warn("Problem finding local host so ignoring check", e);
+		if (!isReadable && !isRemote) { // keep trying if local
+			isReadable = new File(filePath).canRead();
 		}
-		return new File(filePath).canRead();
+		return isReadable;
 	}
 
 	@Override

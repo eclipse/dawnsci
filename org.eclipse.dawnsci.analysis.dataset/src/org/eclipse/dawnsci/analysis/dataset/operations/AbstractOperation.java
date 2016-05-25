@@ -102,11 +102,13 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 		int[] datadims = getOriginalDataDimensions(original).clone();
 		int[] oddims = datadims.clone();
 		
+		Arrays.sort(datadims);
+		Arrays.sort(oddims);
+		
 		if (datadims.length > outr) {
 			datadims = new int[]{datadims[0]};
 		}
-		Arrays.sort(datadims);
-		Arrays.sort(oddims);
+		
 		
 		//Update rank of dataset (will automatically update rank of axes)
 		updateOutputDataShape(output.getData(), inr-rankDif, datadims, rankDif);
@@ -183,7 +185,7 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 			if (rankDif == 0) {
 				
 				for (int i = 0; i< original.getRank(); i++) {
-					if (Arrays.binarySearch(datadims, i) < 0) {
+					if (Arrays.binarySearch(datadims, i) < 0 && Arrays.binarySearch(odatadim, i)<0) {
 						ILazyDataset[] axis = cloneMeta.getAxis(i);
 						if (axis != null) axOut.setAxis(i, axis);
 					}

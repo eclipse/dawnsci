@@ -6,10 +6,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ncsa.hdf.hdf5lib.H5;
-import ncsa.hdf.hdf5lib.HDF5Constants;
-import ncsa.hdf.hdf5lib.exceptions.HDF5Exception;
-import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
+import hdf.hdf5lib.H5;
+import hdf.hdf5lib.HDF5Constants;
+import hdf.hdf5lib.exceptions.HDF5Exception;
+import hdf.hdf5lib.exceptions.HDF5LibraryException;
 
 public class TestSWMR {
 
@@ -365,7 +365,7 @@ public class TestSWMR {
 
 //		H5L_info_t info = H5.H5Lget_info(fileID, "/ext", HDF5Constants.H5P_DEFAULT);
 		String[] linkName = new String[2]; // file name and file path
-		H5.H5Lget_val(fileID, "/ext", linkName, HDF5Constants.H5P_DEFAULT);
+		H5.H5Lget_value(fileID, "/ext", linkName, HDF5Constants.H5P_DEFAULT);
 		Assert.assertEquals("/target", linkName[0]);
 		Assert.assertEquals("missing.h5", linkName[1]);
 	}

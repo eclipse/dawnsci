@@ -27,6 +27,7 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazySaver, Seriali
 
 	private static final long serialVersionUID = -5244067010482825423L;
 
+	boolean isWriteable;
 	private String parentPath; // path of group containing dataset
 	private int[] maxShape;
 	private int[] chunks;
@@ -60,6 +61,7 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazySaver, Seriali
 		this.maxShape = maxShape == null ? trueShape.clone() : maxShape.clone();
 		this.chunks = chunks == null ? null : chunks.clone();
 		this.fill = fill;
+		isWriteable = false;
 	}
 
 	/**
@@ -75,12 +77,12 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazySaver, Seriali
 
 	@Override
 	public boolean isFileWriteable() {
-		File f = new File(filePath);
-		if (f.exists()) {
-			return f.canWrite();
+		if (!isWriteable && (!init || create || isFileReadable())) {
+			File f = new File(filePath);
+			isWriteable = f.exists() ? f.canWrite() : f.getParentFile().canWrite();
 		}
 
-		return f.getParentFile().canWrite();
+		return isWriteable;
 	}
 
 	@Override
@@ -112,8 +114,14 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazySaver, Seriali
 			data = data.getSliceView();
 			data.setShape(slice.getShape());
 		}
+
 		//higher level API does not cope with differing data types
 		data = DatasetUtils.cast(data, dtype);
-		HDF5Utils.setDatasetSlice(filePath, parentPath, name, slice, data);
+		if (!create) { // ensure create on first use
+			HDF5Utils.setDatasetSlice(filePath, parentPath, name, slice, data);
+			create = true;
+		} else {
+			HDF5Utils.setExistingDatasetSlice(filePath, parentPath, name, slice, data);
+		}
 	}
 }

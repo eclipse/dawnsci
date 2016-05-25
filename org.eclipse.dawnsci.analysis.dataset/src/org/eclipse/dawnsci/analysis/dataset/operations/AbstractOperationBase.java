@@ -313,8 +313,9 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 		return passUnmodifiedData;
 	}
 	
-	public Class<? extends IOperationModel> getModelClass() {
-		return (Class<? extends IOperationModel>)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	public Class<T> getModelClass() {
+		if (model != null) return (Class<T>) model.getClass();
+		return (Class<T>)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 	
 	public static class OperationComparitor implements Comparator<IOperation<? extends IOperationModel, ? extends OperationData>> {

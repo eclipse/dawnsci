@@ -79,7 +79,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="icon" type="string">
+         <attribute name="icon" type="string" use="required">
             <annotation>
                <documentation>
                   The icon to use for the algorithm/operation when the user chooses it from a drop down.

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-02-10T11:48:37.34Z
+ * Generated at: 2016-04-13T10:39:11+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -87,21 +87,25 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
+	@Deprecated
 	public long getTime_of_flightAttributeAxis() {
 		return getAttrLong(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_AXIS);
 	}
 
 	@Override
+	@Deprecated
 	public void setTime_of_flightAttributeAxis(long axis) {
 		setAttribute(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_AXIS, axis);
 	}
 
 	@Override
+	@Deprecated
 	public long getTime_of_flightAttributePrimary() {
 		return getAttrLong(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_PRIMARY);
 	}
 
 	@Override
+	@Deprecated
 	public void setTime_of_flightAttributePrimary(long primary) {
 		setAttribute(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_PRIMARY, primary);
 	}
@@ -187,26 +191,6 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public long getDataAttributeSignal() {
-		return getAttrLong(NX_DATA, NX_DATA_ATTRIBUTE_SIGNAL);
-	}
-
-	@Override
-	public void setDataAttributeSignal(long signal) {
-		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_SIGNAL, signal);
-	}
-
-	@Override
-	public String getDataAttributeAxes() {
-		return getAttrString(NX_DATA, NX_DATA_ATTRIBUTE_AXES);
-	}
-
-	@Override
-	public void setDataAttributeAxes(String axes) {
-		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_AXES, axes);
-	}
-
-	@Override
 	public String getDataAttributeLong_name() {
 		return getAttrString(NX_DATA, NX_DATA_ATTRIBUTE_LONG_NAME);
 	}
@@ -267,21 +251,25 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
+	@Deprecated
 	public long getX_pixel_offsetAttributeAxis() {
 		return getAttrLong(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_AXIS);
 	}
 
 	@Override
+	@Deprecated
 	public void setX_pixel_offsetAttributeAxis(long axis) {
 		setAttribute(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_AXIS, axis);
 	}
 
 	@Override
+	@Deprecated
 	public long getX_pixel_offsetAttributePrimary() {
 		return getAttrLong(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_PRIMARY);
 	}
 
 	@Override
+	@Deprecated
 	public void setX_pixel_offsetAttributePrimary(long primary) {
 		setAttribute(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_PRIMARY, primary);
 	}
@@ -317,21 +305,25 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
+	@Deprecated
 	public long getY_pixel_offsetAttributeAxis() {
 		return getAttrLong(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_AXIS);
 	}
 
 	@Override
+	@Deprecated
 	public void setY_pixel_offsetAttributeAxis(long axis) {
 		setAttribute(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_AXIS, axis);
 	}
 
 	@Override
+	@Deprecated
 	public long getY_pixel_offsetAttributePrimary() {
 		return getAttrLong(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_PRIMARY);
 	}
 
 	@Override
+	@Deprecated
 	public void setY_pixel_offsetAttributePrimary(long primary) {
 		setAttribute(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_PRIMARY, primary);
 	}

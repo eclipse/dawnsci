@@ -19,6 +19,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.dawnsci.remotedataset.server.DiagnosticInfo;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.slf4j.Logger;
@@ -27,12 +28,13 @@ import org.slf4j.LoggerFactory;
 public class FileMonitorSocket extends WebSocketAdapter {
 	
 	private static final Logger logger = LoggerFactory.getLogger(FileMonitorSocket.class);
+
+	private static DiagnosticInfo diagInfo;
 	
 	private boolean            connected;
 
-
 	@Override
-     public void onWebSocketConnect(Session sess) {
+	public void onWebSocketConnect(Session sess) {
  		
 		connected = true;
 		final String spath     = getFirstValue(sess, "path");
@@ -43,7 +45,6 @@ public class FileMonitorSocket extends WebSocketAdapter {
 			WatchService myWatcher = path.getFileSystem().newWatchService();
 			
 			QueueReader fileWatcher = new QueueReader(myWatcher, sess, spath, sset, writing);
-	        Thread th = new Thread(fileWatcher, path.getFileName()+" Watcher");
 	        
 	        // We may only monitor a directory
 	        if (Files.isDirectory(path)) {
@@ -51,7 +52,11 @@ public class FileMonitorSocket extends WebSocketAdapter {
 	        } else {
 	            path.getParent().register(myWatcher, ENTRY_CREATE, ENTRY_MODIFY, ENTRY_DELETE);
 	        }
+	        
+	        Thread th = new Thread(fileWatcher, path.getFileName()+" Watcher");
+	        th.setDaemon(true);
 	        th.start();
+	        if (diagInfo!=null) diagInfo.record("Start Thread", th.getName());
 	 
     	} catch (Exception ne) {
 			ne.printStackTrace();
@@ -109,7 +114,7 @@ public class FileMonitorSocket extends WebSocketAdapter {
        			
                 // get the first event before looping
                 WatchKey key = null;
-                while((key = watcher.take()) != null) {
+                while(session.isOpen() && connected && (key = watcher.take()) != null) {
                                  		
              		try {
                  		if (!Files.exists(path)) continue;
@@ -122,15 +127,15 @@ public class FileMonitorSocket extends WebSocketAdapter {
 	 	             		if (!Files.isDirectory(path) && !path.endsWith(epath)) continue;
 	 	             			 	             		
 	 	             		try {
-			             		// Data has changed, read its shape and publish the event using a web socket.
+
+	 	             			// Data has changed, read its shape and publish the event using a web socket.
 			             		final IDataHolder  holder = ServiceHolder.getLoaderService().getData(spath, new IMonitor.Stub());
 						        if (holder == null) continue; // We do not stop if the loader got nothing.
 			        			
 						        final ILazyDataset lz = sdataset!=null && !"".equals(sdataset)
 						                              ? holder.getLazyDataset(sdataset)
 						                              : holder.getLazyDataset(0);
-			             		
-						        if (lz == null) continue; // We do not stop if the loader got nothing.
+						        if (lz == null) continue; // We do not stop if the loader got nothing.		             		
 						        
 						        if (lz instanceof IDynamicDataset) { 
 						            ((IDynamicDataset)lz).refreshShape();	
@@ -145,6 +150,7 @@ public class FileMonitorSocket extends WebSocketAdapter {
 			                	// do not want a dependency and object simple
 			                	String json = evt.encode();
 			                	session.getRemote().sendString(json);
+			                    if (diagInfo!=null) diagInfo.record("JSON Send", json);
 			                	
 	 	             		} catch (Exception ne) {
 	 	             			logger.error("Exception getting data from "+path);
@@ -154,19 +160,38 @@ public class FileMonitorSocket extends WebSocketAdapter {
 	            		}
 	            		
              		} finally {
-                    	key.reset();
-                    	
-                    	if (!session.isOpen() || !connected) {
-                    		break;
-                    	}
+                    	key.reset();                    	
              		}
                 }
+ 
                 
             } catch (Exception e) {
             	logger.error("Exception monitoring "+path, e);
-            	session.close(403, e.getMessage());
-            } 
+            	if (session.isOpen()) session.close(403, e.getMessage());
+            	
+            }  finally {
+                if (diagInfo!=null) diagInfo.record("Close Thread", Thread.currentThread().getName());
+            	try {
+					watcher.close();
+				} catch (IOException e) {
+					logger.error("Error closing watcher",e);
+				}
+            }
+      
         }
     }
+
+	public static void setRecordThreads(boolean recordThreads) {
+		if (recordThreads) {
+			FileMonitorSocket.diagInfo = new DiagnosticInfo();
+		} else {
+			FileMonitorSocket.diagInfo = null;
+
+		}
+	}
+
+	public static DiagnosticInfo getDiagnosticInfo() {
+		return diagInfo;
+	}
 
 }

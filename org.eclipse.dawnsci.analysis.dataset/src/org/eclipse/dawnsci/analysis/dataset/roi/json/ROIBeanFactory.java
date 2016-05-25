@@ -30,6 +30,8 @@ import org.eclipse.dawnsci.analysis.dataset.roi.PolylineROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.RingROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.SectorROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.XAxisBoxROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.YAxisBoxROI;
 
 /**
  * A factory for creating beans to store ROIs to JSON
@@ -63,7 +65,7 @@ public class ROIBeanFactory {
 			proibean.setLengths(proi.getLengths());
 			return proibean;
 
-		} else if(roiClass == RectangularROI.class){
+		} else if(roiClass == RectangularROI.class  || roiClass ==  XAxisBoxROI.class || roiClass ==  YAxisBoxROI.class){
 			RectangularROI rroi = (RectangularROI) roi;
 			RectangularROIBean rroibean = new RectangularROIBean();
 			rroibean.setName(name);

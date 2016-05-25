@@ -102,15 +102,7 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		this.eventDelegate = new DataListenerDelegate();
 		this.exec       = exec;
 	}
-	
-	/**
-	 * Call to read the dataset, set current shape and create event connnection for
-	 * IDynamicDataset part of the dataset
-	 */
-    public String connect() throws Exception {
-        return connect(500, TimeUnit.MILLISECONDS);
-    }
-	
+		
 	/**
 	 * Call to read the dataset, set current shape and create event connnection for
 	 * IDynamicDataset part of the dataset
@@ -119,11 +111,14 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
     	
 		this.loader = new RemoteLoader(urlBuilder);
 		createInfo();
-		createFileListener();
+		if (eventDelegate.hasDataListeners()) {
+			createFileListener();
+		}
 		
 		// TODO Does this cause a memory leak?
 		// If multiple connect/disconnect are called will this break things?
 		addMetadata(new DynamicConnectionInfo() {
+			private static final long serialVersionUID = 6220818379127865903L;
 			public boolean isConnected() {
 				return connection.isOpen();
 			}
@@ -134,7 +129,8 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
     
     public void disconnect() throws Exception {
     	
-        if (connection.isOpen()) {
+    	eventDelegate.clear();
+        if (connection!=null && connection.isOpen()) {
         	connection.getRemote().sendString("Disconnected from "+urlBuilder.getPath());
        	    connection.close();
         }
@@ -143,6 +139,15 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
     	}
     }
 	
+    @Override
+    public void refreshShape(){
+    	try {
+			createInfo();
+		} catch (Exception e) {
+			//TODO log
+		}
+    }
+    
 	private void createFileListener() throws Exception {
 		
         URI uri = URI.create(urlBuilder.getEventURL());
@@ -251,6 +256,12 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 
 	@Override
 	public void addDataListener(IDataListener l) {
+		// If we are not already web socket client and connect has been called, create the listener.
+		try {
+		    if (this.connection==null && loader!=null) createFileListener();
+		} catch (Exception ne) {
+			throw new IllegalArgumentException(ne);
+		}
 		eventDelegate.addDataListener(l);
 	}
 

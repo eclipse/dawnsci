@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math3.stat.descriptive.moment.Variance;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
@@ -409,9 +408,27 @@ public abstract class AbstractDataset extends LazyDatasetBase implements Dataset
 		return getTransposedView(axes);
 	}
 
+	private boolean isContiguous() {
+		if (stride == null)
+			return true;
+
+		if (offset != 0)
+			return false;
+
+		int s = getElementsPerItem();
+		for (int j = getRank() - 1; j >= 0; j--) {
+			if (stride[j] != s) {
+				return false;
+			}
+			s *= shape[j];
+		}
+
+		return true;
+	}
+
 	@Override
 	public Dataset flatten() {
-		if (stride != null) { // need to make a copy if not contiguous
+		if (!isContiguous()) { // need to make a copy if not contiguous
 			return clone().flatten();
 		}
 		return reshape(size);
@@ -802,6 +819,7 @@ public abstract class AbstractDataset extends LazyDatasetBase implements Dataset
 			return;
 		}
 
+		Class<?> clazz = obj.getClass();
 		if (obj instanceof List<?>) {
 			List<?> jl = (List<?>) obj;
 			int l = jl.size();
@@ -811,14 +829,23 @@ public abstract class AbstractDataset extends LazyDatasetBase implements Dataset
 				pos[depth]++;
 			}
 			pos[depth] = 0;
-		} else if (obj.getClass().isArray()) {
+		} else if (clazz.isArray()) {
 			int l = Array.getLength(obj);
-			for (int i = 0; i < l; i++) {
-				Object lo = Array.get(obj, i);
-				fillData(lo, depth + 1, pos);
-				pos[depth]++;
+			if (clazz.equals(odata.getClass())) {
+				System.arraycopy(obj, 0, odata, get1DIndex(pos), l);
+			} else if (clazz.getComponentType().isPrimitive()) {
+				for (int i = 0; i < l; i++) {
+					set(Array.get(obj, i), pos);
+					pos[depth]++;
+				}
+				pos[depth] = 0;
+			} else {
+				for (int i = 0; i < l; i++) {
+					fillData(Array.get(obj, i), depth + 1, pos);
+					pos[depth]++;
+				}
+				pos[depth] = 0;
 			}
-			pos[depth] = 0;
 		} else if (obj instanceof IDataset) {
 			boolean[] a = new boolean[shape.length];
 			for (int i = depth; i < a.length; i++)
@@ -3260,12 +3287,7 @@ public abstract class AbstractDataset extends LazyDatasetBase implements Dataset
 	public Number variance(boolean isDatasetWholePopulation) {
 		SummaryStatistics stats = getStatistics(false);
 
-		if (isDatasetWholePopulation) {
-			Variance newVar = (Variance) stats.getVarianceImpl().copy();
-			newVar.setBiasCorrected(false);
-			return newVar.getResult();
-		}
-		return stats.getVariance();
+		return isDatasetWholePopulation ? stats.getPopulationVariance() : stats.getVariance();
 	}
 
 	@Override

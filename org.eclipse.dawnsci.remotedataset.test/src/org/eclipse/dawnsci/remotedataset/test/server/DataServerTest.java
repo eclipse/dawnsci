@@ -3,11 +3,17 @@ package org.eclipse.dawnsci.remotedataset.test.server;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
+import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
+import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.function.Downsample;
@@ -21,19 +27,34 @@ import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.server.DataServer;
-import org.eclipse.dawnsci.remotedataset.test.ImageServiceMock;
-import org.eclipse.dawnsci.remotedataset.test.LoaderServiceMock;
-import org.eclipse.dawnsci.remotedataset.test.PlotImageServiceMock;
+import org.eclipse.dawnsci.remotedataset.test.mock.ImageServiceMock;
+import org.eclipse.dawnsci.remotedataset.test.mock.LoaderServiceMock;
+import org.eclipse.dawnsci.remotedataset.test.mock.PlotImageServiceMock;
 import org.eclipse.swt.graphics.ImageData;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 
+/**
+ * 
+ * <pre>
+ * To run this test from the IDE or it's subsclasses:
+ * o Run as junit test (will fail)
+ * o Add all org.eclipse.jetty and javax.serlvet to classpath
+ * o Set LD_LIBRARY_PATH(linux) or PATH(windows) to:
+ *     ${project_loc:uk.ac.diamond.CBFlib}/lib/${target.os}-${target.arch};${project_loc:hdf.hdf5lib}/lib/${target.os}-${target.arch}
+ * </pre>
+ * 
+ * @author Matthew Gerring
+ *
+ */
 public class DataServerTest {
 
-	private   static INexusFileFactory   factory;
+	protected static INexusFileFactory   factory;
 	protected static DataServer server;
 	protected static String     testDir;
 	protected static int        port;
+
 
 	/**
 	 * Programmatically start the DataServer OSGi application which runs
@@ -50,14 +71,14 @@ public class DataServerTest {
 		// setting up dawnsci to run in your application.
 		ServiceHolder.setDownService(new Downsample());
 		ServiceHolder.setImageService(new ImageServiceMock());
-		ServiceHolder.setLoaderService(new LoaderServiceMock()); // TODO Implement the mock to get the test working again.
 		ServiceHolder.setPlotImageService(new PlotImageServiceMock());
 	
         // Start the DataServer
 		port   = TestUtils.getFreePort(8080);
+		
 		server = new DataServer();
 		server.setPort(port);
-		server.start(false);
+		server.start();
 		
 		System.out.println("Started DataServer on port "+port);
 		
@@ -65,6 +86,13 @@ public class DataServerTest {
 		testDir = (new File(pluginDir, "testfiles")).getAbsolutePath();
 	}
 	
+	@Before
+	public void setLoader() {
+		if (ServiceHolder.getLoaderService()==null) {
+			ServiceHolder.setLoaderService(new LoaderServiceMock(factory));
+		}
+	}
+
 	@AfterClass
 	public static void stop() {
 		server.stop();
@@ -78,60 +106,59 @@ public class DataServerTest {
 	}
 
 	protected File startHDF5WritingThread(final long sleepTime) throws IOException, InterruptedException {
-		
-        final File ret = File.createTempFile("temp_transient_file", ".h5");
-        ret.deleteOnExit();
-         
-        final Thread runner = new Thread(new Runnable() {
-        	public void run() {
-        		
-        		NexusFile file=null;
-        		try {
-        			file = factory.newNexusFile(ret.getAbsolutePath(), false);  // DO NOT COPY!
-        			file.openToWrite(true); // DO NOT COPY!
 
-        			GroupNode par = file.getGroup("/entry/data", true); // DO NOT COPY!
-        			
-        			final int[] shape = new int[]{1, 1024, 1024};
-        			final int[] max   = new int[]{-1, 1024, 1024};
-        			ILazyWriteableDataset writer = new LazyWriteableDataset("image", Dataset.FLOAT, shape, max, shape, null); // DO NOT COPY!
-        			file.createData(par, writer); 
-					file.close();
+		final File ret = File.createTempFile("temp_transient_file", ".h5");
+		ret.deleteOnExit();
 
-        			int index = 0;
-        			while(testIsRunning) {
+		final Thread runner = new Thread(new Runnable() {
+			public void run() {
+				ILazyWriteableDataset writer = null;
+				try (NexusFile file = factory.newNexusFile(ret.getAbsolutePath(), false)) {
 
-        				int[] start = {index, 0, 0};
-        				int[] stop  = {index+1, 1024, 1024};
-        				index++;
-        				if (index>23) index = 23; // Stall on the last image to avoid writing massive stacks
-        				
-        				IDataset       rimage   = Random.rand(new int[]{1, 1024, 1024});
-        				rimage.setName("image");
-       				    writer.setSlice(new IMonitor.Stub(), rimage, start, stop, null);
-       				    file.flush();
-       				    
-       				    Thread.sleep(sleepTime);
-        				System.out.println(">> HDF5 wrote image to "+ret);
-        			}
-       			
-        		} catch (Exception ne) {
-        			ne.printStackTrace();
-        			
+					file.openToWrite(true); // DO NOT COPY!
+
+					GroupNode par = file.getGroup("/entry/data", true); // DO NOT COPY!
+
+					final int[] shape = new int[] { 1, 64, 64 };
+					final int[] max = new int[] { -1, 64, 64 };
+					writer = new LazyWriteableDataset("image", Dataset.FLOAT, shape, max, shape, null); // DO NOT COPY!
+					file.createData(par, writer);
+
+					int index = 0;
+					while (testIsRunning) {
+
+						int[] start = { index, 0, 0 };
+						int[] stop = { index + 1, 64, 64 };
+						index++;
+						if (index > 23)
+							index = 23; // Stall on the last image to avoid writing massive stacks
+
+						IDataset rimage = Random.rand(new int[] { 1, 64, 64 });
+						rimage.setName("image");
+						writer.setSlice(new IMonitor.Stub(), rimage, start, stop, null);
+						// file.flush(); // remove explicit flush
+
+						System.err.println("> HDF5 wrote image to " + ret);
+						System.err.println("> New shape " + Arrays.toString(writer.getShape()));
+						Thread.sleep(sleepTime);
+					}
+				} catch (Exception ne) {
+					ne.printStackTrace();
 				}
-        	}
-        });
-        runner.setPriority(Thread.MIN_PRIORITY);
-        runner.setDaemon(true);
-        runner.start();
-        
+			}
+		});
+
+		runner.setPriority(Thread.MIN_PRIORITY);
+		runner.setDaemon(true);
+		runner.start();
+
 		// Wait for a bit to ensure file is being written
-		Thread.sleep(2000);
+		Thread.sleep(2*sleepTime);
 
         return ret;
 	}
 
-	protected File startFileWritingThread(final boolean dir) throws IOException, InterruptedException {
+	protected File startFileWritingThread(final long waitTime, final boolean dir) throws IOException, InterruptedException {
 		
         final File ret = dir
         		       ? new File(File.createTempFile("temp_transient_file", ".png").getParentFile(), "test")
@@ -150,7 +177,7 @@ public class DataServerTest {
         		while(testIsRunning) {
         			
         			try {
-	        			IDataset       rimage   = Random.rand(new int[]{1024, 1024});
+	        			IDataset       rimage   = Random.rand(new int[]{64, 64});
 	        			IImageService  iservice = ServiceHolder.getImageService();
 	        			ImageServiceBean bean   = iservice.createBeanFromPreferences();
 	        			bean.setImage(rimage);
@@ -160,13 +187,14 @@ public class DataServerTest {
 	        			File file = dir
 	        					  ? new File(ret, "image_"+index+".png")
 	        				      : ret;
+	        					  
 	        			file.deleteOnExit();
 	        			index++;
 	        			
 	        			ImageIO.write(bi, "PNG", file);
 	        			
-	        			Thread.sleep(1000);
-	        			System.out.println(">> Thread wrote "+file.getAbsolutePath());
+	        			Thread.sleep(waitTime);
+	        			System.err.println(">> Thread wrote "+file.getAbsolutePath());
 	        			
         			} catch (Exception ne) {
         				ne.printStackTrace();
@@ -181,9 +209,47 @@ public class DataServerTest {
         runner.start();
         
 		// Wait for a bit to ensure file is being written
-		Thread.sleep(2000);
+		Thread.sleep(2*waitTime);
 
         return ret;
+	}
+
+	
+
+	protected void checkAndWait(final IRemoteDataset data, long time, long imageTime) throws Exception {
+		final int count = (int)time/(int)imageTime;
+		checkAndWait(data, time, imageTime, count-6);
+	}
+	
+	protected void checkAndWait(final IRemoteDataset data, long time, long imageTime, int min) throws Exception {
+		
+		final int count = (int)time/(int)imageTime;
+		try {
+			final List<DataEvent> events = new ArrayList<DataEvent>(count);
+			
+			// Check that we get events about the image changing.			
+			data.addDataListener(new IDataListener() {
+				@Override
+				public void dataChangePerformed(DataEvent evt) {
+					try {
+						System.err.println("Data changed, shape is "+Arrays.toString(evt.getShape()));
+						if (!Arrays.equals(evt.getShape(), data.getShape())) {
+							throw new Exception("Data shape and event shape are not the same!");
+						}
+						events.add(evt);
+					} catch (Exception ne) {
+						ne.printStackTrace();
+					}
+				}
+			});
+	
+			Thread.sleep(time);
+			
+			if (events.size() < min) throw new Exception("Less data events than expected! Event count was "+events.size()+" Min expected was "+min);
+		
+		} finally {
+			data.disconnect();
+		}
 	}
 
 }

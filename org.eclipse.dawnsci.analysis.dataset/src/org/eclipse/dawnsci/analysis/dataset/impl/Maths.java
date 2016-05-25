@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.commons.math3.complex.Complex;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Comparisons.Monotonicity;
 
 /**
  * Mathematics class
@@ -1756,7 +1757,7 @@ public class Maths {
 
 	/**
 	 * Linearly interpolate values at points in a 1D dataset corresponding to given coordinates.
-	 * @param x input 1-D coordinate dataset
+	 * @param x input 1-D coordinate dataset (must be ordered)
 	 * @param d input 1-D dataset
 	 * @param x0 coordinate values
 	 * @param left value to use when x0 lies left of domain. If null, then interpolate to zero by using leftmost interval
@@ -1768,11 +1769,27 @@ public class Maths {
 		assert d.getRank() == 1;
 	
 		DoubleDataset r = new DoubleDataset(x0.getShape());
-	
+
+		Monotonicity mono = Comparisons.findMonotonicity(x);
+		if (mono == Monotonicity.NOT_ORDERED) {
+			throw new IllegalArgumentException("Dataset x must be ordered");
+		}
 		DoubleDataset dx = (DoubleDataset) DatasetUtils.cast(x, Dataset.FLOAT64);
 		Dataset dx0 = DatasetUtils.convertToDataset(x0);
+		if (x == dx) {
+			dx = (DoubleDataset) x.flatten();
+		}
 		double[] xa = dx.getData();
 		int s = xa.length - 1;
+		boolean isReversed = mono == Monotonicity.STRICTLY_DECREASING || mono == Monotonicity.NONINCREASING;
+		if (isReversed) {
+			double[] txa = xa.clone();
+			for (int i = 0; i <= s; i++) { // reverse order
+				txa[s - i] = xa[i];
+			}
+			xa = txa;
+		}
+
 		IndexIterator it = dx0.getIterator();
 		int k = -1;
 		while (it.hasNext()) {
@@ -1791,7 +1808,7 @@ public class Maths {
 					if (t >= 0)
 						continue; // sets to zero
 					t /= d1;
-					r.setAbs(k, t * d.getDouble(0));
+					r.setAbs(k, t * d.getDouble(isReversed ? s : 0));
 				} else if (i == -s - 2) {
 					if (right != null) {
 						r.setAbs(k, right.doubleValue());
@@ -1802,14 +1819,19 @@ public class Maths {
 					if (t <= 0)
 						continue; // sets to zero
 					t /= d1;
-					r.setAbs(k, t * d.getDouble(s));
+					r.setAbs(k, t * d.getDouble(isReversed ? 0 : s));
 				} else {
 					i = -i - 1;
-					final double t = (xa[i] - v)/(xa[i] - xa[i - 1]);
-					r.setAbs(k, (1 - t) * d.getDouble(i) + t * d.getDouble(i - 1));
+					double t = (xa[i] - v)/(xa[i] - xa[i - 1]);
+					if (isReversed) {
+						i = s - i;
+						r.setAbs(k, t * d.getDouble(i + 1) + (1 - t) * d.getDouble(i));
+					} else {
+						r.setAbs(k, (1 - t) * d.getDouble(i) + t * d.getDouble(i - 1));
+					}
 				}
 			} else {
-				r.setAbs(k, d.getDouble(i));
+				r.setAbs(k, d.getDouble(isReversed ? s - i : i));
 			}
 		}
 		return r;

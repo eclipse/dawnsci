@@ -10,11 +10,16 @@
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
 import java.util.Arrays;
+import java.util.List;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.metadata.DynamicMetadataUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,22 +32,26 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	int count;
 	
 	private IDynamicDataset lazy;
-	private IDynamicDataset key;
+	private IDynamicDataset[] keys;
+	private IDynamicDataset finished;
 	private int[] axes;
 	private SourceInformation source;
 	private boolean next = false;
 	
 	boolean last = false;
 	
-	private int timeout = 5;
+	private int maxTimeout = 60000;
+	private int timeout = 1000;
+
 	
-	public DynamicSliceViewIterator(IDynamicDataset lazy, IDynamicDataset key) {
-		iterator = new DynamicSliceNDIterator(lazy.getShape(), key.getSlice());
+	public DynamicSliceViewIterator(IDynamicDataset lazy, IDynamicDataset[] keys, IDynamicDataset finished) {
+		iterator = new DynamicSliceNDIterator(lazy.getShape(), mergeKeys(keys), keys[0].getRank());
 		this.lazy = lazy;
-		this.key = key;
+		this.keys = keys;
+		this.finished = finished;
 		
 		int lr = lazy.getRank();
-		int dataSize = lazy.getRank() - key.getRank();
+		int dataSize = lazy.getRank() - keys[0].getRank();
 		
 		this.axes = new int[dataSize];
 		
@@ -61,11 +70,10 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	public void updateShape() {
 		try {
 			lazy.refreshShape();
-			key.refreshShape();
+			for (IDynamicDataset k : keys) k.refreshShape();
 			int[] s = DynamicMetadataUtils.refreshDynamicAxesMetadata(lazy.getMetadata(AxesMetadata.class), lazy.getShape());
-			System.out.println(Arrays.toString(s));
 			lazy.resize(s);
-			iterator.updateShape(lazy.getShape(), key.getSlice());
+			iterator.updateShape(lazy.getShape(), mergeKeys(keys));
 		} catch (Exception e) {
 			logger.error("Error refreshing axes",e);
 		}
@@ -79,17 +87,18 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 		count++;
 		double time = 0;
 		
-		while (time < timeout && !iterator.peekHasNext()  && ! last) {
+		while (time < maxTimeout && !iterator.peekHasNext()  && !last) {
 			try {
-				Thread.sleep((timeout*1000)/100);
+				Thread.sleep(timeout);
 				updateShape();
-				time += (timeout)/100.;
+				last = finished.getSlice().getInt(0) == 1;
+				time += timeout;
 			} catch (InterruptedException e) {
 				break;
 			}
 		}
 		
-		if (time >= timeout) last = true;
+		if (time >= maxTimeout) last = true;
 		
 		return hasNext;
 	}
@@ -145,16 +154,6 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	}
 	
 	/**
-	 * Get the SliceND that describes the current views position in the subsampled data
-	 * 
-	 * @return output
-	 */
-	@Override
-	public SliceND getSliceND(){
-		return iterator.getCurrentSlice();
-	}
-	
-	/**
 	 * Get the shape of the subsampled view
 	 * 
 	 * @return shape
@@ -167,6 +166,32 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	@Override
 	public void remove() {
 		//TODO throw something?
+	}
+	
+	private IDataset mergeKeys(IDynamicDataset[] keys){
+		if (keys.length == 1) return keys[0].getSlice();
+		Dataset[] dk = new Dataset[keys.length];
+		int[] maxShape = new int[keys[0].getRank()];
+		int minSize = Integer.MAX_VALUE;
+		for (int i = 0; i < keys.length; i++) {
+			dk[i] = DatasetUtils.convertToDataset(keys[i].getSlice());
+			int[] shape = dk[i].getShape();
+			for (int j = 0 ; j < shape.length; j++) if (maxShape[j] < shape[j]) maxShape[j] = shape[j];
+			if (dk[i].getSize() < minSize) minSize = dk[i].getSize();
+		}
+		
+		Dataset key = DatasetFactory.zeros(new int[]{minSize}, Dataset.INT64);
+		
+		for (int i = 0; i < minSize ; i++) {
+			for (Dataset k : dk) {
+				if (i > k.getSize()) return key;
+				if (k.getElementLongAbs(i) == 0) return key;
+			}
+			
+			key.set(i+1, i);
+		}
+		
+		return key;
 	}
 	
 }

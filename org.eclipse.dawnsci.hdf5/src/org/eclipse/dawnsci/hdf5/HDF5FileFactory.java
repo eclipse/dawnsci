@@ -20,9 +20,9 @@ import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ncsa.hdf.hdf5lib.H5;
-import ncsa.hdf.hdf5lib.HDF5Constants;
-import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
+import hdf.hdf5lib.H5;
+import hdf.hdf5lib.HDF5Constants;
+import hdf.hdf5lib.exceptions.HDF5LibraryException;
 
 /**
  * This contains method to access low level HDF5 file IDs and allows them to
@@ -39,14 +39,19 @@ public class HDF5FileFactory {
 	}
 
 	private static long heldPeriod = 5000; // 5 seconds
+	private static boolean verbose = false;
 
-	private static boolean isWindows;
+	/**
+	 * @param verbose if true, print to standard error when opening, closing, creating or deleting files
+	 */
+	public static void setVerbose(boolean verbose) {
+		HDF5FileFactory.verbose = verbose;
+	}
 
 	private final static HDF5FileFactory INSTANCE;
 
 	static {
 		INSTANCE = new HDF5FileFactory();
-		isWindows = System.getProperty("os.name").startsWith("Windows");
 	}
 
 	private ConcurrentMap<String, FileAccess> map;
@@ -72,6 +77,22 @@ public class HDF5FileFactory {
 	}
 
 	/**
+	 * Canonicalise path so that we can use it as a standard key
+	 * @param absolutePath
+	 * @return
+	 * @throws IOException
+	 */
+	public static String canonicalisePath(String absolutePath) throws IOException {
+		try {
+			return new File(absolutePath).getCanonicalPath();
+		} catch (IOException e) {
+			logger.error("Could not get canonical path: {}", absolutePath);
+			throw e;
+		}
+	}
+
+
+	/**
 	 * Set period of time a file ID is held open for. The period specified must be greater
 	 * than or equal to 100 ms.
 	 * @param heldPeriod in milliseconds
@@ -92,7 +113,7 @@ public class HDF5FileFactory {
 	}
 
 	private static void closeFile(long fid) throws HDF5LibraryException {
-		int openObjects = H5.H5Fget_obj_count(fid,
+		long openObjects = H5.H5Fget_obj_count(fid,
 				HDF5Constants.H5F_OBJ_LOCAL |
 				HDF5Constants.H5F_OBJ_DATASET |
 				HDF5Constants.H5F_OBJ_DATATYPE |
@@ -169,7 +190,7 @@ public class HDF5FileFactory {
 	private static long acquireFile(String fileName, boolean writeable, boolean asNew, boolean withLatestVersion) throws ScanFileHolderException {
 		final String cPath;
 		try {
-			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
+			cPath = canonicalisePath(fileName);
 		} catch (IOException e) {
 			logger.error("Problem canonicalising path", e);
 			throw new ScanFileHolderException("Problem canonicalising path", e);
@@ -214,43 +235,39 @@ public class HDF5FileFactory {
 					}
 					if (asNew) {
 						access.writeable = true;
+						if (verbose) {
+							System.err.println("Creating " + cPath);
+						}
 						fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_TRUNC, HDF5Constants.H5P_DEFAULT, fapl);
 					} else {
 						access.writeable = writeable;
 						if (new File(cPath).exists()) {
+							if (verbose) {
+								System.err.println("Opening " + cPath + " with writeable " + writeable);
+							}
 							if (!writeable) {
 								// attempt to read with SWMR access first
 								int a = HDF5Constants.H5F_ACC_RDONLY | HDF5Constants.H5F_ACC_SWMR_READ;
 								try {
-									if (isWindows) {
-										fid = H5Fopen(cPath, a, fapl);
-									} else {
-										fid = H5.H5Fopen(cPath, a, fapl);
-									}
+									fid = H5.H5Fopen(cPath, a, fapl);
 								} catch (HDF5LibraryException e) {
 									// this can happen when someone else has already
 									// opened the file without SWMR
 									// i.e. high-level API access (e.g. its use in PersistentFileImpl)
 									a = HDF5Constants.H5F_ACC_RDONLY;
-									if (isWindows) {
-										fid = H5Fopen(cPath, a, fapl);
-									} else {
-										fid = H5.H5Fopen(cPath, a, fapl);
-									}
+									fid = H5.H5Fopen(cPath, a, fapl);
 								}
 							} else {
 								int a = HDF5Constants.H5F_ACC_RDWR;
-								if (isWindows) {
-									fid = H5Fopen(cPath, a, fapl);
-								} else {
-									fid = H5.H5Fopen(cPath, a, fapl);
-								}
-
+								fid = H5.H5Fopen(cPath, a, fapl);
 							}
 						} else if (!writeable) {
 							logger.error("File {} does not exist!", cPath);
 							throw new FileNotFoundException("File does not exist!");
 						} else {
+							if (verbose) {
+								System.err.println("Creating " + cPath);
+							}
 							fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, fapl);
 						}
 					}
@@ -313,7 +330,7 @@ public class HDF5FileFactory {
 	public static void deleteFile(String fileName) throws ScanFileHolderException {
 		final String cPath;
 		try {
-			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
+			cPath = canonicalisePath(fileName);
 		} catch (IOException e) {
 			logger.error("Problem canonicalising path", e);
 			throw new ScanFileHolderException("Problem canonicalising path", e);
@@ -325,6 +342,9 @@ public class HDF5FileFactory {
 					FileAccess access = INSTANCE.map.get(cPath);
 					if (access.count <= 0) {
 						try {
+							if (verbose) {
+								System.err.println("Closing and deleting " + cPath);
+							}
 							H5.H5Fclose(access.id);
 							INSTANCE.map.remove(cPath);
 // FIXME for CustomTomoConverter, etc 
@@ -368,7 +388,7 @@ public class HDF5FileFactory {
 	public static void releaseFile(String fileName, boolean close) throws ScanFileHolderException {
 		final String cPath;
 		try {
-			cPath = HierarchicalDataFactory.canonicalisePath(fileName);
+			cPath = canonicalisePath(fileName);
 		} catch (IOException e) {
 			logger.error("Problem canonicalising path", e);
 			throw new ScanFileHolderException("Problem canonicalising path", e);
@@ -386,6 +406,9 @@ public class HDF5FileFactory {
 				if (access.count <= 0) {
 					if (close) {
 						try {
+							if (verbose) {
+								System.err.println("Closing " + cPath);
+							}
 							H5.H5Fclose(access.id);
 							INSTANCE.map.remove(cPath);
 // FIXME for CustomTomoConverter, etc 
@@ -403,52 +426,5 @@ public class HDF5FileFactory {
 				throw new ScanFileHolderException("Problem releasing access to file: " + cPath, le);
 			}
 		}
-	}
-
-	/**
-	 * Used for temporarily for Windows, until Pete builds the new nxs libraries for windows
-	 * Wrapper to fix super block status flag issue
-	 * @param filePath
-	 * @param flags
-	 * @param fapl
-	 * @return file ID
-	 * @throws HDF5LibraryException
-	 * @throws NullPointerException
-	 */
-	public static long H5Fopen(String filePath, int flags, long fapl) throws HDF5LibraryException, NullPointerException {
-		long fid = -1;
-		try {
-			fid = H5.H5Fopen(filePath, flags, fapl);
-		} catch (HDF5LibraryException e) {
-			boolean isAccessDefault = fapl == HDF5Constants.H5P_DEFAULT;
-			if (isAccessDefault) {
-				fapl = -1;
-				try {
-					fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
-				} catch (HDF5LibraryException ex) {
-					logger.error("Could not create file access property list");
-					throw ex;
-				}
-			}
-			try {
-				H5.H5Pset(fapl, "clear_status_flags", 1);
-			} catch (HDF5LibraryException ex) {
-				logger.warn("Could not clear status flag but continuing to open file");
-			}
-	
-			fid = H5.H5Fopen(filePath, flags, fapl);
-	
-			if (isAccessDefault) {
-				if (fapl != -1) {
-					try {
-						H5.H5Pclose(fapl);
-					} catch (HDF5LibraryException ex) {
-						logger.error("Could not close file access property list");
-						throw ex;
-					}
-				}
-			}
-		}
-		return fid;
 	}
 }

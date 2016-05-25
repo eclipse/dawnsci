@@ -426,12 +426,20 @@ public interface IPersistentFile {
 	 * 
 	 * Writes the operations when called.
 	 * 
+	 * NOTE: This is *not* for storing operations in a legal NeXus file. In fact it should not be
+	 * used when writing NeXus to write to the same file as that SWMR uses. It is for persistence
+	 * of the UI only and the persistence file is h5 not nexus.
+	 * 
 	 * @param operations - An array of operations
 	 * @throws Exception
 	 */
 	public void setOperations(IOperation<? extends IOperationModel, ? extends OperationData>... operations) throws Exception;
 	
 	/**
+	 * NOTE: This is *not* for storing operations in a legal NeXus file. In fact it should not be
+	 * used when writing NeXus to write to the same file as that SWMR uses. It is for persistence
+	 * of the UI only and the persistence file is h5 not nexus.
+	 * 
 	 * Method to read a series of operations from a Nexus file
 	 * @return array of operations
 	 * @throws Exception
