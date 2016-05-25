@@ -58,13 +58,6 @@
       </view>
       <view
             category="org.dawnsci.plotting.examples.category"
-            class="org.eclipse.dawnsci.plotting.examples.RegionExample"
-            id="org.dawnsci.plotting.examples.regionExample"
-            name="Region Example"
-            restorable="true">
-      </view>
-      <view
-            category="org.dawnsci.plotting.examples.category"
             class="org.eclipse.dawnsci.plotting.examples.VectorExample"
             id="org.dawnsci.plotting.examples.vectorExample"
             name="Vector Example"
@@ -82,6 +75,13 @@
             class="org.eclipse.dawnsci.plotting.examples.VolumeExample"
             id="org.dawnsci.plotting.examples.volumeExample"
             name="Volume Example"
+            restorable="true">
+      </view>
+      <view
+            category="org.dawnsci.plotting.examples.category"
+            class="org.eclipse.dawnsci.plotting.examples.Plane3DExample"
+            id="org.dawnsci.plotting.examples.plane3DExample"
+            name="Plane 3D Example"
             restorable="true">
       </view>
    </extension>
