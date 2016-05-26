@@ -48,7 +48,7 @@ abstract class AbstractStreamer<T> implements IStreamer<T>, Runnable {
         String contentType = conn.getContentType();
         if (!contentType.startsWith(Constants.MCONTENT_TYPE)) throw new Exception("getImages() may only be used with "+Constants.MCONTENT_TYPE+", not "+contentType);
 
-        this.delimiter  = contentType.split("\\;boundary=")[1];
+        this.delimiter  = contentType.split("boundary=")[1];
 		this.queue      = new LinkedBlockingQueue<T>(cacheSize); // TODO How many images can be in the queue?
 		this.in         = new BufferedInputStream(conn.getInputStream());
 		this.sleepTime  = sleepTime;
