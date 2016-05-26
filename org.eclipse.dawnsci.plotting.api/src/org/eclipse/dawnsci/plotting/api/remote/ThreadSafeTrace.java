@@ -548,13 +548,14 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	
 	@Override
 	public void setData(
-			int[] size, 
-			IDataset imageData, 
+			ILazyDataset imageData, 
+			double[] size, 
 			double[] offset,
-			double[] planeNormal) {
-		call(getMethodName(Thread.currentThread().getStackTrace()), size, imageData, offset, planeNormal);		
+			double[] planeNormal,
+			final List<? extends IDataset> axes) {
+		call(getMethodName(Thread.currentThread().getStackTrace()), imageData, size, offset, planeNormal, axes);		
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// javafx 3D line stuff
 	//////////////////////////////////////////////////////////////////////////
@@ -762,7 +763,6 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public void setGlobalRange(double[] globalRange) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), globalRange);
-		
 	}
 
 	@Override
