@@ -1,6 +1,7 @@
 package org.eclipse.dawnsci.nexus;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 public class NexusScanInfo {
 
 	private int rank;
-	private List<String> scannableNames;
+	private Collection<String> scannableNames;
 	private Set<String> monitorNames;
 	private Set<String> metadataScannableNames;
 	
@@ -33,10 +34,10 @@ public class NexusScanInfo {
 	 * 
 	 * @param axisNames must be ordered correctly into indices
 	 */
-	public NexusScanInfo(List<String> axisNames) {
+	public NexusScanInfo(Collection<String> axisNames) {
 		super();
 		this.scannableNames = axisNames;
-		this.rank = axisNames.size();
+		this.rank = 1;
 	}
 	
 	public int getRank() {
@@ -47,7 +48,7 @@ public class NexusScanInfo {
 		this.rank = rank;
 	}
 	
-	public List<String> getScannableNames() {
+	public Collection<String> getScannableNames() {
 		if (scannableNames == null) {
 			return Collections.emptyList();
 		}
@@ -130,24 +131,9 @@ public class NexusScanInfo {
 	 * @param datashape shape of data that the device is adding to the nD stack
 	 * @return
 	 */
+	@Deprecated
 	public static SliceND createLocation(ILazyWriteableDataset context, List<String> names, Map<String,Integer> indices, int... datashape) {
-		
-		final int scanRank = names.size();
-		final int[] start = new int[scanRank+datashape.length];
-		final int[] stop  = new int[scanRank+datashape.length];
-		for (int i = 0; i < scanRank; i++) {
-			start[i] = indices.get(names.get(i));
-			stop[i]  = indices.get(names.get(i))+1;
-		}
-
-		int index = 0;
-		for (int i = datashape.length; i>0; i--) {
-			start[start.length-i] = 0;
-			stop[stop.length-i]  = datashape[index];
-			index++;
-		}
-	  
-		return new SliceND(context.getShape(), context.getMaxShape(), start, stop, null);
+		throw new IllegalArgumentException("Please use IScanRankService to determine the correct slice information during a scan!");
 	}
 
 	@Override

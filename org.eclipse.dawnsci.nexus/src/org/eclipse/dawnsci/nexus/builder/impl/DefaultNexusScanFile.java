@@ -34,9 +34,9 @@ class DefaultNexusScanFile implements NexusScanFile {
 	}
 
 	@Override
-	public void flush() throws NexusException {
-		if (nexusFile == null) return;  // Legal flush can be called on non-SWMR files and does nothing.
-		nexusFile.flush();
+	public int flush() throws NexusException {
+		if (nexusFile == null) return -1;  // Legal flush can be called on non-SWMR files and does nothing.
+		return nexusFile.flush();
 	}
 
 	@Override

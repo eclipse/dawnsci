@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
@@ -55,15 +56,16 @@ public class FileMonitorSocket extends WebSocketAdapter {
 	        
 	        Thread th = new Thread(fileWatcher, path.getFileName()+" Watcher");
 	        th.setDaemon(true);
+	        th.setPriority(Thread.MAX_PRIORITY-2);
 	        th.start();
 	        if (diagInfo!=null) diagInfo.record("Start Thread", th.getName());
 	 
     	} catch (Exception ne) {
-			ne.printStackTrace();
+    		logger.error("Cannot watch "+path, ne);
 			try {
 				sess.getRemote().sendString(ne.getMessage());
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.warn("Cannot write to remote "+sess, e);
 			}
 		}
 		
@@ -127,7 +129,6 @@ public class FileMonitorSocket extends WebSocketAdapter {
 	 	             		if (!Files.isDirectory(path) && !path.endsWith(epath)) continue;
 	 	             			 	             		
 	 	             		try {
-
 	 	             			// Data has changed, read its shape and publish the event using a web socket.
 			             		final IDataHolder  holder = ServiceHolder.getLoaderService().getData(spath, new IMonitor.Stub());
 						        if (holder == null) continue; // We do not stop if the loader got nothing.
@@ -139,10 +140,11 @@ public class FileMonitorSocket extends WebSocketAdapter {
 						        
 						        if (lz instanceof IDynamicDataset) { 
 						            ((IDynamicDataset)lz).refreshShape();	
-						        } else if (writing) {
-						        	ServiceHolder.getLoaderService().clearSoftReferenceCache(spath);
 						        }
 						        
+						        if (writing) {
+						        	ServiceHolder.getLoaderService().clearSoftReferenceCache(spath);
+						        }
 			                	final DataEvent evt = new DataEvent(lz.getName(), lz.getShape());
 			                	evt.setFilePath(spath);
 			                    
