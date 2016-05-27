@@ -311,8 +311,9 @@ public interface NexusFile extends AutoCloseable {
 
 	/**
 	 * Flush data to filesystem
+	 * @return the nexus int code for the flush or -1 if unsucessfull.
 	 */
-	public void flush() throws NexusException;
+	public int flush() throws NexusException;
 
 	/**
 	 * Close file

@@ -1401,16 +1401,15 @@ public class NexusFileHDF5 implements NexusFile {
 	}
 	
 	@Override
-	public void flush() throws NexusException {
+	public int flush() throws NexusException {
 		if (fileId == -1) {
-			return;
+			return -1;
 		}
 		try {
-			H5.H5Fflush(fileId, HDF5Constants.H5F_SCOPE_GLOBAL);
+			return H5.H5Fflush(fileId, HDF5Constants.H5F_SCOPE_GLOBAL);
 		} catch (HDF5LibraryException e) {
 			throw new NexusException("Cannot flush file", e);
 		}
-		return;
 	}
 
 	private void tryToCloseOpenObjects() throws NexusException {
