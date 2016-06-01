@@ -41,7 +41,7 @@ public class Plane3DExample extends PlotExample {
 			String fp = loc.getAbsolutePath();
 			IDataHolder dh = service.getData(fp, true, null);
 
-			ILazyDataset data = dh.getLazyDataset(0).getTransposedView(1,0);
+			ILazyDataset data = dh.getLazyDataset(0);
 			int l = 700;
 			List<? extends IDataset> axes = generateAxes(data, l, 500, 600, 700);
 
@@ -50,7 +50,9 @@ public class Plane3DExample extends PlotExample {
 			system.addTrace(plane1);
 
 			IPlane3DTrace plane2 = system.createPlane3DTrace("Plane2");
-			// FIXME plane normal does not change orientation
+			plane2.setOpacity(0.85); // FIXME does not work
+
+			// FIXME plane normal does not change orientation in anti-z direction
 			double c = Math.cos(Math.toRadians(10));
 			double s = Math.sin(Math.toRadians(10));
 			plane2.setData(data.getSliceView(new Slice(null, null, -1)), new double[] {300, 600}, new double[] {300,0,300}, new double[] {s,0,-c}, axes);
@@ -67,10 +69,10 @@ public class Plane3DExample extends PlotExample {
 		Dataset x = DatasetFactory.createLinearSpace(0, axesDims[0], length, Dataset.FLOAT64);
 		x.setName("x");
 		axes.add(x);
-		Dataset y = DatasetFactory.createLinearSpace(0, axesDims[1], length, Dataset.FLOAT64);
+		Dataset y = DatasetFactory.createLinearSpace(0, axesDims[1], (int) (length*1.5), Dataset.FLOAT64);
 		y.setName("y");
 		axes.add(y);
-		Dataset z = DatasetFactory.createLinearSpace(0, axesDims[2], length, Dataset.FLOAT64);
+		Dataset z = DatasetFactory.createLinearSpace(0, axesDims[2], length * 2, Dataset.FLOAT64);
 		z.setName("z");
 		axes.add(z);
 		return axes;
