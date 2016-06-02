@@ -132,7 +132,7 @@ public class NexusScanInfo {
 	 * @return
 	 */
 	@Deprecated
-	public static SliceND createLocation(ILazyWriteableDataset context, List<String> names, Map<String,Integer> indices, int... datashape) {
+	public static SliceND createLocation(ILazyWriteableDataset context, Collection<String> names, Map<String,Integer> indices, int... datashape) {
 		throw new IllegalArgumentException("Please use IScanRankService to determine the correct slice information during a scan!");
 	}
 
