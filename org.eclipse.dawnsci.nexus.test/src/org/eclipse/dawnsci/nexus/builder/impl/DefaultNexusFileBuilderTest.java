@@ -136,10 +136,4 @@ public class DefaultNexusFileBuilderTest {
 //		verify(entry2).validate();
 //		verifyNoMoreInteractions(entry1, entry2);
 	}
-	
-	@Test
-	public void testGetNodeFactory() {
-		assertThat(nexusFileBuilder.getNodeFactory(), notNullValue(NexusNodeFactory.class));
-	}
-	
 }

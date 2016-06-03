@@ -14,16 +14,6 @@ import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
-import org.eclipse.dawnsci.nexus.NXdata;
-import org.eclipse.dawnsci.nexus.NXdetector;
-import org.eclipse.dawnsci.nexus.NXentry;
-import org.eclipse.dawnsci.nexus.NXinstrument;
-import org.eclipse.dawnsci.nexus.NXmonitor;
-import org.eclipse.dawnsci.nexus.NXroot;
-import org.eclipse.dawnsci.nexus.NXsample;
-import org.eclipse.dawnsci.nexus.NXtransformations;
-import org.eclipse.dawnsci.nexus.NXuser;
-import org.junit.After;
 
 public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 
@@ -50,31 +40,23 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 
 	private GroupNode detectorArmTransformCache = null;
 
-	@Override
-	@After
-	public void tearDown() {
-		nexusNodeFactory = null;
-	}
-
 	private DataNode getDataNode(final String path) {
 		return (DataNode) root.findNodeLink(path).getDestination();
 	}
 
 	@Override
 	protected NXroot createNXroot() {
-		root = nexusNodeFactory.createNXroot();
+		root = NexusNodeFactory.createNXroot();
 
 		addEntry1(root);
 		addEntryMicro(root);
-
-
 
 		return root;
 	}
 
 
 	private void addEntry1(NXroot root) {
-		NXentry entry = nexusNodeFactory.createNXentry();
+		NXentry entry = NexusNodeFactory.createNXentry();
 
 		entry.setProgram_name(StringDataset.createFromObject("GDA 9.0.0"));
 		entry.setField("scan_command", "Mapping Scan");
@@ -96,7 +78,7 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 
 	private void addDataBlock(NXentry entry) {
 
-		NXdata data = nexusNodeFactory.createNXdata();
+		NXdata data = NexusNodeFactory.createNXdata();
 		data.setAttribute(null, "signal", "data");
 		data.setAttribute(null, "axes", DatasetFactory.createFromObject(new String[] {"x_stage_set", "y_stage_set", "t_stage_set", "energy"}));
 		data.setAttribute(null, "t_stage_indices", DatasetFactory.createFromObject(new int[] {0, 1, 2}));
@@ -120,24 +102,24 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 	}
 
 	private void addSample(NXentry entry) {
-		NXsample sample = nexusNodeFactory.createNXsample();
+		NXsample sample = NexusNodeFactory.createNXsample();
 		sample.setAttribute(null, "depends_on", "t_stage");
 
-		NXtransformations transforms = nexusNodeFactory.createNXtransformations();
+		NXtransformations transforms = NexusNodeFactory.createNXtransformations();
 
-		DataNode t_stage = nexusNodeFactory.createDataNode();
+		DataNode t_stage = NexusNodeFactory.createDataNode();
 		t_stage.setDataset(DatasetFactory.ones(new int[] {X_SHAPE, Y_SHAPE, T_SHAPE}, Dataset.INT16));
 		transforms.addDataNode("t_stage", t_stage);
 		transforms.setAttribute("t_stage", "depends_on", "x_stage");
 		transforms.setAttribute("t_stage", "transformation_type", "rotation");
 
-		DataNode x_stage = nexusNodeFactory.createDataNode();
+		DataNode x_stage = NexusNodeFactory.createDataNode();
 		x_stage.setDataset(DatasetFactory.ones(new int[] {X_SHAPE, Y_SHAPE, T_SHAPE}, Dataset.INT16));
 		transforms.addDataNode("x_stage", x_stage);
 		transforms.setAttribute("x_stage", "depends_on", "y_stage");
 		transforms.setAttribute("x_stage", "transformation_type", "translation");
 
-		DataNode y_stage = nexusNodeFactory.createDataNode();
+		DataNode y_stage = NexusNodeFactory.createDataNode();
 		y_stage.setDataset(DatasetFactory.ones(new int[] {X_SHAPE, Y_SHAPE, T_SHAPE}, Dataset.INT16));
 		transforms.addDataNode("y_stage", y_stage);
 		transforms.setAttribute("y_stage", "depends_on", ".");
@@ -153,7 +135,7 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 	}
 
 	private void addInstrument(NXentry entry) {
-		NXinstrument instrument = nexusNodeFactory.createNXinstrument();
+		NXinstrument instrument = NexusNodeFactory.createNXinstrument();
 
 		addFluorecenceDetector(instrument);
 		addDiffractionDetector(instrument);
@@ -165,7 +147,7 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 	}
 
 	private void addItMonitor(NXinstrument instrument) {
-		NXmonitor monitor = nexusNodeFactory.createNXmonitor();
+		NXmonitor monitor = NexusNodeFactory.createNXmonitor();
 		monitor.setDataset("data", DatasetFactory.ones(new int[] {X_SHAPE, Y_SHAPE, T_SHAPE}, Dataset.INT16));
 		addMonitorArmTransform(monitor);
 		instrument.addGroupNode("It", monitor);
@@ -173,8 +155,8 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 
 	private void addMonitorArmTransform(NXmonitor monitor) {
 		if (monitorArmTransformCache == null) {
-			NXtransformations transforms = nexusNodeFactory.createNXtransformations();
-			DataNode monitor_arm = nexusNodeFactory.createDataNode();
+			NXtransformations transforms = NexusNodeFactory.createNXtransformations();
+			DataNode monitor_arm = NexusNodeFactory.createDataNode();
 			monitor_arm.setDataset(DatasetFactory.ones(new int[] {X_SHAPE, Y_SHAPE, T_SHAPE}, Dataset.INT16));
 			transforms.addDataNode("monitor_arm", monitor_arm);
 			transforms.setAttribute("monitor_arm", "depends_on", ".");
@@ -187,21 +169,21 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 	}
 
 	private void addI0Monitor(NXinstrument instrument) {
-		NXmonitor monitor = nexusNodeFactory.createNXmonitor();
+		NXmonitor monitor = NexusNodeFactory.createNXmonitor();
 		monitor.setDataset("data", DatasetFactory.ones(new int[] {X_SHAPE, Y_SHAPE, T_SHAPE}, Dataset.INT16));
 		addMonitorArmTransform(monitor);
 		instrument.addGroupNode("I0", monitor);
 	}
 
 	private void addTransmissionMonitor(NXinstrument instrument) {
-		NXmonitor monitor = nexusNodeFactory.createNXmonitor();
+		NXmonitor monitor = NexusNodeFactory.createNXmonitor();
 		monitor.setDataset("data", DatasetFactory.ones(new int[] {X_SHAPE, Y_SHAPE, T_SHAPE}, Dataset.INT16));
 		addMonitorArmTransform(monitor);
 		instrument.addGroupNode("trans", monitor);
 	}
 
 	private void addDiffractionDetector(NXinstrument instrument) {
-		NXdetector detector = nexusNodeFactory.createNXdetector();
+		NXdetector detector = NexusNodeFactory.createNXdetector();
 		detector.setAttribute(null, "signal", "data");
 		detector.setX_pixel_sizeScalar(1);
 		detector.setAttribute(NXdetector.NX_X_PIXEL_SIZE, "units", "um");
@@ -217,7 +199,7 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 	}
 
 	private void addFluorecenceDetector(NXinstrument instrument) {
-		NXdetector detector = nexusNodeFactory.createNXdetector();
+		NXdetector detector = NexusNodeFactory.createNXdetector();
 		detector.setAttribute(null, "signal", "data");
 		detector.setAttribute(null, "axes", DatasetFactory.createFromObject(new String[] {".", ".", ".", "energy"}));
 		detector.setAttribute(null, "energy_indices", "3");
@@ -235,8 +217,8 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 
 	private void addDetectorArmTransform(NXdetector detector) {
 		if (detectorArmTransformCache == null) {
-			NXtransformations transforms = nexusNodeFactory.createNXtransformations();
-			DataNode detector_arm = nexusNodeFactory.createDataNode();
+			NXtransformations transforms = NexusNodeFactory.createNXtransformations();
+			DataNode detector_arm = NexusNodeFactory.createDataNode();
 			detector_arm.setDataset(DatasetFactory.ones(new int[] {X_SHAPE, Y_SHAPE, T_SHAPE}, Dataset.INT16));
 			transforms.addDataNode("detector_arm", detector_arm);
 			transforms.setAttribute("detector_arm", "depends_on", ".");
@@ -249,7 +231,7 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 	}
 
 	private void addEntryMicro(NXroot root) {
-		NXentry entry = nexusNodeFactory.createNXentry();
+		NXentry entry = NexusNodeFactory.createNXentry();
 
 		entry.setProgram_name(StringDataset.createFromObject("Microscope Software 1.0.0"));
 		entry.setField("title", "White image of scan");
@@ -264,7 +246,7 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 
 	private void addUser(NXentry entry) {
 		if (userCache == null) {
-			NXuser user = nexusNodeFactory.createNXuser();
+			NXuser user = NexusNodeFactory.createNXuser();
 			user.setField("username", "ssg37927");
 			entry.setUser(user);
 			userCache = entry.getGroupNode("user");
@@ -284,7 +266,7 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 
 	private void addMicroscopeData(NXentry entry) {
 		if (microDataCache == null) {
-			NXdata data = nexusNodeFactory.createNXdata();
+			NXdata data = NexusNodeFactory.createNXdata();
 
 			data.setAttribute(null, "signal", "data");	
 			data.setAttribute(null, "axes", DatasetFactory.createFromObject(new String[] {".", "image_x", "image_y"}));

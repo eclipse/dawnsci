@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -23,8 +23,8 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
- * This is the description for a general orientation of a component - it is used by the
- * NXgeometry class
+ * legacy class - recommend to use :ref:`NXtransformations` now
+ * Description for a general orientation of a component - used by :ref:`NXgeometry`
  * 
  * @version 1.0
  */
@@ -36,8 +36,8 @@ public class NXorientationImpl extends NXobjectImpl implements NXorientation {
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY);
 
-	public NXorientationImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXorientationImpl() {
+		super();
 	}
 
 	public NXorientationImpl(final long oid) {

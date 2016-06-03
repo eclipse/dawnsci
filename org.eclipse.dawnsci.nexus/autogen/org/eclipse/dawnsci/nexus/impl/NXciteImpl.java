@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -21,10 +21,11 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
+ * A literature reference
  * Definition to include references for example for detectors,
  * manuals, instruments, acquisition or analysis software used.
  * The idea would be to include this in the relevant NeXus object:
- * NXdetector for detectors, NXinstrument for instruments, etc
+ * :ref:`NXdetector` for detectors, :ref:`NXinstrument` for instruments, etc.
  * 
  * @version 1.0
  */
@@ -35,8 +36,8 @@ public class NXciteImpl extends NXobjectImpl implements NXcite {
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	public NXciteImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXciteImpl() {
+		super();
 	}
 
 	public NXciteImpl(final long oid) {

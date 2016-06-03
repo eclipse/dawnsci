@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -19,12 +19,13 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
- * Template of the state of the neutron or X-ray beam at any location. It will be referenced
- * by beamline component groups within the NXinstrument group or by the NXsample group. Note
+ * Properties of the neutron or X-ray beam at a given location.
+ * It will be referenced
+ * by beamline component groups within the :ref:`NXinstrument` group or by the :ref:`NXsample` group. Note
  * that variables such as the incident energy could be scalar values or arrays. This group is
  * especially valuable in storing the results of instrument simulations in which it is useful
  * to specify the beam profile, time distribution etc. at each beamline component. Otherwise,
- * its most likely use is in the NXsample group in which it defines the results of the neutron
+ * its most likely use is in the :ref:`NXsample` group in which it defines the results of the neutron
  * scattering by the sample, e.g., energy transfer, polarizations.
  * 
  * @version 1.0

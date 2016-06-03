@@ -3,36 +3,33 @@ package org.eclipse.dawnsci.nexus;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyDataset;
 import org.eclipse.dawnsci.nexus.builder.AbstractNexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.CustomNexusEntryModification;
-import org.eclipse.dawnsci.nexus.builder.DelegateNexusProvider;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 
 /**
  * Any device which can write NeXus should implement this interface.
  * 
- * This can be done easily by extending {@link AbstractNexusObjectProvider} or
- * {@link DelegateNexusProvider}
+ * This can be done easily by extending {@link AbstractNexusObjectProvider}
  * 
- * @author Matthew Gerring
+ * @param <N> the type of nexus object to be created, a sub-interface of {@link NXobject},
+ *   e.g. {@link NXdetector}
+ *  
+ * @author Matthew Gerring, Matthew Dickie
  *
  */
 public interface INexusDevice<N extends NXobject> {
 
 	/**
 	 * Returns the object provider required for writing correct NeXus files.
-	 * @return the nexus object provider, or <code>null</code>
-	 */
-	NexusObjectProvider<N> getNexusProvider(NexusScanInfo info);
-	
-	/**
+	 * 
 	 * <p>
 	 * In this method you should prepare the {@link LazyDataset}s the device
 	 * will fill during the scan. You can also write out static device metadata,
 	 * which will not change during the scan.
 	 * </p>
 	 * <p>
-	 * Use the provided <code>nodeFactory</code> to create a NeXus object which
+	 * Use the methods on {@link NexusNodeFactory} to create a NeXus object which
 	 * matches the device e.g. a {@link NXdetector}.
-	 * <code>final NXdetector detector = nodeFactory.createNXdetector();</code>
+	 * <code>final NXdetector detector = NexusNodeFactory.createNXdetector();</code>
 	 * </p>
 	 * <p>
 	 * On the detector object you can create {@link LazyDataset}s and keep
@@ -56,21 +53,20 @@ public interface INexusDevice<N extends NXobject> {
 	 * <code>setXXXScalar</code> methods for fields defined in the appropriate 
 	 * NXDL base class definition.
 	 * 
-	 * @param nodeFactory
-	 *            Factory you can use to create an appropriate NeXus node
-	 * @param info
+s	 * @param info
 	 *            Information about the scan which can be useful when creating
 	 *            dataset e.g. <code>info.getRank()</code>
 	 * @return The {@link NXobject} created using the <code>nodeFactory</code>
 	 *         to represent this device
 	 * @throws NexusException if the nexus object could not be created for any reason
 	 */
-	N createNexusObject(NexusNodeFactory nodeFactory, NexusScanInfo info) throws NexusException;
+	NexusObjectProvider<N> getNexusProvider(NexusScanInfo info) throws NexusException;
 	
 	/**
 	 * Returns an object that performs a custom modification to
-	 * an {@link NXentry}
-	 * <em>NOTE: Use this method with caution as can be used to break the central
+	 * an {@link NXentry}.
+	 * <p>
+	 * <em>NOTE: Use this method with caution as it can be used to break the central
 	 * design concept of the new Nexus writing framework, namely that the nexus framework itself
 	 * knows where to put the nexus groups for devices and build any required {@link NXdata} groups.
 	 * </em> It is currently used by the new Nexus framework to partially support legacy GDA8 spring

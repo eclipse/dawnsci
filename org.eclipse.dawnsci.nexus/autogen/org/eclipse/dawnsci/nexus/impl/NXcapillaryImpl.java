@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -21,8 +21,8 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
- * This is a dictionary of field names to use for describing a capillary as used
- * in X-ray beamlines. Based on information provided by Gerd Wellenreuther.
+ * A capillary lens to focus the X-ray beam.
+ * Based on information provided by Gerd Wellenreuther (DESY).
  * 
  * @version 1.0
  */
@@ -35,8 +35,8 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 		NexusBaseClass.NX_DATA,
 		NexusBaseClass.NX_DATA);
 
-	public NXcapillaryImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXcapillaryImpl() {
+		super();
 	}
 
 	public NXcapillaryImpl(final long oid) {

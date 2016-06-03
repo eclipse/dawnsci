@@ -73,7 +73,6 @@ public class NexusFileHDF5 implements NexusFile {
 	/**
 	 * Create a new Nexus file (overwriting any existing one)
 	 * @param path
-	 * @param enableSWMR
 	 * @return Nexus file
 	 * @throws NexusException
 	 */

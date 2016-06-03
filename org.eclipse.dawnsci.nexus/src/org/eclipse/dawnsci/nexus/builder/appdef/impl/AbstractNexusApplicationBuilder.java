@@ -17,7 +17,6 @@ import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.NexusApplicationDefinition;
 import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.appdef.NexusApplicationBuilder;
 
@@ -66,14 +65,6 @@ public abstract class AbstractNexusApplicationBuilder implements
 	@Override
 	public NXsubentry getNXsubentry() {
 		return subentry;
-	}
-	
-	/**
-	 * Returns the {@link NexusNodeFactory}. This can be used to create nexus objects.
-	 * @return the nexus node factory
-	 */
-	protected NexusNodeFactory getNexusNodeFactory() {
-		return nexusEntryModel.getNodeFactory();
 	}
 	
 	/* (non-Javadoc)

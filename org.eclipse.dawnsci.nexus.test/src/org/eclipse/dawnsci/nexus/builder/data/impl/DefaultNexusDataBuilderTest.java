@@ -36,8 +36,8 @@ public class DefaultNexusDataBuilderTest {
 		}
 		
 		@Override
-		protected NXdetector doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXdetector detector = nodeFactory.createNXdetector();
+		protected NXdetector createNexusObject() {
+			NXdetector detector = NexusNodeFactory.createNXdetector();
 			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.FLOAT64);
 			return detector;
 		}
@@ -53,8 +53,8 @@ public class DefaultNexusDataBuilderTest {
 		}
 		
 		@Override
-		protected NXdetector doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXdetector detector = nodeFactory.createNXdetector();
+		protected NXdetector createNexusObject() {
+			NXdetector detector = NexusNodeFactory.createNXdetector();
 			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.FLOAT64);
 			detector.setAttribute(NXdetector.NX_DATA, "units", "mm");
 			detector.initializeLazyDataset(NXdetector.NX_TIME_OF_FLIGHT, 1, Dataset.FLOAT64);
@@ -73,8 +73,8 @@ public class DefaultNexusDataBuilderTest {
 		}
 		
 		@Override
-		protected NXdetector doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXdetector detector = nodeFactory.createNXdetector();
+		protected NXdetector createNexusObject() {
+			NXdetector detector = NexusNodeFactory.createNXdetector();
 			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.FLOAT64);
 			detector.initializeLazyDataset("sum", 3, Dataset.FLOAT64);
 			
@@ -91,8 +91,8 @@ public class DefaultNexusDataBuilderTest {
 		}
 		
 		@Override
-		protected NXdetector doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXdetector detector = nodeFactory.createNXdetector();
+		protected NXdetector createNexusObject() {
+			NXdetector detector = NexusNodeFactory.createNXdetector();
 			// create an external link instead of a lazy dataset
 			addExternalLink(detector, NXdetector.NX_DATA, "/entry/data", 3);
 			return detector;
@@ -111,8 +111,8 @@ public class DefaultNexusDataBuilderTest {
 		}
 		
 		@Override
-		protected NXpositioner doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXpositioner positioner = nodeFactory.createNXpositioner();
+		protected NXpositioner createNexusObject() {
+			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
 			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Dataset.FLOAT64);
 			positioner.initializeLazyDataset("source", 1, Dataset.FLOAT64);
 			return positioner;
@@ -129,8 +129,8 @@ public class DefaultNexusDataBuilderTest {
 		}
 		
 		@Override
-		protected NXpositioner doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXpositioner positioner = nodeFactory.createNXpositioner();
+		protected NXpositioner createNexusObject() {
+			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
 			positioner.initializeLazyDataset("field1", 1, Dataset.FLOAT64);
 			positioner.initializeLazyDataset("field2", 1, Dataset.FLOAT64);
 			positioner.initializeLazyDataset("field3", 1, Dataset.FLOAT64);
@@ -148,8 +148,8 @@ public class DefaultNexusDataBuilderTest {
 		}
 		
 		@Override
-		protected NXpositioner doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXpositioner positioner = nodeFactory.createNXpositioner();
+		protected NXpositioner createNexusObject() {
+			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
 			addExternalLink(positioner, NXpositioner.NX_VALUE, "/entry/data", 1);
 			
 			return positioner;
@@ -172,9 +172,8 @@ public class DefaultNexusDataBuilderTest {
 	
 	private void addToEntry(NexusObjectProvider<?>... nexusObjects) throws NexusException {
 		// TODO it would be good to be able to add fields from a group that hasn't been created already 
-		NexusNodeFactory nodeFactory = new NexusNodeFactory();
 		for (NexusObjectProvider<?> nexusObjectProvider : nexusObjects) {
-			nexusObjectProvider.createNexusObject(nodeFactory);
+			nexusObjectProvider.getNexusObject();
 		}
 	}
 	

@@ -42,13 +42,6 @@ public interface NexusEntryBuilder {
 	public NXentry getNXentry();
 	
 	/**
-	 * Returns the {@link NexusNodeFactory} that can be used to create nodes. This
-	 * factory object should be used to create new nodes so that each node has a sequential id.
-	 * @return wrapped node factory
-	 */
-	public NexusNodeFactory getNodeFactory();
-	
-	/**
 	 * Add the default groups to the entry. This method should be called before
 	 * calling {@link #add(NexusObjectProvider)}. 
 	 */

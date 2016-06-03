@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -21,6 +21,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
+ * legacy class - (used by :ref:`NXgeometry`) - the shape and size of a component.
  * This is the description of the general shape and size of a
  * component, which may be made up of ``numobj`` separate
  * elements - it is used by the :ref:`NXgeometry` class
@@ -34,8 +35,8 @@ public class NXshapeImpl extends NXobjectImpl implements NXshape {
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	public NXshapeImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXshapeImpl() {
+		super();
 	}
 
 	public NXshapeImpl(final long oid) {

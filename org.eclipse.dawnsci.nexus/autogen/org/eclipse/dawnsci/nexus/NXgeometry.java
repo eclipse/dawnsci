@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -19,10 +19,11 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
- * It is recommended that instances of NXgeometry be converted to
+ * legacy class - recommend to use :ref:`NXtransformations` now
+ * It is recommended that instances of :ref:`NXgeometry` be converted to
  * use :ref:`NXtransformations`.
  * This is the description for a general position of a component.
- * It is recommended to name an instance of NXgeometry as "geometry"
+ * It is recommended to name an instance of :ref:`NXgeometry` as "geometry"
  * to aid in the use of the definition in simulation codes such as McStas.
  * Also, in HDF, linked items must share the same name.
  * However, it might not be possible or practical in all situations.

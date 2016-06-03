@@ -50,8 +50,6 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 
 	private static final String APPDEF_SUBENTRY_SUFFIX = "_entry";
 
-	private final NexusNodeFactory nexusNodeFactory;
-
 	private final String entryName;
 	
 	private final NXentry nxEntry;
@@ -67,13 +65,11 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 	/**
 	 * Creates a new {@link DefaultNexusEntryBuilder}. This constructor should only be called
 	 * by {@link DefaultNexusFileBuilder}.
-	 * @param nexusNodeFactory node factory
 	 * @param entryName name of entry
 	 * @param nxEntry entry to wrap
 	 */
-	protected DefaultNexusEntryBuilder(final NexusNodeFactory nexusNodeFactory,
-			String entryName, final NXentry nxEntry) {
-		this.nexusNodeFactory = nexusNodeFactory;
+	protected DefaultNexusEntryBuilder(String entryName,
+			final NXentry nxEntry) {
 		this.nxEntry = nxEntry;
 		this.entryName = entryName;
 	}
@@ -83,7 +79,7 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 	 */
 	@Override
 	public <N extends NXobject> N add(NexusObjectProvider<N> nexusObjectProvider) throws NexusException {
-		final N nexusObject = nexusObjectProvider.createNexusObject(nexusNodeFactory);
+		final N nexusObject = nexusObjectProvider.getNexusObject();
 		addGroupToNexusTree(nexusObjectProvider, nexusObject);
 
 		return nexusObject;
@@ -106,19 +102,11 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder#getNodeFactory()
-	 */
-	@Override
-	public NexusNodeFactory getNodeFactory() {
-		return nexusNodeFactory;
-	}
-
-	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder#createDefaultData()
 	 */
 	@Override
 	public NexusDataBuilder createDefaultData() {
-		final NXdata nxData = nexusNodeFactory.createNXdata();
+		final NXdata nxData = NexusNodeFactory.createNXdata();
 		nxEntry.setData(nxData);
 		return new DefaultNexusDataBuilder(this, nxData);
 	}
@@ -128,7 +116,7 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 	 */
 	@Override
 	public NexusDataBuilder newData(final String name) {
-		final NXdata nxData = nexusNodeFactory.createNXdata();
+		final NXdata nxData = NexusNodeFactory.createNXdata();
 		nxEntry.setData(name, nxData);
 		return new DefaultNexusDataBuilder(this, nxData);
 	}
@@ -177,7 +165,7 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 	 */
 	@Override
 	public void modifyEntry(CustomNexusEntryModification modification) throws NexusException {
-		modification.modifyEntry(nxEntry, nexusNodeFactory);
+		modification.modifyEntry(nxEntry);
 	}
 
 	/* (non-Javadoc)
@@ -261,15 +249,15 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 		defaultGroups = new ArrayList<>();
 		defaultGroups.add(nxEntry);
 
-		nxInstrument = nexusNodeFactory.createNXinstrument();
+		nxInstrument = NexusNodeFactory.createNXinstrument();
 		defaultGroups.add(nxInstrument);
 		nxEntry.setInstrument(nxInstrument);
 
-		nxSample = nexusNodeFactory.createNXsample();
+		nxSample = NexusNodeFactory.createNXsample();
 		defaultGroups.add(nxSample);
 		nxEntry.setSample(nxSample);
 		
-		NXuser nxUser = nexusNodeFactory.createNXuser(); // TODO how to add multiple users?
+		NXuser nxUser = NexusNodeFactory.createNXuser(); // TODO how to add multiple users?
 		defaultGroups.add(nxUser);
 		nxEntry.setUser(nxUser);
 		
@@ -345,7 +333,7 @@ public class DefaultNexusEntryBuilder implements NexusEntryBuilder {
 		
 		GroupNode collectionGroup = group.getGroupNode(collectionName);
 		if (collectionGroup == null) {
-			collection = nexusNodeFactory.createNXcollection();
+			collection = NexusNodeFactory.createNXcollection();
 			group.addGroupNode(collectionName, collection);
 		} else if (collectionGroup instanceof NXcollection) {
 			collection = (NXcollection) collectionGroup;

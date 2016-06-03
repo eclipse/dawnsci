@@ -235,10 +235,9 @@ public class AbstractNexusValidatorTest {
 	public void testValidateTransformations() throws Exception {
 		final Map<String, NXtransformations> transformations = new HashMap<>();
 		
-		NexusNodeFactory nxObjectFactory = new NexusNodeFactory();
-		transformations.put("one", nxObjectFactory.createNXtransformations());
-		transformations.put("two", nxObjectFactory.createNXtransformations());
-		transformations.put("three", nxObjectFactory.createNXtransformations());
+		transformations.put("one", NexusNodeFactory.createNXtransformations());
+		transformations.put("two", NexusNodeFactory.createNXtransformations());
+		transformations.put("three", NexusNodeFactory.createNXtransformations());
 		
 		transformations.get("one").addAttribute(new AttributeImpl("depends_on", "two"));
 		transformations.get("two").addAttribute(new AttributeImpl("depends_on", "three"));
@@ -251,10 +250,9 @@ public class AbstractNexusValidatorTest {
 	public void testValidateTransformations_missingFirstTransformation() throws Exception {
 		final Map<String, NXtransformations> transformations = new HashMap<>();
 		
-		NexusNodeFactory nxObjectFactory = new NexusNodeFactory();
-		transformations.put("one", nxObjectFactory.createNXtransformations());
-		transformations.put("two", nxObjectFactory.createNXtransformations());
-		transformations.put("three", nxObjectFactory.createNXtransformations());
+		transformations.put("one", NexusNodeFactory.createNXtransformations());
+		transformations.put("two", NexusNodeFactory.createNXtransformations());
+		transformations.put("three", NexusNodeFactory.createNXtransformations());
 		
 		transformations.get("one").addAttribute(new AttributeImpl("depends_on", "two"));
 		transformations.get("two").addAttribute(new AttributeImpl("depends_on", "three"));
@@ -267,10 +265,9 @@ public class AbstractNexusValidatorTest {
 	public void testValidateTransformations_missingTransformation() throws Exception {
 		final Map<String, NXtransformations> transformations = new HashMap<>();
 		
-		NexusNodeFactory nxObjectFactory = new NexusNodeFactory();
-		transformations.put("one", nxObjectFactory.createNXtransformations());
-		transformations.put("two", nxObjectFactory.createNXtransformations());
-		transformations.put("three", nxObjectFactory.createNXtransformations());
+		transformations.put("one", NexusNodeFactory.createNXtransformations());
+		transformations.put("two", NexusNodeFactory.createNXtransformations());
+		transformations.put("three", NexusNodeFactory.createNXtransformations());
 		
 		transformations.get("one").addAttribute(new AttributeImpl("depends_on", "two"));
 		transformations.get("two").addAttribute(new AttributeImpl("depends_on", "three"));
@@ -283,10 +280,9 @@ public class AbstractNexusValidatorTest {
 	public void testValidateTransformations_circularDependency() throws Exception {
 		final Map<String, NXtransformations> transformations = new HashMap<>();
 		
-		NexusNodeFactory nxObjectFactory = new NexusNodeFactory();
-		transformations.put("one", nxObjectFactory.createNXtransformations());
-		transformations.put("two", nxObjectFactory.createNXtransformations());
-		transformations.put("three", nxObjectFactory.createNXtransformations());
+		transformations.put("one", NexusNodeFactory.createNXtransformations());
+		transformations.put("two", NexusNodeFactory.createNXtransformations());
+		transformations.put("three", NexusNodeFactory.createNXtransformations());
 		
 		transformations.get("one").addAttribute(new AttributeImpl("depends_on", "two"));
 		transformations.get("two").addAttribute(new AttributeImpl("depends_on", "three"));

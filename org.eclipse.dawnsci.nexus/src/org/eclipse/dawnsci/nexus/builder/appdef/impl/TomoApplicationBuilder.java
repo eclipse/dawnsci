@@ -100,7 +100,7 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 	 * @throws NexusException if the source could not be added for any reason
 	 */
 	public void setSource(NexusObjectProvider<NXsource> source) throws NexusException {
-		instrument.setSource(source.getNexusObject(getNexusNodeFactory(), true));
+		instrument.setSource(source.getNexusObject());
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 	 * @throws NexusException if the detector could not be added for any reason
 	 */
 	public void setDetector(NexusObjectProvider<NXdetector> detector) throws NexusException {
-		instrument.setDetector(detector.getNexusObject(getNexusNodeFactory(), true));
+		instrument.setDetector(detector.getNexusObject());
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 	 * @throws NexusException
 	 */
 	public void setSample(NexusObjectProvider<NXsample> sample) throws NexusException {
-		this.sample = sample.getNexusObject(getNexusNodeFactory(), true);
+		this.sample = sample.getNexusObject();
 		if (subentry.getSample() != null) {
 			subentry.removeGroupNode("sample");
 		}
@@ -215,7 +215,7 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 	 * @throws NexusException
 	 */
 	public void setControl(NexusObjectProvider<NXpositioner> controlDevice) throws NexusException {
-		NXmonitor control = getNexusNodeFactory().createNXmonitor();
+		NXmonitor control = NexusNodeFactory.createNXmonitor();
 		subentry.setMonitor("control", control);
 		
 		DataNode dataNode = getDataNode(controlDevice);
@@ -227,7 +227,7 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 	 */
 	@Override
 	public NexusDataBuilder newData() throws NexusException {
-		NXdata nxData = getNexusNodeFactory().createNXdata();
+		NXdata nxData = NexusNodeFactory.createNXdata();
 		subentry.setData(nxData);
 
 		PredeterminedLinksApplicationDataBuilder dataModel = new PredeterminedLinksApplicationDataBuilder(nxData);
@@ -250,11 +250,10 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 	 */
 	@Override
 	public void addDefaultGroups() {
-		NexusNodeFactory nodeFactory = getNexusNodeFactory();
-		instrument = nodeFactory.createNXinstrument();
+		instrument = NexusNodeFactory.createNXinstrument();
 		subentry.setInstrument(instrument);
 
-		sample = nodeFactory.createNXsample();
+		sample = NexusNodeFactory.createNXsample();
 		subentry.setSample(sample);
 	}
 
@@ -270,7 +269,7 @@ public class TomoApplicationBuilder extends AbstractNexusApplicationBuilder impl
 	}
 
 	private <N extends NXobject> DataNode getDataNode(NexusObjectProvider<N> nexusObjectProvider) throws NexusException {
-		final N nexusObject = nexusObjectProvider.getNexusObject(getNexusNodeFactory(), true);
+		final N nexusObject = nexusObjectProvider.getNexusObject();
 		final String dataNodeName = nexusObjectProvider.getPrimaryDataFieldName();
 		final DataNode dataNode = nexusObject.getDataNode(dataNodeName);
 		if (dataNode == null) {

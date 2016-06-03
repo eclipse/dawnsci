@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -23,7 +23,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
- * Description of an insertion device, as in a synchrotron.
+ * An insertion device, as used in a synchrotron light source.
  * 
  * @version 1.0
  */
@@ -36,8 +36,8 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 		NexusBaseClass.NX_DATA,
 		NexusBaseClass.NX_GEOMETRY);
 
-	public NXinsertion_deviceImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXinsertion_deviceImpl() {
+		super();
 	}
 
 	public NXinsertion_deviceImpl(final long oid) {

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -21,7 +21,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
- * Template of a beamline spin flipper.
+ * A spin flipper.
  * 
  * @version 1.0
  */
@@ -32,8 +32,8 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	public NXflipperImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXflipperImpl() {
+		super();
 	}
 
 	public NXflipperImpl(final long oid) {

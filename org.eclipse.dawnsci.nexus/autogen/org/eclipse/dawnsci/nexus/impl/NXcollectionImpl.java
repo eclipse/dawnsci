@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -21,13 +21,14 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
- * Use ``NXcollection`` to gather together any set of terms.
+ * An unvalidated set of terms, such as the description of a beam line.
+ * Use :ref:`NXcollection` to gather together any set of terms.
  * The original suggestion is to use this as a container
  * class for the description of a beamline.
- * For NeXus validation, ``NXcollection`` will always generate
+ * For NeXus validation, :ref:`NXcollection` will always generate
  * a warning since it is always an optional group.
  * Anything (groups, fields, or attributes) placed in
- * an ``NXcollection`` group will not be validated.
+ * an :ref:`NXcollection` group will not be validated.
  * 
  * @version 1.0
  */
@@ -38,8 +39,8 @@ public class NXcollectionImpl extends NXobjectImpl implements NXcollection {
 
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
 
-	public NXcollectionImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXcollectionImpl() {
+		super();
 	}
 
 	public NXcollectionImpl(final long oid) {

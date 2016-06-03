@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -24,7 +24,8 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
- * Template of monitor data. It is similar to the NXdata groups containing
+ * A monitor of incident beam data.
+ * It is similar to the :ref:`NXdata` groups containing
  * monitor data and its associated dimension scale, e.g. time_of_flight or
  * wavelength in pulsed neutron instruments. However, it may also include
  * integrals, or scalar monitor counts, which are often used in both in both
@@ -41,8 +42,8 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 		NexusBaseClass.NX_LOG,
 		NexusBaseClass.NX_GEOMETRY);
 
-	public NXmonitorImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXmonitorImpl() {
+		super();
 	}
 
 	public NXmonitorImpl(final long oid) {

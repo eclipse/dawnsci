@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -20,6 +20,7 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
+ * Group of multiple application definitions for "multi-modal" (e.g. SAXS/WAXS) measurements.
  * ``NXsubentry`` is a base class virtually identical to :ref:`NXentry`
  * and is used as the (overlay) location for application definitions.
  * Use a separate ``NXsubentry`` for each application definition.
@@ -29,7 +30,8 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
  * * Within that group, create a field called ``definition="NXmyappdef"``.
  * * There are two optional attributes of definition: ``version`` and ``URL``
  * The intended use is to define application definitions for a
- * multi-technique :ref:`NXentry`. Previously, an application definition
+ * multi-modal (a.k.a. multi-technique) :ref:`NXentry`.
+ * Previously, an application definition
  * replaced :ref:`NXentry` with its own definition.
  * With the increasing popularity of instruments combining
  * multiple techniques for data collection (such as SAXS/WAXS instruments),

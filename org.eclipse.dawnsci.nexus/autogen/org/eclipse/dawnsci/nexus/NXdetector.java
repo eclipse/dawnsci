@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -20,7 +20,7 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
- * Template of a detector, detector bank, or multidetector.
+ * A detector, detector bank, or multidetector.
  * <p><b>Symbols:</b> 
  * These symbols will be used below to coordinate datasets with the same shape.<ul>
  * <li><b>np</b> 

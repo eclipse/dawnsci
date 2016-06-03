@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-05-24T15:05:50.512+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -19,18 +19,19 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 
 /**
- * Definition of information that is recorded against time,
+ * Information recorded as a function of time.
+ * Description of information that is recorded against time,
  * such as information monitored during the run.
  * It contains
  * the logged values and the times at which they were measured as elapsed time since a starting
  * time recorded in ISO8601 format. This method of storing logged data helps to distinguish
  * instances in which a variable is a dimension scale of the data, in which case it is stored
- * in an ``NXdata`` group, and instances in which it is logged during the
- * run, when it should be stored in an ``NXlog`` group.
- * Note: When using multiple ``NXlog`` groups, it is suggested to place
- * them inside a ``NXcollection`` group. In such cases, when
- * ``NXlog`` is used in another class,
- * ``NXcollection/NXlog`` is then constructed.
+ * in an :ref:`NXdata` group, and instances in which it is logged during the
+ * run, when it should be stored in an :ref:`NXlog` group.
+ * Note: When using multiple :ref:`NXlog` groups, it is suggested to place
+ * them inside a :ref:`NXcollection` group. In such cases, when
+ * :ref:`NXlog` is used in another class,
+ * :ref:`NXcollection`/:ref:`NXlog` is then constructed.
  * 
  * @version 1.0
  */
