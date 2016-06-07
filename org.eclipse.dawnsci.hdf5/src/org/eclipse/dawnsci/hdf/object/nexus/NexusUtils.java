@@ -330,12 +330,13 @@ public class NexusUtils {
 							}
 						}
 						if (iaxis == dimension) {
-							// Sanity check the dimensions (see DAWNSCI-5770), only adding those that match size. 
+							
 							final long[] dims = ((Dataset)hObject).getDims();
-							// For 1-D axes only add those that match the length of the sought axis.
-							if (dims.length == 1)
-								if (dims[0]==size)
-									axis = ((Dataset)hObject).getFullName();
+							
+							if ((dims.length == 1 && dims[0]==size) || dims.length != 1) {
+								axis = ((Dataset)hObject).getFullName();
+							}
+
 						}
 						
 					} else if (PRIM.equals(attribute.getName())) {
