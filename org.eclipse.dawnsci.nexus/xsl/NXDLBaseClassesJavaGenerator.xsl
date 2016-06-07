@@ -706,6 +706,7 @@ package org.eclipse.dawnsci.nexus;
 import java.net.URI;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
@@ -813,6 +814,16 @@ public class NexusNodeFactory {
 	 */
 	public static DataNode createDataNode() {
 		return TreeFactory.createDataNode(getNextOid());
+	}
+	
+	/**
+	 * Create a new symbolic node
+	 * @param uri uri
+	 * @param pathToNode path to node
+	 * @return new symbolic node
+	 */
+	public static SymbolicNode createSymbolicNode(URI uri, String pathToNode) {
+		return TreeFactory.createSymbolicNode(getNextOid(), uri, null, pathToNode);
 	}
 	
 </xsl:text>

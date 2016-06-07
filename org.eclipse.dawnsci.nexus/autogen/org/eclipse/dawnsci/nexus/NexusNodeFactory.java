@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-05-24T15:05:50.512+01:00
+ * Generated at: 2016-06-07T11:32:35.177+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -80,6 +80,7 @@ import org.eclipse.dawnsci.nexus.impl.NXspin_rotatorImpl;
 import org.eclipse.dawnsci.nexus.impl.NXsolenoid_magnetImpl;
 import org.eclipse.dawnsci.nexus.impl.NXelectrostatic_kickerImpl;
 import org.eclipse.dawnsci.nexus.impl.NXseparatorImpl;
+import org.eclipse.dawnsci.nexus.impl.NXcontainerImpl;
 
 /**
  * Factory class for creating instances of NeXus base classes.
@@ -218,6 +219,8 @@ public class NexusNodeFactory {
 				return createNXelectrostatic_kicker(oid);
 			case NX_SEPARATOR:
 				return createNXseparator(oid);
+			case NX_CONTAINER:
+				return createNXcontainer(oid);
 		}
 		throw new IllegalArgumentException("Unknown base class: " + baseClass);
 	}
@@ -346,6 +349,8 @@ public class NexusNodeFactory {
 				return createNXelectrostatic_kicker();
 			case NX_SEPARATOR:
 				return createNXseparator();
+			case NX_CONTAINER:
+				return createNXcontainer();
 		}
 		throw new IllegalArgumentException("Unknown base class: " + baseClass);
 	}
@@ -1508,6 +1513,25 @@ public class NexusNodeFactory {
 	 */
 	public static NXseparator createNXseparator() {
 		return new NXseparatorImpl();
+	}
+
+	/**
+	 * Create a new {@link NXcontainer} with the given oid.
+	 *
+	 * @param oid unique object oid.
+	 * @return new NXcontainer
+	 */
+	public static NXcontainer createNXcontainer(long oid) {
+		return new NXcontainerImpl(oid);
+	}
+
+	/**
+	 * Create a new {@link NXcontainer}.
+	 *
+	 * @return new NXcontainer
+	 */
+	public static NXcontainer createNXcontainer() {
+		return new NXcontainerImpl();
 	}
 
 }
