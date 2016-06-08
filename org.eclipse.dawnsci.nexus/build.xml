@@ -1,12 +1,50 @@
-<project name="generate-java" default="generate-both">
+<!-- This Ant build file contains targets to generate Java from NeXus NXDL       
+  base class and application definitions using the Saxon XSLT 2.0 XSLT processor.
+  The following two properties must be passed into this file, either on the
+  command line or in the Eclipse build configuration:
+  - xslt-classpath: The path of the JAR for the saxon XSLT 2.0 processor.
+  - nxdl-definitions-path: The path of the root of the NeXus NXDL definitions project
+  
+  Note that we require Saxon as we use XSLT 2.0 features which only Saxon supports. We cannot
+  therefore use the XSLT processor (Apache Xalan) included in the JDK which only supports XSLT 1.0
+  - this is the XSLT processor that Ant would use by default.
 
-	<!-- These properties can be overridden by passing them in, either on the command line or the Eclipse run configuration
-	that invokes this build file. -->
-	<property name="xslt-classpath" location="/scratch/opt/saxon9/saxon9he.jar"/>
+-->
+      
+<project name="nxdl-to-java" default="generate-both">
+
 	<property name="java-source-path" location="src"/>
 	<property name="java-output-path" location="autogen"/>
-	<property name="nxdl-definitions-path" location="../../definitions"/>
 	
+	<!-- Check the required externally provided properties have been set. -->
+	<target name="check-properties">
+		
+		<!-- Check the XSLT classpath is set and the file is present. This is the location of the JAR for the saxon XSLT 2.0 processor. -->
+		<fail message="The property 'xslt-classpath' must be set to the location of the saxon JAR file, see http://saxon.sourceforge.net/">
+			<condition>
+				<not>
+					<and>
+						<isset property="xslt-classpath"/>
+						<available file="${xslt-classpath}"/>
+					</and>
+				</not>
+			</condition>
+		</fail>
+		
+		<!-- Check the NXDL definitions path is set. This is the root folder of the nexus NXDL definitions project. -->
+		<fail message="The property 'nxdl-definitions-path' must be set to the root folder of the NXDL definitions, see http://www.nexusformat.org/">
+			<condition>
+				<not>
+					<and>
+						<isset property="nxdl-definitions-path"/>
+						<available file="${nxdl-definitions-path}"/>
+					</and>
+				</not>
+			</condition>
+		</fail>
+	
+	</target>
+
 	<!-- Delete the generated Java base classes -->
 	<target name="delete-base-classes">
 		<delete>
@@ -36,7 +74,7 @@
 	</target>
 	
 	<!-- Generate Java classes from the Nexus base class definitions -->
-	<target name="generate-base-classes">
+	<target name="generate-base-classes" depends="check-properties">
 		 <!-- Note: in and out are not used, nxdlDefinitionsPath and javaSourcePath are used as the source and output dirs instead.
 		 They are given dummy values as the XSLT ant task requires them. -->
 		<xslt
@@ -58,7 +96,7 @@
 	</target>
 	
 	<!-- Generate Java validators from the NeXus application definitions -->
-	<target name="generate-appdefs">
+	<target name="generate-appdefs" depends="check-properties">
 		 <!-- Note: in and out are not used, nxdlDefinitionsPath and javaSourcePath are used as the source and output dirs instead.
 		 They are given dummy values as the XSLT ant task requires them. -->
 		<xslt
