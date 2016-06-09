@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshaller;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
+import org.eclipse.dawnsci.analysis.api.roi.IOrientableROI;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
 import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.CircularFitROI;
@@ -51,6 +52,7 @@ import org.eclipse.dawnsci.json.mixin.roi.EllipticalROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.FreeDrawROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.GridROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.HyperbolicROIMixIn;
+import org.eclipse.dawnsci.json.mixin.roi.IOrientableROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.IROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.IRectangularROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.LinearROIMixIn;
@@ -221,6 +223,7 @@ public class MarshallerService implements IMarshallerService {
 
 		// Add mix-in annotations for ROIs
 		module.setMixInAnnotation(IROI.class, IROIMixIn.class);
+		module.setMixInAnnotation(IOrientableROI.class, IOrientableROIMixIn.class);
 		module.setMixInAnnotation(LinearROI.class, LinearROIMixIn.class);
 		module.setMixInAnnotation(CircularROI.class, CircularROIMixIn.class);
 		module.setMixInAnnotation(GridROI.class, GridROIMixIn.class);
