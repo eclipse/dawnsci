@@ -21,23 +21,48 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshaller;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
-import org.eclipse.dawnsci.analysis.api.roi.IOrientableROI;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
 import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.CircularFitROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.CircularROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.EllipticalFitROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.EllipticalROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.FreeDrawROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.GridROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.HyperbolicROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.LinearROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.ParabolicROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.PerimeterBoxROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.PointROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.PolygonalROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.PolylineROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.RingROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.SectorROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.XAxisBoxROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.YAxisBoxROI;
 import org.eclipse.dawnsci.json.internal.BundleAndClassNameIdResolver;
 import org.eclipse.dawnsci.json.internal.BundleProvider;
 import org.eclipse.dawnsci.json.internal.OSGiBundleProvider;
+import org.eclipse.dawnsci.json.mixin.roi.CircularFitROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.CircularROIMixIn;
-import org.eclipse.dawnsci.json.mixin.roi.IOrientableROIMixIn;
+import org.eclipse.dawnsci.json.mixin.roi.EllipticalFitMixIn;
+import org.eclipse.dawnsci.json.mixin.roi.EllipticalROIMixIn;
+import org.eclipse.dawnsci.json.mixin.roi.FreeDrawROIMixIn;
+import org.eclipse.dawnsci.json.mixin.roi.GridROIMixIn;
+import org.eclipse.dawnsci.json.mixin.roi.HyperbolicROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.IROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.IRectangularROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.LinearROIMixIn;
+import org.eclipse.dawnsci.json.mixin.roi.ParabolicROIMixIn;
+import org.eclipse.dawnsci.json.mixin.roi.PerimeterROIMixIn;
+import org.eclipse.dawnsci.json.mixin.roi.PolygonalROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.PolylineROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.RectangularROIMixIn;
+import org.eclipse.dawnsci.json.mixin.roi.RingROIMixIn;
+import org.eclipse.dawnsci.json.mixin.roi.SectorROIMixIn;
+import org.eclipse.dawnsci.json.mixin.roi.XAxisBoxROIMixIn;
+import org.eclipse.dawnsci.json.mixin.roi.YAxisBoxROIMixIn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -196,12 +221,24 @@ public class MarshallerService implements IMarshallerService {
 
 		// Add mix-in annotations for ROIs
 		module.setMixInAnnotation(IROI.class, IROIMixIn.class);
-		module.setMixInAnnotation(IOrientableROI.class, IOrientableROIMixIn.class);
+		module.setMixInAnnotation(LinearROI.class, LinearROIMixIn.class);
+		module.setMixInAnnotation(CircularROI.class, CircularROIMixIn.class);
+		module.setMixInAnnotation(GridROI.class, GridROIMixIn.class);
+		module.setMixInAnnotation(PerimeterBoxROI.class, PerimeterROIMixIn.class);
 		module.setMixInAnnotation(IRectangularROI.class, IRectangularROIMixIn.class);
 		module.setMixInAnnotation(RectangularROI.class, RectangularROIMixIn.class);
-		module.setMixInAnnotation(CircularROI.class, CircularROIMixIn.class);
-		module.setMixInAnnotation(LinearROI.class, LinearROIMixIn.class);
+		module.setMixInAnnotation(RingROI.class, RingROIMixIn.class);
+		module.setMixInAnnotation(SectorROI.class, SectorROIMixIn.class);
+		module.setMixInAnnotation(FreeDrawROI.class, FreeDrawROIMixIn.class);
 		module.setMixInAnnotation(PolylineROI.class, PolylineROIMixIn.class);
+		module.setMixInAnnotation(PolygonalROI.class, PolygonalROIMixIn.class);
+		module.setMixInAnnotation(XAxisBoxROI.class, XAxisBoxROIMixIn.class);
+		module.setMixInAnnotation(YAxisBoxROI.class, YAxisBoxROIMixIn.class);
+		module.setMixInAnnotation(EllipticalROI.class, EllipticalROIMixIn.class);
+		module.setMixInAnnotation(CircularFitROI.class, CircularFitROIMixIn.class);
+		module.setMixInAnnotation(EllipticalFitROI.class, EllipticalFitMixIn.class);
+		module.setMixInAnnotation(ParabolicROI.class, ParabolicROIMixIn.class);
+		module.setMixInAnnotation(HyperbolicROI.class, HyperbolicROIMixIn.class);
 
 		// Add handlers
 		createModuleExtensions(module);
@@ -215,6 +252,30 @@ public class MarshallerService implements IMarshallerService {
 		mapper.enable(MapperFeature.REQUIRE_SETTERS_FOR_GETTERS);
 		//mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		return mapper;
+	}
+
+	@Override
+	public boolean isObjMixInSupported(Object roi) {
+		if(roi instanceof PointROI
+				|| roi instanceof LinearROI
+				|| roi instanceof CircularROI
+				|| roi instanceof GridROI
+				|| roi instanceof PerimeterBoxROI
+				|| roi instanceof RectangularROI
+				|| roi instanceof RingROI
+				|| roi instanceof SectorROI
+				|| roi instanceof FreeDrawROI
+				|| roi instanceof PolylineROI
+				|| roi instanceof PolygonalROI
+				|| roi instanceof XAxisBoxROI
+				|| roi instanceof YAxisBoxROI
+				|| roi instanceof EllipticalROI
+				|| roi instanceof CircularFitROI
+				|| roi instanceof EllipticalFitROI
+				|| roi instanceof ParabolicROI
+				|| roi instanceof HyperbolicROI)
+			return true;
+		return false;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
