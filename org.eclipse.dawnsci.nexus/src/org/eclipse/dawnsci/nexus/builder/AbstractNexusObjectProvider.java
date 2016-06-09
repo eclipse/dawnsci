@@ -293,7 +293,9 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	 */
 	public void setDefaultAxisDataFieldName(String defaultAxisDataFieldName) {
 		this.defaultAxisDataFieldName = defaultAxisDataFieldName;
-		axisDataFieldNames.add(defaultAxisDataFieldName);
+		if (defaultAxisDataFieldName != null) {
+			axisDataFieldNames.add(defaultAxisDataFieldName);
+		}
 	}
 
 	@Override
