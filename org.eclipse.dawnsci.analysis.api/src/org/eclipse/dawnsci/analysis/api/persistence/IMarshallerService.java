@@ -66,4 +66,12 @@ public interface IMarshallerService {
 	 */
 	// TODO what is returned from an empty JSON string? null or exception?
 	public <U> U unmarshal(String string, Class<U> beanClass) throws Exception;
+
+	/**
+	 * Returns true if this Object has a mix-in class (for ROIs for instance)
+	 * 
+	 * @param obj
+	 * @return boolean
+	 */
+	public boolean isObjMixInSupported(Object obj);
 }
