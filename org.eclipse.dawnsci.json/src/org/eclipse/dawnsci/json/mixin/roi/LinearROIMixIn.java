@@ -40,6 +40,8 @@ public abstract class LinearROIMixIn {
 
 	@JsonProperty abstract double getLength();
 
+	@JsonIgnore abstract double[] getPoint(double f);
+
 	@JsonIgnore abstract void setCrossHair(boolean crossHair);
 
 	@JsonIgnore abstract boolean isCrossHair();

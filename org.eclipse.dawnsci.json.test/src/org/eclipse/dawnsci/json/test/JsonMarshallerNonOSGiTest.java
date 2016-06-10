@@ -32,6 +32,8 @@ import org.eclipse.dawnsci.analysis.dataset.roi.LinearROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.PointROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.PolygonalROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.RingROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.SectorROI;
 import org.eclipse.dawnsci.json.MarshallerService;
 import org.eclipse.dawnsci.json.test.testobject.ProjectBean;
 import org.junit.After;
@@ -295,6 +297,20 @@ public class JsonMarshallerNonOSGiTest {
 	}
 
 	@Test
+	public void testRectangularROI() throws Exception {
+		double xStartPoint = 10.15;
+		double yStartPoint = 12.45;
+		double width = 325.10;
+		double height = 125.87;
+		// Create ROI
+		RectangularROI rectangularROI = new RectangularROI(xStartPoint, yStartPoint, width, height, 0);
+		Object expected = rectangularROI.copy();
+		json = marshaller.marshal(rectangularROI);
+		Object actual = marshaller.unmarshal(json, Object.class);
+		assertEquals(expected, actual);
+	}
+
+	@Test
 	public void testLinearROI() throws Exception {
 		double xStart = 10.23;
 		double xStop = 34.25;
@@ -305,6 +321,38 @@ public class JsonMarshallerNonOSGiTest {
 		LinearROI linearROI = new LinearROI(new double[] { xStart, yStart }, new double[] { xStop, yStop });
 		Object expected = linearROI.copy();
 		json = marshaller.marshal(linearROI);
+		Object actual = marshaller.unmarshal(json, Object.class);
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testRingROI() throws Exception {
+		double ptx = 17.5;
+		double pty = 25.1;
+		double innerRadius = 14.4;
+		double outerRadius = 37.89;
+
+		// Create ROI
+		RingROI sectorROI = new RingROI(ptx, pty, innerRadius, outerRadius);
+		Object expected = sectorROI.copy();
+		json = marshaller.marshal(sectorROI);
+		Object actual = marshaller.unmarshal(json, Object.class);
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testSectorROI() throws Exception {
+		double ptx = 17.5;
+		double pty = 25.1;
+		double startAngle = 10;
+		double endAngle = 25.5;
+		double innerRadius = 14.4;
+		double outerRadius = 37.89;
+
+		// Create ROI
+		SectorROI sectorROI = new SectorROI(ptx, pty, innerRadius, outerRadius, startAngle, endAngle);
+		Object expected = sectorROI.copy();
+		json = marshaller.marshal(sectorROI);
 		Object actual = marshaller.unmarshal(json, Object.class);
 		assertEquals(expected, actual);
 	}

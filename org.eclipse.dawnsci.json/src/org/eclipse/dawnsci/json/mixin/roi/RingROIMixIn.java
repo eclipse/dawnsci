@@ -25,7 +25,7 @@ public abstract class RingROIMixIn {
 
 	@JsonIgnore abstract int getIntRadius(int index);
 
-	@JsonIgnore abstract void setRadii(double radius[]);
+	@JsonProperty abstract void setRadii(double radius[]);
 
 	@JsonProperty abstract void setRadii(double startRadius, double endRadius);
 
