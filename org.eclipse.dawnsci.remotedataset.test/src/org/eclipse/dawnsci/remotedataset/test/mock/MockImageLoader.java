@@ -26,7 +26,6 @@ import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 
 /**
  * This class loads a TIFF image file
@@ -171,7 +170,7 @@ public class MockImageLoader extends MockJavaImageLoader {
 	private ILazyDataset createLazyDataset(final int dtype, final int... trueShape) {
 		LazyLoaderStub l = new LazyLoaderStub() {
 			@Override
-			public IDataset getDataset(IMonitor mon, SliceND slice) throws Exception {
+			public IDataset getDataset(IMonitor mon, SliceND slice) throws IOException {
 				int[] lstart = slice.getStart();
 				int[] lstep  = slice.getStep();
 				int[] newShape = slice.getShape();
@@ -179,53 +178,49 @@ public class MockImageLoader extends MockJavaImageLoader {
 				final int rank = shape.length;
 
 				IDataset d = null;
-				try {
-					if (!Arrays.equals(trueShape, shape)) {
-						final int trank = trueShape.length;
-						int[] tstart = new int[trank];
-						int[] tsize = new int[trank];
-						int[] tstep = new int[trank];
+				if (!Arrays.equals(trueShape, shape)) {
+					final int trank = trueShape.length;
+					int[] tstart = new int[trank];
+					int[] tsize = new int[trank];
+					int[] tstep = new int[trank];
 
-						if (rank > trank) { // shape was extended (from left) then need to translate to true slice
-							int j = 0;
-							for (int i = 0; i < trank; i++) {
-								if (trueShape[i] == 1) {
-									tstart[i] = 0;
-									tsize[i] = 1;
-									tstep[i] = 1;
-								} else {
-									while (shape[j] == 1 && (rank - j) > (trank - i))
-										j++;
+					if (rank > trank) { // shape was extended (from left) then need to translate to true slice
+						int j = 0;
+						for (int i = 0; i < trank; i++) {
+							if (trueShape[i] == 1) {
+								tstart[i] = 0;
+								tsize[i] = 1;
+								tstep[i] = 1;
+							} else {
+								while (shape[j] == 1 && (rank - j) > (trank - i))
+									j++;
 
-									tstart[i] = lstart[j];
-									tsize[i] = newShape[j];
-									tstep[i] = lstep[j];
-									j++;
-								}
-							}
-						} else { // shape was squeezed then need to translate to true slice
-							int j = 0;
-							for (int i = 0; i < trank; i++) {
-								if (trueShape[i] == 1) {
-									tstart[i] = 0;
-									tsize[i] = 1;
-									tstep[i] = 1;
-								} else {
-									tstart[i] = lstart[j];
-									tsize[i] = newShape[j];
-									tstep[i] = lstep[j];
-									j++;
-								}
+								tstart[i] = lstart[j];
+								tsize[i] = newShape[j];
+								tstep[i] = lstep[j];
+								j++;
 							}
 						}
-
-						d = loadData(mon, fileName, asGrey, keepBitWidth, dtype, shape, tstart, tsize, tstep);
-						d.setShape(newShape); // squeeze shape back
-					} else {
-						d = loadData(mon, fileName, asGrey, keepBitWidth, dtype, shape, lstart, newShape, lstep);
+					} else { // shape was squeezed then need to translate to true slice
+						int j = 0;
+						for (int i = 0; i < trank; i++) {
+							if (trueShape[i] == 1) {
+								tstart[i] = 0;
+								tsize[i] = 1;
+								tstep[i] = 1;
+							} else {
+								tstart[i] = lstart[j];
+								tsize[i] = newShape[j];
+								tstep[i] = lstep[j];
+								j++;
+							}
+						}
 					}
-				} catch (Exception e) {
-					throw new ScanFileHolderException("Problem with TIFF loading", e);
+
+					d = loadData(mon, fileName, asGrey, keepBitWidth, dtype, shape, tstart, tsize, tstep);
+					d.setShape(newShape); // squeeze shape back
+				} else {
+					d = loadData(mon, fileName, asGrey, keepBitWidth, dtype, shape, lstart, newShape, lstep);
 				}
 				return d;
 			}
@@ -236,7 +231,7 @@ public class MockImageLoader extends MockJavaImageLoader {
 	}
 
 	private static IDataset loadData(IMonitor mon, String filename, boolean asGrey, boolean keepBitWidth,
-			int dtype, int[] oshape, int[] start, int[] count, int[] step) throws Exception {
+			int dtype, int[] oshape, int[] start, int[] count, int[] step) throws IOException {
 
 		// test to see if the filename passed will load
 		BufferedImage image = ImageIO.read(new File(filename));

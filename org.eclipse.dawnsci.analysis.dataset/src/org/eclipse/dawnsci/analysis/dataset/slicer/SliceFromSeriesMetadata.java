@@ -12,6 +12,7 @@ package org.eclipse.dawnsci.analysis.dataset.slicer;
 import java.util.Arrays;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
@@ -170,8 +171,9 @@ public class SliceFromSeriesMetadata implements OriginMetadata {
 	 * 
 	 * @param ds
 	 * @return slice
+	 * @throws DatasetException 
 	 */
-	public IDataset getMatchingSlice(ILazyDataset ds) {
+	public IDataset getMatchingSlice(ILazyDataset ds) throws DatasetException {
 		
 		int[] oShape = getParent().getShape();
 		int[] shape = ds.getShape();

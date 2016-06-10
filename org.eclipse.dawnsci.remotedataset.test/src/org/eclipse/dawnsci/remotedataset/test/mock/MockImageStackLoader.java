@@ -10,6 +10,7 @@
 package org.eclipse.dawnsci.remotedataset.test.mock;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +20,6 @@ import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.IFileLoader;
 import org.eclipse.dawnsci.analysis.api.io.ILazyLoader;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
-import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
 import org.eclipse.dawnsci.analysis.api.metadata.Metadata;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
@@ -104,7 +104,7 @@ public class MockImageStackLoader implements ILazyLoader {
 		}
 	}
 
-	private IDataset getDatasetFromFile(int[] location, IMonitor mon) throws ScanFileHolderException {
+	private IDataset getDatasetFromFile(int[] location, IMonitor mon) throws IOException {
 		File f = new File(getDLSWindowsPath(filenames.get(location)));
 		if (parent != null) { // try local directory first
 			File nf = null;
@@ -125,7 +125,7 @@ public class MockImageStackLoader implements ILazyLoader {
 		return loadDataset(f.getAbsolutePath(), mon);
 	}
 
-	private IDataset loadDataset(String filename, IMonitor mon) throws ScanFileHolderException {
+	private IDataset loadDataset(String filename, IMonitor mon) throws IOException {
 		IDataHolder data = null;
 //		if (loaderClass != null) {
 //			try {
@@ -138,10 +138,10 @@ public class MockImageStackLoader implements ILazyLoader {
 			try {
 				data = ServiceHolder.getLoaderService().getData(filename, mon);
 			} catch (Exception e) {
-				throw new ScanFileHolderException("Cannot load image in image stack", e);
+				throw new IOException("Cannot load image in image stack", e);
 			}
 			if (data == null) {
-				throw new ScanFileHolderException("Cannot load image in image stack");
+				throw new IOException("Cannot load image in image stack");
 			}
 		}
 		if (loaderClass == null) {
@@ -179,7 +179,7 @@ public class MockImageStackLoader implements ILazyLoader {
 	}
 
 	@Override
-	public Dataset getDataset(IMonitor mon, SliceND slice) throws ScanFileHolderException {
+	public Dataset getDataset(IMonitor mon, SliceND slice) throws IOException {
 		int[] newShape = slice.getShape();
 
 		if (AbstractDataset.calcSize(newShape) == 0)

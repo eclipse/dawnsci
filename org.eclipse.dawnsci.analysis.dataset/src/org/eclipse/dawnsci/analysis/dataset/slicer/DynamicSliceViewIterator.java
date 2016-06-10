@@ -9,9 +9,7 @@
 
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
-import java.util.Arrays;
-import java.util.List;
-
+import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
@@ -45,7 +43,11 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 
 	
 	public DynamicSliceViewIterator(IDynamicDataset lazy, IDynamicDataset[] keys, IDynamicDataset finished) {
-		iterator = new DynamicSliceNDIterator(lazy.getShape(), mergeKeys(keys), keys[0].getRank());
+		try {
+			iterator = new DynamicSliceNDIterator(lazy.getShape(), mergeKeys(keys), keys[0].getRank());
+		} catch (DatasetException e) {
+			logger.error("Could not get data from lazy dataset", e);
+		}
 		this.lazy = lazy;
 		this.keys = keys;
 		this.finished = finished;
@@ -95,6 +97,8 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 				time += timeout;
 			} catch (InterruptedException e) {
 				break;
+			} catch (DatasetException e) {
+				logger.error("Could not get data from lazy dataset", e);
 			}
 		}
 		
@@ -119,7 +123,13 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	@Override
 	public ILazyDataset next() {
 		SliceND current = iterator.getCurrentSlice().clone();
-		ILazyDataset view = lazy.getSlice(current);
+		ILazyDataset view;
+		try {
+			view = lazy.getSlice(current);
+		} catch (DatasetException e) {
+			logger.error("Could not get data from lazy dataset", e);
+			return null;
+		}
 		view.clearMetadata(SliceFromSeriesMetadata.class);
 		
 		SliceInformation sl = new SliceInformation(current,
@@ -168,7 +178,7 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 		//TODO throw something?
 	}
 	
-	private IDataset mergeKeys(IDynamicDataset[] keys){
+	private IDataset mergeKeys(IDynamicDataset[] keys) throws DatasetException {
 		if (keys.length == 1) return keys[0].getSlice();
 		Dataset[] dk = new Dataset[keys.length];
 		int[] maxShape = new int[keys[0].getRank()];

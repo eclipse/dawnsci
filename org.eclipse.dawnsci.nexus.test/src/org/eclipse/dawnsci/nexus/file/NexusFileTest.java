@@ -224,7 +224,7 @@ public class NexusFileTest {
 	}
 
 	@Test
-	public void testDataNodeProperties() throws NexusException {
+	public void testDataNodeProperties() throws Exception {
 		IDataset dataset = DatasetFactory.createRange(10.0, Dataset.FLOAT64).reshape(2, 5);
 		dataset.setName("d");
 		nf.createData("/a/b", dataset, true);

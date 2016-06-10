@@ -17,6 +17,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 
+import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
@@ -194,8 +195,14 @@ public class NexusAssert {
 			}
 			
 			// getSlice() with no args loads whole dataset if a lazy dataset
-			IDataset expectedSlice = expectedDataset.getSlice();
-			IDataset actualSlice = actualDataset.getSlice();
+			IDataset expectedSlice;
+			IDataset actualSlice;
+			try {
+				expectedSlice = expectedDataset.getSlice();
+				actualSlice = actualDataset.getSlice();
+			} catch (DatasetException e) {
+				throw new AssertionError("Could not get data from lazy dataset", e.getCause());
+			}
 
 			final int datatype = AbstractDataset.getDType(actualDataset);
 			PositionIterator positionIterator = new PositionIterator(actualDataset.getShape());

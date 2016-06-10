@@ -24,8 +24,8 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
@@ -115,9 +115,14 @@ public class Slicer {
 		SliceND sampling = getSliceNDFromSliceDimensions(sliceDimensions, lz.getShape());
 		int[] axes = getDataDimensions(lz.getShape(), sliceDimensions);
 		SliceViewIterator generator = new SliceViewIterator(lz, sampling, axes);
-		if (generator.hasNext()) return generator.next().getSlice();
-		
-        return null;
+		if (generator.hasNext()) {
+			try {
+				return generator.next().getSlice();
+			} catch (DatasetException e) {
+				logger.error("Could not get data from lazy dataset", e);
+			}
+		}
+		return null;
 	}
 	
 //	public static IDataset getDynamicFirstSlice(ILazyDataset lz, ILazyDataset key) {

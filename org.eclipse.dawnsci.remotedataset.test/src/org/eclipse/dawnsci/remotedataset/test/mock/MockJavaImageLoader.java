@@ -197,7 +197,7 @@ public class MockJavaImageLoader extends MockAbstractFileLoader {
 				final String name = String.format(IMAGE_NAME_FORMAT, j);
 				LazyDataset lazy = createLazyDataset(name, dtype, shape, new LazyLoaderStub() {
 					@Override
-					public IDataset getDataset(IMonitor mon, SliceND slice) throws Exception {
+					public IDataset getDataset(IMonitor mon, SliceND slice) throws IOException {
 						Dataset data = loadDataset(fileName, name, asGrey, keepBitWidth);
 						return data == null ? null : data.getSliceView(slice);
 					}
@@ -216,9 +216,9 @@ public class MockJavaImageLoader extends MockAbstractFileLoader {
 		return output.getNames().length > 0;
 	}
 
-	private static Dataset loadDataset(String path, String name, boolean asGrey, boolean keepBitWidth) throws ScanFileHolderException {
+	private static Dataset loadDataset(String path, String name, boolean asGrey, boolean keepBitWidth) throws IOException {
 		if (!name.startsWith(IMAGE_NAME_PREFIX)) {
-			throw new ScanFileHolderException("Dataset of name '" + name + "' does not contain prefix " + IMAGE_NAME_PREFIX);
+			throw new IOException("Dataset of name '" + name + "' does not contain prefix " + IMAGE_NAME_PREFIX);
 		}
 		String number = name.substring(IMAGE_NAME_PREFIX.length());
 		int num = -1;
@@ -227,7 +227,7 @@ public class MockJavaImageLoader extends MockAbstractFileLoader {
 		} catch (NumberFormatException e) {
 		}
 		if (num < 0) {
-			throw new ScanFileHolderException("Dataset of name '" + name + "' does not contain image number");
+			throw new IOException("Dataset of name '" + name + "' does not contain image number");
 		}
 
 		File f = new File(path);
@@ -237,11 +237,11 @@ public class MockJavaImageLoader extends MockAbstractFileLoader {
 			iis = ImageIO.createImageInputStream(f);
 		} catch (Exception e) {
 			logger.error("Problem creating input stream for file " + path, e);
-			throw new ScanFileHolderException("Problem creating input stream for file " + path, e);
+			throw new IOException("Problem creating input stream for file " + path, e);
 		}
 		if (iis == null) {
 			logger.error("File format in '{}' cannot be read", path);
-			throw new ScanFileHolderException("File format in '" + path + "' cannot be read");
+			throw new IOException("File format in '" + path + "' cannot be read");
 		}
 		Iterator<ImageReader> it = ImageIO.getImageReaders(iis);
 		while (it.hasNext()) {
@@ -257,12 +257,13 @@ public class MockJavaImageLoader extends MockAbstractFileLoader {
 				holder.addDataset(name, data);
 				return data;
 			} catch (IndexOutOfBoundsException e) {
-				throw new ScanFileHolderException("Image number is incorrect");
+				throw new IOException("Image number is incorrect");
 			} catch (IOException e) {
 				logger.error("Problem reading file", e);
-				
+				throw e;
 			} catch (ScanFileHolderException e) {
 				logger.error("Problem creating dataset", e);
+				throw new IOException(e);
 			}
 		}
 

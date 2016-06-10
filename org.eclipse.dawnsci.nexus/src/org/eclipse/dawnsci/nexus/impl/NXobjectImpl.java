@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
@@ -91,7 +92,11 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 						// cannot return a Dataset if the size is too large
 						throw new IllegalStateException("Dataset is too large to cache. This method should only be used for small datasets.");
 					} else {
-						lazy = lazy.getSlice();
+						try {
+							lazy = lazy.getSlice();
+						} catch (DatasetException e) {
+							throw new RuntimeException("Could not get data from lazy dataset", e);
+						}
 					}
 				}
 				cached.put(name, DatasetUtils.convertToDataset((IDataset) lazy));

@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
 import org.eclipse.dawnsci.analysis.api.dataset.DataListenerDelegate;
+import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.metadata.DynamicConnectionInfo;
@@ -102,17 +103,27 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		this.eventDelegate = new DataListenerDelegate();
 		this.exec       = exec;
 	}
-		
+
+	@Override
+	public String connect() throws DatasetException {
+		return connect(500, TimeUnit.MILLISECONDS);
+	}
+
 	/**
 	 * Call to read the dataset, set current shape and create event connnection for
 	 * IDynamicDataset part of the dataset
 	 */
-    public String connect(long time, TimeUnit unit) throws Exception {
-    	
+	@Override
+	public String connect(long time, TimeUnit unit) throws DatasetException {
+
 		this.loader = new RemoteLoader(urlBuilder);
-		createInfo();
-		if (eventDelegate.hasDataListeners()) {
-			createFileListener();
+		try {
+			createInfo();
+			if (eventDelegate.hasDataListeners()) {
+				createFileListener();
+			}
+		} catch (Exception e) {
+			throw new DatasetException(e);
 		}
 		
 		// TODO Does this cause a memory leak?
@@ -125,19 +136,23 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		});
 		
 		return null;
-    }
-    
-    public void disconnect() throws Exception {
-    	
-    	eventDelegate.clear();
-        if (connection!=null && connection.isOpen()) {
-        	connection.getRemote().sendString("Disconnected from "+urlBuilder.getPath());
-       	    connection.close();
-        }
-    	if (client!=null && client.isStarted()) {
-    		client.stop();
-    	}
-    }
+	}
+
+	public void disconnect() throws DatasetException {
+
+		eventDelegate.clear();
+		try {
+			if (connection != null && connection.isOpen()) {
+				connection.getRemote().sendString("Disconnected from " + urlBuilder.getPath());
+				connection.close();
+			}
+			if (client != null && client.isStarted()) {
+				client.stop();
+			}
+		} catch (Exception e) {
+			throw new DatasetException(e);
+		}
+	}
 	
     @Override
     public void refreshShape(){

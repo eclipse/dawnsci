@@ -10,6 +10,7 @@
 package org.eclipse.dawnsci.hdf5;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -83,7 +84,7 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	}
 
 	@Override
-	public Dataset getDataset(IMonitor mon, SliceND slice) throws ScanFileHolderException {
+	public Dataset getDataset(IMonitor mon, SliceND slice) throws IOException {
 		int[] lstart = slice.getStart();
 		int[] lstep  = slice.getStep();
 		int[] newShape = slice.getShape();
@@ -143,7 +144,7 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 				d.setName(name);
 			}
 		} catch (Exception e) {
-			throw new ScanFileHolderException("Problem loading dataset", e);
+			throw new IOException("Problem loading dataset", e);
 		}
 		return d;
 	}

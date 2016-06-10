@@ -17,6 +17,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDatasetChangeChecker;
@@ -151,14 +152,14 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 	}
 
 	@Override
-	public String connect() throws Exception {
+	public String connect() throws DatasetException {
 		return connect(500, TimeUnit.MILLISECONDS);
 	}
 		
 	@Override
-	public String connect(long time, TimeUnit unit) throws Exception {
+	public String connect(long time, TimeUnit unit) throws DatasetException {
 
-		if (imageMonitor!=null) throw new Exception("Cannot reconnect to already running dataset!");
+		if (imageMonitor!=null) throw new DatasetException("Cannot reconnect to already running dataset!");
 		
 		// Might be a bit overkill for this task
         final BlockingQueue<Exception> queue = new LinkedBlockingDeque<Exception>(1);
@@ -176,14 +177,19 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 		imageMonitor.setPriority(Thread.MIN_PRIORITY); // TODO Is that right?
 		imageMonitor.start();
 		
-		Exception e = queue.poll(time, unit);
-		if (e!=null) throw e;
+		Exception e = null;
+		try {
+			e = queue.poll(time, unit);
+		} catch (InterruptedException e1) {
+			e = e1;
+		}
+		if (e!=null) throw new DatasetException(e);
 		
 		return imageMonitor.getName(); // So that you can know if the runner is going.
 	}
 
 	@Override
-	public void disconnect() throws Exception {
+	public void disconnect() throws DatasetException {
 		if (imageMonitor==null) return;	
 		imageMonitor = null;
 	}

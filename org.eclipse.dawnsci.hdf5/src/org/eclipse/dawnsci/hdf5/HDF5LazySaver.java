@@ -10,11 +10,13 @@
 package org.eclipse.dawnsci.hdf5;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.ILazySaver;
+import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
@@ -86,17 +88,21 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazySaver, Seriali
 	}
 
 	@Override
-	public void initialize() throws Exception {
+	public void initialize() throws IOException {
 		if (!init) {
 			init = true;
 			if (create) {
-				HDF5Utils.createDataset(filePath, parentPath, name, trueShape, maxShape, chunks, dtype, fill, false);
+				try {
+					HDF5Utils.createDataset(filePath, parentPath, name, trueShape, maxShape, chunks, dtype, fill, false);
+				} catch (ScanFileHolderException e) {
+					throw new IOException(e);
+				}
 			}
 		}
 	}
 
 	@Override
-	public void setSlice(IMonitor mon, IDataset data, SliceND slice) throws Exception {
+	public void setSlice(IMonitor mon, IDataset data, SliceND slice) throws IOException {
 		if (!init) {
 			boolean zeroes = false;
 			for (int i : trueShape) {
@@ -117,11 +123,15 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazySaver, Seriali
 
 		//higher level API does not cope with differing data types
 		data = DatasetUtils.cast(data, dtype);
-		if (!create) { // ensure create on first use
-			HDF5Utils.setDatasetSlice(filePath, parentPath, name, slice, data);
-			create = true;
-		} else {
-			HDF5Utils.setExistingDatasetSlice(filePath, parentPath, name, slice, data);
+		try {
+			if (!create) { // ensure create on first use
+				HDF5Utils.setDatasetSlice(filePath, parentPath, name, slice, data);
+				create = true;
+			} else {
+				HDF5Utils.setExistingDatasetSlice(filePath, parentPath, name, slice, data);
+			}
+		} catch (ScanFileHolderException e) {
+			throw new IOException(e);
 		}
 	}
 }

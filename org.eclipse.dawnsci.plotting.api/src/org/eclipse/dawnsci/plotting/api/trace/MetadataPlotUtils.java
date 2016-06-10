@@ -12,6 +12,7 @@ package org.eclipse.dawnsci.plotting.api.trace;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
@@ -166,7 +167,10 @@ public class MetadataPlotUtils {
 			ILazyDataset[] axis = am.getAxis(dim);
 			IDataset[] out = new IDataset[axis.length];
 			for (int i = 0; i < out.length; i++) {
-				out[i] = axis[i] == null ? null : axis[i].getSlice();
+				try {
+					out[i] = axis[i] == null ? null : axis[i].getSlice();
+				} catch (DatasetException e) {
+				}
 			}
 			
 			return out;
@@ -214,13 +218,19 @@ public class MetadataPlotUtils {
 			
 			if (lz0 != null){
 //				lz0.clearMetadata(null);
-				x = lz0.getSlice().squeeze();
-				out[0] = x;
+				try {
+					x = lz0.getSlice().squeeze();
+					out[0] = x;
+				} catch (DatasetException e) {
+				}
 			}
 			if (lz1 != null) {
 //				lz1.clearMetadata(null);
-				y = lz1.getSlice().squeeze();
-				out[1] = y;
+				try {
+					y = lz1.getSlice().squeeze();
+					out[1] = y;
+				} catch (DatasetException e) {
+				}
 			}
 			
 			return out;

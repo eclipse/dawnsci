@@ -12,6 +12,7 @@ package org.eclipse.dawnsci.analysis.dataset.slicer;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
@@ -109,7 +110,12 @@ private static final Logger logger = LoggerFactory.getLogger(SliceBlockIterator.
 			newStop = newStop > max ? max : newStop;
 			int start = c.getStart()[fastest];
 			c.setSlice(fastest, start, newStop, 1);
-			subSet = lazyDataset.getSlice(c);
+			try {
+				subSet = lazyDataset.getSlice(c);
+			} catch (DatasetException e) {
+				logger.error("Could not get data from lazy dataset", e);
+				return out;
+			}
 			SliceND s = new SliceND(subSet.getShape());
 			s.setSlice(fastest, 0, 1, 1);
 			out = subSet.getSliceView(s);

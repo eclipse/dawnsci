@@ -14,6 +14,7 @@ package org.eclipse.dawnsci.analysis.tree.impl;
 
 import java.io.Serializable;
 
+import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
 import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
@@ -150,11 +151,16 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 			return text;
 	
 		StringDataset a;
-		if (dataset instanceof StringDataset)
+		if (dataset instanceof StringDataset) {
 			a = (StringDataset) dataset;
-		else
-			a = (StringDataset) dataset.getSlice();
-	
+		} else {
+			try {
+				a = (StringDataset) dataset.getSlice();
+			} catch (DatasetException e) {
+				return "Could not get data from lazy dataset";
+			}
+		}
+
 		StringBuilder out = new StringBuilder();
 		IndexIterator it = a.getIterator();
 		while (it.hasNext()) {

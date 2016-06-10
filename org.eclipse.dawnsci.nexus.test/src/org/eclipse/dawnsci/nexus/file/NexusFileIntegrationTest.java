@@ -16,6 +16,7 @@ import static org.junit.Assert.fail;
 
 import java.net.URI;
 
+import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
@@ -139,7 +140,7 @@ public class NexusFileIntegrationTest {
 		assertTrue(g.isPopulated() && g.containsDataNode("d"));
 	}
 
-	private void checkData(DataNode n, int[] shape) {
+	private void checkData(DataNode n, int[] shape) throws DatasetException {
 		assertTrue(n.containsAttribute("value"));
 		assertEquals(-1.5, n.getAttribute("value").getValue().getDouble(), 1e-15);
 		ILazyDataset b = n.getDataset();
@@ -150,7 +151,7 @@ public class NexusFileIntegrationTest {
 		assertEquals(-5, bs.getLong(1, 10));
 	}
 
-	private void checkEData(DataNode n, int[] shape) {
+	private void checkEData(DataNode n, int[] shape) throws DatasetException {
 		ILazyDataset b = n.getDataset();
 		assertTrue(b.elementClass().equals(Double.class));
 		assertArrayEquals(shape, b.getShape());
@@ -166,7 +167,7 @@ public class NexusFileIntegrationTest {
 		assertEquals(-9, bs.getDouble(2, 10), 1e-12);
 	}
 
-	private void checkTextData(DataNode n, int[] shape) {
+	private void checkTextData(DataNode n, int[] shape) throws DatasetException {
 		ILazyDataset b = n.getDataset();
 		assertTrue(b.elementClass().equals(String.class));
 		// NAPI is broken wrt strings so skip for time being
@@ -178,7 +179,7 @@ public class NexusFileIntegrationTest {
 	}
 
 	@Test
-	public void testLinked() throws NexusException {
+	public void testLinked() throws Exception {
 		String d = "testfiles/dawnsci/data/nexus/";
 		String n = "testlinks.nxs";
 
