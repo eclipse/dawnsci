@@ -25,9 +25,9 @@ public abstract class SectorROIMixIn extends RingROIMixIn {
 
 	@JsonProperty abstract void setAngles(double startAngle, double endAngle);
 
-	@JsonIgnore abstract void setAngles(double angles[]);
+	@JsonProperty abstract void setAngles(double angles[]);
 
-	@JsonIgnore abstract double[] getAnglesDegrees();
+	@JsonProperty abstract double[] getAnglesDegrees();
 
 	@JsonIgnore abstract double getAngleDegrees(int index);
 
