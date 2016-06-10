@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Diamond Light Source Ltd.
+ * Copyright (c) 2012-2016 Diamond Light Source Ltd.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -10,7 +10,8 @@ package org.eclipse.dawnsci.analysis.api.persistence;
 
 /**
  * Interface used to marshall from ROIBean/FunctionBean to JSON
- * and unmarshall from JSON to ROIBean/FunctionBean
+ * and unmarshall from JSON to ROIBean/FunctionBean. <br>
+ * Use {@link IMarshallerService} for serializing/deserializing ROIs.
  * 
  * @author wqk87977
  *
