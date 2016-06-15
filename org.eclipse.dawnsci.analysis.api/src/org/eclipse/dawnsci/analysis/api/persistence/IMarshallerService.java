@@ -28,16 +28,29 @@ public interface IMarshallerService {
 	 * The default implementation will add type information to the JSON string to allow objects to be deserialized
 	 * correctly even in an OSGi environment (where many classes are not visible to this bundle's classloader).
 	 *
+	 * This is the same as marshal(anyObject, true)
+	 *
 	 * @param anyObject
 	 *            the object to be serialized
 	 * @return the JSON string representing the object
 	 * @throws Exception
 	 *             if the object cannot be marshalled correctly
 	 */
-	// TODO switch to using a specific wrapper exception? Or throw a RuntimeException instead of checked? Or just return null?
 	public String marshal(Object anyObject) throws Exception;
-
-	// TODO add method to marshal objects without type information?
+	
+	
+	/**
+	 * This marshal gives the option of turning off the bundle and class information
+	 * in the serialization. If you are not using interfaces (the norm) then the bundle and
+	 * class are not really needed because the types are static.
+	 * 
+	 * @param anyObject
+	 * @param requireBundleAndClass
+	 * @return the JSON string representing the object
+	 * @throws Exception
+	 */
+	public String marshal(Object anyObject, boolean requireBundleAndClass) throws Exception;
+	
 
 	/**
 	 * Deserialize the given JSON string as an instance of the given class
@@ -64,7 +77,6 @@ public interface IMarshallerService {
 	 * @throws Exception
 	 *             if the object cannot be unmarshalled correctly
 	 */
-	// TODO what is returned from an empty JSON string? null or exception?
 	public <U> U unmarshal(String string, Class<U> beanClass) throws Exception;
 
 	/**

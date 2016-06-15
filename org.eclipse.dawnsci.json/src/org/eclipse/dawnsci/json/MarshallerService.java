@@ -115,6 +115,7 @@ public class MarshallerService implements IMarshallerService {
 
 	private BundleProvider bundleProvider;
 	private ObjectMapper osgiMapper;
+	private ObjectMapper standardMapper;
 	private ObjectMapper nonOsgiMapper;
 
 	private List<IMarshaller> marshallers;
@@ -157,10 +158,27 @@ public class MarshallerService implements IMarshallerService {
 	 */
 	@Override
 	public String marshal(Object anyObject) throws Exception {
-		if (osgiMapper==null) osgiMapper = createJacksonMapper();
-		String json = osgiMapper.writeValueAsString(anyObject);
-//		System.out.println(json);
+		return marshal(anyObject, true);
+	}
+
+	@Override
+	public String marshal(Object anyObject, boolean requireBundleAndClass)  throws Exception {
+		String json;
+		if (requireBundleAndClass) {
+			if (osgiMapper==null) osgiMapper = createOsgiMapper();
+			json = osgiMapper.writeValueAsString(anyObject);
+		} else {
+			if (standardMapper==null) standardMapper = createJacksonMapper();
+			json = standardMapper.writeValueAsString(anyObject);
+		}
+
 		return json;
+	}
+
+	private ObjectMapper createOsgiMapper() throws InstantiationException, IllegalAccessException {
+		ObjectMapper mapper = createJacksonMapper();
+		mapper.setDefaultTyping(createOSGiTypeIdResolver());
+		return mapper;
 	}
 
 	/**
@@ -182,7 +200,7 @@ public class MarshallerService implements IMarshallerService {
 	@Override
 	public <U> U unmarshal(String string, Class<U> beanClass) throws Exception {
 		try {
-			if (osgiMapper == null) osgiMapper = createJacksonMapper();
+			if (osgiMapper == null) osgiMapper = createOsgiMapper();
 			if (beanClass != null) {
 				return osgiMapper.readValue(string, beanClass);
 			}
@@ -251,7 +269,6 @@ public class MarshallerService implements IMarshallerService {
 		// Be careful adjusting these settings - changing them will probably cause various unit tests to fail which
 		// check the exact contents of the serialized JSON string
 		mapper.setSerializationInclusion(Include.NON_NULL);
-		mapper.setDefaultTyping(createOSGiTypeIdResolver());
 		mapper.enable(MapperFeature.REQUIRE_SETTERS_FOR_GETTERS);
 		//mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		return mapper;
