@@ -165,19 +165,20 @@ public class MarshallerService implements IMarshallerService {
 	public String marshal(Object anyObject, boolean requireBundleAndClass)  throws Exception {
 		String json;
 		if (requireBundleAndClass) {
-			if (osgiMapper==null) {
-				osgiMapper = createJacksonMapper();
-				osgiMapper.setDefaultTyping(createOSGiTypeIdResolver());
-			}
+			if (osgiMapper==null) osgiMapper = createOsgiMapper();
 			json = osgiMapper.writeValueAsString(anyObject);
 		} else {
-			if (standardMapper==null) {
-				standardMapper = createJacksonMapper();
-			}
+			if (standardMapper==null) standardMapper = createJacksonMapper();
 			json = standardMapper.writeValueAsString(anyObject);
 		}
 
 		return json;
+	}
+
+	private ObjectMapper createOsgiMapper() throws InstantiationException, IllegalAccessException {
+		ObjectMapper mapper = createJacksonMapper();
+		mapper.setDefaultTyping(createOSGiTypeIdResolver());
+		return mapper;
 	}
 
 	/**
@@ -199,7 +200,7 @@ public class MarshallerService implements IMarshallerService {
 	@Override
 	public <U> U unmarshal(String string, Class<U> beanClass) throws Exception {
 		try {
-			if (osgiMapper == null) osgiMapper = createJacksonMapper();
+			if (osgiMapper == null) osgiMapper = createOsgiMapper();
 			if (beanClass != null) {
 				return osgiMapper.readValue(string, beanClass);
 			}
