@@ -87,7 +87,7 @@ public abstract class MockAbstractFileLoader implements IFileLoader, IMetaLoader
 	}
 
 	@Override
-	public void loadMetadata(IMonitor mon) throws Exception {
+	public void loadMetadata(IMonitor mon) throws IOException {
 		if (metadata != null)
 			return;
 
@@ -95,7 +95,11 @@ public abstract class MockAbstractFileLoader implements IFileLoader, IMetaLoader
 		boolean oldLazily = loadLazily;
 		loadMetadata = true;
 		loadLazily = true;
-		loadFile(mon);
+		try {
+			loadFile(mon);
+		} catch (ScanFileHolderException e) {
+			throw new IOException(e);
+		}
 		loadMetadata = oldMeta;
 		loadLazily = oldLazily;
 	}
