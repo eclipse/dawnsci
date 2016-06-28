@@ -99,7 +99,7 @@ public class InfoServlet extends HttpServlet {
 					                 
 			response.getWriter().println(lz.getName());
 			response.getWriter().println(Arrays.toString(lz.getShape()));
-			response.getWriter().println(AbstractDataset.getDTypeFromClass(lz.elementClass()));
+			response.getWriter().println(AbstractDataset.getDTypeFromClass(lz.getElementClass()));
 			response.getWriter().println(lz.getElementsPerItem()); // Probably 1
 			List<DimensionMetadata> dmds = lz.getMetadata(DimensionMetadata.class);
 			if (dmds != null && dmds.size() > 0) {

@@ -188,7 +188,7 @@ public class FFT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 		case Dataset.COMPLEX64:
 			FloatFFT_1D ffft = new FloatFFT_1D(n);
@@ -241,7 +241,7 @@ public class FFT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 		case Dataset.COMPLEX64:
 			FloatFFT_2D ffft = new FloatFFT_2D(s[0], s[1]);
@@ -292,7 +292,7 @@ public class FFT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 		case Dataset.COMPLEX64:
 			FloatFFT_3D ffft = new FloatFFT_3D(s[0], s[1], s[2]);
@@ -476,7 +476,7 @@ public class FFT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 		case Dataset.COMPLEX64:
 			FloatFFT_1D ffft = new FloatFFT_1D(n);
@@ -531,7 +531,7 @@ public class FFT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 		case Dataset.COMPLEX64:
 			FloatFFT_2D ffft = new FloatFFT_2D(s[0], s[1]);
@@ -582,7 +582,7 @@ public class FFT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 		case Dataset.COMPLEX64:
 			FloatFFT_3D ffft = new FloatFFT_3D(s[0], s[1], s[2]);

@@ -523,8 +523,8 @@ public class Image {
 	public static Dataset rotate(Dataset input, double angle, boolean keepShape) throws Exception {
 		if (input.getRank() != 2)
 			throw new Exception("Error: input dataset rank expected is 2");
-		IDataset ret = transformService.rotate(input.cast(input.getDtype()), angle, keepShape);
-		Dataset result = DatasetUtils.cast(ret, input.getDtype());
+		IDataset ret = transformService.rotate(input.cast(input.getDType()), angle, keepShape);
+		Dataset result = DatasetUtils.cast(ret, input.getDType());
 		return result;
 	}
 
@@ -551,7 +551,7 @@ public class Image {
 		for (int i = 0; i < aligned.size(); i ++) {
 			IDataset dat = aligned.get(i);
 			dat.resize(new int[]{1, size[1], size[2]});
-			alignedData[i] = DatasetUtils.cast(dat, input.getDtype());
+			alignedData[i] = DatasetUtils.cast(dat, input.getDType());
 		}
 		Dataset result = DatasetUtils.concatenate(alignedData, 0);
 		return result;

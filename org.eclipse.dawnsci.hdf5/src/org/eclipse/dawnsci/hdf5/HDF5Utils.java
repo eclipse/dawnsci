@@ -906,7 +906,7 @@ public class HDF5Utils {
 		// cannot write zero-rank datasets so make them 1D
 		long[] shape = dataset.getRank() == 0 ? new long[] {1} : toLongArray(dataset.getShapeRef());
 
-		int dtype = dataset.getDtype();
+		int dtype = dataset.getDType();
 		boolean stringDataset = dtype == Dataset.STRING;
 		long hdfType = getHDF5type(dtype);
 
@@ -1017,7 +1017,7 @@ public class HDF5Utils {
 				throw new NexusException("Error inspecting existing attributes", e);
 			}
 			Dataset attrData = DatasetUtils.convertToDataset(attr);
-			long baseHdf5Type = getHDF5type(attrData.getDtype());
+			long baseHdf5Type = getHDF5type(attrData.getDType());
 
 			final long[] shape = attrData.getRank() == 0 ? new long[] {1} : toLongArray(attrData.getShapeRef());
 			long datatypeID = -1;
@@ -1025,7 +1025,7 @@ public class HDF5Utils {
 			try {
 				datatypeID = H5.H5Tcopy(baseHdf5Type);
 				dataspaceID = H5.H5Screate_simple(shape.length, shape, shape);
-				boolean stringDataset = attrData.getDtype() == Dataset.STRING;
+				boolean stringDataset = attrData.getDType() == Dataset.STRING;
 				Serializable buffer = DatasetUtils.serializeDataset(attrData);
 				if (stringDataset) {
 					String[] strings = (String[]) buffer;
@@ -1212,7 +1212,7 @@ public class HDF5Utils {
 					H5.H5Sselect_hyperslab(hdfDataspaceId, HDF5Constants.H5S_SELECT_SET, start, stride, shape, null);
 	
 					Dataset data = DatasetUtils.convertToDataset(value);
-					int dtype = data.getDtype();
+					int dtype = data.getDType();
 					long memtype = getHDF5type(dtype);
 					Serializable buffer = DatasetUtils.serializeDataset(data);
 

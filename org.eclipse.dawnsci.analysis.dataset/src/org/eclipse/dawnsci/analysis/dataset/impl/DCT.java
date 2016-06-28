@@ -184,7 +184,7 @@ public class DCT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 			FloatDCT_1D ffft = new FloatDCT_1D(n);
 			shape = a.getShape().clone();
@@ -235,7 +235,7 @@ public class DCT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 			FloatDCT_2D ffft = new FloatDCT_2D(s[0], s[1]);
 			float[] fdata = null;
@@ -284,7 +284,7 @@ public class DCT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 			FloatDCT_3D ffft = new FloatDCT_3D(s[0], s[1], s[2]);
 
@@ -464,7 +464,7 @@ public class DCT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 			FloatDCT_1D ffft = new FloatDCT_1D(n);
 			float[] fdata = null;
@@ -517,7 +517,7 @@ public class DCT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 			FloatDCT_2D ffft = new FloatDCT_2D(s[0], s[1]);
 			float[] fdata = null;
@@ -566,7 +566,7 @@ public class DCT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 			FloatDCT_3D ffft = new FloatDCT_3D(s[0], s[1], s[2]);
 			float[] fdata = null;

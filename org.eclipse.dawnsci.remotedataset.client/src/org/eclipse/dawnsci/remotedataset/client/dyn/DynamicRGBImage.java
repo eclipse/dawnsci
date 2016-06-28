@@ -53,7 +53,7 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 	 */
 	public DynamicRGBImage(SliceClient<BufferedImage> client, int... shape) {
 		super(shape == null || shape.length<1 ? new int[]{1,1} : shape);
-		this.connection= new DataConnection<RGBDataset>(getDtype(), false);
+		this.connection= new DataConnection<RGBDataset>(getDType(), false);
 		connection.setClient(client);
 		connection.setDataset(this);
 	}

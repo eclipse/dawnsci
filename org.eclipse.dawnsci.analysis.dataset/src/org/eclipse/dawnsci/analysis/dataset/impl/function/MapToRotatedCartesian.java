@@ -114,7 +114,7 @@ public class MapToRotatedCartesian implements DatasetToDatasetFunction {
 
 			// work out cosine and sine
 
-			Dataset newmap = DatasetFactory.zeros(os, AbstractDataset.getBestFloatDType(ds.getDtype()));
+			Dataset newmap = DatasetFactory.zeros(os, AbstractDataset.getBestFloatDType(ds.getDType()));
 			Dataset unitmap = DatasetFactory.zeros(newmap);
 
 			double cx, cy;

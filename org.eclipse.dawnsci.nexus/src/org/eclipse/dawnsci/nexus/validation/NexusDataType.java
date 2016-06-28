@@ -70,7 +70,7 @@ public enum NexusDataType {
 	}
 	
 	public void validate(final String fieldName, final IDataset dataset) throws NexusValidationException {
-		Class<?> elementClass = dataset.elementClass();
+		Class<?> elementClass = dataset.getElementClass();
 		for (Class<?> javaClass : javaClasses) {
 			if (javaClass.isAssignableFrom(elementClass)) {
 				return;

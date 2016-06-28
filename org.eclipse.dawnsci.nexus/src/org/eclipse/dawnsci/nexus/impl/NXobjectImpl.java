@@ -340,8 +340,8 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 			dataNode = getDataNode(name);
 			// create a new dataset, new DataNode and update the cache
 			Dataset dataset = getCached(name);
-			if (AbstractDataset.getDTypeFromObject(value) != dataset.getDtype()) {
-				throw new IllegalArgumentException("Cannot overwrite existing dataset of " + dataset.elementClass());
+			if (AbstractDataset.getDTypeFromObject(value) != dataset.getDType()) {
+				throw new IllegalArgumentException("Cannot overwrite existing dataset of " + dataset.getElementClass());
 			}
 			
 			dataset.setObjectAbs(0, value);

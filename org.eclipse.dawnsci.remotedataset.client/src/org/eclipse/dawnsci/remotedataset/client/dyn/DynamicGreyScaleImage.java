@@ -43,7 +43,7 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 	 */
 	public DynamicGreyScaleImage(SliceClient<BufferedImage> client, int... shape) {
 		super(shape == null || shape.length<1 ? new int[]{1,1} : shape);
-		this.connection= new DataConnection<ShortDataset>(getDtype(), true);
+		this.connection= new DataConnection<ShortDataset>(getDType(), true);
 		connection.setClient(client);
 		connection.setDataset(this);
 	}

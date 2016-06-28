@@ -141,7 +141,7 @@ public abstract class AbstractNexusFileBuilderTestBase {
 		ILazyDataset dataset = getDataset(group, name, loadedFromDisk);
 		assertNotNull(dataset);
 		assertEquals(expectedRank, dataset.getRank());
-		assertEquals(expectedElementClass, dataset.elementClass());
+		assertEquals(expectedElementClass, dataset.getElementClass());
 	}
 
 }

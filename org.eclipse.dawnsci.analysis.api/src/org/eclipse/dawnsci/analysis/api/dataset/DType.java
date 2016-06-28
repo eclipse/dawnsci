@@ -9,7 +9,7 @@
 
 package org.eclipse.dawnsci.analysis.api.dataset;
 
-public class Dtype {
+public class DType {
 
 	/**
 	 * Boolean

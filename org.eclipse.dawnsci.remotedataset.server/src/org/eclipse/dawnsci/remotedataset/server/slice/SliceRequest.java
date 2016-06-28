@@ -360,7 +360,7 @@ class SliceRequest implements HttpSessionBindingListener {
 		response.setContentType("application/zip");
 		response.setStatus(HttpServletResponse.SC_OK);
 
-		response.setHeader("elementClass", data.elementClass().toString());
+		response.setHeader("elementClass", data.getElementClass().toString());
 
 		final ObjectOutputStream ostream = new ObjectOutputStream(response.getOutputStream());
 		try {

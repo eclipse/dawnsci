@@ -89,7 +89,7 @@ public class LineSample implements DatasetToDatasetFunction {
 			int nr = ((int) Math.floor(rad / step)) + 1;
 
 			Dataset linsample = DatasetFactory.zeros(new int[] { nr },
-					AbstractDataset.getBestFloatDType(ds.getDtype()));
+					AbstractDataset.getBestFloatDType(ds.getDType()));
 
 			double x, y;
 			for (int i = 0; i < nr; i++) {

@@ -94,7 +94,7 @@ public class TraceUtils {
 		if (axis == null)
 			return false;
 
-		final Class<?> clazz = axis.elementClass();
+		final Class<?> clazz = axis.getElementClass();
 		if (clazz != Integer.class) {
 			return true;
 		}

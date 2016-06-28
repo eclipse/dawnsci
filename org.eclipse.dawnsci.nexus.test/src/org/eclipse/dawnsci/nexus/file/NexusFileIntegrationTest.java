@@ -128,7 +128,7 @@ public class NexusFileIntegrationTest {
 		n = nf.getData("/entry/value");
 		IDataset b = n.getDataset().getSlice();
 		assertArrayEquals(new int[] {2, 5}, b.getShape());
-		assertEquals(Float.class, b.elementClass());
+		assertEquals(Float.class, b.getElementClass());
 		assertEquals(0.0, b.getDouble(0, 0), 1e-15);
 		assertEquals(9.0, b.getDouble(1, 4), 1e-15);
 		nf.close();
@@ -144,7 +144,7 @@ public class NexusFileIntegrationTest {
 		assertTrue(n.containsAttribute("value"));
 		assertEquals(-1.5, n.getAttribute("value").getValue().getDouble(), 1e-15);
 		ILazyDataset b = n.getDataset();
-		assertTrue(b.elementClass().equals(Short.class));
+		assertTrue(b.getElementClass().equals(Short.class));
 		assertArrayEquals(shape, b.getShape());
 		IDataset bs = b.getSlice();
 		assertEquals(0, bs.getLong(0, 0));
@@ -153,7 +153,7 @@ public class NexusFileIntegrationTest {
 
 	private void checkEData(DataNode n, int[] shape) throws DatasetException {
 		ILazyDataset b = n.getDataset();
-		assertTrue(b.elementClass().equals(Double.class));
+		assertTrue(b.getElementClass().equals(Double.class));
 		assertArrayEquals(shape, b.getShape());
 		IDataset bs = b.getSlice();
 		assertEquals(Double.NaN, bs.getDouble(0, 0), 1e-12);
@@ -169,7 +169,7 @@ public class NexusFileIntegrationTest {
 
 	private void checkTextData(DataNode n, int[] shape) throws DatasetException {
 		ILazyDataset b = n.getDataset();
-		assertTrue(b.elementClass().equals(String.class));
+		assertTrue(b.getElementClass().equals(String.class));
 		// NAPI is broken wrt strings so skip for time being
 		assertArrayEquals(shape, b.getShape());
 		IDataset bs = b.getSlice();

@@ -245,7 +245,7 @@ public class H5ValuePage extends Page  implements ISelectionListener, IPartListe
 								
 				try {
 					IDataset data = lz.getSlice();
-					if (Number.class.isAssignableFrom(data.elementClass())) {
+					if (Number.class.isAssignableFrom(data.getElementClass())) {
 						buf.append("\n[");
 						if (format == null)
 							format = new DecimalFormat("#####0.0###");

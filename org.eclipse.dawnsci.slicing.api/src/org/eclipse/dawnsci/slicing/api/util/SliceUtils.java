@@ -705,7 +705,7 @@ public class SliceUtils {
 			if (isH5 && !name.startsWith("/")) continue;
 			
 			ILazyDataset ls = holder.getLazyDataset(name);
-			if (restrictions.contains(ls.elementClass())) continue;
+			if (restrictions.contains(ls.getElementClass())) continue;
 			int[] shape = ls!=null ? ls.getShape() : null;
 			if (shape==null) continue;
 			

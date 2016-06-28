@@ -215,7 +215,7 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 		}
 
 		supported = true;
-		string = lazyDataset instanceof StringDataset || lazyDataset.elementClass() == String.class;
+		string = lazyDataset instanceof StringDataset || lazyDataset.getElementClass() == String.class;
 	}
 
 	@Override

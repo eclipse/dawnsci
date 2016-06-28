@@ -166,7 +166,7 @@ public class NexusAssert {
 		// Note: dataset names can be different, as long as the containing data node names are the same
 		// assertEquals(dataset1.getName(), dataset2.getName());
 		// assertEquals(dataset1.getClass(), dataset2.getClass());
-		assertEquals(path, expectedDataset.elementClass(), actualDataset.elementClass());
+		assertEquals(path, expectedDataset.getElementClass(), actualDataset.getElementClass());
 		assertEquals(path, expectedDataset.getElementsPerItem(), actualDataset.getElementsPerItem());
 		assertEquals(path, expectedDataset.getSize(), actualDataset.getSize());
 		if (actualDataset.getRank() == 0) {
