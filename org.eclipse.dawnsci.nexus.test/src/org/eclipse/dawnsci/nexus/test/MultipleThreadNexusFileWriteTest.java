@@ -123,7 +123,7 @@ public class MultipleThreadNexusFileWriteTest {
 		protected NXdetector createNexusObject() {
 			final NXdetector detector = NexusNodeFactory.createNXdetector();
 			final ILazyWriteableDataset dataset = detector.initializeLazyDataset(
-					NXdetector.NX_DATA, 3, Dataset.INT32);
+					NXdetector.NX_DATA, 3, Integer.class);
 			dataset.setMaxShape(new int[] { ILazyWriteableDataset.UNLIMITED, numRows, numColumns });
 			return detector;
 		}
@@ -164,7 +164,7 @@ public class MultipleThreadNexusFileWriteTest {
 		@Override
 		protected NXpositioner createNexusObject() {
 			final NXpositioner positioner = NexusNodeFactory.createNXpositioner();
-			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Dataset.FLOAT64);
+			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Double.class);
 			return positioner;
 		}
 

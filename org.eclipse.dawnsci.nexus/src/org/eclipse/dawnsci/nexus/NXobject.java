@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DType;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
@@ -93,33 +92,33 @@ public interface NXobject extends GroupNode {
 	
 	/**
 	 * Creates and adds a new {@link ILazyWriteableDataset} to this group for the given field name,
-	 * with the given rank (dimensionality) and of the given type, a constant from {@link DType}.
+	 * with the given rank (dimensionality) and of the given element class
 	 * @param name field name
 	 * @param rank rank
-	 * @param dtype data type constant from {@link DType}
+	 * @param clazz dataset element class
 	 * @return new lazy writable dataset
 	 */
-	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, int dtype);
+	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, Class<?> clazz);
 	
 	/**
 	 * Creates and adds a new {@link ILazyWriteableDataset} to this group for the given field
-	 * name with the given fixed shape and of the given type, a constant from {@link DType}.
+	 * name with the given fixed shape and of the given element class
 	 * @param name field name
 	 * @param size the shape
-	 * @param dtype data type constant from {@link DType}
+	 * @param clazz dataset element class
 	 * @return new lazy writable dataset
 	 */
-	public ILazyWriteableDataset initializeFixedSizeLazyDataset(String name, int[] shape, int dtype);
+	public ILazyWriteableDataset initializeFixedSizeLazyDataset(String name, int[] shape, Class<?> clazz);
 
 	/**
 	 * Creates and adds a new {@link ILazyWriteableDataset} to this group for the given field name,
-	 * with the given maximum shape and of the given type, a constant from {@link DType}.
+	 * with the given maximum shape and of the given element class
 	 * @param name field name
 	 * @param maxShape the maximum shape 
-	 * @param dtype data type constant from {@link DType}
+	 * @param clazz dataset element class
 	 * @return new lazy writable dataset
 	 */
-	public ILazyWriteableDataset initializeLazyDataset(String name, int[] maxShape, int dtype);
+	public ILazyWriteableDataset initializeLazyDataset(String name, int[] maxShape, Class<?> clazz);
 	
 	/**
 	 * Creates and adds a new datanode to this group for the given field name and

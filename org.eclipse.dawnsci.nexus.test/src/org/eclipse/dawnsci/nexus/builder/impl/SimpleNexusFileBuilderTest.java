@@ -15,7 +15,6 @@ package org.eclipse.dawnsci.nexus.builder.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.nexus.NXbeam;
@@ -42,7 +41,7 @@ public class SimpleNexusFileBuilderTest extends AbstractNexusFileBuilderTestBase
 			final NXdetector nxDetector = NexusNodeFactory.createNXdetector();
 
 			nxDetector.setDescription(StringDataset.createFromObject("Test Detector"));
-			nxDetector.initializeLazyDataset(NXdetector.NX_DATA, 2, Dataset.FLOAT64);
+			nxDetector.initializeLazyDataset(NXdetector.NX_DATA, 2, Double.class);
 			// could add more fields
 
 			return nxDetector;

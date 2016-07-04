@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.nexus.NXcollection;
 import org.eclipse.dawnsci.nexus.NXdetector;
@@ -46,7 +45,7 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 		@Override
 		public NXpositioner createNexusObject() {
 			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
-			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Dataset.FLOAT64);
+			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Double.class);
 			
 			return positioner;
 		}
@@ -64,11 +63,11 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 		@Override
 		public NXpositioner createNexusObject() {
 			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
-			positioner.initializeLazyDataset("imageNumber", 1, Dataset.FLOAT64);
-			positioner.initializeLazyDataset("image_key", 1, Dataset.FLOAT64);
-			positioner.initializeLazyDataset("ss1_X", 1, Dataset.FLOAT64);
-			positioner.initializeLazyDataset("ss1_rot", 1, Dataset.FLOAT64);
-			positioner.initializeLazyDataset("tomography_shutter", 1, Dataset.FLOAT64);
+			positioner.initializeLazyDataset("imageNumber", 1, Double.class);
+			positioner.initializeLazyDataset("image_key", 1, Double.class);
+			positioner.initializeLazyDataset("ss1_X", 1, Double.class);
+			positioner.initializeLazyDataset("ss1_rot", 1, Double.class);
+			positioner.initializeLazyDataset("tomography_shutter", 1, Double.class);
 			
 			return positioner;
 		}
@@ -86,16 +85,16 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 		public NXdetector createNexusObject() {
 			final NXdetector detector = NexusNodeFactory.createNXdetector();
 			
-			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.INT16);
-			detector.initializeLazyDataset(NXdetector.NX_COUNT_TIME, 1, Dataset.FLOAT64);
+			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Short.class);
+			detector.initializeLazyDataset(NXdetector.NX_COUNT_TIME, 1, Double.class);
 			IDataset regionOrigin = DatasetFactory.createFromObject(new int[] {0, 0}, 1, 2);
 			detector.setField("region_origin", regionOrigin);
 			IDataset regionSize = DatasetFactory.createFromObject(new int[] {2560, 2160}, 1, 2);
 			detector.setField("region_size", regionSize);
-			detector.initializeLazyDataset("start_time", 1, Dataset.FLOAT64);
-			detector.initializeLazyDataset("time_ms", 1, Dataset.INT64); // unsigned int 32 in original nexus file
+			detector.initializeLazyDataset("start_time", 1, Double.class);
+			detector.initializeLazyDataset("time_ms", 1, Long.class); // unsigned int 32 in original nexus file
 			// image_key required by NXtomo application definition
-			detector.initializeLazyDataset("image_key", 1, Dataset.INT32);
+			detector.initializeLazyDataset("image_key", 1, Integer.class);
 			detector.setAttribute("image_key", "target", "/entry/instrument/pc01_hw_hdf/image_key");
 			
 			return detector;

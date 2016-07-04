@@ -173,7 +173,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.NXobject#initializeLazyDataset(java.lang.String, int, int)
 	 */
-	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, int dtype) {
+	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, Class<?> dtype) {
 		int[] shape = new int[rank];
 		Arrays.fill(shape, ILazyWriteableDataset.UNLIMITED);
 		return initializeLazyDataset(name, shape, dtype);
@@ -181,7 +181,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	
 	@Override
 	public ILazyWriteableDataset initializeLazyDataset(String name,
-			int[] maxShape, int dtype) {
+			int[] maxShape, Class<?> dtype) {
 		ILazyWriteableDataset dataset = new LazyWriteableDataset(name, dtype, maxShape, null, null, null);
 		createDataNode(name, dataset);
 		
@@ -190,7 +190,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	
 	@Override
 	public ILazyWriteableDataset initializeFixedSizeLazyDataset(String name, int[] shape,
-			int dtype) {
+			Class<?> dtype) {
 		ILazyWriteableDataset dataset = new LazyWriteableDataset(name, dtype, shape, shape, null, null);
 		createDataNode(name, dataset);
 		
