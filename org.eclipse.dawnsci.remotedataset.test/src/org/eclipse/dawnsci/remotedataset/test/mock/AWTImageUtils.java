@@ -24,8 +24,6 @@ import org.eclipse.dawnsci.analysis.api.metadata.Metadata;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.FloatDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
 import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
@@ -51,14 +49,13 @@ public class AWTImageUtils {
 
 		for (int i = 0; i < bands; i++) {
 			if (dtype == Dataset.FLOAT32) {
-				tmp = new FloatDataset(r.getSamples(0, 0, width, height, i, (float[]) null), height, width);
+				tmp =  DatasetFactory.createFromObject(r.getSamples(0, 0, width, height, i, (float[]) null), height, width);
 			} else if (dtype == Dataset.FLOAT64) {
-				tmp = new DoubleDataset(r.getSamples(0, 0, width, height, i, (double[]) null), height, width);
+				tmp = DatasetFactory.createFromObject(r.getSamples(0, 0, width, height, i, (double[]) null), height, width);
 			} else if (dtype == Dataset.INT32) {
-				tmp = new IntegerDataset(r.getSamples(0, 0, width, height, i, (int[]) null), height, width);
+				tmp = DatasetFactory.createFromObject(r.getSamples(0, 0, width, height, i, (int[]) null), height, width);
 			} else {
-				tmp = DatasetFactory.createFromObject(r.getSamples(0, 0, width, height, i, (int[]) null), dtype);
-				tmp.setShape(height, width);
+				tmp = DatasetFactory.createFromObject(dtype, r.getSamples(0, 0, width, height, i, (int[]) null), height, width);
 			}
 			data[i] = tmp;
 		}

@@ -30,6 +30,7 @@ import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.metadata.Metadata;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.LazyDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.slf4j.Logger;
@@ -299,7 +300,7 @@ public class MockJavaImageLoader extends MockAbstractFileLoader {
 					throw new ScanFileHolderException("Number of colour channels is less than three so cannot load and convert");
 				}
 
-				data = new RGBDataset(channels[0], channels[1], channels[2]);
+				data = DatasetUtils.createCompoundDataset(Dataset.RGB, channels);
 
 				if (asGrey)
 					data = ((RGBDataset) data).createGreyDataset(channels[0].getDType());

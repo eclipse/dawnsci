@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.function.Sum;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class SumTest {
 	@Test
 	public void testExecute() {
 		double[] x = {1., 2., 3., 4., 5.};
-		Dataset d = new DoubleDataset(x);
+		Dataset d = DatasetFactory.createFromObject(x);
 		Sum s = new Sum();
 		List<Number> dsets = s.value(d);
 

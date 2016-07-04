@@ -102,7 +102,7 @@ public class Downsample implements DatasetToDatasetFunction, IDownsampleService 
 			final Dataset binned;
 			DownsampleMode m = mode;
 			if (dataset instanceof RGBDataset) {
-				binned = new RGBDataset(shape);
+				binned = DatasetFactory.zeros(RGBDataset.class, shape);
 				// set the mode to point whenever RGB datasets are involved for the moment.
 				m = DownsampleMode.POINT;
 			} else {

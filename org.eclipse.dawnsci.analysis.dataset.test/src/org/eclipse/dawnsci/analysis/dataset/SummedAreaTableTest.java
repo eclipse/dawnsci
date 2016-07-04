@@ -14,8 +14,8 @@ import java.util.Arrays;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.asserts.TestUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Maths;
 import org.eclipse.dawnsci.analysis.dataset.impl.Random;
@@ -179,7 +179,7 @@ public class SummedAreaTableTest {
 	@Test
 	public void testEmptyImage() throws Exception {
 		try {
-			new SummedAreaTable(new IntegerDataset(new int[] { 0, 0 }));
+			new SummedAreaTable(DatasetFactory.zeros(IntegerDataset.class, new int[] { 0, 0 }));
 		} catch (Exception required) {
 			return;
 		}
@@ -308,7 +308,7 @@ public class SummedAreaTableTest {
 			}
 		}
 
-		return new DoubleDataset(subset, box);
+		return DatasetFactory.createFromObject(subset, box);
 	}
 
 	private int[] createCoords(IDataset image, int[] point, int[] box) {

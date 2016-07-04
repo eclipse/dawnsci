@@ -84,8 +84,8 @@ public class SignalTest {
 
 	@Test
 	public void testConvolutionFilter() {
-		Dataset ds = DoubleDataset.createRange(1000);
-		Dataset kernel = DoubleDataset.ones(27);
+		Dataset ds = DatasetFactory.createRange(DoubleDataset.class, 1000);
+		Dataset kernel = DatasetFactory.ones(DoubleDataset.class, 27);
 		Dataset result = Signal.convolveToSameShape(ds, kernel, null);
 		assertEquals(120, result.getDouble(2), 0.001);
 		
@@ -176,7 +176,7 @@ public class SignalTest {
 		Dataset k = DatasetFactory.ones(new int[] {5}, Dataset.FLOAT64);
 		Dataset c;
 
-		Dataset e = new DoubleDataset(new double[] {0, 1, 3, 6, 10, 15, 20,
+		Dataset e = DatasetFactory.createFromObject(new double[] {0, 1, 3, 6, 10, 15, 20,
 				25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 70, 54, 37, 19});
 
 		c = Signal.convolve(d, k, null);
@@ -195,7 +195,7 @@ public class SignalTest {
 		TestUtils.assertDatasetEquals(e.getSlice(new Slice(4, 20)), c, 1e-7, 1e-9);
 
 		d = DatasetFactory.createRange(19, Dataset.FLOAT64);
-		e = new DoubleDataset(new double[] {0, 1, 3, 6, 10, 15, 20,
+		e = DatasetFactory.createFromObject(new double[] {0, 1, 3, 6, 10, 15, 20,
 				25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 66, 51, 35, 18});
 
 		c = Signal.convolve(d, k, null);
@@ -220,7 +220,7 @@ public class SignalTest {
 		Dataset k = DatasetFactory.ones(new int[] {5}, Dataset.FLOAT64);
 		Dataset c;
 
-		Dataset e = new DoubleDataset(new double[] {0, 1, 3, 6, 10, 15, 20, 25,
+		Dataset e = DatasetFactory.createFromObject(new double[] {0, 1, 3, 6, 10, 15, 20, 25,
 				30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 70, 54, 37, 19});
 
 		c = Signal.correlate(d, k, null);
@@ -242,7 +242,7 @@ public class SignalTest {
 		TestUtils.assertDatasetEquals(e.getSlice(new Slice(19, 3, -1)), c, 1e-7, 1e-9);
 		
 		d = DatasetFactory.createRange(19, Dataset.FLOAT64);
-		e = new DoubleDataset(new double[] {0, 1, 3, 6, 10, 15, 20,
+		e = DatasetFactory.createFromObject(new double[] {0, 1, 3, 6, 10, 15, 20,
 				25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 66, 51, 35, 18});
 
 		c = Signal.correlate(d, k, null);
@@ -268,11 +268,11 @@ public class SignalTest {
 	public void testWindows() {
 		Dataset w;
 		w = Signal.hammingWindow(10);
-		TestUtils.assertDatasetEquals(new DoubleDataset(new double[] { 0.080000, 0.187620, 0.460122, 0.770000,
+		TestUtils.assertDatasetEquals(DatasetFactory.createFromObject(new double[] { 0.080000, 0.187620, 0.460122, 0.770000,
 				0.972259, 0.972259, 0.770000, 0.460122, 0.187620, 0.080000 }), w, 1e-5, 1e-6);
 
 		w = Signal.hammingWindow(11);
-		TestUtils.assertDatasetEquals(new DoubleDataset(new double[] { 0.08, 0.16785218, 0.39785218, 0.68214782,
+		TestUtils.assertDatasetEquals(DatasetFactory.createFromObject(new double[] { 0.08, 0.16785218, 0.39785218, 0.68214782,
 				0.91214782, 1., 0.91214782, 0.68214782, 0.39785218, 0.16785218, 0.08 }), w, 1e-5, 1e-6);
 	}
 }

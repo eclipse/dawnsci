@@ -14,7 +14,6 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.dawnsci.analysis.asserts.TestUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.FFT;
 import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
 import org.junit.Test;
@@ -817,7 +816,7 @@ public class FFTTest {
 
 		a = DatasetFactory.createRange(6, Dataset.FLOAT64);
 		t = FFT.fftshift(a, null);
-		TestUtils.assertDatasetEquals(new DoubleDataset(new double[] {3, 4, 5, 0, 1, 2}), t, 1e-12, 1e-12);
+		TestUtils.assertDatasetEquals(DatasetFactory.createFromObject(new double[] {3, 4, 5, 0, 1, 2}), t, 1e-12, 1e-12);
 		System.out.println(t.toString(true));
 		t = FFT.ifftshift(t, null);
 		System.out.println(t.toString(true));
@@ -827,28 +826,28 @@ public class FFTTest {
 		System.out.println(a);
 
 		t = FFT.fftshift(a, null);
-		TestUtils.assertDatasetEquals(new DoubleDataset(new double[] {5, 4, 1, 0, 3, 2}).reshape(3,2), t, 1e-12, 1e-12);
+		TestUtils.assertDatasetEquals(DatasetFactory.createFromObject(new double[] {5, 4, 1, 0, 3, 2}).reshape(3,2), t, 1e-12, 1e-12);
 		System.out.println(t.toString(true));
 		t = FFT.ifftshift(t, null);
 		System.out.println(t.toString(true));
 		TestUtils.assertDatasetEquals(a, t, 1e-12, 1e-12);
 
 		t = FFT.fftshift(a, new int[] {0});
-		TestUtils.assertDatasetEquals(new DoubleDataset(new double[] {4, 5, 0, 1, 2, 3}).reshape(3,2), t, 1e-12, 1e-12);
+		TestUtils.assertDatasetEquals(DatasetFactory.createFromObject(new double[] {4, 5, 0, 1, 2, 3}).reshape(3,2), t, 1e-12, 1e-12);
 		System.out.println(t.toString(true));
 		t = FFT.ifftshift(t, new int[] {0});
 		System.out.println(t.toString(true));
 		TestUtils.assertDatasetEquals(a, t, 1e-12, 1e-12);
 
 		t = FFT.fftshift(a, new int[] {1});
-		TestUtils.assertDatasetEquals(new DoubleDataset(new double[] {1, 0, 3, 2, 5, 4}).reshape(3,2), t, 1e-12, 1e-12);
+		TestUtils.assertDatasetEquals(DatasetFactory.createFromObject(new double[] {1, 0, 3, 2, 5, 4}).reshape(3,2), t, 1e-12, 1e-12);
 		System.out.println(t.toString(true));
 		t = FFT.ifftshift(t, new int[] {1});
 		System.out.println(t.toString(true));
 		TestUtils.assertDatasetEquals(a, t, 1e-12, 1e-12);
 
 		t = FFT.fftshift(a, new int[] {1, 0});
-		TestUtils.assertDatasetEquals(new DoubleDataset(new double[] {5, 4, 1, 0, 3, 2}).reshape(3,2), t, 1e-12, 1e-12);
+		TestUtils.assertDatasetEquals(DatasetFactory.createFromObject(new double[] {5, 4, 1, 0, 3, 2}).reshape(3,2), t, 1e-12, 1e-12);
 		System.out.println(t.toString(true));
 		t = FFT.ifftshift(t, new int[] {1, 0});
 		System.out.println(t.toString(true));
@@ -856,7 +855,7 @@ public class FFTTest {
 
 		a = DatasetFactory.createRange(7, Dataset.FLOAT64);
 		t = FFT.fftshift(a, null);
-		TestUtils.assertDatasetEquals(new DoubleDataset(new double[] {4, 5, 6, 0, 1, 2, 3}), t, 1e-12, 1e-12);
+		TestUtils.assertDatasetEquals(DatasetFactory.createFromObject(new double[] {4, 5, 6, 0, 1, 2, 3}), t, 1e-12, 1e-12);
 		System.out.println(t.toString(true));
 		t = FFT.ifftshift(t, null);
 		System.out.println(t.toString(true));
@@ -868,11 +867,11 @@ public class FFTTest {
 		Dataset s, f;
 
 		f = FFT.sampleFrequencies(6, 2.5);
-		s = new DoubleDataset(new double[] { 0, 0.06666667, 0.13333333, -0.2, -0.13333333, -0.06666667 });
+		s = DatasetFactory.createFromObject(new double[] { 0, 0.06666667, 0.13333333, -0.2, -0.13333333, -0.06666667 });
 		TestUtils.assertDatasetEquals(s, f, 1e-7, 1e-12);
 
 		f = FFT.sampleFrequencies(7, 2.5);
-		s = new DoubleDataset(new double[] { 0, 0.05714286, 0.11428571, 0.17142857, -0.17142857, -0.11428571,
+		s = DatasetFactory.createFromObject(new double[] { 0, 0.05714286, 0.11428571, 0.17142857, -0.17142857, -0.11428571,
 				-0.05714286 });
 		TestUtils.assertDatasetEquals(s, f, 1e-7, 1e-12);
 	}

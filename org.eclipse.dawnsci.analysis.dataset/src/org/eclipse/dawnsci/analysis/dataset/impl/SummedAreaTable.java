@@ -205,7 +205,7 @@ public class SummedAreaTable {
 			else if (type == FilterType.FANO)
 				filter[i] = getBoxMeanInternal(coords, n);
 		}
-		return new DoubleDataset(filter, shape);
+		return DatasetFactory.createFromObject(filter, shape);
 	}
 
 	/**

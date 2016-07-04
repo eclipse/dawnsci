@@ -20,10 +20,6 @@ import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.FloatDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LongDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.ShortDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.junit.Before;
 
@@ -100,59 +96,30 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 	}
 
 	private static IDataset createDoubleDataset(double... values) {
-		DoubleDataset dataset = new DoubleDataset(values.length);
-		for (int i = 0; i < values.length; i++) {
-			dataset.set(values[i], i);
-		}
-
-		return dataset;
+		return DatasetFactory.createFromObject(values);
 	}
 
 	private static IDataset createIntegerDataset(int... values) {
-		IntegerDataset dataset = new IntegerDataset(values.length);
-		for (int i = 0; i < values.length; i++) {
-			dataset.set(values[i], i);
-		}
-
-		return dataset;
+		return DatasetFactory.createFromObject(values);
 	}
 
 	private static IDataset createLongDataset(long... values) {
-		LongDataset dataset = new LongDataset(values.length);
-		for (int i = 0; i < values.length; i++) {
-			dataset.set(values[i], i);
-		}
-
-		return dataset;
+		return DatasetFactory.createFromObject(values);
 	}
 
 
 	private static Dataset createFilledDataset(final double value, final int size) {
-		DoubleDataset dataset = new DoubleDataset(size);
+		DoubleDataset dataset = DatasetFactory.zeros(DoubleDataset.class, size);
 		dataset.fill(value);
 		return dataset;
 	}
 
 	private static Dataset create2DIntDataset(final int[][] values) {
-		IntegerDataset dataset = new IntegerDataset(values.length, values[0].length);
-		for (int i = 0; i < values.length; i++) {
-			for (int j = 0; j < values[i].length; j++) {
-				dataset.setItem(values[i][j], i, j);
-			}
-		}
-
-		return dataset;
+		return DatasetFactory.createFromObject(values);
 	}
 
 	private static Dataset create2DFloatDataset(final float[][] values) {
-		FloatDataset dataset = new FloatDataset(values.length, values[0].length);
-		for (int i = 0; i < values.length; i++) {
-			for (int j = 0; j < values[i].length; i++) {
-				dataset.setItem(values[i][j], i, j);
-			}
-		}
-
-		return dataset;
+		return DatasetFactory.createFromObject(values);
 	}
 
 	private IDataset createDetectorDataDataset() {
@@ -184,8 +151,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 			pageOffset += 100;
 		}
 		
-		
-		return new ShortDataset(flatArray, shape);
+		return DatasetFactory.createFromObject(flatArray, shape);
 	}
 	
 	private DataNode getDataNode(final String path) {

@@ -339,7 +339,7 @@ public interface IPlottingSystem<T> extends IAdaptable, ITraceSystem, IRegionSys
 	 * 
 	 * Example of starting a plot with nothing and then adding points:
 	 * 
-	 * final Dataset y = new DoubleDataset(new double[]{}, 0}
+	 * final Dataset y = DatasetFactory.zero(DoubleDataset.class);
 	 * y.setName("y")
 	 * 
 	 * plottingSystem.createPlot(y, null, PlotType.PT1D, mon);

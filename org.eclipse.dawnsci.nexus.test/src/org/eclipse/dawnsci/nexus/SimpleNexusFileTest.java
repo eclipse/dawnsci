@@ -3,10 +3,6 @@ package org.eclipse.dawnsci.nexus;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.LongDataset;
-import org.eclipse.dawnsci.nexus.NXdata;
-import org.eclipse.dawnsci.nexus.NXentry;
-import org.eclipse.dawnsci.nexus.NXroot;
 
 /**
  * Simple NeXus file test based on 'verysimple.nx5' example described in the
@@ -40,7 +36,7 @@ public class SimpleNexusFileTest extends AbstractNexusFileTestBase {
 				598720, 316460, 56677, 1000, 1000
 		};
 
-		dataGroup.setDataset("counts", new LongDataset(countsData));
+		dataGroup.setDataset("counts", DatasetFactory.createFromObject(countsData));
 		dataGroup.setAttribute("counts", "long_name", "photodiode counts");
 		dataGroup.setAttribute("counts", "signal", 1.0);
 		dataGroup.setAttribute("counts", "axes", "two_theta");

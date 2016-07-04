@@ -16,6 +16,7 @@ import java.io.ObjectInputStream;
 import java.net.URL;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.ShortDataset;
 
 class DataStreamer extends AbstractStreamer<IDataset> {
@@ -31,7 +32,7 @@ class DataStreamer extends AbstractStreamer<IDataset> {
 		init(url, sleepTime, cacheSize);
 	}
 	
-	private static IDataset QUEUE_END = new ShortDataset();
+	private static IDataset QUEUE_END = DatasetFactory.zeros(ShortDataset.class, null);
 	
 	@Override
 	protected IDataset getQueueEndObject() {

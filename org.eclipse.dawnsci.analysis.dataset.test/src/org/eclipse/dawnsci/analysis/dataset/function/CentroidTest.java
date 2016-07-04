@@ -14,6 +14,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.function.Centroid;
 import org.junit.Before;
@@ -27,7 +28,7 @@ public class CentroidTest {
 
 	@Before
 	public void setUp() {
-		d = new IntegerDataset(100,60);
+		d = DatasetFactory.zeros(IntegerDataset.class, 100,60);
 		d.fill(1);
 	}
 

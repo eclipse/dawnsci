@@ -59,7 +59,7 @@ public class HDF5Utils {
 	 */
 	public static Dataset createDataset(final Object data, final int[] shape, final int dtype,
 			final boolean extend) {
-		Dataset ds = DatasetFactory.createFromObject(data, dtype);
+		Dataset ds = DatasetFactory.createFromObject(dtype, data);
 	
 		if (extend) {
 			ds = DatasetUtils.makeUnsigned(ds);

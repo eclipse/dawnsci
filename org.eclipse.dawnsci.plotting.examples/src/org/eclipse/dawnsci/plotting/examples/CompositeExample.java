@@ -49,7 +49,7 @@ public class CompositeExample extends PlotExample {
 			Dataset micro = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/microscope1/image/data"));
 			Dataset microx = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/microscope1/image/x"));
 			Dataset microy = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/microscope1/image/y"));
-			RGBDataset microrgb = new RGBDataset(micro.getSlice(new Slice(0,1),null,null).squeeze(),
+			RGBDataset microrgb = (RGBDataset) DatasetUtils.createCompoundDataset(Dataset.RGB, micro.getSlice(new Slice(0,1),null,null).squeeze(),
 												 micro.getSlice(new Slice(1,2),null,null).squeeze(),
 												 micro.getSlice(new Slice(2,3),null,null).squeeze());
 

@@ -121,8 +121,8 @@ public class Image {
 
 	public static Dataset regrid_kabsch(Dataset data, Dataset x, Dataset y, Dataset gridX, Dataset gridY) {
 		// create the output array
-		DoubleDataset result = new DoubleDataset(gridY.getShapeRef()[0]+1, gridX.getShapeRef()[0]+1);
-		IntegerDataset count = new IntegerDataset(gridY.getShapeRef()[0]+1, gridX.getShapeRef()[0]+1);
+		DoubleDataset result = DatasetFactory.zeros(DoubleDataset.class, gridY.getShapeRef()[0]+1, gridX.getShapeRef()[0]+1);
+		IntegerDataset count = DatasetFactory.zeros(IntegerDataset.class, gridY.getShapeRef()[0]+1, gridX.getShapeRef()[0]+1);
 
 		IndexIterator it = data.getIterator();
 		while(it.hasNext()){
@@ -284,7 +284,7 @@ public class Image {
 			Dataset gMean = gTable.getMeanImage(radius);
 			SummedAreaTable bTable = new SummedAreaTable(bData, true);
 			Dataset bMean = bTable.getMeanImage(radius);
-			RGBDataset meanRgb = new RGBDataset(rMean, gMean, bMean);
+			Dataset meanRgb = DatasetUtils.createCompoundDataset(Dataset.RGB, rMean, gMean, bMean);
 			return meanRgb;
 		}
 		final SummedAreaTable table = new SummedAreaTable(input, true);
@@ -381,24 +381,9 @@ public class Image {
 					// clip negative values
 					Maths.clip(pseudoFlatFielded[i], pseudoFlatFielded[i], 0, Double.POSITIVE_INFINITY);
 				}
-				RGBDataset rgb = new RGBDataset(pseudoFlatFielded[0], pseudoFlatFielded[1], pseudoFlatFielded[2]);
-				return rgb;
+				return DatasetUtils.createCompoundDataset(Dataset.RGB, pseudoFlatFielded);
 			}
-			int type = AbstractDataset.getDType(pseudoFlatFielded[0]);
-			switch (type) {
-			case Dataset.INT8:
-				return new CompoundByteDataset(pseudoFlatFielded);
-			case Dataset.INT16:
-				return new CompoundShortDataset(pseudoFlatFielded);
-			case Dataset.INT32:
-				return new CompoundIntegerDataset(pseudoFlatFielded);
-			case Dataset.INT64:
-				return new CompoundLongDataset(pseudoFlatFielded);
-			case Dataset.FLOAT32:
-				return new CompoundFloatDataset(pseudoFlatFielded);
-			case Dataset.FLOAT64:
-				return new CompoundDoubleDataset(pseudoFlatFielded);
-			}
+			return DatasetUtils.createCompoundDataset(pseudoFlatFielded);
 		}
 		Dataset backgroundFiltered = Maths.subtract(input, gauss);
 		return backgroundFiltered;
@@ -462,9 +447,9 @@ public class Image {
 		input.squeeze();
 		//TODO should be extended for Nd but 2D is all that is required for now.
 		if(input.getShape().length != 2) throw new IllegalArgumentException("The sobel filter only works on 2D datasets");
-		DoubleDataset kernel = new DoubleDataset(new double[] {-1,0,1,-2,0,2,-1,0,1}, 3 ,3);
+		DoubleDataset kernel = DatasetFactory.createFromObject(DoubleDataset.class, new double[] {-1,0,1,-2,0,2,-1,0,1}, 3 ,3);
 		Dataset result = convolutionFilter(input, kernel);
-		kernel = new DoubleDataset(new double[] {-1,-2,-1,0,0,0,1,2,1}, 3 ,3);
+		kernel = DatasetFactory.createFromObject(DoubleDataset.class, new double[] {-1,-2,-1,0,0,0,1,2,1}, 3 ,3);
 		result.iadd(convolutionFilter(input, kernel));
 		return result;
 	}
@@ -490,8 +475,7 @@ public class Image {
 			Dataset gFano = gTable.getFanoImage(box);
 			SummedAreaTable bTable = new SummedAreaTable(bData, true);
 			Dataset bFano = bTable.getFanoImage(box);
-			RGBDataset fanoRgb = new RGBDataset(rFano, gFano, bFano);
-			return fanoRgb;
+			return DatasetUtils.createCompoundDataset(Dataset.RGB, rFano, gFano, bFano);
 		}
 		final SummedAreaTable table = new SummedAreaTable(input, true);
 		return table.getFanoImage(box);

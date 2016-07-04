@@ -13,6 +13,7 @@ package org.eclipse.dawnsci.analysis.dataset;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Image;
@@ -28,7 +29,7 @@ public class ImageTest {
 	public void testregrid() {
 		
 		Dataset ds = Random.rand(new int[] {100,100});
-		Dataset pow = DoubleDataset.createRange(100);
+		Dataset pow = DatasetFactory.createRange(DoubleDataset.class, 100);
 		pow.ipower(2);
 		
 		Dataset tile = pow.reshape(pow.getShape()[0],1);
@@ -36,7 +37,7 @@ public class ImageTest {
 		
 		Dataset y = DatasetUtils.transpose(x);
 		
-		Dataset lin = DoubleDataset.createRange(-100,900,10);
+		Dataset lin = DatasetFactory.createRange(DoubleDataset.class, -100,900,10);
 		
 		// now apply the Transform
 		@SuppressWarnings("unused")
@@ -46,7 +47,7 @@ public class ImageTest {
 	
 	@Test
 	public void testMedianFilter() {
-		Dataset ds = DoubleDataset.createRange(1000);
+		Dataset ds = DatasetFactory.createRange(DoubleDataset.class, 1000);
 		Dataset result = Image.medianFilter(ds, new int[] {3});
 		assertEquals(result.getDouble(2), ds.getDouble(2), 0.001);
 		
@@ -58,7 +59,7 @@ public class ImageTest {
 		result = Image.medianFilter(ds, new int[] {3,3,3});
 		assertEquals(result.getDouble(5,5,5), ds.getDouble(5,5,5), 0.001);
 		
-		ds = IntegerDataset.createRange(1000);
+		ds = DatasetFactory.createRange(IntegerDataset.class, 1000);
 		result = Image.medianFilter(ds, new int[] {3});
 		assertEquals(result.getDouble(2), ds.getDouble(2), 0.001);
 		
@@ -73,8 +74,8 @@ public class ImageTest {
 	
 	@Test
 	public void testConvolutionFilter() {
-		Dataset ds = DoubleDataset.createRange(1000);
-		Dataset kernel = DoubleDataset.ones(27);
+		Dataset ds = DatasetFactory.createRange(DoubleDataset.class, 1000);
+		Dataset kernel = DatasetFactory.ones(DoubleDataset.class, 27);
 		Dataset result = Image.convolutionFilter(ds, kernel);
 		assertEquals(120, result.getDouble(2), 0.001);
 		

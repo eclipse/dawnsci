@@ -268,7 +268,7 @@ public class Signal {
 	 * @return window
 	 */
 	public static Dataset triangularWindow(int n) {
-		DoubleDataset w = new DoubleDataset(n);
+		DoubleDataset w = DatasetFactory.zeros(DoubleDataset.class, n);
 		double f = 2./(n+1);
 		double o = f*(n-1)*0.5;
 		for (int i = 0; i < n; i++) {
@@ -283,7 +283,7 @@ public class Signal {
 	 * @return window
 	 */
 	public static Dataset bartlettWindow(int n) {
-		DoubleDataset w = new DoubleDataset(n);
+		DoubleDataset w = DatasetFactory.zeros(DoubleDataset.class, n);
 		double f = 2./(n-1);
 		double o = f*(n-1)*0.5;
 		for (int i = 0; i < n; i++) {
@@ -320,7 +320,7 @@ public class Signal {
 	 * @return window
 	 */
 	public static Dataset hammingWindow(int n, double a, double b) {
-		DoubleDataset w = new DoubleDataset(n);
+		DoubleDataset w = DatasetFactory.zeros(DoubleDataset.class, n);
 		double f = 2*Math.PI/(n-1);
 		for (int i = 0; i < n; i++) {
 			w.setAbs(i, a - b*Math.cos(i*f));

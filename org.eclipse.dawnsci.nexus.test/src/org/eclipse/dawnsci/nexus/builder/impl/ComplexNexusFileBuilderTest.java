@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.nexus.NXcollection;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXentry;
@@ -88,9 +88,9 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 			
 			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.INT16);
 			detector.initializeLazyDataset(NXdetector.NX_COUNT_TIME, 1, Dataset.FLOAT64);
-			IDataset regionOrigin = new IntegerDataset(new int[] { 0, 0 }, 1, 2);
+			IDataset regionOrigin = DatasetFactory.createFromObject(new int[] {0, 0}, 1, 2);
 			detector.setField("region_origin", regionOrigin);
-			IDataset regionSize = new IntegerDataset(new int[] { 2560, 2160 }, 1, 2);
+			IDataset regionSize = DatasetFactory.createFromObject(new int[] {2560, 2160}, 1, 2);
 			detector.setField("region_size", regionSize);
 			detector.initializeLazyDataset("start_time", 1, Dataset.FLOAT64);
 			detector.initializeLazyDataset("time_ms", 1, Dataset.INT64); // unsigned int 32 in original nexus file

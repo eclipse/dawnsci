@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 
@@ -71,7 +72,7 @@ public class Centroid implements DatasetToNumberFunction {
 				bases = new Dataset[rank];
 				for (int i = 0; i < rank; i++) {
 					final int len = shape[i];
-					final DoubleDataset axis = new DoubleDataset(len);
+					final DoubleDataset axis = DatasetFactory.zeros(DoubleDataset.class, len);
 
 					bases[i] = axis;
 					for (int j = 0; j < len; j++) {

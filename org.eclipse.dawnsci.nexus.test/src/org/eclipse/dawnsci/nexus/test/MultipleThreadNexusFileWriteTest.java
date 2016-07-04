@@ -140,7 +140,7 @@ public class MultipleThreadNexusFileWriteTest {
 		}
 
 		private IDataset createNewData() {
-			final IntegerDataset dataset = new IntegerDataset(numColumns, numRows);
+			final IntegerDataset dataset = DatasetFactory.zeros(IntegerDataset.class, numColumns, numRows);
 			final ThreadLocalRandom random = ThreadLocalRandom.current();
 			for (int rowNum = 0; rowNum < numRows; rowNum++) {
 				for (int columnNum = 0; columnNum < numColumns; columnNum++) {

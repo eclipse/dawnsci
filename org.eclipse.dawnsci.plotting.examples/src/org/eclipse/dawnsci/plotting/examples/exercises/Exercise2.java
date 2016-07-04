@@ -10,6 +10,7 @@
 package org.eclipse.dawnsci.plotting.examples.exercises;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.BooleanDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITraceListener;
@@ -41,7 +42,7 @@ public class Exercise2 extends Exercise1 {
 
 	protected void createThreasholdMask(IImageTrace trace) {
 		// Lets do some masking...
-		if (mask==null) mask = new BooleanDataset(trace.getData().getShape());
+		if (mask==null) mask = DatasetFactory.zeros(BooleanDataset.class, trace.getData().getShape());
 
 		// Start off with everything true (true = not-masked!)
 		mask.fill(true);

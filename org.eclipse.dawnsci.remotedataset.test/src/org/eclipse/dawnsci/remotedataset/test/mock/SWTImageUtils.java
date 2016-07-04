@@ -15,6 +15,7 @@ import java.awt.image.IndexColorModel;
 import java.awt.image.WritableRaster;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
 import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
@@ -209,7 +210,7 @@ class SWTImageUtils {
 	 */
 	static public RGBDataset createRGBDataset(final ImageData image) {
 		final int[] data = new int[image.width];
-		final RGBDataset rgb = new RGBDataset(image.height, image.width);
+		final RGBDataset rgb = DatasetFactory.zeros(RGBDataset.class, image.height, image.width);
 		final short[] p = new short[3];
 		final PaletteData palette = image.palette;
 		if (palette.isDirect) {
@@ -244,7 +245,7 @@ class SWTImageUtils {
 	}
     static RGBDataset convertToRGBDataset(BufferedImage bufferedImage) {
     	
-        RGBDataset data = new RGBDataset(bufferedImage.getHeight(), bufferedImage.getWidth());
+        RGBDataset data = DatasetFactory.zeros(RGBDataset.class, bufferedImage.getHeight(), bufferedImage.getWidth());
        
         if (bufferedImage.getColorModel() instanceof DirectColorModel) {
             DirectColorModel colorModel = (DirectColorModel)bufferedImage.getColorModel();

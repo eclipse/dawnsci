@@ -16,7 +16,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -128,7 +128,7 @@ public class XYUpdateExample extends PlotExample {
 		for (int n=2; n<5; ++n) {
 			double[] data = new double[100];
 			for (int i = 0; i < data.length; i++) data[i] = Math.pow(i*n, 2);
-			IDataset y = new DoubleDataset(data, data.length);
+			IDataset y = DatasetFactory.createFromObject(data);
 			y.setName("y"+n);
 			ys.add(y);
 		}

@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
@@ -83,7 +84,7 @@ public class AbstractNexusValidatorTest {
 	
 	@Test
 	public void testValidateFieldNotNull_nonNullField() throws Exception {
-		IDataset dataset = new IntegerDataset();
+		IDataset dataset = DatasetFactory.zeros(IntegerDataset.class, null);
 		validator.validateFieldNotNull("fieldName", dataset);
 	}
 	
@@ -106,41 +107,41 @@ public class AbstractNexusValidatorTest {
 	
 	@Test
 	public void testValidateFieldEnumeration_ok() throws Exception {
-		StringDataset dataset = new StringDataset(1);
+		StringDataset dataset = DatasetFactory.zeros(StringDataset.class, 1);
 		dataset.set("foo", 0);
 		validator.validateFieldEnumeration("enumField", dataset, "foo", "bar");
 	}
 	
 	@Test(expected = NexusValidationException.class)
 	public void testValidateFieldEnumeration_illegalRank() throws Exception {
-		StringDataset dataset = new StringDataset(3, 3);
+		StringDataset dataset = DatasetFactory.zeros(StringDataset.class, 3, 3);
 		dataset.set("foo", 0);
 		validator.validateFieldEnumeration("enumField", dataset, "foo", "bar");
 	}
 	
 	@Test(expected = NexusValidationException.class)
 	public void testValidateFieldEnumeration_illegalSize() throws Exception {
-		StringDataset dataset = new StringDataset(2);
+		StringDataset dataset = DatasetFactory.zeros(StringDataset.class, 2);
 		dataset.set("foo", 0);
 		validator.validateFieldEnumeration("enumField", dataset, "foo", "bar");
 	}
 	
 	@Test(expected = NexusValidationException.class)
 	public void testValidateFieldEnumeration_illegalValue() throws Exception {
-		StringDataset dataset = new StringDataset(2);
+		StringDataset dataset = DatasetFactory.zeros(StringDataset.class, 2);
 		dataset.set("banana", 0);
 		validator.validateFieldEnumeration("enumField", dataset, "foo", "bar");
 	}
 	
 	@Test
 	public void testValidateFieldType_ok() throws Exception {
-		IDataset dataset = new DoubleDataset(10);
+		IDataset dataset = DatasetFactory.zeros(DoubleDataset.class, 10);
 		validator.validateFieldType("doubleField", dataset, NexusDataType.NX_FLOAT);
 	}
 	
 	@Test(expected = NexusValidationException.class)
 	public void testValidateFieldType_incompatibleType() throws Exception {
-		IDataset dataset = new DoubleDataset(10);
+		IDataset dataset = DatasetFactory.zeros(DoubleDataset.class, 10);
 		validator.validateFieldType("doubleField", dataset, NexusDataType.NX_CHAR);
 	}
 	
@@ -158,25 +159,25 @@ public class AbstractNexusValidatorTest {
 	
 	@Test
 	public void testValidateRank_ok() throws Exception {
-		IDataset dataset = new DoubleDataset(10, 20, 30);
+		IDataset dataset = DatasetFactory.zeros(DoubleDataset.class, 10, 20, 30);
 		validator.validateFieldRank("rankField", dataset, 3); 
 	}
 	
 	@Test(expected = NexusValidationException.class)
 	public void testValidateRank_incorrectRank() throws Exception {
-		IDataset dataset = new DoubleDataset(10, 20);
+		IDataset dataset = DatasetFactory.zeros(DoubleDataset.class, 10, 20);
 		validator.validateFieldRank("rankField", dataset, 3); 
 	}
 	
 	@Test
 	public void testValidateDimensions_integers_ok() throws Exception {
-		IDataset dataset = new DoubleDataset(10, 20, 30);
+		IDataset dataset = DatasetFactory.zeros(DoubleDataset.class, 10, 20, 30);
 		validator.validateFieldDimensions("rankField", dataset, null, 10, 20, 30);
 	}
 	
 	@Test(expected = NexusValidationException.class)
 	public void testValidateDimensions_integers_incorrect() throws Exception {
-		IDataset dataset = new DoubleDataset(10, 20, 30);
+		IDataset dataset = DatasetFactory.zeros(DoubleDataset.class, 10, 20, 30);
 		validator.validateFieldDimensions("rankField", dataset, null, 10, 20, 40);
 	}
 	
@@ -184,7 +185,7 @@ public class AbstractNexusValidatorTest {
 	public void testValidateDimensionsPlaceholders_oneDataset_ok() throws Exception {
 		int size = 10;
 		
-		IDataset dataset = new DoubleDataset(size, size);
+		IDataset dataset = DatasetFactory.zeros(DoubleDataset.class, size, size);
 		validator.validateFieldDimensions("field", dataset, null, "size", "size");
 	}
 	
@@ -192,7 +193,7 @@ public class AbstractNexusValidatorTest {
 	public void testValidateDimensionsPlaceholders_oneDataset_yDimensionWrongSize() throws Exception {
 		int size = 10;
 		
-		IDataset dataset = new DoubleDataset(size, size + 1);
+		IDataset dataset = DatasetFactory.zeros(DoubleDataset.class, size, size + 1);
 		validator.validateFieldDimensions("field", dataset, null, "size", "size");
 	}
 	
@@ -200,9 +201,9 @@ public class AbstractNexusValidatorTest {
 	public void testValidateDimensions_multipleDatasets_ok() throws Exception {
 		int xDim = 10;
 		int yDim = 20;
-		IDataset dataset1 = new DoubleDataset(xDim, yDim);
+		IDataset dataset1 = DatasetFactory.zeros(DoubleDataset.class, xDim, yDim);
 		validator.validateFieldDimensions("field1", dataset1, null, "xDim", "yDim"); 
-		IDataset dataset2 = new DoubleDataset(xDim, yDim);
+		IDataset dataset2 = DatasetFactory.zeros(DoubleDataset.class, xDim, yDim);
 		validator.validateFieldDimensions("field2", dataset2, null, "xDim", "yDim"); 
 	}
 	
@@ -210,9 +211,9 @@ public class AbstractNexusValidatorTest {
 	public void testValidateDimensions_multipleDatasets_incorrect() throws Exception {
 		int xDim = 10;
 		int yDim = 20;
-		IDataset dataset1 = new DoubleDataset(xDim, yDim);
+		IDataset dataset1 = DatasetFactory.zeros(DoubleDataset.class, xDim, yDim);
 		validator.validateFieldDimensions("field1", dataset1, null, "xDim", "yDim"); 
-		IDataset dataset2 = new DoubleDataset(xDim, yDim + 1);
+		IDataset dataset2 = DatasetFactory.zeros(DoubleDataset.class, xDim, yDim + 1);
 		validator.validateFieldDimensions("field2", dataset2, null, "xDim", "yDim"); 
 	}
 	
@@ -220,14 +221,14 @@ public class AbstractNexusValidatorTest {
 	public void testValidateDimensions_localGroup() throws Exception {
 		int xDim = 10;
 		int yDim = 20;
-		IDataset dataset1 = new DoubleDataset(xDim, yDim);
+		IDataset dataset1 = DatasetFactory.zeros(DoubleDataset.class, xDim, yDim);
 		validator.validateFieldDimensions("field1", dataset1, "group1", "xDim", "yDim"); 
-		IDataset dataset2 = new DoubleDataset(xDim, yDim);
+		IDataset dataset2 = DatasetFactory.zeros(DoubleDataset.class, xDim, yDim);
 		validator.validateFieldDimensions("field2", dataset2, "group1", "xDim", "yDim");
 		
 		// clear the group placeholders
 		validator.clearLocalGroupDimensionPlaceholderValues();
-		IDataset newGroupDataset = new DoubleDataset(3, 4);
+		IDataset newGroupDataset = DatasetFactory.zeros(DoubleDataset.class, 3, 4);
 		validator.validateFieldDimensions("newGroupField", newGroupDataset, "group2", "xDim", "yDim");
 	}
 	

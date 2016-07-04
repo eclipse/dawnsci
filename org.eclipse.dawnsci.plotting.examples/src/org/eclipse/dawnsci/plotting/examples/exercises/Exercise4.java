@@ -14,6 +14,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
 import org.eclipse.dawnsci.analysis.dataset.impl.BooleanDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
@@ -142,7 +143,7 @@ public class Exercise4 extends AbstractToolPage implements IROIListener {
 			int end1   = (int)Math.round(box.getEndPoint()[1]);
 			
 			IDataset       slice = data.getSliceView(new Slice(start1, end1), new Slice(start0, end0));
-			BooleanDataset mask  = new BooleanDataset(slice.getShape());
+			BooleanDataset mask  = DatasetFactory.zeros(BooleanDataset.class, slice.getShape());
 			mask.fill(true);
 
 			// Iterate everything - yes this is slowish now. In Java8 we are

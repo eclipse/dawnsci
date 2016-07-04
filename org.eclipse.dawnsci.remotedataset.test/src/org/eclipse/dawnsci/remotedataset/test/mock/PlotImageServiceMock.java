@@ -122,9 +122,8 @@ public class PlotImageServiceMock extends AbstractServiceFactory implements IPlo
         return blank;
 	}
 	
-	private Dataset getThumbnail(final File f, final int wdith, final int height) throws Throwable {
-		
-		return new DoubleDataset(new int[]{height, wdith});
+	private Dataset getThumbnail(final File f, final int width, final int height) throws Throwable {
+		return DatasetFactory.zeros(DoubleDataset.class, height, width);
 	}
 
 	public Dataset getThumbnail(final IDataset ds,  final int w, final int h) {
@@ -456,7 +455,7 @@ public class PlotImageServiceMock extends AbstractServiceFactory implements IPlo
     
     static RGBDataset convertToRGBDataset(BufferedImage bufferedImage) {
     	
-        RGBDataset data = new RGBDataset(bufferedImage.getHeight(), bufferedImage.getWidth());
+        RGBDataset data = DatasetFactory.zeros(RGBDataset.class, bufferedImage.getHeight(), bufferedImage.getWidth());
        
         if (bufferedImage.getColorModel() instanceof DirectColorModel) {
             DirectColorModel colorModel = (DirectColorModel)bufferedImage.getColorModel();

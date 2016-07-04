@@ -21,6 +21,7 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
@@ -268,7 +269,7 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 		// to the placeholder value "."
 		signalNode = primaryDataDevice.getFieldNode(signalFieldSourceName);
 		signalFieldRank = primaryDataDevice.getFieldRank(signalFieldSourceName);
-		dimensionDefaultAxisNames = new StringDataset(signalFieldRank);
+		dimensionDefaultAxisNames = DatasetFactory.zeros(StringDataset.class, signalFieldRank);
 		dimensionDefaultAxisNames.fill(NO_DEFAULT_AXIS_PLACEHOLDER);
 		
 		final Attribute axesAttribute = TreeFactory.createAttribute(ATTR_NAME_AXES, dimensionDefaultAxisNames, false);
@@ -298,7 +299,7 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 		
 		// create the {axisname}_indices attribute of the NXdata group for this axis device
 		final String attrName = destinationFieldName + ATTR_SUFFIX_INDICES;
-		final IntegerDataset indicesDataset = new IntegerDataset(fieldRank);
+		final IntegerDataset indicesDataset = DatasetFactory.zeros(IntegerDataset.class, fieldRank);
 
 		// set the dimension mappings into the dataset, if not set use 0, 1, 2, etc...
 		final int[] finalDimensionMappings = dimensionMappings;

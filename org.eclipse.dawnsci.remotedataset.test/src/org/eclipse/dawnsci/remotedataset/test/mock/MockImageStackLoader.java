@@ -65,7 +65,7 @@ public class MockImageStackLoader implements ILazyLoader {
 	}
 
 	public MockImageStackLoader(int[] dimensions, String[] imageFilenames, String directory) throws Exception {
-		this(new StringDataset(imageFilenames, dimensions), null, directory);
+		this(DatasetFactory.createFromObject(StringDataset.class, imageFilenames, dimensions), null, directory);
 	}
 
 	public MockImageStackLoader(int[] dimensions, String[] imageFilenames) throws Exception {
