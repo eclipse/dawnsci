@@ -71,4 +71,6 @@ public interface IPowderCalibrationInfo {
 	 * @return citeArray
 	 */
 	public String[] getCitationInformation();
+	
+	public String getResultDescription();
 }
