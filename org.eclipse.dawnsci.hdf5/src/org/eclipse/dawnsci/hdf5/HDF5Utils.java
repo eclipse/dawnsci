@@ -26,7 +26,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DTypeUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
@@ -1159,7 +1159,7 @@ public class HDF5Utils {
 				mshape = slice.getShape();
 			}
 			createDataset(fileName, parentPath, name, slice.getStart(), mshape, slice.getShape(),
-					AbstractDataset.getDType(value), null, false);
+					DTypeUtils.getDType(value), null, false);
 		}
 	}
 

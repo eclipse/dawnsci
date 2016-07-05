@@ -1,7 +1,7 @@
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 
 /**
@@ -41,7 +41,7 @@ public class SimpleNexusFileTest extends AbstractNexusFileTestBase {
 		dataGroup.setAttribute("counts", "signal", 1.0);
 		dataGroup.setAttribute("counts", "axes", "two_theta");
 
-		IDataset twoTheta = DatasetFactory.createRange(18.9094, 18.9122, 0.0002, AbstractDataset.FLOAT64);
+		IDataset twoTheta = DatasetFactory.createRange(18.9094, 18.9122, 0.0002, Dataset.FLOAT64);
 		dataGroup.setDataset("two_theta", twoTheta);
 		dataGroup.setAttribute("two_theta", "units", "degrees");
 		dataGroup.setAttribute("two_theta", "long_name", "two_theta (degrees)");

@@ -25,7 +25,7 @@ import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.metadata.DimensionMetadata;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DTypeUtils;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 
 /**
@@ -99,7 +99,7 @@ public class InfoServlet extends HttpServlet {
 					                 
 			response.getWriter().println(lz.getName());
 			response.getWriter().println(Arrays.toString(lz.getShape()));
-			response.getWriter().println(AbstractDataset.getDTypeFromClass(lz.getElementClass()));
+			response.getWriter().println(DTypeUtils.getDTypeFromClass(lz.getElementClass()));
 			response.getWriter().println(lz.getElementsPerItem()); // Probably 1
 			List<DimensionMetadata> dmds = lz.getMetadata(DimensionMetadata.class);
 			if (dmds != null && dmds.size() > 0) {

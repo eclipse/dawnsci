@@ -27,7 +27,7 @@ import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DTypeUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.eclipse.dawnsci.nexus.NXdata;
@@ -204,7 +204,7 @@ public class NexusAssert {
 				throw new AssertionError("Could not get data from lazy dataset", e.getCause());
 			}
 
-			final int datatype = AbstractDataset.getDType(actualDataset);
+			final int datatype = DTypeUtils.getDType(actualDataset);
 			PositionIterator positionIterator = new PositionIterator(actualDataset.getShape());
 			while (positionIterator.hasNext()) {
 				int[] position = positionIterator.getPos();

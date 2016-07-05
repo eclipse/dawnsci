@@ -32,7 +32,7 @@ import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
 import org.eclipse.dawnsci.analysis.api.tree.TreeUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DTypeUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
@@ -872,7 +872,7 @@ public class NexusFileHDF5 implements NexusFile {
 		}
 
 		int itemSize = 1;
-		int dataType = AbstractDataset.getDType(data);
+		int dataType = DTypeUtils.getDType(data);
 		int[] iShape = data.getShape();
 		int[] iMaxShape = data.getMaxShape();
 		int[] iChunks = data.getChunking();

@@ -27,7 +27,7 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DTypeUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.hdf.object.nexus.NexusUtils;
 import org.eclipse.dawnsci.hdf.object.nexus.NexusUtils.ATTRIBUTE_TYPE;
@@ -858,7 +858,7 @@ public class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatD
 			                     final IDataset data,
 			                     final String   parentPath,
 			                     final boolean  overwrite) throws Exception {
-    	int    dType   = AbstractDataset.getDType(data);
+    	int    dType   = DTypeUtils.getDType(data);
 		long[] shape   = H5Utils.getLong(data.getShape());
 		
 		return createDataset(name, dType, shape, null, null, DatasetUtils.serializeDataset(data), null, parentPath, overwrite);
@@ -948,7 +948,7 @@ public class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatD
 						                     final IDataset data,
 						                     final String   parentGroupPath) throws Exception {
 		
-    	int    dType   = AbstractDataset.getDType(data);
+    	int    dType   = DTypeUtils.getDType(data);
 		long[] shape   = H5Utils.getLong(data.getShape());
 		
 		return appendDataset(name, dType, shape, DatasetUtils.serializeDataset(data), parentGroupPath);

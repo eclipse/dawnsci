@@ -30,7 +30,7 @@ import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DTypeUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
@@ -340,7 +340,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 			dataNode = getDataNode(name);
 			// create a new dataset, new DataNode and update the cache
 			Dataset dataset = getCached(name);
-			if (AbstractDataset.getDTypeFromObject(value) != dataset.getDType()) {
+			if (DTypeUtils.getDTypeFromObject(value) != dataset.getDType()) {
 				throw new IllegalArgumentException("Cannot overwrite existing dataset of " + dataset.getElementClass());
 			}
 			

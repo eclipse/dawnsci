@@ -22,7 +22,7 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DTypeUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.nexus.NXaperture;
@@ -128,7 +128,7 @@ public class NXobjectTest {
 		assertNotNull(dataset);
 		assertEquals(2, dataset.getRank());
 		assertEquals(Double.class, dataset.getElementClass());
-		assertEquals(AbstractDataset.getDType(dataset), Dataset.FLOAT64);
+		assertEquals(DTypeUtils.getDType(dataset), Dataset.FLOAT64);
 		
 		assertSame(dataset, detector.getLazyWritableDataset(NXdetector.NX_DATA));
 		DataNode dataNode = detector.getDataNode(NXdetector.NX_DATA);
@@ -146,7 +146,7 @@ public class NXobjectTest {
 		assertArrayEquals(shape, dataset.getShape());
 		assertArrayEquals(shape, dataset.getMaxShape());
 		assertEquals(Integer.class, dataset.getElementClass());
-		assertEquals(AbstractDataset.getDType(dataset), Dataset.INT32);
+		assertEquals(DTypeUtils.getDType(dataset), Dataset.INT32);
 		
 		assertSame(dataset, scanPointsCollection.getLazyWritableDataset("scan_finished"));
 		DataNode dataNode = scanPointsCollection.getDataNode("scan_finished");
