@@ -13,14 +13,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.api.io.ILazySaver;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.SliceND;
+import org.eclipse.january.io.ILazySaver;
 
 /**
  * Lazy saver for HDF5 files

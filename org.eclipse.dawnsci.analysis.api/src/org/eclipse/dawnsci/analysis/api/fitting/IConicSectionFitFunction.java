@@ -16,7 +16,7 @@ import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.optim.nonlinear.vector.Target;
 import org.apache.commons.math3.optim.nonlinear.vector.Weight;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 
 /**

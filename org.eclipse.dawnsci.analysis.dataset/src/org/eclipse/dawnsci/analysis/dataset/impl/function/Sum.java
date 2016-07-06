@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.complex.Complex;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Example of finding the totals in an array of datasets

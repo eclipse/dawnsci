@@ -14,23 +14,23 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.IFileLoader;
-import org.eclipse.dawnsci.analysis.api.io.ILazyLoader;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.Metadata;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DTypeUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.SliceNDIterator;
-import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.AbstractDataset;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.SliceND;
+import org.eclipse.january.dataset.SliceNDIterator;
+import org.eclipse.january.dataset.StringDataset;
+import org.eclipse.january.io.ILazyLoader;
+import org.eclipse.january.metadata.IMetadata;
+import org.eclipse.january.metadata.Metadata;
 
 /**
  * Class to create dataset from a dataset of filenames.

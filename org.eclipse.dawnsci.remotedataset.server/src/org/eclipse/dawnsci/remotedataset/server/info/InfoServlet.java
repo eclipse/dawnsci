@@ -20,13 +20,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
-import org.eclipse.dawnsci.analysis.api.metadata.DimensionMetadata;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.dataset.impl.DTypeUtils;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.metadata.DimensionMetadata;
 
 /**
  * The handler for incoming requests. No work should be done here

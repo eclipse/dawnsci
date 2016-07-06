@@ -11,13 +11,13 @@
  *******************************************************************************/ 
 package org.eclipse.dawnsci.hdf.object;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.dataset.impl.DTypeUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.dataset.SliceND;
 
 import hdf.object.Datatype;
 import hdf.object.h5.H5Datatype;

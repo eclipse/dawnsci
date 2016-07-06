@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.filter.IFilterDecorator;
 import org.eclipse.dawnsci.plotting.api.filter.IPlottingFilter;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
@@ -23,6 +22,7 @@ import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITraceListener;
 import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
+import org.eclipse.january.dataset.IDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

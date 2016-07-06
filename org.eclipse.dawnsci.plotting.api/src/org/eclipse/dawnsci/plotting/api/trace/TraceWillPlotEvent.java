@@ -14,7 +14,7 @@ package org.eclipse.dawnsci.plotting.api.trace;
 import java.util.EventObject;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Note the source to this event can either be the ITrace

@@ -6,21 +6,21 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.Random;
+import org.eclipse.january.dataset.Slice;
 import org.eclipse.swt.graphics.ImageData;
 import org.junit.Test;
 

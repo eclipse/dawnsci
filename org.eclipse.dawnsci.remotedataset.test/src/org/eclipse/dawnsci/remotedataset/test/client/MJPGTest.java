@@ -4,9 +4,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.analysis.dataset.function.Downsample;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
@@ -14,6 +11,9 @@ import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.eclipse.dawnsci.remotedataset.test.mock.ImageServiceMock;
 import org.eclipse.dawnsci.remotedataset.test.mock.LoaderServiceMock;
 import org.eclipse.dawnsci.remotedataset.test.mock.PlotImageServiceMock;
+import org.eclipse.january.dataset.DataEvent;
+import org.eclipse.january.dataset.IDataListener;
+import org.eclipse.january.dataset.IRemoteDataset;
 import org.junit.Before;
 import org.junit.Test;
 

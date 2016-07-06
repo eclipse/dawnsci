@@ -20,12 +20,12 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.ImageTypeSpecifier;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.SliceND;
 
 /**
  * This class loads a TIFF image file

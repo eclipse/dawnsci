@@ -15,9 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Slice;
 
 /**
  * The conversion context which will drive what we are going to convert.

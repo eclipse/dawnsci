@@ -5,14 +5,14 @@ import java.net.URL;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteData;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.remotedataset.Format;
 import org.eclipse.dawnsci.remotedataset.client.dyn.DynamicDatasetFactory;
 import org.eclipse.dawnsci.remotedataset.client.dyn.IDynamicMonitorDataset;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
+import org.eclipse.january.dataset.IRemoteData;
+import org.eclipse.january.dataset.IRemoteDataset;
 
 public class RemoteDatasetServiceImpl implements IRemoteDatasetService {
 	

@@ -20,27 +20,27 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.DTypeUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DateDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DateDataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.StringDataset;
 
 /**
  * The abstract superclass of all base class implementation classes.

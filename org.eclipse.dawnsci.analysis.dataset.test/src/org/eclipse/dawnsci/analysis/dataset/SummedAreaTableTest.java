@@ -11,15 +11,15 @@ package org.eclipse.dawnsci.analysis.dataset;
 
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.asserts.TestUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Maths;
-import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.analysis.dataset.impl.SummedAreaTable;
+import org.eclipse.january.asserts.TestUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IntegerDataset;
+import org.eclipse.january.dataset.Maths;
+import org.eclipse.january.dataset.Random;
 import org.junit.Ignore;
 import org.junit.Test;
 

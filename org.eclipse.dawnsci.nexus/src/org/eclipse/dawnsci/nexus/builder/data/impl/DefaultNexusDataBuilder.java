@@ -21,9 +21,6 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXentry;
@@ -38,6 +35,9 @@ import org.eclipse.dawnsci.nexus.builder.data.DataDeviceBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.PrimaryDataDevice;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusEntryBuilder;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IntegerDataset;
+import org.eclipse.january.dataset.StringDataset;
 
 /**
  * Default implementation of {@link NexusDataBuilder}.

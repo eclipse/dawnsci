@@ -14,14 +14,14 @@ package org.eclipse.dawnsci.plotting.examples;
 import java.io.File;
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.examples.util.BundleUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.RGBDataset;
+import org.eclipse.january.dataset.Slice;
 import org.eclipse.swt.widgets.Composite;
 
 /**

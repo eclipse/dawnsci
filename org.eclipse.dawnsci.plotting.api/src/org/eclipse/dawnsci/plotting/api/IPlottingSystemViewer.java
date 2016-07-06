@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.annotation.IAnnotation;
 import org.eclipse.dawnsci.plotting.api.annotation.IAnnotationSystem;
 import org.eclipse.dawnsci.plotting.api.axis.IAxis;
@@ -30,6 +29,7 @@ import org.eclipse.dawnsci.plotting.api.region.IRegionSystem;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITraceListener;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;

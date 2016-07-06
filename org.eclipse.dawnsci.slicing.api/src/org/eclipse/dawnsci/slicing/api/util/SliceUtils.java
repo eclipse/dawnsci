@@ -22,16 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDatasetMathsService;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.io.SliceObject;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.doe.DOEUtils;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
@@ -45,6 +39,12 @@ import org.eclipse.dawnsci.slicing.api.system.DimsData;
 import org.eclipse.dawnsci.slicing.api.system.DimsDataList;
 import org.eclipse.dawnsci.slicing.api.system.ISliceRangeSubstituter;
 import org.eclipse.dawnsci.slicing.api.system.SliceSource;
+import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.dataset.SliceND;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,13 +109,13 @@ public class SliceUtils {
 
     		final IDatasetMathsService service = (IDatasetMathsService)Activator.getService(IDatasetMathsService.class);
     		if (dimsData.getPlotAxis()==AxisType.X) {
-    			x = service.createRange(dataShape[i], IDatasetMathsService.INT);
+    			x = service.createRange(dataShape[i], Integer.class);
     			x.setName("Dimension "+(dimsData.getDimension()+1));
     			currentSlice.setX(dimsData.getDimension());
     			currentSlice.setxSize(x.getSize());
     		}
     		if (dimsData.getPlotAxis()==AxisType.Y || dimsData.getPlotAxis()==AxisType.Y_MANY) {
-       			y = service.createRange(dataShape[i], IDatasetMathsService.INT);
+       			y = service.createRange(dataShape[i], Integer.class);
     			y.setName("Dimension "+(dimsData.getDimension()+1));
     			currentSlice.setY(dimsData.getDimension());
     			final int count = DOEUtils.getSize(dimsData.getSliceRange(true), null);
@@ -324,7 +324,7 @@ public class SliceUtils {
 		final IDatasetMathsService service = (IDatasetMathsService)Activator.getService(IDatasetMathsService.class);
 		if ("indices".equals(axisName) || axisName==null) {
 			if (requireIndicesOnError) {
-				IDataset indices = service.createRange(length, IDatasetMathsService.INT); // Save time
+				IDataset indices = service.createRange(length, Integer.class); // Save time
 				indices.setName("");
 				return indices;
 			} else {
@@ -359,7 +359,7 @@ public class SliceUtils {
 				}
 			} catch (Exception ignored) {
 				// This is a late on fix, if we cannot get the axes, we set no axis.
-				x = service.createRange(length, IDatasetMathsService.INT); // Save time
+				x = service.createRange(length, Integer.class); // Save time
 				x.setName("Indices");
 			}
 			if (x.getRank()==2) {
@@ -368,7 +368,7 @@ public class SliceUtils {
 			}
 
 			if (x.getRank()!=1) {
-				x = service.createRange(length, IDatasetMathsService.INT); // Save time
+				x = service.createRange(length, Integer.class); // Save time
 				x.setName("Indices");
 			}
             return x;
@@ -376,7 +376,7 @@ public class SliceUtils {
 		} catch (Throwable ne) {
 			logger.error("Cannot get nexus axis during slice!", ne);
 			if (requireIndicesOnError) {
-				IDataset indices = service.createRange(length, IDatasetMathsService.INT); // Save time
+				IDataset indices = service.createRange(length, Integer.class); // Save time
 				indices.setName("");
 				return indices;
 

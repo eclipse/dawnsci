@@ -14,9 +14,9 @@ package org.eclipse.dawnsci.plotting.examples;
 import java.util.Arrays;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDatasetMathsService;
 import org.eclipse.dawnsci.plotting.api.axis.IAxis;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -42,7 +42,7 @@ public class AxisExample extends XYExample {
 			final IDatasetMathsService mservice = Examples.getCurrent().getDatasetMathsService();
 			
 			// Create a 1D dataset programmatically. Can also use 
-			final IDataset set = mservice.createRange(0, 100000, 1000, IDatasetMathsService.INT);
+			final IDataset set = mservice.createRange(0, 100000, 1000, Integer.class);
 			set.setName("Different scale data");
 			
 			final IAxis otherX = system.createAxis("top", false, SWT.TOP);

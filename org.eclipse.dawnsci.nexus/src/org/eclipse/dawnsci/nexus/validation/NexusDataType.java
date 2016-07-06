@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Enumeration of Data types allowed in NXDL specifications.

@@ -15,8 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * For band pass beam filters.

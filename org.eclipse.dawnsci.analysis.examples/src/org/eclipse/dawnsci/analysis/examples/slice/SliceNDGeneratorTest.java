@@ -14,11 +14,11 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.slicer.SliceNDGenerator;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.dataset.SliceND;
 import org.junit.Test;
 
 public class SliceNDGeneratorTest {

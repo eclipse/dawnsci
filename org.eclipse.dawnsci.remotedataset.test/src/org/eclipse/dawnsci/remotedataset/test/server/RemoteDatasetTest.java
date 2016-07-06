@@ -3,12 +3,12 @@ package org.eclipse.dawnsci.remotedataset.test.server;
 import java.io.File;
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.SliceND;
 import org.junit.Before;
 import org.junit.Test;
 

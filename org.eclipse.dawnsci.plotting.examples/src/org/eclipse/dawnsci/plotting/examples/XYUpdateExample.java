@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.plotting.api.PlotType;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;

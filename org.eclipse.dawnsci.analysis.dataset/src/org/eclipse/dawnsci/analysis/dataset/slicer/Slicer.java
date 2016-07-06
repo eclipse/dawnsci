@@ -24,11 +24,11 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.dataset.SliceND;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

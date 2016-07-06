@@ -16,12 +16,12 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
 
 /**
  * Base interface of all Nexus group nodes

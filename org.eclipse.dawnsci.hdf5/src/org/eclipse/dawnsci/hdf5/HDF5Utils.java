@@ -21,19 +21,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
-import org.eclipse.dawnsci.analysis.dataset.impl.DTypeUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.PositionIterator;
+import org.eclipse.january.dataset.SliceND;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -14,6 +14,13 @@ package org.eclipse.dawnsci.analysis.dataset.impl;
 
 import java.util.Arrays;
 
+import org.eclipse.january.dataset.ComplexDoubleDataset;
+import org.eclipse.january.dataset.ComplexFloatDataset;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.PositionIterator;
 import org.jtransforms.fft.DoubleFFT_1D;
 import org.jtransforms.fft.DoubleFFT_2D;
 import org.jtransforms.fft.DoubleFFT_3D;

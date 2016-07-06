@@ -11,8 +11,8 @@
  *******************************************************************************/ 
 package org.eclipse.dawnsci.slicing.api.system;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.SliceObject;
+import org.eclipse.january.dataset.ILazyDataset;
 
 /**
  * This interface marks a workbench part as being able to display a gallery

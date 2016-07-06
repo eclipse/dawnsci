@@ -2,17 +2,17 @@ package org.eclipse.dawnsci.remotedataset.client.dyn;
 
 import java.awt.image.BufferedImage;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
-import org.eclipse.dawnsci.analysis.api.dataset.DataListenerDelegate;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
+import org.eclipse.january.dataset.DataEvent;
+import org.eclipse.january.dataset.DataListenerDelegate;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataListener;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.RGBDataset;
 
 class DataConnection<T extends IDataset> {
 	

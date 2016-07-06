@@ -15,9 +15,9 @@ package org.eclipse.dawnsci.analysis.tree.impl;
 import java.io.Serializable;
 
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.StringDataset;
 
 public class AttributeImpl implements Attribute, Serializable {
 	protected static final long serialVersionUID = -5046142834233727039L;

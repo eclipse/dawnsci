@@ -9,12 +9,12 @@
 
 package org.eclipse.dawnsci.plotting.examples.exercises;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.BooleanDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITraceListener;
 import org.eclipse.dawnsci.plotting.api.trace.TraceEvent;
+import org.eclipse.january.dataset.BooleanDataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.PositionIterator;
 import org.eclipse.swt.widgets.Composite;
 
 public class Exercise2 extends Exercise1 {

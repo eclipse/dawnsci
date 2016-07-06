@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.january.dataset.Dataset;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

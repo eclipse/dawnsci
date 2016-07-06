@@ -12,13 +12,13 @@ package org.eclipse.dawnsci.plotting.api.trace;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.MaskMetadata;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
+import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.metadata.AxesMetadata;
+import org.eclipse.january.metadata.MaskMetadata;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 

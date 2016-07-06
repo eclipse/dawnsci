@@ -11,17 +11,17 @@ package org.eclipse.dawnsci.analysis.api.persistence;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.diffraction.IPowderCalibrationInfo;
 import org.eclipse.dawnsci.analysis.api.fitting.functions.IFunction;
 import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.OriginMetadata;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.processing.IOperation;
 import org.eclipse.dawnsci.analysis.api.processing.OperationData;
 import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.metadata.OriginMetadata;
 
 /**
  * An IPersistent File is defined by what can be saved in an HDF5 file.<br>

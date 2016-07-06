@@ -18,10 +18,8 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-
 import org.eclipse.dawnsci.nexus.*;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Group of multiple application definitions for "multi-modal" (e.g. SAXS/WAXS) measurements.

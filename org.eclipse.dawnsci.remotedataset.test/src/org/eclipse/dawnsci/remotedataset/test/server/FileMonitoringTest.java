@@ -4,11 +4,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.eclipse.dawnsci.remotedataset.server.DataServerMode;
 import org.eclipse.dawnsci.remotedataset.server.DiagnosticInfo;
+import org.eclipse.january.dataset.IRemoteDataset;
 import org.junit.Test;
 
 /**

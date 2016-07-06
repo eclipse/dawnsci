@@ -12,15 +12,15 @@
 
 package org.eclipse.dawnsci.analysis.dataset.roi;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.Maths;
 import org.eclipse.dawnsci.analysis.dataset.impl.function.LineSample;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Maths;
+import org.eclipse.january.dataset.Slice;
 
 /**
  * Class with utils methods for slicing 3D datasets with ROIs

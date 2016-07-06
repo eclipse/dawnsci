@@ -10,19 +10,19 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.IFileLoader;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyDataset;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
 import org.eclipse.dawnsci.nexus.INexusFileFactory;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.LazyDataset;
+import org.eclipse.january.metadata.AxesMetadata;
+import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
+import org.eclipse.january.metadata.IMetadata;
 
 /**
  * This mocks the loader service, only implementing dataset loading

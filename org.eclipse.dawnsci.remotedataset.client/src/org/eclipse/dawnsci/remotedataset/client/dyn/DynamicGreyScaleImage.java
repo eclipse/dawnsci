@@ -6,13 +6,13 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IDatasetChangeChecker;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.ShortDataset;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
+import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataListener;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDatasetChangeChecker;
+import org.eclipse.january.dataset.ShortDataset;
 
 /**
  * Used for streaming an image into the plotting system.

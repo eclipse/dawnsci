@@ -8,8 +8,6 @@ import static org.eclipse.dawnsci.nexus.test.util.NexusAssert.assertTarget;
 
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.FloatDataset;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXpositioner;
@@ -24,6 +22,8 @@ import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.data.DataDeviceBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.FloatDataset;
 import org.junit.Before;
 import org.junit.Test;
 

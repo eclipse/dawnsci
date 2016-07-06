@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.SliceND;
 
 /**
  * 

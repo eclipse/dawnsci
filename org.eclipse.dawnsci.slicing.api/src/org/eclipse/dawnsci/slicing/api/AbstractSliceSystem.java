@@ -23,9 +23,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.io.SliceObject;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
 import org.eclipse.dawnsci.doe.DOEUtils;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.PlotType;
@@ -41,6 +39,8 @@ import org.eclipse.dawnsci.slicing.api.system.ISliceSystem;
 import org.eclipse.dawnsci.slicing.api.system.RangeMode;
 import org.eclipse.dawnsci.slicing.api.tool.ISlicingTool;
 import org.eclipse.dawnsci.slicing.api.util.SliceUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.metadata.IMetadata;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;

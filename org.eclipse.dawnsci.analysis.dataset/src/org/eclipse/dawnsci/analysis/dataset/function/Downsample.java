@@ -13,16 +13,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.downsample.DownsampleMode;
 import org.eclipse.dawnsci.analysis.api.downsample.IDownsampleService;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
-import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.SliceIterator;
 import org.eclipse.dawnsci.analysis.dataset.impl.function.DatasetToDatasetFunction;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IndexIterator;
+import org.eclipse.january.dataset.RGBDataset;
+import org.eclipse.january.dataset.SliceIterator;
 
 /**
  * Down-sample a dataset by a given bin. Also is the implementation of a service

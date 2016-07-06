@@ -14,12 +14,12 @@ import static org.junit.Assert.assertNotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.StringDataset;
 import org.junit.Before;
 
 public class ComplexNexusFileTest extends AbstractNexusFileTestBase {

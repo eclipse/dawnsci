@@ -12,8 +12,8 @@
 package org.eclipse.dawnsci.slicing.api.data;
 
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
 import org.eclipse.dawnsci.plotting.api.expressions.IExpressionObject;
+import org.eclipse.january.metadata.IMetadata;
 
 /**
  * A service for making ITransferableDataObjects

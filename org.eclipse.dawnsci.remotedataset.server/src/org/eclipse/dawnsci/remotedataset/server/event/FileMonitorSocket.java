@@ -14,13 +14,13 @@ import java.nio.file.WatchService;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
-import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.server.DiagnosticInfo;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.DataEvent;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.slf4j.Logger;

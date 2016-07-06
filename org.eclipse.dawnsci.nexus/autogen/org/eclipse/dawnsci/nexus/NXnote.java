@@ -15,9 +15,8 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Date;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Any additional freeform information not covered by the other base classes.

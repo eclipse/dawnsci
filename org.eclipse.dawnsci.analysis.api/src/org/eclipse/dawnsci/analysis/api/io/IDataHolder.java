@@ -15,10 +15,11 @@ package org.eclipse.dawnsci.analysis.api.io;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.io.IDataAnalysisObject;
+import org.eclipse.january.metadata.IMetadata;
 
 public interface IDataHolder extends IDataAnalysisObject {
 	

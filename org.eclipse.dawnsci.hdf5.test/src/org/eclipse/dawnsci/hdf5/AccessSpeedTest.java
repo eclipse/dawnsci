@@ -12,13 +12,13 @@ package org.eclipse.dawnsci.hdf5;
 import java.io.File;
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.january.dataset.AbstractDataset;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.PositionIterator;
+import org.eclipse.january.dataset.SliceND;
 import org.junit.Test;
 
 import hdf.hdf5lib.H5;

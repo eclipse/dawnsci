@@ -15,13 +15,13 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.annotation.IAnnotationSystem;
 import org.eclipse.dawnsci.plotting.api.axis.IAxisSystem;
 import org.eclipse.dawnsci.plotting.api.region.IRegionSystem;
 import org.eclipse.dawnsci.plotting.api.trace.ColorOption;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITraceSystem;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Control;

@@ -12,11 +12,11 @@ package org.eclipse.dawnsci.analysis.dataset.slicer;
 import java.util.Arrays;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.metadata.OriginMetadata;
+import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.metadata.OriginMetadata;
 
 public class SliceFromSeriesMetadata implements OriginMetadata {
 	

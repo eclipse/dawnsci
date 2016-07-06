@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 
 /**

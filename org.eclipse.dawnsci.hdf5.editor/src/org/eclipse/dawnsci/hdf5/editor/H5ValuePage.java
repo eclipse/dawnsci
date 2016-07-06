@@ -19,9 +19,6 @@ import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
@@ -29,6 +26,9 @@ import org.eclipse.dawnsci.analysis.api.tree.TreeAdaptable;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;

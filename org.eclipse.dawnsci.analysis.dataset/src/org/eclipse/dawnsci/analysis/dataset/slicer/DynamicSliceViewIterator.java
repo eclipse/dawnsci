@@ -9,16 +9,16 @@
 
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.metadata.DynamicMetadataUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.SliceND;
+import org.eclipse.january.metadata.AxesMetadata;
+import org.eclipse.january.metadata.internal.DynamicMetadataUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

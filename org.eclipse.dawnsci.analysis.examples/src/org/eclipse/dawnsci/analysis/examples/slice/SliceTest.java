@@ -14,7 +14,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
+import org.eclipse.january.dataset.Slice;
 import org.junit.Test;
 
 public class SliceTest {

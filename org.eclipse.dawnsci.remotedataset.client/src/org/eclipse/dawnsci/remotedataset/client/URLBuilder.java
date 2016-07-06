@@ -4,9 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.remotedataset.Format;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.dataset.SliceND;
 
 /**
  * Holds data and builds urls from it when required.

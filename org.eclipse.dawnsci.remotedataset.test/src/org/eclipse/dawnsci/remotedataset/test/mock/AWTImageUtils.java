@@ -20,13 +20,13 @@ import java.awt.image.WritableRaster;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.metadata.Metadata;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
-import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IndexIterator;
+import org.eclipse.january.dataset.IntegerDataset;
+import org.eclipse.january.dataset.RGBDataset;
+import org.eclipse.january.metadata.Metadata;
 
 /**
  * Helper methods to convert to/from AWT images and datasets

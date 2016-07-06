@@ -14,15 +14,15 @@ package org.eclipse.dawnsci.analysis.tree.impl;
 
 import java.io.Serializable;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DatasetException;
-import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.api.metadata.DimensionMetadata;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
-import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
-import org.eclipse.dawnsci.analysis.dataset.metadata.DimensionMetadataImpl;
+import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.IndexIterator;
+import org.eclipse.january.dataset.StringDataset;
+import org.eclipse.january.metadata.DimensionMetadata;
+import org.eclipse.january.metadata.internal.DimensionMetadataImpl;
 
 public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	protected static final long serialVersionUID = 9089016783319981598L;

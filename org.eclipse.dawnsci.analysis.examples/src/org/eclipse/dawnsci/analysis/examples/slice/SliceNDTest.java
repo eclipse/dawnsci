@@ -11,7 +11,7 @@ package org.eclipse.dawnsci.analysis.examples.slice;
 
 import static org.junit.Assert.fail;
 
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.eclipse.january.dataset.SliceND;
 import org.junit.Assert;
 import org.junit.Test;
 

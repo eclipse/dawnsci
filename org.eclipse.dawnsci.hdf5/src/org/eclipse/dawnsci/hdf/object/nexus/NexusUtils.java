@@ -19,11 +19,11 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.TreeMap;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.hdf.object.H5Utils;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.IFileFormatDataFile;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.january.dataset.IDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -228,7 +228,7 @@ public class NexusUtils {
 				                      dataset.getName(), 
 				                      H5Utils.getDatatype(dataset), 
 				                      H5Utils.getLong(dataset.getShape()), 
-				                      ((org.eclipse.dawnsci.analysis.dataset.impl.Dataset)dataset).getBuffer());
+				                      ((org.eclipse.january.dataset.Dataset)dataset).getBuffer());
 	}
 
 	/**

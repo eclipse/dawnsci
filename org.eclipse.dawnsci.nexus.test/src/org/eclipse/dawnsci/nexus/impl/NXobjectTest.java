@@ -19,12 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.DTypeUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.nexus.NXaperture;
 import org.eclipse.dawnsci.nexus.NXcollection;
 import org.eclipse.dawnsci.nexus.NXdetector;
@@ -33,6 +28,11 @@ import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXsample;
 import org.eclipse.dawnsci.nexus.NXsensor;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
 import org.junit.Test;
 
 public class NXobjectTest {

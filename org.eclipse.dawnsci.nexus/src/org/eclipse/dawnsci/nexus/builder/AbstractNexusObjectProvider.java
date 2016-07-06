@@ -20,7 +20,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
@@ -28,6 +27,7 @@ import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.impl.PrimaryDataFieldModel;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
 
 /**
  * Abstract implementation of {@link NexusObjectProvider}.

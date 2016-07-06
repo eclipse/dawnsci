@@ -15,11 +15,11 @@ package org.eclipse.dawnsci.analysis.dataset.impl.function;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.PositionIterator;
 
 /**
  * Find centroid of each dataset and return list of centroids along each dataset's axes

@@ -12,8 +12,8 @@
 
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.Slice;
 
 /**
  * Used with 

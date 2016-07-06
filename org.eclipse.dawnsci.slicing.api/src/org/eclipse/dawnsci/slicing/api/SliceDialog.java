@@ -12,7 +12,6 @@
 package org.eclipse.dawnsci.slicing.api;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.slicing.api.system.DimsDataList;
@@ -20,6 +19,7 @@ import org.eclipse.dawnsci.slicing.api.system.ISliceSystem;
 import org.eclipse.dawnsci.slicing.api.system.RangeMode;
 import org.eclipse.dawnsci.slicing.api.system.SliceSource;
 import org.eclipse.dawnsci.slicing.api.util.ProgressMonitorWrapper;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;

@@ -14,8 +14,6 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
 import org.eclipse.dawnsci.plotting.api.axis.IAxis;
 import org.eclipse.dawnsci.plotting.api.histogram.HistogramBound;
@@ -38,6 +36,8 @@ import org.eclipse.dawnsci.plotting.api.trace.ISurfaceTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.IVectorTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IVolumeRenderTrace;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.PaletteData;
 

@@ -12,12 +12,12 @@ package org.eclipse.dawnsci.analysis.dataset;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.asserts.TestUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.Signal;
+import org.eclipse.january.asserts.TestUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.Slice;
 import org.junit.Test;
 
 public class SignalTest {

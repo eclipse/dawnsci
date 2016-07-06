@@ -15,10 +15,8 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-
 import org.eclipse.dawnsci.nexus.*;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Collection of translations and rotations to describe a geometry

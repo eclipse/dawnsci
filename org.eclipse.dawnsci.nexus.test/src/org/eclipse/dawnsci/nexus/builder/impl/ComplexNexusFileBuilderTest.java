@@ -15,8 +15,6 @@ package org.eclipse.dawnsci.nexus.builder.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.nexus.NXcollection;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXentry;
@@ -32,6 +30,8 @@ import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryModification;
 import org.eclipse.dawnsci.nexus.builder.appdef.impl.TomoApplicationBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
 
 
 public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBase {

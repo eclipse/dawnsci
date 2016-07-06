@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.IPlotActionSystem;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.PlotType;
@@ -40,6 +39,7 @@ import org.eclipse.dawnsci.plotting.api.trace.ITraceListener;
 import org.eclipse.dawnsci.plotting.api.trace.IVectorTrace;
 import org.eclipse.dawnsci.plotting.api.trace.TraceEvent;
 import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
+import org.eclipse.january.dataset.IDataset;
 
 
 /**

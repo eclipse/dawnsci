@@ -11,15 +11,15 @@ package org.eclipse.dawnsci.hdf5.nexus;
 
 import static org.junit.Assert.assertFalse;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.hdf5.HDF5DatasetResource;
 import org.eclipse.dawnsci.hdf5.HDF5DatatypeResource;
 import org.eclipse.dawnsci.hdf5.HDF5FileResource;
 import org.eclipse.dawnsci.hdf5.HDF5Resource;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.LazyWriteableDataset;
 import org.junit.Test;
 
 import hdf.hdf5lib.H5;

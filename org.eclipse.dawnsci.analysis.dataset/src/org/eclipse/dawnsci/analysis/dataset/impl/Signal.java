@@ -15,6 +15,12 @@ package org.eclipse.dawnsci.analysis.dataset.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.Maths;
+
 
 /**
  * Signal processing class

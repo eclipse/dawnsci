@@ -16,13 +16,13 @@ import static org.eclipse.dawnsci.nexus.validation.NexusUnitCategory.*;
 
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 
 import org.eclipse.dawnsci.nexus.NXroot;
 import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXuser;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXsource;
 import org.eclipse.dawnsci.nexus.NXsample;

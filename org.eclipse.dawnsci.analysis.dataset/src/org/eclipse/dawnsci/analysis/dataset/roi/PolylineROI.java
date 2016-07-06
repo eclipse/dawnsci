@@ -21,8 +21,8 @@ import java.util.TreeSet;
 
 import org.eclipse.dawnsci.analysis.api.roi.IPolylineROI;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
 
 /**
  * Class for a polyline ROI (really a list of point ROIs)

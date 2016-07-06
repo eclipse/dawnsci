@@ -3,6 +3,8 @@
 	<name>org.eclipse.dawnsci.analysis.dataset.test</name>
 	<comment></comment>
 	<projects>
+		<project>org.eclipse.january</project>
+		<project>org.eclipse.january.assert</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

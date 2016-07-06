@@ -14,7 +14,7 @@ package org.eclipse.dawnsci.analysis.api.roi;
 
 import java.io.Serializable;
 
-import org.eclipse.dawnsci.analysis.api.INameable;
+import org.eclipse.january.INameable;
 
 /**
  * Region of interest interface. A region may be one or two dimensional and may enclose an area.

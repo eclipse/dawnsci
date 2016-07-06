@@ -14,6 +14,7 @@ package org.eclipse.dawnsci.analysis.api.metadata;
 
 import org.eclipse.dawnsci.analysis.api.diffraction.DetectorProperties;
 import org.eclipse.dawnsci.analysis.api.diffraction.DiffractionCrystalEnvironment;
+import org.eclipse.january.metadata.IMetadata;
 
 /**
  * This interface is used to mark meta data which conforms to the diffraction meta

@@ -6,11 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.sameInstance;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXinstrument;
@@ -29,6 +25,10 @@ import org.eclipse.dawnsci.nexus.builder.NexusFileBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.LazyWriteableDataset;
 import org.junit.Before;
 import org.junit.Test;
 
