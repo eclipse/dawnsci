@@ -7,7 +7,9 @@ Bundle-Activator: org.eclipse.dawnsci.analysis.dataset.impl.Activator
 Bundle-Vendor: Diamond Light Source
 Require-Bundle: org.apache.commons.math3;bundle-version="[3.2.0,4.0.0)",
  org.apache.commons.lang;bundle-version="[2.6.0,2.7.0)",
- org.eclipse.dawnsci.analysis.api;bundle-version="1.0.0"
+ org.eclipse.dawnsci.analysis.api;bundle-version="1.0.0",
+ org.eclipse.osgi,
+ uk.ac.diamond.jama
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.dawnsci.analysis.dataset.coords,
@@ -21,9 +23,7 @@ Export-Package: org.eclipse.dawnsci.analysis.dataset.coords,
  org.eclipse.dawnsci.analysis.dataset.roi.handler,
  org.eclipse.dawnsci.analysis.dataset.roi.json,
  org.eclipse.dawnsci.analysis.dataset.slicer
-Import-Package: Jama;version="1.0.3",
- org.osgi.framework;version="1.7.0",
- org.slf4j;version="[1.7.2,2.0.0)"
+Import-Package: org.slf4j;version="[1.7.2,2.0.0)"
 Bundle-ClassPath: .,
  jars/JLargeArrays-1.2.jar,
  jars/JTransforms-3.0.jar
