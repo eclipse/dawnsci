@@ -24,6 +24,8 @@
 				<pathelement location="${workspace.git.loc}/diamond-releng.git/diamond.releng.tools/logging" />  <!-- to pick up logback-test.xml -->
 				<pathelement location="${plugin.host.basedir}/bin" />
 				<pathelement location="${plugin.host.basedir}/jars/*" />
+				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.january/bin" />
+				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.january.asserts/bin" />
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.analysis.api/bin" />
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.analysis.asserts/bin" />
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.analysis.dataset/bin" />
