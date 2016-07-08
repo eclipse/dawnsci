@@ -74,7 +74,7 @@ public class HDF5Utils {
 	 * @param dsize data type element size in bytes
 	 * @return dataset type
 	 */
-	public static int getDtype(final int dclass, final int dsize) {
+	public static int getDType(final int dclass, final int dsize) {
 		switch (dclass) {
 		case Datatype.CLASS_STRING:
 			return Dataset.STRING;
