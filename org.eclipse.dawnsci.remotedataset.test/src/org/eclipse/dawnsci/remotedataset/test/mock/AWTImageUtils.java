@@ -26,6 +26,7 @@ import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IndexIterator;
 import org.eclipse.january.dataset.IntegerDataset;
 import org.eclipse.january.dataset.RGBDataset;
+import org.eclipse.january.metadata.IMetadata;
 import org.eclipse.january.metadata.Metadata;
 
 /**
@@ -86,9 +87,12 @@ public class AWTImageUtils {
 	}
 
 	private static void tagIntForShortDataset(Dataset ret) {
-		final Map<String,String> metadata = new HashMap<String, String>(1);
-		metadata.put("unsigned.short.data", "true");
-		ret.setMetadata(new Metadata(metadata));
+		final Map<String,String> map = new HashMap<String, String>(1);
+		map.put("unsigned.short.data", "true");
+		IMetadata metadata = new Metadata();
+		metadata.initialize(map);
+
+		ret.setMetadata(metadata);
 	}
 
 	static public int[] getDTypeFromImage(final SampleModel sm, boolean keepBitWidth) {

@@ -9,8 +9,8 @@
 
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
+import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.Dataset;
-import org.eclipse.january.dataset.DatasetException;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
@@ -18,7 +18,7 @@ import org.eclipse.january.dataset.IDynamicDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.SliceND;
 import org.eclipse.january.metadata.AxesMetadata;
-import org.eclipse.january.metadata.internal.DynamicMetadataUtils;
+import org.eclipse.january.metadata.DynamicMetadataUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

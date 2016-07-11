@@ -39,7 +39,7 @@ import org.eclipse.dawnsci.slicing.api.system.DimsData;
 import org.eclipse.dawnsci.slicing.api.system.DimsDataList;
 import org.eclipse.dawnsci.slicing.api.system.ISliceRangeSubstituter;
 import org.eclipse.dawnsci.slicing.api.system.SliceSource;
-import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;

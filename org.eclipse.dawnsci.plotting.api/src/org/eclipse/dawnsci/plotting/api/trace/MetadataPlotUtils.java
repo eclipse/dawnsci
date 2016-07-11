@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
-import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.Slice;

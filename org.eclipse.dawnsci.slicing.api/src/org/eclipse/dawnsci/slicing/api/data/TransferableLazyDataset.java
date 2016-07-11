@@ -11,8 +11,8 @@ package org.eclipse.dawnsci.slicing.api.data;
 
 import java.io.File;
 
+import org.eclipse.january.DatasetException;
 import org.eclipse.january.IMonitor;
-import org.eclipse.january.dataset.DatasetException;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.IRemoteDataset;

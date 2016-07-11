@@ -26,7 +26,7 @@ import org.eclipse.dawnsci.analysis.api.tree.TreeAdaptable;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
-import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.jface.text.source.SourceViewer;

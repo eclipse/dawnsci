@@ -136,7 +136,11 @@ public class ARPESMetadataImpl implements ARPESMetadata {
 		this.bindingEnergies = getView(metadata.getBindingEnergies());
 		this.photoelectronMomentum = getView(metadata.getPhotoelectronMomentum());
 	}
-	
+
+	@Override
+	public void initialize() {
+	}
+
 	private ILazyDataset getView(ILazyDataset l) {
 		return l == null ? null : l.getSliceView();
 	}

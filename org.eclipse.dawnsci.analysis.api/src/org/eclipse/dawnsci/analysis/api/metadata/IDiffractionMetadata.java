@@ -23,6 +23,14 @@ import org.eclipse.january.metadata.IMetadata;
  */
 public interface IDiffractionMetadata extends IMetadata {
 
+	/**
+	 * Initialize diffraction metadata
+	 * @param filename
+	 * @param props
+	 * @param env
+	 */
+	public void initialize(String filename, DetectorProperties props, DiffractionCrystalEnvironment env);
+
 	public DetectorProperties getDetector2DProperties();
 	
 	public DiffractionCrystalEnvironment getDiffractionCrystalEnvironment();

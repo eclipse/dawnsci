@@ -22,9 +22,11 @@ import org.eclipse.dawnsci.analysis.api.processing.OperationRank;
 import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
 import org.eclipse.dawnsci.analysis.dataset.slicer.SliceFromSeriesMetadata;
 import org.eclipse.january.IMonitor;
+import org.eclipse.january.MetadataException;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.metadata.AxesMetadata;
+import org.eclipse.january.metadata.MetadataFactory;
 
 /**
  * Abstract implementation of IOperation.
@@ -177,7 +179,13 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 			
 			AxesMetadata axOut = null;
 			if (metaout != null && !metaout.isEmpty()) axOut = metaout.get(0);
-			if (axOut == null) axOut = inMeta.createAxesMetadata(original.getRank() - rankDif);
+			if (axOut == null) {
+				try {
+					axOut = MetadataFactory.createMetadata(AxesMetadata.class, original.getRank() - rankDif);
+				} catch (MetadataException e) {
+					throw new OperationException(this, e);
+				}
+			}
 			
 			//Clone to get copies of lazy datasets
 			AxesMetadata cloneMeta = (AxesMetadata) inMeta.clone();

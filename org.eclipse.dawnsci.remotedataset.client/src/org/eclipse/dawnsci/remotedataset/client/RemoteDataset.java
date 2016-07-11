@@ -11,11 +11,11 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.AbstractDataset;
 import org.eclipse.january.dataset.DataEvent;
 import org.eclipse.january.dataset.DataListenerDelegate;
 import org.eclipse.january.dataset.Dataset;
-import org.eclipse.january.dataset.DatasetException;
 import org.eclipse.january.dataset.IDataListener;
 import org.eclipse.january.dataset.IRemoteDataset;
 import org.eclipse.january.dataset.LazyWriteableDataset;

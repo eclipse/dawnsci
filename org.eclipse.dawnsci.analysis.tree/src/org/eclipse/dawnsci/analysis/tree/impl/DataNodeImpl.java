@@ -15,14 +15,15 @@ package org.eclipse.dawnsci.analysis.tree.impl;
 import java.io.Serializable;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.MetadataException;
 import org.eclipse.january.dataset.IDynamicDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.ILazyWriteableDataset;
 import org.eclipse.january.dataset.IndexIterator;
 import org.eclipse.january.dataset.StringDataset;
 import org.eclipse.january.metadata.DimensionMetadata;
-import org.eclipse.january.metadata.internal.DimensionMetadataImpl;
+import org.eclipse.january.metadata.MetadataFactory;
 
 public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	protected static final long serialVersionUID = 9089016783319981598L;
@@ -210,7 +211,12 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 			}
 		}
 		if (mshape != null || cshape != null) {
-			DimensionMetadata dmd = new DimensionMetadataImpl(dataset.getShape(), mshape, cshape);
+			DimensionMetadata dmd = null;
+			try {
+				dmd = MetadataFactory.createMetadata(DimensionMetadata.class, dataset.getShape(), mshape, cshape);
+			} catch (MetadataException e) {
+				e.printStackTrace();
+			}
 			dataset.addMetadata(dmd);
 		}
 

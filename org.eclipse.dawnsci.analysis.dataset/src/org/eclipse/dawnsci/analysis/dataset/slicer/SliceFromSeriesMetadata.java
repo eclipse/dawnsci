@@ -12,7 +12,7 @@ package org.eclipse.dawnsci.analysis.dataset.slicer;
 import java.util.Arrays;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.eclipse.january.dataset.DatasetException;
+import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.Slice;
@@ -34,6 +34,14 @@ public class SliceFromSeriesMetadata implements OriginMetadata {
 	
 	public SliceFromSeriesMetadata(SourceInformation source) {
 		this.sourceInfo = source;
+	}
+
+	@Override
+	public void initialize(int[] shape, int[] maxShape, int[] chunkShape) {
+	}
+
+	@Override
+	public void initialize(ILazyDataset parent, Slice[] outSlice, int[] dataDims, String filePath, String datasetName) {
 	}
 
 	public SourceInformation getSourceInfo() {
