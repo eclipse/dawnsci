@@ -24,6 +24,7 @@ import org.eclipse.january.dataset.IDataListener;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IDatasetChangeChecker;
 import org.eclipse.january.dataset.RGBDataset;
+import org.eclipse.january.dataset.ShapeUtils;
 
 /**
  * Class used to get a streaming image into the plotting system.
@@ -86,7 +87,7 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 		setData();
 		if (dynamicShape) {
 		    shape = newData.getShape();
-		    size = calcSize(shape);
+		    size = ShapeUtils.calcSize(shape);
 		} else {
 			transShape = newData.getShape();
 		}
@@ -96,7 +97,7 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 		dynamicShape  = isDyn;
 		if (dynamicShape && transShape!=null) {
 		    shape = transShape;
-		    size = calcSize(shape);
+		    size = ShapeUtils.calcSize(shape);
 		    transShape = null;
 		}
 	}

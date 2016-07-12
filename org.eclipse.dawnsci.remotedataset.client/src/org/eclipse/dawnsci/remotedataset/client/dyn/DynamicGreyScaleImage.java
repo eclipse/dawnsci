@@ -12,6 +12,7 @@ import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataListener;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IDatasetChangeChecker;
+import org.eclipse.january.dataset.ShapeUtils;
 import org.eclipse.january.dataset.ShortDataset;
 
 /**
@@ -77,7 +78,7 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 		setData();
 		if (dynamicShape) {
 		    shape = sdata.getShape();
-		    size = calcSize(shape);
+		    size = ShapeUtils.calcSize(shape);
 		} else {
 			this.transShape = sdata.getShape();
 		}
@@ -87,7 +88,7 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 		dynamicShape  = isDyn;
 		if (dynamicShape && transShape!=null) {
 		    shape = transShape;
-		    size = calcSize(shape);
+		    size = ShapeUtils.calcSize(shape);
 		    transShape = null;
 		}
 	}

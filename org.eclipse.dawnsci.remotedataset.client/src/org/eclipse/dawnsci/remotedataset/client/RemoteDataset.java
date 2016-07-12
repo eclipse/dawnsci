@@ -12,13 +12,13 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.january.DatasetException;
-import org.eclipse.january.dataset.AbstractDataset;
 import org.eclipse.january.dataset.DataEvent;
 import org.eclipse.january.dataset.DataListenerDelegate;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.IDataListener;
 import org.eclipse.january.dataset.IRemoteDataset;
 import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.ShapeUtils;
 import org.eclipse.january.metadata.DynamicConnectionInfo;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
@@ -230,7 +230,7 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		this.dtype = Integer.parseInt(info.get(2));
 		this.isize = Integer.parseInt(info.get(3));
 		try {
-			size = AbstractDataset.calcLongSize(shape);
+			size = ShapeUtils.calcLongSize(shape);
 		} catch (IllegalArgumentException e) {
 			size = Long.MAX_VALUE; // this indicates that the entire dataset cannot be read in! 
 		}

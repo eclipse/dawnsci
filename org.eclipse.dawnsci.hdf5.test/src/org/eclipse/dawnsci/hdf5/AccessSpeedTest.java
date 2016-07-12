@@ -14,10 +14,10 @@ import java.util.Arrays;
 
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.january.dataset.AbstractDataset;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.PositionIterator;
+import org.eclipse.january.dataset.ShapeUtils;
 import org.eclipse.january.dataset.SliceND;
 import org.junit.Test;
 
@@ -39,7 +39,7 @@ public class AccessSpeedTest {
 			e.printStackTrace();
 		}
 		int[] shape = new int[] {512, 128, 1024};
-		int size = AbstractDataset.calcSize(shape);
+		int size = ShapeUtils.calcSize(shape);
 		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
 		data1.setShape(shape);
 		HDF5Utils.writeDataset(fid, "data1", data1);
@@ -112,7 +112,7 @@ public class AccessSpeedTest {
 
 		prepareFile(file);
 		int[] shape = new int[] {1, 128, 1024};
-		int size = AbstractDataset.calcSize(shape);
+		int size = ShapeUtils.calcSize(shape);
 		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
 		data1.setShape(shape);
 		Dataset data2 = DatasetFactory.createRange(size, Dataset.FLOAT64);
@@ -191,7 +191,7 @@ public class AccessSpeedTest {
 		String file = "test-scratch/shutdown.h5";
 		long fid = HDF5FileFactory.acquireFileAsNew(file);
 		int[] shape = new int[] {1024, 128, 1024};
-		int size = AbstractDataset.calcSize(shape);
+		int size = ShapeUtils.calcSize(shape);
 		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
 		data1.setShape(shape);
 		HDF5Utils.writeDataset(fid, "data1", data1);

@@ -33,9 +33,9 @@ import org.eclipse.dawnsci.hdf.object.H5Utils;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.january.IMonitor;
-import org.eclipse.january.dataset.AbstractDataset;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ShapeUtils;
 import org.eclipse.january.dataset.Slice;
 import org.eclipse.january.dataset.SliceND;
 import org.eclipse.january.metadata.AxesMetadata;
@@ -396,7 +396,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	 */
 	private void appendData(IDataset dataset, String group, Slice[] oSlice, int[] oShape, IHierarchicalDataFile file) throws Exception {
 		
-		if (AbstractDataset.squeezeShape(dataset.getShape(), false).length == 0) {
+		if (ShapeUtils.squeezeShape(dataset.getShape(), false).length == 0) {
 			//padding slice and shape does not play nice with single values of rank != 0
 			dataset = dataset.getSliceView().squeeze();
 		}
@@ -465,7 +465,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	 */
 	private Slice[] getUpdatedSliceArray(int[] oShape, int[] dsShape, Slice[] oSlice, int[] datadims) {
 
-		if (AbstractDataset.squeezeShape(dsShape, false).length == 0) {
+		if (ShapeUtils.squeezeShape(dsShape, false).length == 0) {
 			List<Slice> l = new LinkedList<Slice>(Arrays.asList(oSlice));
 			for (int i =  datadims.length-1; i >= 0; i--) {
 				l.remove(datadims[i]);
@@ -512,7 +512,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 	 */
 	private long[] getNewShape(int[]oShape, int[] dsShape, int[] dd) {
 
-		if (AbstractDataset.squeezeShape(dsShape, false).length == 0) {
+		if (ShapeUtils.squeezeShape(dsShape, false).length == 0) {
 			List<Integer> l = new LinkedList<Integer>();
 			for (int i : oShape) l.add(i);
 			for (int i =  dd.length-1; i >= 0; i--) {
