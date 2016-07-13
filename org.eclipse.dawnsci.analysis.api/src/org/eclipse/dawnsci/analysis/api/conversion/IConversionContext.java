@@ -42,7 +42,8 @@ public interface IConversionContext {
 		CUSTOM_TOMO(" tiff from tomography nexus file(s) [nxtomo]",    true, 3),
 		COMPARE(" compare data",    true,  false, 0,1,2,3,4,5),
 		PROCESS(" process data", false, true, 1,2,3,4,5),
-		B18_REPROCESS_ASCII(" reprocess B18 ascii", true, false, false, 1) ;
+		B18_REPROCESS_ASCII(" reprocess B18 ascii", true, false, false, 1),
+		B18_AVERAGE(" average B18 data", true, false, false, 1); // for now allow only ASCII
 		
 		private final String  uiLabel;
 		private final int[]   preferredRanks;
