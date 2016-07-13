@@ -11,6 +11,7 @@ package org.eclipse.dawnsci.analysis.api.tree;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -108,6 +109,34 @@ public class TreeUtils {
 		for (NamedNodeLink nnl : out) map.put(nnl.name, nnl.link);
 		
 		return map;
+	}
+	
+	/**
+	 * Get a map of all the unique data nodes in a tree
+	 * Map keys are the data nodes, map values are the shortest path to each node
+	 * 
+	 * @param node
+	 * @return map
+	 */
+	public static Map<DataNode,String> getUniqueDataNodes(GroupNode node) {
+		HashMap<DataNode, String> nodes = new HashMap<>();
+		
+		addNodes(node,nodes,"");
+		
+		return nodes;
+		
+		
+	}
+	
+	private static void addNodes(GroupNode node, Map<DataNode,String> map, String name) {
+		Iterator<String> it = node.getNodeNameIterator();
+		while (it.hasNext()) {
+			String next = it.next();
+			Node n = node.getNode(next);
+			if (n instanceof DataNode && !map.containsKey(n)) map.put((DataNode)n, name + Node.SEPARATOR + next);
+			else if (n instanceof GroupNode) addNodes((GroupNode)n, map, name + Node.SEPARATOR + next);
+		}
+		
 	}
 	
 	private static class NamedNodeLink {
