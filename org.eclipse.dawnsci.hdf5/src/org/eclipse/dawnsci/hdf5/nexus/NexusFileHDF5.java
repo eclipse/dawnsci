@@ -1460,7 +1460,17 @@ public class NexusFileHDF5 implements NexusFile {
 	@Override
 	public boolean isPathValid(String path) {
 		try {
-			return H5.H5Lexists(fileId, path, HDF5Constants.H5P_DEFAULT);
+			path = NexusUtils.stripAugmentedPath(path);
+			ParsedNode[] nodes = parseAugmentedPath(path);
+			StringBuilder partialPath = new StringBuilder();
+			for (int i = 1; i < nodes.length; i++) {
+				partialPath.append(Node.SEPARATOR);
+				partialPath.append(nodes[i].name);
+				if (!H5.H5Lexists(fileId, partialPath.toString(), HDF5Constants.H5P_DEFAULT)) {
+					return false;
+				}
+			}
+			return true;
 		} catch (HDF5LibraryException e) {
 			return false;
 		}
