@@ -162,11 +162,11 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * of an {@link NXdata} group (i.e. that referred to by the <code>@signal</code> attribute),
 	 * and additional data fields within this device provide default axis for that data field
 	 * @param primaryDataFieldName name of primary data field
-	 * @param dataFieldName data field
+	 * @param axisDataFieldName axis data field name
 	 * @return dimension of the default data field for which the field with the
 	 *   given name provides a default axis, or <code>null</code> if none
 	 */
-	public Integer getDefaultAxisDimension(String primaryDataFieldName, String dataFieldName);
+	public Integer getDefaultAxisDimension(String primaryDataFieldName, String axisDataFieldName);
 
 	/**
 	 * Returns the dimension mappings between the data field and
@@ -176,11 +176,11 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * attribute), and additional data fields within that 
 	 * and the default data field of this device.
 	 * @param primaryDataFieldName field name
-	 * @param dataFieldName data field name
+	 * @param axisDataFieldName axis data field name
 	 * @return dimension mappings between the field with the given name and the
 	 *    default data field
 	 */
-	public int[] getDimensionMappings(String primaryDataFieldName, String dataFieldName);
+	public int[] getDimensionMappings(String primaryDataFieldName, String axisDataFieldName);
 	
 	/**
 	 * Returns whether the names of the fields within the nexus object should be prefixed with the
