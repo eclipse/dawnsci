@@ -10,7 +10,6 @@ cache:
 branches:
  only:
   - master
-  - january-refactor
  
 jdk:
  - oraclejdk8
