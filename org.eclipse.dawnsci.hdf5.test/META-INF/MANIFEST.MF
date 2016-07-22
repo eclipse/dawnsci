@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Hdf5 Test
 Bundle-SymbolicName: org.eclipse.dawnsci.hdf5.test
 Bundle-Version: 1.2.0.qualifier
-Bundle-Vendor: ESRF
+Bundle-Vendor: Diamond Light Source
 Fragment-Host: org.eclipse.dawnsci.hdf5
 Require-Bundle: org.junit;bundle-version="[4.12.0,5.0.0)",
  org.objenesis;bundle-version="1.0.0",
