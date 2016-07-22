@@ -20,6 +20,9 @@
 		<module>../../dawn-hdf/hdf.hdf5lib</module>
 		<module>../../dawn-hdf/hdf.object</module>
 		<module>../org.eclipse.richbeans</module>
+		<module>org.eclipse.january</module>
+		<module>org.eclipse.january.asserts</module>
+		<module>org.eclipse.january.test</module>
 		<module>org.eclipse.dawnsci.analysis.api</module>
 		<module>org.eclipse.dawnsci.analysis.dataset</module>
 		<module>org.eclipse.dawnsci.analysis.dataset.test</module>
@@ -44,9 +47,6 @@
 		<module>org.eclipse.dawnsci.remotedataset.server</module>
 		<module>org.eclipse.dawnsci.remotedataset.test</module>
 		<module>org.eclipse.dawnsci.slicing.api</module>
-		<module>org.eclipse.january</module>
-		<module>org.eclipse.january.asserts</module>
-		<module>org.eclipse.january.test</module>
 	</modules>
 	
 	<dependencies>
