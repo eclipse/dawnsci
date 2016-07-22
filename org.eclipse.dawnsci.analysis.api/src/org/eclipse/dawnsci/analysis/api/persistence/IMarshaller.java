@@ -28,20 +28,20 @@ public interface IMarshaller {
 	 * 
 	 * @return class to deal with
 	 */
-	<T> Class<T> getObjectClass();
+	Class<?> getObjectClass();
 	
 	/**
 	 * Class of the serializer which should have a no argument constructor
 	 * @return the class
 	 */
-	<T> Class<T> getSerializerClass();
+	Class<?> getSerializerClass();
 	
 	/**
 	 * Class of the deserializer which should have a no argument constructor
 	 * 
 	 * @return the class
 	 */
-	<T> Class<T> getDeserializerClass();
+	Class<?> getDeserializerClass();
 	
 	/**
 	 * The type, if any, of the mixin annotation
@@ -49,7 +49,7 @@ public interface IMarshaller {
 	 * 
 	 * @return class
 	 */
-	default <T> Class<T> getMixinAnnotationType() {
+	default Class<?> getMixinAnnotationType() {
 		return null;
 	}
 	
@@ -59,7 +59,7 @@ public interface IMarshaller {
      *
 	 * @return class
 	 */
-	default <T> Class<T> getMixinAnnotationClass() {
+	default Class<?> getMixinAnnotationClass() {
 		return null;
 	}
 
