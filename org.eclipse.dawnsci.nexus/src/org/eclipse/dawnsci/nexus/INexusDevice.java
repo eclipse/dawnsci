@@ -53,7 +53,7 @@ public interface INexusDevice<N extends NXobject> {
 	 * <code>setXXXScalar</code> methods for fields defined in the appropriate 
 	 * NXDL base class definition.
 	 * 
-s	 * @param info
+	 * @param info
 	 *            Information about the scan which can be useful when creating
 	 *            dataset e.g. <code>info.getRank()</code>
 	 * @return The {@link NXobject} created using the <code>nodeFactory</code>

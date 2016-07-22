@@ -338,12 +338,15 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	}
 	
 	/**
-	 * Adds the given data field. This field with this name will be added to any {@link NXdata}
-	 * groups created for this scan.
+	 * Adds the given axis data field for the primary data field of this device. It will be
+	 * added as an axis field to the {@link NXdata} group where the primary data field of this
+	 * device is the <code>@signal</code> field.
 	 * @param dataFieldName name of data field
-	 * @param defaultAxisDimension the dimension
-	 * @param dimensionMappings mappings between the dimensions of the data field and the
-	 *    primary data field for this device 
+	 * @param defaultAxisDimension the dimension of the primary data field for which this
+	 *   field is a default axis
+	 * @param dimensionMappings mappings between the dimensions of the axis data field and the
+	 *    primary data field for this device, can be omitted if the mapping is one-to-one as is
+	 *    usually the case
 	 */
 	public void addAxisDataField(String dataFieldName, Integer defaultAxisDimension, int... dimensionMappings) {
 		if (primaryDataFieldName == null) {
@@ -444,19 +447,19 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	}
 
 	@Override
-	public Integer getDefaultAxisDimension(String primaryDataFieldName, String dataFieldName) {
+	public Integer getDefaultAxisDimension(String primaryDataFieldName, String axisDataFieldName) {
 		PrimaryDataFieldModel dataFieldModel = getPrimaryDataFieldModel(primaryDataFieldName, false);
 		if (dataFieldModel != null) {
-			return dataFieldModel.getDefaultAxisDimension(dataFieldName);
+			return dataFieldModel.getDefaultAxisDimension(axisDataFieldName);
 		}
 		return null;
 	}
 	
 	@Override
-	public int[] getDimensionMappings(String primaryDataFieldName, String dataFieldName) {
+	public int[] getDimensionMappings(String primaryDataFieldName, String axisDataFieldName) {
 		PrimaryDataFieldModel dataFieldModel = getPrimaryDataFieldModel(primaryDataFieldName, false);
 		if (dataFieldModel != null) {
-			return dataFieldModel.getDimensionMappings(dataFieldName);
+			return dataFieldModel.getDimensionMappings(axisDataFieldName);
 		}
 		return null;
 	}
