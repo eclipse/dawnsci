@@ -12,7 +12,7 @@
 
 package org.eclipse.dawnsci.analysis.api.diffraction;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Stores information from a powder calibration run for persistence into a NeXus file

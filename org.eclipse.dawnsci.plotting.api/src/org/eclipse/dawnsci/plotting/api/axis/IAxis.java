@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.plotting.api.axis;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 

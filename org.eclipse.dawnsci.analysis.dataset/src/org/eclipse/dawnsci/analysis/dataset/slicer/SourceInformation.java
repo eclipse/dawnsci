@@ -9,7 +9,7 @@
 
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 
 public class SourceInformation {
 

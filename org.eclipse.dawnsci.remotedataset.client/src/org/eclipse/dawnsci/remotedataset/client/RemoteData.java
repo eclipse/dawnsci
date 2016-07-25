@@ -7,10 +7,10 @@ import java.net.URLConnection;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteData;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
+import org.eclipse.january.dataset.IRemoteData;
+import org.eclipse.january.dataset.IRemoteDataset;
 
 class RemoteData implements IRemoteData {
 

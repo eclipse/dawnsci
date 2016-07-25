@@ -21,8 +21,8 @@ import java.util.TreeSet;
 
 import org.eclipse.dawnsci.analysis.api.roi.IPolylineROI;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
 
 /**
  * Class for a polyline ROI (really a list of point ROIs)
@@ -354,7 +354,7 @@ public class PolylineROI extends ROIBase implements IPolylineROI, Serializable {
 			y[i] = p[1];
 		}
 
-		return new DoubleDataset[] { new DoubleDataset(x), new DoubleDataset(y) };
+		return new Dataset[] { DatasetFactory.createFromObject(x), DatasetFactory.createFromObject(y) };
 	}
 
 	protected Set<Double> calculateHorizontalIntersections(final double y) {

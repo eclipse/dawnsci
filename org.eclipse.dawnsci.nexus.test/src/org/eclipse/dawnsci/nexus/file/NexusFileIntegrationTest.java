@@ -16,20 +16,21 @@ import static org.junit.Assert.fail;
 
 import java.net.URI;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.nexus.TestUtils;
 import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.dataset.SliceND;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -127,7 +128,7 @@ public class NexusFileIntegrationTest {
 		n = nf.getData("/entry/value");
 		IDataset b = n.getDataset().getSlice();
 		assertArrayEquals(new int[] {2, 5}, b.getShape());
-		assertEquals(Float.class, b.elementClass());
+		assertEquals(Float.class, b.getElementClass());
 		assertEquals(0.0, b.getDouble(0, 0), 1e-15);
 		assertEquals(9.0, b.getDouble(1, 4), 1e-15);
 		nf.close();
@@ -139,20 +140,20 @@ public class NexusFileIntegrationTest {
 		assertTrue(g.isPopulated() && g.containsDataNode("d"));
 	}
 
-	private void checkData(DataNode n, int[] shape) {
+	private void checkData(DataNode n, int[] shape) throws DatasetException {
 		assertTrue(n.containsAttribute("value"));
 		assertEquals(-1.5, n.getAttribute("value").getValue().getDouble(), 1e-15);
 		ILazyDataset b = n.getDataset();
-		assertTrue(b.elementClass().equals(Short.class));
+		assertTrue(b.getElementClass().equals(Short.class));
 		assertArrayEquals(shape, b.getShape());
 		IDataset bs = b.getSlice();
 		assertEquals(0, bs.getLong(0, 0));
 		assertEquals(-5, bs.getLong(1, 10));
 	}
 
-	private void checkEData(DataNode n, int[] shape) {
+	private void checkEData(DataNode n, int[] shape) throws DatasetException {
 		ILazyDataset b = n.getDataset();
-		assertTrue(b.elementClass().equals(Double.class));
+		assertTrue(b.getElementClass().equals(Double.class));
 		assertArrayEquals(shape, b.getShape());
 		IDataset bs = b.getSlice();
 		assertEquals(Double.NaN, bs.getDouble(0, 0), 1e-12);
@@ -166,9 +167,9 @@ public class NexusFileIntegrationTest {
 		assertEquals(-9, bs.getDouble(2, 10), 1e-12);
 	}
 
-	private void checkTextData(DataNode n, int[] shape) {
+	private void checkTextData(DataNode n, int[] shape) throws DatasetException {
 		ILazyDataset b = n.getDataset();
-		assertTrue(b.elementClass().equals(String.class));
+		assertTrue(b.getElementClass().equals(String.class));
 		// NAPI is broken wrt strings so skip for time being
 		assertArrayEquals(shape, b.getShape());
 		IDataset bs = b.getSlice();
@@ -178,7 +179,7 @@ public class NexusFileIntegrationTest {
 	}
 
 	@Test
-	public void testLinked() throws NexusException {
+	public void testLinked() throws Exception {
 		String d = "testfiles/dawnsci/data/nexus/";
 		String n = "testlinks.nxs";
 

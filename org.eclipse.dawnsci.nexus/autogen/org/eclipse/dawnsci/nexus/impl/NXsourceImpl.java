@@ -17,10 +17,8 @@ import java.util.Set;
 import java.util.EnumSet;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-
 import org.eclipse.dawnsci.nexus.*;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * The neutron or x-ray storage ring/facility.

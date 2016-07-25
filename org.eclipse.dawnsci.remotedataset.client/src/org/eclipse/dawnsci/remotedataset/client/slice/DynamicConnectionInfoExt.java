@@ -2,7 +2,7 @@ package org.eclipse.dawnsci.remotedataset.client.slice;
 
 import java.awt.image.BufferedImage;
 
-import org.eclipse.dawnsci.analysis.api.metadata.DynamicConnectionInfo;
+import org.eclipse.january.metadata.DynamicConnectionInfo;
 
 /**
  * Not for use outside package. Bridges SliceClient to DynamicConnectionInfo

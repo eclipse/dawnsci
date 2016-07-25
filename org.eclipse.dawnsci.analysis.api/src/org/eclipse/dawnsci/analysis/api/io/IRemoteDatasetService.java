@@ -12,8 +12,8 @@ package org.eclipse.dawnsci.analysis.api.io;
 import java.net.URL;
 import java.util.concurrent.Executor;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteData;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.IRemoteData;
+import org.eclipse.january.dataset.IRemoteDataset;
 
 /**
  * A service used to create connections to remote datasets.

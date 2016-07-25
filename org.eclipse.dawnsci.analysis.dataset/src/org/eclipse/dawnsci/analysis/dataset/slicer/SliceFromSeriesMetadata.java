@@ -12,10 +12,11 @@ package org.eclipse.dawnsci.analysis.dataset.slicer;
 import java.util.Arrays;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.metadata.OriginMetadata;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.metadata.OriginMetadata;
 
 public class SliceFromSeriesMetadata implements OriginMetadata {
 	
@@ -33,6 +34,14 @@ public class SliceFromSeriesMetadata implements OriginMetadata {
 	
 	public SliceFromSeriesMetadata(SourceInformation source) {
 		this.sourceInfo = source;
+	}
+
+	@Override
+	public void initialize(int[] shape, int[] maxShape, int[] chunkShape) {
+	}
+
+	@Override
+	public void initialize(ILazyDataset parent, Slice[] outSlice, int[] dataDims, String filePath, String datasetName) {
 	}
 
 	public SourceInformation getSourceInfo() {
@@ -170,8 +179,9 @@ public class SliceFromSeriesMetadata implements OriginMetadata {
 	 * 
 	 * @param ds
 	 * @return slice
+	 * @throws DatasetException 
 	 */
-	public IDataset getMatchingSlice(ILazyDataset ds) {
+	public IDataset getMatchingSlice(ILazyDataset ds) throws DatasetException {
 		
 		int[] oShape = getParent().getShape();
 		int[] shape = ds.getShape();

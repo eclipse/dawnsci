@@ -19,7 +19,6 @@ Export-Package: org.eclipse.dawnsci.analysis.api,
  org.eclipse.dawnsci.analysis.api.io,
  org.eclipse.dawnsci.analysis.api.message,
  org.eclipse.dawnsci.analysis.api.metadata,
- org.eclipse.dawnsci.analysis.api.monitor,
  org.eclipse.dawnsci.analysis.api.peakfinding,
  org.eclipse.dawnsci.analysis.api.persistence,
  org.eclipse.dawnsci.analysis.api.processing,
@@ -32,6 +31,7 @@ Import-Package: javax.measure.unit;version="4.3.1",
  org.slf4j;version="[1.7.2,2.0.0)"
 Require-Bundle: org.apache.commons.lang;bundle-version="[2.6.0,3.0.0)",
  org.apache.commons.math3;bundle-version="[3.2.0,4.0.0)",
- javax.vecmath;bundle-version="1.5.2"
+ javax.vecmath;bundle-version="1.5.2",
+ org.eclipse.january;bundle-version="1.0.0"
 Bundle-Activator: org.eclipse.dawnsci.analysis.api.Activator
 Bundle-ActivationPolicy: lazy

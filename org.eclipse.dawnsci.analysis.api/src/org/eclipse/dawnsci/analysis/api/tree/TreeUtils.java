@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import org.eclipse.january.IMonitor;
 
 
 public class TreeUtils {

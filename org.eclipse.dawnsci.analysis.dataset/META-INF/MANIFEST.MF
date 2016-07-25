@@ -3,14 +3,16 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Dataset
 Bundle-SymbolicName: org.eclipse.dawnsci.analysis.dataset;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.dawnsci.analysis.dataset.impl.Activator
+Bundle-Activator: org.eclipse.dawnsci.analysis.dataset.Activator
 Bundle-Vendor: Diamond Light Source
 Require-Bundle: org.apache.commons.math3;bundle-version="[3.2.0,4.0.0)",
  org.apache.commons.lang;bundle-version="[2.6.0,2.7.0)",
+ org.eclipse.january;bundle-version="1.0.0",
  org.eclipse.dawnsci.analysis.api;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.dawnsci.analysis.dataset.coords,
+Export-Package: org.eclipse.dawnsci.analysis.dataset,
+ org.eclipse.dawnsci.analysis.dataset.coords,
  org.eclipse.dawnsci.analysis.dataset.function,
  org.eclipse.dawnsci.analysis.dataset.impl,
  org.eclipse.dawnsci.analysis.dataset.impl.function,

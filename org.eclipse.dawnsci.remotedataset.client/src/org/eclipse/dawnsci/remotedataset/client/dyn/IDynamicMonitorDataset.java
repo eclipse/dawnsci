@@ -1,8 +1,8 @@
 package org.eclipse.dawnsci.remotedataset.client.dyn;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.IRemoteDataset;
 
 /**
  * NON-API DO NOT USE OUTSIDE THIS BUNDLE

@@ -14,14 +14,16 @@ package org.eclipse.dawnsci.analysis.tree.impl;
 
 import java.io.Serializable;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.api.metadata.DimensionMetadata;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
-import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
-import org.eclipse.dawnsci.analysis.dataset.metadata.DimensionMetadataImpl;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.MetadataException;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.IndexIterator;
+import org.eclipse.january.dataset.StringDataset;
+import org.eclipse.january.metadata.DimensionMetadata;
+import org.eclipse.january.metadata.MetadataFactory;
 
 public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 	protected static final long serialVersionUID = 9089016783319981598L;
@@ -150,11 +152,16 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 			return text;
 	
 		StringDataset a;
-		if (dataset instanceof StringDataset)
+		if (dataset instanceof StringDataset) {
 			a = (StringDataset) dataset;
-		else
-			a = (StringDataset) dataset.getSlice();
-	
+		} else {
+			try {
+				a = (StringDataset) dataset.getSlice();
+			} catch (DatasetException e) {
+				return "Could not get data from lazy dataset";
+			}
+		}
+
 		StringBuilder out = new StringBuilder();
 		IndexIterator it = a.getIterator();
 		while (it.hasNext()) {
@@ -204,12 +211,17 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 			}
 		}
 		if (mshape != null || cshape != null) {
-			DimensionMetadata dmd = new DimensionMetadataImpl(dataset.getShape(), mshape, cshape);
+			DimensionMetadata dmd = null;
+			try {
+				dmd = MetadataFactory.createMetadata(DimensionMetadata.class, dataset.getShape(), mshape, cshape);
+			} catch (MetadataException e) {
+				e.printStackTrace();
+			}
 			dataset.addMetadata(dmd);
 		}
 
 		supported = true;
-		string = lazyDataset instanceof StringDataset || lazyDataset.elementClass() == String.class;
+		string = lazyDataset instanceof StringDataset || lazyDataset.getElementClass() == String.class;
 	}
 
 	@Override

@@ -1,10 +1,12 @@
 package org.eclipse.dawnsci.remotedataset.client;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.api.io.ILazyLoader;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import java.io.IOException;
+
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.SliceND;
+import org.eclipse.january.io.ILazyLoader;
 
 class RemoteLoader implements ILazyLoader {
 
@@ -25,10 +27,15 @@ class RemoteLoader implements ILazyLoader {
 	}
 
 	@Override
-	public IDataset getDataset(IMonitor unused, SliceND slice) throws Exception {
+	public IDataset getDataset(IMonitor unused, SliceND slice) throws IOException {
 		urlBuilder.setSlice(slice);
 		final SliceClient<IDataset> client = new SliceClient<IDataset>(urlBuilder);
-		IDataset ret = client.get();
+		IDataset ret;
+		try {
+			ret = client.get();
+		} catch (Exception e) {
+			throw new IOException(e);
+		}
 		return ret;
 	}
 

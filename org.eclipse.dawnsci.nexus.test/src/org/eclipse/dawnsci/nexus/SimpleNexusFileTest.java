@@ -1,12 +1,8 @@
 package org.eclipse.dawnsci.nexus;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.LongDataset;
-import org.eclipse.dawnsci.nexus.NXdata;
-import org.eclipse.dawnsci.nexus.NXentry;
-import org.eclipse.dawnsci.nexus.NXroot;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Simple NeXus file test based on 'verysimple.nx5' example described in the
@@ -40,12 +36,12 @@ public class SimpleNexusFileTest extends AbstractNexusFileTestBase {
 				598720, 316460, 56677, 1000, 1000
 		};
 
-		dataGroup.setDataset("counts", new LongDataset(countsData));
+		dataGroup.setDataset("counts", DatasetFactory.createFromObject(countsData));
 		dataGroup.setAttribute("counts", "long_name", "photodiode counts");
 		dataGroup.setAttribute("counts", "signal", 1.0);
 		dataGroup.setAttribute("counts", "axes", "two_theta");
 
-		IDataset twoTheta = DatasetFactory.createRange(18.9094, 18.9122, 0.0002, AbstractDataset.FLOAT64);
+		IDataset twoTheta = DatasetFactory.createRange(18.9094, 18.9122, 0.0002, Dataset.FLOAT64);
 		dataGroup.setDataset("two_theta", twoTheta);
 		dataGroup.setAttribute("two_theta", "units", "degrees");
 		dataGroup.setAttribute("two_theta", "long_name", "two_theta (degrees)");

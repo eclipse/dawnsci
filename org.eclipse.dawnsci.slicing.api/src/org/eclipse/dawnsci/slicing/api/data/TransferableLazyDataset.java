@@ -11,10 +11,11 @@ package org.eclipse.dawnsci.slicing.api.data;
 
 import java.io.File;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.IRemoteDataset;
 
 
 /**
@@ -32,7 +33,11 @@ public class TransferableLazyDataset extends AbstractTransferableDataObject {
 
 	@Override
 	public IDataset getData(IMonitor monitor) {
-		return delegate.getSlice();
+		try {
+			return delegate.getSlice();
+		} catch (DatasetException e) {
+		}
+		return null;
 	}
 
 	@Override

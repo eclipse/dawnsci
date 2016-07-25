@@ -13,7 +13,7 @@
 package org.eclipse.dawnsci.slicing.api.util;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import org.eclipse.january.IMonitor;
 
 
 /**

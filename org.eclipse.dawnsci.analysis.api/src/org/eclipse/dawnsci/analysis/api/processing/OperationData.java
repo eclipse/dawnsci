@@ -14,7 +14,7 @@ package org.eclipse.dawnsci.analysis.api.processing;
 
 import java.io.Serializable;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Object to hold return data from an IOperation.

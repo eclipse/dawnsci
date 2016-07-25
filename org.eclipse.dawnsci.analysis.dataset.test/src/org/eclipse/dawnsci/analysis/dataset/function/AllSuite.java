@@ -12,7 +12,7 @@
 
 package org.eclipse.dawnsci.analysis.dataset.function;
 
-import org.eclipse.dawnsci.analysis.asserts.TestUtils;
+import org.eclipse.january.asserts.TestUtils;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 

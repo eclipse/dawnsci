@@ -21,10 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.tree.TreeToMapUtils;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.january.IMonitor;
 
 /**
  * The handler for incoming requests. No work should be done here

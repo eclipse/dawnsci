@@ -15,8 +15,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Class containing utility methods for regions to avoid duplication 
@@ -94,7 +94,7 @@ public class TraceUtils {
 		if (axis == null)
 			return false;
 
-		final Class<?> clazz = axis.elementClass();
+		final Class<?> clazz = axis.getElementClass();
 		if (clazz != Integer.class) {
 			return true;
 		}

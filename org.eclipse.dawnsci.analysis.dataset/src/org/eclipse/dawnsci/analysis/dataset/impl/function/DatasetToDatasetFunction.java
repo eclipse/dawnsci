@@ -15,7 +15,7 @@ package org.eclipse.dawnsci.analysis.dataset.impl.function;
 
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * This interface is to define functions that take datasets and returns a list of datasets

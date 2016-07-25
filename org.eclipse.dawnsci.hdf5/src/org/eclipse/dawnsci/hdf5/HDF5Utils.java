@@ -21,19 +21,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.PositionIterator;
+import org.eclipse.january.dataset.SliceND;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +59,7 @@ public class HDF5Utils {
 	 */
 	public static Dataset createDataset(final Object data, final int[] shape, final int dtype,
 			final boolean extend) {
-		Dataset ds = DatasetFactory.createFromObject(data, dtype);
+		Dataset ds = DatasetFactory.createFromObject(dtype, data);
 	
 		if (extend) {
 			ds = DatasetUtils.makeUnsigned(ds);
@@ -74,7 +74,7 @@ public class HDF5Utils {
 	 * @param dsize data type element size in bytes
 	 * @return dataset type
 	 */
-	public static int getDtype(final int dclass, final int dsize) {
+	public static int getDType(final int dclass, final int dsize) {
 		switch (dclass) {
 		case Datatype.CLASS_STRING:
 			return Dataset.STRING;
@@ -906,7 +906,7 @@ public class HDF5Utils {
 		// cannot write zero-rank datasets so make them 1D
 		long[] shape = dataset.getRank() == 0 ? new long[] {1} : toLongArray(dataset.getShapeRef());
 
-		int dtype = dataset.getDtype();
+		int dtype = dataset.getDType();
 		boolean stringDataset = dtype == Dataset.STRING;
 		long hdfType = getHDF5type(dtype);
 
@@ -1017,7 +1017,7 @@ public class HDF5Utils {
 				throw new NexusException("Error inspecting existing attributes", e);
 			}
 			Dataset attrData = DatasetUtils.convertToDataset(attr);
-			long baseHdf5Type = getHDF5type(attrData.getDtype());
+			long baseHdf5Type = getHDF5type(attrData.getDType());
 
 			final long[] shape = attrData.getRank() == 0 ? new long[] {1} : toLongArray(attrData.getShapeRef());
 			long datatypeID = -1;
@@ -1025,7 +1025,7 @@ public class HDF5Utils {
 			try {
 				datatypeID = H5.H5Tcopy(baseHdf5Type);
 				dataspaceID = H5.H5Screate_simple(shape.length, shape, shape);
-				boolean stringDataset = attrData.getDtype() == Dataset.STRING;
+				boolean stringDataset = attrData.getDType() == Dataset.STRING;
 				Serializable buffer = DatasetUtils.serializeDataset(attrData);
 				if (stringDataset) {
 					String[] strings = (String[]) buffer;
@@ -1159,7 +1159,7 @@ public class HDF5Utils {
 				mshape = slice.getShape();
 			}
 			createDataset(fileName, parentPath, name, slice.getStart(), mshape, slice.getShape(),
-					AbstractDataset.getDType(value), null, false);
+					DTypeUtils.getDType(value), null, false);
 		}
 	}
 
@@ -1212,7 +1212,7 @@ public class HDF5Utils {
 					H5.H5Sselect_hyperslab(hdfDataspaceId, HDF5Constants.H5S_SELECT_SET, start, stride, shape, null);
 	
 					Dataset data = DatasetUtils.convertToDataset(value);
-					int dtype = data.getDtype();
+					int dtype = data.getDType();
 					long memtype = getHDF5type(dtype);
 					Serializable buffer = DatasetUtils.serializeDataset(data);
 

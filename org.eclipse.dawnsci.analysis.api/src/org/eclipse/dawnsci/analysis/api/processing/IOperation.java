@@ -12,9 +12,9 @@
 
 package org.eclipse.dawnsci.analysis.api.processing;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Interface to encapsulate processing operations on an IRichDataset

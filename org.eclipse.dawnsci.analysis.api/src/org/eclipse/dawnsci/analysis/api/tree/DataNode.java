@@ -12,8 +12,8 @@
 
 package org.eclipse.dawnsci.analysis.api.tree;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
 
 /**
  * Node that holds data

@@ -14,14 +14,14 @@ package org.eclipse.dawnsci.plotting.examples;
 import java.io.File;
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.examples.util.BundleUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.RGBDataset;
+import org.eclipse.january.dataset.Slice;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -49,7 +49,7 @@ public class CompositeExample extends PlotExample {
 			Dataset micro = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/microscope1/image/data"));
 			Dataset microx = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/microscope1/image/x"));
 			Dataset microy = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/microscope1/image/y"));
-			RGBDataset microrgb = new RGBDataset(micro.getSlice(new Slice(0,1),null,null).squeeze(),
+			RGBDataset microrgb = (RGBDataset) DatasetUtils.createCompoundDataset(Dataset.RGB, micro.getSlice(new Slice(0,1),null,null).squeeze(),
 												 micro.getSlice(new Slice(1,2),null,null).squeeze(),
 												 micro.getSlice(new Slice(2,3),null,null).squeeze());
 

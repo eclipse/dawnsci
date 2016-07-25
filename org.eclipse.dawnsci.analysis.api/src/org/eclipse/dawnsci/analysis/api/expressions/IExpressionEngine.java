@@ -12,7 +12,7 @@ package org.eclipse.dawnsci.analysis.api.expressions;
 import java.util.Collection;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import org.eclipse.january.IMonitor;
 
 /**
  * This service can be called to save and/or load data from an hdf5 file.

@@ -11,14 +11,15 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
-import org.eclipse.dawnsci.analysis.api.dataset.DataListenerDelegate;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
-import org.eclipse.dawnsci.analysis.api.metadata.DynamicConnectionInfo;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.DataEvent;
+import org.eclipse.january.dataset.DataListenerDelegate;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.IDataListener;
+import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.ShapeUtils;
+import org.eclipse.january.metadata.DynamicConnectionInfo;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
@@ -102,17 +103,27 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		this.eventDelegate = new DataListenerDelegate();
 		this.exec       = exec;
 	}
-		
+
+	@Override
+	public String connect() throws DatasetException {
+		return connect(500, TimeUnit.MILLISECONDS);
+	}
+
 	/**
 	 * Call to read the dataset, set current shape and create event connnection for
 	 * IDynamicDataset part of the dataset
 	 */
-    public String connect(long time, TimeUnit unit) throws Exception {
-    	
+	@Override
+	public String connect(long time, TimeUnit unit) throws DatasetException {
+
 		this.loader = new RemoteLoader(urlBuilder);
-		createInfo();
-		if (eventDelegate.hasDataListeners()) {
-			createFileListener();
+		try {
+			createInfo();
+			if (eventDelegate.hasDataListeners()) {
+				createFileListener();
+			}
+		} catch (Exception e) {
+			throw new DatasetException(e);
 		}
 		
 		// TODO Does this cause a memory leak?
@@ -125,19 +136,23 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		});
 		
 		return null;
-    }
-    
-    public void disconnect() throws Exception {
-    	
-    	eventDelegate.clear();
-        if (connection!=null && connection.isOpen()) {
-        	connection.getRemote().sendString("Disconnected from "+urlBuilder.getPath());
-       	    connection.close();
-        }
-    	if (client!=null && client.isStarted()) {
-    		client.stop();
-    	}
-    }
+	}
+
+	public void disconnect() throws DatasetException {
+
+		eventDelegate.clear();
+		try {
+			if (connection != null && connection.isOpen()) {
+				connection.getRemote().sendString("Disconnected from " + urlBuilder.getPath());
+				connection.close();
+			}
+			if (client != null && client.isStarted()) {
+				client.stop();
+			}
+		} catch (Exception e) {
+			throw new DatasetException(e);
+		}
+	}
 	
     @Override
     public void refreshShape(){
@@ -215,7 +230,7 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		this.dtype = Integer.parseInt(info.get(2));
 		this.isize = Integer.parseInt(info.get(3));
 		try {
-			size = AbstractDataset.calcLongSize(shape);
+			size = ShapeUtils.calcLongSize(shape);
 		} catch (IllegalArgumentException e) {
 			size = Long.MAX_VALUE; // this indicates that the entire dataset cannot be read in! 
 		}

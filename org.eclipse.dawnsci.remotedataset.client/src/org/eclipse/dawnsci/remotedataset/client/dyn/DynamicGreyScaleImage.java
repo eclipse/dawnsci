@@ -6,12 +6,14 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IDatasetChangeChecker;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.ShortDataset;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataListener;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDatasetChangeChecker;
+import org.eclipse.january.dataset.ShapeUtils;
+import org.eclipse.january.dataset.ShortDataset;
 
 /**
  * Used for streaming an image into the plotting system.
@@ -42,7 +44,7 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 	 */
 	public DynamicGreyScaleImage(SliceClient<BufferedImage> client, int... shape) {
 		super(shape == null || shape.length<1 ? new int[]{1,1} : shape);
-		this.connection= new DataConnection<ShortDataset>(getDtype(), true);
+		this.connection= new DataConnection<ShortDataset>(getDType(), true);
 		connection.setClient(client);
 		connection.setDataset(this);
 	}
@@ -76,7 +78,7 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 		setData();
 		if (dynamicShape) {
 		    shape = sdata.getShape();
-		    size = calcSize(shape);
+		    size = ShapeUtils.calcSize(shape);
 		} else {
 			this.transShape = sdata.getShape();
 		}
@@ -86,7 +88,7 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 		dynamicShape  = isDyn;
 		if (dynamicShape && transShape!=null) {
 		    shape = transShape;
-		    size = calcSize(shape);
+		    size = ShapeUtils.calcSize(shape);
 		    transShape = null;
 		}
 	}
@@ -142,14 +144,14 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 
 
 	@Override
-	public String connect() throws Exception {
+	public String connect() throws DatasetException {
 		return connect(500, TimeUnit.MILLISECONDS);
 	}
 		
 	@Override
-	public String connect(long time, TimeUnit unit) throws Exception {
+	public String connect(long time, TimeUnit unit) throws DatasetException {
 
-		if (imageMonitor!=null) throw new Exception("Cannot reconnect to already running dataset!");
+		if (imageMonitor!=null) throw new DatasetException("Cannot reconnect to already running dataset!");
 		
 		// Might be a bit overkill for this task
         final BlockingQueue<Exception> queue = new LinkedBlockingDeque<Exception>(1);
@@ -167,14 +169,19 @@ class DynamicGreyScaleImage extends ShortDataset implements IDynamicMonitorDatas
 		imageMonitor.setPriority(Thread.MIN_PRIORITY); // TODO Is that right?
 		imageMonitor.start();
 		
-		Exception e = queue.poll(time, unit);
-		if (e!=null) throw e;
+		Exception e = null;
+		try {
+			e = queue.poll(time, unit);
+		} catch (InterruptedException e1) {
+			e = e1;
+		}
+		if (e!=null) throw new DatasetException(e);
 		
 		return imageMonitor.getName(); // So that you can know if the runner is going.
 	}
 
 	@Override
-	public void disconnect() throws Exception {
+	public void disconnect() throws DatasetException {
 		connection.getClient().setFinished(true);
 		imageMonitor = null;
 	}

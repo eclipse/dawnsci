@@ -19,13 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.Dtype;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.nexus.NXaperture;
 import org.eclipse.dawnsci.nexus.NXcollection;
 import org.eclipse.dawnsci.nexus.NXdetector;
@@ -34,6 +28,11 @@ import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXsample;
 import org.eclipse.dawnsci.nexus.NXsensor;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
 import org.junit.Test;
 
 public class NXobjectTest {
@@ -125,11 +124,11 @@ public class NXobjectTest {
 	@Test
 	public void testInitializeLazyDataset() {
 		NXdetector detector = NexusNodeFactory.createNXdetector();
-		ILazyWriteableDataset dataset = detector.initializeLazyDataset(NXdetector.NX_DATA, 2, Dtype.FLOAT64);
+		ILazyWriteableDataset dataset = detector.initializeLazyDataset(NXdetector.NX_DATA, 2, Double.class);
 		assertNotNull(dataset);
 		assertEquals(2, dataset.getRank());
-		assertEquals(Double.class, dataset.elementClass());
-		assertEquals(AbstractDataset.getDType(dataset), Dtype.FLOAT64);
+		assertEquals(Double.class, dataset.getElementClass());
+		assertEquals(DTypeUtils.getDType(dataset), Dataset.FLOAT64);
 		
 		assertSame(dataset, detector.getLazyWritableDataset(NXdetector.NX_DATA));
 		DataNode dataNode = detector.getDataNode(NXdetector.NX_DATA);
@@ -141,13 +140,13 @@ public class NXobjectTest {
 	public void testInitializeFixedSizeLazyDataset() {
 		NXcollection scanPointsCollection = NexusNodeFactory.createNXcollection();
 		final int[] shape = new int[] { 1 };
-		ILazyWriteableDataset dataset = scanPointsCollection.initializeFixedSizeLazyDataset("scan_finished", shape, Dtype.INT32);
+		ILazyWriteableDataset dataset = scanPointsCollection.initializeFixedSizeLazyDataset("scan_finished", shape, Integer.class);
 		assertNotNull(dataset);
 		assertEquals(1, dataset.getRank());
 		assertArrayEquals(shape, dataset.getShape());
 		assertArrayEquals(shape, dataset.getMaxShape());
-		assertEquals(Integer.class, dataset.elementClass());
-		assertEquals(AbstractDataset.getDType(dataset), Dtype.INT32);
+		assertEquals(Integer.class, dataset.getElementClass());
+		assertEquals(DTypeUtils.getDType(dataset), Dataset.INT32);
 		
 		assertSame(dataset, scanPointsCollection.getLazyWritableDataset("scan_finished"));
 		DataNode dataNode = scanPointsCollection.getDataNode("scan_finished");

@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Enumeration of Data types allowed in NXDL specifications.
@@ -70,7 +70,7 @@ public enum NexusDataType {
 	}
 	
 	public void validate(final String fieldName, final IDataset dataset) throws NexusValidationException {
-		Class<?> elementClass = dataset.elementClass();
+		Class<?> elementClass = dataset.getElementClass();
 		for (Class<?> javaClass : javaClasses) {
 			if (javaClass.isAssignableFrom(elementClass)) {
 				return;

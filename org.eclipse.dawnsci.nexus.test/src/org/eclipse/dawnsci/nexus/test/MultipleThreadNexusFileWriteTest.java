@@ -16,14 +16,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
 import org.eclipse.dawnsci.nexus.NXdata;
@@ -45,6 +39,12 @@ import org.eclipse.dawnsci.nexus.builder.NexusScanFile;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
 import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.IntegerDataset;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -123,7 +123,7 @@ public class MultipleThreadNexusFileWriteTest {
 		protected NXdetector createNexusObject() {
 			final NXdetector detector = NexusNodeFactory.createNXdetector();
 			final ILazyWriteableDataset dataset = detector.initializeLazyDataset(
-					NXdetector.NX_DATA, 3, Dataset.INT32);
+					NXdetector.NX_DATA, 3, Integer.class);
 			dataset.setMaxShape(new int[] { ILazyWriteableDataset.UNLIMITED, numRows, numColumns });
 			return detector;
 		}
@@ -140,7 +140,7 @@ public class MultipleThreadNexusFileWriteTest {
 		}
 
 		private IDataset createNewData() {
-			final IntegerDataset dataset = new IntegerDataset(numColumns, numRows);
+			final IntegerDataset dataset = DatasetFactory.zeros(IntegerDataset.class, numColumns, numRows);
 			final ThreadLocalRandom random = ThreadLocalRandom.current();
 			for (int rowNum = 0; rowNum < numRows; rowNum++) {
 				for (int columnNum = 0; columnNum < numColumns; columnNum++) {
@@ -164,7 +164,7 @@ public class MultipleThreadNexusFileWriteTest {
 		@Override
 		protected NXpositioner createNexusObject() {
 			final NXpositioner positioner = NexusNodeFactory.createNXpositioner();
-			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Dataset.FLOAT64);
+			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Double.class);
 			return positioner;
 		}
 

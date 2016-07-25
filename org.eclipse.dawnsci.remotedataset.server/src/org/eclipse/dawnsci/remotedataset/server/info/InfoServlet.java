@@ -20,13 +20,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
-import org.eclipse.dawnsci.analysis.api.metadata.DimensionMetadata;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.metadata.DimensionMetadata;
 
 /**
  * The handler for incoming requests. No work should be done here
@@ -99,7 +99,7 @@ public class InfoServlet extends HttpServlet {
 					                 
 			response.getWriter().println(lz.getName());
 			response.getWriter().println(Arrays.toString(lz.getShape()));
-			response.getWriter().println(AbstractDataset.getDTypeFromClass(lz.elementClass()));
+			response.getWriter().println(DTypeUtils.getDTypeFromClass(lz.getElementClass()));
 			response.getWriter().println(lz.getElementsPerItem()); // Probably 1
 			List<DimensionMetadata> dmds = lz.getMetadata(DimensionMetadata.class);
 			if (dmds != null && dmds.size() > 0) {

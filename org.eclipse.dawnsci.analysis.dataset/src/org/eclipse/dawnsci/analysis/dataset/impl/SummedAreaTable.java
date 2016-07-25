@@ -11,6 +11,8 @@ package org.eclipse.dawnsci.analysis.dataset.impl;
 
 import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
 import org.eclipse.dawnsci.analysis.dataset.impl.Image.FilterType;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
 
 /**
  * This code is based on:
@@ -205,7 +207,7 @@ public class SummedAreaTable {
 			else if (type == FilterType.FANO)
 				filter[i] = getBoxMeanInternal(coords, n);
 		}
-		return new DoubleDataset(filter, shape);
+		return DatasetFactory.createFromObject(filter, shape);
 	}
 
 	/**

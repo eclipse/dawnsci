@@ -6,11 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.sameInstance;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXinstrument;
@@ -29,6 +25,10 @@ import org.eclipse.dawnsci.nexus.builder.NexusFileBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
 import org.eclipse.dawnsci.nexus.validation.NexusValidationException;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.LazyWriteableDataset;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -47,7 +47,7 @@ public class TomoApplicationBuilderTest {
 		@Override
 		protected NXpositioner createNexusObject() {
 			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
-			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Dataset.FLOAT64);
+			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Double.class);
 			return positioner;
 		}
 		
@@ -111,8 +111,8 @@ public class TomoApplicationBuilderTest {
 			@Override
 			protected NXdetector createNexusObject() {
 				NXdetector detector = NexusNodeFactory.createNXdetector();
-				detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.FLOAT64);
-				detector.initializeLazyDataset("image_key", 1, Dataset.INT16);
+				detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Double.class);
+				detector.initializeLazyDataset("image_key", 1, Short.class);
 				detector.setX_pixel_sizeScalar(1.5);
 				detector.setY_pixel_sizeScalar(2.5);
 				detector.setDistanceScalar(0.75);
@@ -265,8 +265,8 @@ public class TomoApplicationBuilderTest {
 		NXinstrument instrument = subentry.getInstrument();
 		NXdetector detector = NexusNodeFactory.createNXdetector();
 		instrument.setDetector(detector);
-		detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.FLOAT64);
-		detector.initializeLazyDataset("image_key", 1, Dataset.INT16);
+		detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Double.class);
+		detector.initializeLazyDataset("image_key", 1, Short.class);
 		NXsample sample = subentry.getSample();
 		sample.setRotation_angleScalar(2.5);
 		

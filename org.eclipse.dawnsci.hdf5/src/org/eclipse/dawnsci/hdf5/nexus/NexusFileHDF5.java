@@ -19,9 +19,6 @@ import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
@@ -32,12 +29,6 @@ import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
 import org.eclipse.dawnsci.analysis.api.tree.TreeUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
 import org.eclipse.dawnsci.hdf5.HDF5AttributeResource;
@@ -57,6 +48,15 @@ import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.NexusUtils;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.LazyDataset;
+import org.eclipse.january.dataset.LazyWriteableDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -872,11 +872,11 @@ public class NexusFileHDF5 implements NexusFile {
 		}
 
 		int itemSize = 1;
-		int dataType = AbstractDataset.getDType(data);
+		int dataType = DTypeUtils.getDType(data);
 		int[] iShape = data.getShape();
 		int[] iMaxShape = data.getMaxShape();
 		int[] iChunks = data.getChunking();
-		Object[] fillValue = getFillValue(data.elementClass());
+		Object[] fillValue = getFillValue(data.getElementClass());
 		Object providedFillValue = data.getFillValue();
 		if (providedFillValue != null) {
 			fillValue[0] = providedFillValue;
@@ -885,7 +885,7 @@ public class NexusFileHDF5 implements NexusFile {
 		long[] shape = HDF5Utils.toLongArray(iShape);
 		long[] maxShape = HDF5Utils.toLongArray(iMaxShape);
 		long[] chunks = HDF5Utils.toLongArray(iChunks);
-		boolean stringDataset = data.elementClass().equals(String.class);
+		boolean stringDataset = data.getElementClass().equals(String.class);
 		boolean writeVlenString = stringDataset && !useSWMR; //SWMR does not allow vlen structures
 		long hdfType = getHDF5Type(data);
 		try {
@@ -1012,7 +1012,7 @@ public class NexusFileHDF5 implements NexusFile {
 			throw new NexusException("Object already exists at specified location");
 		}
 
-		boolean stringDataset = data.elementClass().equals(String.class);//ngd.isChar();
+		boolean stringDataset = data.getElementClass().equals(String.class);//ngd.isChar();
 		final long[] shape = data.getRank() == 0 ? new long[] {1} : HDF5Utils.toLongArray(data.getShape());
 
 		long type = getHDF5Type(data);
@@ -1197,7 +1197,7 @@ public class NexusFileHDF5 implements NexusFile {
 
 					long datatypeId = typeResource.getResource();
 					long dataspaceId = spaceResource.getResource();
-					boolean stringDataset = attrData.elementClass().equals(String.class);
+					boolean stringDataset = attrData.getElementClass().equals(String.class);
 					Serializable buffer = DatasetUtils.serializeDataset(attrData);
 					if (stringDataset) {
 						String[] strings = (String[]) buffer;
@@ -1558,7 +1558,7 @@ public class NexusFileHDF5 implements NexusFile {
 	}
 
 	private static long getHDF5Type(ILazyDataset data) {
-		Class<?> clazz = data.elementClass();
+		Class<?> clazz = data.getElementClass();
 		if (clazz.equals(String.class)) {
 			return HDF5Constants.H5T_C_S1;
 		} else if (clazz.equals(Byte.class)) {

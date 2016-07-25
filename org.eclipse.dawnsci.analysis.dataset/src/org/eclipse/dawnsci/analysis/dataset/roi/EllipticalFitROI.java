@@ -14,12 +14,12 @@ package org.eclipse.dawnsci.analysis.dataset.roi;
 
 import java.io.Serializable;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.fitting.IConicSectionFitter;
 import org.eclipse.dawnsci.analysis.api.roi.IFitROI;
 import org.eclipse.dawnsci.analysis.api.roi.IPolylineROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.fitting.CircleFitter;
 import org.eclipse.dawnsci.analysis.dataset.roi.fitting.EllipseFitter;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * An elliptical region of interest which fits the points in a polygonal region of interest

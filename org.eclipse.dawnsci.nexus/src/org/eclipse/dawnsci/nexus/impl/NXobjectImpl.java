@@ -20,26 +20,27 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DateDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DateDataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.StringDataset;
 
 /**
  * The abstract superclass of all base class implementation classes.
@@ -91,7 +92,11 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 						// cannot return a Dataset if the size is too large
 						throw new IllegalStateException("Dataset is too large to cache. This method should only be used for small datasets.");
 					} else {
-						lazy = lazy.getSlice();
+						try {
+							lazy = lazy.getSlice();
+						} catch (DatasetException e) {
+							throw new RuntimeException("Could not get data from lazy dataset", e);
+						}
 					}
 				}
 				cached.put(name, DatasetUtils.convertToDataset((IDataset) lazy));
@@ -168,7 +173,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.NXobject#initializeLazyDataset(java.lang.String, int, int)
 	 */
-	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, int dtype) {
+	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, Class<?> dtype) {
 		int[] shape = new int[rank];
 		Arrays.fill(shape, ILazyWriteableDataset.UNLIMITED);
 		return initializeLazyDataset(name, shape, dtype);
@@ -176,7 +181,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	
 	@Override
 	public ILazyWriteableDataset initializeLazyDataset(String name,
-			int[] maxShape, int dtype) {
+			int[] maxShape, Class<?> dtype) {
 		ILazyWriteableDataset dataset = new LazyWriteableDataset(name, dtype, maxShape, null, null, null);
 		createDataNode(name, dataset);
 		
@@ -185,7 +190,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	
 	@Override
 	public ILazyWriteableDataset initializeFixedSizeLazyDataset(String name, int[] shape,
-			int dtype) {
+			Class<?> dtype) {
 		ILazyWriteableDataset dataset = new LazyWriteableDataset(name, dtype, shape, shape, null, null);
 		createDataNode(name, dataset);
 		
@@ -335,8 +340,8 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 			dataNode = getDataNode(name);
 			// create a new dataset, new DataNode and update the cache
 			Dataset dataset = getCached(name);
-			if (AbstractDataset.getDTypeFromObject(value) != dataset.getDtype()) {
-				throw new IllegalArgumentException("Cannot overwrite existing dataset of " + dataset.elementClass());
+			if (DTypeUtils.getDTypeFromObject(value) != dataset.getDType()) {
+				throw new IllegalArgumentException("Cannot overwrite existing dataset of " + dataset.getElementClass());
 			}
 			
 			dataset.setObjectAbs(0, value);

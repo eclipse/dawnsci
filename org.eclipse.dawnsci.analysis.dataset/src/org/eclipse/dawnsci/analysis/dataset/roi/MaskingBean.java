@@ -14,7 +14,7 @@ package org.eclipse.dawnsci.analysis.dataset.roi;
 
 import java.io.Serializable;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.BooleanDataset;
+import org.eclipse.january.dataset.BooleanDataset;
 
 public class MaskingBean implements Serializable {
 
