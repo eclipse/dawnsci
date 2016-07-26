@@ -269,7 +269,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 			dataNode.setString(value);
 		} else {
 			// create a new dataset, create a new DataNode containing that dataset
-			StringDataset dataset = StringDataset.createFromObject(value);
+			StringDataset dataset = DatasetFactory.createFromObject(StringDataset.class, value);
 			dataNode = createDataNode(name, dataset);
 			// add the new dataset to the cache
 			cached.put(name, dataset);

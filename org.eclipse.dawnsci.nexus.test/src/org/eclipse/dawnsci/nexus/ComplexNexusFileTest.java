@@ -19,7 +19,6 @@ import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.january.dataset.IDataset;
-import org.eclipse.january.dataset.StringDataset;
 import org.junit.Before;
 
 public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
@@ -329,7 +328,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		dataGroupNode.addDataNode("data", getDataNode("/entry1/instrument/pco1_hw_hdf/data"));
 		dataGroupNode.addDataNode("rotation_angle", getDataNode("/entry1/instrument/tomoScanDevice/ss1_rot"));
 
-		tomoEntry.setDefinition(StringDataset.createFromObject("definition"));
+		tomoEntry.setDefinition(DatasetFactory.createFromObject("definition"));
 
 		// instrument : NXinstrument
 		NXinstrument instrument = NexusNodeFactory.createNXinstrument();
@@ -383,8 +382,8 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		NXcollection sampleStage = createSampleStageCollection();
 		beforeScanCollection.addGroupNode("sample_stage", sampleStage);
 
-		entry1.setEntry_identifier(StringDataset.createFromObject("24737"));
-		entry1.setExperiment_identifier(StringDataset.createFromObject("mt9396-1"));
+		entry1.setEntry_identifier(DatasetFactory.createFromObject("24737"));
+		entry1.setExperiment_identifier(DatasetFactory.createFromObject("mt9396-1"));
 
 		NXinstrument instrument = createInstrument();
 		entry1.setInstrument(instrument);
@@ -392,7 +391,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		NXdata pco1HwHdfData = createPco1HwHdfData();
 		entry1.setData("pco1_hw_hdf", pco1HwHdfData);
 
-		entry1.setProgram_name(StringDataset.createFromObject("GDA 8.36.0"));
+		entry1.setProgram_name(DatasetFactory.createFromObject("GDA 8.36.0"));
 		entry1.setField("scan_command", "scan tomoScanDevice Start: -88.200000 Stop: 91.800000 Step: 2.000000 Darks every:0 imagesPerDark:5 Flats every:0 imagesPerFlat:5 InBeamPosition:11.150000 OutOfBeamPosition:5.000000 numImages 111  actualTime ionc_i pco1_hw_hdf 0.1 beamok");
 		entry1.setField("scan_dimensions", 111);
 		entry1.setField("scan_identifier", "a3d668c0-e3c4-4ed9-b127-4a202b2b6bac");
