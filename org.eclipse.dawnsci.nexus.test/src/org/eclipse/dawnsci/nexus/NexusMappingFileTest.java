@@ -13,7 +13,6 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
-import org.eclipse.january.dataset.StringDataset;
 
 public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 
@@ -58,11 +57,11 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 	private void addEntry1(NXroot root) {
 		NXentry entry = NexusNodeFactory.createNXentry();
 
-		entry.setProgram_name(StringDataset.createFromObject("GDA 9.0.0"));
+		entry.setProgram_name(DatasetFactory.createFromObject("GDA 9.0.0"));
 		entry.setField("scan_command", "Mapping Scan");
 		entry.setField("scan_identifier", "aa-bb-cc-dd-ee");
 		entry.setField("title", "Example Mapping Scan");
-		entry.setEntry_identifier(StringDataset.createFromObject("24737"));
+		entry.setEntry_identifier(DatasetFactory.createFromObject("24737"));
 
 		addExperimentID(entry);
 		addUser(entry);
@@ -233,7 +232,7 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 	private void addEntryMicro(NXroot root) {
 		NXentry entry = NexusNodeFactory.createNXentry();
 
-		entry.setProgram_name(StringDataset.createFromObject("Microscope Software 1.0.0"));
+		entry.setProgram_name(DatasetFactory.createFromObject("Microscope Software 1.0.0"));
 		entry.setField("title", "White image of scan");
 
 		addExperimentID(entry);
@@ -257,7 +256,7 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 
 	private void addExperimentID(NXentry entry) {
 		if (experimentIDCache == null) {
-			entry.setExperiment_identifier(StringDataset.createFromObject("mt9396-1"));
+			entry.setExperiment_identifier(DatasetFactory.createFromObject("mt9396-1"));
 			experimentIDCache = entry.getDataNode(NXentry.NX_EXPERIMENT_IDENTIFIER);
 		} else {
 			entry.addDataNode(NXentry.NX_EXPERIMENT_IDENTIFIER, experimentIDCache);
