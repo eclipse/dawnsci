@@ -195,24 +195,17 @@ public class MultipleThreadNexusFileWriteTest {
 	private static final int DETECTOR_ROWS = 1024;
 	private static final int DETECTOR_COLUMNS = 1024;
 
-	private static final String FILE_NAME = "positioners.nx5";
-
 	private static String testScratchDirectoryName;
-
-	private String filePath;
 
 	private TestDetector detector;
 
 	private List<TestPositioner> positioners;
 	
-	private NexusScanFile nexusScanFile;
-
 	@Before
 	public void setUp() throws Exception {
 		testScratchDirectoryName = TestUtils.generateDirectorynameFromClassname(getClass().getCanonicalName());
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
 		ServiceHolder.setNexusFileFactory(new NexusFileFactoryHDF5());
-		filePath = testScratchDirectoryName + FILE_NAME;
 	}
 
 	private List<TestPositioner> createPositioners(int numPositioners) {
@@ -224,8 +217,9 @@ public class MultipleThreadNexusFileWriteTest {
 		return positioners;
 	}
 
-	private void createNexusFile(final int numPositioners) throws NexusException {
-		NexusFileBuilder fileBuilder = new DefaultNexusFileBuilder(filePath);
+	private NexusScanFile createNexusFile(final int numPositioners) throws NexusException {
+		String fileName = testScratchDirectoryName + "test" + numPositioners + "Positioners.nxs";
+		NexusFileBuilder fileBuilder = new DefaultNexusFileBuilder(fileName);
 		final NexusEntryBuilder entryBuilder = fileBuilder.newEntry();
 		entryBuilder.addDefaultGroups();
 		detector = new TestDetector(DETECTOR_ROWS, DETECTOR_COLUMNS);
@@ -239,7 +233,7 @@ public class MultipleThreadNexusFileWriteTest {
 			dataBuilder.addAxisDevice(positioner);
 		}
 		
-		nexusScanFile = fileBuilder.createFile();
+		return fileBuilder.createFile();
 	}
 
 	private void initializeDevices(final long stepTime, final int numSteps) {
@@ -276,7 +270,7 @@ public class MultipleThreadNexusFileWriteTest {
 		}
 	}
 
-	private void checkFile(int numPositioners, int numSteps) throws NexusException {
+	private void checkFile(String filePath, int numPositioners, int numSteps) throws NexusException {
 		final TreeFile file = NexusTestUtils.loadNexusFile(filePath, true);
 		final NXroot root = (NXroot) file.getGroupNode();
 		final NXentry entry = root.getEntry();
@@ -300,14 +294,20 @@ public class MultipleThreadNexusFileWriteTest {
 	}
 
 	public void doTestMultiplePositioners(final int numPositioners, final int numSteps, final long stepTime) throws Exception {
-		createNexusFile(numPositioners);
+		String filePath = testScratchDirectoryName + "test" + numPositioners + "Positioners.nxs"; 
+		NexusScanFile nexusFile = createNexusFile(numPositioners);
 		initializeDevices(stepTime, numSteps);
-		nexusScanFile.openToWrite();
-		final long timeout = (numSteps + 1) * stepTime * 2;
+		nexusFile.openToWrite();
+		// we need quite a long timeout so as not to fail on jenkins when there are other jobs running
+		final long timeout = (numPositioners * 50) + (numSteps + 1) * stepTime * 2;
+		System.err.println("Timeout = " + timeout);
+		long startTime = System.currentTimeMillis();
 		runThreads(numPositioners, numSteps, timeout);
-		nexusScanFile.close();
-		checkFile(numPositioners, numSteps);
+		nexusFile.close();
+		checkFile(filePath, numPositioners, numSteps);
 		HDF5FileFactory.releaseFile(filePath, true);
+		long elapsedTime = System.currentTimeMillis() - startTime;
+		System.err.println("Took " + elapsedTime + "ms, timeout was " + timeout + "ms");
 	}
 
 	public void doTestNPositioners(final int numPositioners) throws Exception {
