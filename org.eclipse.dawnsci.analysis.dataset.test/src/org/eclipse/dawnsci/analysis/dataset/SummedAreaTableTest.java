@@ -281,13 +281,13 @@ public class SummedAreaTableTest {
 		Dataset square = Maths.square(minus);
 		double var = ((Number) square.mean()).doubleValue();
 
-		TestUtils.assertEquals("Variance does not equal image variance", var, image.variance(true).doubleValue(), 1e-6,
+		TestUtils.assertEquals("Variance does not equal image variance", var, image.variance(true), 1e-6,
 				1e-6);
 	}
 
 	private double getBoxVariance(IDataset image, int[] point, int[] box) {
 		Dataset subsetNoSlice = createDataset(image, point, box);
-		return subsetNoSlice.variance(true).doubleValue();
+		return subsetNoSlice.variance(true);
 	}
 
 	private double getBoxMean(IDataset image, int[] point, int... box) {
