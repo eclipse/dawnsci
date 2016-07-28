@@ -11,7 +11,6 @@ import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataListener;
 import org.eclipse.january.dataset.IDataset;
-import org.eclipse.january.dataset.IDynamicDataset;
 import org.eclipse.january.dataset.RGBDataset;
 
 class DataConnection<T extends IDataset> {
@@ -23,13 +22,11 @@ class DataConnection<T extends IDataset> {
 	
 	private SliceClient<BufferedImage>   client;
 	private DataListenerDelegate        delegate;
-	private IDynamicMonitorDataset      dataset;
-	private int dType;
+	private IDynamicMonitorDatasetHolder      dataset;
 	private boolean greyScale;
 	
-	public DataConnection(int dType, boolean greyScale) {
+	public DataConnection(boolean greyScale) {
 		this.delegate = new DataListenerDelegate();
-		this.dType    = dType; // Should match parameterized type
 		this.greyScale= greyScale; 
 	}
 
@@ -45,12 +42,11 @@ class DataConnection<T extends IDataset> {
 			if (plotImageService == null) {
 				throw new NullPointerException("Plot image service not set");
 			}
-			Dataset rgb = DatasetUtils.convertToDataset(plotImageService.createDataset(image));
-			if (greyScale) rgb = ((RGBDataset)rgb).getRedView();
+			Dataset im = DatasetUtils.convertToDataset(plotImageService.createDataset(image));
+			if (greyScale && im instanceof RGBDataset) im = ((RGBDataset)im).getRedView();
 
-			IDataset set = rgb.cast(dType);
-			dataset.setData(set);
-			delegate.fire(new DataEvent(set.getName(), set.getShape()));
+			dataset.setDataset(im);
+			delegate.fire(new DataEvent(im.getName(), im.getShape()));
 
 			++count;
 			if (count>maxImages && maxImages>-1) return;
@@ -80,12 +76,12 @@ class DataConnection<T extends IDataset> {
 	}
 
 
-	public IDynamicDataset getDataset() {
-		return dataset;
+	public IDataset getDataset() {
+		return dataset.getSlice();
 	}
 
 
-	public void setDataset(IDynamicMonitorDataset dataset) {
+	public void setDataset(IDynamicMonitorDatasetHolder dataset) {
 		this.dataset = dataset;
 	}
 	

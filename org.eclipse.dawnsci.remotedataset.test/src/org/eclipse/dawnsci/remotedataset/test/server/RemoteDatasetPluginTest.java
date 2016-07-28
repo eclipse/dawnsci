@@ -3,12 +3,11 @@ package org.eclipse.dawnsci.remotedataset.test.server;
 import java.io.File;
 
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
-import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.eclipse.dawnsci.slicing.api.data.ITransferableDataManager;
 import org.eclipse.dawnsci.slicing.api.data.TransferableLazyDataset;
 import org.eclipse.dawnsci.slicing.api.system.ISliceSystem;
-import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.junit.Test;
@@ -33,9 +32,9 @@ public class RemoteDatasetPluginTest extends DataServerTest {
 			Thread.sleep(2000);
 			
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
-			final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);
+			final IDatasetConnector data = service.createRemoteDataset("localhost", 8080);
 			data.setPath(h5File.getAbsolutePath());
-			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
+			data.setDatasetName("/entry/data/image"); // We just get the first image in the PNG file.
 			data.connect();
 		
 			try {
@@ -47,7 +46,7 @@ public class RemoteDatasetPluginTest extends DataServerTest {
                 
 				TestUtils.delay(1000); // Wait while plot sorts itself out
 
-				TransferableLazyDataset trans = new TransferableLazyDataset(data);
+				TransferableLazyDataset trans = new TransferableLazyDataset(data.getDataset());
 				trans.setChecked(true);
                 man.addData(trans);
 				
@@ -60,7 +59,7 @@ public class RemoteDatasetPluginTest extends DataServerTest {
 					Display.getDefault().syncExec(new Runnable() {					
 						@Override
 						public void run() {
-							system.setSliceIndex(0, data.getShape()[0]-1, true);
+							system.setSliceIndex(0, data.getDataset().getShape()[0]-1, true);
 						}
 					});
 				}

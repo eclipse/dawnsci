@@ -10,7 +10,7 @@ import java.util.concurrent.Executor;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.january.dataset.IRemoteData;
-import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
 
 class RemoteData implements IRemoteData {
 
@@ -46,9 +46,9 @@ class RemoteData implements IRemoteData {
 	}
 
 	@Override
-	public IRemoteDataset createRemoteDataset(String datasetPath) throws Exception {
-		IRemoteDataset set = service.createRemoteDataset(urlBuilder.getServerName(), urlBuilder.getPort());
-		set.setDataset(datasetPath);
+	public IDatasetConnector createRemoteDataset(String datasetPath) throws Exception {
+		IDatasetConnector set = service.createRemoteDataset(urlBuilder.getServerName(), urlBuilder.getPort());
+		set.setDatasetName(datasetPath);
 		set.setPath(getPath());
 		return set;
 	}

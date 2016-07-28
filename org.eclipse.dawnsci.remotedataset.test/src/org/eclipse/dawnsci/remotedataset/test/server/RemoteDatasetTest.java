@@ -7,7 +7,8 @@ import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.eclipse.january.dataset.IDataset;
-import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
 import org.eclipse.january.dataset.SliceND;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +33,7 @@ public class RemoteDatasetTest extends DataServerTest {
 	@Test
 	public void testHDF5FileMonitoring() throws Exception {
 		
-		IRemoteDataset data = null;
+		IDatasetConnector data = null;
 		File h5File=null;
 		try {
 			System.out.println("> testHDF5FileMonitoring start");
@@ -43,7 +44,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			
 			data = service.createRemoteDataset("localhost", 8080);
 			data.setPath(h5File.getAbsolutePath());
-			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
+			data.setDatasetName("/entry/data/image"); // We just get the first image in the PNG file.
 			data.connect();
 		
 			checkAndWait(data, 2000, 100, 2); // This one is unreliable so we reduced the required events.
@@ -58,8 +59,9 @@ public class RemoteDatasetTest extends DataServerTest {
 
 	//@Test
 	public void testRemoteSlicingUsingSliceND() throws Exception {
-		IRemoteDataset data = null;
+		IDatasetConnector rdata = null;
 		File h5File = null;
+		ILazyDataset data;
 		try {
 			HDF5FileFactory.setVerbose(true);
 			System.out.println("> testRemoteSlicingUsingSliceND start");
@@ -70,13 +72,13 @@ public class RemoteDatasetTest extends DataServerTest {
 		    h5File = startHDF5WritingThread(freq);
 			Thread.sleep(4*freq); // Let it get going
 			
-			data = service.createRemoteDataset("localhost", 8080);
-			data.setPath(h5File.getAbsolutePath());
-			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
-			data.connect();
+			rdata = service.createRemoteDataset("localhost", 8080);
+			rdata.setPath(h5File.getAbsolutePath());
+			rdata.setDatasetName("/entry/data/image"); // We just get the first image in the PNG file.
+			rdata.connect();
 			
 			Thread.sleep(2*freq); // Let it get going
-			
+			data = rdata.getDataset();
 			for (int i = 0; i < 10; i++) {
 				
 				System.err.println("Shape is "+Arrays.toString(data.getShape()));
@@ -93,7 +95,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			
 		} finally {
 			testIsRunning = false;
-			if (data!=null) data.disconnect();
+			if (rdata!=null) rdata.disconnect();
 			if (h5File!=null)h5File.delete();
 			HDF5FileFactory.setVerbose(false);
 		}
@@ -102,7 +104,7 @@ public class RemoteDatasetTest extends DataServerTest {
 	@Test
 	public void testDirectoryMonitoring() throws Exception {
 		
-		IRemoteDataset data = null;
+		IDatasetConnector data = null;
 		File dir=null;
 		try {
 			System.out.println("> testDirectoryMonitoring start");
@@ -114,7 +116,7 @@ public class RemoteDatasetTest extends DataServerTest {
 			// Set the into, then call connect().
 			data =service.createRemoteDataset("localhost", 8080);
 			data.setPath(dir.getAbsolutePath());
-			data.setDataset("Image Stack"); // We just get the first image in the PNG file.
+			data.setDatasetName("Image Stack"); // We just get the first image in the PNG file.
 			data.connect();
 			
 			checkAndWait(data, 1000, 100);
@@ -130,7 +132,7 @@ public class RemoteDatasetTest extends DataServerTest {
 	@Test
 	public void testImageFileMonitoring() throws Exception {
 		
-		IRemoteDataset data = null;
+		IDatasetConnector data = null;
 		File tmpData =null;
 		try {
 			System.out.println("> testImageFileMonitoring start");
@@ -142,11 +144,11 @@ public class RemoteDatasetTest extends DataServerTest {
 			// Set the into, then call connect().
 			data =service.createRemoteDataset("localhost", 8080);
 			data.setPath(tmpData.getAbsolutePath());
-			data.setDataset(null); // Should get the dataset at the position of 0
+			data.setDatasetName(null); // Should get the dataset at the position of 0
 			data.connect();
 			
 			// Check that we got the 64x64 as expected
-			if (!Arrays.equals(data.getShape(), new int[]{64,64})) throw new Exception("Incorrect remote dataset size!");
+			if (!Arrays.equals(data.getDataset().getShape(), new int[]{64,64})) throw new Exception("Incorrect remote dataset size!");
 			
 			checkAndWait(data, 5000, 500);
 			System.out.println("> testImageFileMonitoring ok");

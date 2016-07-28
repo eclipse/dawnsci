@@ -9,6 +9,7 @@
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
+
 package org.eclipse.dawnsci.remotedataset.client.dyn;
 
 import java.awt.image.BufferedImage;
@@ -19,42 +20,41 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataListener;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IDatasetChangeChecker;
+import org.eclipse.january.dataset.IDynamicDataset;
 import org.eclipse.january.dataset.RGBDataset;
-import org.eclipse.january.dataset.ShapeUtils;
+import org.eclipse.january.dataset.ShortDataset;
 
 /**
- * Class used to get a streaming image into the plotting system.
- * 
+ * Used for streaming an image into the plotting system.
  * @author Matthew Gerring
  *
  */
-class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
+class DynamicImage implements IDynamicMonitorDatasetHolder {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2512465878034055747L;
+	private DataConnection<?>            connection;
 
-	private DataConnection<RGBDataset>            connection;
-	
-	private boolean dynamicShape=true;
+ 	private boolean dynamicShape=true;
 	private int[] transShape;
 	private int[] maxShape;
 
-	private Thread imageMonitor;
+	private Dataset dataset;
 
+	private Thread imageMonitor;
+	
 	/**
-	 * 
+	 * @param isRGB
 	 * @param client the client used to create the connection, for instance MJPG
 	 * @param shape the shape of the data if known, or do not set it if not.
 	 */
-	public DynamicRGBImage(SliceClient<BufferedImage> client, int... shape) {
-		super(shape == null || shape.length<1 ? new int[]{1,1} : shape);
-		this.connection= new DataConnection<RGBDataset>(getDType(), false);
+	public DynamicImage(boolean isRGB, SliceClient<BufferedImage> client, int... shape) {
+		this.connection= isRGB ? new DataConnection<RGBDataset>(true) : new DataConnection<ShortDataset>(true);
+		dataset = isRGB ? DatasetFactory.zeros(RGBDataset.class, shape) : DatasetFactory.zeros(ShortDataset.class, shape);
 		connection.setClient(client);
 		connection.setDataset(this);
 	}
@@ -80,28 +80,43 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 	}
 
 	@Override
-	public void setData(IDataset newData) {
+	public void setDataset(IDataset sdata) {
 		
-		Serializable buffer = DatasetUtils.convertToDataset(newData).getBuffer();
-		odata = buffer;
-		setData();
+		Serializable buffer = DatasetUtils.cast(ShortDataset.class, sdata).getData();	
+		
+		int[] shape = sdata.getShape();
 		if (dynamicShape) {
-		    shape = newData.getShape();
-		    size = ShapeUtils.calcSize(shape);
+			dataset.overrideInternal(buffer, shape);
 		} else {
-			transShape = newData.getShape();
+			dataset.overrideInternal(buffer, null);
+			this.transShape = shape;
 		}
 	}
-	
+
+	@Override
+	public Dataset getSlice() {
+		return dataset;
+	}
+
+	@Override
+	public IDynamicDataset getDataset() {
+		return null;
+	}
+
+	@Override
+	public void resize(int... newShape) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void setShapeDynamic(boolean isDyn) {
 		dynamicShape  = isDyn;
 		if (dynamicShape && transShape!=null) {
-		    shape = transShape;
-		    size = ShapeUtils.calcSize(shape);
+			dataset.overrideInternal(null, transShape);
 		    transShape = null;
 		}
 	}
-	
+
 	@Override
 	public void addDataListener(IDataListener l) {
 		connection.addDataListener(l);
@@ -112,18 +127,18 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 		connection.removeDataListener(l);
 	}
 
+	@Override
+	public void fireDataListeners() {
+		// TODO add method to DataConnection
+	}
+
 	public int[] getMaxShape() {
-		if (maxShape==null) return getShape();
+		if (maxShape==null) return dataset.getShape();
 		return maxShape;
 	}
 
 	public void setMaxShape(int... maxShape) {
 		this.maxShape = maxShape;
-	}
-
-	@Override
-	public void fireDataListeners() {
-		
 	}
 
 
@@ -143,14 +158,15 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 	}
 
 	@Override
-	public String getDataset() {
+	public String getDatasetName() {
 		return 	connection.getClient().getDataset();
 	}
 
 	@Override
-	public void setDataset(String dataset) {
+	public void setDatasetName(String dataset) {
 		connection.getClient().setDataset(dataset);
 	}
+
 
 	@Override
 	public String connect() throws DatasetException {
@@ -173,7 +189,7 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 				}
 			}
 		});
-		imageMonitor.setName("Monitor "+getName());
+		imageMonitor.setName("Monitor "+ dataset.getName());
 		imageMonitor.setDaemon(true);
 		imageMonitor.setPriority(Thread.MIN_PRIORITY); // TODO Is that right?
 		imageMonitor.start();
@@ -191,16 +207,15 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 
 	@Override
 	public void disconnect() throws DatasetException {
-		if (imageMonitor==null) return;	
+		connection.getClient().setFinished(true);
 		imageMonitor = null;
 	}
 
 	@Override
 	public void refreshShape() {
-		// does nothing
+		//does nothing
 		
 	}
-
 	public boolean isWritingExpected() {
 		return connection.getClient().isWritingExpected();
 	}
@@ -208,4 +223,5 @@ class DynamicRGBImage extends RGBDataset implements IDynamicMonitorDataset {
 	public void setWritingExpected(boolean writingExpected) {
 		connection.getClient().setWritingExpected(writingExpected);
 	}
+
 }

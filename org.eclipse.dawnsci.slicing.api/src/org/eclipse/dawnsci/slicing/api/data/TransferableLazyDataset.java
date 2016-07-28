@@ -14,8 +14,9 @@ import java.io.File;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.IMonitor;
 import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicDataset;
 import org.eclipse.january.dataset.ILazyDataset;
-import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
 
 
 /**
@@ -23,9 +24,9 @@ import org.eclipse.january.dataset.IRemoteDataset;
  */
 public class TransferableLazyDataset extends AbstractTransferableDataObject {
 	
-	private ILazyDataset delegate;
+	private IDynamicDataset delegate;
 
-	public TransferableLazyDataset(ILazyDataset delegate) {
+	public TransferableLazyDataset(IDynamicDataset delegate) {
 		this.delegate = delegate;
 		this.name     = delegate.getName();
 		this.transientData = true;
@@ -47,8 +48,8 @@ public class TransferableLazyDataset extends AbstractTransferableDataObject {
 
 	@Override
 	public String getFileName() {
-		return delegate instanceof IRemoteDataset
-			  ? (new File( ((IRemoteDataset)delegate).getPath() )).getName()
+		return delegate instanceof IDatasetConnector
+			  ? (new File( ((IDatasetConnector)delegate).getPath() )).getName()
 		      : null;
 	}
 
@@ -70,9 +71,9 @@ public class TransferableLazyDataset extends AbstractTransferableDataObject {
 
 	@Override
 	public String getPath() {
-		if (delegate instanceof  IRemoteDataset) {
-			IRemoteDataset rd = (IRemoteDataset)delegate;
-			if (rd.getDataset()!=null) return rd.getDataset(); 
+		if (delegate instanceof IDatasetConnector) {
+			IDatasetConnector rd = (IDatasetConnector)delegate;
+			if (rd.getDatasetName()!=null) return rd.getDatasetName(); 
 		}
 	    return delegate.getName();
 	}
@@ -94,8 +95,8 @@ public class TransferableLazyDataset extends AbstractTransferableDataObject {
 
 	@Override
 	public String getFilePath() {
-		return delegate instanceof IRemoteDataset
-				  ? ((IRemoteDataset)delegate).getPath()
+		return delegate instanceof IDatasetConnector
+				  ? ((IDatasetConnector)delegate).getPath()
 			      : null;
 	}
 

@@ -16,8 +16,9 @@ import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.eclipse.january.IMonitor;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.ILazyWriteableDataset;
-import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
 import org.eclipse.january.dataset.LazyWriteableDataset;
 import org.eclipse.january.dataset.Random;
 import org.eclipse.january.dataset.Slice;
@@ -35,9 +36,9 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 		final File dir = createSomeDirectoryData(10, 64, 64);
 		
 		IRemoteDatasetService service = new RemoteDatasetServiceImpl();
-		final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);
+		final IDatasetConnector data = service.createRemoteDataset("localhost", 8080);
 		data.setPath(dir.getAbsolutePath());
-		data.setDataset("Image Stack"); // We get the stack.
+		data.setDatasetName("Image Stack"); // We get the stack.
 		data.connect();
 		
         checkSlices(data);
@@ -83,9 +84,9 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 		final File h5File = createSomeH5Data(10, 64, 64);
 		
 		IRemoteDatasetService service = new RemoteDatasetServiceImpl();
-		final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);
+		final IDatasetConnector data = service.createRemoteDataset("localhost", 8080);
 		data.setPath(h5File.getAbsolutePath());
-		data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
+		data.setDatasetName("/entry/data/image"); // We just get the first image in the PNG file.
 		data.connect();
 		
 		checkSlices(data);
@@ -93,8 +94,9 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 	}
 	
 	
-	private void checkSlices(IRemoteDataset data) throws Exception {
+	private void checkSlices(IDatasetConnector rdata) throws Exception {
 		try { // New we have the opportunity to slice this remote blighter as much as we like...
+			ILazyDataset data = rdata.getDataset();
 			IDataset slice = data.getSlice(new Slice(0,1,1)); 
 			if (!Arrays.equals(slice.getShape(), new int[]{1,64, 64})) throw new Exception("Wrong shape of remote data!");
 			
@@ -108,7 +110,7 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 			if (!Arrays.equals(slice.getShape(), new int[]{5,5,64})) throw new Exception("Wrong shape of remote data!");			
 			
 		} finally {
-			data.disconnect();
+			rdata.disconnect();
 		}		
 	}
 
