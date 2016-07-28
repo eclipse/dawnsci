@@ -25,12 +25,12 @@ import org.eclipse.dawnsci.remotedataset.Format;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.eclipse.dawnsci.remotedataset.client.dyn.DynamicDatasetFactory;
-import org.eclipse.dawnsci.remotedataset.client.dyn.IDynamicMonitorDataset;
+import org.eclipse.dawnsci.remotedataset.client.dyn.IDynamicMonitorDatasetHolder;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 import org.eclipse.dawnsci.remotedataset.test.server.DataServerTest;
 import org.eclipse.dawnsci.remotedataset.test.server.TestUtils;
 import org.eclipse.january.dataset.IDataset;
-import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
 import org.eclipse.january.dataset.Random;
 import org.eclipse.january.metadata.DynamicConnectionInfo;
 import org.eclipse.swt.widgets.Display;
@@ -76,7 +76,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 		
 		// Requires an EPICS stream to connect to, not for general overnight testing!
 		IRemoteDatasetService service = new RemoteDatasetServiceImpl();
-		IRemoteDataset set = service.createMJPGDataset(new URL("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg"), 250, 10);
+		IDatasetConnector set = service.createMJPGDataset(new URL("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg"), 250, 10);
 		
 		try {
 			set.connect();
@@ -85,7 +85,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 			 
 			final IPlottingSystem<?>   sys = (IPlottingSystem<?>)part.getAdapter(IPlottingSystem.class);
 			
-			IImageTrace trace = (IImageTrace)sys.createPlot2D((IDataset)set, null, null);
+			IImageTrace trace = (IImageTrace)sys.createPlot2D(set.getSlice(), null, null);
 			trace.setDownsampleType(DownsampleType.POINT); // Fast!
 			trace.setRescaleHistogram(false); // Fast! Comes from RGBData anyway though
 			
@@ -94,7 +94,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 		} finally {
 			set.disconnect();
 			
-			List<DynamicConnectionInfo> linfo = set.getMetadata(DynamicConnectionInfo.class);
+			List<DynamicConnectionInfo> linfo = set.getDataset().getMetadata(DynamicConnectionInfo.class);
 			DynamicConnectionInfo info = linfo.get(0);
 			
 			System.out.println("Received images = "+info.getReceivedCount());
@@ -123,8 +123,8 @@ public class DynamicDatasetPluginTest extends DataServerTest {
     	IWorkbenchPart part = openView();
 		 
 		final IPlottingSystem<?> sys = (IPlottingSystem<?>)part.getAdapter(IPlottingSystem.class);
-		final IDynamicMonitorDataset rgb = DynamicDatasetFactory.createRGBImage(client);
-		sys.createPlot2D(rgb, null, null);
+		final IDynamicMonitorDatasetHolder rgb = DynamicDatasetFactory.createRGBImage(client);
+		sys.createPlot2D(rgb.getSlice(), null, null);
 
 		Thread runner = new Thread(new Runnable() {
 			public void run() {
@@ -143,7 +143,7 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 		
 		TestUtils.delay(20000); // Should easily allow the 100 images to be transfered.
 		
-		List<DynamicConnectionInfo> linfo = rgb.getMetadata(DynamicConnectionInfo.class);
+		List<DynamicConnectionInfo> linfo = rgb.getDataset().getMetadata(DynamicConnectionInfo.class);
 		DynamicConnectionInfo info = linfo.get(0);
 		
 		System.out.println("Received images = "+info.getReceivedCount());

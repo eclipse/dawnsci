@@ -27,7 +27,7 @@ import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.IDataListener;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyWriteableDataset;
-import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
 import org.eclipse.january.dataset.LazyWriteableDataset;
 import org.eclipse.january.dataset.Random;
 import org.eclipse.swt.graphics.ImageData;
@@ -216,12 +216,12 @@ public class DataServerTest {
 
 	
 
-	protected void checkAndWait(final IRemoteDataset data, long time, long imageTime) throws Exception {
+	protected void checkAndWait(final IDatasetConnector data, long time, long imageTime) throws Exception {
 		final int count = (int)time/(int)imageTime;
 		checkAndWait(data, time, imageTime, count-6);
 	}
 	
-	protected void checkAndWait(final IRemoteDataset data, long time, long imageTime, int min) throws Exception {
+	protected void checkAndWait(final IDatasetConnector data, long time, long imageTime, int min) throws Exception {
 		
 		final int count = (int)time/(int)imageTime;
 		try {
@@ -233,7 +233,7 @@ public class DataServerTest {
 				public void dataChangePerformed(DataEvent evt) {
 					try {
 						System.err.println("Data changed, shape is "+Arrays.toString(evt.getShape()));
-						if (!Arrays.equals(evt.getShape(), data.getShape())) {
+						if (!Arrays.equals(evt.getShape(), data.getDataset().getShape())) {
 							throw new Exception("Data shape and event shape are not the same!");
 						}
 						events.add(evt);

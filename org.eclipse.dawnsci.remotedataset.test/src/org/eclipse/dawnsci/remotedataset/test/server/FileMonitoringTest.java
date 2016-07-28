@@ -8,7 +8,7 @@ import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.eclipse.dawnsci.remotedataset.server.DataServerMode;
 import org.eclipse.dawnsci.remotedataset.server.DiagnosticInfo;
-import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
 import org.junit.Test;
 
 /**
@@ -64,7 +64,7 @@ public class FileMonitoringTest extends DataServerTest {
 
 	private void doConnectionAndDisconnect(int index, boolean checkListen) throws Exception {
 		
-		IRemoteDataset data = null;
+		IDatasetConnector data = null;
 		File h5File = null;
 		try {
 			testIsRunning = true;
@@ -74,7 +74,7 @@ public class FileMonitoringTest extends DataServerTest {
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 			data = service.createRemoteDataset("localhost", 8080);
 			data.setPath(h5File.getAbsolutePath());
-			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
+			data.setDatasetName("/entry/data/image"); // We just get the first image in the PNG file.
 			data.connect();
 		
 			if (checkListen) {

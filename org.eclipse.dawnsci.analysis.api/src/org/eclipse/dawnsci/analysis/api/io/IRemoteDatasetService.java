@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.concurrent.Executor;
 
 import org.eclipse.january.dataset.IRemoteData;
-import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
 
 /**
  * A service used to create connections to remote datasets.
@@ -52,7 +52,7 @@ public interface IRemoteDatasetService {
 	 * @param port
 	 * @return dataset
 	 */
-	public IRemoteDataset createRemoteDataset(String serverName, int port);
+	public IDatasetConnector createRemoteDataset(String serverName, int port);
 
 	
 	/**
@@ -68,7 +68,7 @@ public interface IRemoteDatasetService {
 	 * @return A DynamicDataset for instance one looking at a changing data source like
 	 * an MJPG stream. This dataset is loaded data unlike the one above. It may be cast with impunity to IDataset
 	 */
-	public IRemoteDataset createMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception;
+	public IDatasetConnector createMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception;
 
 
 	/**
@@ -84,7 +84,7 @@ public interface IRemoteDatasetService {
 	 * @return A DynamicDataset for instance one looking at a changing data source like
 	 * an MJPG stream. This dataset is loaded data unlike the one above. It may be cast with impunity to IDataset
 	 */
-	public IRemoteDataset createGrayScaleMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception;
+	public IDatasetConnector createGrayScaleMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception;
 	
 
 	/**

@@ -13,7 +13,7 @@ import org.eclipse.dawnsci.remotedataset.test.mock.LoaderServiceMock;
 import org.eclipse.dawnsci.remotedataset.test.mock.PlotImageServiceMock;
 import org.eclipse.january.dataset.DataEvent;
 import org.eclipse.january.dataset.IDataListener;
-import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,7 +44,7 @@ public class MJPGTest {
 	@Test
 	public void testMJPGEPICS() throws Exception {
 	
-		IRemoteDataset set = service.createMJPGDataset(new URL("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg"), 250, 10);
+		IDatasetConnector set = service.createMJPGDataset(new URL("http://ws157.diamond.ac.uk:8080/ADSIM.mjpg.mjpg"), 250, 10);
 		set.connect();
 		
 		try {

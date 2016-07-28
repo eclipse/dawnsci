@@ -9,10 +9,10 @@ import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.remotedataset.Format;
 import org.eclipse.dawnsci.remotedataset.client.dyn.DynamicDatasetFactory;
-import org.eclipse.dawnsci.remotedataset.client.dyn.IDynamicMonitorDataset;
+import org.eclipse.dawnsci.remotedataset.client.dyn.IDynamicMonitorDatasetHolder;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 import org.eclipse.january.dataset.IRemoteData;
-import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
 
 public class RemoteDatasetServiceImpl implements IRemoteDatasetService {
 	
@@ -22,21 +22,21 @@ public class RemoteDatasetServiceImpl implements IRemoteDatasetService {
 		System.out.println("Starting remote dataset service.");
 	}
 	@Override
-	public IRemoteDataset createRemoteDataset(String serverName, int port) {
+	public IDatasetConnector createRemoteDataset(String serverName, int port) {
     	return new RemoteDataset(serverName, port, getExecutor());
 	}
 	
 	@Override
-	public IRemoteDataset createMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception {
+	public IDatasetConnector createMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception {
 		SliceClient<BufferedImage> client = getSlice(url, sleepTime, cacheSize);
-		final IDynamicMonitorDataset rgb = DynamicDatasetFactory.createRGBImage(client);
+		final IDynamicMonitorDatasetHolder rgb = DynamicDatasetFactory.createRGBImage(client);
     	return rgb;
 	}
 
 	@Override
-	public IRemoteDataset createGrayScaleMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception {
+	public IDatasetConnector createGrayScaleMJPGDataset(URL url, long sleepTime, int cacheSize) throws Exception {
 		SliceClient<BufferedImage> client = getSlice(url, sleepTime, cacheSize);
-		final IDynamicMonitorDataset rgb = DynamicDatasetFactory.createGreyScaleImage(client);
+		final IDynamicMonitorDatasetHolder rgb = DynamicDatasetFactory.createGreyScaleImage(client);
     	return rgb;
 	}
 

@@ -13,10 +13,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.DataEvent;
-import org.eclipse.january.dataset.DataListenerDelegate;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.IDataListener;
-import org.eclipse.january.dataset.IRemoteDataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
 import org.eclipse.january.dataset.LazyWriteableDataset;
 import org.eclipse.january.dataset.ShapeUtils;
 import org.eclipse.january.metadata.DynamicConnectionInfo;
@@ -43,7 +44,7 @@ import org.slf4j.LoggerFactory;
 final IRemoteDatasetService service = ...
 final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);<br>
 data.setPath(h5File.getAbsolutePath());
-data.setDataset("image"); // We just get the first image in the PNG file.
+data.setDatasetName("image"); // We just get the first image in the PNG file.
 data.connect();
 
 try {
@@ -56,7 +57,7 @@ try {
  * @author Matthew Gerring
  *
  */
-class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
+class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RemoteDataset.class);
 	
@@ -64,7 +65,6 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	
 	// Web socket stuff
 	private Session connection;
-    private DataListenerDelegate eventDelegate;
 
 	private boolean dynamicShape = true;
 	private int[] transShape;
@@ -97,10 +97,9 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	 * @param port
 	 */
 	public RemoteDataset(String serverName, int port, Executor exec) {
-		super("unknown", Dataset.INT, new int[]{1}, new int[]{-1}, null, null);
+		super("unknown", Dataset.INT, new int[]{1}, new int[]{IDynamicDataset.UNLIMITED}, null, null);
 		this.urlBuilder = new URLBuilder(serverName, port);
 		urlBuilder.setWritingExpected(true);
-		this.eventDelegate = new DataListenerDelegate();
 		this.exec       = exec;
 	}
 
@@ -280,11 +279,6 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		eventDelegate.addDataListener(l);
 	}
 
-	@Override
-	public void removeDataListener(IDataListener l) {
-		eventDelegate.removeDataListener(l);
-	}
-
 	public String getPath() {
 		return urlBuilder.getPath();
 	}
@@ -293,11 +287,11 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		urlBuilder.setPath(path);
 	}
 
-	public String getDataset() {
+	public String getDatasetName() {
 		return urlBuilder.getDataset();
 	}
 
-	public void setDataset(String dataset) {
+	public void setDatasetName(String dataset) {
 		urlBuilder.setDataset(dataset);
 	}
 
@@ -307,5 +301,21 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 
 	public void setWritingExpected(boolean writingExpected) {
 		urlBuilder.setWritingExpected(writingExpected);
+	}
+
+	@Override
+	public IDynamicDataset getDataset() {
+		return this;
+	}
+
+	@Override
+	public IDataset getSlice() {
+		try {
+			return super.getSlice();
+		} catch (DatasetException e) {
+			logger.error("", e);
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
