@@ -26,11 +26,11 @@ public interface IOperationBean {
 
 	public void setSlicing(String slicing);
 
-	public void setPersistencePath(String persistencePath);
+	public void setProcessingPath(String persistencePath);
 
 	public void setAxesNames(List<String>[] axesNames);
 
-	public void setDeletePersistenceFile(boolean deletePersistenceFile);
+	public void setDeleteProcessingFile(boolean deletePersistenceFile);
 
 	public void setXmx(String xmx);
 
