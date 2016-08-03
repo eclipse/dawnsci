@@ -279,12 +279,25 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	 * @param original
 	 * @param out
 	 */
-	public void copyMetadata(IDataset original, IDataset out) {
+	public static void copyMetadata(IDataset original, IDataset out) {
+		copyMetadata(original, out, true);
+	}
+	
+	/**
+	 * Convenience method to copy the metadata from one dataset to another.
+	 * Use if a process doesnt change the shape of the data to maintain axes, masks etc
+	 * 
+	 * @param original
+	 * @param out
+	 * @param copyAxesMetadata flag to determine whether the AxesMetadata should be copied too 
+	 */
+	public static void copyMetadata(IDataset original, IDataset out, boolean copyAxesMetadata) {
 		try {
 			List<MetadataType> metadata = original.getMetadata(null);
 
 			for (MetadataType m : metadata) {
 				if (m instanceof ErrorMetadata) continue;
+				if (!copyAxesMetadata && m instanceof AxesMetadata) continue; 
 				out.setMetadata(m);
 			}
 
