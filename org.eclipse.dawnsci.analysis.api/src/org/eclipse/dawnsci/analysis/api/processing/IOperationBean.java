@@ -41,7 +41,6 @@ public interface IOperationBean {
 	public void setName(String name);
 	
 	public void setRunDirectory(String visitDir);
-	
-	public void setParallelizable(boolean parallelizable);
 
+	public void setNumberOfCores(int numberOfCores);
 }
