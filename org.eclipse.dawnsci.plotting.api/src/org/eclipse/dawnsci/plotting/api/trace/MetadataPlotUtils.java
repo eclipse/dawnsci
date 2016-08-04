@@ -57,6 +57,8 @@ public class MetadataPlotUtils {
 				y = y.getSlice(new Slice(0,1),(Slice)null).squeeze();
 			}
 			
+			if (x != null) x.setName(removeSquareBrackets(x.getName()));
+			if (y != null) y.setName(removeSquareBrackets(y.getName()));
 			
 			final ITrace t = system.updatePlot2D(data, Arrays.asList(new IDataset[]{y,x}), null);
 				
@@ -75,7 +77,8 @@ public class MetadataPlotUtils {
 			
 		} else if (data.getRank() == 1) {
 			x = axes == null ? null : axes[0];
-			if (clear) system.clear();
+			if (x != null) x.setName(removeSquareBrackets(x.getName()));
+			if (clear) system.reset();
 			system.updatePlot1D(x,Arrays.asList(new IDataset[]{data}),null);
 		}
 		
