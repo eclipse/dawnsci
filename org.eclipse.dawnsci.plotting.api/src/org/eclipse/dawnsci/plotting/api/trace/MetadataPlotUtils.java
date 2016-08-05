@@ -12,6 +12,7 @@ package org.eclipse.dawnsci.plotting.api.trace;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.dawnsci.analysis.api.metadata.UnitMetadata;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.IDataset;
@@ -77,11 +78,22 @@ public class MetadataPlotUtils {
 			
 		} else if (data.getRank() == 1) {
 			x = axes == null ? null : axes[0];
-			if (x != null) x.setName(removeSquareBrackets(x.getName()));
+			if (x != null) {
+				x.setName(removeSquareBrackets(x.getName())+getUnit(x));
+			}
 			if (clear) system.reset();
 			system.updatePlot1D(x,Arrays.asList(new IDataset[]{data}),null);
 		}
 		
+	}
+	
+	private static String getUnit(IDataset ds) {
+		
+		UnitMetadata um = ds.getFirstMetadata(UnitMetadata.class);
+		
+		if (um == null) return "";
+		
+		return " [" + um.toString() + "]";
 	}
 	
 
