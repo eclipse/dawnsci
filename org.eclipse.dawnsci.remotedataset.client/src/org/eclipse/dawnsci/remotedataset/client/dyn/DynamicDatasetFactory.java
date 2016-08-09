@@ -45,7 +45,13 @@ public class DynamicDatasetFactory {
 	}
 
 	private static void prepare(IDynamicMonitorDatasetHolder ret, SliceClient<BufferedImage> client) {
-		ret.getDataset().addMetadata(new DynamicConnectionInfoExt(client));
+		if (ret.getDataset() != null) {
+			// We check that there is something to prepare and throw an exception suggesting what may be wrong
+			if (ret.getDataset().getShape() == null || ret.getDataset().getShape().length == 0) {
+				throw new IllegalArgumentException("There is no data to prepare, is the device turned on?");
+			}
+			ret.getDataset().addMetadata(new DynamicConnectionInfoExt(client));
+		}
 	}
 }
 
