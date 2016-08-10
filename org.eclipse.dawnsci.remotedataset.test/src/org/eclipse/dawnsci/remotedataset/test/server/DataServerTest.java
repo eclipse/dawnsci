@@ -105,6 +105,8 @@ public class DataServerTest {
 		return startHDF5WritingThread(1000L);
 	}
 
+	final static int LIMIT = 23;
+
 	protected File startHDF5WritingThread(final long sleepTime) throws IOException, InterruptedException {
 
 		final File ret = File.createTempFile("temp_transient_file", ".h5");
@@ -130,8 +132,8 @@ public class DataServerTest {
 						int[] start = { index, 0, 0 };
 						int[] stop = { index + 1, 64, 64 };
 						index++;
-						if (index > 23)
-							index = 23; // Stall on the last image to avoid writing massive stacks
+						if (index > LIMIT)
+							index = LIMIT; // Stall on the last image to avoid writing massive stacks
 
 						IDataset rimage = Random.rand(new int[] { 1, 64, 64 });
 						rimage.setName("image");
@@ -187,9 +189,13 @@ public class DataServerTest {
 	        			File file = dir
 	        					  ? new File(ret, "image_"+index+".png")
 	        				      : ret;
-	        					  
+	        			if (file.exists()) {
+	        				file.delete();
+	        			}
 	        			file.deleteOnExit();
 	        			index++;
+						if (index > LIMIT)
+							index = LIMIT; // Stall on the last image to avoid writing massive stacks
 	        			
 	        			ImageIO.write(bi, "PNG", file);
 	        			
