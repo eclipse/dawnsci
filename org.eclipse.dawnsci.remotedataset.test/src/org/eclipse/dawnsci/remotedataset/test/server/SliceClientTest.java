@@ -14,11 +14,11 @@ package org.eclipse.dawnsci.remotedataset.test.server;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.remotedataset.Format;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 import org.eclipse.dawnsci.remotedataset.test.mock.LoaderServiceMock;
+import org.eclipse.january.dataset.IDataset;
 import org.junit.Before;
 import org.junit.Test;
 

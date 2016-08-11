@@ -18,7 +18,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
 import org.eclipse.dawnsci.nexus.INexusFileFactory;
@@ -33,6 +32,7 @@ import org.eclipse.dawnsci.nexus.builder.NexusFileBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusScanFile;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusBuilderFactory;
 import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -141,7 +141,7 @@ public abstract class AbstractNexusFileBuilderTestBase {
 		ILazyDataset dataset = getDataset(group, name, loadedFromDisk);
 		assertNotNull(dataset);
 		assertEquals(expectedRank, dataset.getRank());
-		assertEquals(expectedElementClass, dataset.elementClass());
+		assertEquals(expectedElementClass, dataset.getElementClass());
 	}
 
 }

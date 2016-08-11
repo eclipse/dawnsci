@@ -9,7 +9,7 @@
 
 package org.eclipse.dawnsci.analysis.dataset.function;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.january.dataset.Dataset;
 
 /**
  * Enumerations for down-sample datatypes

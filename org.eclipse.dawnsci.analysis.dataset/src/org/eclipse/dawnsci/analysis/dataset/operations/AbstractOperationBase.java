@@ -13,20 +13,20 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.ErrorMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.MaskMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.MetadataType;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.processing.IOperation;
 import org.eclipse.dawnsci.analysis.api.processing.OperationData;
 import org.eclipse.dawnsci.analysis.api.processing.OperationException;
 import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
 import org.eclipse.dawnsci.analysis.dataset.slicer.SliceFromSeriesMetadata;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.metadata.AxesMetadata;
+import org.eclipse.january.metadata.ErrorMetadata;
+import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
+import org.eclipse.january.metadata.IMetadata;
+import org.eclipse.january.metadata.MaskMetadata;
+import org.eclipse.january.metadata.MetadataType;
 
 public abstract class AbstractOperationBase<T extends IOperationModel, D extends OperationData> implements IOperation<T, D> {
 
@@ -279,12 +279,25 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	 * @param original
 	 * @param out
 	 */
-	public void copyMetadata(IDataset original, IDataset out) {
+	public static void copyMetadata(IDataset original, IDataset out) {
+		copyMetadata(original, out, true);
+	}
+	
+	/**
+	 * Convenience method to copy the metadata from one dataset to another.
+	 * Use if a process doesnt change the shape of the data to maintain axes, masks etc
+	 * 
+	 * @param original
+	 * @param out
+	 * @param copyAxesMetadata flag to determine whether the AxesMetadata should be copied too 
+	 */
+	public static void copyMetadata(IDataset original, IDataset out, boolean copyAxesMetadata) {
 		try {
 			List<MetadataType> metadata = original.getMetadata(null);
 
 			for (MetadataType m : metadata) {
 				if (m instanceof ErrorMetadata) continue;
+				if (!copyAxesMetadata && m instanceof AxesMetadata) continue; 
 				out.setMetadata(m);
 			}
 

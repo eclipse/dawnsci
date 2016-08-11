@@ -11,7 +11,7 @@ package org.eclipse.dawnsci.analysis.api.downsample;
 
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Service for downsampling data.

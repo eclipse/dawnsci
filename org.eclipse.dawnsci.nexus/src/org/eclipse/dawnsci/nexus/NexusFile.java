@@ -12,12 +12,12 @@ package org.eclipse.dawnsci.nexus;
 import java.io.IOException;
 import java.net.URI;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
 
 /**
  * Replacement for old Nexus file interface
@@ -311,8 +311,9 @@ public interface NexusFile extends AutoCloseable {
 
 	/**
 	 * Flush data to filesystem
+	 * @return the nexus int code for the flush or -1 if unsucessfull.
 	 */
-	public void flush() throws NexusException;
+	public int flush() throws NexusException;
 
 	/**
 	 * Close file

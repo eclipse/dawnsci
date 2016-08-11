@@ -15,6 +15,12 @@ package org.eclipse.dawnsci.analysis.dataset.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.Maths;
+
 
 /**
  * Signal processing class
@@ -103,7 +109,7 @@ public class Signal {
 		Dataset conv = FFT.ifftn(c, s, axes);
 		if (f.isComplex() || g.isComplex())
 			return conv;
-		return conv.real();
+		return conv.getReal();
 	}
 
 	/**
@@ -159,7 +165,7 @@ public class Signal {
 
 		Dataset corr = FFT.ifftn(c, s, axes);
 		if (!f.isComplex() && !g.isComplex())
-			corr = corr.real();
+			corr = corr.getReal();
 
 		int rank = s.length;
 		int alen;
@@ -240,14 +246,14 @@ public class Signal {
 		if (f.isComplex() || g.isComplex())
 			results.add(corr);
 		else
-			results.add(corr.real());
+			results.add(corr.getReal());
 
 		if (includeInverse) {
 			corr = FFT.ifftn(c, s, axes);
 			if (f.isComplex() || g.isComplex())
 				results.add(corr);
 			else
-				results.add(corr.real());
+				results.add(corr.getReal());
 		}
 
 		return results;
@@ -268,7 +274,7 @@ public class Signal {
 	 * @return window
 	 */
 	public static Dataset triangularWindow(int n) {
-		DoubleDataset w = new DoubleDataset(n);
+		DoubleDataset w = DatasetFactory.zeros(DoubleDataset.class, n);
 		double f = 2./(n+1);
 		double o = f*(n-1)*0.5;
 		for (int i = 0; i < n; i++) {
@@ -283,7 +289,7 @@ public class Signal {
 	 * @return window
 	 */
 	public static Dataset bartlettWindow(int n) {
-		DoubleDataset w = new DoubleDataset(n);
+		DoubleDataset w = DatasetFactory.zeros(DoubleDataset.class, n);
 		double f = 2./(n-1);
 		double o = f*(n-1)*0.5;
 		for (int i = 0; i < n; i++) {
@@ -320,7 +326,7 @@ public class Signal {
 	 * @return window
 	 */
 	public static Dataset hammingWindow(int n, double a, double b) {
-		DoubleDataset w = new DoubleDataset(n);
+		DoubleDataset w = DatasetFactory.zeros(DoubleDataset.class, n);
 		double f = 2*Math.PI/(n-1);
 		for (int i = 0; i < n; i++) {
 			w.setAbs(i, a - b*Math.cos(i*f));

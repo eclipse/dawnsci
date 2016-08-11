@@ -13,7 +13,7 @@ package org.eclipse.dawnsci.plotting.api.trace;
 
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.swt.graphics.PaletteData;
 
 /**

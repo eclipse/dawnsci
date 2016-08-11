@@ -10,17 +10,18 @@
 package org.eclipse.dawnsci.hdf5;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.api.io.ILazyDynamicLoader;
-import org.eclipse.dawnsci.analysis.api.io.ILazyLoader;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.SliceND;
+import org.eclipse.january.io.ILazyDynamicLoader;
+import org.eclipse.january.io.ILazyLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,7 +84,7 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	}
 
 	@Override
-	public Dataset getDataset(IMonitor mon, SliceND slice) throws ScanFileHolderException {
+	public Dataset getDataset(IMonitor mon, SliceND slice) throws IOException {
 		int[] lstart = slice.getStart();
 		int[] lstep  = slice.getStep();
 		int[] newShape = slice.getShape();
@@ -143,7 +144,7 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 				d.setName(name);
 			}
 		} catch (Exception e) {
-			throw new ScanFileHolderException("Problem loading dataset", e);
+			throw new IOException("Problem loading dataset", e);
 		}
 		return d;
 	}

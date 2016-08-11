@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.plotting.api.tool;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Interface used to add extra dataset to a tool

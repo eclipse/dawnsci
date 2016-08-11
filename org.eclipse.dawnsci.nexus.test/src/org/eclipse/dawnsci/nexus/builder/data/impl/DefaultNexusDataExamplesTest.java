@@ -8,7 +8,6 @@ import static org.eclipse.dawnsci.nexus.test.util.NexusAssert.assertTarget;
 
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.FloatDataset;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXpositioner;
@@ -23,6 +22,8 @@ import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.data.DataDeviceBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.FloatDataset;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,11 +56,11 @@ public class DefaultNexusDataExamplesTest {
 		
 		
 		@Override
-		protected NXdetector doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXdetector detector = nodeFactory.createNXdetector();
-			detector.setData(new FloatDataset(shape));
+		protected NXdetector createNexusObject() {
+			NXdetector detector = NexusNodeFactory.createNXdetector();
+			detector.setData(DatasetFactory.zeros(FloatDataset.class, shape));
 			if (hasTimeOfFlight) {
-				detector.setTime_of_flight(new FloatDataset(shape[shape.length - 1]));
+				detector.setTime_of_flight(DatasetFactory.zeros(FloatDataset.class, shape[shape.length - 1]));
 			}
 			
 			return detector;
@@ -77,9 +78,9 @@ public class DefaultNexusDataExamplesTest {
 		}
 		
 		@Override
-		protected NXpositioner doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXpositioner positioner = nodeFactory.createNXpositioner();
-			positioner.setValue(new FloatDataset(shape));
+		protected NXpositioner createNexusObject() {
+			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
+			positioner.setValue(DatasetFactory.zeros(FloatDataset.class, shape));
 			return positioner;
 		}
 		
@@ -100,10 +101,10 @@ public class DefaultNexusDataExamplesTest {
 		}
 		
 		@Override
-		protected NXpositioner doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			NXpositioner positioner = nodeFactory.createNXpositioner();
-			positioner.setField("rbv", new FloatDataset(scanShape));
-			positioner.setField("demand", new FloatDataset(scanShape[dimensionIndex]));
+		protected NXpositioner createNexusObject() {
+			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
+			positioner.setField("rbv", DatasetFactory.zeros(FloatDataset.class, scanShape));
+			positioner.setField("demand", DatasetFactory.zeros(FloatDataset.class, scanShape[dimensionIndex]));
 			return positioner;
 		}
 		

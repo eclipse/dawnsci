@@ -21,8 +21,6 @@ import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXpositioner;
 import org.eclipse.dawnsci.nexus.NXsample;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
-import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 
 /**
@@ -49,30 +47,10 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * @return the {@link NexusBaseClass} for this object provider
 	 */
 	public NexusBaseClass getNexusBaseClass();
-
-	/**
-	 * Creates and returns the nexus object for this provider.
-	 * @param nodeFactory node factory node factory to use to create the nexus object
-	 * @return new nexus object
-	 * @throws NexusException if the nexus object could not be created for any reason 
-	 */
-	public N createNexusObject(NexusNodeFactory nodeFactory) throws NexusException;
 	
 	/**
-	 * Returns the nexus object, creating it if necessary
-	 * @param nodeFactory node factory to create the nexus object
-	 * @param createIfNecessary <code>true</code> to create the nexus object if necessary,
-	 *    <code>false</code> otherwise
-	 * @return nexus object
-	 * @throws NexusException if the nexus object could not be created for any reason 
-	 */
-	public N getNexusObject(NexusNodeFactory nodeFactory, boolean createIfNecessary) throws NexusException;
-	
-	/**
-	 * If {@link #createNexusObject(NexusNodeFactory)} has previously been invoked
-	 * on this object, returns the NeXus object that was returned by that method,
-	 * otherwise returns <code>null</code>. This method should <em>not</em> return a new
-	 * NeXus object each time.
+	 * Returns the NeXus object for this provider, creating it if necessary
+	 * The same NeXus object must be returned each time this method is invoked
 	 * @return NeXus object or <code>null</code>
 	 */
 	public N getNexusObject();
@@ -184,11 +162,11 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * of an {@link NXdata} group (i.e. that referred to by the <code>@signal</code> attribute),
 	 * and additional data fields within this device provide default axis for that data field
 	 * @param primaryDataFieldName name of primary data field
-	 * @param dataFieldName data field
+	 * @param axisDataFieldName axis data field name
 	 * @return dimension of the default data field for which the field with the
 	 *   given name provides a default axis, or <code>null</code> if none
 	 */
-	public Integer getDefaultAxisDimension(String primaryDataFieldName, String dataFieldName);
+	public Integer getDefaultAxisDimension(String primaryDataFieldName, String axisDataFieldName);
 
 	/**
 	 * Returns the dimension mappings between the data field and
@@ -198,11 +176,11 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * attribute), and additional data fields within that 
 	 * and the default data field of this device.
 	 * @param primaryDataFieldName field name
-	 * @param dataFieldName data field name
+	 * @param axisDataFieldName axis data field name
 	 * @return dimension mappings between the field with the given name and the
 	 *    default data field
 	 */
-	public int[] getDimensionMappings(String primaryDataFieldName, String dataFieldName);
+	public int[] getDimensionMappings(String primaryDataFieldName, String axisDataFieldName);
 	
 	/**
 	 * Returns whether the names of the fields within the nexus object should be prefixed with the

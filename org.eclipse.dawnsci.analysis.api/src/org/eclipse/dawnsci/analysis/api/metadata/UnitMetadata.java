@@ -14,6 +14,8 @@ package org.eclipse.dawnsci.analysis.api.metadata;
 
 import javax.measure.unit.Unit;
 
+import org.eclipse.january.metadata.MetadataType;
+
 /**
  * This metadata describes the unit associated with the quantity stored in a dataset
  */

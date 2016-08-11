@@ -16,8 +16,8 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.SliceND;
 
 
 /**

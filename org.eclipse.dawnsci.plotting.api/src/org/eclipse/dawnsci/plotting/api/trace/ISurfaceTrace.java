@@ -15,8 +15,8 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  *

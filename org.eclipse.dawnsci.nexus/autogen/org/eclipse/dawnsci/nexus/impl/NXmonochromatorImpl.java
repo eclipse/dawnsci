@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-06-07T11:32:35.177+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,12 +17,11 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-
 import org.eclipse.dawnsci.nexus.*;
+import org.eclipse.january.dataset.IDataset;
 
 /**
+ * A wavelength defining device.
  * This is a base class for everything which
  * selects a wavelength or energy, be it a
  * monochromator crystal, a velocity selector,
@@ -45,8 +44,8 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 		NexusBaseClass.NX_VELOCITY_SELECTOR,
 		NexusBaseClass.NX_GRATING);
 
-	public NXmonochromatorImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXmonochromatorImpl() {
+		super();
 	}
 
 	public NXmonochromatorImpl(final long oid) {

@@ -11,9 +11,9 @@ package org.eclipse.dawnsci.plotting.api.remote;
 
 import java.io.Serializable;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.axis.IAxis;
 import org.eclipse.dawnsci.plotting.api.axis.IAxisListener;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 

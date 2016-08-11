@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-06-07T11:32:35.177+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,13 +17,11 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-
 import org.eclipse.dawnsci.nexus.*;
+import org.eclipse.january.dataset.IDataset;
 
 /**
- * Template of a beamline mirror or supermirror.
+ * A beamline mirror or supermirror.
  * 
  * @version 1.0
  */
@@ -38,8 +36,8 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 		NexusBaseClass.NX_SHAPE,
 		NexusBaseClass.NX_DATA);
 
-	public NXmirrorImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXmirrorImpl() {
+		super();
 	}
 
 	public NXmirrorImpl(final long oid) {

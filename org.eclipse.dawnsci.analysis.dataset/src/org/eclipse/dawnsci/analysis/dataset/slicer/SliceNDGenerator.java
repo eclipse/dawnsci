@@ -17,11 +17,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
-import org.eclipse.dawnsci.analysis.dataset.impl.IntegersIterator;
-import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
+import org.eclipse.january.dataset.IndexIterator;
+import org.eclipse.january.dataset.IntegersIterator;
+import org.eclipse.january.dataset.PositionIterator;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.dataset.SliceND;
 
 public class SliceNDGenerator {
 

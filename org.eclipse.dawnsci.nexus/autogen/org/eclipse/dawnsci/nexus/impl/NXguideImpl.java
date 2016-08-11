@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-06-07T11:32:35.177+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,13 +17,12 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-
 import org.eclipse.dawnsci.nexus.*;
+import org.eclipse.january.dataset.IDataset;
 
 /**
- * ``NXguide`` is used by neutron instruments to describe
+ * A neutron optical element to direct the path of the beam.
+ * :ref:`NXguide` is used by neutron instruments to describe
  * a guide consists of several mirrors building a shape through which
  * neutrons can be guided or directed. The simplest such form is box shaped
  * although elliptical guides are gaining in popularity.
@@ -32,18 +31,17 @@ import org.eclipse.dawnsci.nexus.*;
  * For example, a neutron guide might consist of 2 or 4 coated walls or
  * a supermirror bender with multiple, coated vanes.
  * To describe polarizing supermirrors such as used in neutron reflection,
- * it may be necessary to revise this definition of ``NXguide``
- * to include ``NXpolarizer`` and/or ``NXmirror``.
+ * it may be necessary to revise this definition of :ref:`NXguide`
+ * to include :ref:`NXpolarizer` and/or :ref:`NXmirror`.
  * When even greater complexity exists in the definition of what
- * constitutes a *guide*, it has been suggested that ``NXguide``
- * be redefined as a ``NXcollection`` of
- * ``NXmirrors`` each having their own
- * ``NXgeometries`` describing their location(s).
+ * constitutes a *guide*, it has been suggested that :ref:`NXguide`
+ * be redefined as a :ref:`NXcollection` of :ref:`NXmirror` each
+ * having their own :ref:`NXgeometry` describing their location(s).
  * For the more general case when describing mirrors, consider using
- * ``NXmirror``.
+ * :ref:`NXmirror`.
  * NOTE: The NeXus International Advisory Committee welcomes
  * comments for revision and improvement of
- * this definition of ``NXguide``.
+ * this definition of :ref:`NXguide`.
  * 
  * @version 1.0
  */
@@ -56,8 +54,8 @@ public class NXguideImpl extends NXobjectImpl implements NXguide {
 		NexusBaseClass.NX_GEOMETRY,
 		NexusBaseClass.NX_DATA);
 
-	public NXguideImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXguideImpl() {
+		super();
 	}
 
 	public NXguideImpl(final long oid) {

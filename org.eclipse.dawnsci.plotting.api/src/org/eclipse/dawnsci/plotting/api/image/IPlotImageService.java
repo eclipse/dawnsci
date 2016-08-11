@@ -11,7 +11,7 @@ package org.eclipse.dawnsci.plotting.api.image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.services.IDisposable;
 

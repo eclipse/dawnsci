@@ -12,6 +12,7 @@
 
 package org.eclipse.dawnsci.analysis.api.dataset;
 
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * This service gives access to parts of the scisoft.analysis plugin
@@ -70,20 +71,20 @@ public interface IDatasetMathsService {
 	/**
 	 * Create a range without importing DatasetFactory
 	 * @param stop
-	 * @param dtype
+	 * @param clazz element class
 	 * @return IDataset
 	 */
-	public IDataset createRange(final double stop, final int dtype);
+	public IDataset createRange(final double stop, final Class<?> clazz);
 
 	/**
 	 * Create a range without importing DatasetFactory
 	 * @param start
 	 * @param stop
 	 * @param step
-	 * @param dtype
+	 * @param clazz element class
 	 * @return IDataset
 	 */
-	public IDataset createRange(final double start, final double stop, final double step, final int dtype);
+	public IDataset createRange(final double start, final double stop, final double step, final Class<?> clazz);
 
 	/**
 	 * Create a dataset using a bunch of doubles.

@@ -19,8 +19,6 @@ import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
@@ -28,6 +26,9 @@ import org.eclipse.dawnsci.analysis.api.tree.TreeAdaptable;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -242,19 +243,25 @@ public class H5ValuePage extends Page  implements ISelectionListener, IPartListe
 			ILazyDataset lz = hd.getDataset();
 			if (lz.getRank()==1 && lz.getShape()[0]<500) {
 								
-				final IDataset data = lz.getSlice();
-				if (Number.class.isAssignableFrom(data.elementClass())) {
-				    buf.append("\n[");
-				    if (format==null) format = new DecimalFormat("#####0.0###");
-				    final int size = Math.min(lz.getShape()[0], 5);
-				    for (int i = 0; i < size; ++i) {
-					    buf.append(format.format(data.getDouble(i)));
-					    if (i<size-1) buf.append(", ");
-				    }
-				    if (lz.getShape()[0]>5) buf.append(" ...");
-				    buf.append("]\n\n");
+				try {
+					IDataset data = lz.getSlice();
+					if (Number.class.isAssignableFrom(data.getElementClass())) {
+						buf.append("\n[");
+						if (format == null)
+							format = new DecimalFormat("#####0.0###");
+						final int size = Math.min(lz.getShape()[0], 5);
+						for (int i = 0; i < size; ++i) {
+							buf.append(format.format(data.getDouble(i)));
+							if (i < size - 1)
+								buf.append(", ");
+						}
+						if (lz.getShape()[0] > 5)
+							buf.append(" ...");
+						buf.append("]\n\n");
+					}
+				} catch (DatasetException e) {
+					logger.error("Could not get data from lazy dataset", e);
 				}
-
 			}
 		}
 		buf.append(node.toString());

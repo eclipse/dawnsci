@@ -23,14 +23,14 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.hdf.object.nexus.NexusUtils;
 import org.eclipse.dawnsci.hdf.object.nexus.NexusUtils.ATTRIBUTE_TYPE;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.SliceND;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -833,7 +833,7 @@ public class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatD
 			}
 			
 	        String[] arrayValue = {};
-	        Datatype dtype  = H5Utils.getDatatype(org.eclipse.dawnsci.analysis.dataset.impl.Dataset.STRING, size);
+	        Datatype dtype  = H5Utils.getDatatype(org.eclipse.january.dataset.Dataset.STRING, size);
 			Dataset dataset = file.createScalarDS(name, parent, dtype, new long[]{1}, null, null, 0, arrayValue);
 
 			return dataset.getFullName();
@@ -858,7 +858,7 @@ public class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatD
 			                     final IDataset data,
 			                     final String   parentPath,
 			                     final boolean  overwrite) throws Exception {
-    	int    dType   = AbstractDataset.getDType(data);
+    	int    dType   = DTypeUtils.getDType(data);
 		long[] shape   = H5Utils.getLong(data.getShape());
 		
 		return createDataset(name, dType, shape, null, null, DatasetUtils.serializeDataset(data), null, parentPath, overwrite);
@@ -948,7 +948,7 @@ public class HierarchicalDataFile implements IHierarchicalDataFile, IFileFormatD
 						                     final IDataset data,
 						                     final String   parentGroupPath) throws Exception {
 		
-    	int    dType   = AbstractDataset.getDType(data);
+    	int    dType   = DTypeUtils.getDType(data);
 		long[] shape   = H5Utils.getLong(data.getShape());
 		
 		return appendDataset(name, dType, shape, DatasetUtils.serializeDataset(data), parentGroupPath);

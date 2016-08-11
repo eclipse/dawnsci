@@ -11,31 +11,28 @@ package org.eclipse.dawnsci.remotedataset.test.mock;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IMetadataProvider;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.IFileLoader;
-import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.Metadata;
-import org.eclipse.dawnsci.analysis.api.metadata.MetadataType;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
-import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
 import org.eclipse.dawnsci.nexus.INexusFileFactory;
 import org.eclipse.dawnsci.nexus.NexusFile;
+import org.eclipse.january.MetadataException;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.IMetadataProvider;
+import org.eclipse.january.metadata.IMetadata;
+import org.eclipse.january.metadata.Metadata;
+import org.eclipse.january.metadata.MetadataType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -172,13 +169,13 @@ public class MockDataHolder implements IMetadataProvider, IDataHolder, Serializa
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends MetadataType> List<T> getMetadata(Class<T> clazz) throws Exception {
+	public <T extends MetadataType> List<T> getMetadata(Class<T> clazz) throws MetadataException {
 		if (IMetadata.class.isAssignableFrom(clazz)) {
 			List<T> result = new ArrayList<T>();
 			result.add((T) getMetadata());
 			return result;
 		}
-		throw new UnsupportedOperationException("getMetadata(clazz) does not currently support anything other than IMetadata");
+		throw new MetadataException("getMetadata(clazz) does not currently support anything other than IMetadata");
 		// If it should only support this, simply return null here, otherwise implement the method fully
 	}
 	

@@ -403,7 +403,9 @@ public class DataDeviceBuilder<N extends NXobject> {
 				// if this is not a primary device, the primary data field of the
 				// nexus object provider is an axis field for the signal field
 				// (which is from the primary device)
-				axisFieldNames.add(nexusObjectProvider.getPrimaryDataFieldName());
+				if (nexusObjectProvider.getPrimaryDataFieldName() != null) {
+					axisFieldNames.add(nexusObjectProvider.getPrimaryDataFieldName());
+				}
 			}
 			if (nexusObjectProvider.getDefaultAxisDataFieldName() != null) {
 				axisFieldNames.add(nexusObjectProvider.getDefaultAxisDataFieldName());

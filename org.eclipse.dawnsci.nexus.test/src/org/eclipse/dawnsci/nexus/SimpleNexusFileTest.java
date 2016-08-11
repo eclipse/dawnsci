@@ -1,12 +1,8 @@
 package org.eclipse.dawnsci.nexus;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.LongDataset;
-import org.eclipse.dawnsci.nexus.NXdata;
-import org.eclipse.dawnsci.nexus.NXentry;
-import org.eclipse.dawnsci.nexus.NXroot;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Simple NeXus file test based on 'verysimple.nx5' example described in the
@@ -20,7 +16,7 @@ public class SimpleNexusFileTest extends AbstractNexusFileTestBase {
 	@Override
 	protected NXroot createNXroot() {
 		// create the root object of the nexus file
-		NXroot root = nexusNodeFactory.createNXroot();
+		NXroot root = NexusNodeFactory.createNXroot();
 		root.setAttributeFile_name(FILE_NAME);
 		root.setAttributeFile_time("2014-09-08T09:07:11.939912");
 		root.setAttributeNeXus_version("4.3.0");
@@ -28,10 +24,10 @@ public class SimpleNexusFileTest extends AbstractNexusFileTestBase {
 		root.setAttribute(null, "h5py_version", "2.3.0");
 
 		// create the single entry object of the nexus file
-		NXentry entry = nexusNodeFactory.createNXentry();
+		NXentry entry = NexusNodeFactory.createNXentry();
 		root.setEntry(entry);
 
-		NXdata dataGroup = nexusNodeFactory.createNXdata();
+		NXdata dataGroup = NexusNodeFactory.createNXdata();
 		entry.setData(dataGroup);
 
 		long[] countsData = new long[] {
@@ -40,12 +36,12 @@ public class SimpleNexusFileTest extends AbstractNexusFileTestBase {
 				598720, 316460, 56677, 1000, 1000
 		};
 
-		dataGroup.setDataset("counts", new LongDataset(countsData));
+		dataGroup.setDataset("counts", DatasetFactory.createFromObject(countsData));
 		dataGroup.setAttribute("counts", "long_name", "photodiode counts");
 		dataGroup.setAttribute("counts", "signal", 1.0);
 		dataGroup.setAttribute("counts", "axes", "two_theta");
 
-		IDataset twoTheta = DatasetFactory.createRange(18.9094, 18.9122, 0.0002, AbstractDataset.FLOAT64);
+		IDataset twoTheta = DatasetFactory.createRange(18.9094, 18.9122, 0.0002, Dataset.FLOAT64);
 		dataGroup.setDataset("two_theta", twoTheta);
 		dataGroup.setAttribute("two_theta", "units", "degrees");
 		dataGroup.setAttribute("two_theta", "long_name", "two_theta (degrees)");

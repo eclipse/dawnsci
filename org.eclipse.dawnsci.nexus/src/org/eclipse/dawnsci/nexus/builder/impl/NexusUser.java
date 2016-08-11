@@ -52,12 +52,9 @@ public class NexusUser extends AbstractNexusObjectProvider<NXuser> {
 		setName(name);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.dawnsci.nexus.builder.impl.AbstractNexusObjectProvider#doCreateNexusObject(org.eclipse.dawnsci.nexus.impl.NexusNodeFactory)
-	 */
 	@Override
-	protected NXuser doCreateNexusObject(NexusNodeFactory nodeFactory) {
-		NXuser user = nodeFactory.createNXuser();
+	protected NXuser createNexusObject() {
+		NXuser user = NexusNodeFactory.createNXuser();
 		
 		if (name != null) {
 			user.setNameScalar(name);

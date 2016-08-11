@@ -7,18 +7,23 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-06-07T11:32:35.177+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
- * Use ``NXtransformations`` to gather together any set of movable or fixed
- * elements positioning the device described by the class that contains this.
+ * Collection of translations and rotations to describe a geometry
+ * A sequence of transformations lists the
+ * offset and rotation steps needed to describe the position and orientation
+ * of any movable or fixed device.
+ * This class will usually contain all axis of a sample stage or goniometer.
+ * The entry point (``depends_on``) will be outside of this class and point to a
+ * field in here. Following the chain may also require following ``depends_on``
+ * links to transformations outside, for example to a common base table.
  * 
  * @version 1.0
  */

@@ -15,9 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Slice;
 
 /**
  * The conversion context which will drive what we are going to convert.
@@ -41,7 +41,9 @@ public interface IConversionContext {
 		CUSTOM_NCD(" ascii from NCD data",     true, 1,2,3,4,5,6),
 		CUSTOM_TOMO(" tiff from tomography nexus file(s) [nxtomo]",    true, 3),
 		COMPARE(" compare data",    true,  false, 0,1,2,3,4,5),
-		PROCESS(" process data", false, true, 1,2,3,4,5);
+		PROCESS(" process data", false, true, 1,2,3,4,5),
+		B18_REPROCESS_ASCII(" reprocess B18 ascii", true, false, false, 1),
+		B18_AVERAGE(" average B18 data", true, false, false, 1); // for now allow only ASCII
 		
 		private final String  uiLabel;
 		private final int[]   preferredRanks;

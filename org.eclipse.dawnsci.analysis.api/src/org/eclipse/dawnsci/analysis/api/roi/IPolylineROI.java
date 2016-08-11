@@ -14,7 +14,7 @@ package org.eclipse.dawnsci.analysis.api.roi;
 
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Interface for a polyline ROI

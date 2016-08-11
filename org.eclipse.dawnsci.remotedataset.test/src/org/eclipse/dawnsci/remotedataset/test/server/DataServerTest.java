@@ -9,17 +9,8 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.dataset.function.Downsample;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
 import org.eclipse.dawnsci.nexus.INexusFileFactory;
 import org.eclipse.dawnsci.nexus.NexusFile;
@@ -30,6 +21,15 @@ import org.eclipse.dawnsci.remotedataset.server.DataServer;
 import org.eclipse.dawnsci.remotedataset.test.mock.ImageServiceMock;
 import org.eclipse.dawnsci.remotedataset.test.mock.LoaderServiceMock;
 import org.eclipse.dawnsci.remotedataset.test.mock.PlotImageServiceMock;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.DataEvent;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.IDataListener;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
+import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.Random;
 import org.eclipse.swt.graphics.ImageData;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -105,6 +105,8 @@ public class DataServerTest {
 		return startHDF5WritingThread(1000L);
 	}
 
+	final static int LIMIT = 23;
+
 	protected File startHDF5WritingThread(final long sleepTime) throws IOException, InterruptedException {
 
 		final File ret = File.createTempFile("temp_transient_file", ".h5");
@@ -130,8 +132,8 @@ public class DataServerTest {
 						int[] start = { index, 0, 0 };
 						int[] stop = { index + 1, 64, 64 };
 						index++;
-						if (index > 23)
-							index = 23; // Stall on the last image to avoid writing massive stacks
+						if (index > LIMIT)
+							index = LIMIT; // Stall on the last image to avoid writing massive stacks
 
 						IDataset rimage = Random.rand(new int[] { 1, 64, 64 });
 						rimage.setName("image");
@@ -187,9 +189,13 @@ public class DataServerTest {
 	        			File file = dir
 	        					  ? new File(ret, "image_"+index+".png")
 	        				      : ret;
-	        					  
+	        			if (file.exists()) {
+	        				file.delete();
+	        			}
 	        			file.deleteOnExit();
 	        			index++;
+						if (index > LIMIT)
+							index = LIMIT; // Stall on the last image to avoid writing massive stacks
 	        			
 	        			ImageIO.write(bi, "PNG", file);
 	        			
@@ -216,12 +222,12 @@ public class DataServerTest {
 
 	
 
-	protected void checkAndWait(final IRemoteDataset data, long time, long imageTime) throws Exception {
+	protected void checkAndWait(final IDatasetConnector data, long time, long imageTime) throws Exception {
 		final int count = (int)time/(int)imageTime;
 		checkAndWait(data, time, imageTime, count-6);
 	}
 	
-	protected void checkAndWait(final IRemoteDataset data, long time, long imageTime, int min) throws Exception {
+	protected void checkAndWait(final IDatasetConnector data, long time, long imageTime, int min) throws Exception {
 		
 		final int count = (int)time/(int)imageTime;
 		try {
@@ -233,7 +239,7 @@ public class DataServerTest {
 				public void dataChangePerformed(DataEvent evt) {
 					try {
 						System.err.println("Data changed, shape is "+Arrays.toString(evt.getShape()));
-						if (!Arrays.equals(evt.getShape(), data.getShape())) {
+						if (!Arrays.equals(evt.getShape(), data.getDataset().getShape())) {
 							throw new Exception("Data shape and event shape are not the same!");
 						}
 						events.add(evt);

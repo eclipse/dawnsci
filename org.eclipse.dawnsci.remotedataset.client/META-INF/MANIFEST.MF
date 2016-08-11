@@ -10,7 +10,8 @@ Export-Package: org.eclipse.dawnsci.remotedataset.client,
  org.eclipse.dawnsci.remotedataset.client.slice
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/*.xml
-Require-Bundle: org.eclipse.dawnsci.analysis.api;bundle-version="1.0.0",
+Require-Bundle: org.eclipse.january;bundle-version="1.0.0",
+ org.eclipse.dawnsci.analysis.api;bundle-version="1.0.0",
  org.eclipse.dawnsci.plotting.api;bundle-version="1.2.0",
  org.eclipse.dawnsci.analysis.dataset;bundle-version="1.0.0",
  org.eclipse.dawnsci.remotedataset.core;bundle-version="1.0.0",

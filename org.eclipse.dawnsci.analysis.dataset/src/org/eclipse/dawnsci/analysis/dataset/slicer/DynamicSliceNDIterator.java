@@ -9,11 +9,11 @@
 
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ShapeUtils;
+import org.eclipse.january.dataset.SliceND;
 
 public class DynamicSliceNDIterator {
 
@@ -58,7 +58,7 @@ public class DynamicSliceNDIterator {
 	}
 	
 	private void updateCurrentSlice() {
-		int[] pos = AbstractDataset.getNDPositionFromShape(absCurrentPosition,scanShape);
+		int[] pos = ShapeUtils.getNDPositionFromShape(absCurrentPosition,scanShape);
 		for (int i = 0; i < pos.length; i++) currentSlice.setSlice(i, pos[i], pos[i]+1, 1);
 	}
 	

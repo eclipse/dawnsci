@@ -21,15 +21,12 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
-import org.eclipse.dawnsci.analysis.tree.impl.SymbolicNodeImpl;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusEntryBuilder;
+import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.data.AxisDataDevice;
@@ -37,6 +34,10 @@ import org.eclipse.dawnsci.nexus.builder.data.DataDevice;
 import org.eclipse.dawnsci.nexus.builder.data.DataDeviceBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.PrimaryDataDevice;
+import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusEntryBuilder;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IntegerDataset;
+import org.eclipse.january.dataset.StringDataset;
 
 /**
  * Default implementation of {@link NexusDataBuilder}.
@@ -234,12 +235,11 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 		if (node.isDataNode()) {
 			nxData.addDataNode(destinationFieldName, (DataNode) node); 
 		} else if (node.isSymbolicNode()) {
-			// we have the symbolic node as the NexusFileHDF5 cannot create a hard link
+			// we have to copy the symbolic node as the NexusFileHDF5 cannot create a hard link
 			// to a symbolic node when saving the tree
-			SymbolicNode symbolicNode = (SymbolicNode) node;
-			final long oid = entryBuilder.getNodeFactory().getNextOid();
-			SymbolicNode newSymbolicNode = new SymbolicNodeImpl(
-					oid, symbolicNode.getSourceURI(), null, symbolicNode.getPath());
+			SymbolicNode oldSymbolicNode = (SymbolicNode) node;
+			SymbolicNode newSymbolicNode = NexusNodeFactory.createSymbolicNode(
+					oldSymbolicNode.getSourceURI(), oldSymbolicNode.getPath());
 			nxData.addSymbolicNode(destinationFieldName, newSymbolicNode);
 		} else {
 			throw new IllegalArgumentException("Node must be a DataNode or SymbolicNode");
@@ -269,7 +269,7 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 		// to the placeholder value "."
 		signalNode = primaryDataDevice.getFieldNode(signalFieldSourceName);
 		signalFieldRank = primaryDataDevice.getFieldRank(signalFieldSourceName);
-		dimensionDefaultAxisNames = new StringDataset(signalFieldRank);
+		dimensionDefaultAxisNames = DatasetFactory.zeros(StringDataset.class, signalFieldRank);
 		dimensionDefaultAxisNames.fill(NO_DEFAULT_AXIS_PLACEHOLDER);
 		
 		final Attribute axesAttribute = TreeFactory.createAttribute(ATTR_NAME_AXES, dimensionDefaultAxisNames, false);
@@ -299,7 +299,7 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 		
 		// create the {axisname}_indices attribute of the NXdata group for this axis device
 		final String attrName = destinationFieldName + ATTR_SUFFIX_INDICES;
-		final IntegerDataset indicesDataset = new IntegerDataset(fieldRank);
+		final IntegerDataset indicesDataset = DatasetFactory.zeros(IntegerDataset.class, fieldRank);
 
 		// set the dimension mappings into the dataset, if not set use 0, 1, 2, etc...
 		final int[] finalDimensionMappings = dimensionMappings;

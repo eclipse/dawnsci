@@ -1,6 +1,6 @@
 package org.eclipse.dawnsci.remotedataset.test.server;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
+import org.eclipse.january.dataset.DataEvent;
 import org.junit.Test;
 
 public class DataEventTest {

@@ -8,7 +8,7 @@
    <extension
          point="org.eclipse.dawnsci.analysis.classloader">
       <bundle
-            class="org.eclipse.dawnsci.analysis.api.dataset.Slice">
+            class="org.eclipse.january.dataset.Slice">
       </bundle>
    </extension>
 

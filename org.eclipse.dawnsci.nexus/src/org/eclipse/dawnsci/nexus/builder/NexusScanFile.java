@@ -20,7 +20,7 @@ public interface NexusScanFile extends AutoCloseable {
 	 * Flushes the underlying {@link NexusFile}.
 	 * @throws NexusException if the nexus file could not be flushed for any reason
 	 */
-	public void flush() throws NexusException;
+	public int flush() throws NexusException;
 	
 	/**
 	 * Flushes and closes the underlying {@link NexusFile}.

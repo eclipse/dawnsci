@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:38:46.532+01:00
+ * Generated at: 2016-06-07T11:32:36.439+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;

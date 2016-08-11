@@ -434,8 +434,6 @@ public class LinearROI extends OrientableROIBase implements IParametricROI, Seri
 		LinearROI other = (LinearROI) obj;
 		if (crossHair != other.crossHair)
 			return false;
-		if (!Arrays.equals(ept, other.ept))
-			return false;
 		if (Double.doubleToLongBits(len) != Double.doubleToLongBits(other.len))
 			return false;
 		return true;

@@ -11,7 +11,7 @@ package org.eclipse.dawnsci.analysis.api.conversion;
 
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Optionally instead of a conversion scheme, a separate visitor

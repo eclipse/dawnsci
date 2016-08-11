@@ -7,18 +7,17 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-06-07T11:32:35.177+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
- * This is a dictionary of field names to use for describing a capillary as used
- * in X-ray beamlines. Based on information provided by Gerd Wellenreuther.
+ * A capillary lens to focus the X-ray beam.
+ * Based on information provided by Gerd Wellenreuther (DESY).
  * 
  * @version 1.0
  */

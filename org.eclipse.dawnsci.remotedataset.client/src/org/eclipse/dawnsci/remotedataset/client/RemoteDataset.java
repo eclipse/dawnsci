@@ -11,14 +11,16 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
-import org.eclipse.dawnsci.analysis.api.dataset.DataListenerDelegate;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
-import org.eclipse.dawnsci.analysis.api.metadata.DynamicConnectionInfo;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.DataEvent;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.IDataListener;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
+import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.ShapeUtils;
+import org.eclipse.january.metadata.DynamicConnectionInfo;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
@@ -42,7 +44,7 @@ import org.slf4j.LoggerFactory;
 final IRemoteDatasetService service = ...
 final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);<br>
 data.setPath(h5File.getAbsolutePath());
-data.setDataset("image"); // We just get the first image in the PNG file.
+data.setDatasetName("image"); // We just get the first image in the PNG file.
 data.connect();
 
 try {
@@ -55,7 +57,7 @@ try {
  * @author Matthew Gerring
  *
  */
-class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
+class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RemoteDataset.class);
 	
@@ -63,7 +65,6 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	
 	// Web socket stuff
 	private Session connection;
-    private DataListenerDelegate eventDelegate;
 
 	private boolean dynamicShape = true;
 	private int[] transShape;
@@ -96,23 +97,32 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	 * @param port
 	 */
 	public RemoteDataset(String serverName, int port, Executor exec) {
-		super("unknown", Dataset.INT, new int[]{1}, new int[]{-1}, null, null);
+		super("unknown", Dataset.INT, new int[]{1}, new int[]{IDynamicDataset.UNLIMITED}, null, null);
 		this.urlBuilder = new URLBuilder(serverName, port);
 		urlBuilder.setWritingExpected(true);
-		this.eventDelegate = new DataListenerDelegate();
 		this.exec       = exec;
 	}
-		
+
+	@Override
+	public String connect() throws DatasetException {
+		return connect(500, TimeUnit.MILLISECONDS);
+	}
+
 	/**
 	 * Call to read the dataset, set current shape and create event connnection for
 	 * IDynamicDataset part of the dataset
 	 */
-    public String connect(long time, TimeUnit unit) throws Exception {
-    	
+	@Override
+	public String connect(long time, TimeUnit unit) throws DatasetException {
+
 		this.loader = new RemoteLoader(urlBuilder);
-		createInfo();
-		if (eventDelegate.hasDataListeners()) {
-			createFileListener();
+		try {
+			createInfo();
+			if (eventDelegate.hasDataListeners()) {
+				createFileListener();
+			}
+		} catch (Exception e) {
+			throw new DatasetException(e);
 		}
 		
 		// TODO Does this cause a memory leak?
@@ -125,19 +135,23 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		});
 		
 		return null;
-    }
-    
-    public void disconnect() throws Exception {
-    	
-    	eventDelegate.clear();
-        if (connection!=null && connection.isOpen()) {
-        	connection.getRemote().sendString("Disconnected from "+urlBuilder.getPath());
-       	    connection.close();
-        }
-    	if (client!=null && client.isStarted()) {
-    		client.stop();
-    	}
-    }
+	}
+
+	public void disconnect() throws DatasetException {
+
+		eventDelegate.clear();
+		try {
+			if (connection != null && connection.isOpen()) {
+				connection.getRemote().sendString("Disconnected from " + urlBuilder.getPath());
+				connection.close();
+			}
+			if (client != null && client.isStarted()) {
+				client.stop();
+			}
+		} catch (Exception e) {
+			throw new DatasetException(e);
+		}
+	}
 	
     @Override
     public void refreshShape(){
@@ -215,7 +229,7 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		this.dtype = Integer.parseInt(info.get(2));
 		this.isize = Integer.parseInt(info.get(3));
 		try {
-			size = AbstractDataset.calcLongSize(shape);
+			size = ShapeUtils.calcLongSize(shape);
 		} catch (IllegalArgumentException e) {
 			size = Long.MAX_VALUE; // this indicates that the entire dataset cannot be read in! 
 		}
@@ -265,11 +279,6 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		eventDelegate.addDataListener(l);
 	}
 
-	@Override
-	public void removeDataListener(IDataListener l) {
-		eventDelegate.removeDataListener(l);
-	}
-
 	public String getPath() {
 		return urlBuilder.getPath();
 	}
@@ -278,11 +287,11 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		urlBuilder.setPath(path);
 	}
 
-	public String getDataset() {
+	public String getDatasetName() {
 		return urlBuilder.getDataset();
 	}
 
-	public void setDataset(String dataset) {
+	public void setDatasetName(String dataset) {
 		urlBuilder.setDataset(dataset);
 	}
 
@@ -292,5 +301,21 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 
 	public void setWritingExpected(boolean writingExpected) {
 		urlBuilder.setWritingExpected(writingExpected);
+	}
+
+	@Override
+	public IDynamicDataset getDataset() {
+		return this;
+	}
+
+	@Override
+	public IDataset getSlice() {
+		try {
+			return super.getSlice();
+		} catch (DatasetException e) {
+			logger.error("", e);
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

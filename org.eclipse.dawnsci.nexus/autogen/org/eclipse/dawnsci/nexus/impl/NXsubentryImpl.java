@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:39:11+01:00
+ * Generated at: 2016-06-07T11:32:35.177+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -18,12 +18,11 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-
 import org.eclipse.dawnsci.nexus.*;
+import org.eclipse.january.dataset.IDataset;
 
 /**
+ * Group of multiple application definitions for "multi-modal" (e.g. SAXS/WAXS) measurements.
  * ``NXsubentry`` is a base class virtually identical to :ref:`NXentry`
  * and is used as the (overlay) location for application definitions.
  * Use a separate ``NXsubentry`` for each application definition.
@@ -33,7 +32,8 @@ import org.eclipse.dawnsci.nexus.*;
  * * Within that group, create a field called ``definition="NXmyappdef"``.
  * * There are two optional attributes of definition: ``version`` and ``URL``
  * The intended use is to define application definitions for a
- * multi-technique :ref:`NXentry`. Previously, an application definition
+ * multi-modal (a.k.a. multi-technique) :ref:`NXentry`.
+ * Previously, an application definition
  * replaced :ref:`NXentry` with its own definition.
  * With the increasing popularity of instruments combining
  * multiple techniques for data collection (such as SAXS/WAXS instruments),
@@ -61,8 +61,8 @@ public class NXsubentryImpl extends NXobjectImpl implements NXsubentry {
 		NexusBaseClass.NX_PARAMETERS,
 		NexusBaseClass.NX_PROCESS);
 
-	public NXsubentryImpl(final NexusNodeFactory nodeFactory) {
-		super(nodeFactory);
+	public NXsubentryImpl() {
+		super();
 	}
 
 	public NXsubentryImpl(final long oid) {

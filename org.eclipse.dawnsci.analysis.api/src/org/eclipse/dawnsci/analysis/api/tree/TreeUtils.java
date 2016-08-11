@@ -10,13 +10,16 @@
 package org.eclipse.dawnsci.analysis.api.tree;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import org.eclipse.january.IMonitor;
 
 
 public class TreeUtils {
@@ -108,6 +111,67 @@ public class TreeUtils {
 		for (NamedNodeLink nnl : out) map.put(nnl.name, nnl.link);
 		
 		return map;
+	}
+	
+	/**
+	 * Get a map of all the unique data nodes in a tree
+	 * Map keys are the data nodes, map values are the shortest path to each node
+	 * 
+	 * @param node
+	 * @return map
+	 */
+	public static Map<DataNode,String> getUniqueDataNodes(GroupNode node) {
+		HashMap<DataNode, String> nodes = new HashMap<>();
+		
+		addNodes(node,nodes,"");
+		
+		return nodes;
+		
+		
+	}
+	
+	private static void addNodes(GroupNode node, Map<DataNode,String> map, String name) {
+		Iterator<String> it = node.getNodeNameIterator();
+		while (it.hasNext()) {
+			String next = it.next();
+			Node n = node.getNode(next);
+			if (n instanceof DataNode && !map.containsKey(n)) map.put((DataNode)n, name + Node.SEPARATOR + next);
+			else if (n instanceof GroupNode) addNodes((GroupNode)n, map, name + Node.SEPARATOR + next);
+		}
+		
+	}
+	
+	public int getShortestUniqueSeparatorCrop(Set<String> names) {
+		List<String> reversed = new ArrayList<>(names.size());
+		for (String name : names) reversed.add(new StringBuilder(name).reverse().toString());
+		
+		Collections.sort(reversed);
+		
+		int forUnique = 0;
+		String[] current = null;
+		
+		for (String s : reversed) {
+			if (current == null) current = s.split(Node.SEPARATOR);
+			else {
+				String[] split = s.split(Node.SEPARATOR);
+				int min = minForUnequal(current, split);
+				forUnique = Math.max(min, forUnique);
+			}
+		}
+		
+		return forUnique;
+		
+	}
+	
+	private int minForUnequal(String[] a, String[] b) {
+		
+		int size = Math.min(a.length, b.length);
+		
+		for (int i = 0; i < size; i++) {
+			if (!a[i].equals(b[i])) return i;
+		}
+		
+		return size;
 	}
 	
 	private static class NamedNodeLink {

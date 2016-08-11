@@ -15,9 +15,6 @@ package org.eclipse.dawnsci.nexus.builder.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
 import org.eclipse.dawnsci.nexus.NXbeam;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
@@ -28,6 +25,7 @@ import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryModification;
 import org.eclipse.dawnsci.nexus.builder.data.DataDeviceBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
+import org.eclipse.january.dataset.DatasetFactory;
 
 public class SimpleNexusFileBuilderTest extends AbstractNexusFileBuilderTestBase {
 	
@@ -38,11 +36,11 @@ public class SimpleNexusFileBuilderTest extends AbstractNexusFileBuilderTestBase
 		}
 		
 		@Override
-		protected NXdetector doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			final NXdetector nxDetector = nodeFactory.createNXdetector();
+		protected NXdetector createNexusObject() {
+			final NXdetector nxDetector = NexusNodeFactory.createNXdetector();
 
-			nxDetector.setDescription(StringDataset.createFromObject("Test Detector"));
-			nxDetector.initializeLazyDataset(NXdetector.NX_DATA, 2, Dataset.FLOAT64);
+			nxDetector.setDescription(DatasetFactory.createFromObject("Test Detector"));
+			nxDetector.initializeLazyDataset(NXdetector.NX_DATA, 2, Double.class);
 			// could add more fields
 
 			return nxDetector;
@@ -58,8 +56,8 @@ public class SimpleNexusFileBuilderTest extends AbstractNexusFileBuilderTestBase
 		}
 		
 		@Override
-		protected NXbeam doCreateNexusObject(NexusNodeFactory nodeFactory) {
-			final NXbeam beam = nodeFactory.createNXbeam();
+		protected NXbeam createNexusObject() {
+			final NXbeam beam = NexusNodeFactory.createNXbeam();
 			beam.setIncident_wavelength(DatasetFactory.createFromObject(123.456));
 			beam.setFlux(DatasetFactory.createFromObject(12.34f));
 

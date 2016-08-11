@@ -12,12 +12,14 @@ package org.eclipse.dawnsci.plotting.api.trace;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.MaskMetadata;
+import org.eclipse.dawnsci.analysis.api.metadata.UnitMetadata;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.metadata.AxesMetadata;
+import org.eclipse.january.metadata.MaskMetadata;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
@@ -56,6 +58,8 @@ public class MetadataPlotUtils {
 				y = y.getSlice(new Slice(0,1),(Slice)null).squeeze();
 			}
 			
+			if (x != null) x.setName(removeSquareBrackets(x.getName()));
+			if (y != null) y.setName(removeSquareBrackets(y.getName()));
 			
 			final ITrace t = system.updatePlot2D(data, Arrays.asList(new IDataset[]{y,x}), null);
 				
@@ -74,10 +78,22 @@ public class MetadataPlotUtils {
 			
 		} else if (data.getRank() == 1) {
 			x = axes == null ? null : axes[0];
-			if (clear) system.clear();
+			if (x != null) {
+				x.setName(removeSquareBrackets(x.getName())+getUnit(x));
+			}
+			if (clear) system.reset();
 			system.updatePlot1D(x,Arrays.asList(new IDataset[]{data}),null);
 		}
 		
+	}
+	
+	private static String getUnit(IDataset ds) {
+		
+		UnitMetadata um = ds.getFirstMetadata(UnitMetadata.class);
+		
+		if (um == null) return "";
+		
+		return " [" + um.toString() + "]";
 	}
 	
 
@@ -166,7 +182,10 @@ public class MetadataPlotUtils {
 			ILazyDataset[] axis = am.getAxis(dim);
 			IDataset[] out = new IDataset[axis.length];
 			for (int i = 0; i < out.length; i++) {
-				out[i] = axis[i] == null ? null : axis[i].getSlice();
+				try {
+					out[i] = axis[i] == null ? null : axis[i].getSlice();
+				} catch (DatasetException e) {
+				}
 			}
 			
 			return out;
@@ -214,13 +233,19 @@ public class MetadataPlotUtils {
 			
 			if (lz0 != null){
 //				lz0.clearMetadata(null);
-				x = lz0.getSlice().squeeze();
-				out[0] = x;
+				try {
+					x = lz0.getSlice().squeeze();
+					out[0] = x;
+				} catch (DatasetException e) {
+				}
 			}
 			if (lz1 != null) {
 //				lz1.clearMetadata(null);
-				y = lz1.getSlice().squeeze();
-				out[1] = y;
+				try {
+					y = lz1.getSlice().squeeze();
+					out[1] = y;
+				} catch (DatasetException e) {
+				}
 			}
 			
 			return out;

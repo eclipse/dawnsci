@@ -19,10 +19,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.fitting.functions.IFunction;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.metadata.IMetadata;
 
 /**
  * This class is similar to a DataHolder in the scisoft diamond

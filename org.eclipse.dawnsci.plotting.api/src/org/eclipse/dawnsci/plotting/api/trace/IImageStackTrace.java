@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.plotting.api.trace;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 
 
 /**

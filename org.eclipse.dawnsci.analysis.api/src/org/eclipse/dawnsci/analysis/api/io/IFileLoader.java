@@ -12,7 +12,7 @@
 
 package org.eclipse.dawnsci.analysis.api.io;
 
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import org.eclipse.january.IMonitor;
 
 /**
  * This interface specifies the methods required to allow the ScanFileHolder to load in data from a file of some

@@ -7,18 +7,18 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-04-13T10:38:46.532+01:00
+ * Generated at: 2016-06-07T11:32:36.439+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.validation;
 import static org.eclipse.dawnsci.nexus.validation.NexusDataType.*;
 import static org.eclipse.dawnsci.nexus.validation.NexusUnitCategory.*;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 
 import org.eclipse.dawnsci.nexus.NXroot;
 import org.eclipse.dawnsci.nexus.NXsubentry;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXdetector;

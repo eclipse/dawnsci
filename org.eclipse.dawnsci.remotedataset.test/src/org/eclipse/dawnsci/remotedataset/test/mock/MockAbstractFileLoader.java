@@ -10,18 +10,19 @@
 package org.eclipse.dawnsci.remotedataset.test.mock;
 
 import java.io.File;
+import java.io.IOException;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.IFileLoader;
-import org.eclipse.dawnsci.analysis.api.io.ILazyLoader;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetaLoader;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.Metadata;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyDataset;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.LazyDataset;
+import org.eclipse.january.dataset.SliceND;
+import org.eclipse.january.io.ILazyLoader;
+import org.eclipse.january.io.IMetaLoader;
+import org.eclipse.january.metadata.IMetadata;
+import org.eclipse.january.metadata.Metadata;
 
 /**
  * A class which can be extended when implementing IFileLoader
@@ -86,7 +87,7 @@ public abstract class MockAbstractFileLoader implements IFileLoader, IMetaLoader
 	}
 
 	@Override
-	public void loadMetadata(IMonitor mon) throws Exception {
+	public void loadMetadata(IMonitor mon) throws IOException {
 		if (metadata != null)
 			return;
 
@@ -94,7 +95,11 @@ public abstract class MockAbstractFileLoader implements IFileLoader, IMetaLoader
 		boolean oldLazily = loadLazily;
 		loadMetadata = true;
 		loadLazily = true;
-		loadFile(mon);
+		try {
+			loadFile(mon);
+		} catch (ScanFileHolderException e) {
+			throw new IOException(e);
+		}
 		loadMetadata = oldMeta;
 		loadLazily = oldLazily;
 	}
@@ -131,11 +136,16 @@ public abstract class MockAbstractFileLoader implements IFileLoader, IMetaLoader
 		}
 
 		@Override
-		public IDataset getDataset(IMonitor mon, SliceND slice) throws Exception {
+		public IDataset getDataset(IMonitor mon, SliceND slice) throws IOException {
 			if (loader == null) {
 				return null;
 			}
-			IDataHolder holder = loader.loadFile(mon);
+			IDataHolder holder;
+			try {
+				holder = loader.loadFile(mon);
+			} catch (ScanFileHolderException e) {
+				throw new IOException("Could not load file", e);
+			}
 			if (holder.getFilePath() == null) {
 				holder.setFilePath(fileName);
 			}

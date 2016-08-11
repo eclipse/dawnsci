@@ -9,12 +9,12 @@
 
 package org.eclipse.dawnsci.hdf5;
 
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.PositionIterator;
+import org.eclipse.january.dataset.ShapeUtils;
+import org.eclipse.january.dataset.SliceND;
 import org.junit.Test;
 
 public class WriteThreadTest extends AbstractThreadTestBase {
@@ -49,7 +49,7 @@ public class WriteThreadTest extends AbstractThreadTestBase {
 		String dataName = "data" + index;
 
 		int[] shape = chunk.clone();
-		int size = AbstractDataset.calcSize(shape);
+		int size = ShapeUtils.calcSize(shape);
 		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
 		data1.setShape(shape);
 

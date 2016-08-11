@@ -11,6 +11,9 @@ package org.eclipse.dawnsci.analysis.api.processing;
 
 import java.util.List;
 
+/**
+ * Interface to set up an operation processing run
+ */
 public interface IOperationBean {
 
 	public void setDataKey(String dataKey);
@@ -23,13 +26,11 @@ public interface IOperationBean {
 
 	public void setSlicing(String slicing);
 
-	public void setPersistencePath(String persistencePath);
+	public void setProcessingPath(String persistencePath);
 
 	public void setAxesNames(List<String>[] axesNames);
 
-	public void setParallelTimeout(long parallelTimeout);
-
-	public void setDeletePersistenceFile(boolean deletePersistenceFile);
+	public void setDeleteProcessingFile(boolean deletePersistenceFile);
 
 	public void setXmx(String xmx);
 
@@ -40,6 +41,6 @@ public interface IOperationBean {
 	public void setName(String name);
 	
 	public void setRunDirectory(String visitDir);
-	
 
+	public void setNumberOfCores(int numberOfCores);
 }

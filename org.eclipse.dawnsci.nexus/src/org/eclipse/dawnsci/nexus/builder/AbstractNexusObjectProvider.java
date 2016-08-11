@@ -20,7 +20,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
@@ -28,6 +27,7 @@ import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.impl.PrimaryDataFieldModel;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
 
 /**
  * Abstract implementation of {@link NexusObjectProvider}.
@@ -146,48 +146,18 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 		return nexusBaseClass.toString().substring(2);
 	}
 
-	/**
-	 * Creates the nexus object for this {@link NexusObjectProvider} using the
-	 * given {@link NexusNodeFactory}.
-	 * @param nodeFactory node factory
-	 * @return new nexus object
-	 * @throws NexusException if the nexus object could not be created for any reason
-	 */
-	protected abstract N doCreateNexusObject(NexusNodeFactory nodeFactory) throws NexusException;
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#createNexusObject(org.eclipse.dawnsci.nexus.impl.NexusNodeFactory)
-	 */
-	@Override
-	public final N createNexusObject(NexusNodeFactory nodeFactory) throws NexusException {
-		if (nexusObject != null) {
-			throw new IllegalStateException("The nexus object for this provider already exists");
-		}
-
-		this.nexusObject = doCreateNexusObject(nodeFactory);
-		return nexusObject;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getNexusObject(org.eclipse.dawnsci.nexus.impl.NexusNodeFactory, boolean)
-	 */
-	@Override
-	public N getNexusObject(NexusNodeFactory nodeFactory,
-			boolean createIfNecessary) throws NexusException {
-		if (nexusObject == null && createIfNecessary) {
-			this.nexusObject = doCreateNexusObject(nodeFactory);
-		}
-
-		return nexusObject;
-	}
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getNexusObject()
 	 */
 	@Override
 	public final N getNexusObject() {
+		if (nexusObject == null) {
+			nexusObject = createNexusObject();
+		}
 		return nexusObject;
 	}
+	
+	protected abstract N createNexusObject();
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getName()
@@ -323,7 +293,9 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	 */
 	public void setDefaultAxisDataFieldName(String defaultAxisDataFieldName) {
 		this.defaultAxisDataFieldName = defaultAxisDataFieldName;
-		axisDataFieldNames.add(defaultAxisDataFieldName);
+		if (defaultAxisDataFieldName != null) {
+			axisDataFieldNames.add(defaultAxisDataFieldName);
+		}
 	}
 
 	@Override
@@ -366,12 +338,15 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	}
 	
 	/**
-	 * Adds the given data field. This field with this name will be added to any {@link NXdata}
-	 * groups created for this scan.
+	 * Adds the given axis data field for the primary data field of this device. It will be
+	 * added as an axis field to the {@link NXdata} group where the primary data field of this
+	 * device is the <code>@signal</code> field.
 	 * @param dataFieldName name of data field
-	 * @param defaultAxisDimension the dimension
-	 * @param dimensionMappings mappings between the dimensions of the data field and the
-	 *    primary data field for this device 
+	 * @param defaultAxisDimension the dimension of the primary data field for which this
+	 *   field is a default axis
+	 * @param dimensionMappings mappings between the dimensions of the axis data field and the
+	 *    primary data field for this device, can be omitted if the mapping is one-to-one as is
+	 *    usually the case
 	 */
 	public void addAxisDataField(String dataFieldName, Integer defaultAxisDimension, int... dimensionMappings) {
 		if (primaryDataFieldName == null) {
@@ -472,19 +447,19 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	}
 
 	@Override
-	public Integer getDefaultAxisDimension(String primaryDataFieldName, String dataFieldName) {
+	public Integer getDefaultAxisDimension(String primaryDataFieldName, String axisDataFieldName) {
 		PrimaryDataFieldModel dataFieldModel = getPrimaryDataFieldModel(primaryDataFieldName, false);
 		if (dataFieldModel != null) {
-			return dataFieldModel.getDefaultAxisDimension(dataFieldName);
+			return dataFieldModel.getDefaultAxisDimension(axisDataFieldName);
 		}
 		return null;
 	}
 	
 	@Override
-	public int[] getDimensionMappings(String primaryDataFieldName, String dataFieldName) {
+	public int[] getDimensionMappings(String primaryDataFieldName, String axisDataFieldName) {
 		PrimaryDataFieldModel dataFieldModel = getPrimaryDataFieldModel(primaryDataFieldName, false);
 		if (dataFieldModel != null) {
-			return dataFieldModel.getDimensionMappings(dataFieldName);
+			return dataFieldModel.getDimensionMappings(axisDataFieldName);
 		}
 		return null;
 	}

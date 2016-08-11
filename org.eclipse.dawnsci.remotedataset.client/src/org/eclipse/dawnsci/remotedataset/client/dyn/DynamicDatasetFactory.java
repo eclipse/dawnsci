@@ -26,8 +26,8 @@ public class DynamicDatasetFactory {
 	 * @param shape
 	 * @return
 	 */
-	public static IDynamicMonitorDataset createGreyScaleImage(SliceClient<BufferedImage> client, int... shape) {
-		DynamicGreyScaleImage ret = new DynamicGreyScaleImage(client, shape);
+	public static IDynamicMonitorDatasetHolder createGreyScaleImage(SliceClient<BufferedImage> client, int... shape) {
+		DynamicImage ret = new DynamicImage(false, client, shape);
 		prepare(ret, client);
 		return ret;
 	}
@@ -38,15 +38,20 @@ public class DynamicDatasetFactory {
 	 * @param shape
 	 * @return
 	 */
-	public static IDynamicMonitorDataset createRGBImage(SliceClient<BufferedImage> client, int... shape) {
-		DynamicRGBImage ret = new DynamicRGBImage(client, shape);
+	public static IDynamicMonitorDatasetHolder createRGBImage(SliceClient<BufferedImage> client, int... shape) {
+		DynamicImage ret = new DynamicImage(true, client, shape);
 		prepare(ret, client);
 		return ret;
 	}
 
-	private static void prepare(IDynamicMonitorDataset ret, SliceClient<BufferedImage> client) {
-		ret.addMetadata(new DynamicConnectionInfoExt(client));
+	private static void prepare(IDynamicMonitorDatasetHolder ret, SliceClient<BufferedImage> client) {
+		if (ret.getDataset() != null) {
+			// We check that there is something to prepare and throw an exception suggesting what may be wrong
+			if (ret.getDataset().getShape() == null || ret.getDataset().getShape().length == 0) {
+				throw new IllegalArgumentException("There is no data to prepare, is the device turned on?");
+			}
+			ret.getDataset().addMetadata(new DynamicConnectionInfoExt(client));
+		}
 	}
-
 }
 

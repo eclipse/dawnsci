@@ -24,14 +24,8 @@ import javax.swing.filechooser.FileSystemView;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.downsample.DownsampleMode;
 import org.eclipse.dawnsci.analysis.dataset.function.Downsample;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.PlottingFactory;
@@ -44,6 +38,12 @@ import org.eclipse.dawnsci.plotting.api.image.PlotImageData;
 import org.eclipse.dawnsci.plotting.api.image.PlotImageData.PlotImageType;
 import org.eclipse.dawnsci.plotting.api.preferences.PlottingConstants;
 import org.eclipse.dawnsci.plotting.api.trace.ISurfaceTrace;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.RGBDataset;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.SWT;
@@ -122,9 +122,8 @@ public class PlotImageServiceMock extends AbstractServiceFactory implements IPlo
         return blank;
 	}
 	
-	private Dataset getThumbnail(final File f, final int wdith, final int height) throws Throwable {
-		
-		return new DoubleDataset(new int[]{height, wdith});
+	private Dataset getThumbnail(final File f, final int width, final int height) throws Throwable {
+		return DatasetFactory.zeros(DoubleDataset.class, height, width);
 	}
 
 	public Dataset getThumbnail(final IDataset ds,  final int w, final int h) {
@@ -456,7 +455,7 @@ public class PlotImageServiceMock extends AbstractServiceFactory implements IPlo
     
     static RGBDataset convertToRGBDataset(BufferedImage bufferedImage) {
     	
-        RGBDataset data = new RGBDataset(bufferedImage.getHeight(), bufferedImage.getWidth());
+        RGBDataset data = DatasetFactory.zeros(RGBDataset.class, bufferedImage.getHeight(), bufferedImage.getWidth());
        
         if (bufferedImage.getColorModel() instanceof DirectColorModel) {
             DirectColorModel colorModel = (DirectColorModel)bufferedImage.getColorModel();

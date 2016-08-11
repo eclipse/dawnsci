@@ -14,6 +14,12 @@ package org.eclipse.dawnsci.analysis.dataset.impl;
 
 import java.util.Arrays;
 
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.FloatDataset;
+import org.eclipse.january.dataset.PositionIterator;
 import org.jtransforms.dct.DoubleDCT_1D;
 import org.jtransforms.dct.DoubleDCT_2D;
 import org.jtransforms.dct.DoubleDCT_3D;
@@ -184,13 +190,13 @@ public class DCT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 			FloatDCT_1D ffft = new FloatDCT_1D(n);
 			shape = a.getShape().clone();
 			shape[axis] = n;
-			result = new FloatDataset(shape);
-			dest = new FloatDataset(new int[] {n});
+			result = DatasetFactory.zeros(FloatDataset.class, shape);
+			dest = DatasetFactory.zeros(FloatDataset.class, new int[] {n});
 			float[] fdata = (float[]) dest.getBuffer();
 			pi = a.getPositionIterator(axis);
 			pos = pi.getPos();
@@ -206,8 +212,8 @@ public class DCT {
 			DoubleDCT_1D dfft = new DoubleDCT_1D(n);
 			shape = a.getShape().clone();
 			shape[axis] = n;
-			result = new DoubleDataset(shape);
-			dest = new DoubleDataset(new int[] {n});
+			result = DatasetFactory.zeros(DoubleDataset.class, shape);
+			dest = DatasetFactory.zeros(DoubleDataset.class, n);
 			double[] ddata = (double[]) dest.getBuffer();
 			pi = a.getPositionIterator(axis);
 			pos = pi.getPos();
@@ -235,12 +241,12 @@ public class DCT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 			FloatDCT_2D ffft = new FloatDCT_2D(s[0], s[1]);
 			float[] fdata = null;
-			result = new FloatDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new FloatDataset(s);
+			result = DatasetFactory.zeros(FloatDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(FloatDataset.class, s);
 			fdata = (float[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -255,8 +261,8 @@ public class DCT {
 		case Dataset.FLOAT64:
 			DoubleDCT_2D dfft = new DoubleDCT_2D(s[0], s[1]);
 			double[] ddata = null;
-			result = new DoubleDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new DoubleDataset(s);
+			result = DatasetFactory.zeros(DoubleDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(DoubleDataset.class, s);
 			ddata = (double[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -284,13 +290,13 @@ public class DCT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 			FloatDCT_3D ffft = new FloatDCT_3D(s[0], s[1], s[2]);
 
 			float[] fdata = null;
-			result = new FloatDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new FloatDataset(s);
+			result = DatasetFactory.zeros(FloatDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(FloatDataset.class, s);
 			fdata = (float[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -306,8 +312,8 @@ public class DCT {
 			DoubleDCT_3D dfft = new DoubleDCT_3D(s[0], s[1], s[2]);
 
 			double[] ddata = null;
-			result = new DoubleDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new DoubleDataset(s);
+			result = DatasetFactory.zeros(DoubleDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(DoubleDataset.class, s);
 			ddata = (double[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -464,14 +470,14 @@ public class DCT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 			FloatDCT_1D ffft = new FloatDCT_1D(n);
 			float[] fdata = null;
 			shape = a.getShape();
 			shape[axis] = n;
-			result = new FloatDataset(shape);
-			dest = new FloatDataset(new int[] {n});
+			result = DatasetFactory.zeros(FloatDataset.class, shape);
+			dest = DatasetFactory.zeros(FloatDataset.class, new int[] {n});
 			fdata = (float[]) dest.getBuffer();
 			pi = a.getPositionIterator(axis);
 			pos = pi.getPos();
@@ -488,8 +494,8 @@ public class DCT {
 			double[] ddata = null;
 			shape = a.getShape();
 			shape[axis] = n;
-			result = new DoubleDataset(shape);
-			dest = new DoubleDataset(new int[] {n});
+			result = DatasetFactory.zeros(DoubleDataset.class, shape);
+			dest = DatasetFactory.zeros(DoubleDataset.class, n);
 			ddata = (double[]) dest.getBuffer();
 			pi = a.getPositionIterator(axis);
 			pos = pi.getPos();
@@ -517,12 +523,12 @@ public class DCT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 			FloatDCT_2D ffft = new FloatDCT_2D(s[0], s[1]);
 			float[] fdata = null;
-			result = new FloatDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new FloatDataset(s);
+			result = DatasetFactory.zeros(FloatDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(FloatDataset.class, s);
 			fdata = (float[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -537,8 +543,8 @@ public class DCT {
 		case Dataset.FLOAT64:
 			DoubleDCT_2D dfft = new DoubleDCT_2D(s[0], s[1]);
 			double[] ddata = null;
-			result = new DoubleDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new DoubleDataset(s);
+			result = DatasetFactory.zeros(DoubleDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(DoubleDataset.class, s);
 			ddata = (double[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -566,12 +572,12 @@ public class DCT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 			FloatDCT_3D ffft = new FloatDCT_3D(s[0], s[1], s[2]);
 			float[] fdata = null;
-			result = new FloatDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new FloatDataset(s);
+			result = DatasetFactory.zeros(FloatDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(FloatDataset.class, s);
 			fdata = (float[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -586,8 +592,8 @@ public class DCT {
 		case Dataset.FLOAT64:
 				DoubleDCT_3D dfft = new DoubleDCT_3D(s[0], s[1], s[2]);
 				double[] ddata = null;
-				result = new DoubleDataset(newShape(a.getShapeRef(), s, axes));
-				dest = new DoubleDataset(s);
+				result = DatasetFactory.zeros(DoubleDataset.class, newShape(a.getShapeRef(), s, axes));
+				dest = DatasetFactory.zeros(DoubleDataset.class, s);
 				ddata = (double[]) dest.getBuffer();
 				pi = a.getPositionIterator(axes);
 				pos = pi.getPos();

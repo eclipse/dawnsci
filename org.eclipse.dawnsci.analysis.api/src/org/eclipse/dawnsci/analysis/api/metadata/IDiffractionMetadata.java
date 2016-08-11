@@ -14,6 +14,7 @@ package org.eclipse.dawnsci.analysis.api.metadata;
 
 import org.eclipse.dawnsci.analysis.api.diffraction.DetectorProperties;
 import org.eclipse.dawnsci.analysis.api.diffraction.DiffractionCrystalEnvironment;
+import org.eclipse.january.metadata.IMetadata;
 
 /**
  * This interface is used to mark meta data which conforms to the diffraction meta
@@ -21,6 +22,14 @@ import org.eclipse.dawnsci.analysis.api.diffraction.DiffractionCrystalEnvironmen
  * meaningful values.
  */
 public interface IDiffractionMetadata extends IMetadata {
+
+	/**
+	 * Initialize diffraction metadata
+	 * @param filename
+	 * @param props
+	 * @param env
+	 */
+	public void initialize(String filename, DetectorProperties props, DiffractionCrystalEnvironment env);
 
 	public DetectorProperties getDetector2DProperties();
 	

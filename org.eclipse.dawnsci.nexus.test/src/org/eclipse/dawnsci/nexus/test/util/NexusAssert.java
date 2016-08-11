@@ -17,8 +17,6 @@ import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
@@ -26,12 +24,15 @@ import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXroot;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.PositionIterator;
 
 public class NexusAssert {
 
@@ -165,7 +166,7 @@ public class NexusAssert {
 		// Note: dataset names can be different, as long as the containing data node names are the same
 		// assertEquals(dataset1.getName(), dataset2.getName());
 		// assertEquals(dataset1.getClass(), dataset2.getClass());
-		assertEquals(path, expectedDataset.elementClass(), actualDataset.elementClass());
+		assertEquals(path, expectedDataset.getElementClass(), actualDataset.getElementClass());
 		assertEquals(path, expectedDataset.getElementsPerItem(), actualDataset.getElementsPerItem());
 		assertEquals(path, expectedDataset.getSize(), actualDataset.getSize());
 		if (actualDataset.getRank() == 0) {
@@ -194,10 +195,16 @@ public class NexusAssert {
 			}
 			
 			// getSlice() with no args loads whole dataset if a lazy dataset
-			IDataset expectedSlice = expectedDataset.getSlice();
-			IDataset actualSlice = actualDataset.getSlice();
+			IDataset expectedSlice;
+			IDataset actualSlice;
+			try {
+				expectedSlice = expectedDataset.getSlice();
+				actualSlice = actualDataset.getSlice();
+			} catch (DatasetException e) {
+				throw new AssertionError("Could not get data from lazy dataset", e.getCause());
+			}
 
-			final int datatype = AbstractDataset.getDType(actualDataset);
+			final int datatype = DTypeUtils.getDType(actualDataset);
 			PositionIterator positionIterator = new PositionIterator(actualDataset.getShape());
 			while (positionIterator.hasNext()) {
 				int[] position = positionIterator.getPos();
