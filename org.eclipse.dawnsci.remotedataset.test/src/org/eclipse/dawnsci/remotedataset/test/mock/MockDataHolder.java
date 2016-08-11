@@ -169,10 +169,10 @@ public class MockDataHolder implements IMetadataProvider, IDataHolder, Serializa
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends MetadataType> List<T> getMetadata(Class<T> clazz) throws MetadataException {
+	public <S extends MetadataType, T extends S> List<S> getMetadata(Class<T> clazz) throws MetadataException {
 		if (IMetadata.class.isAssignableFrom(clazz)) {
-			List<T> result = new ArrayList<T>();
-			result.add((T) getMetadata());
+			List<S> result = new ArrayList<S>();
+			result.add((S) getMetadata());
 			return result;
 		}
 		throw new MetadataException("getMetadata(clazz) does not currently support anything other than IMetadata");
@@ -180,9 +180,9 @@ public class MockDataHolder implements IMetadataProvider, IDataHolder, Serializa
 	}
 	
 	@Override
-	public <T extends MetadataType> T getFirstMetadata(Class<T> clazz) {
+	public <S extends MetadataType, T extends S> S getFirstMetadata(Class<T> clazz) {
 		try {
-			List<T> ml = getMetadata(clazz);
+			List<S> ml = getMetadata(clazz);
 			if (ml == null) return null;
 			return ml.isEmpty() ? null : ml.get(0);
 		} catch (Exception e) {
