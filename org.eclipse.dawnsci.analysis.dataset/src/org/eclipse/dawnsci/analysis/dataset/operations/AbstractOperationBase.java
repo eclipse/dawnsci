@@ -183,10 +183,10 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	 */
 	public static IDiffractionMetadata getFirstDiffractionMetadata(IDataset slice) {
 
-		List<IMetadata> metaList;
+		List<IDiffractionMetadata> metaList;
 
 		try {
-			metaList = slice.getMetadata(IMetadata.class);
+			metaList = slice.getMetadata(IDiffractionMetadata.class);
 			if (metaList == null || metaList.isEmpty())
 				return null;
 		} catch (Exception e) {
