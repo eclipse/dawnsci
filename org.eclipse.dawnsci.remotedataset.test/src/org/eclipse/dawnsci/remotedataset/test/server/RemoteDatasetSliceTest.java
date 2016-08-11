@@ -137,7 +137,7 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 				int[] start = {index, 0, 0};
 				int[] stop  = {index+1, 64, 64};
 				index++;
-				if (index>23) index = 23; // Stall on the last image to avoid writing massive stacks
+				if (index>LIMIT) index = LIMIT; // Stall on the last image to avoid writing massive stacks
 				
 				IDataset       rimage   = Random.rand(new int[]{1, 64, 64});
 				rimage.setName("image");

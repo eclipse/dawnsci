@@ -105,7 +105,7 @@ public class DataServerTest {
 		return startHDF5WritingThread(1000L);
 	}
 
-	final static int LIMIT = 23;
+	protected final static int LIMIT = 23;
 
 	protected File startHDF5WritingThread(final long sleepTime) throws IOException, InterruptedException {
 
