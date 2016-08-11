@@ -1,8 +1,11 @@
 
 1. Create the site here by getting third jars into the target platform and referencing them in the feature.
    This can be done for instance by adding a folder to the target with plugins and features folders.
-2. DELETE The old feature in the features folder.
+   
+2. DELETE The old features, plugins, artifacts.jar, content.jar
+
 3. Press build-all on the site.xml.
+
 4. Deploy the site to public url using scp:
        scp -r org.eclipse.dawnsci.third.site/* www.opengda.org:/var/www/html/updates/tp_dawnsci/trunk
        
