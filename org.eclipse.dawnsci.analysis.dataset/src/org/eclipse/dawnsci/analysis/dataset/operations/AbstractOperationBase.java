@@ -135,17 +135,8 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	 * @return axes
 	 */
 	public static ILazyDataset[] getFirstAxes(IDataset slice) {
-		List<AxesMetadata> metaList = null;
 
-		try {
-			metaList = slice.getMetadata(AxesMetadata.class);
-			if (metaList == null || metaList.isEmpty())
-				return null;
-		} catch (Exception e) {
-			return null;
-		}
-
-		AxesMetadata am = metaList.get(0);
+		AxesMetadata am = slice.getFirstMetadata(AxesMetadata.class);
 		if (am == null)
 			return null;
 
@@ -158,18 +149,7 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	 * @return mask
 	 */
 	public static IDataset getFirstMask(IDataset slice) {
-
-		List<MaskMetadata> metaList = null;
-
-		try {
-			metaList = slice.getMetadata(MaskMetadata.class);
-			if (metaList == null || metaList.isEmpty())
-				return null;
-		} catch (Exception e) {
-			return null;
-		}
-
-		MaskMetadata mm = metaList.get(0);
+		MaskMetadata mm = slice.getFirstMetadata(MaskMetadata.class);
 		if (mm == null)
 			return null;
 
@@ -183,21 +163,7 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	 */
 	public static IDiffractionMetadata getFirstDiffractionMetadata(IDataset slice) {
 
-		List<IMetadata> metaList;
-
-		try {
-			metaList = slice.getMetadata(IMetadata.class);
-			if (metaList == null || metaList.isEmpty())
-				return null;
-		} catch (Exception e) {
-			return null;
-		}
-
-		for (IMetadata meta : metaList)
-			if (meta instanceof IDiffractionMetadata)
-				return (IDiffractionMetadata) meta;
-
-		return null;
+		return slice.getFirstMetadata(IDiffractionMetadata.class);
 	}
 
 	/**
@@ -215,17 +181,7 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	
 	public static SliceFromSeriesMetadata getSliceSeriesMetadata(IDataset slice) {
 		
-		List<SliceFromSeriesMetadata> metaList = null;
-
-		try {
-			metaList = slice.getMetadata(SliceFromSeriesMetadata.class);
-			if (metaList == null || metaList.isEmpty())
-				return null;
-		} catch (Exception e) {
-			return null;
-		}
-
-		SliceFromSeriesMetadata sm = metaList.get(0);
+		SliceFromSeriesMetadata sm = slice.getFirstMetadata(SliceFromSeriesMetadata.class);
 		if (sm == null)
 			return null;
 		
