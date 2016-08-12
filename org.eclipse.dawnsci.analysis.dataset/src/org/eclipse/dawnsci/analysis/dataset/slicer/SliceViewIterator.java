@@ -83,7 +83,6 @@ public class SliceViewIterator implements ISliceViewIterator{
 	 */
 	@Override
 	public boolean hasNext(){
-		count++;
 		return next;
 	}
 	
@@ -103,6 +102,7 @@ public class SliceViewIterator implements ISliceViewIterator{
 	 */
 	@Override
 	public ILazyDataset next() {
+		count++;
 		SliceND current = iterator.getCurrentSlice().clone();
 		ILazyDataset view = lazyDataset.getSliceView(current);
 		view.clearMetadata(SliceFromSeriesMetadata.class);

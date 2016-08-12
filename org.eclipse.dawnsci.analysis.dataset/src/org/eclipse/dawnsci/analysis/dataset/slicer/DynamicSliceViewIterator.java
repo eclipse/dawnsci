@@ -86,7 +86,6 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	public boolean hasNext() {
 		
 		boolean hasNext = next;
-		count++;
 		double time = 0;
 		
 		while (time < maxTimeout && !iterator.peekHasNext()  && !last) {
@@ -122,6 +121,7 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	 */
 	@Override
 	public ILazyDataset next() {
+		count++;
 		SliceND current = iterator.getCurrentSlice().clone();
 		ILazyDataset view;
 		try {
