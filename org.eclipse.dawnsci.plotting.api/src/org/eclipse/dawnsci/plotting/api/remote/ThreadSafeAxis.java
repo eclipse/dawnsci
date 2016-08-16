@@ -227,6 +227,11 @@ class ThreadSafeAxis extends ThreadSafeObject implements IAxis, Serializable {
 	}
 
 	@Override
+	public String format(Object value, int extraDP) {
+		return (String)call(getMethodName(Thread.currentThread().getStackTrace()), value, extraDP);
+	}
+
+	@Override
 	public double getScaling() {
 		return (Double)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
