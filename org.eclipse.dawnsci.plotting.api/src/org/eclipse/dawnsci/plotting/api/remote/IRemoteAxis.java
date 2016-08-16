@@ -250,10 +250,17 @@ public interface IRemoteAxis extends Remote {
 	public void setMaximumRange(double lower, double upper) throws RemoteException;
 
 	/**
-	 * 
+	 * @param value
 	 * @return the number (usually Double) formatted to the current format
 	 */
 	public String format(Object value) throws RemoteException;
+
+	/**
+	 * @param value
+	 * @param extraDP extra decimal places
+	 * @return the number (usually Double) formatted to the current format
+	 */
+	public String format(Object value, int extraDP) throws RemoteException;
 
 	/**
 	 * @return scaling of axis in terms of pixels/unit
