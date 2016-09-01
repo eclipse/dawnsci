@@ -144,6 +144,9 @@ public class RemoteAxis implements IRemoteAxis {
 	public String format(Object value) throws RemoteException {
 		return delegate.format(value);
 	}
+	public String format(Object value, int extraDP) throws RemoteException {
+		return delegate.format(value, extraDP);
+	}
 	public double getScaling() throws RemoteException {
 		return delegate.getScaling();
 	}

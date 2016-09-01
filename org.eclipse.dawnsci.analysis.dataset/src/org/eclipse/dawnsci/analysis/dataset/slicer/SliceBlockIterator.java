@@ -79,7 +79,6 @@ private static final Logger logger = LoggerFactory.getLogger(SliceBlockIterator.
 	 */
 	@Override
 	public boolean hasNext(){
-		count++;
 		return next;
 	}
 	
@@ -99,7 +98,7 @@ private static final Logger logger = LoggerFactory.getLogger(SliceBlockIterator.
 	 */
 	@Override
 	public ILazyDataset next() {
-		
+		count++;
 		IDataset out = null;
 		SliceND current = iterator.getCurrentSlice().clone();
 		if (subCount == 0) {
