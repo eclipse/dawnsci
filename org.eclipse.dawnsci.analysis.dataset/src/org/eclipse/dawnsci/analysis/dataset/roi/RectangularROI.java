@@ -124,6 +124,7 @@ public class RectangularROI extends OrientableROIBase implements IRectangularROI
 				ang = Math.PI;
 			}
 		}
+		checkAngle();
 	}
 
 	/**
