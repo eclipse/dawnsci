@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Display;
 /**
  * A collection of color-related constants.
  */
-interface ColorConstants {
+public interface ColorConstants {
 
 	class SystemColorFactory {
 		private static Color getColor(final int which) {
