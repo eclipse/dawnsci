@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.eclipse.dawnsci.analysis.api.roi.IROI;
 import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
 
 /**
@@ -684,5 +685,17 @@ public class RectangularROI extends OrientableROIBase implements IRectangularROI
 		if (!Arrays.equals(len, other.len))
 			return false;
 		return true;
+	}
+
+	@Override
+	public IRectangularROI bounds(IROI roi) {
+		IRectangularROI bnd = this.getBounds();
+		double[] s1 = bnd.getPoint();
+		double[] e1 = bnd.getEndPoint();
+		bnd = roi.getBounds();
+		double[] s2 = bnd.getPoint();
+		double[] e2 = bnd.getEndPoint();
+		return new RectangularROI(new double[]{Math.min(s1[0], s2[0]), Math.min(s1[1], s2[1])},
+				                  new double[]{Math.max(e1[0], e2[0]), Math.max(e1[1], e2[1])});
 	}
 }
