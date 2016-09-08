@@ -25,6 +25,8 @@ import org.osgi.framework.FrameworkUtil;
  */
 public class OSGiBundleProvider implements BundleProvider {
 
+	//TODO Delete class
+
 	private static final Bundle[] NO_BUNDLES = new Bundle[0];
 
 	@Override
