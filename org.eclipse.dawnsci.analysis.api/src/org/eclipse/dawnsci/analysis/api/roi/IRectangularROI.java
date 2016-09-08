@@ -40,4 +40,12 @@ public interface IRectangularROI extends IOrientableROI {
 	 * @return length
 	 */
 	public int getIntLength(int index);
+	
+	/**
+	 * Return a new bounds with encompasses
+	 * this roi and the bounds of the roi passed in.
+	 * 
+	 * @param roi
+	 */
+	public IRectangularROI bounds(IROI roi);
 }
