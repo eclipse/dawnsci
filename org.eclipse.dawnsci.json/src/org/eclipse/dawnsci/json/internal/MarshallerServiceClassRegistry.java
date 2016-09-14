@@ -19,7 +19,6 @@
 package org.eclipse.dawnsci.json.internal;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -38,7 +37,7 @@ public class MarshallerServiceClassRegistry implements IClassRegistry {
 
 	List<IClassRegistry> registries = new ArrayList<IClassRegistry>();
 
-	public MarshallerServiceClassRegistry(IClassRegistry... extraRegisters) {
+	public MarshallerServiceClassRegistry(List<IClassRegistry> extraRegisters) {
 		try {
 	        IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.dawnsci.analysis.api.classRegistry");
 
@@ -50,9 +49,7 @@ public class MarshallerServiceClassRegistry implements IClassRegistry {
 			// It is legal to fail the configuration elements because
 			// one may use the json service in non-OSGi environment.
 		}
-		if (extraRegisters!=null) registries.addAll(Arrays.asList(extraRegisters));
-		registries.add(new BaseContainerRegistry());
-
+		if (extraRegisters!=null) registries.addAll(extraRegisters);
 	}
 
 	@Override

@@ -36,6 +36,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 */
 class BaseContainerRegistry implements IClassRegistry {
 
+	// TODO: Delete class.
+
 	private ObjectMapper mapper = new ObjectMapper();
 
 	private static final HashMap<String, Class<?>> idToClassMap = new HashMap<String, Class<?>>(){
@@ -61,7 +63,7 @@ class BaseContainerRegistry implements IClassRegistry {
 
 	@Override
 	public String getIdFromClass(Class<?> clazz) {
-		return classTypeToIdMap.get(getContainerTypeKey(clazz));
+		return classTypeToIdMap.get(getTypeKey(clazz));
 	}
 
 	@Override
@@ -71,13 +73,27 @@ class BaseContainerRegistry implements IClassRegistry {
 
 	@Override
 	public Boolean hasClass(Class<?> clazz) {
-		return (getContainerTypeKey(clazz) != null) ? true : false;
+		return (getTypeKey(clazz) != null) ? true : false;
 	}
 
-	private String getContainerTypeKey(Class<?> clazz) {
+	private String getTypeKey(Class<?> clazz) {
 		JavaType classType = mapper.constructType(clazz);
 
-		if (!classType.isContainerType()) return null;
+		System.out.println(clazz.toString());
+
+		if (classType.getContentType() != null) {
+			System.out.println(classType.getContentType().toString());
+		} else {
+			System.out.println("ContentType is null");
+		}
+
+		System.out.println(classType.isCollectionLikeType());
+		System.out.println(classType.isArrayType());
+		System.out.println(classType.isEnumType());
+		System.out.println(classType.isMapLikeType());
+
+
+		if (!classType.isCollectionLikeType()) return null;
 
 		if (classType.isArrayType()) return "ArrayType";
 		if (classType.isEnumType()) return "EnumType";

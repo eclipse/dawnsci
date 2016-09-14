@@ -113,6 +113,7 @@ public class MarshallerService implements IMarshallerService {
 
 	private static final Logger logger = LoggerFactory.getLogger(MarshallerService.class);
 
+	private List<IClassRegistry> extra_registries;
 	private ObjectMapper registeredClassMapper;
 	private ObjectMapper standardMapper;
 	private ObjectMapper oldMapper;
@@ -123,8 +124,21 @@ public class MarshallerService implements IMarshallerService {
 		System.out.println("Started " + IMarshallerService.class.getSimpleName());
 	}
 
+	public MarshallerService() {
+		this(null, null);
+	}
+
+	public MarshallerService(IClassRegistry... extra_registries) {
+		this(Arrays.asList(extra_registries), null);
+	}
+
 	public MarshallerService(IMarshaller... marshallers) {
-		if (marshallers!=null) this.marshallers = Collections.unmodifiableList(Arrays.asList(marshallers));
+		this(null, Arrays.asList(marshallers));
+	}
+
+	public MarshallerService(List<IClassRegistry> extra_registries, List<IMarshaller> marshallers) {
+		if (marshallers!=null) this.marshallers = Collections.unmodifiableList(marshallers);
+		if (extra_registries!=null) this.extra_registries = Collections.unmodifiableList(extra_registries);
 	}
 
 	/**
@@ -337,7 +351,7 @@ public class MarshallerService implements IMarshallerService {
 	 */
 	private class RegisteredTypeResolverBuilder extends DefaultTypeResolverBuilder {
 		private static final long serialVersionUID = 1L;
-		private IClassRegistry registry = new MarshallerServiceClassRegistry();
+		private IClassRegistry registry = new MarshallerServiceClassRegistry(extra_registries);
 
 		public RegisteredTypeResolverBuilder() {
 			this(null);
@@ -357,12 +371,26 @@ public class MarshallerService implements IMarshallerService {
 			return new RegisteredClassIdResolver(baseType, config.getTypeFactory(), registry);
 		}
 
-		// Override DefaultTypeResolverBuilder#useForType() to add type information to all except primitive and final
-		// core Java types
+		// Override DefaultTypeResolverBuilder#useForType() to add type information only to those required.
 		@Override
 		public boolean useForType(JavaType type) {
-			Class<?> clazz = type.getClass();
-			return (registry.hasClass(clazz));
+			System.out.println(type.toString());
+			Class<?> clazz = type.getRawClass();
+
+			// We can lookup the class in the registry, for marshalling and unmarshalling.
+			Boolean registryHasClass = registry.hasClass(clazz);
+
+			// We only ever declare as object if we intend to use one of our own classes. This class will
+			// be registered, but there is no way of obtaining that information here!
+			Boolean isObject = (Object.class.equals(clazz));
+
+			// Also include abstract classes and interfaces as these are always defined with a type id. This is not
+			// the case for container types, however, so these are excluded.
+			Boolean isAbstract = type.isAbstract();
+			Boolean isInterface = type.isInterface();
+			Boolean isNotContainer = !type.isContainerType();
+
+			return registryHasClass || ((isObject || isAbstract || isInterface) && isNotContainer);
 		}
 	}
 

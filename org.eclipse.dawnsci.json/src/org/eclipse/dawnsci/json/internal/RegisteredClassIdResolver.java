@@ -25,31 +25,17 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 
 /**
- * {@link TypeIdResolver} implementation which converts between JSON strings and the information necessary to load a class in OSGi, that is,
- * the fully-qualified class name, bundle symbolic name and bundle version.
+ * {@link TypeIdResolver} implementation which converts between JSON strings and the class implementation,
+ * using IClassRegistry's.
  * <p>
- * Generic types are currently not handled. It might be possible to do this (perhaps by delegating to ClassNameIdResolver) but all calls made
- * to ClassUtils would need overriding to use correct bundle classloaders.
- * <p>
- * Also, non-static inner types will probably fail with the current implementation, but this has not been tested.
  *
- * @author Colin Palmer
+ * @author Martin Gaughran
  *
  */
 public class RegisteredClassIdResolver extends TypeIdResolverBase {
 
-	/**
-	 * Interface to allow Jackson ClassUtil to be mocked for testing
-	 */
-	public interface ClassFinder {
-		public Class<?> findClass(String className) throws ClassNotFoundException;
-	}
-
-//	private static final Logger logger = LoggerFactory.getLogger(BundleAndClassNameIdResolver.class);
 	private IClassRegistry registry;
 
 	public RegisteredClassIdResolver(JavaType baseType, TypeFactory typeFactory, IClassRegistry registry) {
@@ -72,17 +58,12 @@ public class RegisteredClassIdResolver extends TypeIdResolverBase {
 
 	@Override
 	public JavaType typeFromId(String id) {
-//		try {
 		Class<?> clazz = registry.getClassFromId(id);
-		// This probably doesn't handle generics, except for arrays and collections
-		// see ClassNameIdResolver#typeFromId() for more on this
-		//JavaType type = _typeFactory.constructSpecializedType(_baseType, clazz);
-		return _typeFactory.constructSpecializedType(_baseType, clazz);
+		if (clazz == null) {
+			throw new IllegalArgumentException("Class " + id + " not found");
+		}
+		JavaType type = _typeFactory.constructSpecializedType(_baseType, clazz);
+		return type;
 
-		//TODO I need to throw an exception when a class id cannot be decoded.
-
-//		} catch (ClassNotFoundException e) {
-//			throw new IllegalArgumentException("Class " + id + " not found", e);
-//		}
 	}
 }
