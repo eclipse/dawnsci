@@ -385,8 +385,14 @@ public class ImageServiceBean {
     	return buf.toString();
     }
 
+    /**
+     * Enumeration of image origin in anti-clockwise order
+     */
 	public enum ImageOrigin {
-		TOP_LEFT("Top left"), TOP_RIGHT("Top right"), BOTTOM_LEFT("Bottom left"), BOTTOM_RIGHT("Bottom right");
+		TOP_LEFT("Top left"),
+		BOTTOM_LEFT("Bottom left"),
+		BOTTOM_RIGHT("Bottom right"),
+		TOP_RIGHT("Top right");
 
 		public static List<ImageOrigin> origins;
 		static {
@@ -411,6 +417,27 @@ public class ImageServiceBean {
 				if (o.label.equals(label)) return o;
 			}
 			return null;
+		}
+
+		/**
+		 * @return true if image origin is top-left or bottom-right
+		 */
+		public boolean isOnLeadingDiagonal() {
+			return this == TOP_LEFT || this == BOTTOM_RIGHT;
+		}
+
+		/**
+		 * @return true if image origin is top-left or top-right
+		 */
+		public boolean isOnTop() {
+			return this == TOP_LEFT || this == TOP_RIGHT;
+		}
+
+		/**
+		 * @return true if image origin is top-left or bottom-left
+		 */
+		public boolean isOnLeft() {
+			return this == TOP_LEFT || this == BOTTOM_LEFT;
 		}
 	}
 
