@@ -613,7 +613,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	//////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public boolean setData(IDataset image, List<? extends IDataset> axes,
+	public boolean setData(ILazyDataset image, List<? extends IDataset> axes,
 			boolean performAutoScale) {
 		return (Boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
 

@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.HistoType;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.ImageOrigin;
 import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 
 /**
  * Interface used for the plotting system to plot images.
@@ -112,7 +113,7 @@ public interface IImageTrace extends IPaletteTrace, IDownsampledTrace, ICoordina
 	 * @param performAutoScale - true to rescale to new selection, otherwise keeps last axis position.
 	 * @return false if could not set data
 	 */
-	public boolean setData(final IDataset image, List<? extends IDataset> axes, boolean performAutoScale);
+	public boolean setData(final ILazyDataset image, List<? extends IDataset> axes, boolean performAutoScale);
 	
 	/**
 	 * Change the axes without changing the underlying data.
