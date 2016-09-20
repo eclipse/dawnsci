@@ -130,7 +130,9 @@ public final class HistogramBound {
 
 		final String[] sa = encoded.split(",");
 		if (sa[1]!=null && sa[1].startsWith("["))sa[1]=sa[1].substring(1);
-		if (sa[3]!=null && sa[3].endsWith("]"))sa[3]=sa[3].substring(0, sa[3].length()-1);
+		if (sa.length > 3 && sa[3] != null && sa[3].endsWith("]")) {
+			sa[3] = sa[3].substring(0, sa[3].length() - 1);
+		}
 		for (int i = 0; i < sa.length; i++) {
 			if (sa[i]!=null) sa[i] = sa[i].trim();
 		}
