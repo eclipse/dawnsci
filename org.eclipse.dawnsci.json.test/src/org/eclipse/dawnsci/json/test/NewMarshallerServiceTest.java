@@ -1,58 +1,54 @@
 /*-
- *******************************************************************************
- * Copyright (c) 2011, 2014, 2016 Diamond Light Source Ltd.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * Copyright © 2016 Diamond Light Source Ltd.
  *
- * Contributors:
- *    Colin Palmer - initial API and implementation and/or initial documentation
- *******************************************************************************/
-package org.eclipse.dawnsci.json.test;
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import static org.eclipse.dawnsci.json.test.JsonUtils.assertJsonEquals;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+package org.eclipse.dawnsci.json.test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.json.MarshallerService;
 import org.eclipse.dawnsci.json.test.classregister.TestObjectClassRegistry;
+import org.eclipse.dawnsci.json.test.marshaller.TestTypeMixInMarshaller;
+import org.eclipse.dawnsci.json.test.marshaller.TestTypeNonRegisteredMarshaller;
+import org.eclipse.dawnsci.json.test.marshaller.TestTypeRegisteredMarshaller;
 import org.eclipse.dawnsci.json.test.testobject.Animal;
 import org.eclipse.dawnsci.json.test.testobject.Bird;
 import org.eclipse.dawnsci.json.test.testobject.Cat;
 import org.eclipse.dawnsci.json.test.testobject.Person;
+import org.eclipse.dawnsci.json.test.testobject.TestTypeNonRegisteredImpl;
+import org.eclipse.dawnsci.json.test.testobject.TestTypeRegisteredImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-/**
- * Unit tests for the Jackson JSON marshaller which check the behaviour in a simulated OSGi environment where classes
- * need to be loaded from the correct bundles.
- * <p>
- * If the marshaller settings are changed, the new JSON string produced in each test can be written to std out by
- * uncommenting the relevant line in tearDown(), allowing it to be copied into the Java code to update the tests.
- *
- * @author Colin Palmer
- *
- */
-public class JsonMarshallerOSGiBundleTest {
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class NewMarshallerServiceTest {
+
 
 	private static final String JSON_FOR_JIM = "{\n  \"@class_id\" : \"jsontest.person\",\n  \"name\" : \"Jim\",\n  \"pet\" : {\n    \"@class_id\" : \"jsontest.animal.bird\",\n    \"name\" : \"Polly\",\n    \"feathers\" : \"Green\"\n  }\n}";
 	private static final String JSON_FOR_JOHN = "{\n  \"@class_id\" : \"jsontest.person\",\n  \"name\" : \"John\",\n  \"pet\" : {\n    \"@class_id\" : \"jsontest.animal.cat\",\n    \"name\" : \"Felix\",\n    \"whiskers\" : \"Luxuriant\"\n  }\n}";
@@ -64,6 +60,8 @@ public class JsonMarshallerOSGiBundleTest {
 //	private static final String JSON_FOR_ANIMAL_MAP = "{\n \"Polly\" : {\n    \"@class_id\" : \"jsontest.animal.bird\",\n    \"name\" : \"Polly\",\n    \"feathers\" : \"Green\"\n  },\n  \"Felix\" : {\n    \"@class_id\" : \"jsontest.animal.cat\",\n    \"name\" : \"Felix\",\n    \"whiskers\" : \"Luxuriant\"\n  },\n  \"John\" : {\n    \"@class_id\" : \"jsontest.person\",\n    \"name\" : \"John\",\n    \"pet\" : {\n      \"@class_id\" : \"jsontest.animal.cat\",\n      \"name\" : \"Felix\",\n      \"whiskers\" : \"Luxuriant\"\n    }\n  },\n  \"Jim\" : {\n    \"@class_id\" : \"jsontest.person\",\n    \"name\" : \"Jim\",\n    \"pet\" : {\n      \"@class_id\" : \"jsontest.animal.bird\",\n      \"name\" : \"Polly\",\n      \"feathers\" : \"Green\"\n    }\n  }\n}";
 
 	private IMarshallerService marshaller;
+	private IMarshallerService marshallerWithMarshalledInterfaces;
+	private IMarshallerService marshallerWithRegisteredMixIn;
 
 	private String json;
 
@@ -82,8 +80,8 @@ public class JsonMarshallerOSGiBundleTest {
 	@Before
 	public void setUp() throws Exception {
 		createTestObjects();
-		MockitoAnnotations.initMocks(this);
-
+//		MockitoAnnotations.initMocks(this);
+//
 //		when(exampleBundleV1.getSymbolicName()).thenReturn(Person.BUNDLE_NAME_FOR_TESTING);
 //		when(exampleBundleV1.getVersion()).thenReturn(new Version(Person.BUNDLE_VERSION_FOR_TESTING));
 //		MockClassLoaderAnswer exampleV1Answer = new MockClassLoaderAnswer(Person.class, Animal.class);
@@ -106,8 +104,10 @@ public class JsonMarshallerOSGiBundleTest {
 //		bundleProvider.registerBundleForClass(Bird.class, exampleBundleV2);
 //		bundleProvider.registerBundleForClass(Cat.class, otherExampleBundle);
 
+//		marshaller = new MarshallerService(bundleProvider);
 		marshaller = new MarshallerService(new TestObjectClassRegistry());
-
+		marshallerWithMarshalledInterfaces = new MarshallerService(Arrays.asList(new TestObjectClassRegistry()), Arrays.asList(new TestTypeRegisteredMarshaller(), new TestTypeNonRegisteredMarshaller()));
+		marshallerWithRegisteredMixIn = new MarshallerService(Arrays.asList(new TestObjectClassRegistry()), Arrays.asList(new TestTypeMixInMarshaller()));
 	}
 
 	private void createTestObjects() {
@@ -145,126 +145,111 @@ public class JsonMarshallerOSGiBundleTest {
 	}
 
 	@Test
-	public void testSerializationOfJim() throws Exception {
-		json = marshaller.marshal(jim);
-		assertJsonEquals(JSON_FOR_JIM, json);
-	}
+	public void testTypeProperties() throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+//
+//		Object[] animalArray = new Object[] {new Animal[] { felix, polly, felix }};
+		ArrayList<Object> animalAL = new ArrayList<Object>();
+		animalAL.add(new Animal[] { felix, polly, felix });
 
-	@Test
-	public void testSerializationOfJohn() throws Exception {
-		json = marshaller.marshal(john);
-		assertJsonEquals(JSON_FOR_JOHN, json);
-		Person bob = marshaller.unmarshal(json, null);
-		System.out.println();
-	}
+		Object[] animalArray = new Animal[] { felix, polly, felix };
+		ArrayList<Object> anotherone = new ArrayList<Object>();
+		anotherone.add(felix);
+		anotherone.add(polly);
 
-	@Test
-	public void testDeserialisationOfJim() throws Exception {
-		Person deserializedJim = marshaller.unmarshal(JSON_FOR_JIM, Person.class);
-		assertEquals("Jim", deserializedJim.getName());
-		assertThat(deserializedJim.getPet(), is(instanceOf(Bird.class)));
-		Bird deserializedPolly = (Bird) deserializedJim.getPet();
-		assertEquals("Polly", deserializedPolly.getName());
-		assertEquals("Green", deserializedPolly.getFeathers());
-	}
+		Class<?>[] classArray = new Class<?>[] {felix.getClass(), animalArray.getClass(), polly.getClass(), anotherone.getClass()};
 
-	@Test
-	public void testDeserialisationOfJohn() throws Exception {
-		Person deserializedJohn = marshaller.unmarshal(JSON_FOR_JOHN, Person.class);
-		assertEquals("John", deserializedJohn.getName());
-		assertThat(deserializedJohn.getPet(), is(instanceOf(Cat.class)));
-		Cat deserializedFelix = (Cat) deserializedJohn.getPet();
-		assertEquals("Felix", deserializedFelix.getName());
-		assertEquals("Luxuriant", deserializedFelix.getWhiskers());
-	}
+		for (Class<?> clazz : classArray) {
+			JavaType classType = mapper.constructType(clazz);
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testDeserialisationOfJohnAsAnimal() throws Exception {
-		marshaller.unmarshal(JSON_FOR_JOHN, Animal.class);
-	}
+			System.out.println(clazz.toString());
+			if (classType.getContentType() != null) {
+				System.out.println(classType.getContentType().toString());
+			} else {
+				System.out.println("ContentType is null");
+			}
 
-	@Test
-	public void testSerialisationOfFelix() throws Exception {
-		json = marshaller.marshal(felix);
-		assertJsonEquals(JSON_FOR_FELIX, json);
-	}
+			System.out.println(classType.isCollectionLikeType());
+			System.out.println(classType.isArrayType());
+			System.out.println(classType.isEnumType());
+			System.out.println(classType.isMapLikeType());
+		}
 
-	@Test
-	public void testDeserialisationOfFelixAsAnimal() throws Exception {
-		Animal deserializedFelix = marshaller.unmarshal(JSON_FOR_FELIX, Animal.class);
-		assertEquals("Felix", deserializedFelix.getName());
-		assertThat(deserializedFelix, is(instanceOf(Cat.class)));
-		assertEquals("Luxuriant", ((Cat) deserializedFelix).getWhiskers());
+		System.out.println("1");
+		String json1 = marshaller.marshal(animalArray);
+		System.out.println("2");
+		String json2 = marshaller.marshal(polly);
+		System.out.println("3");
+		String json3 = marshaller.marshal(new ArrayList<Animal>());
+		System.out.println("4");
+		String json4 = marshaller.marshal(animalAL);
+		Collection<Object> output = marshaller.unmarshal(json4, null);
+		System.out.println(((Animal[])output.toArray()[0])[0].equals(((Animal[])animalAL.toArray()[0])[0]));
+		Object[] rAnimalArray = marshaller.unmarshal(json, null);
+//		assertJsonEquals(JSON_FOR_ANIMAL_ARRAY, json);
 	}
 
 	@Test
 	public void testArraySerialization() throws Exception {
-		Object[] animalArray = new Animal[] { felix, polly, felix };
-		json = marshaller.marshal(animalArray);
-		assertJsonEquals(JSON_FOR_ANIMAL_ARRAY, json);
-	}
+//		ObjectMapper mapper = new ObjectMapper();
+//
+		Object[] animalArray = new Object[] {new Animal[] { felix, polly, felix }};
+		ArrayList<Object> animalAL = new ArrayList<Object>();
+		animalAL.add(new Animal[] { felix, polly, felix });
 
-	@Test
-	public void testArrayDeserializationAsAnimalArray() throws Exception {
-		Animal[] animalArray = marshaller.unmarshal(JSON_FOR_ANIMAL_ARRAY, Animal[].class);
-		assertThat(animalArray[0], is(instanceOf(Cat.class)));
-		assertThat(animalArray[1], is(instanceOf(Bird.class)));
-		assertThat(animalArray[2], is(instanceOf(Cat.class)));
-		assertThat(animalArray[0].getName(), is("Felix"));
-	}
+//		Object[] animalArray = new Animal[] { felix, polly, felix };
+//		ArrayList<Object> anotherone = new ArrayList<Object>();
+//		anotherone.add(felix);
+//		anotherone.add(polly);
 
-	@Test
-	public void testArrayDeserializationAsObjectArray() throws Exception {
-		//TODO Change back to Object array.
-		Animal[] objectArray = marshaller.unmarshal(JSON_FOR_ANIMAL_ARRAY, Animal[].class);
-		assertThat(objectArray[0], is(instanceOf(Cat.class)));
-		assertThat(objectArray[1], is(instanceOf(Bird.class)));
-		assertThat(objectArray[2], is(instanceOf(Cat.class)));
-		assertThat(((Cat) objectArray[0]).getWhiskers(), is(equalTo("Luxuriant")));
-	}
 
-	@Test
-	public void testListSerialization() throws Exception {
-		List<Animal> animalList = Arrays.asList(felix, polly, felix);
-		json = marshaller.marshal(animalList);
-		assertJsonEquals(JSON_FOR_ANIMAL_LIST, json);
-	}
-
-	@Test
-	public void testListDeserialization() throws Exception {
-		List<Animal> animalList = new ArrayList<Animal>();
-		animalList = marshaller.unmarshal(JSON_FOR_ANIMAL_LIST, null);
-		assertThat(animalList.get(0), is(instanceOf(Cat.class)));
-		assertThat(animalList.get(1), is(instanceOf(Bird.class)));
-		assertThat(animalList.get(2), is(instanceOf(Cat.class)));
-		assertThat(animalList.get(0).getName(), is("Felix"));
-	}
-
-	@Test
-	public void testSetDeserialization() throws Exception {
-		@SuppressWarnings({ "unchecked" })
-		Set<Animal> animalSet = marshaller.unmarshal(JSON_FOR_ANIMAL_SET, Set.class);
-		assertThat(animalSet.size(), is(equalTo(2)));
-	}
-
-	@Test
-	public void testSetSerialization() throws Exception { // also relies on deserialization
-		Set<Animal> originalSet = new HashSet<>(Arrays.asList(felix, polly, felix));
-		json = marshaller.marshal(originalSet);
-		@SuppressWarnings("unchecked")
-		Set<Animal> deserializedSet = marshaller.unmarshal(json, Set.class);
-		assertEquals(deserializedSet, originalSet);
+		String json4 = marshaller.marshal(animalAL);
+		Collection<Object> output = marshaller.unmarshal(json4, null);
+		System.out.println(((Animal[])output.toArray()[0])[0].equals(((Animal[])animalAL.toArray()[0])[0]));
 	}
 
 	@Test
 	public void testMapSerialization() throws Exception {
-		Map<String, Object> map = new HashMap<>();
-		map.put(jim.getName(), jim);
-		map.put(john.getName(), john);
-		map.put(felix.getName(), felix);
-		map.put(polly.getName(), polly);
-		json = marshaller.marshal(map);
-		assertJsonEquals(JSON_FOR_ANIMAL_MAP, json);
+		ObjectMapper mapper = new ObjectMapper();
+//
+//		Object[] animalArray = new Object[] {new Animal[] { felix, polly, felix }};
+		ArrayList<Object> animalAL = new ArrayList<Object>();
+		animalAL.add(new Animal[] { felix, polly, felix });
+
+		Map<String, Cat> bob = new HashMap<String, Cat>();
+		bob.put("hithere", felix);
+		bob.put("charcuterie", new Cat());
+
+		Object[] animalArray = new Animal[] { felix, polly, felix };
+		Bird[] birdArray = new Bird[] {polly, new Bird(), polly};
+//		ArrayList<Object> anotherone = new ArrayList<Object>();
+//		anotherone.add(felix);
+//		anotherone.add(polly);
+
+//		mapper.setSerializationInclusion(Include.NON_NULL);
+//		mapper.enable(MapperFeature.REQUIRE_SETTERS_FOR_GETTERS);
+
+//		String json1 = marshaller.marshal(bob);
+//		HashMap<String, Cat> output1 = marshaller.unmarshal(json1, null);
+
+
+		//WORKS
+//		String json2 = mapper.writeValueAsString(birdArray);
+//		Bird[] output2 = (Bird[]) mapper.readValue(json2, Object.class);
+
+		//WORKS
+//		String json2 = marshaller.marshal(animalArray);
+//		Object[] output2 = marshaller.unmarshal(json2, null);
+
+		String json3 = marshaller.marshal(bob);
+		@SuppressWarnings("unchecked")
+//		HashMap<String, Cat> output3 = (HashMap<String, Cat>) mapper.readValue(json3, Object.class);
+		Map<String, Cat> output3 = marshaller.unmarshal(json3, Map.class);
+
+//		@SuppressWarnings("unchecked")
+//		HashMap<String, Cat> output4 = (HashMap<String, Cat>) output3;
+
+		System.out.println();
 	}
 
 	@Test
@@ -284,6 +269,10 @@ public class JsonMarshallerOSGiBundleTest {
 		jim.addObj(felix);
 		jim.addObj(john);
 		jim.addObj("hithere");
+
+		// Doesn't work.
+//		jim.addObj(map);
+//		jim.addObj(map2);
 
 		jim.addItem("kitty", felix);
 		jim.addItem("birdy", polly);
@@ -323,8 +312,65 @@ public class JsonMarshallerOSGiBundleTest {
 //		assertThat(map.get(john.getName()), is(equalTo(john)));
 //		assertThat(map.get(felix.getName()), is(equalTo(felix)));
 //		assertThat(map.get(polly.getName()), is(equalTo(polly)));
+	}
+
+	@Test
+	public void testInterfaceAndSerialization() throws Exception {
+//		ObjectMapper mapper = new ObjectMapper();
+//
+		Object[] animalArray = new Object[] {new Animal[] { felix, polly, felix }};
+		ArrayList<Object> animalAL = new ArrayList<Object>();
+		animalAL.add(new Animal[] { felix, polly, felix });
+
+//		Object[] animalArray = new Animal[] { felix, polly, felix };
+//		ArrayList<Object> anotherone = new ArrayList<Object>();
+//		anotherone.add(felix);
+//		anotherone.add(polly);
+
+
+		String json4 = marshaller.marshal(animalAL);
+		Collection<Object> output = marshaller.unmarshal(json4, null);
+		System.out.println(((Animal[])output.toArray()[0])[0].equals(((Animal[])animalAL.toArray()[0])[0]));
+	}
+
+	@Test
+	public void testNonRegisteredDeserialized() throws Exception {
+
+		Person newPerson = new Person();
+		Person returnPerson;
+
+		newPerson.setTTReg(new TestTypeRegisteredImpl("Registered, marshaller available"));
+		String JsonRegMarshalAvail =
+				marshallerWithMarshalledInterfaces.marshal(newPerson);
+		returnPerson = marshallerWithMarshalledInterfaces.unmarshal(JsonRegMarshalAvail, null);
+
+		newPerson.setTTReg(new TestTypeRegisteredImpl("Registered, marshaller not available"));
+		String JsonRegMarshalNotAvail =
+				marshaller.marshal(newPerson);
+		returnPerson = marshaller.unmarshal(JsonRegMarshalNotAvail, null);
+
+		newPerson = new Person();
+		newPerson.setTTNonReg(new TestTypeNonRegisteredImpl("Non-Registered, marshaller available"));
+		String JsonNonRegMarshalAvail =
+				marshallerWithMarshalledInterfaces.marshal(newPerson);
+		returnPerson = marshallerWithMarshalledInterfaces.unmarshal(JsonNonRegMarshalAvail, null);
+
+		newPerson.setTTNonReg(new TestTypeNonRegisteredImpl("Non-Registered, marshaller not available"));
+
+//		try {
+			String JsonNonRegMarshalNotAvail =
+					marshaller.marshal(newPerson);
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+		System.out.println();
+	}
+
+	@Test
+	public void testRegisteredMixInMarshaller() throws Exception {
 
 
 
 	}
+
 }
