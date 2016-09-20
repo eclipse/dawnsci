@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.eclipse.dawnsci.json.test;
+package org.eclipse.dawnsci.json.test.testobject;
 
 import java.util.Properties;
 
@@ -20,6 +20,10 @@ import java.util.Properties;
  *
  */
 public class TestStatusBean extends TestIdBean {
+
+	static {
+		ClassRegistry.register("jsontest.teststatusbean", TestStatusBean.class);
+	}
 
 	public static final TestStatusBean EMPTY = new TestStatusBean(TestStatus.NONE,"", "", Double.NaN, "", "EMPTY", System.currentTimeMillis());
 

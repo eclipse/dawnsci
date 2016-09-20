@@ -13,6 +13,10 @@ package org.eclipse.dawnsci.json.test.testobject;
 
 public abstract class Animal {
 
+	static {
+		ClassRegistry.register("jsontest.animal", Animal.class);
+	}
+
 	public static final String BUNDLE_NAME_FOR_TESTING = "uk.ac.diamond.daq.test.example";
 	public static final String BUNDLE_VERSION_FOR_TESTING = "1.2.0.test";
 

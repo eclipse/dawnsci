@@ -383,6 +383,9 @@ public class MarshallerService implements IMarshallerService {
 		@Override
 		public boolean useForType(JavaType type) {
 			Class<?> clazz = type.getRawClass();
+			// Note: This does not work well with generics defined at or above the same scope as the call
+			// to marshal or unmarshal. As a result, only use such generics there when dealing with a primitive
+			// type or registered class, as these will cope with the idResolver.
 
 			// We can lookup the class in the registry, for marshalling and unmarshalling.
 			Boolean registryHasClass = registry.hasClass(clazz);
@@ -396,7 +399,10 @@ public class MarshallerService implements IMarshallerService {
 			Boolean isInterface = type.isInterface();
 			Boolean isNotContainer = !type.isContainerType();
 
-			return registryHasClass || ((isObject || isAbstract || isInterface) && isNotContainer);
+			// Primitive types are considered abstract, so exclude these as well.
+			Boolean isNotPrimitive = !type.isPrimitive();
+
+			return registryHasClass || ((isObject || isAbstract || isInterface) && isNotContainer && isNotPrimitive);
 		}
 	}
 

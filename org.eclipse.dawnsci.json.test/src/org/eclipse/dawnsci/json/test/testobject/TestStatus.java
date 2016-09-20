@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.eclipse.dawnsci.json.test;
+package org.eclipse.dawnsci.json.test.testobject;
 
 /**
  * States of jobs on the cluster.
@@ -17,6 +17,10 @@ package org.eclipse.dawnsci.json.test;
 public enum TestStatus { // TODO Should this be called QueueStatus or JobStatus to avoid confusion?
 
 	SUBMITTED, QUEUED, RUNNING, REQUEST_PAUSE, PAUSED, REQUEST_RESUME, RESUMED, REQUEST_TERMINATE, TERMINATED, FAILED, COMPLETE, UNFINISHED, NONE;
+
+	static {
+		ClassRegistry.register("jsontest.teststatus", TestStatus.class);
+	}
 
 	/**
 	 *

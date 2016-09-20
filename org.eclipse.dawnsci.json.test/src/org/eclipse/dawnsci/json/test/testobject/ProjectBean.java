@@ -14,8 +14,6 @@ package org.eclipse.dawnsci.json.test.testobject;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.dawnsci.json.test.TestStatusBean;
-
 /**
  * Bean to serialise with JSON and be sent to the server.
  *
@@ -26,6 +24,10 @@ import org.eclipse.dawnsci.json.test.TestStatusBean;
  *
  */
 public class ProjectBean extends TestStatusBean {
+
+	static {
+		ClassRegistry.register("jsontest.projectbean", ProjectBean.class);
+	}
 
 	private String      projectName;
 	private String      cystalName;
