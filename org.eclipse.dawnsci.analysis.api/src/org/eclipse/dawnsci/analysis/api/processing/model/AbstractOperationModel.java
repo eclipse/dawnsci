@@ -103,6 +103,8 @@ public abstract class AbstractOperationModel implements IOperationModel {
 		}
 
 		OperationModelField omf = field.getAnnotation(OperationModelField.class);
+		if (omf != null && !omf.visible())
+			return false;
 
 		
 		final String getter = getGetterName(name).toLowerCase();
