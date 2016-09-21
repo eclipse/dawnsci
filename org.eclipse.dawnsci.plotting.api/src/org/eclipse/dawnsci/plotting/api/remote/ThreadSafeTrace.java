@@ -37,6 +37,7 @@ import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.IVectorTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IVolumeRenderTrace;
 import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicShape;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.PaletteData;
@@ -554,6 +555,11 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 			double[] planeNormal,
 			final List<? extends IDataset> axes) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), imageData, size, offset, planeNormal, axes);		
+	}
+
+	@Override
+	public void setDynamicData(IDynamicShape dynamic) {
+		call(getMethodName(Thread.currentThread().getStackTrace()), dynamic);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

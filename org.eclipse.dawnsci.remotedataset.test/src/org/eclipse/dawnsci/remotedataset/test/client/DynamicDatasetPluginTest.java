@@ -14,7 +14,6 @@ package org.eclipse.dawnsci.remotedataset.test.client;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
@@ -85,17 +84,18 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 			 
 			final IPlottingSystem<?>   sys = (IPlottingSystem<?>)part.getAdapter(IPlottingSystem.class);
 			
-			IImageTrace trace = (IImageTrace)sys.createPlot2D(set.getSlice(), null, null);
+			IImageTrace trace = sys.createImageTrace("MJPG stream");
 			trace.setDownsampleType(DownsampleType.POINT); // Fast!
 			trace.setRescaleHistogram(false); // Fast! Comes from RGBData anyway though
-			
+			trace.setDynamicData(set);
+			sys.addTrace(trace);
 			TestUtils.delay(10000);
-			
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			set.disconnect();
 			
-			List<DynamicConnectionInfo> linfo = set.getDataset().getMetadata(DynamicConnectionInfo.class);
-			DynamicConnectionInfo info = linfo.get(0);
+			DynamicConnectionInfo info = set.getDataset().getFirstMetadata(DynamicConnectionInfo.class);
 			
 			System.out.println("Received images = "+info.getReceivedCount());
 			System.out.println("Dropped images = "+info.getDroppedCount());
@@ -120,12 +120,8 @@ public class DynamicDatasetPluginTest extends DataServerTest {
     	client.setImageCache(10); // More than we will send...
     	client.setSleep(100);     // Default anyway is 100ms
 
-    	IWorkbenchPart part = openView();
-		 
-		final IPlottingSystem<?> sys = (IPlottingSystem<?>)part.getAdapter(IPlottingSystem.class);
 		final IDynamicMonitorDatasetHolder rgb = DynamicDatasetFactory.createRGBImage(client);
-		sys.createPlot2D(rgb.getSlice(), null, null);
-
+		// this needs to start before being given to image trace
 		Thread runner = new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -141,16 +137,22 @@ public class DynamicDatasetPluginTest extends DataServerTest {
 		runner.setName("Test image transfer worker");
 		runner.start();
 		
+    	IWorkbenchPart part = openView();
+		final IPlottingSystem<?> sys = (IPlottingSystem<?>)part.getAdapter(IPlottingSystem.class);
+		IImageTrace trace = sys.createImageTrace("RGB stream");
+		trace.setDynamicData(rgb);
+		sys.addTrace(trace);
+		trace.rehistogram();
+
 		TestUtils.delay(20000); // Should easily allow the 100 images to be transfered.
 		
-		List<DynamicConnectionInfo> linfo = rgb.getDataset().getMetadata(DynamicConnectionInfo.class);
-		DynamicConnectionInfo info = linfo.get(0);
+		DynamicConnectionInfo info = rgb.getDataset().getFirstMetadata(DynamicConnectionInfo.class);
 		
-		System.out.println("Received images = "+info.getReceivedCount());
+		long received = info.getReceivedCount();
+		System.out.println("Received images = "+ received);
 		System.out.println("Dropped images = "+info.getDroppedCount());
-		
-		if (info.getReceivedCount()<100) throw new Exception("Less than 100 images were received!");
 
+		if (received<100) throw new Exception("Less than 100 images were received: " + received);
 	}
 	
 	/**
