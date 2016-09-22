@@ -18,15 +18,19 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.dawnsci.plotting.api.image.IPlotImageService;
+import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.DataEvent;
+import org.eclipse.january.dataset.DataListenerDelegate;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataListener;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IDatasetChangeChecker;
-import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.RGBDataset;
 import org.eclipse.january.dataset.ShortDataset;
 
@@ -37,8 +41,6 @@ import org.eclipse.january.dataset.ShortDataset;
  */
 class DynamicImage implements IDynamicMonitorDatasetHolder {
 	
-	private DataConnection<?>            connection;
-
  	private boolean dynamicShape=true;
 	private int[] transShape;
 	private int[] maxShape;
@@ -46,17 +48,22 @@ class DynamicImage implements IDynamicMonitorDatasetHolder {
 	private Dataset dataset;
 
 	private Thread imageMonitor;
-	
+
+	private boolean greyScale;
+
+	private DataListenerDelegate delegate;
+	private SliceClient<BufferedImage> client;
+
 	/**
 	 * @param isRGB
 	 * @param client the client used to create the connection, for instance MJPG
 	 * @param shape the shape of the data if known, or do not set it if not.
 	 */
 	public DynamicImage(boolean isRGB, SliceClient<BufferedImage> client, int... shape) {
-		this.connection= isRGB ? new DataConnection<RGBDataset>(true) : new DataConnection<ShortDataset>(true);
-		dataset = isRGB ? DatasetFactory.zeros(RGBDataset.class, shape) : DatasetFactory.zeros(ShortDataset.class, shape);
-		connection.setClient(client);
-		connection.setDataset(this);
+		greyScale = !isRGB;
+		dataset = greyScale ? DatasetFactory.zeros(ShortDataset.class, shape) : DatasetFactory.zeros(RGBDataset.class, shape);
+		delegate = new DataListenerDelegate();
+		this.client = client;
 	}
 	
 	/**
@@ -76,13 +83,40 @@ class DynamicImage implements IDynamicMonitorDatasetHolder {
 	 * @throws Exception
 	 */
 	public void start(int maxImages) throws Exception {
-		connection.start(maxImages);
+
+		int count = 0;
+		while(!client.isFinished()) {
+
+			final BufferedImage image = client.take();
+			if (image==null) break;
+
+			IPlotImageService plotImageService = ServiceHolder.getPlotImageService();
+			if (plotImageService == null) {
+				throw new NullPointerException("Plot image service not set");
+			}
+			Dataset im = DatasetUtils.convertToDataset(plotImageService.createDataset(image));
+			if (greyScale && im instanceof RGBDataset) im = ((RGBDataset)im).getRedView();
+
+			setDataset(im);
+
+			delegate.fire(new DataEvent(im.getName(), im.getShape()));
+
+			++count;
+			if (count>maxImages && maxImages>-1) return;
+			
+			if (client.getSleep()>-1) {
+				delay(client.getSleep());
+			}
+		}
+	}
+
+	public static void delay(long waitTimeMillis) throws InterruptedException {
+		Thread.sleep(waitTimeMillis);
 	}
 
 	@Override
 	public void setDataset(IDataset sdata) {
-		
-		Serializable buffer = DatasetUtils.cast(ShortDataset.class, sdata).getData();	
+		Serializable buffer = DatasetUtils.cast(greyScale ? ShortDataset.class : RGBDataset.class, sdata).getBuffer();	
 		
 		int[] shape = sdata.getShape();
 		if (dynamicShape) {
@@ -94,19 +128,18 @@ class DynamicImage implements IDynamicMonitorDatasetHolder {
 	}
 
 	@Override
-	public Dataset getSlice() {
+	public ILazyDataset getDataset() {
 		return dataset;
 	}
 
 	@Override
-	public IDynamicDataset getDataset() {
-		return null;
+	public IDataset getSlice() {
+		return dataset.getSlice();
 	}
 
 	@Override
 	public void resize(int... newShape) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public void setShapeDynamic(boolean isDyn) {
@@ -119,12 +152,12 @@ class DynamicImage implements IDynamicMonitorDatasetHolder {
 
 	@Override
 	public void addDataListener(IDataListener l) {
-		connection.addDataListener(l);
+		delegate.addDataListener(l);
 	}
 
 	@Override
 	public void removeDataListener(IDataListener l) {
-		connection.removeDataListener(l);
+		delegate.removeDataListener(l);
 	}
 
 	@Override
@@ -141,7 +174,6 @@ class DynamicImage implements IDynamicMonitorDatasetHolder {
 		this.maxShape = maxShape;
 	}
 
-
 	@Override
 	public void startUpdateChecker(int milliseconds, IDatasetChangeChecker checker) {
 		throw new IllegalArgumentException("Method not implemented. Use connect() instread!");
@@ -149,22 +181,22 @@ class DynamicImage implements IDynamicMonitorDatasetHolder {
 
 	@Override
 	public String getPath() {
-		return connection.getClient().getPath();
+		return client.getPath();
 	}
 
 	@Override
 	public void setPath(String path) {
-		connection.getClient().setPath(path);
+		client.setPath(path);
 	}
 
 	@Override
 	public String getDatasetName() {
-		return 	connection.getClient().getDataset();
+		return client.getDataset();
 	}
 
 	@Override
 	public void setDatasetName(String dataset) {
-		connection.getClient().setDataset(dataset);
+		client.setDataset(dataset);
 	}
 
 
@@ -207,7 +239,7 @@ class DynamicImage implements IDynamicMonitorDatasetHolder {
 
 	@Override
 	public void disconnect() throws DatasetException {
-		connection.getClient().setFinished(true);
+		client.setFinished(true);
 		imageMonitor = null;
 	}
 
@@ -217,11 +249,10 @@ class DynamicImage implements IDynamicMonitorDatasetHolder {
 		
 	}
 	public boolean isWritingExpected() {
-		return connection.getClient().isWritingExpected();
+		return client.isWritingExpected();
 	}
 
 	public void setWritingExpected(boolean writingExpected) {
-		connection.getClient().setWritingExpected(writingExpected);
+		client.setWritingExpected(writingExpected);
 	}
-
 }

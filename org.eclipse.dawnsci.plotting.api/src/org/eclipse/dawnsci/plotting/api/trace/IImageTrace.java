@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.HistoType;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.ImageOrigin;
 import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicShape;
 import org.eclipse.january.dataset.ILazyDataset;
 
 /**
@@ -114,7 +115,13 @@ public interface IImageTrace extends IPaletteTrace, IDownsampledTrace, ICoordina
 	 * @return false if could not set data
 	 */
 	public boolean setData(final ILazyDataset image, List<? extends IDataset> axes, boolean performAutoScale);
-	
+
+	/**
+	 * Set image as a changeable one
+	 * @param dynamic
+	 */
+	public void setDynamicData(final IDynamicShape dynamic);
+
 	/**
 	 * Change the axes without changing the underlying data.
 	 * @param axes

@@ -14,7 +14,6 @@ import java.io.File;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.IMonitor;
 import org.eclipse.january.dataset.IDataset;
-import org.eclipse.january.dataset.IDynamicDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.IDatasetConnector;
 
@@ -24,9 +23,9 @@ import org.eclipse.january.dataset.IDatasetConnector;
  */
 public class TransferableLazyDataset extends AbstractTransferableDataObject {
 	
-	private IDynamicDataset delegate;
+	private ILazyDataset delegate;
 
-	public TransferableLazyDataset(IDynamicDataset delegate) {
+	public TransferableLazyDataset(ILazyDataset delegate) {
 		this.delegate = delegate;
 		this.name     = delegate.getName();
 		this.transientData = true;

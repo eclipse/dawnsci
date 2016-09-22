@@ -13,7 +13,6 @@ package org.eclipse.dawnsci.remotedataset.client.streamer;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
