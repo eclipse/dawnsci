@@ -107,13 +107,13 @@ public interface IPaletteTrace extends IAxesTrace {
 	public void setNanBound(HistogramBound bound);
 
 	/**
-	 * Gets the min cut, a RGB and a bound.
+	 * Sets the min cut, a RGB and a bound.
 	 * @return
 	 */
 	public void setMinCut(HistogramBound bound);
 
 	/**
-	 * Gets the min cut, a RGB and a bound.
+	 * Sets the min cut, a RGB and a bound.
 	 * @return
 	 */
 	public void setMaxCut(HistogramBound bound);

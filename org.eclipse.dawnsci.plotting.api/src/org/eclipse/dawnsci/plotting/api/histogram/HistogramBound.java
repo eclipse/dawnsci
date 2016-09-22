@@ -22,7 +22,7 @@ public final class HistogramBound {
 
 	public static final HistogramBound DEFAULT_MAXIMUM;
 	public static final HistogramBound DEFAULT_MINIMUM;
-	public static final HistogramBound DEFAULT_NAN;   
+	public static final HistogramBound DEFAULT_NAN;
 
 	static {
 		/**
@@ -79,6 +79,11 @@ public final class HistogramBound {
 	public int[] getColor() {
 		return color;
 	}
+
+	public boolean hasColor() {
+		return color != null;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
