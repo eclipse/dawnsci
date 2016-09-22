@@ -99,12 +99,12 @@ public class MetadataPlotUtils {
 
 	
 	public static IImageTrace buildTrace(String name, IDataset data, IPlottingSystem<Composite> system) {
-		return buildTrace(name, data, system,-1);
+		return buildTrace(name, data, system, -1);
 	
 	}
 	
 	public static IImageTrace buildTrace(IDataset data, IPlottingSystem<Composite> system) {
-		return buildTrace(data.getName(), data, system,-1);
+		return buildTrace(data.getName(), data, system, -1);
 	
 	}
 	

@@ -25,7 +25,7 @@ import org.eclipse.january.dataset.Slice;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * A view which plots several image (2D) data together on the same pliotting system.
+ * A view which plots several image (2D) data together on the same plotting system.
  * 
  * This view uses the services available from plotting.api and 
  * analysis.io
@@ -56,7 +56,7 @@ public class CompositeExample extends PlotExample {
 			Dataset map = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/map1/map/data"));
 			Dataset mapx = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/map1/map/x"));
 			Dataset mapy = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/map1/map/y"));
-			
+
 			//Nudge co-ordinates
 			mapx.iadd(5);
 			mapy.isubtract(20);
@@ -87,6 +87,10 @@ public class CompositeExample extends PlotExample {
 			Dataset highMap = map.getSlice(new int[]{64,0},new int[]{128,64} ,null);
 			Dataset highx = mapx.getSlice(new int[]{0},new int[]{64},null);
 			Dataset highy = mapy.getSlice(new int[]{64},new int[]{128},null);
+
+			// fill quadrant with NaNs
+			highMap.setSlice(Float.NaN, new int[] {32,0}, new int[] {64,32}, null);
+
 			IImageTrace    top = system.createImageTrace("top");
 			top.setData(highMap, Arrays.asList(highx,highy), false);
 			top.setAlpha(150);
