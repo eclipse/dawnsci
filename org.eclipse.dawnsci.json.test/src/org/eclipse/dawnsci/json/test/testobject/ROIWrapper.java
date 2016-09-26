@@ -22,10 +22,6 @@ import org.eclipse.dawnsci.analysis.api.roi.IROI;
 
 public class ROIWrapper extends ObjectWrapper<IROI> {
 
-	static {
-		ClassRegistry.register("jsontest.roiwrapper", ROIWrapper.class);
-	}
-
 	public ROIWrapper() {
 	}
 	public ROIWrapper(IROI roi) {

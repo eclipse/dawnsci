@@ -18,33 +18,30 @@
 
 package org.eclipse.dawnsci.json.test.testobject;
 
-public class TestTypeNonRegisteredImpl implements ITestTypeNonRegistered {
+public class TestTypeBean {
 
-	String str;
+	private ITestTypeNonRegistered ttNonReg;
+	private ITestTypeRegistered ttReg;
 
-	public TestTypeNonRegisteredImpl() {
-		this.str = "";
+	public ITestTypeNonRegistered getTTNonReg() {
+		return ttNonReg;
 	}
-
-	public TestTypeNonRegisteredImpl(String something) {
-		this.str = something;
+	public void setTTNonReg(ITestTypeNonRegistered ttNonReg) {
+		this.ttNonReg = ttNonReg;
 	}
-
-	@Override
-	public void setString(String str) {
-		this.str = str;
+	public ITestTypeRegistered getTTReg() {
+		return ttReg;
 	}
-
-	@Override
-	public String getString() {
-		return this.str;
+	public void setTTReg(ITestTypeRegistered ttReg) {
+		this.ttReg = ttReg;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((str == null) ? 0 : str.hashCode());
+		result = prime * result + ((ttNonReg == null) ? 0 : ttNonReg.hashCode());
+		result = prime * result + ((ttReg == null) ? 0 : ttReg.hashCode());
 		return result;
 	}
 
@@ -56,11 +53,16 @@ public class TestTypeNonRegisteredImpl implements ITestTypeNonRegistered {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TestTypeNonRegisteredImpl other = (TestTypeNonRegisteredImpl) obj;
-		if (str == null) {
-			if (other.str != null)
+		TestTypeBean other = (TestTypeBean) obj;
+		if (ttNonReg == null) {
+			if (other.ttNonReg != null)
 				return false;
-		} else if (!str.equals(other.str))
+		} else if (!ttNonReg.equals(other.ttNonReg))
+			return false;
+		if (ttReg == null) {
+			if (other.ttReg != null)
+				return false;
+		} else if (!ttReg.equals(other.ttReg))
 			return false;
 		return true;
 	}

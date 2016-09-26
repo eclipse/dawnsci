@@ -25,10 +25,6 @@ import java.util.List;
  */
 public class ProjectBean extends TestStatusBean {
 
-	static {
-		ClassRegistry.register("jsontest.projectbean", ProjectBean.class);
-	}
-
 	private String      projectName;
 	private String      cystalName;
 	private List<SweepBean> sweeps;

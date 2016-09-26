@@ -24,7 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.json.MarshallerService;
-import org.eclipse.dawnsci.json.test.classregister.TestObjectClassRegistry;
+import org.eclipse.dawnsci.json.test.classregistry.TestObjectClassRegistry;
 import org.eclipse.dawnsci.json.test.testobject.ObjectWrapper;
 import org.junit.After;
 import org.junit.Before;

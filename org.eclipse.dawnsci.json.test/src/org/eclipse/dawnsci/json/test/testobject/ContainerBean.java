@@ -19,29 +19,13 @@
 package org.eclipse.dawnsci.json.test.testobject;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 
-public class TestTypeContainerBean {
-
-	static {
-		ClassRegistry.register("jsontest.testtypecontainerbean", TestTypeContainerBean.class);
-	}
+public class ContainerBean {
 
 	private Collection<Object> objList;
 	private Map<String, Object> objMap;
 	private Object[] objArr;
-	private Object objAttr;
-	private ITestTypeNonRegistered ttNonReg;
-	private ITestTypeRegistered ttReg;
-
-	public Object getObj() {
-		return objAttr;
-	}
-	public void setObj(Object bob) {
-		this.objAttr = bob;
-	}
 
 	public Collection<Object> getObjList() {
 		return objList;
@@ -49,10 +33,6 @@ public class TestTypeContainerBean {
 
 	public void setObjList(Collection<Object> objList) {
 		this.objList = objList;
-	}
-	public void addToObjList(Object obj) {
-		if (objList==null) objList = new LinkedHashSet<Object>(7);
-		objList.add(obj);
 	}
 
 	public Map<String, Object> getObjMap() {
@@ -62,10 +42,6 @@ public class TestTypeContainerBean {
 	public void setObjMap(Map<String, Object> objMap) {
 		this.objMap = objMap;
 	}
-	public void addObjMapItem(String key, Object obj) {
-		if (objMap==null) objMap = new HashMap<String, Object>(7);
-		objMap.put(key, obj);
-	}
 
 	public Object[] getObjArray() {
 		return objArr;
@@ -73,24 +49,6 @@ public class TestTypeContainerBean {
 
 	public void setObjArray(Object[] objArr) {
 		this.objArr = objArr;
-	}
-	public void setObjArrayAtIndex(Integer index, Object obj) {
-		// As this is just for tests, I don't care about wrong indices!
-		if (objArr==null) objArr = new Object[10];
-		objArr[index] = obj;
-	}
-
-	public ITestTypeNonRegistered getTTNonReg() {
-		return ttNonReg;
-	}
-	public void setTTNonReg(ITestTypeNonRegistered ttNonReg) {
-		this.ttNonReg = ttNonReg;
-	}
-	public ITestTypeRegistered getTTReg() {
-		return ttReg;
-	}
-	public void setTTReg(ITestTypeRegistered ttReg) {
-		this.ttReg = ttReg;
 	}
 
 	@Override
@@ -100,9 +58,6 @@ public class TestTypeContainerBean {
 		result = prime * result + ((objList == null) ? 0 : objList.hashCode());
 		result = prime * result + ((objMap == null) ? 0 : objMap.hashCode());
 		result = prime * result + ((objArr == null) ? 0 : objArr.hashCode());
-		result = prime * result + ((objAttr == null) ? 0 : objAttr.hashCode());
-		result = prime * result + ((ttNonReg == null) ? 0 : ttNonReg.hashCode());
-		result = prime * result + ((ttReg == null) ? 0 : ttReg.hashCode());
 		return result;
 	}
 	@Override
@@ -113,7 +68,7 @@ public class TestTypeContainerBean {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TestTypeContainerBean other = (TestTypeContainerBean) obj;
+		ContainerBean other = (ContainerBean) obj;
 		if (objList == null) {
 			if (other.objList != null)
 				return false;
@@ -128,21 +83,6 @@ public class TestTypeContainerBean {
 			if (other.objArr != null)
 				return false;
 		} else if (!objArr.equals(other.objArr))
-			return false;
-		if (objAttr == null) {
-			if (other.objAttr != null)
-				return false;
-		} else if (!objAttr.equals(other.objAttr))
-			return false;
-		if (ttNonReg == null) {
-			if (other.ttNonReg != null)
-				return false;
-		} else if (!ttNonReg.equals(other.ttNonReg))
-			return false;
-		if (ttReg == null) {
-			if (other.ttReg != null)
-				return false;
-		} else if (!ttReg.equals(other.ttReg))
 			return false;
 		return true;
 	}

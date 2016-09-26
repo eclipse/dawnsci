@@ -23,7 +23,7 @@ import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.RingROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.SectorROI;
 import org.eclipse.dawnsci.json.MarshallerService;
-import org.eclipse.dawnsci.json.test.classregister.TestObjectClassRegistry;
+import org.eclipse.dawnsci.json.test.classregistry.TestObjectClassRegistry;
 import org.eclipse.dawnsci.json.test.testobject.ObjectWrapper;
 import org.eclipse.dawnsci.json.test.testobject.ROIWrapper;
 import org.junit.After;
@@ -48,7 +48,6 @@ public class JsonMarshallerROITypesTest {
 
 	private static final String JSON_FOR_WRAPPED_RECTANGULAR_ROI = "{\n  \"@class_id\" : \"jsontest.roiwrapper\",\n  \"object\" : {\n    \"@class_id\" : \"roi.rectangular\",\n    \"lengths\" : [ 8.0, 6.1 ],\n    \"angle\" : 0.0,\n    \"point\" : [ -3.5, 4.0 ]\n  }\n}";
 	private static final String JSON_FOR_GENERIC_WRAPPED_RECTANGULAR_ROI = "{\n  \"@class_id\" : \"jsontest.objectwrapper\",\n  \"object\" : {\n    \"@class_id\" : \"roi.rectangular\",\n    \"lengths\" : [ 8.0, 6.1 ],\n    \"angle\" : 0.0,\n    \"point\" : [ -3.5, 4.0 ]\n  }\n}";
-	private static final String JSON_FOR_WRAPPED_RECTANGULAR_ROI_LIST = "{\n  \"@class_id\" : \"jsontest.objectwrapper\",\n  \"object\" : [ {\n    \"@class_id\" : \"roi.rectangular\",\n    \"lengths\" : [ 8.0, 6.1 ],\n    \"angle\" : 0.0,\n    \"point\" : [ -3.5, 4.0 ]\n  } ]\n}";
 
 	private IMarshallerService marshaller;
 	private String json;

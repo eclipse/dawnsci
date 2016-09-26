@@ -21,10 +21,6 @@ import java.util.Properties;
  */
 public class TestStatusBean extends TestIdBean {
 
-	static {
-		ClassRegistry.register("jsontest.teststatusbean", TestStatusBean.class);
-	}
-
 	public static final TestStatusBean EMPTY = new TestStatusBean(TestStatus.NONE,"", "", Double.NaN, "", "EMPTY", System.currentTimeMillis());
 
 	protected TestStatus previousStatus;

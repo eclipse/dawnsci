@@ -5,10 +5,6 @@ import java.util.UUID;
 
 public class TestIdBean {
 
-	static {
-		ClassRegistry.register("jsontest.testidbean", TestIdBean.class);
-	}
-
 	private String    uniqueId;         // Unique id for each object.
 	private boolean   explicitlySetId;
 

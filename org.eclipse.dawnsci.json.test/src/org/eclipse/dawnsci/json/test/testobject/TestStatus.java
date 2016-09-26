@@ -18,10 +18,6 @@ public enum TestStatus { // TODO Should this be called QueueStatus or JobStatus 
 
 	SUBMITTED, QUEUED, RUNNING, REQUEST_PAUSE, PAUSED, REQUEST_RESUME, RESUMED, REQUEST_TERMINATE, TERMINATED, FAILED, COMPLETE, UNFINISHED, NONE;
 
-	static {
-		ClassRegistry.register("jsontest.teststatus", TestStatus.class);
-	}
-
 	/**
 	 *
 	 * @return true if the run was taken from the queue and something was actually executed on it.

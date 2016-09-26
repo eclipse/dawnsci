@@ -20,10 +20,6 @@ package org.eclipse.dawnsci.json.test.testobject;
 
 public class ObjectWrapper<T> {
 
-	static {
-		ClassRegistry.register("jsontest.objectwrapper", ObjectWrapper.class);
-	}
-
 	T object;
 	public ObjectWrapper() {
 	}

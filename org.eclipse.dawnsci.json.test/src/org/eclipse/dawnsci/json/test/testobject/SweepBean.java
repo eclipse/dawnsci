@@ -21,10 +21,6 @@ package org.eclipse.dawnsci.json.test.testobject;
  */
 public class SweepBean {
 
-	static {
-		ClassRegistry.register("jsontest.sweepbean", SweepBean.class);
-	}
-
 	private String        name;
 	private String        sessionId;
 	private String        dataCollectionId;

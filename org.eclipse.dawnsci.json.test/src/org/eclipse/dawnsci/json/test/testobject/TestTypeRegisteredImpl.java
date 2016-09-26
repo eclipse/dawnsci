@@ -20,10 +20,6 @@ package org.eclipse.dawnsci.json.test.testobject;
 
 public class TestTypeRegisteredImpl implements ITestTypeRegistered {
 
-	static {
-		ClassRegistry.register("jsontest.testtyperegistered", TestTypeRegisteredImpl.class);
-	}
-
 	String str;
 
 	public TestTypeRegisteredImpl() {
@@ -42,6 +38,31 @@ public class TestTypeRegisteredImpl implements ITestTypeRegistered {
 	@Override
 	public String getString() {
 		return this.str;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((str == null) ? 0 : str.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TestTypeRegisteredImpl other = (TestTypeRegisteredImpl) obj;
+		if (str == null) {
+			if (other.str != null)
+				return false;
+		} else if (!str.equals(other.str))
+			return false;
+		return true;
 	}
 
 }

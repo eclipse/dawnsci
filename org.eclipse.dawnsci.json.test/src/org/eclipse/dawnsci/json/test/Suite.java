@@ -18,8 +18,9 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 
 	JsonMarshallerInbuiltTypesTest.class,
+	JsonMarshallerCustomClassesTest.class,
 	JsonMarshallerROITypesTest.class,
-	JsonMarshallerCustomClassesTest.class
+	JsonMarshallerSerializerTest.class
 
 })
 public class Suite {
