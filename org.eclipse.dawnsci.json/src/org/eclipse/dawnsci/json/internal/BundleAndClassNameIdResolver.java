@@ -43,6 +43,8 @@ import com.fasterxml.jackson.databind.util.ClassUtil;
  *
  */
 public class BundleAndClassNameIdResolver extends TypeIdResolverBase {
+	
+	//TODO Delete class
 
 	/**
 	 * Interface to allow Jackson ClassUtil to be mocked for testing

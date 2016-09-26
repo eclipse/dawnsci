@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshaller;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.analysis.api.roi.IOrientableROI;
@@ -42,9 +43,8 @@ import org.eclipse.dawnsci.analysis.dataset.roi.RingROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.SectorROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.XAxisBoxROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.YAxisBoxROI;
-import org.eclipse.dawnsci.json.internal.BundleAndClassNameIdResolver;
-import org.eclipse.dawnsci.json.internal.BundleProvider;
-import org.eclipse.dawnsci.json.internal.OSGiBundleProvider;
+import org.eclipse.dawnsci.json.internal.MarshallerServiceClassRegistry;
+import org.eclipse.dawnsci.json.internal.RegisteredClassIdResolver;
 import org.eclipse.dawnsci.json.mixin.roi.CircularFitROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.CircularROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.EllipticalFitMixIn;
@@ -109,14 +109,14 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
  */
 public class MarshallerService implements IMarshallerService {
 
-	private static final String TYPE_INFO_FIELD_NAME = "@bundle_and_class";
+	private static final String TYPE_INFO_FIELD_NAME = "@class_id";
 
 	private static final Logger logger = LoggerFactory.getLogger(MarshallerService.class);
 
-	private BundleProvider bundleProvider;
-	private ObjectMapper osgiMapper;
+	private List<IClassRegistry> extra_registries;
+	private ObjectMapper registeredClassMapper;
 	private ObjectMapper standardMapper;
-	private ObjectMapper nonOsgiMapper;
+	private ObjectMapper oldMapper;
 
 	private List<IMarshaller> marshallers;
 
@@ -124,29 +124,21 @@ public class MarshallerService implements IMarshallerService {
 		System.out.println("Started " + IMarshallerService.class.getSimpleName());
 	}
 
-	/**
-	 * Default public constructor - for testing purposes only! Otherwise use OSGi to get the service.
-	 */
 	public MarshallerService() {
-		this(null, new OSGiBundleProvider());
+		this(null, null);
 	}
 
-	/**
-	 * Constructor for testing to allow a BundleProvider to be injected.
-	 *
-	 * @param bundleProvider
-	 */
-	public MarshallerService(BundleProvider bundleProvider) {
-		this(null, bundleProvider);
+	public MarshallerService(IClassRegistry... extra_registries) {
+		this(Arrays.asList(extra_registries), null);
 	}
 
 	public MarshallerService(IMarshaller... marshallers) {
-		this(Arrays.asList(marshallers), new OSGiBundleProvider());
+		this(null, Arrays.asList(marshallers));
 	}
 
-	public MarshallerService(List<IMarshaller> marshallers, BundleProvider bundleProvider) {
+	public MarshallerService(List<IClassRegistry> extra_registries, List<IMarshaller> marshallers) {
 		if (marshallers!=null) this.marshallers = Collections.unmodifiableList(marshallers);
-		this.bundleProvider = bundleProvider;
+		if (extra_registries!=null) this.extra_registries = Collections.unmodifiableList(extra_registries);
 	}
 
 	/**
@@ -158,15 +150,16 @@ public class MarshallerService implements IMarshallerService {
 	 */
 	@Override
 	public String marshal(Object anyObject) throws Exception {
+		//return marshal(anyObject, Platform.isRunning());
 		return marshal(anyObject, true);
 	}
 
 	@Override
-	public String marshal(Object anyObject, boolean requireBundleAndClass)  throws Exception {
+	public String marshal(Object anyObject, boolean useRegisteredClassTyping)  throws Exception {
 		String json;
-		if (requireBundleAndClass) {
-			if (osgiMapper==null) osgiMapper = createOsgiMapper();
-			json = osgiMapper.writeValueAsString(anyObject);
+		if (useRegisteredClassTyping) {
+			if (registeredClassMapper==null) registeredClassMapper = createRegisteredClassMapper();
+			json = registeredClassMapper.writeValueAsString(anyObject);
 		} else {
 			if (standardMapper==null) standardMapper = createJacksonMapper();
 			json = standardMapper.writeValueAsString(anyObject);
@@ -175,9 +168,9 @@ public class MarshallerService implements IMarshallerService {
 		return json;
 	}
 
-	private ObjectMapper createOsgiMapper() throws InstantiationException, IllegalAccessException {
+	private ObjectMapper createRegisteredClassMapper() throws InstantiationException, IllegalAccessException {
 		ObjectMapper mapper = createJacksonMapper();
-		mapper.setDefaultTyping(createOSGiTypeIdResolver());
+		mapper.setDefaultTyping(createRegisteredTypeIdResolver());
 		return mapper;
 	}
 
@@ -200,13 +193,13 @@ public class MarshallerService implements IMarshallerService {
 	@Override
 	public <U> U unmarshal(String string, Class<U> beanClass) throws Exception {
 		try {
-			if (osgiMapper == null) osgiMapper = createOsgiMapper();
+			if (registeredClassMapper == null) registeredClassMapper = createRegisteredClassMapper();
 			if (beanClass != null) {
-				return osgiMapper.readValue(string, beanClass);
+				return registeredClassMapper.readValue(string, beanClass);
 			}
 			// If bean class is not supplied, try using Object
 			@SuppressWarnings("unchecked")
-			U result = (U) osgiMapper.readValue(string, Object.class);
+			U result = (U) registeredClassMapper.readValue(string, Object.class);
 			return result;
 		} catch (JsonMappingException | IllegalArgumentException ex) {
 			// Check if this is due to missing type info. This can appear in two ways: the type info field can be
@@ -214,11 +207,15 @@ public class MarshallerService implements IMarshallerService {
 			// might be wrongly interpreted as a class name, in which case we get a ClassNotFoundException
 			if ((ex instanceof JsonMappingException && ex.getMessage().contains(TYPE_INFO_FIELD_NAME))
 					|| ex instanceof IllegalArgumentException && ex.getCause() instanceof ClassNotFoundException) {
+				// TODO @Martin: Determine if this gets triggered during any unit tests. If it does get used, it
+				// shouldn't be! Possibly replace with standardMapper, as this old mapper is never used for encoding
+				// anyway.
+
 				// Possibly no bundle and class information in the JSON - fall back to old mapper in case JSON has come
 				// from an older version
 				try {
-					if (nonOsgiMapper == null) nonOsgiMapper = createNonOsgiMapper();
-					return nonOsgiMapper.readValue(string, beanClass);
+					if (oldMapper == null) oldMapper = createOldMapper();
+					return oldMapper.readValue(string, beanClass);
 				} catch (Exception withoutTypeException) {
 					logger.error("Could not deserialize string assuming no type info present: {}", string, withoutTypeException);
 				}
@@ -341,8 +338,8 @@ public class MarshallerService implements IMarshallerService {
 	 *
 	 * @return the customised TypeResolverBuilder for use in an OSGi environment
 	 */
-	private TypeResolverBuilder<?> createOSGiTypeIdResolver() {
-		TypeResolverBuilder<?> typer = new OSGiTypeResolverBuilder();
+	private TypeResolverBuilder<?> createRegisteredTypeIdResolver() {
+		TypeResolverBuilder<?> typer = new RegisteredTypeResolverBuilder();
 		typer = typer.init(JsonTypeInfo.Id.CUSTOM, null);
 		typer = typer.inclusion(JsonTypeInfo.As.PROPERTY);
 		typer = typer.typeProperty(TYPE_INFO_FIELD_NAME);
@@ -352,43 +349,52 @@ public class MarshallerService implements IMarshallerService {
 	/**
 	 * A TypeResolverBuilder for use in an OSGi environment.
 	 */
-	private class OSGiTypeResolverBuilder extends DefaultTypeResolverBuilder {
+	private class RegisteredTypeResolverBuilder extends DefaultTypeResolverBuilder {
 		private static final long serialVersionUID = 1L;
+		private IClassRegistry registry = new MarshallerServiceClassRegistry(extra_registries);
 
-		public OSGiTypeResolverBuilder() {
+		public RegisteredTypeResolverBuilder() {
 			this(null);
 		}
 
-		public OSGiTypeResolverBuilder(DefaultTyping typing) {
+		public RegisteredTypeResolverBuilder(DefaultTyping typing) {
 			super(typing);
 		}
 
-		// Override StdTypeResolverBuilder#idResolver() to return our custom BundleAndClassNameIdResolver
+		// Override StdTypeResolverBuilder#idResolver() to return our custom RegisteredClassIdResolver
 		// (We need this override, rather than just providing a custom resolver in StdTypeResolverBuilder#init(), because
 		//  the default implementation does not normally pass the base type to the custom resolver but we need it.)
 		@Override
 		protected TypeIdResolver idResolver(MapperConfig<?> config,
-				JavaType baseType, Collection<NamedType> subtypes,
-				boolean forSer, boolean forDeser) {
-			return new BundleAndClassNameIdResolver(baseType, config.getTypeFactory(), bundleProvider);
+		JavaType baseType, Collection<NamedType> subtypes,
+		boolean forSer, boolean forDeser) {
+			return new RegisteredClassIdResolver(baseType, config.getTypeFactory(), registry);
 		}
 
-		// Override DefaultTypeResolverBuilder#useForType() to add type information to all except primitive and final
-		// core Java types
+		// Override DefaultTypeResolverBuilder#useForType() to add type information only to those required.
 		@Override
 		public boolean useForType(JavaType type) {
-			while (type.isArrayType()) {
-				type = type.getContentType();
-			}
-			boolean isNotPrimitive = !type.isPrimitive();
-			boolean isFinal = type.isFinal();
-			boolean isCoreJavaClass = type.getRawClass().getName().startsWith("java.");
-			boolean isNotFinalCoreJavaClass = !(isFinal && isCoreJavaClass);
-			return isNotPrimitive && isNotFinalCoreJavaClass;
+			System.out.println(type.toString());
+			Class<?> clazz = type.getRawClass();
+
+			// We can lookup the class in the registry, for marshalling and unmarshalling.
+			Boolean registryHasClass = registry.hasClass(clazz);
+
+			// We only ever declare as object if we intend to use one of our own classes. This class will
+			// be registered, but there is no way of obtaining that information here!
+			Boolean isObject = (Object.class.equals(clazz));
+
+			// Also include abstract classes and interfaces as these are always defined with a type id. This is not
+			// the case for container types, however, so these are excluded.
+			Boolean isAbstract = type.isAbstract();
+			Boolean isInterface = type.isInterface();
+			Boolean isNotContainer = !type.isContainerType();
+
+			return registryHasClass || ((isObject || isAbstract || isInterface) && isNotContainer);
 		}
 	}
 
-	private final ObjectMapper createNonOsgiMapper() {
+	private final ObjectMapper createOldMapper() {
 
 		ObjectMapper mapper = new ObjectMapper();
 

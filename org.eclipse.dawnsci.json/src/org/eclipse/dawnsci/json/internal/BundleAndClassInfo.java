@@ -20,6 +20,8 @@ import org.osgi.framework.Bundle;
  */
 class BundleAndClassInfo {
 
+	// TODO @Martin Delete this class.
+
 	private static final String FIELD_DELIMITER = "&"; // cannot be any of ;,.-_ due to collisions with possible parts of bundle or class names
 	private static final String EQUALS = "=";
 	private static final String BUNDLE_FIELD_NAME = "bundle";
@@ -76,6 +78,7 @@ class BundleAndClassInfo {
 
 	@Override
 	public String toString() {
+		//if ("".equals(bundleSymbolicName)) return null;
 		return BUNDLE_FIELD_NAME + EQUALS + bundleSymbolicName + FIELD_DELIMITER
 				+ VERSION_FIELD_NAME + EQUALS + bundleVersion + FIELD_DELIMITER
 				+ CLASS_FIELD_NAME + EQUALS + className;

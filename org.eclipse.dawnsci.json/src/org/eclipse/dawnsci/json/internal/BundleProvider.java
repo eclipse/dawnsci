@@ -23,6 +23,8 @@ import org.osgi.framework.Bundle;
  */
 public interface BundleProvider {
 
+	// TODO Delete interface
+
 	/**
 	 * Get the bundle which loaded the specified class, or <code>null</code> if the class was not loaded by a bundle classloader.
 	 *
