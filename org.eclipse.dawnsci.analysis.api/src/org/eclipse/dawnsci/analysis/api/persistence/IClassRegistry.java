@@ -51,7 +51,7 @@ public interface IClassRegistry {
 	 * 
 	 */
 	
-	public Boolean hasId(String id);
+	public boolean isId(String id);
 	
 	/**
 	 * Return true if the registry includes the class given, false otherwise.
@@ -61,6 +61,6 @@ public interface IClassRegistry {
 	 * @return true if registry contains clazz, false otherwise.
 	 * 
 	 */
-	public Boolean hasClass(Class<?> clazz);
+	public boolean isClass(Class<?> clazz);
 	
 }

@@ -73,12 +73,12 @@ public class TestObjectClassRegistry implements IClassRegistry {
 	}
 
 	@Override
-	public Boolean hasId(String id) {
+	public boolean isId(String id) {
 		return idToClassMap.containsKey(id);
 	}
 
 	@Override
-	public Boolean hasClass(Class<?> clazz) {
+	public boolean isClass(Class<?> clazz) {
 		return idToClassMap.containsValue(clazz);
 	}
 }

@@ -388,7 +388,7 @@ public class MarshallerService implements IMarshallerService {
 			// type or registered class, as these will cope with the idResolver.
 
 			// We can lookup the class in the registry, for marshalling and unmarshalling.
-			Boolean registryHasClass = registry.hasClass(clazz);
+			Boolean registryHasClass = registry.isClass(clazz);
 
 			// We only ever declare as object if we intend to use one of our own classes (or a primitive).
 			Boolean isObject = (Object.class.equals(clazz));

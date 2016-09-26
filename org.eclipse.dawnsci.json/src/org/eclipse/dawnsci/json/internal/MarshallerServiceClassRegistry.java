@@ -77,17 +77,17 @@ public class MarshallerServiceClassRegistry implements IClassRegistry {
 	}
 
 	@Override
-	public Boolean hasId(String id) {
+	public boolean isId(String id) {
 		for (IClassRegistry r : registries) {
-			if (r.hasId(id)) return true;
+			if (r.isId(id)) return true;
 		}
 		return false;
 	}
 
 	@Override
-	public Boolean hasClass(Class<?> clazz) {
+	public boolean isClass(Class<?> clazz) {
 		for (IClassRegistry r : registries) {
-			if (r.hasClass(clazz)) return true;
+			if (r.isClass(clazz)) return true;
 		}
 		return false;
 	}
