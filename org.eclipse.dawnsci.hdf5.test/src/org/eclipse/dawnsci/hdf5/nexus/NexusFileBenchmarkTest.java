@@ -11,13 +11,18 @@ package org.eclipse.dawnsci.hdf5.nexus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyWriteableDataset;
 import org.eclipse.january.dataset.IntegerDataset;
 import org.eclipse.january.dataset.LazyWriteableDataset;
@@ -38,19 +43,135 @@ import org.junit.Test;
  */
 public class NexusFileBenchmarkTest {
 
-	private final static String FILE_NAME = "test-scratch/nexusbenchmark.nxs";
+	private final static String SINGLE_THREAD_FILE_NAME = "test-scratch/singlebenchmark.nxs";
+	private final static String MULTIPLE_THREAD_FILE_NAME = "test-scratch/multiplebenchmark.nxs";
 	private final static String DETECTOR_LOCATION = "/entry1/data%02d/";
 	private final static String POSN_LOCATION = "pos%01d";
 	private final static String ROI_LOCATION = "roi%02d";
 
-	class Detector {
-		ILazyWriteableDataset data;
-		ILazyWriteableDataset[] posn;
-		ILazyWriteableDataset[] roi;
+	private class WriterThread {
+		private class WriteJob {
+			private ILazyWriteableDataset out;
+			private final IDataset data;
+			private final SliceND slice;
+			public WriteJob(final ILazyWriteableDataset out, final Dataset data, final SliceND slice) {
+				this.out = out;
+				this.data = data;
+				this.slice = slice;
+			}
 
-		Dataset  dd;
-		Dataset[] pd;
-		Dataset[] rd;
+			public void run() {
+				try {
+					out.setSlice(null, data, slice);
+				} catch (DatasetException e) {
+					throw new RuntimeException(e);
+				}
+				
+			}
+		}
+
+		private List<Long> time;
+
+		private BlockingDeque<WriteJob> queue;
+		private Thread thread;
+		private boolean finished;
+		private Throwable throwable;
+		
+		private long checkingPeriod = 100; // period between checking finished flag in microseconds
+
+		public WriterThread(final String name) {
+			queue = new LinkedBlockingDeque<>();
+			time = new ArrayList<>();
+			finished = false;
+			thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					while (!finished) {
+						try {
+							WriteJob job = queue.poll(checkingPeriod, TimeUnit.MICROSECONDS);
+							if (job != null) {
+								long now = -System.nanoTime();
+								try {
+									job.run();
+								} catch (Throwable t) {
+									throwable = t;
+									finished = true;
+								}
+								now += System.nanoTime();
+								time.add(now/1000l);
+							}
+						} catch (InterruptedException e) {
+							throwable = e;
+							finished = true;
+						}
+					}
+//					System.err.println("Finished thread: " + name);
+				}
+			});
+			thread.setName(name);
+			thread.start();
+		}
+
+		public void addJob(final ILazyWriteableDataset out, final Dataset data, final SliceND slice) {
+			queue.add(new WriteJob(out, data, slice));
+		}
+
+		/**
+		 * Flush all writes and block till done
+		 */
+		public void flush() {
+			final long wait = (checkingPeriod*100)/1000;
+			while (queue.size() != 0) {
+				try {
+					thread.join(wait);
+				} catch (InterruptedException e) {
+				}
+			}
+		}
+
+		/**
+		 * @param milliseconds to wait before finishing
+		 */
+		public void finish(long milliseconds) {
+			if (!finished) {
+				if (queue.size() != 0) {
+					System.err.printf("%s has %d left\n", thread.toString(), queue.size());
+					try {
+						thread.join(milliseconds);
+					} catch (InterruptedException e) {
+					}
+				}
+				finished = true;
+			}
+			queue.clear();
+		}
+
+		public boolean isFinished() {
+			return finished;
+		}
+
+		/**
+		 * @return times in microseconds
+		 */
+		public List<Long> getTimes() {
+			return Collections.unmodifiableList(time);
+		}
+
+		public Throwable getThrowable() {
+			return throwable;
+		}
+	}
+
+	private class Detector {
+		private ILazyWriteableDataset data;
+		private ILazyWriteableDataset[] posn;
+		private ILazyWriteableDataset[] roi;
+
+		private Dataset  dd;
+		private Dataset[] pd;
+		private Dataset[] rd;
+
+		private WriterThread[] thread;
 
 		public Detector(int p, int r) {
 			posn = new ILazyWriteableDataset[p];
@@ -83,48 +204,110 @@ public class NexusFileBenchmarkTest {
 			}
 		}
 
-		public void writeData(SliceND dslice, SliceND rslice, SliceND pslice) {
-			try {
-				data.setSlice(null, dd, dslice);
-				
-				for (int i = 0; i < roi.length; i++) {
-					roi[i].setSlice(null, rd[i], rslice);
-				}
+		int nt = 0;
+		public void writeAllData(SliceND dslice, SliceND rslice, SliceND pslice) {
+			nt = 0;
 
-				for (int i = 0; i < posn.length; i++) {
-					posn[i].setSlice(null, pd[i], pslice);
-				}
-			} catch (DatasetException e) {
-				e.printStackTrace();
+			write(data, dd, dslice);
+
+			for (int i = 0; i < roi.length; i++) {
+				write(roi[i], rd[i], rslice);
 			}
+
+			for (int i = 0; i < posn.length; i++) {
+				write(posn[i], pd[i], pslice);
+			}
+		}
+
+		public void write(final ILazyWriteableDataset out, final Dataset data, final SliceND slice) {
+			WriterThread t = thread[nt++];
+			if (nt == thread.length) {
+				nt = 0;
+			}
+			t.addJob(out, data, slice);
+		}
+
+		public void setWriters(WriterThread... thread) {
+			this.thread = thread;
 		}
 	}
 
-	private Detector[] detector;
 	private int[] totalShape;
 	private int[] detectorShape;
-	int scanRank;
+	private int scanRank;
 
-	@Test
-	public void testBenchmark() throws Throwable {
-		int detectors = 1;
 
-		int[] scanShape = new int[] {12, 48};
-		detectorShape = new int[] {10, 4096};
+	public void setScanDetails(int[] scanShape, int[] detectorShape) {
+		this.detectorShape = detectorShape;
 		scanRank = scanShape.length;
 		int detectorRank = detectorShape.length;
 		totalShape = new int[scanRank + detectorRank];
 		System.arraycopy(scanShape, 0, totalShape, 0, scanRank);
 		System.arraycopy(detectorShape, 0, totalShape, scanRank, detectorRank);
 
-		int rois = 12;
-
-		detector = prepareFile(detectors, rois);
-
-		doTestOfDataSet(0);
+		System.out.printf("\n\nScan is %s and detector is %s\n", Arrays.toString(scanShape), Arrays.toString(detectorShape));
 	}
 
-	private Detector[] prepareFile(int detectors, int rois) throws NexusException {
+	@Test
+	public void benchmarkSingleThread() throws Throwable {
+		setScanDetails(new int[] {12, 48}, new int[] {10, 4096});
+		benchmark(SINGLE_THREAD_FILE_NAME, 1, 1, 12);
+	}
+
+	@Test
+	public void benchmarkMultipleThread() throws Throwable {
+		setScanDetails(new int[] {12, 48}, new int[] {10, 4096});
+		benchmark(MULTIPLE_THREAD_FILE_NAME, 1, 12);
+	}
+
+	public void benchmark(String file, int detectors, int rois) throws Throwable {
+		benchmark(file, detectors * (1 + scanRank + rois), detectors, rois);
+	}
+
+	public void benchmark(String file, int threads, int detectors, int rois) throws Throwable {
+		System.out.printf("Using %d threads for %dD scan of %d detectors with %d rois\n", threads, scanRank, detectors, rois);
+		WriterThread[] thread = createWriters(threads);
+
+		Detector[] detector = prepareDetectorsAndFile(detectors, rois, file, thread);
+
+		for (Detector d : detector) {
+			runDetector(d);
+		}
+
+		deleteWriters(thread);
+
+		List<Long> wtime = new ArrayList<>();
+		for (WriterThread t : thread) {
+			wtime.addAll(t.getTimes());
+		}
+		System.out.println("Writing  stats in us:");
+		List<Long> itime = printStats(wtime, true);
+		System.out.printf("Outliers removed %5d of %5d\n", wtime.size() - itime.size(), wtime.size());
+		printStats(itime, false);
+	}
+
+	public WriterThread[] createWriters(int n) {
+		if (n <= 0) {
+			throw new IllegalArgumentException("Number of threads must be one or more");
+		}
+
+		WriterThread[] thread = new WriterThread[n];
+		for (int i = 0; i < n; i++) {
+			thread[i] = new WriterThread(String.format("Writer %03d/%d", i, n));
+		}
+		return thread;
+	}
+
+	public void deleteWriters(WriterThread... thread) {
+		for (WriterThread w : thread) {
+			w.flush();
+		}
+		for (WriterThread w : thread) {
+			w.finish(500);
+		}
+	}
+
+	private Detector[] prepareDetectorsAndFile(int detectors, int rois, String file, WriterThread... thread) throws NexusException {
 
 		Detector[] detector = new Detector[detectors];
 		int dRank = detectorShape.length;
@@ -140,11 +323,12 @@ public class NexusFileBenchmarkTest {
 		Arrays.fill(rShape, ILazyWriteableDataset.UNLIMITED);
 		System.arraycopy(detectorShape, 0, tShape, scanRank, dRank - 1);
 
-		try (NexusFile nf = new NexusFileHDF5(FILE_NAME)) {
+		try (NexusFile nf = new NexusFileHDF5(file)) {
 			nf.createAndOpenToWrite();
 
 			for (int d = 0; d < detectors; d++) {
 				Detector dt = new Detector(scanRank, rois);
+				dt.setWriters(thread);
 				detector[d] = dt;
 
 				String dg = String.format(DETECTOR_LOCATION, d);
@@ -179,12 +363,10 @@ public class NexusFileBenchmarkTest {
 	 * write roi data
 	 * 
 	 * @param d
+	 * @param dt 
 	 * @throws Throwable
 	 */
-//	@Override
-	protected void doTestOfDataSet(int d) throws Throwable {
-		Detector dt = detector[d];
-		
+	protected void runDetector(Detector dt) throws Throwable {
 		SliceND slice = new SliceND(totalShape);
 		int[] omit = new int[detectorShape.length];
 		for (int i = 0; i < omit.length; i++) {
@@ -206,50 +388,69 @@ public class NexusFileBenchmarkTest {
 			dtime.add(now/1000l);
 //			System.err.printf("Data creation took %7.3fms\n", now*1e-6);
 
+			// set up ROI slice
 			for (int i = 0; i < r; i++) {
 				rslice.setSlice(i, dslice.getStart()[i], dslice.getStop()[i], dslice.getStep()[i]);
 			}
 
 			now = -System.nanoTime();
-			dt.writeData(dslice, rslice, pslice);
+			dt.writeAllData(dslice.clone(), rslice.clone(), pslice.clone());
 			now += System.nanoTime();
 			wtime.add(now/1000l);
-//			System.err.printf("Data writing took  %7.3fms\n", now*1e-6);
 		}
 
 		System.out.println("Creation stats in us:");
-		List<Long> itime = printStats(dtime);
+		List<Long> itime = printStats(dtime, true);
 		System.out.printf("Outliers removed %5d of %5d\n", dtime.size() - itime.size(), dtime.size());
-		printStats(itime);
+		printStats(itime, false);
 		System.out.println();
 
-		System.out.println("Writing  stats in us:");
-		itime = printStats(wtime);
+		System.out.println("Dispatch stats in us:");
+		itime = printStats(wtime, true);
 		System.out.printf("Outliers removed %5d of %5d\n", wtime.size() - itime.size(), wtime.size());
-		printStats(itime);
+		printStats(itime, false);
+		System.out.println();
 	}
 
-	public List<Long> printStats(List<Long> time) {
+	public List<Long> printStats(List<Long> time, boolean withHisto) {
 		Dataset d = DatasetFactory.createFromList(time);
 		double med = (double) Stats.median(d);
 		double iqr = (double) Stats.iqr(d);
 		long min = (long) d.min();
 		long max = (long) d.max();
 
-		System.out.printf("Min is    %5d\n", min);
-		System.out.printf("Median is %5d\n", (long) med);
-		System.out.printf("Max is    %5d\n", max);
-		System.out.printf("IQR is    %5d\n", (long) iqr);
+		System.out.printf("Min is %5d\n", min);
+		System.out.printf("Med is %5d\n", (long) med);
+		System.out.printf("Max is %5d\n", max);
+		System.out.printf("IQR is %5d\n", (long) iqr);
+
+		if (!withHisto) {
+			return null;
+		}
+
+		int bins = 8;
+		int[] histo = new int[bins];
+		long width = (max - min) / bins;
+		for (long l : time) {
+			int i = (int) ((l - min) / width);
+			histo[i < bins ? i : i - 1]++;
+		}
+		System.out.printf("\nTime     Count\n");
+		for (int i = 0; i < bins; i++) {
+			System.out.printf("%7d %5d\n", min + i*width, histo[i]);
+		}
+		System.out.println();
+		// TODO time analysis
 
 		long limit = (long) (med + 2.5*iqr);
+		System.out.printf("Threshold is %5d (median + 2.5*iqr)\n", limit);
+
 		List<Long> inliers = new ArrayList<>();
 		for (long t : time) {
 			if (t <= limit) {
 				inliers.add(t);
 			}
 		}
-		System.out.printf("Threshold %5d\n", limit);
-
 		return inliers;
 	}
 }
