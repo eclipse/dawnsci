@@ -53,7 +53,13 @@ public class RegisteredClassIdResolver extends TypeIdResolverBase {
 
 	@Override
 	public String idFromValueAndType(Object value, Class<?> clazz) {
-		return registry.getIdFromClass(clazz);
+		String id = registry.getIdFromClass(clazz);
+
+		if (id == null) {
+			throw new IllegalArgumentException("Id not found for " + clazz.toString());
+		}
+
+		return id;
 	}
 
 	@Override

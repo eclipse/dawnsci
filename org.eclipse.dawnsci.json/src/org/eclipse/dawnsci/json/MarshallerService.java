@@ -71,6 +71,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -273,6 +274,7 @@ public class MarshallerService implements IMarshallerService {
 		// check the exact contents of the serialized JSON string
 		mapper.setSerializationInclusion(Include.NON_NULL);
 		mapper.enable(MapperFeature.REQUIRE_SETTERS_FOR_GETTERS);
+		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 		//mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		return mapper;
 	}

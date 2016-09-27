@@ -32,9 +32,14 @@ import org.eclipse.dawnsci.json.test.marshaller.TestTypeRegisteredMarshaller;
 import org.eclipse.dawnsci.json.test.testobject.TestTypeBean;
 import org.eclipse.dawnsci.json.test.testobject.TestTypeNonRegisteredImpl;
 import org.eclipse.dawnsci.json.test.testobject.TestTypeRegisteredImpl;
+import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class JsonMarshallerSerializerTest {
 
@@ -69,17 +74,18 @@ public class JsonMarshallerSerializerTest {
 		marshaller = null;
 	}
 
+	@Rule public ExpectedException exception = ExpectedException.none();
+
 	@Test
 	public void testGivenNonRegisteredClassAndNoSerializerWithMarshalThenExceptionRaised() throws Exception {
-//		//TODO @Martin This test can only added after we have modified MarshallerService.
-//		TestTypeBean bean = new TestTypeBean();
-//
-//		try {
-//			bean.setTTNonReg(new TestTypeNonRegisteredImpl("Non-Registered, marshaller not available."));
-//			json = marshaller.marshal(bean);
-//		} catch(IllegalArgumentException e) {
-//			//TODO @Martin Add check for correct message.
-//		}
+		exception.expect(JsonMappingException.class);
+	    exception.expectMessage(CoreMatchers.containsString(TestTypeNonRegisteredImpl.class.toString()));
+
+		TestTypeBean bean = new TestTypeBean();
+
+		bean.setTTNonReg(new TestTypeNonRegisteredImpl("Non-Registered, marshaller not available."));
+		json = marshaller.marshal(bean);
+
 	}
 
 	@Test

@@ -15,6 +15,7 @@ import static org.eclipse.dawnsci.json.test.JsonUtils.assertJsonEquals;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -33,13 +34,18 @@ import org.eclipse.dawnsci.json.test.classregistry.TestObjectClassRegistry;
 import org.eclipse.dawnsci.json.test.testobject.Animal;
 import org.eclipse.dawnsci.json.test.testobject.Bird;
 import org.eclipse.dawnsci.json.test.testobject.Cat;
+import org.eclipse.dawnsci.json.test.testobject.CatWrapper;
 import org.eclipse.dawnsci.json.test.testobject.ContainerBean;
 import org.eclipse.dawnsci.json.test.testobject.Person;
 import org.eclipse.dawnsci.json.test.testobject.ProjectBean;
 import org.eclipse.dawnsci.json.test.testobject.TestStatusBean;
+import org.eclipse.dawnsci.json.test.testobject.TestTypeNonRegisteredImpl;
+import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.MockitoAnnotations;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -59,6 +65,7 @@ public class JsonMarshallerCustomClassesTest {
 
 	private static final String JSON_FOR_JIM = "{\n  \"@class_id\" : \"jsontest.person\",\n  \"name\" : \"Jim\",\n  \"pet\" : {\n    \"@class_id\" : \"jsontest.animal.bird\",\n    \"name\" : \"Polly\",\n    \"feathers\" : \"Green\"\n  }\n}";
 	private static final String JSON_FOR_JOHN = "{\n  \"@class_id\" : \"jsontest.person\",\n  \"name\" : \"John\",\n  \"pet\" : {\n    \"@class_id\" : \"jsontest.animal.cat\",\n    \"name\" : \"Felix\",\n    \"whiskers\" : \"Luxuriant\"\n  }\n}";
+	private static final String JSON_FOR_JAMES = "{\n  \"@class_id\" : \"jsontest.person\",\n  \"name\" : \"James\" \n}";
 	private static final String JSON_FOR_FELIX = "{\n  \"@class_id\" : \"jsontest.animal.cat\",\n  \"name\" : \"Felix\",\n  \"whiskers\" : \"Luxuriant\"\n}";
 	private static final String JSON_FOR_ANIMAL_ARRAY = "[ {\n  \"@class_id\" : \"jsontest.animal.cat\",\n  \"name\" : \"Felix\",\n  \"whiskers\" : \"Luxuriant\"\n}, {\n  \"@class_id\" : \"jsontest.animal.bird\",\n  \"name\" : \"Polly\",\n  \"feathers\" : \"Green\"\n}, {\n  \"@class_id\" : \"jsontest.animal.cat\",\n  \"name\" : \"Felix\",\n  \"whiskers\" : \"Luxuriant\"\n} ]";
 	private static final String JSON_FOR_OBJECT_ARRAY = "[ {\n  \"@class_id\" : \"jsontest.animal.cat\",\n  \"name\" : \"Felix\",\n  \"whiskers\" : \"Luxuriant\"\n}, {\n  \"@class_id\" : \"jsontest.animal.bird\",\n  \"name\" : \"Polly\",\n  \"feathers\" : \"Green\"\n}, {\n  \"@class_id\" : \"jsontest.person\",\n  \"name\" : \"Jim\",\n  \"pet\" : {\n    \"@class_id\" : \"jsontest.animal.bird\",\n    \"name\" : \"Polly\",\n    \"feathers\" : \"Green\"\n  }\n} ]";
@@ -76,7 +83,16 @@ public class JsonMarshallerCustomClassesTest {
 	private static final String JSON_FOR_CONTAINED_OBJECT_LIST = "{\n  \"@class_id\" : \"jsontest.containerbean\",\n  \"objList\" : [ {\n  \"@class_id\" : \"jsontest.animal.cat\",\n  \"name\" : \"Felix\",\n  \"whiskers\" : \"Luxuriant\"\n}, {\n  \"@class_id\" : \"jsontest.animal.bird\",\n  \"name\" : \"Polly\",\n  \"feathers\" : \"Green\"\n}, {\n  \"@class_id\" : \"jsontest.person\",\n  \"name\" : \"Jim\",\n  \"pet\" : {\n    \"@class_id\" : \"jsontest.animal.bird\",\n    \"name\" : \"Polly\",\n    \"feathers\" : \"Green\"\n  }\n} ] \n}";
 	private static final String JSON_FOR_CONTAINED_OBJECT_MAP = "{\n  \"@class_id\" : \"jsontest.containerbean\",\n  \"objMap\" : {\n  \"Polly\" : {\n    \"@class_id\" : \"jsontest.animal.bird\",\n    \"name\" : \"Polly\",\n    \"feathers\" : \"Green\"\n  },\n  \"Felix\" : {\n    \"@class_id\" : \"jsontest.animal.cat\",\n    \"name\" : \"Felix\",\n    \"whiskers\" : \"Luxuriant\"\n  },\n  \"John\" : {\n    \"@class_id\" : \"jsontest.person\",\n    \"name\" : \"John\",\n    \"pet\" : {\n      \"@class_id\" : \"jsontest.animal.cat\",\n      \"name\" : \"Felix\",\n      \"whiskers\" : \"Luxuriant\"\n    }\n  },\n  \"Jim\" : {\n    \"@class_id\" : \"jsontest.person\",\n    \"name\" : \"Jim\",\n    \"pet\" : {\n      \"@class_id\" : \"jsontest.animal.bird\",\n      \"name\" : \"Polly\",\n      \"feathers\" : \"Green\"\n    }\n  }\n} \n}";
 
+	// Json for a range of error tests
+	private static final String JSON_FOR_UNKNOWN_TOP_LEVEL_CLASS_ID = "{ \"@class_id\" : \"jsontest.doesnotexist\", \"string\" : \"Non-registered, top level class.\" }";
+	private static final String JSON_FOR_NO_TOP_LEVEL_CLASS_ID = "{ \"string\" : \"Non-registered, top level class.\" }";
+	private static final String JSON_FOR_UNKNOWN_NESTED_DYNAMIC_DEFINED_CLASS_ID = "{ \"@class_id\" : \"jsontest.person\", \"pet\" : { \"@class_id\" : \"jsontest.nonexistent\", \"whiskers\" : \"luxuriant\", \"name\" : \"Tiddles\" } }";
+	private static final String JSON_FOR_NESTED_DYNAMIC_DEFINED_CLASS_WITH_NO_ID = "{ \"@class_id\" : \"jsontest.person\", \"pet\" : { \"whiskers\" : \"luxuriant\", \"name\" : \"Tiddles\" } }";
+	private static final String JSON_FOR_UNKNOWN_NESTED_STATIC_DEFINED_CLASS_ID = "{ \"cat\" : { \"@class_id\" : \"jsontest.nonexistentcat\", \"whiskers\" : \"luxuriant\", \"name\" : \"Tiddles\" } }";
+	private static final String JSON_FOR_STATIC_DEFINED_CLASS_WITH_NO_ID = "{ \"cat\" : { \"whiskers\" : \"luxuriant\", \"name\" : \"Tiddles\" } }";
+
 	private IMarshallerService marshaller;
+	private IMarshallerService marshallerWithNoRegistry;
 
 	private String json;
 
@@ -85,6 +101,7 @@ public class JsonMarshallerCustomClassesTest {
 	private Cat felix;
 	private Person jim;
 	private Person john;
+	private Person james;
 
 	@Before
 	public void setUp() throws Exception {
@@ -96,6 +113,7 @@ public class JsonMarshallerCustomClassesTest {
 
 		} else {
 			marshaller = new MarshallerService(new TestObjectClassRegistry());
+			marshallerWithNoRegistry = new MarshallerService();
 		}
 
 	}
@@ -117,6 +135,12 @@ public class JsonMarshallerCustomClassesTest {
 		john = new Person();
 		john.setName("John");
 		john.setPet(felix);
+
+		james = new Person();
+		james.setName("James");
+		james.setPet(null);
+
+
 	}
 
 	@After
@@ -158,6 +182,19 @@ public class JsonMarshallerCustomClassesTest {
 		Bird deserializedPolly = (Bird) deserializedJim.getPet();
 		assertEquals("Polly", deserializedPolly.getName());
 		assertEquals("Green", deserializedPolly.getFeathers());
+	}
+
+	@Test
+	public void testSerializationOfJamesWithNullPet() throws Exception {
+		json = marshaller.marshal(james);
+		assertJsonEquals(JSON_FOR_JAMES, json);
+	}
+
+	@Test
+	public void testDeserialisationOfJamesWithNullPet() throws Exception {
+		Person deserializedJames = marshaller.unmarshal(JSON_FOR_JAMES, Person.class);
+		assertEquals("James", deserializedJames.getName());
+		assertThat(deserializedJames.getPet(), is(nullValue()));
 	}
 
 	@Test
@@ -413,6 +450,79 @@ public class JsonMarshallerCustomClassesTest {
 		assertThat(objectMap.get(john.getName()), is(equalTo(john)));
 		assertThat(objectMap.get(felix.getName()), is(equalTo(felix)));
 		assertThat(objectMap.get(polly.getName()), is(equalTo(polly)));
+	}
+
+	@Rule public ExpectedException exception = ExpectedException.none();
+
+	@SuppressWarnings("unused")
+	@Test
+	public void testGivenClassIdNotRecognisedWhenUnmarshallingWithNullThenExceptionRaisedWithCorrectMessage() throws Exception {
+		exception.expect(IllegalArgumentException.class);
+	    exception.expectMessage(CoreMatchers.containsString("jsontest.doesnotexist"));
+
+	    Object object;
+	    object = marshaller.unmarshal(JSON_FOR_UNKNOWN_TOP_LEVEL_CLASS_ID, null);
+	}
+
+	@SuppressWarnings("unused")
+	@Test
+	public void testGivenClassIdNotPresentWhenUnmarshallingWithNullThenExceptionRaised() throws Exception {
+		exception.expect(JsonMappingException.class);
+	    exception.expectMessage(CoreMatchers.containsString("type id"));
+
+	    Object object;
+	    object = marshaller.unmarshal(JSON_FOR_NO_TOP_LEVEL_CLASS_ID, null);
+	}
+
+	@SuppressWarnings("unused")
+	@Test
+	public void testGivenNestedClassIdNotRecognisedWhenUnmarshallingDynamicDefinedObjectThenExceptionRaisedWithCorrectMessage() throws Exception {
+		exception.expect(JsonMappingException.class);
+	    exception.expectMessage(CoreMatchers.containsString("jsontest.nonexistent"));
+
+	    Object object;
+	    object = marshaller.unmarshal(JSON_FOR_UNKNOWN_NESTED_DYNAMIC_DEFINED_CLASS_ID, null);
+	}
+
+	@SuppressWarnings("unused")
+	@Test
+	public void testGivenNestedClassIdNotPresentWhenUnmarshallingDynamicDefinedObjectThenExceptionRaisedWithCorrectMessage() throws Exception {
+		exception.expect(JsonMappingException.class);
+	    exception.expectMessage(CoreMatchers.containsString("type id"));
+
+	    Object object;
+	    object = marshaller.unmarshal(JSON_FOR_NESTED_DYNAMIC_DEFINED_CLASS_WITH_NO_ID, null);
+	}
+
+	@Test
+	public void testGivenClassIdNotRecognisedWhenUnmarshallingDynamicDefinedObjectThenMarshalSuccessful() throws Exception {
+		TestTypeNonRegisteredImpl object;
+		object = marshaller.unmarshal(JSON_FOR_UNKNOWN_TOP_LEVEL_CLASS_ID, TestTypeNonRegisteredImpl.class);
+		assertEquals(object.getString(), "Non-registered, top level class.");
+	}
+
+	@Test
+	public void testGivenNestedClassIdNotRecognisedWhenUnmarshallingStaticDefinedObjectThenMarshalSuccessful() throws Exception {
+		CatWrapper catWrapper;
+		catWrapper = marshallerWithNoRegistry.unmarshal(JSON_FOR_UNKNOWN_NESTED_STATIC_DEFINED_CLASS_ID, CatWrapper.class);
+		assertEquals(catWrapper.getCat().getName(), "Tiddles");
+		assertEquals(catWrapper.getCat().getWhiskers(), "luxuriant");
+	}
+
+	@Test
+	public void testGivenNestedClassIdNotPresentWhenUnmarshallingStaticDefinedObjectThenMarshalSuccessful() throws Exception {
+		CatWrapper catWrapper;
+		catWrapper = marshallerWithNoRegistry.unmarshal(JSON_FOR_STATIC_DEFINED_CLASS_WITH_NO_ID, CatWrapper.class);
+		assertEquals(catWrapper.getCat().getName(), "Tiddles");
+		assertEquals(catWrapper.getCat().getWhiskers(), "luxuriant");
+	}
+
+	@Test
+	public void testGivenClassNotRecognisedWhenMarshallingUnknownObjectThenExceptionRaisedWithCorrectMessage() throws Exception {
+		exception.expect(JsonMappingException.class);
+	    exception.expectMessage(CoreMatchers.containsString(Bird.class.toString()));
+
+		json = marshallerWithNoRegistry.marshal(jim);
 	}
 
 }
