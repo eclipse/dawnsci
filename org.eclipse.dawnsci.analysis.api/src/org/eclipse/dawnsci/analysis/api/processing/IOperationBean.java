@@ -21,6 +21,8 @@ public interface IOperationBean {
 	public void setFilePath(String fileName);
 
 	public void setOutputFilePath(String outputFilePath);
+	
+	public String getOutputFilePath();
 
 	public void setDatasetPath(String datasetPath);
 
