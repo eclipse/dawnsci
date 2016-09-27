@@ -89,6 +89,15 @@ public class JsonMarshallerInbuiltTypesTest {
 	}
 
 	@Test
+	public void testNullSerializationWithoutClassRegistries() throws Exception {
+		// Not actually sure whether it's best to just serialize null (which Jackson allows perfectly happily) or throw
+		// a NullPointerException. For now we'll just serialize it and confirm that behaviour with this test, but it
+		// might be better to throw instead.
+		json = marshaller.marshal(null, false);
+		assertJsonEquals("null", json);
+	}
+
+	@Test
 	public void testNullDeserialization() throws Exception {
 		Object actual = marshaller.unmarshal("null", Object.class);
 		assertThat(actual, is(nullValue()));
@@ -97,6 +106,12 @@ public class JsonMarshallerInbuiltTypesTest {
 	@Test
 	public void testIntSerialization() throws Exception {
 		json = marshaller.marshal(TEST_INT);
+		assertJsonEquals(JSON_FOR_TEST_INT, json);
+	}
+
+	@Test
+	public void testIntSerializationWithoutClassRegistries() throws Exception {
+		json = marshaller.marshal(TEST_INT, false);
 		assertJsonEquals(JSON_FOR_TEST_INT, json);
 	}
 
@@ -119,6 +134,12 @@ public class JsonMarshallerInbuiltTypesTest {
 	}
 
 	@Test
+	public void testLongSerializationWithoutClassRegistries() throws Exception {
+		json = marshaller.marshal(TEST_LONG, false);
+		assertJsonEquals(JSON_FOR_TEST_LONG, json);
+	}
+
+	@Test
 	public void testLongDeserialization() throws Exception {
 		Object result = marshaller.unmarshal(JSON_FOR_TEST_LONG, Object.class);
 		assertThat(result, is(equalTo(TEST_LONG)));
@@ -133,6 +154,12 @@ public class JsonMarshallerInbuiltTypesTest {
 	@Test
 	public void testStringSerialization() throws Exception {
 		json = marshaller.marshal(TEST_STRING);
+		assertJsonEquals(JSON_FOR_TEST_STRING, json);
+	}
+
+	@Test
+	public void testStringSerializationWithoutClassRegistries() throws Exception {
+		json = marshaller.marshal(TEST_STRING, false);
 		assertJsonEquals(JSON_FOR_TEST_STRING, json);
 	}
 
@@ -155,6 +182,12 @@ public class JsonMarshallerInbuiltTypesTest {
 	}
 
 	@Test
+	public void testStringArraySerializationWithoutClassRegistries() throws Exception {
+		json = marshaller.marshal(STRING_ARRAY, false);
+		assertJsonEquals(JSON_FOR_STRING_ARRAY, json);
+	}
+
+	@Test
 	public void testStringArrayDeserialization() throws Exception {
 		String[] actual = marshaller.unmarshal(JSON_FOR_STRING_ARRAY, String[].class);
 		assertArrayEquals(actual, STRING_ARRAY);
@@ -163,6 +196,12 @@ public class JsonMarshallerInbuiltTypesTest {
 	@Test
 	public void testObjectArraySerialization() throws Exception {
 		json = marshaller.marshal(new Object[] { "a", "b", 5 });
+		assertJsonEquals(JSON_FOR_OBJECT_ARRAY, json);
+	}
+
+	@Test
+	public void testObjectArraySerializationWithoutClassRegistries() throws Exception {
+		json = marshaller.marshal(new Object[] { "a", "b", 5 }, false);
 		assertJsonEquals(JSON_FOR_OBJECT_ARRAY, json);
 	}
 
@@ -185,6 +224,7 @@ public class JsonMarshallerInbuiltTypesTest {
 	public void testWrappedStringSerialization() throws Exception {
 		ObjectWrapper<String> wrapper = new ObjectWrapper<>("Test string");
 		json = marshaller.marshal(wrapper);
+		assertJsonEquals(JSON_FOR_WRAPPED_STRING, json);
 	}
 
 	@Test

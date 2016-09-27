@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.json.MarshallerService;
 import org.eclipse.dawnsci.json.test.classregistry.TestObjectClassRegistry;
@@ -74,6 +73,10 @@ public class JsonMarshallerCustomClassesTest {
 	private static final String JSON_FOR_OBJECT_SET = "[ {\n  \"@class_id\" : \"jsontest.animal.cat\",\n  \"name\" : \"Felix\",\n  \"whiskers\" : \"Luxuriant\"\n}, {\n  \"@class_id\" : \"jsontest.person\",\n  \"name\" : \"Jim\",\n  \"pet\" : {\n    \"@class_id\" : \"jsontest.animal.bird\",\n    \"name\" : \"Polly\",\n    \"feathers\" : \"Green\"\n  }\n}, {\n  \"@class_id\" : \"jsontest.person\",\n  \"name\" : \"Jim\",\n  \"pet\" : {\n    \"@class_id\" : \"jsontest.animal.bird\",\n    \"name\" : \"Polly\",\n    \"feathers\" : \"Green\"\n  }\n} ]";
 	private static final String JSON_FOR_OBJECT_MAP = "{\n  \"Polly\" : {\n    \"@class_id\" : \"jsontest.animal.bird\",\n    \"name\" : \"Polly\",\n    \"feathers\" : \"Green\"\n  },\n  \"Felix\" : {\n    \"@class_id\" : \"jsontest.animal.cat\",\n    \"name\" : \"Felix\",\n    \"whiskers\" : \"Luxuriant\"\n  },\n  \"John\" : {\n    \"@class_id\" : \"jsontest.person\",\n    \"name\" : \"John\",\n    \"pet\" : {\n      \"@class_id\" : \"jsontest.animal.cat\",\n      \"name\" : \"Felix\",\n      \"whiskers\" : \"Luxuriant\"\n    }\n  },\n  \"Jim\" : {\n    \"@class_id\" : \"jsontest.person\",\n    \"name\" : \"Jim\",\n    \"pet\" : {\n      \"@class_id\" : \"jsontest.animal.bird\",\n      \"name\" : \"Polly\",\n      \"feathers\" : \"Green\"\n    }\n  }\n}";
 
+	// Used to test marshalling without using the class registry-based id resolver.
+	private static final String JSON_FOR_NESTED_STATIC_ATTRIBUTE_WITHOUT_TYPE_INFO = "{ \"cat\" : { \"name\" : \"Felix\",\n    \"whiskers\" : \"Luxuriant\" } }";
+	private static final String JSON_FOR_STATIC_OBJECT_WITHOUT_TYPE_INFO = "{ \"name\" : \"Felix\",\n    \"whiskers\" : \"Luxuriant\" }";
+
 	// An example of a bean used by Xia2 which could be sent by another process and must deserialize correctly in current version
 	private static final String JSON_FOR_PROJECT_BEAN = "{\"status\":\"COMPLETE\",\"name\":\"X1_weak_M1S1_1 - X1_weak_M1S1_1\",\"message\":\"Xia2 run completed normally\",\"percentComplete\":100.0,\"userName\":\"awa25\",\"hostName\":\"cs04r-sc-vserv-45.diamond.ac.uk\",\"runDirectory\":\"/dls/i03/data/2016/cm14451-1/processed/tmp/2016-01-27/fake085224/MultiCrystal_1\",\"uniqueId\":\"1453910139320_94ed2a2b-997e-4dbc-ad6e-0c3c04bb2c82\",\"submissionTime\":1453910139340,\"properties\":null,\"projectName\":\"MultiCrystalRerun\",\"cystalName\":\"fake085224\",\"sweeps\":[{\"name\":\"X1_weak_M1S1_1\",\"sessionId\":\"55167\",\"dataCollectionId\":\"1007379\",\"imageDirectory\":\"/dls/i03/data/2016/cm14451-1/tmp/2016-01-27/fake085224/\",\"firstImageName\":\"X1_weak_M1S1_1_0001.cbf\",\"start\":1,\"end\":900,\"wavelength\":0.979493,\"xBeam\":212.51,\"yBeam\":219.98,\"resolution\":null}],\"wavelength\":\"NaN\",\"commandLineSwitches\":\"\",\"anomalous\":true,\"spaceGroup\":null,\"unitCell\":null,\"resolution\":null}";
 	private static final String JSON_FOR_PROJECT_BEAN_WITH_TYPES = "{\n  \"@class_id\" : \"jsontest.projectbean\",\n  \"uniqueId\" : \"1453910139320_94ed2a2b-997e-4dbc-ad6e-0c3c04bb2c82\",\n  \"status\" : [ \"jsontest.teststatus\", \"COMPLETE\" ],\n  \"name\" : \"X1_weak_M1S1_1 - X1_weak_M1S1_1\",\n  \"message\" : \"Xia2 run completed normally\",\n  \"percentComplete\" : 100.0,\n  \"userName\" : \"awa25\",\n  \"hostName\" : \"cs04r-sc-vserv-45.diamond.ac.uk\",\n  \"runDirectory\" : \"/dls/i03/data/2016/cm14451-1/processed/tmp/2016-01-27/fake085224/MultiCrystal_1\",\n  \"submissionTime\" : 1453910139340,\n  \"projectName\" : \"MultiCrystalRerun\",\n  \"cystalName\" : \"fake085224\",\n  \"sweeps\" : [ {\n    \"@class_id\" : \"jsontest.sweepbean\",\n    \"name\" : \"X1_weak_M1S1_1\",\n    \"sessionId\" : \"55167\",\n    \"dataCollectionId\" : \"1007379\",\n    \"imageDirectory\" : \"/dls/i03/data/2016/cm14451-1/tmp/2016-01-27/fake085224/\",\n    \"firstImageName\" : \"X1_weak_M1S1_1_0001.cbf\",\n    \"start\" : 1,\n    \"end\" : 900,\n    \"wavelength\" : 0.979493,\n    \"xBeam\" : 212.51,\n    \"yBeam\" : 219.98\n  } ],\n  \"wavelength\" : \"NaN\",\n  \"commandLineSwitches\" : \"\",\n  \"anomalous\" : true\n}";
@@ -86,10 +89,10 @@ public class JsonMarshallerCustomClassesTest {
 	// Json for a range of error tests
 	private static final String JSON_FOR_UNKNOWN_TOP_LEVEL_CLASS_ID = "{ \"@class_id\" : \"jsontest.doesnotexist\", \"string\" : \"Non-registered, top level class.\" }";
 	private static final String JSON_FOR_NO_TOP_LEVEL_CLASS_ID = "{ \"string\" : \"Non-registered, top level class.\" }";
-	private static final String JSON_FOR_UNKNOWN_NESTED_DYNAMIC_DEFINED_CLASS_ID = "{ \"@class_id\" : \"jsontest.person\", \"pet\" : { \"@class_id\" : \"jsontest.nonexistent\", \"whiskers\" : \"luxuriant\", \"name\" : \"Tiddles\" } }";
-	private static final String JSON_FOR_NESTED_DYNAMIC_DEFINED_CLASS_WITH_NO_ID = "{ \"@class_id\" : \"jsontest.person\", \"pet\" : { \"whiskers\" : \"luxuriant\", \"name\" : \"Tiddles\" } }";
-	private static final String JSON_FOR_UNKNOWN_NESTED_STATIC_DEFINED_CLASS_ID = "{ \"cat\" : { \"@class_id\" : \"jsontest.nonexistentcat\", \"whiskers\" : \"luxuriant\", \"name\" : \"Tiddles\" } }";
-	private static final String JSON_FOR_STATIC_DEFINED_CLASS_WITH_NO_ID = "{ \"cat\" : { \"whiskers\" : \"luxuriant\", \"name\" : \"Tiddles\" } }";
+	private static final String JSON_FOR_UNKNOWN_NESTED_DYNAMIC_DEFINED_CLASS_ID = "{ \"@class_id\" : \"jsontest.person\", \"pet\" : { \"@class_id\" : \"jsontest.nonexistent\", \"whiskers\" : \"Luxuriant\", \"name\" : \"Tiddles\" } }";
+	private static final String JSON_FOR_NESTED_DYNAMIC_DEFINED_CLASS_WITH_NO_ID = "{ \"@class_id\" : \"jsontest.person\", \"pet\" : { \"whiskers\" : \"Luxuriant\", \"name\" : \"Tiddles\" } }";
+	private static final String JSON_FOR_UNKNOWN_NESTED_STATIC_DEFINED_CLASS_ID = "{ \"cat\" : { \"@class_id\" : \"jsontest.nonexistentcat\", \"whiskers\" : \"Luxuriant\", \"name\" : \"Tiddles\" } }";
+	private static final String JSON_FOR_STATIC_DEFINED_CLASS_WITH_NO_ID = "{ \"cat\" : { \"whiskers\" : \"Luxuriant\", \"name\" : \"Tiddles\" } }";
 
 	private IMarshallerService marshaller;
 	private IMarshallerService marshallerWithNoRegistry;
@@ -108,13 +111,8 @@ public class JsonMarshallerCustomClassesTest {
 		createTestObjects();
 		MockitoAnnotations.initMocks(this);
 
-		//TODO @Martin: See if this style is worth using (+ elsewhere).
-		if (Platform.isRunning()) {
-
-		} else {
-			marshaller = new MarshallerService(new TestObjectClassRegistry());
-			marshallerWithNoRegistry = new MarshallerService();
-		}
+		marshaller = new MarshallerService(new TestObjectClassRegistry());
+		marshallerWithNoRegistry = new MarshallerService();
 
 	}
 
@@ -365,11 +363,36 @@ public class JsonMarshallerCustomClassesTest {
 	}
 
 	@Test
+	public void testGivenStaticallyDefinedObjectThenMarshallingWorksWithoutTypeInfo() throws Exception {
+		json = marshaller.marshal(felix, false);
+		assertJsonEquals(json, JSON_FOR_STATIC_OBJECT_WITHOUT_TYPE_INFO);
+	}
+
+	@Test
+	public void testGivenStaticallyDefinedNestedAttributeThenMarshallingWorksWithoutTypeInfo() throws Exception {
+		CatWrapper catWrapper = new CatWrapper();
+		catWrapper.setCat(felix);
+
+		json = marshaller.marshal(catWrapper, false);
+		assertJsonEquals(json, JSON_FOR_NESTED_STATIC_ATTRIBUTE_WITHOUT_TYPE_INFO);
+	}
+
+	@Test
 	public void testProjectBeanSerialization() throws Exception {
 		ProjectBean bean = marshaller.unmarshal(JSON_FOR_PROJECT_BEAN, ProjectBean.class);
 		json = marshaller.marshal(bean);
 		// New json is different from original because it has type info
 		assertJsonEquals(JSON_FOR_PROJECT_BEAN_WITH_TYPES, json);
+	}
+
+	@Test
+	public void testProjectBeanSerializationWithoutTypeInfo() throws Exception {
+		ProjectBean bean = marshaller.unmarshal(JSON_FOR_PROJECT_BEAN, ProjectBean.class);
+		json = marshaller.marshal(bean, false);
+		// New json is different from original because it does not include nulls.
+		// Therefore, test unmarshalled beans instead.
+		ProjectBean returnBean = marshaller.unmarshal(json, ProjectBean.class);
+		assertEquals(returnBean, bean);
 	}
 
 	@Test
@@ -452,6 +475,7 @@ public class JsonMarshallerCustomClassesTest {
 		assertThat(objectMap.get(polly.getName()), is(equalTo(polly)));
 	}
 
+
 	@Rule public ExpectedException exception = ExpectedException.none();
 
 	@SuppressWarnings("unused")
@@ -506,7 +530,7 @@ public class JsonMarshallerCustomClassesTest {
 		CatWrapper catWrapper;
 		catWrapper = marshallerWithNoRegistry.unmarshal(JSON_FOR_UNKNOWN_NESTED_STATIC_DEFINED_CLASS_ID, CatWrapper.class);
 		assertEquals(catWrapper.getCat().getName(), "Tiddles");
-		assertEquals(catWrapper.getCat().getWhiskers(), "luxuriant");
+		assertEquals(catWrapper.getCat().getWhiskers(), "Luxuriant");
 	}
 
 	@Test
@@ -514,7 +538,7 @@ public class JsonMarshallerCustomClassesTest {
 		CatWrapper catWrapper;
 		catWrapper = marshallerWithNoRegistry.unmarshal(JSON_FOR_STATIC_DEFINED_CLASS_WITH_NO_ID, CatWrapper.class);
 		assertEquals(catWrapper.getCat().getName(), "Tiddles");
-		assertEquals(catWrapper.getCat().getWhiskers(), "luxuriant");
+		assertEquals(catWrapper.getCat().getWhiskers(), "Luxuriant");
 	}
 
 	@Test
