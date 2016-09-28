@@ -19,6 +19,7 @@
 package org.eclipse.dawnsci.json.internal;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
@@ -88,5 +89,10 @@ public class ROIClassRegistry implements IClassRegistry {
 	@Override
 	public boolean isClass(Class<?> clazz) {
 		return idToClassMap.containsValue(clazz);
+	}
+
+	@Override
+	public Map<String, Class<?>> getIdToClassMap() {
+		return idToClassMap;
 	}
 }

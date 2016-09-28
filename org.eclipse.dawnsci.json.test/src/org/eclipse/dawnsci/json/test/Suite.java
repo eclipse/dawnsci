@@ -20,7 +20,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	JsonMarshallerInbuiltTypesTest.class,
 	JsonMarshallerCustomClassesTest.class,
 	JsonMarshallerROITypesTest.class,
-	JsonMarshallerSerializerTest.class
+	JsonMarshallerSerializerTest.class,
+	JsonMarshallerClassRegistryTest.class,
 
 })
 public class Suite {

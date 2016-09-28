@@ -9,6 +9,8 @@
 
 package org.eclipse.dawnsci.analysis.api.persistence;
 
+import java.util.Map;
+
 /**
  * A ClassRegistry is used to provide a class id for use when marshalling objects.
  * 
@@ -62,5 +64,13 @@ public interface IClassRegistry {
 	 * 
 	 */
 	public boolean isClass(Class<?> clazz);
+
+	/**
+	 * Return the Map<String, Class<?>> that stores the id string
+	 * to class information.
+	 * 
+	 * @return the Map that links id strings to classes.
+	 */
+	public Map<String, Class<?>> getIdToClassMap();
 	
 }

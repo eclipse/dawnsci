@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
@@ -44,6 +45,7 @@ import org.eclipse.dawnsci.analysis.dataset.roi.SectorROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.XAxisBoxROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.YAxisBoxROI;
 import org.eclipse.dawnsci.json.internal.MarshallerServiceClassRegistry;
+import org.eclipse.dawnsci.json.internal.MarshallerServiceClassRegistry.ClassRegistryDuplicateIdException;
 import org.eclipse.dawnsci.json.internal.ROIClassRegistry;
 import org.eclipse.dawnsci.json.internal.RegisteredClassIdResolver;
 import org.eclipse.dawnsci.json.mixin.roi.CircularFitROIMixIn;
@@ -185,7 +187,7 @@ public class MarshallerService implements IMarshallerService {
 		return json;
 	}
 
-	private ObjectMapper createRegisteredClassMapper() throws InstantiationException, IllegalAccessException {
+	private ObjectMapper createRegisteredClassMapper() throws InstantiationException, IllegalAccessException, ClassRegistryDuplicateIdException, CoreException {
 		ObjectMapper mapper = createJacksonMapper();
 		mapper.setDefaultTyping(createRegisteredTypeIdResolver());
 		return mapper;
@@ -347,9 +349,12 @@ public class MarshallerService implements IMarshallerService {
 	 * version 2.2.0 and has not been tested with any other version.
 	 *
 	 * @return the customised TypeResolverBuilder
+	 * @throws ClassRegistryDuplicateIdException
+	 * @throws CoreException
 	 */
-	private TypeResolverBuilder<?> createRegisteredTypeIdResolver() {
-		TypeResolverBuilder<?> typer = new RegisteredTypeResolverBuilder();
+	private TypeResolverBuilder<?> createRegisteredTypeIdResolver() throws ClassRegistryDuplicateIdException, CoreException {
+		IClassRegistry registry = new MarshallerServiceClassRegistry(extra_registries);
+		TypeResolverBuilder<?> typer = new RegisteredTypeResolverBuilder(registry);
 		typer = typer.init(JsonTypeInfo.Id.CUSTOM, null);
 		typer = typer.inclusion(JsonTypeInfo.As.PROPERTY);
 		typer = typer.typeProperty(TYPE_INFO_FIELD_NAME);
@@ -361,14 +366,15 @@ public class MarshallerService implements IMarshallerService {
 	 */
 	private class RegisteredTypeResolverBuilder extends DefaultTypeResolverBuilder {
 		private static final long serialVersionUID = 1L;
-		private IClassRegistry registry = new MarshallerServiceClassRegistry(extra_registries);
+		private IClassRegistry registry;
 
-		public RegisteredTypeResolverBuilder() {
-			this(null);
+		public RegisteredTypeResolverBuilder(IClassRegistry registry) {
+			this(null, registry);
 		}
 
-		public RegisteredTypeResolverBuilder(DefaultTyping typing) {
+		public RegisteredTypeResolverBuilder(DefaultTyping typing, IClassRegistry registry) {
 			super(typing);
+			this.registry = registry;
 		}
 
 		// Override StdTypeResolverBuilder#idResolver() to return our custom RegisteredClassIdResolver
