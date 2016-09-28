@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -96,7 +97,7 @@ public interface NXsolenoid_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBeamline_distanceScalar();
+	public Double getBeamline_distanceScalar();
 
 	/**
 	 * define position of beamline element relative to production target
@@ -107,7 +108,7 @@ public interface NXsolenoid_magnet extends NXobject {
 	 * 
 	 * @param beamline_distance the beamline_distance
 	 */
-	public DataNode setBeamline_distanceScalar(double beamline_distance);
+	public DataNode setBeamline_distanceScalar(Double beamline_distance);
 
 	/**
 	 * current set on supply.
@@ -140,7 +141,7 @@ public interface NXsolenoid_magnet extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSet_currentScalar();
+	public Double getSet_currentScalar();
 
 	/**
 	 * current set on supply.
@@ -151,7 +152,7 @@ public interface NXsolenoid_magnet extends NXobject {
 	 * 
 	 * @param set_current the set_current
 	 */
-	public DataNode setSet_currentScalar(double set_current);
+	public DataNode setSet_currentScalar(Double set_current);
 
 	/**
 	 * current read from supply.

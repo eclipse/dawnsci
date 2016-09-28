@@ -73,6 +73,13 @@ public interface NXobject extends GroupNode {
 	public <N extends NXobject> Map<String, N> getChildren(Class<N> nxClass);
 
 	/**
+	 * Returns a map containing all the children of this node. The keys of the map are the
+	 * names of the child nodes within this {@link NXobject}.
+	 * @return map of children, key is the child node's name
+	 */
+	public Map<String, NXobject> getChildren();
+	
+	/**
 	 * Sets the dataset for the field with the given name
 	 * @param name
 	 * @param value
@@ -176,7 +183,7 @@ public interface NXobject extends GroupNode {
 	public Date getDate(String name);
 
 	/**
-	 * Gets the value of the given field as a number.
+	 * Gets the value of the given field as a number, or <code>null</code> if not set.
 	 * @param name name of field
 	 * @return the value of the given field as a number, <code>null</code> if
 	 *   there is no field with the given name
@@ -185,31 +192,31 @@ public interface NXobject extends GroupNode {
 	public Number getNumber(String name);
 
 	/**
-	 * Gets the value of the given field as a double.
+	 * Gets the value of the given field as a {@link Double}, or <code>null</code> if not set.
 	 * @param name name of field
 	 * @return the value of the given field as a double, <code>null</code> if
 	 *   there is no field with the given name
 	 * @throws IllegalArgumentException if the node with the given name is not a {@link DataNode}.
 	 */
-	public double getDouble(String name);
+	public Double getDouble(String name);
 
 	/**
-	 * Gets the value of the given field as a long.
+	 * Gets the value of the given field as a long, or <code>null</code> if not set.
 	 * @param name name of field
 	 * @return the value of the given field as a long, <code>null</code> if
 	 *   there is no field with the given name
 	 * @throws IllegalArgumentException if the node with the given name is not a {@link DataNode}.
 	 */
-	public long getLong(String name);
+	public Long getLong(String name);
 
 	/**
-	 * Gets the value of the given field as a boolean.
+	 * Gets the value of the given field as a boolean, or <code>null</code> if not set
 	 * @param name name of field
 	 * @return the value of the given field as a boolean, <code>null</code> if
 	 *   there is no field with the given name
 	 * @throws IllegalArgumentException if the node with the given name is not a {@link DataNode}.
 	 */
-	public boolean getBoolean(String name);
+	public Boolean getBoolean(String name);
 
 	/**
 	 * Gets the value of the given field as a string.
@@ -242,37 +249,37 @@ public interface NXobject extends GroupNode {
 	public Number getAttrNumber(String name, String attrName);
 
 	/**
-	 * Get the value of the given attribute as a double. If the first argument is
-	 * not <code>null</code> then returns the value of attribute of the field
-	 * or child group with that name.
+	 * Get the value of the given attribute as a {@link Double}, or <code>null</code> if not set.
+	 * If the first argument is not <code>null</code> then returns the value of attribute of the
+	 * field or child group with that name.
 	 * @param name name of node (if <code>null</code> then current group)
 	 * @param attrName attribute name
 	 * @return value of attribute as a double
 	 */
-	public double getAttrDouble(String name, String attrName);
+	public Double getAttrDouble(String name, String attrName);
 
 	/**
-	 * Get the value of the given attribute as a long. If the first argument is
-	 * not <code>null</code> then returns the value of attribute of the field
-	 * or child group with that name.
+	 * Get the value of the given attribute as a {@link Long}, or <code>null</code> if not set.
+	 * If the first argument is not <code>null</code> then returns the value of attribute of the
+	 * field or child group with that name.
 	 * @param name name of node (if <code>null</code> then current group)
 	 * @param attrName attribute name
-	 * @return value of attribute as a long
+	 * @return value of attribute as a Long, or <code>null</code> if not set
 	 */
-	public long getAttrLong(String name, String attrName);
+	public Long getAttrLong(String name, String attrName);
 
 	/**
-	 * Get the value of the given attribute as a boolean. If the first argument is
-	 * not <code>null</code> then returns the value of attribute of the field
-	 * or child group with that name.
+	 * Get the value of the given attribute as a {@link Boolean}, or <code>null</code> if not set.
+	 * If the first argument is not <code>null</code> then returns the value of attribute of the
+	 * field or child group with that name.
 	 * @param name name of node (if <code>null</code> then current group)
 	 * @param attrName attribute name
-	 * @return value of attribute as a long
+	 * @return value of attribute as a {@link Boolean}, or <code>null</code> if not set
 	 */
-	public boolean getAttrBoolean(String name, String attrName);
+	public Boolean getAttrBoolean(String name, String attrName);
 
 	/**
-	 * Get the value of the given attribute as a string. If the first argument is
+	 * Get the value of the given attribute as a {@link String}. If the first argument is
 	 * not <code>null</code> then returns the value of attribute of the field
 	 * or child group with that name.
 	 * @param name name of node (if <code>null</code> then current group)
@@ -314,9 +321,9 @@ public interface NXobject extends GroupNode {
 	public <N extends NXobject> void setChildren(Map<String, N> map);
 
 	/**
-	 * Returns
-	 * @return
+	 * Returns all datasets as a map keyed by field name
+	 * @return all datasets
 	 */
-	public Map<String, Dataset> getAllDatasets();
+	public Map<String, IDataset> getAllDatasets();
 
 }

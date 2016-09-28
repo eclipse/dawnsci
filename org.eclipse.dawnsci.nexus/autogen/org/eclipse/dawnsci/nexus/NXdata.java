@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -77,7 +78,7 @@ import org.eclipse.january.dataset.IDataset;
  * Both are now out of date and
  * should not be used when writing new data files.
  * However, client software should expect to see data files
- * written either of these methods.
+ * written with any of these methods.
  * * One method uses the ``axes``
  * attribute to specify the names of each *dimension scale*.
  * * The oldest method uses the ``axis`` attribute on each
@@ -164,6 +165,12 @@ public interface NXdata extends NXobject {
 	 * as ``AXISNAME`` is to be replaced by the actual field name).
 	 * When no default axis is available for a particular dimension
 	 * of the plottable data, use a "." in that position.
+	 * Such as::
+	 * @I_axes="time", ".", "."
+	 * Since there are three items in the list, the the *signal* field
+	 * must must be a three-dimensional array (rank=3). The first dimension
+	 * is described by the values of a one-dimensional array named ``time``
+	 * while the other two dimensions have no fields to be used as dimension scales.
 	 * See examples provided on the NeXus wiki:
 	 * http://wiki.nexusformat.org/2014_axes_and_uncertainties
 	 * If there are no axes at all (such as with a stack of images),
@@ -186,6 +193,12 @@ public interface NXdata extends NXobject {
 	 * as ``AXISNAME`` is to be replaced by the actual field name).
 	 * When no default axis is available for a particular dimension
 	 * of the plottable data, use a "." in that position.
+	 * Such as::
+	 * @I_axes="time", ".", "."
+	 * Since there are three items in the list, the the *signal* field
+	 * must must be a three-dimensional array (rank=3). The first dimension
+	 * is described by the values of a one-dimensional array named ``time``
+	 * while the other two dimensions have no fields to be used as dimension scales.
 	 * See examples provided on the NeXus wiki:
 	 * http://wiki.nexusformat.org/2014_axes_and_uncertainties
 	 * If there are no axes at all (such as with a stack of images),
@@ -349,7 +362,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public boolean getVariableAttributeDistribution();
+	public Boolean getVariableAttributeDistribution();
 	
 	/**
 	 * ``0|false``: single value,
@@ -357,35 +370,35 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @param distribution the distribution
 	 */
-	public void setVariableAttributeDistribution(boolean distribution);
+	public void setVariableAttributeDistribution(Boolean distribution);
 
 	/**
 	 * Index of first good value
 	 * 
 	 * @return  the value.
 	 */
-	public long getVariableAttributeFirst_good();
+	public Long getVariableAttributeFirst_good();
 	
 	/**
 	 * Index of first good value
 	 * 
 	 * @param first_good the first_good
 	 */
-	public void setVariableAttributeFirst_good(long first_good);
+	public void setVariableAttributeFirst_good(Long first_good);
 
 	/**
 	 * Index of last good value
 	 * 
 	 * @return  the value.
 	 */
-	public long getVariableAttributeLast_good();
+	public Long getVariableAttributeLast_good();
 	
 	/**
 	 * Index of last good value
 	 * 
 	 * @param last_good the last_good
 	 */
-	public void setVariableAttributeLast_good(long last_good);
+	public void setVariableAttributeLast_good(Long last_good);
 
 	/**
 	 * Index (positive integer) identifying this specific set of numbers.
@@ -397,7 +410,7 @@ public interface NXdata extends NXobject {
 	 * @return  the value.
 	 */
 	@Deprecated
-	public long getVariableAttributeAxis();
+	public Long getVariableAttributeAxis();
 	
 	/**
 	 * Index (positive integer) identifying this specific set of numbers.
@@ -409,7 +422,7 @@ public interface NXdata extends NXobject {
 	 * @param axis the axis
 	 */
 	@Deprecated
-	public void setVariableAttributeAxis(long axis);
+	public void setVariableAttributeAxis(Long axis);
 
 	/**
 	 * Errors (uncertainties) associated with axis ``variable``.
@@ -550,7 +563,7 @@ public interface NXdata extends NXobject {
 	 * @return  the value.
 	 */
 	@Deprecated
-	public long getDataAttributeSignal();
+	public Long getDataAttributeSignal();
 	
 	/**
 	 * .. index:: plotting
@@ -563,7 +576,7 @@ public interface NXdata extends NXobject {
 	 * @param signal the signal
 	 */
 	@Deprecated
-	public void setDataAttributeSignal(long signal);
+	public void setDataAttributeSignal(Long signal);
 
 	/**
 	 * Defines the names of the dimension scales
@@ -594,20 +607,28 @@ public interface NXdata extends NXobject {
 	public void setDataAttributeAxes(String axes);
 
 	/**
-	 * Specify the names of the errors (uncertainties)
+	 * Specify the name (or names) of the uncertainties (errors)
 	 * of the dependent axes as plottable data.
-	 * NOTE: The ``errors`` attribute uses the same syntax
-	 * as the ``axes`` attribute.
+	 * NOTE: The ``uncertainties`` attribute uses the same syntax
+	 * as the ``axes`` attribute, a string or an array of strings
+	 * for multiple uncertainties.
+	 * Examples::
+	 * @I_uncertainties="Idev"
+	 * @Q_uncertainties="dQw", "dQl"
 	 * 
 	 * @return  the value.
 	 */
 	public String getDataAttributeUncertainties();
 	
 	/**
-	 * Specify the names of the errors (uncertainties)
+	 * Specify the name (or names) of the uncertainties (errors)
 	 * of the dependent axes as plottable data.
-	 * NOTE: The ``errors`` attribute uses the same syntax
-	 * as the ``axes`` attribute.
+	 * NOTE: The ``uncertainties`` attribute uses the same syntax
+	 * as the ``axes`` attribute, a string or an array of strings
+	 * for multiple uncertainties.
+	 * Examples::
+	 * @I_uncertainties="Idev"
+	 * @Q_uncertainties="dQw", "dQl"
 	 * 
 	 * @param uncertainties the uncertainties
 	 */
@@ -723,7 +744,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getScaling_factorScalar();
+	public Double getScaling_factorScalar();
 
 	/**
 	 * The elements in data are usually float values really. For
@@ -737,7 +758,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @param scaling_factor the scaling_factor
 	 */
-	public DataNode setScaling_factorScalar(double scaling_factor);
+	public DataNode setScaling_factorScalar(Double scaling_factor);
 
 	/**
 	 * An optional offset to apply to the values in data.
@@ -767,7 +788,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getOffsetScalar();
+	public Double getOffsetScalar();
 
 	/**
 	 * An optional offset to apply to the values in data.
@@ -777,7 +798,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @param offset the offset
 	 */
-	public DataNode setOffsetScalar(double offset);
+	public DataNode setOffsetScalar(Double offset);
 
 	/**
 	 * This is an array holding the values to use for the x-axis of
@@ -816,7 +837,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getXScalar();
+	public Double getXScalar();
 
 	/**
 	 * This is an array holding the values to use for the x-axis of
@@ -829,7 +850,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @param x the x
 	 */
-	public DataNode setXScalar(double x);
+	public DataNode setXScalar(Double x);
 
 	/**
 	 * This is an array holding the values to use for the y-axis of
@@ -868,7 +889,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getYScalar();
+	public Double getYScalar();
 
 	/**
 	 * This is an array holding the values to use for the y-axis of
@@ -881,7 +902,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @param y the y
 	 */
-	public DataNode setYScalar(double y);
+	public DataNode setYScalar(Double y);
 
 	/**
 	 * This is an array holding the values to use for the z-axis of
@@ -920,7 +941,7 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getZScalar();
+	public Double getZScalar();
 
 	/**
 	 * This is an array holding the values to use for the z-axis of
@@ -933,6 +954,6 @@ public interface NXdata extends NXobject {
 	 * 
 	 * @param z the z
 	 */
-	public DataNode setZScalar(double z);
+	public DataNode setZScalar(Double z);
 
 }

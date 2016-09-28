@@ -100,6 +100,20 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * @throws IllegalArgumentException if a node exists with the given name but is not a group node
 	 */
 	public GroupNode getGroupNode(String name);
+	
+	/**
+	 * Get (child) group nodes. Any {@link SymbolicNode}s are resolved to their
+	 * destination nodes.
+	 * @return groups
+	 */
+	public List<GroupNode> getGroupNodes();
+	
+	/**
+	 * Get (child) group nodes, as a map where the key is the name of that group node within
+	 * this (parent) group node. Any {@link SymbolicNode} are resolved to their destination nodes.
+	 * @return group node map
+	 */
+	public Map<String, GroupNode> getGroupNodeMap();
 
 	/**
 	 * Add (child) group node with given path and name 
@@ -150,6 +164,19 @@ public interface GroupNode extends Node, Iterable<NodeLink> {
 	 * @throws IllegalArgumentException if a node of same name already exists that is not a data node
 	 */
 	public void addDataNode(String name, DataNode d);
+	
+	/**
+	 * Get all data nodes. Any {@link SymbolicNode}s are resolved to their destination nodes.
+	 * @return data nodes
+	 */
+	public List<DataNode> getDataNodes();
+	
+	/**
+	 * Get all data nodes, keyed by name within this group node. Any {@link SymbolicNode}s are
+	 * resolved to their destination nodes.
+	 * @return data node map
+	 */
+	public Map<String, DataNode> getDataNodeMap();
 
 	/**
 	 * Remove the data node of given name.

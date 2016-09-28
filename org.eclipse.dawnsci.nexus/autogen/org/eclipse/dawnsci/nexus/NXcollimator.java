@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -178,7 +179,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSoller_angleScalar();
+	public Double getSoller_angleScalar();
 
 	/**
 	 * Angular divergence of Soller collimator
@@ -189,7 +190,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @param soller_angle the soller_angle
 	 */
-	public DataNode setSoller_angleScalar(double soller_angle);
+	public DataNode setSoller_angleScalar(Double soller_angle);
 
 	/**
 	 * divergence of collimator in local x direction
@@ -222,7 +223,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDivergence_xScalar();
+	public Double getDivergence_xScalar();
 
 	/**
 	 * divergence of collimator in local x direction
@@ -233,7 +234,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @param divergence_x the divergence_x
 	 */
-	public DataNode setDivergence_xScalar(double divergence_x);
+	public DataNode setDivergence_xScalar(Double divergence_x);
 
 	/**
 	 * divergence of collimator in local y direction
@@ -266,7 +267,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDivergence_yScalar();
+	public Double getDivergence_yScalar();
 
 	/**
 	 * divergence of collimator in local y direction
@@ -277,7 +278,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @param divergence_y the divergence_y
 	 */
-	public DataNode setDivergence_yScalar(double divergence_y);
+	public DataNode setDivergence_yScalar(Double divergence_y);
 
 	/**
 	 * Frequency of oscillating collimator
@@ -310,7 +311,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFrequencyScalar();
+	public Double getFrequencyScalar();
 
 	/**
 	 * Frequency of oscillating collimator
@@ -321,7 +322,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @param frequency the frequency
 	 */
-	public DataNode setFrequencyScalar(double frequency);
+	public DataNode setFrequencyScalar(Double frequency);
 
 	/**
 	 * Log of frequency
@@ -368,7 +369,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBlade_thicknessScalar();
+	public Double getBlade_thicknessScalar();
 
 	/**
 	 * blade thickness
@@ -379,7 +380,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @param blade_thickness the blade_thickness
 	 */
-	public DataNode setBlade_thicknessScalar(double blade_thickness);
+	public DataNode setBlade_thicknessScalar(Double blade_thickness);
 
 	/**
 	 * blade spacing
@@ -412,7 +413,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBlade_spacingScalar();
+	public Double getBlade_spacingScalar();
 
 	/**
 	 * blade spacing
@@ -423,7 +424,7 @@ public interface NXcollimator extends NXobject {
 	 * 
 	 * @param blade_spacing the blade_spacing
 	 */
-	public DataNode setBlade_spacingScalar(double blade_spacing);
+	public DataNode setBlade_spacingScalar(Double blade_spacing);
 
 	/**
 	 * name of absorbing material

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -72,7 +73,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFocus_parametersScalar();
+	public Double getFocus_parametersScalar();
 
 	/**
 	 * list of polynomial coefficients describing the focal length of the zone plate, in increasing powers of photon energy,
@@ -84,7 +85,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @param focus_parameters the focus_parameters
 	 */
-	public DataNode setFocus_parametersScalar(double focus_parameters);
+	public DataNode setFocus_parametersScalar(Double focus_parameters);
 
 	/**
 	 * <p>
@@ -114,7 +115,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getOuter_diameterScalar();
+	public Double getOuter_diameterScalar();
 
 	/**
 	 * <p>
@@ -124,7 +125,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @param outer_diameter the outer_diameter
 	 */
-	public DataNode setOuter_diameterScalar(double outer_diameter);
+	public DataNode setOuter_diameterScalar(Double outer_diameter);
 
 	/**
 	 * <p>
@@ -154,7 +155,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getOutermost_zone_widthScalar();
+	public Double getOutermost_zone_widthScalar();
 
 	/**
 	 * <p>
@@ -164,7 +165,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @param outermost_zone_width the outermost_zone_width
 	 */
-	public DataNode setOutermost_zone_widthScalar(double outermost_zone_width);
+	public DataNode setOutermost_zone_widthScalar(Double outermost_zone_width);
 
 	/**
 	 * <p>
@@ -194,7 +195,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCentral_stop_diameterScalar();
+	public Double getCentral_stop_diameterScalar();
 
 	/**
 	 * <p>
@@ -204,7 +205,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @param central_stop_diameter the central_stop_diameter
 	 */
-	public DataNode setCentral_stop_diameterScalar(double central_stop_diameter);
+	public DataNode setCentral_stop_diameterScalar(Double central_stop_diameter);
 
 	/**
 	 * how the zone plate was manufactured
@@ -290,7 +291,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getZone_heightScalar();
+	public Double getZone_heightScalar();
 
 	/**
 	 * <p>
@@ -300,7 +301,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @param zone_height the zone_height
 	 */
-	public DataNode setZone_heightScalar(double zone_height);
+	public DataNode setZone_heightScalar(Double zone_height);
 
 	/**
 	 * Material of the zones themselves
@@ -410,7 +411,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCentral_stop_thicknessScalar();
+	public Double getCentral_stop_thicknessScalar();
 
 	/**
 	 * <p>
@@ -420,7 +421,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @param central_stop_thickness the central_stop_thickness
 	 */
-	public DataNode setCentral_stop_thicknessScalar(double central_stop_thickness);
+	public DataNode setCentral_stop_thicknessScalar(Double central_stop_thickness);
 
 	/**
 	 * <p>
@@ -450,7 +451,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getMask_thicknessScalar();
+	public Double getMask_thicknessScalar();
 
 	/**
 	 * <p>
@@ -460,7 +461,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @param mask_thickness the mask_thickness
 	 */
-	public DataNode setMask_thicknessScalar(double mask_thickness);
+	public DataNode setMask_thicknessScalar(Double mask_thickness);
 
 	/**
 	 * If no mask is present, set mask_thickness to 0 and omit the mask_material field
@@ -542,7 +543,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSupport_membrane_thicknessScalar();
+	public Double getSupport_membrane_thicknessScalar();
 
 	/**
 	 * <p>
@@ -552,7 +553,7 @@ public interface NXfresnel_zone_plate extends NXobject {
 	 * 
 	 * @param support_membrane_thickness the support_membrane_thickness
 	 */
-	public DataNode setSupport_membrane_thicknessScalar(double support_membrane_thickness);
+	public DataNode setSupport_membrane_thicknessScalar(Double support_membrane_thickness);
 
 	/**
 	 * "Engineering" position of the fresnel zone plate

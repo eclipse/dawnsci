@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -173,7 +174,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSizeScalar();
+	public Double getSizeScalar();
 
 	/**
 	 * size of beamstop
@@ -184,7 +185,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @param size the size
 	 */
-	public DataNode setSizeScalar(double size);
+	public DataNode setSizeScalar(Double size);
 
 	/**
 	 * x position of the beamstop in relation to the detector
@@ -217,7 +218,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getXScalar();
+	public Double getXScalar();
 
 	/**
 	 * x position of the beamstop in relation to the detector
@@ -228,7 +229,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @param x the x
 	 */
-	public DataNode setXScalar(double x);
+	public DataNode setXScalar(Double x);
 
 	/**
 	 * y position of the beamstop in relation to the detector
@@ -261,7 +262,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getYScalar();
+	public Double getYScalar();
 
 	/**
 	 * y position of the beamstop in relation to the detector
@@ -272,7 +273,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @param y the y
 	 */
-	public DataNode setYScalar(double y);
+	public DataNode setYScalar(Double y);
 
 	/**
 	 * distance of the beamstop to the detector
@@ -305,7 +306,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDistance_to_detectorScalar();
+	public Double getDistance_to_detectorScalar();
 
 	/**
 	 * distance of the beamstop to the detector
@@ -316,7 +317,7 @@ public interface NXbeam_stop extends NXobject {
 	 * 
 	 * @param distance_to_detector the distance_to_detector
 	 */
-	public DataNode setDistance_to_detectorScalar(double distance_to_detector);
+	public DataNode setDistance_to_detectorScalar(Double distance_to_detector);
 
 	/**
 	 * <p>

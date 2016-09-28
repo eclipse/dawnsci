@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -157,7 +158,7 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getMaximum_incident_angleScalar();
+	public Double getMaximum_incident_angleScalar();
 
 	/**
 	 * <p>
@@ -167,7 +168,7 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @param maximum_incident_angle the maximum_incident_angle
 	 */
-	public DataNode setMaximum_incident_angleScalar(double maximum_incident_angle);
+	public DataNode setMaximum_incident_angleScalar(Double maximum_incident_angle);
 
 	/**
 	 * <p>
@@ -197,7 +198,7 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getAccepting_apertureScalar();
+	public Double getAccepting_apertureScalar();
 
 	/**
 	 * <p>
@@ -207,7 +208,7 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @param accepting_aperture the accepting_aperture
 	 */
-	public DataNode setAccepting_apertureScalar(double accepting_aperture);
+	public DataNode setAccepting_apertureScalar(Double accepting_aperture);
 
 	/**
 	 * The gain of the capillary as a function of energy
@@ -265,7 +266,7 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getWorking_distanceScalar();
+	public Double getWorking_distanceScalar();
 
 	/**
 	 * <p>
@@ -275,7 +276,7 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @param working_distance the working_distance
 	 */
-	public DataNode setWorking_distanceScalar(double working_distance);
+	public DataNode setWorking_distanceScalar(Double working_distance);
 
 	/**
 	 * The focal size in FWHM
@@ -305,7 +306,7 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFocal_sizeScalar();
+	public Double getFocal_sizeScalar();
 
 	/**
 	 * The focal size in FWHM
@@ -315,6 +316,6 @@ public interface NXcapillary extends NXobject {
 	 * 
 	 * @param focal_size the focal_size
 	 */
-	public DataNode setFocal_sizeScalar(double focal_size);
+	public DataNode setFocal_sizeScalar(Double focal_size);
 
 }

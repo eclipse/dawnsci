@@ -204,7 +204,9 @@ public interface <xsl:value-of select="$interfaceName"/>
 	<xsl:result-document href="{$javaOutputPath}/org/eclipse/dawnsci/nexus/impl/{$className}.java" format="text-format">
 		<xsl:value-of select="$fileHeaderComment"/>
 package org.eclipse.dawnsci.nexus.impl;
-<xsl:apply-templates mode="imports" select="."><xsl:with-param name="implementation" select="true()"/></xsl:apply-templates>
+<xsl:apply-templates mode="imports" select=".">
+	<xsl:with-param name="implementation" select="true()"/>
+</xsl:apply-templates>
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -331,12 +333,12 @@ public class <xsl:value-of select="$className"/><xsl:apply-templates mode="class
 </xsl:if>
 <xsl:if test="self::nx:field[@nameType='any']">
 	@Override<xsl:apply-templates mode="methodAnnotations" select="."/>
-	public Map&lt;String, Dataset> getAll<xsl:value-of select="$methodNameSuffix"/>() {
-		return getAllDatasets(null);
+	public Map&lt;String, IDataset> getAll<xsl:value-of select="$methodNameSuffix"/>() {
+		return getAllDatasets();
 	}
 <xsl:apply-templates mode="methodAnnotations" select="."/>
 	public void set<xsl:value-of select="$methodNameSuffix"/>(String name, <xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$validJavaFieldName"/>) {
-		return setDataset(name, <xsl:value-of select="$validJavaFieldName"/>);
+		setDataset(name, <xsl:value-of select="$validJavaFieldName"/>);
 	}
 </xsl:if>
 <xsl:if test="self::nx:group[not(@name)]">
@@ -563,9 +565,9 @@ import java.util.Map;</xsl:if>
 </xsl:text></xsl:if>
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 <xsl:if test="contains($types, 'IDataset')">
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;</xsl:if>
+import org.eclipse.january.dataset.IDataset;</xsl:if>
 <xsl:if test="contains($types, 'Binary')">
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;</xsl:if>
+import org.eclipse.january.dataset.DatasetFactory;</xsl:if>
 </xsl:template>
 
 <!-- Extends expression -->
@@ -584,10 +586,10 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;</xsl:if>
 <!-- Field types in Java: nx:scalar is some expected future feature that indicates the node will never have additional dimensions -->
 <xsl:template mode="fieldType" match="nx:field[not(nx:scalar)]">IDataset</xsl:template>
 <xsl:template mode="fieldType" match="*[self::nx:attribute|self::nx:field[nx:scalar]][@type='NX_DATE_TIME' or @type='ISO8601']">Date</xsl:template>
-<xsl:template mode="fieldType" match="*[self::nx:attribute|self::nx:field[nx:scalar]][matches(@type, 'NX_(INT|POSINT|UINT)')]">long</xsl:template>
-<xsl:template mode="fieldType" match="*[self::nx:attribute|self::nx:field[nx:scalar]][@type='NX_FLOAT']">double</xsl:template>
+<xsl:template mode="fieldType" match="*[self::nx:attribute|self::nx:field[nx:scalar]][matches(@type, 'NX_(INT|POSINT|UINT)')]">Long</xsl:template>
+<xsl:template mode="fieldType" match="*[self::nx:attribute|self::nx:field[nx:scalar]][@type='NX_FLOAT']">Double</xsl:template>
 <xsl:template mode="fieldType" match="*[self::nx:attribute|self::nx:field[nx:scalar]][@type='NX_NUMBER']">Number</xsl:template>
-<xsl:template mode="fieldType" match="*[self::nx:attribute|self::nx:field[nx:scalar]][@type='NX_BOOLEAN']">boolean</xsl:template>
+<xsl:template mode="fieldType" match="*[self::nx:attribute|self::nx:field[nx:scalar]][@type='NX_BOOLEAN']">Boolean</xsl:template>
 <xsl:template mode="fieldType" match="*[self::nx:attribute|self::nx:field[nx:scalar]][@type='NX_CHAR' or not(@type)]">String</xsl:template>
 <xsl:template mode="fieldType" match="nx:field[nx:scalar][@type='NX_BINARY']">Object</xsl:template>
 <xsl:template mode="fieldType" match="nx:group"><xsl:value-of select="dawnsci:interface-name(@type)"/></xsl:template>
@@ -595,10 +597,10 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;</xsl:if>
 
 <!-- Scalar field types. This is useful where we want to get/set a field as a scalar that is not (yet) marked with nx:scalar -->
 <xsl:template mode="scalarFieldType" match="nx:field[@type='NX_DATE_TIME' or @type='ISO8601']">Date</xsl:template>
-<xsl:template mode="scalarFieldType" match="nx:field[matches(@type, 'NX_(INT|POSINT|UNIT)')]">long</xsl:template>
-<xsl:template mode="scalarFieldType" match="nx:field[@type='NX_FLOAT']">double</xsl:template>
+<xsl:template mode="scalarFieldType" match="nx:field[matches(@type, 'NX_(INT|POSINT|UNIT)')]">Long</xsl:template>
+<xsl:template mode="scalarFieldType" match="nx:field[@type='NX_FLOAT']">Double</xsl:template>
 <xsl:template mode="scalarFieldType" match="nx:field[@type='NX_NUMBER']">Number</xsl:template>
-<xsl:template mode="scalarFieldType" match="nx:field[@type='NX_BOOLEAN']">boolean</xsl:template>
+<xsl:template mode="scalarFieldType" match="nx:field[@type='NX_BOOLEAN']">Boolean</xsl:template>
 <xsl:template mode="scalarFieldType" match="nx:field[@type='NX_CHAR' or not(@type)]">String</xsl:template>
 <xsl:template mode="scalarFieldType" match="nx:field[@type='NX_BINARY']">Object</xsl:template>
 

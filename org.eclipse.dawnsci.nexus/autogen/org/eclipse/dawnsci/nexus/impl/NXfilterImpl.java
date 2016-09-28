@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,8 +17,10 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.nexus.*;
+
 import org.eclipse.january.dataset.IDataset;
+
+import org.eclipse.dawnsci.nexus.*;
 
 /**
  * For band pass beam filters.
@@ -149,7 +151,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getTemperatureScalar() {
+	public Double getTemperatureScalar() {
 		return getDouble(NX_TEMPERATURE);
 	}
 
@@ -159,7 +161,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setTemperatureScalar(double temperature) {
+	public DataNode setTemperatureScalar(Double temperature) {
 		return setField(NX_TEMPERATURE, temperature);
 	}
 
@@ -179,7 +181,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getThicknessScalar() {
+	public Double getThicknessScalar() {
 		return getDouble(NX_THICKNESS);
 	}
 
@@ -189,7 +191,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setThicknessScalar(double thickness) {
+	public DataNode setThicknessScalar(Double thickness) {
 		return setField(NX_THICKNESS, thickness);
 	}
 
@@ -249,7 +251,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getUnit_cell_aScalar() {
+	public Double getUnit_cell_aScalar() {
 		return getDouble(NX_UNIT_CELL_A);
 	}
 
@@ -259,7 +261,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setUnit_cell_aScalar(double unit_cell_a) {
+	public DataNode setUnit_cell_aScalar(Double unit_cell_a) {
 		return setField(NX_UNIT_CELL_A, unit_cell_a);
 	}
 
@@ -269,7 +271,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getUnit_cell_bScalar() {
+	public Double getUnit_cell_bScalar() {
 		return getDouble(NX_UNIT_CELL_B);
 	}
 
@@ -279,7 +281,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setUnit_cell_bScalar(double unit_cell_b) {
+	public DataNode setUnit_cell_bScalar(Double unit_cell_b) {
 		return setField(NX_UNIT_CELL_B, unit_cell_b);
 	}
 
@@ -289,7 +291,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getUnit_cell_cScalar() {
+	public Double getUnit_cell_cScalar() {
 		return getDouble(NX_UNIT_CELL_C);
 	}
 
@@ -299,7 +301,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setUnit_cell_cScalar(double unit_cell_c) {
+	public DataNode setUnit_cell_cScalar(Double unit_cell_c) {
 		return setField(NX_UNIT_CELL_C, unit_cell_c);
 	}
 
@@ -309,7 +311,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getUnit_cell_alphaScalar() {
+	public Double getUnit_cell_alphaScalar() {
 		return getDouble(NX_UNIT_CELL_ALPHA);
 	}
 
@@ -319,7 +321,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setUnit_cell_alphaScalar(double unit_cell_alpha) {
+	public DataNode setUnit_cell_alphaScalar(Double unit_cell_alpha) {
 		return setField(NX_UNIT_CELL_ALPHA, unit_cell_alpha);
 	}
 
@@ -329,7 +331,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getUnit_cell_betaScalar() {
+	public Double getUnit_cell_betaScalar() {
 		return getDouble(NX_UNIT_CELL_BETA);
 	}
 
@@ -339,7 +341,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setUnit_cell_betaScalar(double unit_cell_beta) {
+	public DataNode setUnit_cell_betaScalar(Double unit_cell_beta) {
 		return setField(NX_UNIT_CELL_BETA, unit_cell_beta);
 	}
 
@@ -349,7 +351,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getUnit_cell_gammaScalar() {
+	public Double getUnit_cell_gammaScalar() {
 		return getDouble(NX_UNIT_CELL_GAMMA);
 	}
 
@@ -359,7 +361,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setUnit_cell_gammaScalar(double unit_cell_gamma) {
+	public DataNode setUnit_cell_gammaScalar(Double unit_cell_gamma) {
 		return setField(NX_UNIT_CELL_GAMMA, unit_cell_gamma);
 	}
 
@@ -369,7 +371,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getUnit_cell_volumeScalar() {
+	public Double getUnit_cell_volumeScalar() {
 		return getDouble(NX_UNIT_CELL_VOLUME);
 	}
 
@@ -379,7 +381,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setUnit_cell_volumeScalar(double unit_cell_volume) {
+	public DataNode setUnit_cell_volumeScalar(Double unit_cell_volume) {
 		return setField(NX_UNIT_CELL_VOLUME, unit_cell_volume);
 	}
 
@@ -389,7 +391,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getOrientation_matrixScalar() {
+	public Double getOrientation_matrixScalar() {
 		return getDouble(NX_ORIENTATION_MATRIX);
 	}
 
@@ -399,7 +401,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setOrientation_matrixScalar(double orientation_matrix) {
+	public DataNode setOrientation_matrixScalar(Double orientation_matrix) {
 		return setField(NX_ORIENTATION_MATRIX, orientation_matrix);
 	}
 
@@ -409,7 +411,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getM_valueScalar() {
+	public Double getM_valueScalar() {
 		return getDouble(NX_M_VALUE);
 	}
 
@@ -419,7 +421,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setM_valueScalar(double m_value) {
+	public DataNode setM_valueScalar(Double m_value) {
 		return setField(NX_M_VALUE, m_value);
 	}
 
@@ -449,7 +451,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getSubstrate_thicknessScalar() {
+	public Double getSubstrate_thicknessScalar() {
 		return getDouble(NX_SUBSTRATE_THICKNESS);
 	}
 
@@ -459,7 +461,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setSubstrate_thicknessScalar(double substrate_thickness) {
+	public DataNode setSubstrate_thicknessScalar(Double substrate_thickness) {
 		return setField(NX_SUBSTRATE_THICKNESS, substrate_thickness);
 	}
 
@@ -489,7 +491,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getSubstrate_roughnessScalar() {
+	public Double getSubstrate_roughnessScalar() {
 		return getDouble(NX_SUBSTRATE_ROUGHNESS);
 	}
 
@@ -499,7 +501,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setSubstrate_roughnessScalar(double substrate_roughness) {
+	public DataNode setSubstrate_roughnessScalar(Double substrate_roughness) {
 		return setField(NX_SUBSTRATE_ROUGHNESS, substrate_roughness);
 	}
 
@@ -509,7 +511,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public double getCoating_roughnessScalar() {
+	public Double getCoating_roughnessScalar() {
 		return getDouble(NX_COATING_ROUGHNESS);
 	}
 
@@ -519,7 +521,7 @@ public class NXfilterImpl extends NXobjectImpl implements NXfilter {
 	}
 
 	@Override
-	public DataNode setCoating_roughnessScalar(double coating_roughness) {
+	public DataNode setCoating_roughnessScalar(Double coating_roughness) {
 		return setField(NX_COATING_ROUGHNESS, coating_roughness);
 	}
 

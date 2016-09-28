@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -18,8 +18,10 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.nexus.*;
+
 import org.eclipse.january.dataset.IDataset;
+
+import org.eclipse.dawnsci.nexus.*;
 
 /**
  * A monitor of incident beam data.
@@ -150,7 +152,7 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 	}
 
 	@Override
-	public double getDistanceScalar() {
+	public Double getDistanceScalar() {
 		return getDouble(NX_DISTANCE);
 	}
 
@@ -160,7 +162,7 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 	}
 
 	@Override
-	public DataNode setDistanceScalar(double distance) {
+	public DataNode setDistanceScalar(Double distance) {
 		return setField(NX_DISTANCE, distance);
 	}
 
@@ -170,7 +172,7 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 	}
 
 	@Override
-	public double getRangeScalar() {
+	public Double getRangeScalar() {
 		return getDouble(NX_RANGE);
 	}
 
@@ -180,7 +182,7 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 	}
 
 	@Override
-	public DataNode setRangeScalar(double range) {
+	public DataNode setRangeScalar(Double range) {
 		return setField(NX_RANGE, range);
 	}
 
@@ -260,7 +262,7 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 	}
 
 	@Override
-	public double getTime_of_flightScalar() {
+	public Double getTime_of_flightScalar() {
 		return getDouble(NX_TIME_OF_FLIGHT);
 	}
 
@@ -270,7 +272,7 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 	}
 
 	@Override
-	public DataNode setTime_of_flightScalar(double time_of_flight) {
+	public DataNode setTime_of_flightScalar(Double time_of_flight) {
 		return setField(NX_TIME_OF_FLIGHT, time_of_flight);
 	}
 
@@ -320,7 +322,7 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 	}
 
 	@Override
-	public double getSampled_fractionScalar() {
+	public Double getSampled_fractionScalar() {
 		return getDouble(NX_SAMPLED_FRACTION);
 	}
 
@@ -330,7 +332,7 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 	}
 
 	@Override
-	public DataNode setSampled_fractionScalar(double sampled_fraction) {
+	public DataNode setSampled_fractionScalar(Double sampled_fraction) {
 		return setField(NX_SAMPLED_FRACTION, sampled_fraction);
 	}
 
@@ -370,7 +372,7 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 	}
 
 	@Override
-	public double getCount_timeScalar() {
+	public Double getCount_timeScalar() {
 		return getDouble(NX_COUNT_TIME);
 	}
 
@@ -380,7 +382,7 @@ public class NXmonitorImpl extends NXobjectImpl implements NXmonitor {
 	}
 
 	@Override
-	public DataNode setCount_timeScalar(double count_time) {
+	public DataNode setCount_timeScalar(Double count_time) {
 		return setField(NX_COUNT_TIME, count_time);
 	}
 

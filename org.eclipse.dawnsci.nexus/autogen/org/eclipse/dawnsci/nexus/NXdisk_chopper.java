@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -119,7 +120,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getRotation_speedScalar();
+	public Double getRotation_speedScalar();
 
 	/**
 	 * chopper rotation speed
@@ -130,7 +131,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @param rotation_speed the rotation_speed
 	 */
-	public DataNode setRotation_speedScalar(double rotation_speed);
+	public DataNode setRotation_speedScalar(Double rotation_speed);
 
 	/**
 	 * Number of slits
@@ -160,7 +161,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getSlitsScalar();
+	public Long getSlitsScalar();
 
 	/**
 	 * Number of slits
@@ -170,7 +171,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @param slits the slits
 	 */
-	public DataNode setSlitsScalar(long slits);
+	public DataNode setSlitsScalar(Long slits);
 
 	/**
 	 * angular opening
@@ -203,7 +204,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSlit_angleScalar();
+	public Double getSlit_angleScalar();
 
 	/**
 	 * angular opening
@@ -214,7 +215,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @param slit_angle the slit_angle
 	 */
-	public DataNode setSlit_angleScalar(double slit_angle);
+	public DataNode setSlit_angleScalar(Double slit_angle);
 
 	/**
 	 * disc spacing in direction of beam
@@ -247,7 +248,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPair_separationScalar();
+	public Double getPair_separationScalar();
 
 	/**
 	 * disc spacing in direction of beam
@@ -258,7 +259,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @param pair_separation the pair_separation
 	 */
-	public DataNode setPair_separationScalar(double pair_separation);
+	public DataNode setPair_separationScalar(Double pair_separation);
 
 	/**
 	 * radius to centre of slit
@@ -291,7 +292,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getRadiusScalar();
+	public Double getRadiusScalar();
 
 	/**
 	 * radius to centre of slit
@@ -302,7 +303,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @param radius the radius
 	 */
-	public DataNode setRadiusScalar(double radius);
+	public DataNode setRadiusScalar(Double radius);
 
 	/**
 	 * total slit height
@@ -335,7 +336,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSlit_heightScalar();
+	public Double getSlit_heightScalar();
 
 	/**
 	 * total slit height
@@ -346,7 +347,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @param slit_height the slit_height
 	 */
-	public DataNode setSlit_heightScalar(double slit_height);
+	public DataNode setSlit_heightScalar(Double slit_height);
 
 	/**
 	 * chopper phase angle
@@ -379,7 +380,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPhaseScalar();
+	public Double getPhaseScalar();
 
 	/**
 	 * chopper phase angle
@@ -390,7 +391,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @param phase the phase
 	 */
-	public DataNode setPhaseScalar(double phase);
+	public DataNode setPhaseScalar(Double phase);
 
 	/**
 	 * pulse reduction factor of this chopper in relation to other
@@ -423,7 +424,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getRatioScalar();
+	public Long getRatioScalar();
 
 	/**
 	 * pulse reduction factor of this chopper in relation to other
@@ -434,7 +435,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @param ratio the ratio
 	 */
-	public DataNode setRatioScalar(long ratio);
+	public DataNode setRatioScalar(Long ratio);
 
 	/**
 	 * Effective distance to the origin
@@ -467,7 +468,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDistanceScalar();
+	public Double getDistanceScalar();
 
 	/**
 	 * Effective distance to the origin
@@ -478,7 +479,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @param distance the distance
 	 */
-	public DataNode setDistanceScalar(double distance);
+	public DataNode setDistanceScalar(Double distance);
 
 	/**
 	 * low and high values of wavelength range transmitted
@@ -514,7 +515,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getWavelength_rangeScalar();
+	public Double getWavelength_rangeScalar();
 
 	/**
 	 * low and high values of wavelength range transmitted
@@ -526,7 +527,7 @@ public interface NXdisk_chopper extends NXobject {
 	 * 
 	 * @param wavelength_range the wavelength_range
 	 */
-	public DataNode setWavelength_rangeScalar(double wavelength_range);
+	public DataNode setWavelength_rangeScalar(Double wavelength_range);
 
 	/**
 	 * 

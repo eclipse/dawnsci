@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -66,7 +67,7 @@ public interface NXmonochromator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getWavelengthScalar();
+	public Double getWavelengthScalar();
 
 	/**
 	 * wavelength selected
@@ -77,7 +78,7 @@ public interface NXmonochromator extends NXobject {
 	 * 
 	 * @param wavelength the wavelength
 	 */
-	public DataNode setWavelengthScalar(double wavelength);
+	public DataNode setWavelengthScalar(Double wavelength);
 
 	/**
 	 * wavelength standard deviation
@@ -110,7 +111,7 @@ public interface NXmonochromator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getWavelength_errorScalar();
+	public Double getWavelength_errorScalar();
 
 	/**
 	 * wavelength standard deviation
@@ -121,7 +122,7 @@ public interface NXmonochromator extends NXobject {
 	 * 
 	 * @param wavelength_error the wavelength_error
 	 */
-	public DataNode setWavelength_errorScalar(double wavelength_error);
+	public DataNode setWavelength_errorScalar(Double wavelength_error);
 
 	/**
 	 * energy selected
@@ -154,7 +155,7 @@ public interface NXmonochromator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getEnergyScalar();
+	public Double getEnergyScalar();
 
 	/**
 	 * energy selected
@@ -165,7 +166,7 @@ public interface NXmonochromator extends NXobject {
 	 * 
 	 * @param energy the energy
 	 */
-	public DataNode setEnergyScalar(double energy);
+	public DataNode setEnergyScalar(Double energy);
 
 	/**
 	 * energy standard deviation
@@ -198,7 +199,7 @@ public interface NXmonochromator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getEnergy_errorScalar();
+	public Double getEnergy_errorScalar();
 
 	/**
 	 * energy standard deviation
@@ -209,7 +210,7 @@ public interface NXmonochromator extends NXobject {
 	 * 
 	 * @param energy_error the energy_error
 	 */
-	public DataNode setEnergy_errorScalar(double energy_error);
+	public DataNode setEnergy_errorScalar(Double energy_error);
 
 	/**
 	 * 

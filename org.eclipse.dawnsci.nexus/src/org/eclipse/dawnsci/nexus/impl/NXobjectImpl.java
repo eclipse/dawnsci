@@ -221,7 +221,7 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 
 	@SuppressWarnings("unchecked")
 	public <N extends NXobject> Map<String, N> getChildren(Class<N> nxClass) {
-		Map<String, N> map = new LinkedHashMap<>();
+		final Map<String, N> map = new LinkedHashMap<>();
 		for (NodeLink n : this) {
 			if (n.isDestinationGroup()) {
 				GroupNode g = (GroupNode) n.getDestination();
@@ -230,6 +230,20 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 				}
 			}
 		}
+		return map;
+	}
+	
+	public Map<String, NXobject> getChildren() {
+		final Map<String, NXobject> map = new LinkedHashMap<>();
+		for (NodeLink n : this) {
+			if (n.isDestinationGroup()) {
+				GroupNode g = (GroupNode) n.getDestination();
+				if (g instanceof NXobject) {
+					map.put(n.getName(), (NXobject) g);
+				}
+			}
+		}
+		
 		return map;
 	}
 
@@ -279,8 +293,8 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	}
 
 	@Override
-	public Map<String, Dataset> getAllDatasets() {
-		Map<String, Dataset> map = new LinkedHashMap<>();
+	public Map<String, IDataset> getAllDatasets() {
+		Map<String, IDataset> map = new LinkedHashMap<>();
 		
 		for (NodeLink n : this) {
 			if (n.isDestinationData()) {
@@ -291,29 +305,33 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	}
 
 	@Override
-	public boolean getBoolean(String name) {
+	public Boolean getBoolean(String name) {
 		Dataset d = getCached(name);
-		return d.getElementBooleanAbs(0);
+		return d == null ? null : d.getElementBooleanAbs(0);
 	}
 
 	@Override
-	public long getLong(String name) {
+	public Long getLong(String name) {
 		Dataset d = getCached(name);
-		return d.getElementLongAbs(0);
+		return d == null ? null : d.getElementLongAbs(0);
 	}
 
 	@Override
-	public double getDouble(String name) {
+	public Double getDouble(String name) {
 		Dataset d = getCached(name);
-		return d.getElementDoubleAbs(0);
+		return d == null ? null : d.getElementDoubleAbs(0);
 	}
 
 	@Override
 	public Number getNumber(String name) {
 		Dataset d = getCached(name);
-		if (d.hasFloatingPointElements())
-			return d.getElementDoubleAbs(0);
-		return d.getElementLongAbs(0);
+		if (d != null) {
+			if (d.hasFloatingPointElements())
+				return d.getElementDoubleAbs(0);
+			return d.getElementLongAbs(0);
+		}
+		
+		return null;
 	}
 
 	@Override
@@ -366,6 +384,10 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	@Override
 	public void setAttribute(String name, String attrName, Object attrValue) {
 		Node node = name == null ? this : getNode(name);
+		if (node == null) {
+			throw new IllegalArgumentException("No group of field with name " + name);
+		}
+		
 		Attribute a = node.containsAttribute(attrName) ? node.getAttribute(attrName) : TreeFactory.createAttribute(attrName);
 		a.setValue(attrValue);
 		node.addAttribute(a);
@@ -378,8 +400,13 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 		String key = makeAttributeKey(name, attrName);
 		if (!cached.containsKey(key)) {
 			Node node = name == null ? this : getNode(name);
+			if (node == null) {
+				throw new IllegalArgumentException("No group of field with name " + name);
+			}
 			Attribute a = node.getAttribute(attrName);
-			cached.put(key, DatasetUtils.convertToDataset(a.getValue()));
+			if (a != null) {
+				cached.put(key, DatasetUtils.convertToDataset(a.getValue()));
+			}
 		}
 
 		return cached.get(key);
@@ -394,30 +421,33 @@ public abstract class NXobjectImpl extends GroupNodeImpl implements NXobject {
 	public String getAttrString(String name, String attrName) {
 		Node node = name == null ? this : getNode(name);
 		Attribute a = node.getAttribute(attrName);
-		return a.getFirstElement();
+		return a == null ? null : a.getFirstElement();
 	}
 
 	@Override
-	public boolean getAttrBoolean(String name, String attrName) {
+	public Boolean getAttrBoolean(String name, String attrName) {
 		Dataset d = getCachedAttribute(name, attrName);
-		return d.getElementBooleanAbs(0);
+		return d == null ? null : d.getElementBooleanAbs(0);
 	}
 
 	@Override
-	public long getAttrLong(String name, String attrName) {
+	public Long getAttrLong(String name, String attrName) {
 		Dataset d = getCachedAttribute(name, attrName);
-		return d.getElementLongAbs(0);
+		return d == null ? null : d.getElementLongAbs(0);
 	}
 
 	@Override
-	public double getAttrDouble(String name, String attrName) {
+	public Double getAttrDouble(String name, String attrName) {
 		Dataset d = getCachedAttribute(name, attrName);
-		return d.getElementDoubleAbs(0);
+		return d == null ? null : d.getElementDoubleAbs(0);
 	}
 
 	@Override
 	public Number getAttrNumber(String name, String attrName) {
 		Dataset d = getCachedAttribute(name, attrName);
+		if (d == null) {
+			return null;
+		}
 		if (d.hasFloatingPointElements()) {
 			return d.getElementDoubleAbs(0);
 		}

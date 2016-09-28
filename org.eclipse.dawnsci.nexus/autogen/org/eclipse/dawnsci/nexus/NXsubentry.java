@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -533,7 +534,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getDurationScalar();
+	public Long getDurationScalar();
 
 	/**
 	 * Duration of measurement
@@ -544,7 +545,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @param duration the duration
 	 */
-	public DataNode setDurationScalar(long duration);
+	public DataNode setDurationScalar(Long duration);
 
 	/**
 	 * Time transpired actually collecting data i.e. taking out time when collection was
@@ -580,7 +581,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCollection_timeScalar();
+	public Double getCollection_timeScalar();
 
 	/**
 	 * Time transpired actually collecting data i.e. taking out time when collection was
@@ -592,7 +593,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @param collection_time the collection_time
 	 */
-	public DataNode setCollection_timeScalar(double collection_time);
+	public DataNode setCollection_timeScalar(Double collection_time);
 
 	/**
 	 * Such as "2007-3". Some user facilities organize their beam time into run cycles.
@@ -762,7 +763,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPre_sample_flightpathScalar();
+	public Double getPre_sample_flightpathScalar();
 
 	/**
 	 * This is the flightpath before the sample position. This can be determined by a chopper,
@@ -776,7 +777,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @param pre_sample_flightpath the pre_sample_flightpath
 	 */
-	public DataNode setPre_sample_flightpathScalar(double pre_sample_flightpath);
+	public DataNode setPre_sample_flightpathScalar(Double pre_sample_flightpath);
 
 	/**
 	 * Notes describing entry

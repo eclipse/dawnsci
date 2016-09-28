@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -18,8 +18,10 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.nexus.*;
+
 import org.eclipse.january.dataset.IDataset;
+
+import org.eclipse.dawnsci.nexus.*;
 
 /**
  * (**required**) :ref:`NXentry` describes the measurement.
@@ -403,7 +405,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	}
 
 	@Override
-	public long getDurationScalar() {
+	public Long getDurationScalar() {
 		return getLong(NX_DURATION);
 	}
 
@@ -413,7 +415,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	}
 
 	@Override
-	public DataNode setDurationScalar(long duration) {
+	public DataNode setDurationScalar(Long duration) {
 		return setField(NX_DURATION, duration);
 	}
 
@@ -423,7 +425,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	}
 
 	@Override
-	public double getCollection_timeScalar() {
+	public Double getCollection_timeScalar() {
 		return getDouble(NX_COLLECTION_TIME);
 	}
 
@@ -433,7 +435,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	}
 
 	@Override
-	public DataNode setCollection_timeScalar(double collection_time) {
+	public DataNode setCollection_timeScalar(Double collection_time) {
 		return setField(NX_COLLECTION_TIME, collection_time);
 	}
 
@@ -533,7 +535,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	}
 
 	@Override
-	public double getPre_sample_flightpathScalar() {
+	public Double getPre_sample_flightpathScalar() {
 		return getDouble(NX_PRE_SAMPLE_FLIGHTPATH);
 	}
 
@@ -543,7 +545,7 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	}
 
 	@Override
-	public DataNode setPre_sample_flightpathScalar(double pre_sample_flightpath) {
+	public DataNode setPre_sample_flightpathScalar(Double pre_sample_flightpath) {
 		return setField(NX_PRE_SAMPLE_FLIGHTPATH, pre_sample_flightpath);
 	}
 

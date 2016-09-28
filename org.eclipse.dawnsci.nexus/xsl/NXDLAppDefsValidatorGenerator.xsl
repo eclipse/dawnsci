@@ -552,7 +552,7 @@ package org.eclipse.dawnsci.nexus.validation;&#10;</xsl:text>
 		<xsl:text>&#10;</xsl:text>
 	</xsl:if>
 
-	<xsl:text>import org.eclipse.dawnsci.analysis.api.dataset.IDataset;&#10;</xsl:text>
+	<xsl:text>import org.eclipse.january.dataset.IDataset;&#10;</xsl:text>
 	<xsl:if test="//nx:attribute">
 		<xsl:text>import org.eclipse.dawnsci.analysis.api.tree.Attribute;&#10;</xsl:text>
 	</xsl:if>

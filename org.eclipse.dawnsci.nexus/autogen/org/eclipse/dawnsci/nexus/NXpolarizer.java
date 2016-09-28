@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -116,7 +117,7 @@ public interface NXpolarizer extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getReflectionScalar();
+	public Long getReflectionScalar();
 
 	/**
 	 * [hkl] values of nominal reflection
@@ -128,7 +129,7 @@ public interface NXpolarizer extends NXobject {
 	 * 
 	 * @param reflection the reflection
 	 */
-	public DataNode setReflectionScalar(long reflection);
+	public DataNode setReflectionScalar(Long reflection);
 
 	/**
 	 * polarizing efficiency
@@ -161,7 +162,7 @@ public interface NXpolarizer extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getEfficiencyScalar();
+	public Double getEfficiencyScalar();
 
 	/**
 	 * polarizing efficiency
@@ -172,6 +173,6 @@ public interface NXpolarizer extends NXobject {
 	 * 
 	 * @param efficiency the efficiency
 	 */
-	public DataNode setEfficiencyScalar(double efficiency);
+	public DataNode setEfficiencyScalar(Double efficiency);
 
 }

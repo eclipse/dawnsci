@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -123,7 +124,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public boolean getSymmetricScalar();
+	public Boolean getSymmetricScalar();
 
 	/**
 	 * Is the device symmetric?
@@ -133,7 +134,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @param symmetric the symmetric
 	 */
-	public DataNode setSymmetricScalar(boolean symmetric);
+	public DataNode setSymmetricScalar(Boolean symmetric);
 
 	/**
 	 * Is the device cylindrical?
@@ -163,7 +164,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public boolean getCylindricalScalar();
+	public Boolean getCylindricalScalar();
 
 	/**
 	 * Is the device cylindrical?
@@ -173,7 +174,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @param cylindrical the cylindrical
 	 */
-	public DataNode setCylindricalScalar(boolean cylindrical);
+	public DataNode setCylindricalScalar(Boolean cylindrical);
 
 	/**
 	 * Orientation of the cylinder axis.
@@ -272,7 +273,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getLens_thicknessScalar();
+	public Double getLens_thicknessScalar();
 
 	/**
 	 * Thickness of the lens
@@ -283,7 +284,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @param lens_thickness the lens_thickness
 	 */
-	public DataNode setLens_thicknessScalar(double lens_thickness);
+	public DataNode setLens_thicknessScalar(Double lens_thickness);
 
 	/**
 	 * Length of the lens
@@ -316,7 +317,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getLens_lengthScalar();
+	public Double getLens_lengthScalar();
 
 	/**
 	 * Length of the lens
@@ -327,7 +328,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @param lens_length the lens_length
 	 */
-	public DataNode setLens_lengthScalar(double lens_length);
+	public DataNode setLens_lengthScalar(Double lens_length);
 
 	/**
 	 * Radius of the curvature as measured in the middle of the lens
@@ -360,7 +361,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCurvatureScalar();
+	public Double getCurvatureScalar();
 
 	/**
 	 * Radius of the curvature as measured in the middle of the lens
@@ -371,7 +372,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @param curvature the curvature
 	 */
-	public DataNode setCurvatureScalar(double curvature);
+	public DataNode setCurvatureScalar(Double curvature);
 
 	/**
 	 * Diameter of the lens.
@@ -404,7 +405,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getApertureScalar();
+	public Double getApertureScalar();
 
 	/**
 	 * Diameter of the lens.
@@ -415,7 +416,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @param aperture the aperture
 	 */
-	public DataNode setApertureScalar(double aperture);
+	public DataNode setApertureScalar(Double aperture);
 
 	/**
 	 * Number of lenses that make up the compound lens.
@@ -445,7 +446,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getNumber_of_lensesScalar();
+	public Long getNumber_of_lensesScalar();
 
 	/**
 	 * Number of lenses that make up the compound lens.
@@ -455,7 +456,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @param number_of_lenses the number_of_lenses
 	 */
-	public DataNode setNumber_of_lensesScalar(long number_of_lenses);
+	public DataNode setNumber_of_lensesScalar(Long number_of_lenses);
 
 	/**
 	 * Material used to make the lens.
@@ -568,7 +569,7 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getGas_pressureScalar();
+	public Double getGas_pressureScalar();
 
 	/**
 	 * Gas pressure in the lens
@@ -579,6 +580,6 @@ public interface NXxraylens extends NXobject {
 	 * 
 	 * @param gas_pressure the gas_pressure
 	 */
-	public DataNode setGas_pressureScalar(double gas_pressure);
+	public DataNode setGas_pressureScalar(Double gas_pressure);
 
 }

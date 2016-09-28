@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,8 +17,10 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.nexus.*;
+
 import org.eclipse.january.dataset.IDataset;
+
+import org.eclipse.dawnsci.nexus.*;
 
 /**
  * legacy class - recommend to use :ref:`NXtransformations` now
@@ -184,7 +186,7 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 	}
 
 	@Override
-	public long getComponent_indexScalar() {
+	public Long getComponent_indexScalar() {
 		return getLong(NX_COMPONENT_INDEX);
 	}
 
@@ -194,7 +196,7 @@ public class NXgeometryImpl extends NXobjectImpl implements NXgeometry {
 	}
 
 	@Override
-	public DataNode setComponent_indexScalar(long component_index) {
+	public DataNode setComponent_indexScalar(Long component_index) {
 		return setField(NX_COMPONENT_INDEX, component_index);
 	}
 

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -183,7 +184,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getIncident_angleScalar();
+	public Double getIncident_angleScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -194,7 +195,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @param incident_angle the incident_angle
 	 */
-	public DataNode setIncident_angleScalar(double incident_angle);
+	public DataNode setIncident_angleScalar(Double incident_angle);
 
 	/**
 	 * Reflectivity as function of reflecting surface and wavelength
@@ -241,7 +242,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBend_angle_xScalar();
+	public Double getBend_angle_xScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -252,7 +253,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @param bend_angle_x the bend_angle_x
 	 */
-	public DataNode setBend_angle_xScalar(double bend_angle_x);
+	public DataNode setBend_angle_xScalar(Double bend_angle_x);
 
 	/**
 	 * TODO: documentation needed
@@ -285,7 +286,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBend_angle_yScalar();
+	public Double getBend_angle_yScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -296,7 +297,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @param bend_angle_y the bend_angle_y
 	 */
-	public DataNode setBend_angle_yScalar(double bend_angle_y);
+	public DataNode setBend_angle_yScalar(Double bend_angle_y);
 
 	/**
 	 * <p>
@@ -408,7 +409,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getM_valueScalar();
+	public Double getM_valueScalar();
 
 	/**
 	 * The ``m`` value for a supermirror, which defines the supermirror
@@ -420,7 +421,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @param m_value the m_value
 	 */
-	public DataNode setM_valueScalar(double m_value);
+	public DataNode setM_valueScalar(Double m_value);
 
 	/**
 	 * TODO: documentation needed
@@ -453,7 +454,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSubstrate_materialScalar();
+	public Double getSubstrate_materialScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -464,7 +465,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @param substrate_material the substrate_material
 	 */
-	public DataNode setSubstrate_materialScalar(double substrate_material);
+	public DataNode setSubstrate_materialScalar(Double substrate_material);
 
 	/**
 	 * TODO: documentation needed
@@ -500,7 +501,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSubstrate_thicknessScalar();
+	public Double getSubstrate_thicknessScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -512,7 +513,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @param substrate_thickness the substrate_thickness
 	 */
-	public DataNode setSubstrate_thicknessScalar(double substrate_thickness);
+	public DataNode setSubstrate_thicknessScalar(Double substrate_thickness);
 
 	/**
 	 * TODO: documentation needed
@@ -545,7 +546,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCoating_materialScalar();
+	public Double getCoating_materialScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -556,7 +557,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @param coating_material the coating_material
 	 */
-	public DataNode setCoating_materialScalar(double coating_material);
+	public DataNode setCoating_materialScalar(Double coating_material);
 
 	/**
 	 * TODO: documentation needed
@@ -592,7 +593,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSubstrate_roughnessScalar();
+	public Double getSubstrate_roughnessScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -604,7 +605,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @param substrate_roughness the substrate_roughness
 	 */
-	public DataNode setSubstrate_roughnessScalar(double substrate_roughness);
+	public DataNode setSubstrate_roughnessScalar(Double substrate_roughness);
 
 	/**
 	 * TODO: documentation needed
@@ -640,7 +641,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCoating_roughnessScalar();
+	public Double getCoating_roughnessScalar();
 
 	/**
 	 * TODO: documentation needed
@@ -652,7 +653,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @param coating_roughness the coating_roughness
 	 */
-	public DataNode setCoating_roughnessScalar(double coating_roughness);
+	public DataNode setCoating_roughnessScalar(Double coating_roughness);
 
 	/**
 	 * number of substrate sections (also called ``nsurf`` as an
@@ -688,7 +689,7 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getNumber_sectionsScalar();
+	public Long getNumber_sectionsScalar();
 
 	/**
 	 * number of substrate sections (also called ``nsurf`` as an
@@ -700,6 +701,6 @@ public interface NXguide extends NXobject {
 	 * 
 	 * @param number_sections the number_sections
 	 */
-	public DataNode setNumber_sectionsScalar(long number_sections);
+	public DataNode setNumber_sectionsScalar(Long number_sections);
 
 }
