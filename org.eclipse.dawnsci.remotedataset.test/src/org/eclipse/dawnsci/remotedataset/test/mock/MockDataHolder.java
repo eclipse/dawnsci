@@ -384,7 +384,7 @@ public class MockDataHolder implements IMetadataProvider, IDataHolder, Serializa
 		if (tree==null) {
 			try {
 				try {
-					long fid = HDF5FileFactory.acquireFile(getFilePath(), false);
+					long fid = HDF5FileFactory.acquireFile(getFilePath(), false).getID();
 	
 					final long oid = getFilePath().hashCode(); // include file name in ID
 					TreeFile f = TreeFactory.createTreeFile(oid, getFilePath());

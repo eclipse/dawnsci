@@ -38,15 +38,16 @@ public class AccessSpeedTest {
 		} catch (HDF5Exception e) {
 			e.printStackTrace();
 		}
+		HDF5File f = new HDF5File(fid, true);
 		int[] shape = new int[] {512, 128, 1024};
 		int size = ShapeUtils.calcSize(shape);
 		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
 		data1.setShape(shape);
-		HDF5Utils.writeDataset(fid, "data1", data1);
+		HDF5Utils.writeDataset(f, "data1", data1);
 
 		Dataset data2 = DatasetFactory.createRange(size, Dataset.FLOAT64);
 		data1.setShape(shape);
-		HDF5Utils.writeDataset(fid, "data2", data2);
+		HDF5Utils.writeDataset(f, "data2", data2);
 		H5.H5Fclose(fid);
 
 		PositionIterator iter = new PositionIterator(data1.getShapeRef(), 1, 2);
@@ -72,8 +73,8 @@ public class AccessSpeedTest {
 		fid = H5.H5Fopen(file, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
 		while (iter.hasNext()) {
 			stop[0] = start[0] + 1;
-			data1 = HDF5Utils.readDataset(fid, "data1", start, nshape, step, Dataset.FLOAT64, 1, false);
-			data2 = HDF5Utils.readDataset(fid, "data2", start, nshape, step, Dataset.FLOAT64, 1, false);
+			data1 = HDF5Utils.readDataset(f, "data1", start, nshape, step, Dataset.FLOAT64, 1, false);
+			data2 = HDF5Utils.readDataset(f, "data2", start, nshape, step, Dataset.FLOAT64, 1, false);
 		}
 		H5.H5Fclose(fid);
 		now += System.nanoTime();
@@ -81,11 +82,11 @@ public class AccessSpeedTest {
 
 		iter.reset();
 		now = -System.nanoTime();
-		fid = HDF5FileFactory.acquireFile(file, false);
+		f = HDF5FileFactory.acquireFile(file, false);
 		while (iter.hasNext()) {
 			stop[0] = start[0] + 1;
-			data1 = HDF5Utils.readDataset(fid, "data1", start, nshape, step, Dataset.FLOAT64, 1, false);
-			data2 = HDF5Utils.readDataset(fid, "data2", start, nshape, step, Dataset.FLOAT64, 1, false);
+			data1 = HDF5Utils.readDataset(f, "data1", start, nshape, step, Dataset.FLOAT64, 1, false);
+			data2 = HDF5Utils.readDataset(f, "data2", start, nshape, step, Dataset.FLOAT64, 1, false);
 		}
 		HDF5FileFactory.releaseFile(file, true);
 		now += System.nanoTime();
@@ -145,13 +146,14 @@ public class AccessSpeedTest {
 		iter.reset();
 		now = -System.nanoTime();
 		long fid = H5.H5Fopen(file, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
+		HDF5File f = new HDF5File(fid, true);
 		while (iter.hasNext()) {
 			for (int i = 0; i < 3; i++) {
 				start[i] = pos[i];
 			}
 			stop[0] = start[0] + 1;
-			HDF5Utils.writeDatasetSlice(fid, "/entry/data1", slice, data1);
-			HDF5Utils.writeDatasetSlice(fid, "/entry/data2", slice, data2);
+			HDF5Utils.writeDatasetSlice(f, "/entry/data1", slice, data1);
+			HDF5Utils.writeDatasetSlice(f, "/entry/data2", slice, data2);
 		}
 		H5.H5Fclose(fid);
 		now += System.nanoTime();
@@ -189,12 +191,12 @@ public class AccessSpeedTest {
 	@Test
 	public void testShutdownHook() throws HDF5LibraryException, NullPointerException, NexusException, ScanFileHolderException, InterruptedException {
 		String file = "test-scratch/shutdown.h5";
-		long fid = HDF5FileFactory.acquireFileAsNew(file);
+		HDF5File f = HDF5FileFactory.acquireFileAsNew(file);
 		int[] shape = new int[] {1024, 128, 1024};
 		int size = ShapeUtils.calcSize(shape);
 		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
 		data1.setShape(shape);
-		HDF5Utils.writeDataset(fid, "data1", data1);
+		HDF5Utils.writeDataset(f, "data1", data1);
 		HDF5FileFactory.releaseFile(file);
 	}
 }

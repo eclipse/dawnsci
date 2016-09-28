@@ -12,6 +12,7 @@ package org.eclipse.dawnsci.hdf.object;
 import java.util.Arrays;
 
 import org.eclipse.dawnsci.hdf5.AbstractThreadTestBase;
+import org.eclipse.dawnsci.hdf5.HDF5File;
 import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
 import org.eclipse.dawnsci.hdf5.HDF5Utils;
 import org.eclipse.january.dataset.Dataset;
@@ -85,12 +86,13 @@ public class ReadThreadTest extends AbstractThreadTestBase {
 		} catch (HDF5Exception e) {
 			e.printStackTrace();
 		}
+		HDF5File f = new HDF5File(fid, true);
 		int size = ShapeUtils.calcSize(shape);
 		Dataset data = DatasetFactory.createRange(size, Dataset.FLOAT64);
 		data.setShape(shape);
 
 		for (int i = 0; i < nthreads; i++) {
-			HDF5Utils.writeDataset(fid, "data" + i, data);
+			HDF5Utils.writeDataset(f, "data" + i, data);
 		}
 		H5.H5Fclose(fid);
 		HierarchicalDataFactory.releaseLowLevelReadingAccess(file);
