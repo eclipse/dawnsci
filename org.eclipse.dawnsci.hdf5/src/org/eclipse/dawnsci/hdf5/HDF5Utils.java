@@ -207,7 +207,7 @@ public class HDF5Utils {
 
 		Dataset data = null;
 		try {
-			long fid = HDF5FileFactory.acquireFile(fileName, false);
+			HDF5File fid = HDF5FileFactory.acquireFile(fileName, false);
 
 			int[][] shapes = readDatasetShape(fid, node);
 			int[] shape = shapes[0];
@@ -266,7 +266,7 @@ public class HDF5Utils {
 
 		Dataset data = null;
 		try {
-			long fid = HDF5FileFactory.acquireFile(fileName, false);
+			HDF5File fid = HDF5FileFactory.acquireFile(fileName, false);
 
 			data = readDataset(fid, node, start, count, step, dtype, isize, extend);
 		} catch (Throwable le) {
@@ -291,7 +291,7 @@ public class HDF5Utils {
 			throws ScanFileHolderException {
 
 		try {
-			long fid = HDF5FileFactory.acquireFile(fileName, false);
+			HDF5File fid = HDF5FileFactory.acquireFile(fileName, false);
 
 			return readDatasetShape(fid, node);
 		} catch (Throwable le) {
@@ -304,17 +304,17 @@ public class HDF5Utils {
 
 	/**
 	 * Read shape information from a dataset
-	 * @param fileID
+	 * @param f
 	 * @param dataPath
 	 * @return null for when there's no data; two empty arrays for a zero-rank dataset;
 	 *  shape, max shape otherwise
 	 * @throws NexusException
 	 */
-	public static int[][] readDatasetShape(long fileID, String dataPath) throws NexusException {
+	public static int[][] readDatasetShape(HDF5File f, String dataPath) throws NexusException {
 		long hdfDatasetId = -1;
 		try {
 			try {
-				hdfDatasetId = H5.H5Dopen(fileID, dataPath, HDF5Constants.H5P_DEFAULT);
+				hdfDatasetId = H5.H5Dopen(f.getID(), dataPath, HDF5Constants.H5P_DEFAULT);
 	
 				long hdfDataspaceId = -1;
 				try {
@@ -362,7 +362,7 @@ public class HDF5Utils {
 
 	/**
 	 * Read dataset from given file ID
-	 * @param fid
+	 * @param f
 	 * @param node
 	 * @param start
 	 * @param count
@@ -373,13 +373,13 @@ public class HDF5Utils {
 	 * @return dataset
 	 * @throws NexusException
 	 */
-	public static Dataset readDataset(long fid, final String node, final int[] start, final int[] count,
+	public static Dataset readDataset(HDF5File f, final String node, final int[] start, final int[] count,
 			final int[] step, final int dtype, final int isize, final boolean extend)
 					throws NexusException {
 		Dataset data = null;
 
 		try {
-			H5O_info_t info = H5.H5Oget_info_by_name(fid, node, HDF5Constants.H5P_DEFAULT);
+			H5O_info_t info = H5.H5Oget_info_by_name(f.getID(), node, HDF5Constants.H5P_DEFAULT);
 			int t = info.type;
 			if (t != HDF5Constants.H5O_TYPE_DATASET) {
 				logger.error("Node {} was not a dataset", node);
@@ -394,7 +394,7 @@ public class HDF5Utils {
 		long tid = -1;
 		long ntid = -1;
 		try {
-			did = H5.H5Dopen(fid, node, HDF5Constants.H5P_DEFAULT);
+			did = H5.H5Dopen(f.getID(), node, HDF5Constants.H5P_DEFAULT);
 			tid = H5.H5Dget_type(did);
 			ntid = H5.H5Tget_native_type(tid);
 			DatasetType type = getDatasetType(tid, ntid);
@@ -684,7 +684,7 @@ public class HDF5Utils {
 	private static void createDataset(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned, final boolean close) throws ScanFileHolderException {
 
 		try {
-			long fid = HDF5FileFactory.acquireFile(fileName, true);
+			HDF5File fid = HDF5FileFactory.acquireFile(fileName, true);
 
 			requireDestination(fid, parentPath);
 			String dataPath = absolutePathToData(parentPath, name);
@@ -736,17 +736,17 @@ public class HDF5Utils {
 		createDataset(fileName, parentPath, name, initialShape, maxShape, chunking, dtype, fill, asUnsigned, true);
 	}
 
-	private static void requireDestination(long fileID, String group) throws HDF5Exception {
+	private static void requireDestination(HDF5File fid, String group) throws HDF5Exception {
 		boolean exists = false;
 		long gid = -1;
 		try {
 			try {
-				gid = H5.H5Gopen(fileID, group, HDF5Constants.H5P_DEFAULT);
+				gid = H5.H5Gopen(fid.getID(), group, HDF5Constants.H5P_DEFAULT);
 				exists = true;
 			} catch (Exception e) {
 			} finally {
 				if (!exists) {
-					gid = createDestination(fileID, group);
+					gid = createDestination(fid.getID(), group);
 				}
 			}
 		} finally {
@@ -783,8 +783,8 @@ public class HDF5Utils {
 	}
 
 	/**
-	 * Create a dataset in given file ID
-	 * @param fileID
+	 * Create a dataset in given file
+	 * @param f
 	 * @param compression
 	 * @param dataPath
 	 * @param dtype
@@ -794,7 +794,7 @@ public class HDF5Utils {
 	 * @param fillValue
 	 * @throws NexusException
 	 */
-	public static void createDataset(long fileID, int compression, String dataPath, int dtype, int[] iShape, int[] iMaxShape, int[] iChunks,
+	public static void createDataset(HDF5File f, int compression, String dataPath, int dtype, int[] iShape, int[] iMaxShape, int[] iChunks,
 			Object fillValue) throws NexusException {
 		long[] shape = toLongArray(iShape);
 		long[] maxShape = toLongArray(iMaxShape);
@@ -836,7 +836,7 @@ public class HDF5Utils {
 				}
 				long hdfDatasetId = -1;
 				try {
-					hdfDatasetId = H5.H5Dcreate(fileID, dataPath, hdfDatatypeId, hdfDataspaceId,
+					hdfDatasetId = H5.H5Dcreate(f.getID(), dataPath, hdfDatatypeId, hdfDataspaceId,
 						HDF5Constants.H5P_DEFAULT, hdfPropertiesId, HDF5Constants.H5P_DEFAULT);
 				} finally {
 					if (hdfDatasetId != -1) {
@@ -880,7 +880,7 @@ public class HDF5Utils {
 	 * @throws ScanFileHolderException 
 	 */
 	public static void writeDataset(String fileName, String parentPath, IDataset data) throws ScanFileHolderException {
-		long fid = HDF5FileFactory.acquireFile(fileName, true);
+		HDF5File fid = HDF5FileFactory.acquireFile(fileName, true);
 
 		try {
 			requireDestination(fid, parentPath);
@@ -894,13 +894,13 @@ public class HDF5Utils {
 	}
 
 	/**
-	 * Write a dataset in given file ID
-	 * @param fileID
+	 * Write a dataset in given file
+	 * @param f
 	 * @param dataPath
 	 * @param data
 	 * @throws NexusException
 	 */
-	public static void writeDataset(long fileID, String dataPath, IDataset data) throws NexusException {
+	public static void writeDataset(HDF5File f, String dataPath, IDataset data) throws NexusException {
 		Dataset dataset = DatasetUtils.convertToDataset(data);
 
 		// cannot write zero-rank datasets so make them 1D
@@ -926,7 +926,7 @@ public class HDF5Utils {
 				}
 				long hdfDatasetId = -1;
 				try {
-					hdfDatasetId = H5.H5Dcreate(fileID, dataPath, hdfDatatypeId, hdfDataspaceId,
+					hdfDatasetId = H5.H5Dcreate(f.getID(), dataPath, hdfDatatypeId, hdfDataspaceId,
 						HDF5Constants.H5P_DEFAULT, hdfPropertiesId, HDF5Constants.H5P_DEFAULT);
 					if (stringDataset) {
 						String[] strings = (String[])DatasetUtils.serializeDataset(data);
@@ -979,7 +979,7 @@ public class HDF5Utils {
 	 * @throws ScanFileHolderException 
 	 */
 	public static void writeAttributes(String fileName, String path, IDataset... attributes) throws ScanFileHolderException {
-		long fid = HDF5FileFactory.acquireFile(fileName, true);
+		HDF5File fid = HDF5FileFactory.acquireFile(fileName, true);
 
 		try {
 			writeAttributes(fid, path, attributes);
@@ -991,19 +991,20 @@ public class HDF5Utils {
 	}
 
 	/**
-	 * Write attributes to a group or dataset in given file ID
-	 * @param fileID
+	 * Write attributes to a group or dataset in given file
+	 * @param f
 	 * @param path
 	 * @param attributes
 	 * @throws NexusException
 	 */
-	public static void writeAttributes(long fileID, String path, IDataset... attributes) throws NexusException {
+	public static void writeAttributes(HDF5File f, String path, IDataset... attributes) throws NexusException {
 		for (IDataset attr : attributes) {
 			String attrName = attr.getName();
 			if (attrName == null || attrName.isEmpty()) {
 				throw new NullPointerException("Attribute must have a name");
 			}
 
+			long fileID = f.getID();
 			try {
 				// if an attribute with the same name already exists, we delete it to be consistent with NAPI
 				if (H5.H5Aexists_by_name(fileID, path, attrName, HDF5Constants.H5P_DEFAULT)) {
@@ -1140,7 +1141,7 @@ public class HDF5Utils {
 			if (!exists) {
 				prepareFile(fileName, parentPath, name, slice, value);
 			}
-			long fid = HDF5FileFactory.acquireFile(fileName, true);
+			HDF5File fid = HDF5FileFactory.acquireFile(fileName, true);
 
 			String dataPath = absolutePathToData(parentPath, name);
 			writeDatasetSlice(fid, dataPath, slice, value);
@@ -1165,17 +1166,17 @@ public class HDF5Utils {
 
 	/**
 	 * Write to a slice in a dataset
-	 * @param fileID
+	 * @param f
 	 * @param dataPath
 	 * @param slice
 	 * @param value
 	 * @throws NexusException
 	 */
-	public static void writeDatasetSlice(long fileID, String dataPath, SliceND slice, IDataset value) throws NexusException {
+	public static void writeDatasetSlice(HDF5File f, String dataPath, SliceND slice, IDataset value) throws NexusException {
 		long hdfDatasetId = -1;
 		try {
 			try {
-				hdfDatasetId = H5.H5Dopen(fileID, dataPath, HDF5Constants.H5P_DEFAULT);
+				hdfDatasetId = H5.H5Dopen(f.getID(), dataPath, HDF5Constants.H5P_DEFAULT);
 
 				long hdfDataspaceId = -1;
 				long hdfMemspaceId = -1;

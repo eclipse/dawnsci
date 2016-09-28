@@ -35,6 +35,7 @@ import org.eclipse.dawnsci.hdf5.HDF5AttributeResource;
 import org.eclipse.dawnsci.hdf5.HDF5DatasetResource;
 import org.eclipse.dawnsci.hdf5.HDF5DataspaceResource;
 import org.eclipse.dawnsci.hdf5.HDF5DatatypeResource;
+import org.eclipse.dawnsci.hdf5.HDF5File;
 import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
 import org.eclipse.dawnsci.hdf5.HDF5LazyLoader;
 import org.eclipse.dawnsci.hdf5.HDF5LazySaver;
@@ -169,6 +170,7 @@ public class NexusFileHDF5 implements NexusFile {
 		}
 	}
 
+	private HDF5File file = null;
 	private long fileId = -1;
 
 	private String fileName;
@@ -243,7 +245,8 @@ public class NexusFileHDF5 implements NexusFile {
 	@Override
 	public void openToRead() throws NexusException {
 		try {
-			fileId = HDF5FileFactory.acquireFile(fileName, false);
+			file = HDF5FileFactory.acquireFile(fileName, false);
+			fileId = file.getID();
 		} catch (ScanFileHolderException e) {
 			throw new NexusException("Cannot open to read", e);
 		}
@@ -254,13 +257,15 @@ public class NexusFileHDF5 implements NexusFile {
 	public void openToWrite(boolean createIfNecessary) throws NexusException {
 		if (new java.io.File(fileName).exists()) {
 			try {
-				fileId = HDF5FileFactory.acquireFile(fileName, true);
+				file = HDF5FileFactory.acquireFile(fileName, true);
+				fileId = file.getID();
 			} catch (ScanFileHolderException e) {
 				throw new NexusException("Cannot open to write", e);
 			}
 		} else if (createIfNecessary) {
 			try {
-				fileId = HDF5FileFactory.acquireFile(fileName, true);
+				file = HDF5FileFactory.acquireFile(fileName, true);
+				fileId = file.getID();
 			} catch (ScanFileHolderException e) {
 				throw new NexusException("Cannot create to write", e);
 			}
@@ -274,7 +279,8 @@ public class NexusFileHDF5 implements NexusFile {
 	@Override
 	public void createAndOpenToWrite() throws NexusException {
 		try {
-			fileId = HDF5FileFactory.acquireFileAsNew(fileName, useSWMR);
+			file = HDF5FileFactory.acquireFileAsNew(fileName, useSWMR);
+			fileId = file.getID();
 		} catch (ScanFileHolderException e) {
 			throw new NexusException("Cannot create to write", e);
 		}
