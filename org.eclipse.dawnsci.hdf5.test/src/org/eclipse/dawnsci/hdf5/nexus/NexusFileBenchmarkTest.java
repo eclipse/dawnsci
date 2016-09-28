@@ -11,12 +11,9 @@ package org.eclipse.dawnsci.hdf5.nexus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.TimeUnit;
 
+import org.eclipse.dawnsci.analysis.api.worker.Worker;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.DatasetException;
@@ -50,118 +47,27 @@ public class NexusFileBenchmarkTest {
 	private final static String POSN_LOCATION = "pos%01d";
 	private final static String ROI_LOCATION = "roi%02d";
 
-	private class WriterThread {
-		private class WriteJob {
-			private ILazyWriteableDataset out;
-			private final IDataset data;
-			private final SliceND slice;
-			public WriteJob(final ILazyWriteableDataset out, final Dataset data, final SliceND slice) {
-				this.out = out;
-				this.data = data;
-				this.slice = slice;
+	private class WriteJob implements Runnable {
+		private ILazyWriteableDataset out;
+		private final IDataset data;
+		private final SliceND slice;
+		public WriteJob(final ILazyWriteableDataset out, final Dataset data, final SliceND slice) {
+			this.out = out;
+			this.data = data;
+			this.slice = slice;
+		}
+
+		@Override
+		public void run() {
+			try {
+				out.setSlice(null, data, slice);
+			} catch (DatasetException e) {
+				throw new RuntimeException(e);
 			}
-
-			public void run() {
-				try {
-					out.setSlice(null, data, slice);
-				} catch (DatasetException e) {
-					throw new RuntimeException(e);
-				}
-				
-			}
-		}
-
-		private List<Long> time;
-
-		private BlockingDeque<WriteJob> queue;
-		private Thread thread;
-		private boolean finished;
-		private Throwable throwable;
-		
-		private long checkingPeriod = 100; // period between checking finished flag in microseconds
-
-		public WriterThread(final String name) {
-			queue = new LinkedBlockingDeque<>();
-			time = new ArrayList<>();
-			finished = false;
-			thread = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					while (!finished) {
-						try {
-							WriteJob job = queue.poll(checkingPeriod, TimeUnit.MICROSECONDS);
-							if (job != null) {
-								long now = -System.nanoTime();
-								try {
-									job.run();
-								} catch (Throwable t) {
-									throwable = t;
-									finished = true;
-								}
-								now += System.nanoTime();
-								time.add(now/1000l);
-							}
-						} catch (InterruptedException e) {
-							throwable = e;
-							finished = true;
-						}
-					}
-//					System.err.println("Finished thread: " + name);
-				}
-			});
-			thread.setName(name);
-			thread.start();
-		}
-
-		public void addJob(final ILazyWriteableDataset out, final Dataset data, final SliceND slice) {
-			queue.add(new WriteJob(out, data, slice));
-		}
-
-		/**
-		 * Flush all writes and block till done
-		 */
-		public void flush() {
-			final long wait = (checkingPeriod*100)/1000;
-			while (queue.size() != 0) {
-				try {
-					thread.join(wait);
-				} catch (InterruptedException e) {
-				}
-			}
-		}
-
-		/**
-		 * @param milliseconds to wait before finishing
-		 */
-		public void finish(long milliseconds) {
-			if (!finished) {
-				if (queue.size() != 0) {
-					System.err.printf("%s has %d left\n", thread.toString(), queue.size());
-					try {
-						thread.join(milliseconds);
-					} catch (InterruptedException e) {
-					}
-				}
-				finished = true;
-			}
-			queue.clear();
-		}
-
-		public boolean isFinished() {
-			return finished;
-		}
-
-		/**
-		 * @return times in microseconds
-		 */
-		public List<Long> getTimes() {
-			return Collections.unmodifiableList(time);
-		}
-
-		public Throwable getThrowable() {
-			return throwable;
+			
 		}
 	}
+
 
 	private class Detector {
 		private ILazyWriteableDataset data;
@@ -172,9 +78,9 @@ public class NexusFileBenchmarkTest {
 		private Dataset[] pd;
 		private Dataset[] rd;
 
-		private final WriterThread[] thread;
+		private final Worker[] thread;
 
-		public Detector(int p, int r, WriterThread... thread) {
+		public Detector(int p, int r, Worker... thread) {
 			posn = new ILazyWriteableDataset[p];
 			roi = new ILazyWriteableDataset[r];
 			pd = new Dataset[p];
@@ -229,11 +135,11 @@ public class NexusFileBenchmarkTest {
 					throw new RuntimeException(e);
 				}
 			} else {
-				WriterThread t = thread[nt++];
+				Worker t = thread[nt++];
 				if (nt == thread.length) {
 					nt = 0;
 				}
-				t.addJob(out, data, slice);
+				t.addJob(new WriteJob(out, data, slice));
 			}
 		}
 	}
@@ -284,7 +190,7 @@ public class NexusFileBenchmarkTest {
 
 	public void benchmark(String file, int threads, int detectors, int rois) throws Throwable {
 		System.out.printf("Using %d threads for %dD scan of %d detectors with %d rois\n", threads, scanRank, detectors, rois);
-		WriterThread[] thread = createWriters(threads);
+		Worker[] thread = createWorkers(threads);
 
 		Detector[] detector = prepareDetectorsAndFile(detectors, rois, file, thread);
 
@@ -293,11 +199,11 @@ public class NexusFileBenchmarkTest {
 			runDetector(d);
 		}
 
-		deleteWriters(thread);
+		deleteWorkers(thread);
 		now += System.nanoTime();
 
 		List<Long> wtime = new ArrayList<>();
-		for (WriterThread t : thread) {
+		for (Worker t : thread) {
 			wtime.addAll(t.getTimes());
 		}
 		if (wtime.size() > 0) {
@@ -310,28 +216,28 @@ public class NexusFileBenchmarkTest {
 		System.out.printf("Total time %.1fms\n" , now/1e6);
 	}
 
-	public WriterThread[] createWriters(int n) {
+	public Worker[] createWorkers(int n) {
 		if (n < 0) {
 			throw new IllegalArgumentException("Number of threads must be zero or more");
 		}
 
-		WriterThread[] thread = new WriterThread[n];
+		Worker[] thread = new Worker[n];
 		for (int i = 0; i < n; i++) {
-			thread[i] = new WriterThread(String.format("Writer %03d/%d", i, n));
+			thread[i] = new Worker(String.format("Writer %03d/%d", i, n));
 		}
 		return thread;
 	}
 
-	public void deleteWriters(WriterThread... thread) {
-		for (WriterThread w : thread) {
+	public void deleteWorkers(Worker... thread) {
+		for (Worker w : thread) {
 			w.flush();
 		}
-		for (WriterThread w : thread) {
+		for (Worker w : thread) {
 			w.finish(500);
 		}
 	}
 
-	private Detector[] prepareDetectorsAndFile(int detectors, int rois, String file, WriterThread... thread) throws NexusException {
+	private Detector[] prepareDetectorsAndFile(int detectors, int rois, String file, Worker... thread) throws NexusException {
 
 		Detector[] detector = new Detector[detectors];
 		int dRank = detectorShape.length;
