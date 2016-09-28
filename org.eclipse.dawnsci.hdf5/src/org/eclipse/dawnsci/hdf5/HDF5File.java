@@ -13,12 +13,20 @@ package org.eclipse.dawnsci.hdf5;
  * Class to hold state of a HDF5 file
  */
 public class HDF5File {
+	private String file;
 	private long id;   // HDF5 low level ID
 	private long time; // time of release
 	private int count; // number of accessors
 	private boolean writeable; // if true then can write
 
-	public HDF5File(long id, boolean writeable) {
+	/**
+	 * 
+	 * @param filePath
+	 * @param id
+	 * @param writeable
+	 */
+	public HDF5File(String filePath, long id, boolean writeable) {
+		this.file = filePath;
 		this.id = id;
 		count = 1;
 		this.writeable = writeable;

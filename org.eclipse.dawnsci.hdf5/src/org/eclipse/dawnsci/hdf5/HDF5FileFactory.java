@@ -266,7 +266,7 @@ public class HDF5FileFactory {
 						H5.H5Pclose(fapl);
 					}
 				}
-				access = new HDF5File(fid, asNew || writeable);
+				access = new HDF5File(cPath, fid, asNew || writeable);
 				INSTANCE.map.put(cPath, access);
 				return access;
 			} catch (Throwable le) {
