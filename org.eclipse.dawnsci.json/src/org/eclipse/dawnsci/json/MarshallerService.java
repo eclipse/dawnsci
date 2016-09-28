@@ -115,6 +115,8 @@ public class MarshallerService implements IMarshallerService {
 
 	private List<IMarshaller> marshallers;
 
+	private boolean platformIsRunning;
+
 	static {
 		System.out.println("Started " + IMarshallerService.class.getSimpleName());
 	}
@@ -151,6 +153,8 @@ public class MarshallerService implements IMarshallerService {
 	 * @param marshallers
 	 */
 	public MarshallerService(List<IClassRegistry> extra_registries, List<IMarshaller> marshallers) {
+		platformIsRunning = Platform.isRunning();
+
 		if (marshallers!=null) this.marshallers = Collections.unmodifiableList(marshallers);
 
 		this.extra_registries = new ArrayList<IClassRegistry>();
@@ -235,7 +239,7 @@ public class MarshallerService implements IMarshallerService {
 		}
 	}
 
-	private final ObjectMapper createJacksonMapper() throws InstantiationException, IllegalAccessException {
+	private final ObjectMapper createJacksonMapper() throws InstantiationException, IllegalAccessException, CoreException {
 
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -305,26 +309,34 @@ public class MarshallerService implements IMarshallerService {
 		return false;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void createModuleExtensions(SimpleModule module) throws InstantiationException, IllegalAccessException {
-
+	private void createModuleExtensions(SimpleModule module) throws InstantiationException, IllegalAccessException, CoreException {
         List<IMarshaller> ms = new ArrayList<>(7);
-		try {
-	        IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.dawnsci.analysis.api.marshaller");
 
-	        for (IConfigurationElement e : elements) {
-				final IMarshaller marshaller = (IMarshaller) e.createExecutableExtension("class");
-				ms.add(marshaller);
-	        }
-		} catch (Exception ne) {
-			// It is legal to fail the configuration elements because
-			// one may use the json service in non-OSGi environment.
-			// Instead tests should attempt to serialize their custom objects
-			// and problems with serialization be picked up this way.
-		}
+        ms.addAll(getAvailableMarshallerExtensions());
+
         if (marshallers!=null && !marshallers.isEmpty()) ms.addAll(marshallers);
 
-        for (IMarshaller marshaller : ms) {
+        applyMarshallersToModule(module, ms);
+	}
+
+	private List<IMarshaller> getAvailableMarshallerExtensions() throws CoreException {
+        List<IMarshaller> marshallers = new ArrayList<>(7);
+
+		if (!platformIsRunning) return marshallers;
+
+        IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.dawnsci.analysis.api.marshaller");
+
+        for (IConfigurationElement e : elements) {
+			final IMarshaller marshaller = (IMarshaller) e.createExecutableExtension("class");
+			marshallers.add(marshaller);
+        }
+
+		return marshallers;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void applyMarshallersToModule(SimpleModule module, List<IMarshaller> marshallers) throws InstantiationException, IllegalAccessException {
+		for (IMarshaller marshaller : marshallers) {
 			Class<?> objectClass = marshaller.getObjectClass();
 			if (objectClass!=null) {
 				module.addSerializer(objectClass,  (JsonSerializer)marshaller.getSerializerClass().newInstance());
