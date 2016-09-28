@@ -133,11 +133,6 @@ class DynamicImage implements IDynamicMonitorDatasetHolder {
 	}
 
 	@Override
-	public IDataset getSlice() {
-		return dataset.getSlice();
-	}
-
-	@Override
 	public void resize(int... newShape) {
 		// TODO Auto-generated method stub
 	}

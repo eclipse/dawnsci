@@ -15,7 +15,6 @@ import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.DataEvent;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.IDataListener;
-import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IDatasetConnector;
 import org.eclipse.january.dataset.IDynamicDataset;
 import org.eclipse.january.dataset.LazyWriteableDataset;
@@ -306,16 +305,5 @@ class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
 	@Override
 	public IDynamicDataset getDataset() {
 		return this;
-	}
-
-	@Override
-	public IDataset getSlice() {
-		try {
-			return super.getSlice();
-		} catch (DatasetException e) {
-			logger.error("", e);
-			e.printStackTrace();
-			return null;
-		}
 	}
 }
