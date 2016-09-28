@@ -38,6 +38,11 @@ public abstract class AbstractThreadTestBase {
 		testWithNThreads(10);
 	}
 
+	/**
+	 * Start threads that each run {@link #doTestOfDataSet(int)}
+	 * @param threadNumber
+	 * @throws Throwable
+	 */
 	protected void testWithNThreads(int threadNumber) throws Throwable {
 		
         exception = null;

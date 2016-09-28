@@ -148,7 +148,8 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 		}
 		return d;
 	}
-	
+
+	@Override
 	public int[] refreshShape() {
 		int[][] shape = null;
 		try {
