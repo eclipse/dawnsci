@@ -42,9 +42,10 @@ import org.junit.Test;
  * ROI scannables [s0, s1] for each ROI
  */
 public class NexusFileBenchmarkTest {
-
-	private final static String SINGLE_THREAD_FILE_NAME = "test-scratch/singlebenchmark.nxs";
-	private final static String MULTIPLE_THREAD_FILE_NAME = "test-scratch/multiplebenchmark.nxs";
+	private final static String OUTPUT_DIRECTORY = "test-scratch/";
+	private static final String SYNCHRONOUS_FILE_NAME = OUTPUT_DIRECTORY + "syncbenchmark.nxs";
+	private final static String SINGLE_THREAD_FILE_NAME = OUTPUT_DIRECTORY + "singlebenchmark.nxs";
+	private final static String MULTIPLE_THREAD_FILE_NAME = OUTPUT_DIRECTORY + "multiplebenchmark.nxs";
 	private final static String DETECTOR_LOCATION = "/entry1/data%02d/";
 	private final static String POSN_LOCATION = "pos%01d";
 	private final static String ROI_LOCATION = "roi%02d";
@@ -171,13 +172,14 @@ public class NexusFileBenchmarkTest {
 		private Dataset[] pd;
 		private Dataset[] rd;
 
-		private WriterThread[] thread;
+		private final WriterThread[] thread;
 
-		public Detector(int p, int r) {
+		public Detector(int p, int r, WriterThread... thread) {
 			posn = new ILazyWriteableDataset[p];
 			roi = new ILazyWriteableDataset[r];
 			pd = new Dataset[p];
 			rd = new Dataset[r];
+			this.thread = thread == null || thread.length == 0 ? null : thread;
 		}
 
 		private static final int ROI_SLICE_LENGTH = 40;
@@ -220,15 +222,19 @@ public class NexusFileBenchmarkTest {
 		}
 
 		public void write(final ILazyWriteableDataset out, final Dataset data, final SliceND slice) {
-			WriterThread t = thread[nt++];
-			if (nt == thread.length) {
-				nt = 0;
+			if (thread == null) {
+				try {
+					out.setSlice(null, data, slice);
+				} catch (DatasetException e) {
+					throw new RuntimeException(e);
+				}
+			} else {
+				WriterThread t = thread[nt++];
+				if (nt == thread.length) {
+					nt = 0;
+				}
+				t.addJob(out, data, slice);
 			}
-			t.addJob(out, data, slice);
-		}
-
-		public void setWriters(WriterThread... thread) {
-			this.thread = thread;
 		}
 	}
 
@@ -245,19 +251,31 @@ public class NexusFileBenchmarkTest {
 		System.arraycopy(scanShape, 0, totalShape, 0, scanRank);
 		System.arraycopy(detectorShape, 0, totalShape, scanRank, detectorRank);
 
-		System.out.printf("\n\nScan is %s and detector is %s\n", Arrays.toString(scanShape), Arrays.toString(detectorShape));
+		System.out.printf("Scan is %s and detector is %s\n", Arrays.toString(scanShape), Arrays.toString(detectorShape));
+	}
+
+	@Test
+	public void benchmarkZeroThreads() throws Throwable {
+		System.out.println("=== start synchronous ===");
+		setScanDetails(new int[] {12, 48}, new int[] {10, 4096});
+		benchmark(SYNCHRONOUS_FILE_NAME, 0, 1, 12);
+		System.out.println("=== end synchronous ===\n");
 	}
 
 	@Test
 	public void benchmarkSingleThread() throws Throwable {
+		System.out.println("=== start single ===");
 		setScanDetails(new int[] {12, 48}, new int[] {10, 4096});
 		benchmark(SINGLE_THREAD_FILE_NAME, 1, 1, 12);
+		System.out.println("=== end single ===\n");
 	}
 
 	@Test
-	public void benchmarkMultipleThread() throws Throwable {
+	public void benchmarkMultipleThreads() throws Throwable {
+		System.out.println("=== start multiple ===");
 		setScanDetails(new int[] {12, 48}, new int[] {10, 4096});
 		benchmark(MULTIPLE_THREAD_FILE_NAME, 1, 12);
+		System.out.println("=== end multiple ===\n");
 	}
 
 	public void benchmark(String file, int detectors, int rois) throws Throwable {
@@ -270,25 +288,31 @@ public class NexusFileBenchmarkTest {
 
 		Detector[] detector = prepareDetectorsAndFile(detectors, rois, file, thread);
 
+		long now = -System.nanoTime();
 		for (Detector d : detector) {
 			runDetector(d);
 		}
 
 		deleteWriters(thread);
+		now += System.nanoTime();
 
 		List<Long> wtime = new ArrayList<>();
 		for (WriterThread t : thread) {
 			wtime.addAll(t.getTimes());
 		}
-		System.out.println("Writing  stats in us:");
-		List<Long> itime = printStats(wtime, true);
-		System.out.printf("Outliers removed %5d of %5d\n", wtime.size() - itime.size(), wtime.size());
-		printStats(itime, false);
+		if (wtime.size() > 0) {
+			System.out.println("Writing  stats in us:");
+			List<Long> itime = printStats(wtime, true);
+			System.out.printf("Outliers removed %5d of %5d\n", wtime.size() - itime.size(), wtime.size());
+			printStats(itime, false);
+		}
+
+		System.out.printf("Total time %.1fms\n" , now/1e6);
 	}
 
 	public WriterThread[] createWriters(int n) {
-		if (n <= 0) {
-			throw new IllegalArgumentException("Number of threads must be one or more");
+		if (n < 0) {
+			throw new IllegalArgumentException("Number of threads must be zero or more");
 		}
 
 		WriterThread[] thread = new WriterThread[n];
@@ -327,8 +351,7 @@ public class NexusFileBenchmarkTest {
 			nf.createAndOpenToWrite();
 
 			for (int d = 0; d < detectors; d++) {
-				Detector dt = new Detector(scanRank, rois);
-				dt.setWriters(thread);
+				Detector dt = new Detector(scanRank, rois, thread);
 				detector[d] = dt;
 
 				String dg = String.format(DETECTOR_LOCATION, d);
