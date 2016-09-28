@@ -3,6 +3,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,11 +21,14 @@ import org.eclipse.january.dataset.SliceND;
  *
  */
 public class NexusScanInfo {
+	
+	public static enum ScanRole {
+		DETECTOR, SCANNABLE, MONITOR, METADATA
+	}
 
 	private int rank;
-	private Collection<String> scannableNames;
-	private Set<String> monitorNames;
-	private Set<String> metadataScannableNames;
+	
+	private final Map<ScanRole, Collection<String>> deviceNames;
 	
 	public NexusScanInfo() {
 		this(Collections.emptyList());
@@ -34,9 +38,10 @@ public class NexusScanInfo {
 	 * 
 	 * @param axisNames must be ordered correctly into indices
 	 */
-	public NexusScanInfo(Collection<String> axisNames) {
+	public NexusScanInfo(List<String> axisNames) {
 		super();
-		this.scannableNames = axisNames;
+		deviceNames = new EnumMap<>(ScanRole.class);
+		deviceNames.put(ScanRole.SCANNABLE, axisNames);
 		this.rank = 1;
 	}
 	
@@ -48,49 +53,63 @@ public class NexusScanInfo {
 		this.rank = rank;
 	}
 	
-	public Collection<String> getScannableNames() {
-		if (scannableNames == null) {
-			return Collections.emptyList();
-		}
-		return scannableNames;
+	private void setDeviceNames(ScanRole scanRole, Collection<String> names) {
+		// private so that we can ensure the correct type of collection for the role
+		// e.g. List for Scannables
+		deviceNames.put(scanRole, names);
+	}
+	
+	public Collection<String> getDeviceNames(ScanRole scanRole) {
+		Collection<String> names = deviceNames.get(scanRole);
+		return names == null ? Collections.emptyList() : names;
+	}
+	
+	public void setDetectorNames(Set<String> detectorNames) {
+		setDeviceNames(ScanRole.DETECTOR, detectorNames);
+	}
+	
+	public Collection<String> getDetectorNames() {
+		return getDeviceNames(ScanRole.DETECTOR);
+	}
+
+	public List<String> getScannableNames() {
+		return (List<String>) getDeviceNames(ScanRole.SCANNABLE);
 	}
 	
 	public void setScannableNames(List<String> axisNames) {
-		this.scannableNames = axisNames;
-	}
-	
-	public boolean isScannable(String name) {
-		return scannableNames != null && scannableNames.contains(name);
+		setDeviceNames(ScanRole.SCANNABLE, axisNames);
 	}
 	
 	public Set<String> getMonitorNames() {
-		if (monitorNames == null) {
-			return Collections.emptySet();
-		}
-		return monitorNames;
+		return (Set<String>) getDeviceNames(ScanRole.MONITOR);
 	}
 	
 	public void setMonitorNames(Set<String> monitorNames) {
-		this.monitorNames = monitorNames;
-	}
-	
-	public boolean isMonitor(String name) {
-		return monitorNames != null && monitorNames.contains(name);
+		setDeviceNames(ScanRole.MONITOR, monitorNames);
 	}
 	
 	public Set<String> getMetadataScannableNames() {
-		if (metadataScannableNames == null) {
-			return Collections.emptySet();
-		}
-		return metadataScannableNames;
+		return (Set<String>) getDeviceNames(ScanRole.METADATA);
 	}
 	
 	public void setMetadataScannableNames(Set<String> metadataScannableNames) {
-		this.metadataScannableNames = metadataScannableNames;
+		setDeviceNames(ScanRole.METADATA, metadataScannableNames);
 	}
-	
-	public boolean isMetadataScannable(String name) {
-		return metadataScannableNames != null && metadataScannableNames.contains(name);
+	/**
+	 * Returns the {@link ScanRole} of the device with the given name within the scan,
+	 * or <code>null</code> if none
+	 * @param name name of device
+	 * @return role or device within scan, or <code>null</code>
+	 */
+	public ScanRole getScanRole(String name) {
+		for (ScanRole scanRole : deviceNames.keySet()) {
+			Collection<String> names = deviceNames.get(scanRole);
+			if (names != null && names.contains(name)) {
+				return scanRole;
+			}
+		}
+		
+		return null;
 	}
 
 	/**
@@ -138,7 +157,7 @@ public class NexusScanInfo {
 
 	@Override
 	public String toString() {
-		return "NexusScanInfo [rank=" + rank + ", axisNames=" + scannableNames + "]";
+		return "NexusScanInfo [rank=" + rank + ", axisNames=" + getScannableNames() + "]";
 	}
 
 }
