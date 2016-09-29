@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -461,7 +462,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getOrder_noScalar();
+	public Long getOrder_noScalar();
 
 	/**
 	 * A number which describes if this is the first, second,..
@@ -472,7 +473,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param order_no the order_no
 	 */
-	public DataNode setOrder_noScalar(long order_no);
+	public DataNode setOrder_noScalar(Long order_no);
 
 	/**
 	 * Cut angle of reflecting Bragg plane and plane of crystal surface
@@ -505,7 +506,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCut_angleScalar();
+	public Double getCut_angleScalar();
 
 	/**
 	 * Cut angle of reflecting Bragg plane and plane of crystal surface
@@ -516,7 +517,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param cut_angle the cut_angle
 	 */
-	public DataNode setCut_angleScalar(double cut_angle);
+	public DataNode setCut_angleScalar(Double cut_angle);
 
 	/**
 	 * Space group of crystal structure
@@ -580,7 +581,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cellScalar();
+	public Double getUnit_cellScalar();
 
 	/**
 	 * Unit cell parameters (lengths and angles)
@@ -592,7 +593,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param unit_cell the unit_cell
 	 */
-	public DataNode setUnit_cellScalar(double unit_cell);
+	public DataNode setUnit_cellScalar(Double unit_cell);
 
 	/**
 	 * Unit cell lattice parameter: length of side a
@@ -625,7 +626,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_aScalar();
+	public Double getUnit_cell_aScalar();
 
 	/**
 	 * Unit cell lattice parameter: length of side a
@@ -636,7 +637,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param unit_cell_a the unit_cell_a
 	 */
-	public DataNode setUnit_cell_aScalar(double unit_cell_a);
+	public DataNode setUnit_cell_aScalar(Double unit_cell_a);
 
 	/**
 	 * Unit cell lattice parameter: length of side b
@@ -669,7 +670,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_bScalar();
+	public Double getUnit_cell_bScalar();
 
 	/**
 	 * Unit cell lattice parameter: length of side b
@@ -680,7 +681,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param unit_cell_b the unit_cell_b
 	 */
-	public DataNode setUnit_cell_bScalar(double unit_cell_b);
+	public DataNode setUnit_cell_bScalar(Double unit_cell_b);
 
 	/**
 	 * Unit cell lattice parameter: length of side c
@@ -713,7 +714,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_cScalar();
+	public Double getUnit_cell_cScalar();
 
 	/**
 	 * Unit cell lattice parameter: length of side c
@@ -724,7 +725,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param unit_cell_c the unit_cell_c
 	 */
-	public DataNode setUnit_cell_cScalar(double unit_cell_c);
+	public DataNode setUnit_cell_cScalar(Double unit_cell_c);
 
 	/**
 	 * Unit cell lattice parameter: angle alpha
@@ -757,7 +758,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_alphaScalar();
+	public Double getUnit_cell_alphaScalar();
 
 	/**
 	 * Unit cell lattice parameter: angle alpha
@@ -768,7 +769,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param unit_cell_alpha the unit_cell_alpha
 	 */
-	public DataNode setUnit_cell_alphaScalar(double unit_cell_alpha);
+	public DataNode setUnit_cell_alphaScalar(Double unit_cell_alpha);
 
 	/**
 	 * Unit cell lattice parameter: angle beta
@@ -801,7 +802,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_betaScalar();
+	public Double getUnit_cell_betaScalar();
 
 	/**
 	 * Unit cell lattice parameter: angle beta
@@ -812,7 +813,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param unit_cell_beta the unit_cell_beta
 	 */
-	public DataNode setUnit_cell_betaScalar(double unit_cell_beta);
+	public DataNode setUnit_cell_betaScalar(Double unit_cell_beta);
 
 	/**
 	 * Unit cell lattice parameter: angle gamma
@@ -845,7 +846,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_gammaScalar();
+	public Double getUnit_cell_gammaScalar();
 
 	/**
 	 * Unit cell lattice parameter: angle gamma
@@ -856,7 +857,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param unit_cell_gamma the unit_cell_gamma
 	 */
-	public DataNode setUnit_cell_gammaScalar(double unit_cell_gamma);
+	public DataNode setUnit_cell_gammaScalar(Double unit_cell_gamma);
 
 	/**
 	 * Volume of the unit cell
@@ -889,7 +890,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_volumeScalar();
+	public Double getUnit_cell_volumeScalar();
 
 	/**
 	 * Volume of the unit cell
@@ -900,10 +901,11 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param unit_cell_volume the unit_cell_volume
 	 */
-	public DataNode setUnit_cell_volumeScalar(double unit_cell_volume);
+	public DataNode setUnit_cell_volumeScalar(Double unit_cell_volume);
 
 	/**
-	 * Orientation matrix of single crystal sample using Busing-Levy convention
+	 * Orientation matrix of single crystal sample using Busing-Levy convention:
+	 * W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Dimensions:</b> 1: 3; 2: 3;
@@ -914,7 +916,8 @@ public interface NXcrystal extends NXobject {
 	public IDataset getOrientation_matrix();
 	
 	/**
-	 * Orientation matrix of single crystal sample using Busing-Levy convention
+	 * Orientation matrix of single crystal sample using Busing-Levy convention:
+	 * W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Dimensions:</b> 1: 3; 2: 3;
@@ -925,7 +928,8 @@ public interface NXcrystal extends NXobject {
 	public DataNode setOrientation_matrix(IDataset orientation_matrix);
 
 	/**
-	 * Orientation matrix of single crystal sample using Busing-Levy convention
+	 * Orientation matrix of single crystal sample using Busing-Levy convention:
+	 * W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Dimensions:</b> 1: 3; 2: 3;
@@ -933,10 +937,11 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getOrientation_matrixScalar();
+	public Double getOrientation_matrixScalar();
 
 	/**
-	 * Orientation matrix of single crystal sample using Busing-Levy convention
+	 * Orientation matrix of single crystal sample using Busing-Levy convention:
+	 * W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Dimensions:</b> 1: 3; 2: 3;
@@ -944,7 +949,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param orientation_matrix the orientation_matrix
 	 */
-	public DataNode setOrientation_matrixScalar(double orientation_matrix);
+	public DataNode setOrientation_matrixScalar(Double orientation_matrix);
 
 	/**
 	 * Optimum diffracted wavelength
@@ -980,7 +985,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getWavelengthScalar();
+	public Double getWavelengthScalar();
 
 	/**
 	 * Optimum diffracted wavelength
@@ -992,7 +997,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param wavelength the wavelength
 	 */
-	public DataNode setWavelengthScalar(double wavelength);
+	public DataNode setWavelengthScalar(Double wavelength);
 
 	/**
 	 * spacing between crystal planes of the reflection
@@ -1025,7 +1030,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getD_spacingScalar();
+	public Double getD_spacingScalar();
 
 	/**
 	 * spacing between crystal planes of the reflection
@@ -1036,7 +1041,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param d_spacing the d_spacing
 	 */
-	public DataNode setD_spacingScalar(double d_spacing);
+	public DataNode setD_spacingScalar(Double d_spacing);
 
 	/**
 	 * Scattering vector, Q, of nominal reflection
@@ -1069,7 +1074,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getScattering_vectorScalar();
+	public Double getScattering_vectorScalar();
 
 	/**
 	 * Scattering vector, Q, of nominal reflection
@@ -1080,7 +1085,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param scattering_vector the scattering_vector
 	 */
-	public DataNode setScattering_vectorScalar(double scattering_vector);
+	public DataNode setScattering_vectorScalar(Double scattering_vector);
 
 	/**
 	 * Miller indices (hkl) values of nominal reflection
@@ -1116,7 +1121,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getReflectionScalar();
+	public Long getReflectionScalar();
 
 	/**
 	 * Miller indices (hkl) values of nominal reflection
@@ -1128,7 +1133,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param reflection the reflection
 	 */
-	public DataNode setReflectionScalar(long reflection);
+	public DataNode setReflectionScalar(Long reflection);
 
 	/**
 	 * Thickness of the crystal. (Required for Laue orientations - see "usage" field)
@@ -1161,7 +1166,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getThicknessScalar();
+	public Double getThicknessScalar();
 
 	/**
 	 * Thickness of the crystal. (Required for Laue orientations - see "usage" field)
@@ -1172,7 +1177,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param thickness the thickness
 	 */
-	public DataNode setThicknessScalar(double thickness);
+	public DataNode setThicknessScalar(Double thickness);
 
 	/**
 	 * mass density of the crystal
@@ -1249,7 +1254,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSegment_widthScalar();
+	public Double getSegment_widthScalar();
 
 	/**
 	 * Horizontal width of individual segment
@@ -1260,7 +1265,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param segment_width the segment_width
 	 */
-	public DataNode setSegment_widthScalar(double segment_width);
+	public DataNode setSegment_widthScalar(Double segment_width);
 
 	/**
 	 * Vertical height of individual segment
@@ -1293,7 +1298,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSegment_heightScalar();
+	public Double getSegment_heightScalar();
 
 	/**
 	 * Vertical height of individual segment
@@ -1304,7 +1309,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param segment_height the segment_height
 	 */
-	public DataNode setSegment_heightScalar(double segment_height);
+	public DataNode setSegment_heightScalar(Double segment_height);
 
 	/**
 	 * Thickness of individual segment
@@ -1337,7 +1342,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSegment_thicknessScalar();
+	public Double getSegment_thicknessScalar();
 
 	/**
 	 * Thickness of individual segment
@@ -1348,7 +1353,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param segment_thickness the segment_thickness
 	 */
-	public DataNode setSegment_thicknessScalar(double segment_thickness);
+	public DataNode setSegment_thicknessScalar(Double segment_thickness);
 
 	/**
 	 * Typical gap between adjacent segments
@@ -1381,7 +1386,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSegment_gapScalar();
+	public Double getSegment_gapScalar();
 
 	/**
 	 * Typical gap between adjacent segments
@@ -1392,7 +1397,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param segment_gap the segment_gap
 	 */
-	public DataNode setSegment_gapScalar(double segment_gap);
+	public DataNode setSegment_gapScalar(Double segment_gap);
 
 	/**
 	 * number of segment columns in horizontal direction
@@ -1425,7 +1430,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSegment_columnsScalar();
+	public Double getSegment_columnsScalar();
 
 	/**
 	 * number of segment columns in horizontal direction
@@ -1436,7 +1441,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param segment_columns the segment_columns
 	 */
-	public DataNode setSegment_columnsScalar(double segment_columns);
+	public DataNode setSegment_columnsScalar(Double segment_columns);
 
 	/**
 	 * number of segment rows in vertical direction
@@ -1469,7 +1474,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSegment_rowsScalar();
+	public Double getSegment_rowsScalar();
 
 	/**
 	 * number of segment rows in vertical direction
@@ -1480,7 +1485,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param segment_rows the segment_rows
 	 */
-	public DataNode setSegment_rowsScalar(double segment_rows);
+	public DataNode setSegment_rowsScalar(Double segment_rows);
 
 	/**
 	 * horizontal mosaic Full Width Half Maximum
@@ -1513,7 +1518,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getMosaic_horizontalScalar();
+	public Double getMosaic_horizontalScalar();
 
 	/**
 	 * horizontal mosaic Full Width Half Maximum
@@ -1524,7 +1529,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param mosaic_horizontal the mosaic_horizontal
 	 */
-	public DataNode setMosaic_horizontalScalar(double mosaic_horizontal);
+	public DataNode setMosaic_horizontalScalar(Double mosaic_horizontal);
 
 	/**
 	 * vertical mosaic Full Width Half Maximum
@@ -1557,7 +1562,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getMosaic_verticalScalar();
+	public Double getMosaic_verticalScalar();
 
 	/**
 	 * vertical mosaic Full Width Half Maximum
@@ -1568,7 +1573,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param mosaic_vertical the mosaic_vertical
 	 */
-	public DataNode setMosaic_verticalScalar(double mosaic_vertical);
+	public DataNode setMosaic_verticalScalar(Double mosaic_vertical);
 
 	/**
 	 * Horizontal curvature of focusing crystal
@@ -1601,7 +1606,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCurvature_horizontalScalar();
+	public Double getCurvature_horizontalScalar();
 
 	/**
 	 * Horizontal curvature of focusing crystal
@@ -1612,7 +1617,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param curvature_horizontal the curvature_horizontal
 	 */
-	public DataNode setCurvature_horizontalScalar(double curvature_horizontal);
+	public DataNode setCurvature_horizontalScalar(Double curvature_horizontal);
 
 	/**
 	 * Vertical curvature of focusing crystal
@@ -1645,7 +1650,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCurvature_verticalScalar();
+	public Double getCurvature_verticalScalar();
 
 	/**
 	 * Vertical curvature of focusing crystal
@@ -1656,7 +1661,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param curvature_vertical the curvature_vertical
 	 */
-	public DataNode setCurvature_verticalScalar(double curvature_vertical);
+	public DataNode setCurvature_verticalScalar(Double curvature_vertical);
 
 	/**
 	 * Is this crystal bent cylindrically?
@@ -1686,7 +1691,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public boolean getIs_cylindricalScalar();
+	public Boolean getIs_cylindricalScalar();
 
 	/**
 	 * Is this crystal bent cylindrically?
@@ -1696,7 +1701,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param is_cylindrical the is_cylindrical
 	 */
-	public DataNode setIs_cylindricalScalar(boolean is_cylindrical);
+	public DataNode setIs_cylindricalScalar(Boolean is_cylindrical);
 
 	/**
 	 * If cylindrical: cylinder orientation angle
@@ -1779,7 +1784,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPolar_angleScalar();
+	public Double getPolar_angleScalar();
 
 	/**
 	 * Polar (scattering) angle at which crystal assembly is positioned.
@@ -1792,7 +1797,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param polar_angle the polar_angle
 	 */
-	public DataNode setPolar_angleScalar(double polar_angle);
+	public DataNode setPolar_angleScalar(Double polar_angle);
 
 	/**
 	 * Azimuthal angle at which crystal assembly is positioned
@@ -1828,7 +1833,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getAzimuthal_angleScalar();
+	public Double getAzimuthal_angleScalar();
 
 	/**
 	 * Azimuthal angle at which crystal assembly is positioned
@@ -1840,7 +1845,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param azimuthal_angle the azimuthal_angle
 	 */
-	public DataNode setAzimuthal_angleScalar(double azimuthal_angle);
+	public DataNode setAzimuthal_angleScalar(Double azimuthal_angle);
 
 	/**
 	 * Bragg angle of nominal reflection
@@ -1876,7 +1881,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBragg_angleScalar();
+	public Double getBragg_angleScalar();
 
 	/**
 	 * Bragg angle of nominal reflection
@@ -1888,7 +1893,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param bragg_angle the bragg_angle
 	 */
-	public DataNode setBragg_angleScalar(double bragg_angle);
+	public DataNode setBragg_angleScalar(Double bragg_angle);
 
 	/**
 	 * average/nominal crystal temperature
@@ -1921,7 +1926,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTemperatureScalar();
+	public Double getTemperatureScalar();
 
 	/**
 	 * average/nominal crystal temperature
@@ -1932,7 +1937,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param temperature the temperature
 	 */
-	public DataNode setTemperatureScalar(double temperature);
+	public DataNode setTemperatureScalar(Double temperature);
 
 	/**
 	 * how lattice parameter changes with temperature
@@ -1965,7 +1970,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTemperature_coefficientScalar();
+	public Double getTemperature_coefficientScalar();
 
 	/**
 	 * how lattice parameter changes with temperature
@@ -1976,7 +1981,7 @@ public interface NXcrystal extends NXobject {
 	 * 
 	 * @param temperature_coefficient the temperature_coefficient
 	 */
-	public DataNode setTemperature_coefficientScalar(double temperature_coefficient);
+	public DataNode setTemperature_coefficientScalar(Double temperature_coefficient);
 
 	/**
 	 * log file of crystal temperature

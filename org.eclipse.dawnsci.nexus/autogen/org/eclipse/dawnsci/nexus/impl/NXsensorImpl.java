@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,8 +15,10 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.nexus.*;
+
 import org.eclipse.january.dataset.IDataset;
+
+import org.eclipse.dawnsci.nexus.*;
 
 /**
  * A sensor used to monitor an external condition
@@ -196,7 +198,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public boolean getRun_controlScalar() {
+	public Boolean getRun_controlScalar() {
 		return getBoolean(NX_RUN_CONTROL);
 	}
 
@@ -206,7 +208,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public DataNode setRun_controlScalar(boolean run_control) {
+	public DataNode setRun_controlScalar(Boolean run_control) {
 		return setField(NX_RUN_CONTROL, run_control);
 	}
 
@@ -216,7 +218,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public double getHigh_trip_valueScalar() {
+	public Double getHigh_trip_valueScalar() {
 		return getDouble(NX_HIGH_TRIP_VALUE);
 	}
 
@@ -226,7 +228,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public DataNode setHigh_trip_valueScalar(double high_trip_value) {
+	public DataNode setHigh_trip_valueScalar(Double high_trip_value) {
 		return setField(NX_HIGH_TRIP_VALUE, high_trip_value);
 	}
 
@@ -236,7 +238,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public double getLow_trip_valueScalar() {
+	public Double getLow_trip_valueScalar() {
 		return getDouble(NX_LOW_TRIP_VALUE);
 	}
 
@@ -246,7 +248,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public DataNode setLow_trip_valueScalar(double low_trip_value) {
+	public DataNode setLow_trip_valueScalar(Double low_trip_value) {
 		return setField(NX_LOW_TRIP_VALUE, low_trip_value);
 	}
 
@@ -256,7 +258,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public double getValueScalar() {
+	public Double getValueScalar() {
 		return getDouble(NX_VALUE);
 	}
 
@@ -266,7 +268,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public DataNode setValueScalar(double value) {
+	public DataNode setValueScalar(Double value) {
 		return setField(NX_VALUE, value);
 	}
 
@@ -276,7 +278,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public double getValue_deriv1Scalar() {
+	public Double getValue_deriv1Scalar() {
 		return getDouble(NX_VALUE_DERIV1);
 	}
 
@@ -286,7 +288,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public DataNode setValue_deriv1Scalar(double value_deriv1) {
+	public DataNode setValue_deriv1Scalar(Double value_deriv1) {
 		return setField(NX_VALUE_DERIV1, value_deriv1);
 	}
 
@@ -296,7 +298,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public double getValue_deriv2Scalar() {
+	public Double getValue_deriv2Scalar() {
 		return getDouble(NX_VALUE_DERIV2);
 	}
 
@@ -306,7 +308,7 @@ public class NXsensorImpl extends NXobjectImpl implements NXsensor {
 	}
 
 	@Override
-	public DataNode setValue_deriv2Scalar(double value_deriv2) {
+	public DataNode setValue_deriv2Scalar(Double value_deriv2) {
 		return setField(NX_VALUE_DERIV2, value_deriv2);
 	}
 

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,8 +17,10 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.nexus.*;
+
 import org.eclipse.january.dataset.IDataset;
+
+import org.eclipse.dawnsci.nexus.*;
 
 /**
  * A neutron moderator
@@ -95,7 +97,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public double getDistanceScalar() {
+	public Double getDistanceScalar() {
 		return getDouble(NX_DISTANCE);
 	}
 
@@ -105,7 +107,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public DataNode setDistanceScalar(double distance) {
+	public DataNode setDistanceScalar(Double distance) {
 		return setField(NX_DISTANCE, distance);
 	}
 
@@ -135,7 +137,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public double getPoison_depthScalar() {
+	public Double getPoison_depthScalar() {
 		return getDouble(NX_POISON_DEPTH);
 	}
 
@@ -145,7 +147,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public DataNode setPoison_depthScalar(double poison_depth) {
+	public DataNode setPoison_depthScalar(Double poison_depth) {
 		return setField(NX_POISON_DEPTH, poison_depth);
 	}
 
@@ -155,7 +157,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public boolean getCoupledScalar() {
+	public Boolean getCoupledScalar() {
 		return getBoolean(NX_COUPLED);
 	}
 
@@ -165,7 +167,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public DataNode setCoupledScalar(boolean coupled) {
+	public DataNode setCoupledScalar(Boolean coupled) {
 		return setField(NX_COUPLED, coupled);
 	}
 
@@ -215,7 +217,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public double getTemperatureScalar() {
+	public Double getTemperatureScalar() {
 		return getDouble(NX_TEMPERATURE);
 	}
 
@@ -225,7 +227,7 @@ public class NXmoderatorImpl extends NXobjectImpl implements NXmoderator {
 	}
 
 	@Override
-	public DataNode setTemperatureScalar(double temperature) {
+	public DataNode setTemperatureScalar(Double temperature) {
 		return setField(NX_TEMPERATURE, temperature);
 	}
 

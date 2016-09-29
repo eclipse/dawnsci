@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -263,7 +264,7 @@ public interface NXcontainer extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDensityScalar();
+	public Double getDensityScalar();
 
 	/**
 	 * Density of the material the container is made from.
@@ -275,7 +276,7 @@ public interface NXcontainer extends NXobject {
 	 * 
 	 * @param density the density
 	 */
-	public DataNode setDensityScalar(double density);
+	public DataNode setDensityScalar(Double density);
 
 	/**
 	 * Fraction of the volume of the container occupied by the material
@@ -314,7 +315,7 @@ public interface NXcontainer extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPacking_fractionScalar();
+	public Double getPacking_fractionScalar();
 
 	/**
 	 * Fraction of the volume of the container occupied by the material
@@ -327,7 +328,7 @@ public interface NXcontainer extends NXobject {
 	 * 
 	 * @param packing_fraction the packing_fraction
 	 */
-	public DataNode setPacking_fractionScalar(double packing_fraction);
+	public DataNode setPacking_fractionScalar(Double packing_fraction);
 
 	/**
 	 * Relative molecular mass of container.
@@ -363,7 +364,7 @@ public interface NXcontainer extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getRelative_molecular_massScalar();
+	public Double getRelative_molecular_massScalar();
 
 	/**
 	 * Relative molecular mass of container.
@@ -375,7 +376,7 @@ public interface NXcontainer extends NXobject {
 	 * 
 	 * @param relative_molecular_mass the relative_molecular_mass
 	 */
-	public DataNode setRelative_molecular_massScalar(double relative_molecular_mass);
+	public DataNode setRelative_molecular_massScalar(Double relative_molecular_mass);
 
 	/**
 	 * Details of beam incident on container, including the position

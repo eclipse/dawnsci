@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,8 +17,10 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.nexus.*;
+
 import org.eclipse.january.dataset.IDataset;
+
+import org.eclipse.dawnsci.nexus.*;
 
 /**
  * A beamline aperture.

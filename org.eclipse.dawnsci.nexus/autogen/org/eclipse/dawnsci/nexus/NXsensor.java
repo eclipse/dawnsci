@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -357,7 +358,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public boolean getRun_controlScalar();
+	public Boolean getRun_controlScalar();
 
 	/**
 	 * Is data collection controlled or synchronised to this quantity:
@@ -368,7 +369,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @param run_control the run_control
 	 */
-	public DataNode setRun_controlScalar(boolean run_control);
+	public DataNode setRun_controlScalar(Boolean run_control);
 
 	/**
 	 * Upper control bound of sensor reading if using run_control
@@ -401,7 +402,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getHigh_trip_valueScalar();
+	public Double getHigh_trip_valueScalar();
 
 	/**
 	 * Upper control bound of sensor reading if using run_control
@@ -412,7 +413,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @param high_trip_value the high_trip_value
 	 */
-	public DataNode setHigh_trip_valueScalar(double high_trip_value);
+	public DataNode setHigh_trip_valueScalar(Double high_trip_value);
 
 	/**
 	 * Lower control bound of sensor reading if using run_control
@@ -445,7 +446,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getLow_trip_valueScalar();
+	public Double getLow_trip_valueScalar();
 
 	/**
 	 * Lower control bound of sensor reading if using run_control
@@ -456,7 +457,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @param low_trip_value the low_trip_value
 	 */
-	public DataNode setLow_trip_valueScalar(double low_trip_value);
+	public DataNode setLow_trip_valueScalar(Double low_trip_value);
 
 	/**
 	 * nominal setpoint or average value
@@ -495,7 +496,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getValueScalar();
+	public Double getValueScalar();
 
 	/**
 	 * nominal setpoint or average value
@@ -508,7 +509,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @param value the value
 	 */
-	public DataNode setValueScalar(double value);
+	public DataNode setValueScalar(Double value);
 
 	/**
 	 * Nominal/average first derivative of value
@@ -550,7 +551,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getValue_deriv1Scalar();
+	public Double getValue_deriv1Scalar();
 
 	/**
 	 * Nominal/average first derivative of value
@@ -564,7 +565,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @param value_deriv1 the value_deriv1
 	 */
-	public DataNode setValue_deriv1Scalar(double value_deriv1);
+	public DataNode setValue_deriv1Scalar(Double value_deriv1);
 
 	/**
 	 * Nominal/average second derivative of value
@@ -603,7 +604,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getValue_deriv2Scalar();
+	public Double getValue_deriv2Scalar();
 
 	/**
 	 * Nominal/average second derivative of value
@@ -616,7 +617,7 @@ public interface NXsensor extends NXobject {
 	 * 
 	 * @param value_deriv2 the value_deriv2
 	 */
-	public DataNode setValue_deriv2Scalar(double value_deriv2);
+	public DataNode setValue_deriv2Scalar(Double value_deriv2);
 
 	/**
 	 * Time history of sensor readings

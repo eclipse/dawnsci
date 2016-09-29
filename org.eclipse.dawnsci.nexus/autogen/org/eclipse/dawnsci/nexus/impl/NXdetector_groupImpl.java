@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,8 +15,10 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.nexus.*;
+
 import org.eclipse.january.dataset.IDataset;
+
+import org.eclipse.dawnsci.nexus.*;
 
 /**
  * Logical grouping of detector elements.
@@ -93,7 +95,7 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 	}
 
 	@Override
-	public long getGroup_indexScalar() {
+	public Long getGroup_indexScalar() {
 		return getLong(NX_GROUP_INDEX);
 	}
 
@@ -103,7 +105,7 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 	}
 
 	@Override
-	public DataNode setGroup_indexScalar(long group_index) {
+	public DataNode setGroup_indexScalar(Long group_index) {
 		return setField(NX_GROUP_INDEX, group_index);
 	}
 
@@ -113,7 +115,7 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 	}
 
 	@Override
-	public long getGroup_parentScalar() {
+	public Long getGroup_parentScalar() {
 		return getLong(NX_GROUP_PARENT);
 	}
 
@@ -123,7 +125,7 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 	}
 
 	@Override
-	public DataNode setGroup_parentScalar(long group_parent) {
+	public DataNode setGroup_parentScalar(Long group_parent) {
 		return setField(NX_GROUP_PARENT, group_parent);
 	}
 
@@ -133,7 +135,7 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 	}
 
 	@Override
-	public long getGroup_typeScalar() {
+	public Long getGroup_typeScalar() {
 		return getLong(NX_GROUP_TYPE);
 	}
 
@@ -143,7 +145,7 @@ public class NXdetector_groupImpl extends NXobjectImpl implements NXdetector_gro
 	}
 
 	@Override
-	public DataNode setGroup_typeScalar(long group_type) {
+	public DataNode setGroup_typeScalar(Long group_type) {
 		return setField(NX_GROUP_TYPE, group_type);
 	}
 

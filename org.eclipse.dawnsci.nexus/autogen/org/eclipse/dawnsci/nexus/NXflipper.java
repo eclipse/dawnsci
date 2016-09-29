@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -105,7 +106,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFlip_turnsScalar();
+	public Double getFlip_turnsScalar();
 
 	/**
 	 * Linear density of turns (such as number of turns/cm) in flipping field coils
@@ -116,7 +117,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @param flip_turns the flip_turns
 	 */
-	public DataNode setFlip_turnsScalar(double flip_turns);
+	public DataNode setFlip_turnsScalar(Double flip_turns);
 
 	/**
 	 * Linear density of turns (such as number of turns/cm) in compensating field coils
@@ -149,7 +150,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getComp_turnsScalar();
+	public Double getComp_turnsScalar();
 
 	/**
 	 * Linear density of turns (such as number of turns/cm) in compensating field coils
@@ -160,7 +161,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @param comp_turns the comp_turns
 	 */
-	public DataNode setComp_turnsScalar(double comp_turns);
+	public DataNode setComp_turnsScalar(Double comp_turns);
 
 	/**
 	 * Linear density of turns (such as number of turns/cm) in guide field coils
@@ -193,7 +194,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getGuide_turnsScalar();
+	public Double getGuide_turnsScalar();
 
 	/**
 	 * Linear density of turns (such as number of turns/cm) in guide field coils
@@ -204,7 +205,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @param guide_turns the guide_turns
 	 */
-	public DataNode setGuide_turnsScalar(double guide_turns);
+	public DataNode setGuide_turnsScalar(Double guide_turns);
 
 	/**
 	 * Flipping field coil current in "on" state"
@@ -237,7 +238,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFlip_currentScalar();
+	public Double getFlip_currentScalar();
 
 	/**
 	 * Flipping field coil current in "on" state"
@@ -248,7 +249,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @param flip_current the flip_current
 	 */
-	public DataNode setFlip_currentScalar(double flip_current);
+	public DataNode setFlip_currentScalar(Double flip_current);
 
 	/**
 	 * Compensating field coil current in "on" state"
@@ -281,7 +282,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getComp_currentScalar();
+	public Double getComp_currentScalar();
 
 	/**
 	 * Compensating field coil current in "on" state"
@@ -292,7 +293,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @param comp_current the comp_current
 	 */
-	public DataNode setComp_currentScalar(double comp_current);
+	public DataNode setComp_currentScalar(Double comp_current);
 
 	/**
 	 * Guide field coil current in "on" state"
@@ -325,7 +326,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getGuide_currentScalar();
+	public Double getGuide_currentScalar();
 
 	/**
 	 * Guide field coil current in "on" state"
@@ -336,7 +337,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @param guide_current the guide_current
 	 */
-	public DataNode setGuide_currentScalar(double guide_current);
+	public DataNode setGuide_currentScalar(Double guide_current);
 
 	/**
 	 * thickness along path of neutron travel
@@ -369,7 +370,7 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getThicknessScalar();
+	public Double getThicknessScalar();
 
 	/**
 	 * thickness along path of neutron travel
@@ -380,6 +381,6 @@ public interface NXflipper extends NXobject {
 	 * 
 	 * @param thickness the thickness
 	 */
-	public DataNode setThicknessScalar(double thickness);
+	public DataNode setThicknessScalar(Double thickness);
 
 }

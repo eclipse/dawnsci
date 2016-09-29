@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Date;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -66,7 +67,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDistanceScalar();
+	public Double getDistanceScalar();
 
 	/**
 	 * Distance from sample
@@ -77,7 +78,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @param distance the distance
 	 */
-	public DataNode setDistanceScalar(double distance);
+	public DataNode setDistanceScalar(Double distance);
 
 	/**
 	 * Type or composition of attenuator, e.g. polythene
@@ -138,7 +139,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getThicknessScalar();
+	public Double getThicknessScalar();
 
 	/**
 	 * Thickness of attenuator along beam direction
@@ -149,7 +150,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @param thickness the thickness
 	 */
-	public DataNode setThicknessScalar(double thickness);
+	public DataNode setThicknessScalar(Double thickness);
 
 	/**
 	 * Scattering cross section (coherent+incoherent)
@@ -182,7 +183,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getScattering_cross_sectionScalar();
+	public Double getScattering_cross_sectionScalar();
 
 	/**
 	 * Scattering cross section (coherent+incoherent)
@@ -193,7 +194,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @param scattering_cross_section the scattering_cross_section
 	 */
-	public DataNode setScattering_cross_sectionScalar(double scattering_cross_section);
+	public DataNode setScattering_cross_sectionScalar(Double scattering_cross_section);
 
 	/**
 	 * Absorption cross section
@@ -226,7 +227,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getAbsorption_cross_sectionScalar();
+	public Double getAbsorption_cross_sectionScalar();
 
 	/**
 	 * Absorption cross section
@@ -237,7 +238,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @param absorption_cross_section the absorption_cross_section
 	 */
-	public DataNode setAbsorption_cross_sectionScalar(double absorption_cross_section);
+	public DataNode setAbsorption_cross_sectionScalar(Double absorption_cross_section);
 
 	/**
 	 * The nominal amount of the beam that gets through
@@ -273,7 +274,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getAttenuator_transmissionScalar();
+	public Double getAttenuator_transmissionScalar();
 
 	/**
 	 * The nominal amount of the beam that gets through
@@ -285,7 +286,7 @@ public interface NXattenuator extends NXobject {
 	 * 
 	 * @param attenuator_transmission the attenuator_transmission
 	 */
-	public DataNode setAttenuator_transmissionScalar(double attenuator_transmission);
+	public DataNode setAttenuator_transmissionScalar(Double attenuator_transmission);
 
 	/**
 	 * In or out or moving of the beam

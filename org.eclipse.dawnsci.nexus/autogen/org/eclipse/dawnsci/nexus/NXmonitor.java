@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -251,7 +252,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDistanceScalar();
+	public Double getDistanceScalar();
 
 	/**
 	 * Distance of monitor from sample
@@ -262,7 +263,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @param distance the distance
 	 */
-	public DataNode setDistanceScalar(double distance);
+	public DataNode setDistanceScalar(Double distance);
 
 	/**
 	 * Range (X-axis, Time-of-flight, etc.) over which the integral was calculated
@@ -298,7 +299,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getRangeScalar();
+	public Double getRangeScalar();
 
 	/**
 	 * Range (X-axis, Time-of-flight, etc.) over which the integral was calculated
@@ -310,7 +311,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @param range the range
 	 */
-	public DataNode setRangeScalar(double range);
+	public DataNode setRangeScalar(Double range);
 
 	/**
 	 * Nominal reading to be used for normalisation purposes.
@@ -492,7 +493,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTime_of_flightScalar();
+	public Double getTime_of_flightScalar();
 
 	/**
 	 * Time-of-flight
@@ -504,7 +505,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @param time_of_flight the time_of_flight
 	 */
-	public DataNode setTime_of_flightScalar(double time_of_flight);
+	public DataNode setTime_of_flightScalar(Double time_of_flight);
 
 	/**
 	 * Monitor efficiency
@@ -633,7 +634,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSampled_fractionScalar();
+	public Double getSampled_fractionScalar();
 
 	/**
 	 * Proportion of incident beam sampled by the monitor (0<x<1)
@@ -644,7 +645,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @param sampled_fraction the sampled_fraction
 	 */
-	public DataNode setSampled_fractionScalar(double sampled_fraction);
+	public DataNode setSampled_fractionScalar(Double sampled_fraction);
 
 	/**
 	 * Geometry of the monitor
@@ -748,7 +749,7 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCount_timeScalar();
+	public Double getCount_timeScalar();
 
 	/**
 	 * Elapsed actual counting time, can be an array of size ``np``
@@ -762,6 +763,6 @@ public interface NXmonitor extends NXobject {
 	 * 
 	 * @param count_time the count_time
 	 */
-	public DataNode setCount_timeScalar(double count_time);
+	public DataNode setCount_timeScalar(Double count_time);
 
 }

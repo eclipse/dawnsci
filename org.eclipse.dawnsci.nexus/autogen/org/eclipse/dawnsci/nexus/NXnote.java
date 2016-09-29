@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,8 +15,9 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Date;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.january.dataset.DatasetFactory;
+
 import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.DatasetFactory;
 
 /**
  * Any additional freeform information not covered by the other base classes.
@@ -217,7 +218,7 @@ public interface NXnote extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getSequence_indexScalar();
+	public Long getSequence_indexScalar();
 
 	/**
 	 * Sequence index of note, for placing a sequence of
@@ -228,7 +229,7 @@ public interface NXnote extends NXobject {
 	 * 
 	 * @param sequence_index the sequence_index
 	 */
-	public DataNode setSequence_indexScalar(long sequence_index);
+	public DataNode setSequence_indexScalar(Long sequence_index);
 
 	/**
 	 * Binary note data - if text, line terminator is [CR][LF].

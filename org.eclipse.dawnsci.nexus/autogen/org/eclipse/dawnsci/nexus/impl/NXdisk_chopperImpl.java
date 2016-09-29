@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,8 +17,10 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.nexus.*;
+
 import org.eclipse.january.dataset.IDataset;
+
+import org.eclipse.dawnsci.nexus.*;
 
 /**
  * A device blocking the beam in a temporal periodic pattern.
@@ -84,7 +86,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getRotation_speedScalar() {
+	public Double getRotation_speedScalar() {
 		return getDouble(NX_ROTATION_SPEED);
 	}
 
@@ -94,7 +96,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public DataNode setRotation_speedScalar(double rotation_speed) {
+	public DataNode setRotation_speedScalar(Double rotation_speed) {
 		return setField(NX_ROTATION_SPEED, rotation_speed);
 	}
 
@@ -104,7 +106,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public long getSlitsScalar() {
+	public Long getSlitsScalar() {
 		return getLong(NX_SLITS);
 	}
 
@@ -114,7 +116,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public DataNode setSlitsScalar(long slits) {
+	public DataNode setSlitsScalar(Long slits) {
 		return setField(NX_SLITS, slits);
 	}
 
@@ -124,7 +126,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getSlit_angleScalar() {
+	public Double getSlit_angleScalar() {
 		return getDouble(NX_SLIT_ANGLE);
 	}
 
@@ -134,7 +136,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public DataNode setSlit_angleScalar(double slit_angle) {
+	public DataNode setSlit_angleScalar(Double slit_angle) {
 		return setField(NX_SLIT_ANGLE, slit_angle);
 	}
 
@@ -144,7 +146,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getPair_separationScalar() {
+	public Double getPair_separationScalar() {
 		return getDouble(NX_PAIR_SEPARATION);
 	}
 
@@ -154,7 +156,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public DataNode setPair_separationScalar(double pair_separation) {
+	public DataNode setPair_separationScalar(Double pair_separation) {
 		return setField(NX_PAIR_SEPARATION, pair_separation);
 	}
 
@@ -164,7 +166,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getRadiusScalar() {
+	public Double getRadiusScalar() {
 		return getDouble(NX_RADIUS);
 	}
 
@@ -174,7 +176,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public DataNode setRadiusScalar(double radius) {
+	public DataNode setRadiusScalar(Double radius) {
 		return setField(NX_RADIUS, radius);
 	}
 
@@ -184,7 +186,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getSlit_heightScalar() {
+	public Double getSlit_heightScalar() {
 		return getDouble(NX_SLIT_HEIGHT);
 	}
 
@@ -194,7 +196,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public DataNode setSlit_heightScalar(double slit_height) {
+	public DataNode setSlit_heightScalar(Double slit_height) {
 		return setField(NX_SLIT_HEIGHT, slit_height);
 	}
 
@@ -204,7 +206,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getPhaseScalar() {
+	public Double getPhaseScalar() {
 		return getDouble(NX_PHASE);
 	}
 
@@ -214,7 +216,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public DataNode setPhaseScalar(double phase) {
+	public DataNode setPhaseScalar(Double phase) {
 		return setField(NX_PHASE, phase);
 	}
 
@@ -224,7 +226,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public long getRatioScalar() {
+	public Long getRatioScalar() {
 		return getLong(NX_RATIO);
 	}
 
@@ -234,7 +236,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public DataNode setRatioScalar(long ratio) {
+	public DataNode setRatioScalar(Long ratio) {
 		return setField(NX_RATIO, ratio);
 	}
 
@@ -244,7 +246,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getDistanceScalar() {
+	public Double getDistanceScalar() {
 		return getDouble(NX_DISTANCE);
 	}
 
@@ -254,7 +256,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public DataNode setDistanceScalar(double distance) {
+	public DataNode setDistanceScalar(Double distance) {
 		return setField(NX_DISTANCE, distance);
 	}
 
@@ -264,7 +266,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public double getWavelength_rangeScalar() {
+	public Double getWavelength_rangeScalar() {
 		return getDouble(NX_WAVELENGTH_RANGE);
 	}
 
@@ -274,7 +276,7 @@ public class NXdisk_chopperImpl extends NXobjectImpl implements NXdisk_chopper {
 	}
 
 	@Override
-	public DataNode setWavelength_rangeScalar(double wavelength_range) {
+	public DataNode setWavelength_rangeScalar(Double wavelength_range) {
 		return setField(NX_WAVELENGTH_RANGE, wavelength_range);
 	}
 

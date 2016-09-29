@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Date;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -86,7 +87,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDistanceScalar();
+	public Double getDistanceScalar();
 
 	/**
 	 * Effective distance from sample
@@ -99,7 +100,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param distance the distance
 	 */
-	public DataNode setDistanceScalar(double distance);
+	public DataNode setDistanceScalar(Double distance);
 
 	/**
 	 * Name of source
@@ -334,7 +335,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPowerScalar();
+	public Double getPowerScalar();
 
 	/**
 	 * Source power
@@ -345,7 +346,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param power the power
 	 */
-	public DataNode setPowerScalar(double power);
+	public DataNode setPowerScalar(Double power);
 
 	/**
 	 * Source emittance (nm-rad) in X (horizontal) direction.
@@ -378,7 +379,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getEmittance_xScalar();
+	public Double getEmittance_xScalar();
 
 	/**
 	 * Source emittance (nm-rad) in X (horizontal) direction.
@@ -389,7 +390,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param emittance_x the emittance_x
 	 */
-	public DataNode setEmittance_xScalar(double emittance_x);
+	public DataNode setEmittance_xScalar(Double emittance_x);
 
 	/**
 	 * Source emittance (nm-rad) in Y (horizontal) direction.
@@ -422,7 +423,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getEmittance_yScalar();
+	public Double getEmittance_yScalar();
 
 	/**
 	 * Source emittance (nm-rad) in Y (horizontal) direction.
@@ -433,7 +434,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param emittance_y the emittance_y
 	 */
-	public DataNode setEmittance_yScalar(double emittance_y);
+	public DataNode setEmittance_yScalar(Double emittance_y);
 
 	/**
 	 * particle beam size in x
@@ -466,7 +467,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSigma_xScalar();
+	public Double getSigma_xScalar();
 
 	/**
 	 * particle beam size in x
@@ -477,7 +478,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param sigma_x the sigma_x
 	 */
-	public DataNode setSigma_xScalar(double sigma_x);
+	public DataNode setSigma_xScalar(Double sigma_x);
 
 	/**
 	 * particle beam size in y
@@ -510,7 +511,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSigma_yScalar();
+	public Double getSigma_yScalar();
 
 	/**
 	 * particle beam size in y
@@ -521,7 +522,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param sigma_y the sigma_y
 	 */
-	public DataNode setSigma_yScalar(double sigma_y);
+	public DataNode setSigma_yScalar(Double sigma_y);
 
 	/**
 	 * Source intensity/area (example: s-1 cm-2)
@@ -554,7 +555,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFluxScalar();
+	public Double getFluxScalar();
 
 	/**
 	 * Source intensity/area (example: s-1 cm-2)
@@ -565,7 +566,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param flux the flux
 	 */
-	public DataNode setFluxScalar(double flux);
+	public DataNode setFluxScalar(Double flux);
 
 	/**
 	 * Source energy.
@@ -604,7 +605,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getEnergyScalar();
+	public Double getEnergyScalar();
 
 	/**
 	 * Source energy.
@@ -617,7 +618,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param energy the energy
 	 */
-	public DataNode setEnergyScalar(double energy);
+	public DataNode setEnergyScalar(Double energy);
 
 	/**
 	 * Accelerator, X-ray tube, or storage ring current
@@ -650,7 +651,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCurrentScalar();
+	public Double getCurrentScalar();
 
 	/**
 	 * Accelerator, X-ray tube, or storage ring current
@@ -661,7 +662,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param current the current
 	 */
-	public DataNode setCurrentScalar(double current);
+	public DataNode setCurrentScalar(Double current);
 
 	/**
 	 * Accelerator voltage
@@ -694,7 +695,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getVoltageScalar();
+	public Double getVoltageScalar();
 
 	/**
 	 * Accelerator voltage
@@ -705,7 +706,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param voltage the voltage
 	 */
-	public DataNode setVoltageScalar(double voltage);
+	public DataNode setVoltageScalar(Double voltage);
 
 	/**
 	 * Frequency of pulsed source
@@ -738,7 +739,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFrequencyScalar();
+	public Double getFrequencyScalar();
 
 	/**
 	 * Frequency of pulsed source
@@ -749,7 +750,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param frequency the frequency
 	 */
-	public DataNode setFrequencyScalar(double frequency);
+	public DataNode setFrequencyScalar(Double frequency);
 
 	/**
 	 * Period of pulsed source
@@ -782,7 +783,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPeriodScalar();
+	public Double getPeriodScalar();
 
 	/**
 	 * Period of pulsed source
@@ -793,7 +794,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param period the period
 	 */
-	public DataNode setPeriodScalar(double period);
+	public DataNode setPeriodScalar(Double period);
 
 	/**
 	 * Pulsed source target material
@@ -923,7 +924,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getNumber_of_bunchesScalar();
+	public Long getNumber_of_bunchesScalar();
 
 	/**
 	 * For storage rings, the number of bunches in use.
@@ -933,7 +934,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param number_of_bunches the number_of_bunches
 	 */
-	public DataNode setNumber_of_bunchesScalar(long number_of_bunches);
+	public DataNode setNumber_of_bunchesScalar(Long number_of_bunches);
 
 	/**
 	 * For storage rings, temporal length of the bunch
@@ -966,7 +967,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBunch_lengthScalar();
+	public Double getBunch_lengthScalar();
 
 	/**
 	 * For storage rings, temporal length of the bunch
@@ -977,7 +978,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param bunch_length the bunch_length
 	 */
-	public DataNode setBunch_lengthScalar(double bunch_length);
+	public DataNode setBunch_lengthScalar(Double bunch_length);
 
 	/**
 	 * For storage rings, time between bunches
@@ -1010,7 +1011,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBunch_distanceScalar();
+	public Double getBunch_distanceScalar();
 
 	/**
 	 * For storage rings, time between bunches
@@ -1021,7 +1022,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param bunch_distance the bunch_distance
 	 */
-	public DataNode setBunch_distanceScalar(double bunch_distance);
+	public DataNode setBunch_distanceScalar(Double bunch_distance);
 
 	/**
 	 * temporal width of source pulse
@@ -1054,7 +1055,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPulse_widthScalar();
+	public Double getPulse_widthScalar();
 
 	/**
 	 * temporal width of source pulse
@@ -1065,7 +1066,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param pulse_width the pulse_width
 	 */
-	public DataNode setPulse_widthScalar(double pulse_width);
+	public DataNode setPulse_widthScalar(Double pulse_width);
 
 	/**
 	 * source pulse shape
@@ -1165,7 +1166,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public boolean getTop_upScalar();
+	public Boolean getTop_upScalar();
 
 	/**
 	 * Is the synchrotron operating in top_up mode?
@@ -1175,7 +1176,7 @@ public interface NXsource extends NXobject {
 	 * 
 	 * @param top_up the top_up
 	 */
-	public DataNode setTop_upScalar(boolean top_up);
+	public DataNode setTop_upScalar(Boolean top_up);
 
 	/**
 	 * For storage rings, the current at the end of the most recent injection.

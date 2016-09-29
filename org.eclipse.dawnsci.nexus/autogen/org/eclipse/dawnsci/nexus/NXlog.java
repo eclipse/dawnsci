@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Date;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -80,7 +81,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTimeScalar();
+	public Double getTimeScalar();
 
 	/**
 	 * Time of logged entry. The times are relative to the "start" attribute
@@ -92,7 +93,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @param time the time
 	 */
-	public DataNode setTimeScalar(double time);
+	public DataNode setTimeScalar(Double time);
 
 	/**
 	 * 
@@ -250,7 +251,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getAverage_valueScalar();
+	public Double getAverage_valueScalar();
 
 	/**
 	 * <p>
@@ -260,7 +261,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @param average_value the average_value
 	 */
-	public DataNode setAverage_valueScalar(double average_value);
+	public DataNode setAverage_valueScalar(Double average_value);
 
 	/**
 	 * estimated uncertainty (often used: standard deviation) of average_value
@@ -293,7 +294,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getAverage_value_errorScalar();
+	public Double getAverage_value_errorScalar();
 
 	/**
 	 * estimated uncertainty (often used: standard deviation) of average_value
@@ -304,7 +305,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @param average_value_error the average_value_error
 	 */
-	public DataNode setAverage_value_errorScalar(double average_value_error);
+	public DataNode setAverage_value_errorScalar(Double average_value_error);
 
 	/**
 	 * <p>
@@ -334,7 +335,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getMinimum_valueScalar();
+	public Double getMinimum_valueScalar();
 
 	/**
 	 * <p>
@@ -344,7 +345,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @param minimum_value the minimum_value
 	 */
-	public DataNode setMinimum_valueScalar(double minimum_value);
+	public DataNode setMinimum_valueScalar(Double minimum_value);
 
 	/**
 	 * <p>
@@ -374,7 +375,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getMaximum_valueScalar();
+	public Double getMaximum_valueScalar();
 
 	/**
 	 * <p>
@@ -384,7 +385,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @param maximum_value the maximum_value
 	 */
-	public DataNode setMaximum_valueScalar(double maximum_value);
+	public DataNode setMaximum_valueScalar(Double maximum_value);
 
 	/**
 	 * Total time log was taken
@@ -417,7 +418,7 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDurationScalar();
+	public Double getDurationScalar();
 
 	/**
 	 * Total time log was taken
@@ -428,6 +429,6 @@ public interface NXlog extends NXobject {
 	 * 
 	 * @param duration the duration
 	 */
-	public DataNode setDurationScalar(double duration);
+	public DataNode setDurationScalar(Double duration);
 
 }

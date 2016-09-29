@@ -7,26 +7,40 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import java.util.Map;
+
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.nexus.*;
+
 import org.eclipse.january.dataset.IDataset;
+
+import org.eclipse.dawnsci.nexus.*;
 
 /**
  * Collection of translations and rotations to describe a geometry
  * A sequence of transformations lists the
  * offset and rotation steps needed to describe the position and orientation
  * of any movable or fixed device.
- * This class will usually contain all axis of a sample stage or goniometer.
+ * This class will usually contain all axes of a sample stage or goniometer.
  * The entry point (``depends_on``) will be outside of this class and point to a
  * field in here. Following the chain may also require following ``depends_on``
  * links to transformations outside, for example to a common base table.
+ * ..
+ * Given an entry point :math:`\vec{p_i}`, the point :math:`\vec{p_{i+1}}`
+ * resulting from the next transformation (the field in this group named
+ * in the ``depends_on`` attribute of the entry point)
+ * may be expressed:
+ * .. math::
+ * \vec{p_{i+1}} = \vec{o_{i}} + \vec{V_{i}} * \vec{p_{i}}
+ * where :math`\vec{o_{i}}` is the vector given in the ``@offset`` attribute
+ * and :math`\vec{V_{i}}` is the vector given in the ``@vector`` attribute
+ * TODO: this needs an equation (issue #484)
  * 
  * @version 1.0
  */
@@ -62,73 +76,82 @@ public class NXtransformationsImpl extends NXobjectImpl implements NXtransformat
 	
 
 	@Override
-	public IDataset getAnonymous__NEEDS_XSD_CHANGE__() {
-		return getDataset(NX_ANONYMOUS__NEEDS_XSD_CHANGE__);
+	public IDataset getTRANSFORMATION() {
+		return getDataset(NX_TRANSFORMATION);
 	}
 
 	@Override
-	public Number getAnonymous__NEEDS_XSD_CHANGE__Scalar() {
-		return getNumber(NX_ANONYMOUS__NEEDS_XSD_CHANGE__);
+	public Number getTRANSFORMATIONScalar() {
+		return getNumber(NX_TRANSFORMATION);
 	}
 
 	@Override
-	public DataNode setAnonymous__NEEDS_XSD_CHANGE__(IDataset anonymous__NEEDS_XSD_CHANGE__) {
-		return setDataset(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, anonymous__NEEDS_XSD_CHANGE__);
+	public DataNode setTRANSFORMATION(IDataset TRANSFORMATION) {
+		return setDataset(NX_TRANSFORMATION, TRANSFORMATION);
 	}
 
 	@Override
-	public DataNode setAnonymous__NEEDS_XSD_CHANGE__Scalar(Number anonymous__NEEDS_XSD_CHANGE__) {
-		return setField(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, anonymous__NEEDS_XSD_CHANGE__);
+	public DataNode setTRANSFORMATIONScalar(Number TRANSFORMATION) {
+		return setField(NX_TRANSFORMATION, TRANSFORMATION);
 	}
 
 	@Override
-	public String getAnonymous__NEEDS_XSD_CHANGE__AttributeTransformation_type() {
-		return getAttrString(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_TRANSFORMATION_TYPE);
+	public Map<String, IDataset> getAllTRANSFORMATION() {
+		return getAllDatasets();
+	}
+
+	public void setTRANSFORMATION(String name, IDataset TRANSFORMATION) {
+		setDataset(name, TRANSFORMATION);
 	}
 
 	@Override
-	public void setAnonymous__NEEDS_XSD_CHANGE__AttributeTransformation_type(String transformation_type) {
-		setAttribute(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_TRANSFORMATION_TYPE, transformation_type);
+	public String getTRANSFORMATIONAttributeTransformation_type() {
+		return getAttrString(NX_TRANSFORMATION, NX_TRANSFORMATION_ATTRIBUTE_TRANSFORMATION_TYPE);
 	}
 
 	@Override
-	public Number getAnonymous__NEEDS_XSD_CHANGE__AttributeVector() {
-		return getAttrNumber(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_VECTOR);
+	public void setTRANSFORMATIONAttributeTransformation_type(String transformation_type) {
+		setAttribute(NX_TRANSFORMATION, NX_TRANSFORMATION_ATTRIBUTE_TRANSFORMATION_TYPE, transformation_type);
 	}
 
 	@Override
-	public void setAnonymous__NEEDS_XSD_CHANGE__AttributeVector(Number vector) {
-		setAttribute(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_VECTOR, vector);
+	public Number getTRANSFORMATIONAttributeVector() {
+		return getAttrNumber(NX_TRANSFORMATION, NX_TRANSFORMATION_ATTRIBUTE_VECTOR);
 	}
 
 	@Override
-	public Number getAnonymous__NEEDS_XSD_CHANGE__AttributeOffset() {
-		return getAttrNumber(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_OFFSET);
+	public void setTRANSFORMATIONAttributeVector(Number vector) {
+		setAttribute(NX_TRANSFORMATION, NX_TRANSFORMATION_ATTRIBUTE_VECTOR, vector);
 	}
 
 	@Override
-	public void setAnonymous__NEEDS_XSD_CHANGE__AttributeOffset(Number offset) {
-		setAttribute(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_OFFSET, offset);
+	public Number getTRANSFORMATIONAttributeOffset() {
+		return getAttrNumber(NX_TRANSFORMATION, NX_TRANSFORMATION_ATTRIBUTE_OFFSET);
 	}
 
 	@Override
-	public String getAnonymous__NEEDS_XSD_CHANGE__AttributeOffset_units() {
-		return getAttrString(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_OFFSET_UNITS);
+	public void setTRANSFORMATIONAttributeOffset(Number offset) {
+		setAttribute(NX_TRANSFORMATION, NX_TRANSFORMATION_ATTRIBUTE_OFFSET, offset);
 	}
 
 	@Override
-	public void setAnonymous__NEEDS_XSD_CHANGE__AttributeOffset_units(String offset_units) {
-		setAttribute(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_OFFSET_UNITS, offset_units);
+	public String getTRANSFORMATIONAttributeOffset_units() {
+		return getAttrString(NX_TRANSFORMATION, NX_TRANSFORMATION_ATTRIBUTE_OFFSET_UNITS);
 	}
 
 	@Override
-	public String getAnonymous__NEEDS_XSD_CHANGE__AttributeDepends_on() {
-		return getAttrString(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_DEPENDS_ON);
+	public void setTRANSFORMATIONAttributeOffset_units(String offset_units) {
+		setAttribute(NX_TRANSFORMATION, NX_TRANSFORMATION_ATTRIBUTE_OFFSET_UNITS, offset_units);
 	}
 
 	@Override
-	public void setAnonymous__NEEDS_XSD_CHANGE__AttributeDepends_on(String depends_on) {
-		setAttribute(NX_ANONYMOUS__NEEDS_XSD_CHANGE__, NX_ANONYMOUS__NEEDS_XSD_CHANGE___ATTRIBUTE_DEPENDS_ON, depends_on);
+	public String getTRANSFORMATIONAttributeDepends_on() {
+		return getAttrString(NX_TRANSFORMATION, NX_TRANSFORMATION_ATTRIBUTE_DEPENDS_ON);
+	}
+
+	@Override
+	public void setTRANSFORMATIONAttributeDepends_on(String depends_on) {
+		setAttribute(NX_TRANSFORMATION, NX_TRANSFORMATION_ATTRIBUTE_DEPENDS_ON, depends_on);
 	}
 
 }

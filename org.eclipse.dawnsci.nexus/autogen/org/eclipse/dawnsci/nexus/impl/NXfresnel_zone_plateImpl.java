@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,8 +17,10 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.nexus.*;
+
 import org.eclipse.january.dataset.IDataset;
+
+import org.eclipse.dawnsci.nexus.*;
 
 /**
  * A fresnel zone plate
@@ -63,7 +65,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getFocus_parametersScalar() {
+	public Double getFocus_parametersScalar() {
 		return getDouble(NX_FOCUS_PARAMETERS);
 	}
 
@@ -73,7 +75,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public DataNode setFocus_parametersScalar(double focus_parameters) {
+	public DataNode setFocus_parametersScalar(Double focus_parameters) {
 		return setField(NX_FOCUS_PARAMETERS, focus_parameters);
 	}
 
@@ -83,7 +85,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getOuter_diameterScalar() {
+	public Double getOuter_diameterScalar() {
 		return getDouble(NX_OUTER_DIAMETER);
 	}
 
@@ -93,7 +95,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public DataNode setOuter_diameterScalar(double outer_diameter) {
+	public DataNode setOuter_diameterScalar(Double outer_diameter) {
 		return setField(NX_OUTER_DIAMETER, outer_diameter);
 	}
 
@@ -103,7 +105,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getOutermost_zone_widthScalar() {
+	public Double getOutermost_zone_widthScalar() {
 		return getDouble(NX_OUTERMOST_ZONE_WIDTH);
 	}
 
@@ -113,7 +115,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public DataNode setOutermost_zone_widthScalar(double outermost_zone_width) {
+	public DataNode setOutermost_zone_widthScalar(Double outermost_zone_width) {
 		return setField(NX_OUTERMOST_ZONE_WIDTH, outermost_zone_width);
 	}
 
@@ -123,7 +125,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getCentral_stop_diameterScalar() {
+	public Double getCentral_stop_diameterScalar() {
 		return getDouble(NX_CENTRAL_STOP_DIAMETER);
 	}
 
@@ -133,7 +135,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public DataNode setCentral_stop_diameterScalar(double central_stop_diameter) {
+	public DataNode setCentral_stop_diameterScalar(Double central_stop_diameter) {
 		return setField(NX_CENTRAL_STOP_DIAMETER, central_stop_diameter);
 	}
 
@@ -163,7 +165,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getZone_heightScalar() {
+	public Double getZone_heightScalar() {
 		return getDouble(NX_ZONE_HEIGHT);
 	}
 
@@ -173,7 +175,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public DataNode setZone_heightScalar(double zone_height) {
+	public DataNode setZone_heightScalar(Double zone_height) {
 		return setField(NX_ZONE_HEIGHT, zone_height);
 	}
 
@@ -243,7 +245,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getCentral_stop_thicknessScalar() {
+	public Double getCentral_stop_thicknessScalar() {
 		return getDouble(NX_CENTRAL_STOP_THICKNESS);
 	}
 
@@ -253,7 +255,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public DataNode setCentral_stop_thicknessScalar(double central_stop_thickness) {
+	public DataNode setCentral_stop_thicknessScalar(Double central_stop_thickness) {
 		return setField(NX_CENTRAL_STOP_THICKNESS, central_stop_thickness);
 	}
 
@@ -263,7 +265,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getMask_thicknessScalar() {
+	public Double getMask_thicknessScalar() {
 		return getDouble(NX_MASK_THICKNESS);
 	}
 
@@ -273,7 +275,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public DataNode setMask_thicknessScalar(double mask_thickness) {
+	public DataNode setMask_thicknessScalar(Double mask_thickness) {
 		return setField(NX_MASK_THICKNESS, mask_thickness);
 	}
 
@@ -323,7 +325,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public double getSupport_membrane_thicknessScalar() {
+	public Double getSupport_membrane_thicknessScalar() {
 		return getDouble(NX_SUPPORT_MEMBRANE_THICKNESS);
 	}
 
@@ -333,7 +335,7 @@ public class NXfresnel_zone_plateImpl extends NXobjectImpl implements NXfresnel_
 	}
 
 	@Override
-	public DataNode setSupport_membrane_thicknessScalar(double support_membrane_thickness) {
+	public DataNode setSupport_membrane_thicknessScalar(Double support_membrane_thickness) {
 		return setField(NX_SUPPORT_MEMBRANE_THICKNESS, support_membrane_thickness);
 	}
 

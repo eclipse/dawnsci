@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -258,7 +259,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTemperatureScalar();
+	public Double getTemperatureScalar();
 
 	/**
 	 * average/nominal filter temperature
@@ -269,7 +270,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param temperature the temperature
 	 */
-	public DataNode setTemperatureScalar(double temperature);
+	public DataNode setTemperatureScalar(Double temperature);
 
 	/**
 	 * Linked temperature_log for the filter
@@ -316,7 +317,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getThicknessScalar();
+	public Double getThicknessScalar();
 
 	/**
 	 * Thickness of the filter
@@ -327,7 +328,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param thickness the thickness
 	 */
-	public DataNode setThicknessScalar(double thickness);
+	public DataNode setThicknessScalar(Double thickness);
 
 	/**
 	 * mass density of the filter
@@ -502,7 +503,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_aScalar();
+	public Double getUnit_cell_aScalar();
 
 	/**
 	 * Unit cell lattice parameter: length of side a
@@ -513,7 +514,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param unit_cell_a the unit_cell_a
 	 */
-	public DataNode setUnit_cell_aScalar(double unit_cell_a);
+	public DataNode setUnit_cell_aScalar(Double unit_cell_a);
 
 	/**
 	 * Unit cell lattice parameter: length of side b
@@ -546,7 +547,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_bScalar();
+	public Double getUnit_cell_bScalar();
 
 	/**
 	 * Unit cell lattice parameter: length of side b
@@ -557,7 +558,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param unit_cell_b the unit_cell_b
 	 */
-	public DataNode setUnit_cell_bScalar(double unit_cell_b);
+	public DataNode setUnit_cell_bScalar(Double unit_cell_b);
 
 	/**
 	 * Unit cell lattice parameter: length of side c
@@ -590,7 +591,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_cScalar();
+	public Double getUnit_cell_cScalar();
 
 	/**
 	 * Unit cell lattice parameter: length of side c
@@ -601,7 +602,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param unit_cell_c the unit_cell_c
 	 */
-	public DataNode setUnit_cell_cScalar(double unit_cell_c);
+	public DataNode setUnit_cell_cScalar(Double unit_cell_c);
 
 	/**
 	 * Unit cell lattice parameter: angle alpha
@@ -634,7 +635,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_alphaScalar();
+	public Double getUnit_cell_alphaScalar();
 
 	/**
 	 * Unit cell lattice parameter: angle alpha
@@ -645,7 +646,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param unit_cell_alpha the unit_cell_alpha
 	 */
-	public DataNode setUnit_cell_alphaScalar(double unit_cell_alpha);
+	public DataNode setUnit_cell_alphaScalar(Double unit_cell_alpha);
 
 	/**
 	 * Unit cell lattice parameter: angle beta
@@ -678,7 +679,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_betaScalar();
+	public Double getUnit_cell_betaScalar();
 
 	/**
 	 * Unit cell lattice parameter: angle beta
@@ -689,7 +690,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param unit_cell_beta the unit_cell_beta
 	 */
-	public DataNode setUnit_cell_betaScalar(double unit_cell_beta);
+	public DataNode setUnit_cell_betaScalar(Double unit_cell_beta);
 
 	/**
 	 * Unit cell lattice parameter: angle gamma
@@ -722,7 +723,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_gammaScalar();
+	public Double getUnit_cell_gammaScalar();
 
 	/**
 	 * Unit cell lattice parameter: angle gamma
@@ -733,7 +734,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param unit_cell_gamma the unit_cell_gamma
 	 */
-	public DataNode setUnit_cell_gammaScalar(double unit_cell_gamma);
+	public DataNode setUnit_cell_gammaScalar(Double unit_cell_gamma);
 
 	/**
 	 * Unit cell
@@ -769,7 +770,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getUnit_cell_volumeScalar();
+	public Double getUnit_cell_volumeScalar();
 
 	/**
 	 * Unit cell
@@ -781,10 +782,11 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param unit_cell_volume the unit_cell_volume
 	 */
-	public DataNode setUnit_cell_volumeScalar(double unit_cell_volume);
+	public DataNode setUnit_cell_volumeScalar(Double unit_cell_volume);
 
 	/**
-	 * Orientation matrix of single crystal filter using Busing-Levy convention
+	 * Orientation matrix of single crystal filter using Busing-Levy convention:
+	 * W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Dimensions:</b> 1: n_comp; 2: 3; 3: 3;
@@ -795,7 +797,8 @@ public interface NXfilter extends NXobject {
 	public IDataset getOrientation_matrix();
 	
 	/**
-	 * Orientation matrix of single crystal filter using Busing-Levy convention
+	 * Orientation matrix of single crystal filter using Busing-Levy convention:
+	 * W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Dimensions:</b> 1: n_comp; 2: 3; 3: 3;
@@ -806,7 +809,8 @@ public interface NXfilter extends NXobject {
 	public DataNode setOrientation_matrix(IDataset orientation_matrix);
 
 	/**
-	 * Orientation matrix of single crystal filter using Busing-Levy convention
+	 * Orientation matrix of single crystal filter using Busing-Levy convention:
+	 * W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Dimensions:</b> 1: n_comp; 2: 3; 3: 3;
@@ -814,10 +818,11 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getOrientation_matrixScalar();
+	public Double getOrientation_matrixScalar();
 
 	/**
-	 * Orientation matrix of single crystal filter using Busing-Levy convention
+	 * Orientation matrix of single crystal filter using Busing-Levy convention:
+	 * W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Dimensions:</b> 1: n_comp; 2: 3; 3: 3;
@@ -825,7 +830,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param orientation_matrix the orientation_matrix
 	 */
-	public DataNode setOrientation_matrixScalar(double orientation_matrix);
+	public DataNode setOrientation_matrixScalar(Double orientation_matrix);
 
 	/**
 	 * m value of supermirror filter
@@ -858,7 +863,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getM_valueScalar();
+	public Double getM_valueScalar();
 
 	/**
 	 * m value of supermirror filter
@@ -869,7 +874,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param m_value the m_value
 	 */
-	public DataNode setM_valueScalar(double m_value);
+	public DataNode setM_valueScalar(Double m_value);
 
 	/**
 	 * substrate material of supermirror filter
@@ -930,7 +935,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSubstrate_thicknessScalar();
+	public Double getSubstrate_thicknessScalar();
 
 	/**
 	 * substrate thickness of supermirror filter
@@ -941,7 +946,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param substrate_thickness the substrate_thickness
 	 */
-	public DataNode setSubstrate_thicknessScalar(double substrate_thickness);
+	public DataNode setSubstrate_thicknessScalar(Double substrate_thickness);
 
 	/**
 	 * coating material of supermirror filter
@@ -1002,7 +1007,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSubstrate_roughnessScalar();
+	public Double getSubstrate_roughnessScalar();
 
 	/**
 	 * substrate roughness (RMS) of supermirror filter
@@ -1013,7 +1018,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param substrate_roughness the substrate_roughness
 	 */
-	public DataNode setSubstrate_roughnessScalar(double substrate_roughness);
+	public DataNode setSubstrate_roughnessScalar(Double substrate_roughness);
 
 	/**
 	 * coating roughness (RMS) of supermirror filter
@@ -1049,7 +1054,7 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCoating_roughnessScalar();
+	public Double getCoating_roughnessScalar();
 
 	/**
 	 * coating roughness (RMS) of supermirror filter
@@ -1061,6 +1066,6 @@ public interface NXfilter extends NXobject {
 	 * 
 	 * @param coating_roughness the coating_roughness
 	 */
-	public DataNode setCoating_roughnessScalar(double coating_roughness);
+	public DataNode setCoating_roughnessScalar(Double coating_roughness);
 
 }

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -15,8 +15,10 @@ package org.eclipse.dawnsci.nexus.impl;
 import java.util.Set;
 import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.nexus.*;
+
 import org.eclipse.january.dataset.IDataset;
+
+import org.eclipse.dawnsci.nexus.*;
 
 /**
  * State of a container holding the sample under investigation.
@@ -156,7 +158,7 @@ public class NXcontainerImpl extends NXobjectImpl implements NXcontainer {
 	}
 
 	@Override
-	public double getDensityScalar() {
+	public Double getDensityScalar() {
 		return getDouble(NX_DENSITY);
 	}
 
@@ -166,7 +168,7 @@ public class NXcontainerImpl extends NXobjectImpl implements NXcontainer {
 	}
 
 	@Override
-	public DataNode setDensityScalar(double density) {
+	public DataNode setDensityScalar(Double density) {
 		return setField(NX_DENSITY, density);
 	}
 
@@ -176,7 +178,7 @@ public class NXcontainerImpl extends NXobjectImpl implements NXcontainer {
 	}
 
 	@Override
-	public double getPacking_fractionScalar() {
+	public Double getPacking_fractionScalar() {
 		return getDouble(NX_PACKING_FRACTION);
 	}
 
@@ -186,7 +188,7 @@ public class NXcontainerImpl extends NXobjectImpl implements NXcontainer {
 	}
 
 	@Override
-	public DataNode setPacking_fractionScalar(double packing_fraction) {
+	public DataNode setPacking_fractionScalar(Double packing_fraction) {
 		return setField(NX_PACKING_FRACTION, packing_fraction);
 	}
 
@@ -196,7 +198,7 @@ public class NXcontainerImpl extends NXobjectImpl implements NXcontainer {
 	}
 
 	@Override
-	public double getRelative_molecular_massScalar() {
+	public Double getRelative_molecular_massScalar() {
 		return getDouble(NX_RELATIVE_MOLECULAR_MASS);
 	}
 
@@ -206,7 +208,7 @@ public class NXcontainerImpl extends NXobjectImpl implements NXcontainer {
 	}
 
 	@Override
-	public DataNode setRelative_molecular_massScalar(double relative_molecular_mass) {
+	public DataNode setRelative_molecular_massScalar(Double relative_molecular_mass) {
 		return setField(NX_RELATIVE_MOLECULAR_MASS, relative_molecular_mass);
 	}
 

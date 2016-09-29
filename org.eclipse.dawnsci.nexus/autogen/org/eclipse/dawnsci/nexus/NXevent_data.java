@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -15,6 +15,7 @@ package org.eclipse.dawnsci.nexus;
 import java.util.Date;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+
 import org.eclipse.january.dataset.IDataset;
 
 /**
@@ -70,7 +71,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getTime_of_flightScalar();
+	public Long getTime_of_flightScalar();
 
 	/**
 	 * A list of time of flight for each event as it comes in.
@@ -84,7 +85,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @param time_of_flight the time_of_flight
 	 */
-	public DataNode setTime_of_flightScalar(long time_of_flight);
+	public DataNode setTime_of_flightScalar(Long time_of_flight);
 
 	/**
 	 * There will be extra information in the NXdetector to convert
@@ -126,7 +127,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getPixel_numberScalar();
+	public Long getPixel_numberScalar();
 
 	/**
 	 * There will be extra information in the NXdetector to convert
@@ -140,7 +141,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @param pixel_number the pixel_number
 	 */
-	public DataNode setPixel_numberScalar(long pixel_number);
+	public DataNode setPixel_numberScalar(Long pixel_number);
 
 	/**
 	 * The time that each pulse started with respect to the offset
@@ -176,7 +177,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getPulse_timeScalar();
+	public Long getPulse_timeScalar();
 
 	/**
 	 * The time that each pulse started with respect to the offset
@@ -188,7 +189,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @param pulse_time the pulse_time
 	 */
-	public DataNode setPulse_timeScalar(long pulse_time);
+	public DataNode setPulse_timeScalar(Long pulse_time);
 
 	/**
 	 * ISO8601
@@ -244,7 +245,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getEvents_per_pulseScalar();
+	public Long getEvents_per_pulseScalar();
 
 	/**
 	 * This connects the index "i" to the index "j".
@@ -258,7 +259,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @param events_per_pulse the events_per_pulse
 	 */
-	public DataNode setEvents_per_pulseScalar(long events_per_pulse);
+	public DataNode setEvents_per_pulseScalar(Long events_per_pulse);
 
 	/**
 	 * If voltages from the ends of the detector are read out this
@@ -303,7 +304,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPulse_heightScalar();
+	public Double getPulse_heightScalar();
 
 	/**
 	 * If voltages from the ends of the detector are read out this
@@ -318,6 +319,6 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @param pulse_height the pulse_height
 	 */
-	public DataNode setPulse_heightScalar(double pulse_height);
+	public DataNode setPulse_heightScalar(Double pulse_height);
 
 }

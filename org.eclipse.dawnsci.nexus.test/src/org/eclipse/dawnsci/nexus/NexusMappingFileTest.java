@@ -184,9 +184,9 @@ public class NexusMappingFileTest extends AbstractNexusFileTestBase {
 	private void addDiffractionDetector(NXinstrument instrument) {
 		NXdetector detector = NexusNodeFactory.createNXdetector();
 		detector.setAttribute(null, "signal", "data");
-		detector.setX_pixel_sizeScalar(1);
+		detector.setX_pixel_sizeScalar(1.0);
 		detector.setAttribute(NXdetector.NX_X_PIXEL_SIZE, "units", "um");
-		detector.setY_pixel_sizeScalar(1);
+		detector.setY_pixel_sizeScalar(1.0);
 		detector.setAttribute(NXdetector.NX_Y_PIXEL_SIZE, "units", "um");
 
 		detector.setDataset("data", DatasetFactory.ones(new int[] {X_SHAPE, Y_SHAPE, T_SHAPE, X_PIXEL_SHAPE, Y_PIXEL_SHAPE}, Dataset.INT16));

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2016-09-28T15:24:07.968+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -17,8 +17,10 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.nexus.*;
+
 import org.eclipse.january.dataset.IDataset;
+
+import org.eclipse.dawnsci.nexus.*;
 
 /**
  * A device that blocks the beam completely, usually to protect a detector.
@@ -115,7 +117,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public double getSizeScalar() {
+	public Double getSizeScalar() {
 		return getDouble(NX_SIZE);
 	}
 
@@ -125,7 +127,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public DataNode setSizeScalar(double size) {
+	public DataNode setSizeScalar(Double size) {
 		return setField(NX_SIZE, size);
 	}
 
@@ -135,7 +137,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public double getXScalar() {
+	public Double getXScalar() {
 		return getDouble(NX_X);
 	}
 
@@ -145,7 +147,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public DataNode setXScalar(double x) {
+	public DataNode setXScalar(Double x) {
 		return setField(NX_X, x);
 	}
 
@@ -155,7 +157,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public double getYScalar() {
+	public Double getYScalar() {
 		return getDouble(NX_Y);
 	}
 
@@ -165,7 +167,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public DataNode setYScalar(double y) {
+	public DataNode setYScalar(Double y) {
 		return setField(NX_Y, y);
 	}
 
@@ -175,7 +177,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public double getDistance_to_detectorScalar() {
+	public Double getDistance_to_detectorScalar() {
 		return getDouble(NX_DISTANCE_TO_DETECTOR);
 	}
 
@@ -185,7 +187,7 @@ public class NXbeam_stopImpl extends NXobjectImpl implements NXbeam_stop {
 	}
 
 	@Override
-	public DataNode setDistance_to_detectorScalar(double distance_to_detector) {
+	public DataNode setDistance_to_detectorScalar(Double distance_to_detector) {
 		return setField(NX_DISTANCE_TO_DETECTOR, distance_to_detector);
 	}
 
