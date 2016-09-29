@@ -18,9 +18,9 @@
 
 package org.eclipse.dawnsci.json.test.classregistry;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
 import org.eclipse.dawnsci.json.test.testobject.CatWrapper;
@@ -32,34 +32,13 @@ import org.eclipse.dawnsci.json.test.testobject.CatWrapper;
  */
 public class TestObjectClashingIdClassRegistry implements IClassRegistry {
 
-	private static HashMap<String, Class<?>> idToClassMap = new HashMap<String, Class<?>>();
+	private static final Map<String, Class<?>> idToClassMap;
 	static {
-		idToClassMap.put("jsontest.animal", CatWrapper.class);
-	}
+		Map<String, Class<?>> tmp = new HashMap<String, Class<?>>();
 
-	@Override
-	public Class<?> getClassFromId(String id) {
-		return idToClassMap.get(id);
-	}
+		tmp.put("jsontest.animal", CatWrapper.class);
 
-	@Override
-	public String getIdFromClass(Class<?> clazz) {
-		for (Entry<String, Class<?>> entry : idToClassMap.entrySet()) {
-			if (entry.getValue().equals(clazz)) {
-				return entry.getKey();
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public boolean isId(String id) {
-		return idToClassMap.containsKey(id);
-	}
-
-	@Override
-	public boolean isClass(Class<?> clazz) {
-		return idToClassMap.containsValue(clazz);
+		idToClassMap = Collections.unmodifiableMap(tmp);
 	}
 
 	@Override

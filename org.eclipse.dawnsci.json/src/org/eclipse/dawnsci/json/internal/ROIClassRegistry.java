@@ -18,9 +18,9 @@
 
 package org.eclipse.dawnsci.json.internal;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
 import org.eclipse.dawnsci.analysis.dataset.roi.CircularFitROI;
@@ -44,51 +44,30 @@ import org.eclipse.dawnsci.analysis.dataset.roi.YAxisBoxROI;
 
 public class ROIClassRegistry implements IClassRegistry {
 
-	private static HashMap<String, Class<?>> idToClassMap = new HashMap<String, Class<?>>();
+	private static final Map<String, Class<?>> idToClassMap;
 	static {
-		idToClassMap.put("roi.circularfit", CircularFitROI.class);
-		idToClassMap.put("roi.circular", CircularROI.class);
-		idToClassMap.put("roi.ellipticalfit", EllipticalFitROI.class);
-		idToClassMap.put("roi.elliptical", EllipticalROI.class);
-		idToClassMap.put("roi.freedraw", FreeDrawROI.class);
-		idToClassMap.put("roi.grid", GridROI.class);
-		idToClassMap.put("roi.hyperbolic", HyperbolicROI.class);
-		idToClassMap.put("roi.linear", LinearROI.class);
-		idToClassMap.put("roi.parabolic", ParabolicROI.class);
-		idToClassMap.put("roi.perimeterbox", PerimeterBoxROI.class);
-		idToClassMap.put("roi.point", PointROI.class);
-		idToClassMap.put("roi.polygonal", PolygonalROI.class);
-		idToClassMap.put("roi.polyline", PolylineROI.class);
-		idToClassMap.put("roi.rectangular", RectangularROI.class);
-		idToClassMap.put("roi.ring", RingROI.class);
-		idToClassMap.put("roi.sector", SectorROI.class);
-		idToClassMap.put("roi.xaxisbox", XAxisBoxROI.class);
-		idToClassMap.put("roi.yaxisbox", YAxisBoxROI.class);
-	}
+		Map<String, Class<?>> tmp = new HashMap<String, Class<?>>();
 
-	@Override
-	public Class<?> getClassFromId(String id) {
-		return idToClassMap.get(id);
-	}
+		tmp.put("roi.circularfit", CircularFitROI.class);
+		tmp.put("roi.circular", CircularROI.class);
+		tmp.put("roi.ellipticalfit", EllipticalFitROI.class);
+		tmp.put("roi.elliptical", EllipticalROI.class);
+		tmp.put("roi.freedraw", FreeDrawROI.class);
+		tmp.put("roi.grid", GridROI.class);
+		tmp.put("roi.hyperbolic", HyperbolicROI.class);
+		tmp.put("roi.linear", LinearROI.class);
+		tmp.put("roi.parabolic", ParabolicROI.class);
+		tmp.put("roi.perimeterbox", PerimeterBoxROI.class);
+		tmp.put("roi.point", PointROI.class);
+		tmp.put("roi.polygonal", PolygonalROI.class);
+		tmp.put("roi.polyline", PolylineROI.class);
+		tmp.put("roi.rectangular", RectangularROI.class);
+		tmp.put("roi.ring", RingROI.class);
+		tmp.put("roi.sector", SectorROI.class);
+		tmp.put("roi.xaxisbox", XAxisBoxROI.class);
+		tmp.put("roi.yaxisbox", YAxisBoxROI.class);
 
-	@Override
-	public String getIdFromClass(Class<?> clazz) {
-		for (Entry<String, Class<?>> entry : idToClassMap.entrySet()) {
-			if (entry.getValue().equals(clazz)) {
-				return entry.getKey();
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public boolean isId(String id) {
-		return idToClassMap.containsKey(id);
-	}
-
-	@Override
-	public boolean isClass(Class<?> clazz) {
-		return idToClassMap.containsValue(clazz);
+		idToClassMap = Collections.unmodifiableMap(tmp);
 	}
 
 	@Override

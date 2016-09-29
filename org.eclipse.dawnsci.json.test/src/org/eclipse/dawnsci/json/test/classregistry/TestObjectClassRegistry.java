@@ -18,9 +18,9 @@
 
 package org.eclipse.dawnsci.json.test.classregistry;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
 import org.eclipse.dawnsci.json.test.testobject.Animal;
@@ -32,7 +32,6 @@ import org.eclipse.dawnsci.json.test.testobject.Person;
 import org.eclipse.dawnsci.json.test.testobject.ProjectBean;
 import org.eclipse.dawnsci.json.test.testobject.ROIWrapper;
 import org.eclipse.dawnsci.json.test.testobject.SweepBean;
-import org.eclipse.dawnsci.json.test.testobject.TestIdBean;
 import org.eclipse.dawnsci.json.test.testobject.TestStatus;
 import org.eclipse.dawnsci.json.test.testobject.TestStatusBean;
 import org.eclipse.dawnsci.json.test.testobject.TestTypeBean;
@@ -40,47 +39,25 @@ import org.eclipse.dawnsci.json.test.testobject.TestTypeRegisteredImpl;
 
 public class TestObjectClassRegistry implements IClassRegistry {
 
-	private static HashMap<String, Class<?>> idToClassMap = new HashMap<String, Class<?>>();
+	private static final Map<String, Class<?>> idToClassMap;
 	static {
-		idToClassMap.put("jsontest.animal", Animal.class);
-		idToClassMap.put("jsontest.animal.bird", Bird.class);
-		idToClassMap.put("jsontest.animal.cat", Cat.class);
-		idToClassMap.put("jsontest.containerbean", ContainerBean.class);
-		idToClassMap.put("jsontest.objectwrapper", ObjectWrapper.class);
-		idToClassMap.put("jsontest.person", Person.class);
-		idToClassMap.put("jsontest.projectbean", ProjectBean.class);
-		idToClassMap.put("jsontest.roiwrapper", ROIWrapper.class);
-		idToClassMap.put("jsontest.sweepbean", SweepBean.class);
-		idToClassMap.put("jsontest.testidbean", TestIdBean.class);
-		idToClassMap.put("jsontest.teststatus", TestStatus.class);
-		idToClassMap.put("jsontest.teststatusbean", TestStatusBean.class);
-		idToClassMap.put("jsontest.testtypebean", TestTypeBean.class);
-		idToClassMap.put("jsontest.testtyperegistered", TestTypeRegisteredImpl.class);
-	}
+		Map<String, Class<?>> tmp = new HashMap<String, Class<?>>();
 
-	@Override
-	public Class<?> getClassFromId(String id) {
-		return idToClassMap.get(id);
-	}
+		tmp.put("jsontest.animal", Animal.class);
+		tmp.put("jsontest.animal.bird", Bird.class);
+		tmp.put("jsontest.animal.cat", Cat.class);
+		tmp.put("jsontest.containerbean", ContainerBean.class);
+		tmp.put("jsontest.objectwrapper", ObjectWrapper.class);
+		tmp.put("jsontest.person", Person.class);
+		tmp.put("jsontest.projectbean", ProjectBean.class);
+		tmp.put("jsontest.roiwrapper", ROIWrapper.class);
+		tmp.put("jsontest.sweepbean", SweepBean.class);
+		tmp.put("jsontest.teststatus", TestStatus.class);
+		tmp.put("jsontest.teststatusbean", TestStatusBean.class);
+		tmp.put("jsontest.testtypebean", TestTypeBean.class);
+		tmp.put("jsontest.testtyperegistered", TestTypeRegisteredImpl.class);
 
-	@Override
-	public String getIdFromClass(Class<?> clazz) {
-		for (Entry<String, Class<?>> entry : idToClassMap.entrySet()) {
-			if (entry.getValue().equals(clazz)) {
-				return entry.getKey();
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public boolean isId(String id) {
-		return idToClassMap.containsKey(id);
-	}
-
-	@Override
-	public boolean isClass(Class<?> clazz) {
-		return idToClassMap.containsValue(clazz);
+		idToClassMap = Collections.unmodifiableMap(tmp);
 	}
 
 	@Override

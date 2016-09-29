@@ -18,9 +18,9 @@
 
 package org.eclipse.dawnsci.json.test.classregistry;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
 import org.eclipse.dawnsci.json.test.testobject.TestTypeRegisteredAlternativeImpl;
@@ -31,34 +31,13 @@ import org.eclipse.dawnsci.json.test.testobject.TestTypeRegisteredAlternativeImp
  */
 public class TestObjectAlternativeClassRegistry implements IClassRegistry {
 
-	private static HashMap<String, Class<?>> idToClassMap = new HashMap<String, Class<?>>();
+	private static final Map<String, Class<?>> idToClassMap;
 	static {
-		idToClassMap.put("jsontest.testtyperegisteredalt", TestTypeRegisteredAlternativeImpl.class);
-	}
+		Map<String, Class<?>> tmp = new HashMap<String, Class<?>>();
 
-	@Override
-	public Class<?> getClassFromId(String id) {
-		return idToClassMap.get(id);
-	}
+		tmp.put("jsontest.testtyperegisteredalt", TestTypeRegisteredAlternativeImpl.class);
 
-	@Override
-	public String getIdFromClass(Class<?> clazz) {
-		for (Entry<String, Class<?>> entry : idToClassMap.entrySet()) {
-			if (entry.getValue().equals(clazz)) {
-				return entry.getKey();
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public boolean isId(String id) {
-		return idToClassMap.containsKey(id);
-	}
-
-	@Override
-	public boolean isClass(Class<?> clazz) {
-		return idToClassMap.containsValue(clazz);
+		idToClassMap = Collections.unmodifiableMap(tmp);
 	}
 
 	@Override

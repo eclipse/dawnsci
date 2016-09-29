@@ -365,7 +365,7 @@ public class MarshallerService implements IMarshallerService {
 	 * @throws CoreException
 	 */
 	private TypeResolverBuilder<?> createRegisteredTypeIdResolver() throws ClassRegistryDuplicateIdException, CoreException {
-		IClassRegistry registry = new MarshallerServiceClassRegistry(extra_registries);
+		MarshallerServiceClassRegistry registry = new MarshallerServiceClassRegistry(extra_registries);
 		TypeResolverBuilder<?> typer = new RegisteredTypeResolverBuilder(registry);
 		typer = typer.init(JsonTypeInfo.Id.CUSTOM, null);
 		typer = typer.inclusion(JsonTypeInfo.As.PROPERTY);
@@ -378,13 +378,13 @@ public class MarshallerService implements IMarshallerService {
 	 */
 	private class RegisteredTypeResolverBuilder extends DefaultTypeResolverBuilder {
 		private static final long serialVersionUID = 1L;
-		private IClassRegistry registry;
+		private MarshallerServiceClassRegistry registry;
 
-		public RegisteredTypeResolverBuilder(IClassRegistry registry) {
+		public RegisteredTypeResolverBuilder(MarshallerServiceClassRegistry registry) {
 			this(null, registry);
 		}
 
-		public RegisteredTypeResolverBuilder(DefaultTyping typing, IClassRegistry registry) {
+		public RegisteredTypeResolverBuilder(DefaultTyping typing, MarshallerServiceClassRegistry registry) {
 			super(typing);
 			this.registry = registry;
 		}

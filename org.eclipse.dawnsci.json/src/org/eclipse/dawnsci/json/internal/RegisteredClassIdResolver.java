@@ -18,8 +18,6 @@
 
 package org.eclipse.dawnsci.json.internal;
 
-import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
-
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
@@ -36,9 +34,9 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
  */
 public class RegisteredClassIdResolver extends TypeIdResolverBase {
 
-	private IClassRegistry registry;
+	private MarshallerServiceClassRegistry registry;
 
-	public RegisteredClassIdResolver(JavaType baseType, TypeFactory typeFactory, IClassRegistry registry) {
+	public RegisteredClassIdResolver(JavaType baseType, TypeFactory typeFactory, MarshallerServiceClassRegistry registry) {
 		super(baseType, typeFactory);
 		this.registry = registry;
 	}

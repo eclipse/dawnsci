@@ -37,9 +37,9 @@ import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
  *
  * @author Martin Gaughran
  */
-public class MarshallerServiceClassRegistry implements IClassRegistry {
+public class MarshallerServiceClassRegistry {
 
-	private HashMap<String, Class<?>> idToClassMap = new HashMap<String, Class<?>>();
+	private Map<String, Class<?>> idToClassMap = new HashMap<String, Class<?>>();
 	private boolean platformIsRunning;
 
 	public MarshallerServiceClassRegistry(List<IClassRegistry> extraRegistries) throws ClassRegistryDuplicateIdException, CoreException {
@@ -88,12 +88,10 @@ public class MarshallerServiceClassRegistry implements IClassRegistry {
 		}
 	}
 
-	@Override
 	public Class<?> getClassFromId(String id) {
 		return idToClassMap.get(id);
 	}
 
-	@Override
 	public String getIdFromClass(Class<?> clazz) {
 		for (Entry<String, Class<?>> entry : idToClassMap.entrySet()) {
 			if (entry.getValue().equals(clazz)) {
@@ -103,19 +101,12 @@ public class MarshallerServiceClassRegistry implements IClassRegistry {
 		return null;
 	}
 
-	@Override
 	public boolean isId(String id) {
 		return idToClassMap.containsKey(id);
 	}
 
-	@Override
 	public boolean isClass(Class<?> clazz) {
 		return idToClassMap.containsValue(clazz);
-	}
-
-	@Override
-	public Map<String, Class<?>> getIdToClassMap() {
-		return null;
 	}
 
 	public class ClassRegistryDuplicateIdException extends Exception {

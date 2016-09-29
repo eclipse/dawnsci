@@ -26,46 +26,6 @@ import java.util.Map;
 public interface IClassRegistry {
 
 	/**
-	 * Return the Class that corresponds to the given object.
-	 * 
-	 * @param id
-	 *            the identification string to be decoded.
-	 * @return the Class corresponding to the id.
-	 */
-	public Class<?> getClassFromId(String id);
-	
-	/**
-	 * Return the identification string corresponding to the given class.
-	 * 
-	 * @param clazz
-	 *            the Class to be encoded.
-	 * @return the identification string corresponding to clazz.
-	 */
-	public String getIdFromClass(Class<?> clazz);
-
-	/**
-	 * Return true if the registry includes the identification string given,
-	 * false otherwise.
-	 * 
-	 * @param id
-	 *            the identification string being searched for.
-	 * @return true if registry contains id, false otherwise.
-	 * 
-	 */
-	
-	public boolean isId(String id);
-	
-	/**
-	 * Return true if the registry includes the class given, false otherwise.
-	 * 
-	 * @param clazz
-	 *            the Class being searched for.
-	 * @return true if registry contains clazz, false otherwise.
-	 * 
-	 */
-	public boolean isClass(Class<?> clazz);
-
-	/**
 	 * Return the Map<String, Class<?>> that stores the id string
 	 * to class information.
 	 * 
