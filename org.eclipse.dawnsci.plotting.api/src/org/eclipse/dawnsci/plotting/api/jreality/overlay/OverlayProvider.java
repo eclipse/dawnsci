@@ -87,6 +87,14 @@ public interface OverlayProvider {
 	public void setLineThickness(int primID, double thickness);
 	
 	/**
+	 * Sets a custom line style for a primitive
+	 * 
+	 * @param primID ID of the primitive
+	 * @param dash line dash style
+	 */
+	public boolean setCustomLineStyle(int primID, float[] dash);
+
+	/**
 	 * Set the style of a primitive
 	 * @param primID id of the primitive
 	 * @param newStyle new style of the primitive
