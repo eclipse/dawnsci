@@ -217,7 +217,7 @@ public class MultipleThreadNexusFileWriteTest {
 		return positioners;
 	}
 
-	private NexusScanFile createNexusFile(final int numPositioners) throws NexusException {
+	private NexusScanFile createNexusFile(boolean async, final int numPositioners) throws NexusException {
 		String fileName = testScratchDirectoryName + "test" + numPositioners + "Positioners.nxs";
 		NexusFileBuilder fileBuilder = new DefaultNexusFileBuilder(fileName);
 		final NexusEntryBuilder entryBuilder = fileBuilder.newEntry();
@@ -233,7 +233,7 @@ public class MultipleThreadNexusFileWriteTest {
 			dataBuilder.addAxisDevice(positioner);
 		}
 		
-		return fileBuilder.createFile();
+		return fileBuilder.createFile(async);
 	}
 
 	private void initializeDevices(final long stepTime, final int numSteps) {
@@ -293,9 +293,9 @@ public class MultipleThreadNexusFileWriteTest {
 		assertArrayEquals(expectedShape, detectorDataset.getShape());
 	}
 
-	public void doTestMultiplePositioners(final int numPositioners, final int numSteps, final long stepTime) throws Exception {
+	public void doTestMultiplePositioners(boolean async, final int numPositioners, final int numSteps, final long stepTime) throws Exception {
 		String filePath = testScratchDirectoryName + "test" + numPositioners + "Positioners.nxs"; 
-		NexusScanFile nexusFile = createNexusFile(numPositioners);
+		NexusScanFile nexusFile = createNexusFile(async, numPositioners);
 		initializeDevices(stepTime, numSteps);
 		nexusFile.openToWrite();
 		// we need quite a long timeout so as not to fail on jenkins when there are other jobs running
@@ -311,7 +311,7 @@ public class MultipleThreadNexusFileWriteTest {
 	}
 
 	public void doTestNPositioners(final int numPositioners) throws Exception {
-		doTestMultiplePositioners(numPositioners, 100, 100);
+		doTestMultiplePositioners(false, numPositioners, 100, 100);
 	}
 
 	@Test

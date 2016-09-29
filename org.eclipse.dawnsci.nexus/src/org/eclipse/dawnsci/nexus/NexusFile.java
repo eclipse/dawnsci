@@ -85,6 +85,12 @@ public interface NexusFile extends AutoCloseable {
 	public void createAndOpenToWrite() throws NexusException;
 
 	/**
+	 * Set to writes to be performed asynchronously for data nodes created after calling this
+	 * @param async
+	 */
+	public void setWritesAsync(boolean async);
+
+	/**
 	 * Set to instrument some method calls via logging at the DEBUG level
 	 * @param debug
 	 */
