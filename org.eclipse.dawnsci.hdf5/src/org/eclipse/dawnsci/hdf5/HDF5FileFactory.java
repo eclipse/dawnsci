@@ -32,6 +32,7 @@ public class HDF5FileFactory {
 	private static final Logger logger = LoggerFactory.getLogger(HDF5FileFactory.class);
 
 	private static long heldPeriod = 5000; // 5 seconds
+	private static long finishPeriod = heldPeriod/10; // 0.5 seconds
 	private static boolean verbose = false;
 
 	/**
@@ -57,8 +58,12 @@ public class HDF5FileFactory {
 	@Override
 	protected void finalize() throws Throwable {
 		synchronized (map) {
-			for (String f : map.keySet()) {
-				HDF5File a = map.get(f);
+			Iterator<String> iter = map.keySet().iterator();
+			while (iter.hasNext()) {
+				String f = iter.next();
+				HDF5File a = map.remove(f);
+				a.flushWrites();
+				a.finish(finishPeriod);
 				try {
 					H5.H5Fclose(a.getID());
 				} catch (HDF5LibraryException e) {
@@ -84,7 +89,6 @@ public class HDF5FileFactory {
 		}
 	}
 
-
 	/**
 	 * Set period of time a file ID is held open for. The period specified must be greater
 	 * than or equal to 100 ms.
@@ -94,6 +98,7 @@ public class HDF5FileFactory {
 		if (heldPeriod < 100) {
 			throw new IllegalArgumentException();
 		}
+		finishPeriod = heldPeriod/10l;
 		HDF5FileFactory.heldPeriod = heldPeriod;
 	}
 
@@ -106,6 +111,8 @@ public class HDF5FileFactory {
 	}
 
 	private static void closeFile(HDF5File f) throws HDF5LibraryException {
+		f.flushWrites();
+		f.finish(finishPeriod);
 		long fid = f.getID();
 		long openObjects = H5.H5Fget_obj_count(fid,
 				HDF5Constants.H5F_OBJ_LOCAL |
@@ -205,7 +212,7 @@ public class HDF5FileFactory {
 							logger.error("File already open and will need to closed: {}", cPath);
 							throw new ScanFileHolderException("File already open and will need to closed");
 						} else {
-							//close and allow fall through to file creation below
+							// close and allow fall through to file creation below
 							closeFile(access);
 							INSTANCE.map.remove(cPath);
 						}
@@ -332,6 +339,7 @@ public class HDF5FileFactory {
 					HDF5File access = INSTANCE.map.get(cPath);
 					if (access.getCount() <= 0) {
 						try {
+							access.finish(finishPeriod);
 							if (verbose) {
 								System.err.println("Closing and deleting " + cPath);
 							}
@@ -392,10 +400,14 @@ public class HDF5FileFactory {
 		
 			try {
 				HDF5File access = INSTANCE.map.get(cPath);
-				access.decrementCount();
-				if (access.getCount() <= 0) {
+				if (access.decrementCount() <= 0) {
 					if (close) {
 						try {
+							if (verbose) {
+								System.err.println("Flushing writes for " + cPath);
+							}
+							access.flushWrites();
+							access.finish(finishPeriod);
 							if (verbose) {
 								System.err.println("Closing " + cPath);
 							}
@@ -414,6 +426,40 @@ public class HDF5FileFactory {
 			} catch (Throwable le) {
 				logger.error("Problem releasing access to file: {}", cPath, le);
 				throw new ScanFileHolderException("Problem releasing access to file: " + cPath, le);
+			}
+		}
+	}
+
+	/**
+	 * Flush writes to file associated with file name
+	 * @param fileName
+	 * @throws ScanFileHolderException
+	 */
+	public static void flushWrites(String fileName) throws ScanFileHolderException {
+		final String cPath;
+		try {
+			cPath = canonicalisePath(fileName);
+		} catch (IOException e) {
+			logger.error("Problem canonicalising path", e);
+			throw new ScanFileHolderException("Problem canonicalising path", e);
+		}
+
+		synchronized (INSTANCE) {
+			if (!INSTANCE.map.containsKey(cPath)) {
+//				logger.debug("File not known - has it already been released?");
+				return;
+			}
+
+			try {
+				HDF5File access = INSTANCE.map.get(cPath);
+				access.flushWrites();
+				int status = H5.H5Fflush(access.getID(), HDF5Constants.H5F_SCOPE_GLOBAL);
+				if (status < 0) {
+					throw new HDF5LibraryException("H5Fflush returned an error value: " + status);
+				}
+			} catch (Throwable le) {
+				logger.error("Problem flushing file: {}", cPath, le);
+				throw new ScanFileHolderException("Problem flushing file: " + cPath, le);
 			}
 		}
 	}

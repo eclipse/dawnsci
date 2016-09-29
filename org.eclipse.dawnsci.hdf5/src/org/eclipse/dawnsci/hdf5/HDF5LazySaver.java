@@ -12,6 +12,7 @@ package org.eclipse.dawnsci.hdf5;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
@@ -19,13 +20,14 @@ import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.january.IMonitor;
 import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
 import org.eclipse.january.dataset.SliceND;
-import org.eclipse.january.io.ILazySaver;
+import org.eclipse.january.io.ILazyAsyncSaver;
 
 /**
  * Lazy saver for HDF5 files
  */
-public class HDF5LazySaver extends HDF5LazyLoader implements ILazySaver, Serializable {
+public class HDF5LazySaver extends HDF5LazyLoader implements ILazyAsyncSaver, Serializable {
 
 	private static final long serialVersionUID = -5244067010482825423L;
 
@@ -36,6 +38,8 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazySaver, Seriali
 	private Object fill;
 	private boolean create = false; // create on first slice setting
 	private boolean init = false;   // has been initialized?
+
+	private ILazyWriteableDataset writeableDataset;
 
 	/**
 	 * 
@@ -121,7 +125,7 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazySaver, Seriali
 			data.setShape(slice.getShape());
 		}
 
-		//higher level API does not cope with differing data types
+		// higher level API does not cope with differing data types
 		data = DatasetUtils.cast(data, dtype);
 		try {
 			if (!create) { // ensure create on first use
@@ -130,8 +134,69 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazySaver, Seriali
 			} else {
 				HDF5Utils.setExistingDatasetSlice(filePath, parentPath, name, slice, data);
 			}
+			expandShape(slice);
 		} catch (ScanFileHolderException e) {
 			throw new IOException(e);
 		}
+	}
+
+	/**
+	 * Set to asynchronously write if lazy writeable dataset is not null
+	 * <p>
+	 * The dataset must correspond to that held by this saver otherwise mismatches
+	 * can occur between the shape
+	 * @param dataset
+	 */
+	public void setAsyncWriteableDataset(ILazyWriteableDataset dataset) {
+		if (!Arrays.equals(dataset.getChunking(), chunks)) {
+			throw new IllegalArgumentException("Chunk size of given dataset must match saver's");
+		}
+		if (!Arrays.equals(dataset.getMaxShape(), maxShape)) {
+			throw new IllegalArgumentException("Max shape of given dataset must match saver's");
+		}
+		Object ofill = dataset.getFillValue();
+		if (fill != ofill || (fill != null && !fill.equals(ofill))) {
+			throw new IllegalArgumentException("Fill value of given dataset must match saver's");
+		}
+		this.writeableDataset = dataset;
+	}
+
+	@Override
+	public void setSliceAsync(IMonitor mon, IDataset data, SliceND slice) throws IOException {
+		try {
+			try {
+				HDF5File fid = HDF5FileFactory.acquireFile(filePath, true);
+				expandShape(slice);
+				fid.addWriteJob(writeableDataset, data, slice);
+			} catch (Throwable le) {
+				logger.error("Problem setting slice of dataset in file: {}", filePath, le);
+				throw new ScanFileHolderException("Problem setting slice of dataset in file: " + filePath, le);
+			} finally {
+				HDF5FileFactory.releaseFile(filePath, false);
+			}
+		} catch (ScanFileHolderException e) {
+			throw new IOException(e);
+		}
+	}
+
+	private boolean expandShape(SliceND slice) {
+		int[] eShape = slice.getSourceShape();
+		if (eShape.length != trueShape.length) {
+			throw new IllegalArgumentException("Slice shape must match this saver's shape");
+		}
+		boolean expand = false;
+		for (int i = 0; i < trueShape.length; i++) {
+			int l = eShape[i];
+			if (l > trueShape[i]) {
+				trueShape[i] = l; 
+				expand = true;
+			}
+		}
+		return expand;
+	}
+
+	@Override
+	public int[] refreshShape() {
+		return trueShape.clone();
 	}
 }
