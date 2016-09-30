@@ -186,6 +186,7 @@ public class NexusFileHDF5 implements NexusFile {
 	private IdentityHashMap<Node, String> passedNodeMap; // associate given nodes with "canonical" path (used for working out hardlinks)
 
 	private boolean useSWMR = false;
+	private boolean writeAsync;
 
 	private static int DEF_FIXED_STRING_LENGTH = 1024;
 
@@ -286,6 +287,11 @@ public class NexusFileHDF5 implements NexusFile {
 		}
 		initializeTree();
 		writeable = true;
+	}
+
+	@Override
+	public void setWritesAsync(boolean async) {
+		writeAsync = async;
 	}
 
 	@Override
@@ -685,9 +691,13 @@ public class NexusFileHDF5 implements NexusFile {
 		boolean extendUnsigned = false;
 		Object[] fill = getFillValue(datasetType);
 		if (writeable) {
-			lazyDataset = new LazyWriteableDataset(name, datasetType, iShape, iMaxShape, iChunks,
-					new HDF5LazySaver(null, fileName, path, name, iShape, itemSize,
-							datasetType, extendUnsigned, iMaxShape, iChunks, fill));
+			HDF5LazySaver saver = new HDF5LazySaver(null, fileName, path, name, iShape, itemSize,
+					datasetType, extendUnsigned, iMaxShape, iChunks, fill);
+			lazyDataset = new LazyWriteableDataset(name, datasetType, iShape, iMaxShape, iChunks, saver);
+			if (writeAsync) {
+				saver.setAsyncWriteableDataset((LazyWriteableDataset) lazyDataset);
+			}
+			((ILazyWriteableDataset) lazyDataset).setWritingAsync(writeAsync);
 		} else {
 			lazyDataset = new LazyDataset(name, datasetType, iShape,
 					new HDF5LazyLoader(null, fileName, path, name, iShape, itemSize,
@@ -953,6 +963,10 @@ public class NexusFileHDF5 implements NexusFile {
 
 		HDF5LazySaver saver = new HDF5LazySaver(null, fileName, parentPath + Node.SEPARATOR + name, name,
 				iShape, itemSize, dataType, false, iMaxShape, iChunks, fillValue);
+		if (writeAsync) {
+			saver.setAsyncWriteableDataset(data);
+		}
+		data.setWritingAsync(writeAsync);
 		data.setSaver(saver);
 
 		DataNode dataNode = TreeFactory.createDataNode(dataPath.hashCode());
@@ -1410,6 +1424,7 @@ public class NexusFileHDF5 implements NexusFile {
 		if (fileId == -1) {
 			return -1;
 		}
+
 		try {
 			return H5.H5Fflush(fileId, HDF5Constants.H5F_SCOPE_GLOBAL);
 		} catch (HDF5LibraryException e) {

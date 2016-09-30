@@ -51,7 +51,7 @@ public class NexusFileBenchmarkTest {
 		private ILazyWriteableDataset out;
 		private final IDataset data;
 		private final SliceND slice;
-		public WriteJob(final ILazyWriteableDataset out, final Dataset data, final SliceND slice) {
+		public WriteJob(final ILazyWriteableDataset out, final IDataset data, final SliceND slice) {
 			this.out = out;
 			this.data = data;
 			this.slice = slice;
@@ -60,14 +60,13 @@ public class NexusFileBenchmarkTest {
 		@Override
 		public void run() {
 			try {
-				out.setSlice(null, data, slice);
+				out.setSliceSync(null, data, slice);
 			} catch (DatasetException e) {
 				throw new RuntimeException(e);
 			}
 			
 		}
 	}
-
 
 	private class Detector {
 		private ILazyWriteableDataset data;
@@ -130,7 +129,7 @@ public class NexusFileBenchmarkTest {
 		public void write(final ILazyWriteableDataset out, final Dataset data, final SliceND slice) {
 			if (thread == null) {
 				try {
-					out.setSlice(null, data, slice);
+					out.setSliceSync(null, data, slice);
 				} catch (DatasetException e) {
 					throw new RuntimeException(e);
 				}

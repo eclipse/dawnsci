@@ -22,15 +22,11 @@ import java.util.concurrent.TimeUnit;
 public class Worker {
 
 	private List<Long> time;
-
 	private BlockingDeque<Runnable> queue;
 	private Thread thread;
 	private boolean finished;
 	private Throwable throwable;
-	
-	private long checkingPeriod = 100; // period between checking finished flag in microseconds
-
-	private final boolean recordTimes;
+	private long checkingPeriod = 100000; // period between checking finished flag in nanoseconds
 
 	/**
 	 * Start a worker thread without any timing of jobs
@@ -46,35 +42,28 @@ public class Worker {
 	 * @param timeJobs if true, then time each job
 	 */
 	public Worker(final String name, boolean timeJobs) {
-		recordTimes = timeJobs;
+		time = timeJobs ? new ArrayList<>() : null;
 		queue = new LinkedBlockingDeque<>();
-		time = new ArrayList<>();
 		finished = false;
 		thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				while (!finished) {
 					try {
-						Runnable job = queue.poll(checkingPeriod, TimeUnit.MICROSECONDS);
+						Runnable job = queue.poll(checkingPeriod, TimeUnit.NANOSECONDS);
 						if (job != null) {
-							long now = recordTimes ? -System.nanoTime() : 0;
-							try {
-								job.run();
-							} catch (Throwable t) {
-								throwable = t;
-								finished = true;
-							}
-							if (recordTimes) {
+							long now = time == null ? 0 : -System.nanoTime();
+							job.run();
+							if (time != null) {
 								now += System.nanoTime();
 								time.add(now/1000l);
 							}
 						}
-					} catch (InterruptedException e) {
-						throwable = e;
+					} catch (Throwable t) {
+						throwable = t;
 						finished = true;
 					}
 				}
-//				System.err.println("Finished thread: " + name);
 			}
 		});
 		thread.setName(name);
@@ -96,10 +85,15 @@ public class Worker {
 	 * Flush all jobs and block till done
 	 */
 	public void flush() {
-		final long wait = (checkingPeriod*100)/1000;
-		while (queue.size() != 0) {
+		if (finished) {
+			return;
+		}
+		final long wait = checkingPeriod*100l;
+		final int nano = (int) (wait % 1000000);
+		final long milli = wait/1000000;
+		while (queue.peek() != null) {
 			try {
-				thread.join(wait);
+				Thread.sleep(milli, nano);
 			} catch (InterruptedException e) {
 			}
 		}
@@ -110,14 +104,11 @@ public class Worker {
 	 */
 	public void finish(long milliseconds) {
 		if (!finished) {
-			if (queue.size() != 0) {
-//				System.err.printf("%s has %d left\n", thread.toString(), queue.size());
-				try {
-					thread.join(milliseconds);
-				} catch (InterruptedException e) {
-				}
+			try {
+				finished = true;
+				thread.join(milliseconds);
+			} catch (InterruptedException e) {
 			}
-			finished = true;
 		}
 		queue.clear();
 	}
@@ -133,7 +124,7 @@ public class Worker {
 	 * @return times in microseconds if asked to time each job, otherwise empty
 	 */
 	public List<Long> getTimes() {
-		return Collections.unmodifiableList(time);
+		return time == null ? Collections.emptyList() : Collections.unmodifiableList(time);
 	}
 
 	/**

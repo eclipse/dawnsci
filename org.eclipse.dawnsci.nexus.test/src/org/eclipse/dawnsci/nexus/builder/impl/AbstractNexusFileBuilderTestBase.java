@@ -99,7 +99,7 @@ public abstract class AbstractNexusFileBuilderTestBase {
 		addApplicationDefinitions(entryBuilder);
 		
 		// save the nexus file
-		NexusScanFile scanFile = fileBuilder.createFile();
+		NexusScanFile scanFile = fileBuilder.createFile(false);
 		scanFile.openToWrite();
 		
 		// compare with file in repository

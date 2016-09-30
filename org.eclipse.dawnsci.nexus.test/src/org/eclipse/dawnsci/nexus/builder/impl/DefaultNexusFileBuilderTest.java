@@ -13,7 +13,6 @@ import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXroot;
 import org.eclipse.dawnsci.nexus.NexusApplicationDefinition;
 import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.ServiceHolder;
 import org.eclipse.dawnsci.nexus.TestUtils;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
@@ -57,7 +56,7 @@ public class DefaultNexusFileBuilderTest {
 		NexusEntryBuilder nexusEntryBuilder = nexusFileBuilder.newEntry();
 		nexusEntryBuilder.getNXentry().setTitleScalar("test");
 		
-		nexusFileBuilder.createFile();
+		nexusFileBuilder.createFile(false);
 		
 		TreeFile nexusFile = NexusTestUtils.loadNexusFile(filePath, true);
 		assertThat(nexusFile, notNullValue());
@@ -75,7 +74,7 @@ public class DefaultNexusFileBuilderTest {
 		NexusEntryBuilder nexusEntryBuilder = nexusSubdirFileBuilder.newEntry();
 
 		nexusEntryBuilder.getNXentry().setTitleScalar("test");
-		nexusSubdirFileBuilder.createFile();
+		nexusSubdirFileBuilder.createFile(false);
 		
 		TreeFile nexusFile = NexusTestUtils.loadNexusFile(fileInSubDirPath, true);
 		assertThat(nexusFile, notNullValue());

@@ -153,12 +153,13 @@ class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
 	}
 	
     @Override
-    public void refreshShape(){
+    public boolean refreshShape() {
     	try {
 			createInfo();
 		} catch (Exception e) {
 			//TODO log
 		}
+    	return true;
     }
     
 	private void createFileListener() throws Exception {

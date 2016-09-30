@@ -133,8 +133,8 @@ class DynamicImage implements IDynamicMonitorDatasetHolder {
 	}
 
 	@Override
-	public void resize(int... newShape) {
-		// TODO Auto-generated method stub
+	public boolean resize(int... newShape) {
+		return true;
 	}
 
 	public void setShapeDynamic(boolean isDyn) {
@@ -239,10 +239,10 @@ class DynamicImage implements IDynamicMonitorDatasetHolder {
 	}
 
 	@Override
-	public void refreshShape() {
-		//does nothing
-		
+	public boolean refreshShape() {
+		return true;
 	}
+
 	public boolean isWritingExpected() {
 		return client.isWritingExpected();
 	}
