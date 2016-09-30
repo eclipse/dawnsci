@@ -896,8 +896,8 @@ public class NexusFileHDF5 implements NexusFile {
 		Object providedFillValue = data.getFillValue();
 		if (providedFillValue != null) {
 			fillValue[0] = providedFillValue;
-			data.setFillValue(fillValue);
 		}
+		data.setFillValue(fillValue);
 
 		long[] shape = HDF5Utils.toLongArray(iShape);
 		long[] maxShape = HDF5Utils.toLongArray(iMaxShape);
