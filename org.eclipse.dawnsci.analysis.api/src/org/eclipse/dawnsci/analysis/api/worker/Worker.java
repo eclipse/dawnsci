@@ -91,7 +91,7 @@ public class Worker {
 		final long wait = checkingPeriod*100l;
 		final int nano = (int) (wait % 1000000);
 		final long milli = wait/1000000;
-		while (queue.peek() != null) {
+		while (!finished && queue.peek() != null) {
 			try {
 				Thread.sleep(milli, nano);
 			} catch (InterruptedException e) {
