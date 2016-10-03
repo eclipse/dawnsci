@@ -81,6 +81,14 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazyAsyncSaver, Se
 		this.create = create;
 	}
 
+	/**
+	 * Set flag to indicate the dataset has already been created on file
+	 */
+	public void setAlreadyCreated() {
+		create = true;
+		init = true;
+	}
+
 	@Override
 	public boolean isFileWriteable() {
 		if (!isWriteable && (!init || create || isFileReadable())) {
