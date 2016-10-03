@@ -86,7 +86,7 @@ public class ReadThreadTest extends AbstractThreadTestBase {
 		} catch (HDF5Exception e) {
 			e.printStackTrace();
 		}
-		HDF5File f = new HDF5File(file, fid, true);
+		HDF5File f = new HDF5File(file, fid, true, false);
 		int size = ShapeUtils.calcSize(shape);
 		Dataset data = DatasetFactory.createRange(size, Dataset.FLOAT64);
 		data.setShape(shape);

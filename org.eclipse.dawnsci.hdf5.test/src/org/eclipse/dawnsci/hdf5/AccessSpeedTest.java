@@ -38,7 +38,7 @@ public class AccessSpeedTest {
 		} catch (HDF5Exception e) {
 			e.printStackTrace();
 		}
-		HDF5File f = new HDF5File(file, fid, true);
+		HDF5File f = new HDF5File(file, fid, true, false);
 		int[] shape = new int[] {512, 128, 1024};
 		int size = ShapeUtils.calcSize(shape);
 		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
@@ -146,7 +146,7 @@ public class AccessSpeedTest {
 		iter.reset();
 		now = -System.nanoTime();
 		long fid = H5.H5Fopen(file, HDF5Constants.H5F_ACC_RDWR, HDF5Constants.H5P_DEFAULT);
-		HDF5File f = new HDF5File(file, fid, true);
+		HDF5File f = new HDF5File(file, fid, true, false);
 		while (iter.hasNext()) {
 			for (int i = 0; i < 3; i++) {
 				start[i] = pos[i];

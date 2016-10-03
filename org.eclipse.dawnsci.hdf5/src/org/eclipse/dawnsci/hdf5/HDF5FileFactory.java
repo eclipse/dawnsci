@@ -200,6 +200,7 @@ public class HDF5FileFactory {
 		HDF5File access = null;
 		long fid = -1;
 		long fapl = -1;
+		boolean canSWMR = false;
 
 		synchronized (INSTANCE) {
 			try {
@@ -230,17 +231,18 @@ public class HDF5FileFactory {
 				try {
 					fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
 					if (writeable && withLatestVersion) {
+						canSWMR = true;
 						H5.H5Pset_libver_bounds(fapl, HDF5Constants.H5F_LIBVER_LATEST, HDF5Constants.H5F_LIBVER_LATEST);
 					}
 					if (asNew) {
 						if (verbose) {
-							System.err.println("Creating " + cPath);
+							System.err.println("Creating " + cPath + " with latest " + withLatestVersion);
 						}
 						fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_TRUNC, HDF5Constants.H5P_DEFAULT, fapl);
 					} else {
 						if (new File(cPath).exists()) {
 							if (verbose) {
-								System.err.println("Opening " + cPath + " with writeable " + writeable);
+								System.err.println("Opening " + cPath + " with writeable " + writeable + " with latest " + withLatestVersion);
 							}
 							if (!writeable) {
 								// attempt to read with SWMR access first
@@ -263,7 +265,7 @@ public class HDF5FileFactory {
 							throw new FileNotFoundException("File does not exist!");
 						} else {
 							if (verbose) {
-								System.err.println("Creating " + cPath);
+								System.err.println("Creating " + cPath + " with latest " + withLatestVersion);
 							}
 							fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, fapl);
 						}
@@ -273,7 +275,7 @@ public class HDF5FileFactory {
 						H5.H5Pclose(fapl);
 					}
 				}
-				access = new HDF5File(cPath, fid, asNew || writeable);
+				access = new HDF5File(cPath, fid, asNew || writeable, canSWMR);
 				INSTANCE.map.put(cPath, access);
 				return access;
 			} catch (Throwable le) {
@@ -301,6 +303,18 @@ public class HDF5FileFactory {
 	/**
 	 * Acquire file
 	 * @param fileName
+	 * @param writeable
+	 * @param withLatestVersion if true, use latest object format version for writing
+	 * @return file
+	 * @throws ScanFileHolderException
+	 */
+	public static HDF5File acquireFile(String fileName, boolean writeable, boolean withLatestVersion) throws ScanFileHolderException {
+		return acquireFile(fileName, writeable, false, withLatestVersion);
+	}
+
+	/**
+	 * Acquire file as a newly created one. This deletes extant files
+	 * @param fileName
 	 * @return file
 	 * @throws ScanFileHolderException
 	 */
@@ -309,7 +323,7 @@ public class HDF5FileFactory {
 	}
 
 	/**
-	 * Acquire file
+	 * Acquire file as a newly created one. This deletes extant files
 	 * @param fileName
 	 * @param withLatestVersion if true, use latest object format version for writing
 	 * @return file

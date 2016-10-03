@@ -26,6 +26,7 @@ public class HDF5File {
 	private long time; // time of release
 	private AtomicInteger count; // number of accessors
 	private boolean writeable; // if true then can write
+	private boolean canSWMR;
 
 	private Worker thread; // optional writing thread
 
@@ -34,12 +35,17 @@ public class HDF5File {
 	 * @param filePath
 	 * @param id
 	 * @param writeable
+	 * @param canBeSWMR if true, can be a SWMR writer (must be writeable too)
 	 */
-	public HDF5File(String filePath, long id, boolean writeable) {
+	public HDF5File(String filePath, long id, boolean writeable, boolean canBeSWMR) {
 		this.file = filePath;
 		this.id = id;
 		count = new AtomicInteger(1);
 		this.writeable = writeable;
+		this.canSWMR = canBeSWMR;
+		if (!writeable && canBeSWMR) {
+			throw new IllegalArgumentException("Only writeable files can be SWMR");
+		}
 	}
 
 	public long getID() {
@@ -70,9 +76,10 @@ public class HDF5File {
 
 	/**
 	 * Increment number of accessors of file
+	 * @return incremented value
 	 */
-	public void incrementCount() {
-		count.incrementAndGet();
+	public int incrementCount() {
+		return count.incrementAndGet();
 	}
 
 	/**
@@ -90,6 +97,13 @@ public class HDF5File {
 		return writeable;
 	}
 
+	/**
+	 * @return true if the switch to SWMR writer mode has succeeded
+	 */
+	public boolean canSwitchSWMR() {
+		return canSWMR;
+	}
+
 	private class WriteJob implements Runnable {
 		private ILazyWriteableDataset out;
 		private final IDataset data;
@@ -102,12 +116,13 @@ public class HDF5File {
 
 		@Override
 		public void run() {
+//			System.err.printf("Writing " + DatasetUtils.convertToDataset(data).toString(true) + " to " + slice.toString());
 			try {
 				out.setSliceSync(null, data, slice);
 			} catch (DatasetException e) {
 				throw new RuntimeException(e);
 			}
-			
+//			System.err.printf("... end\n");
 		}
 	}
 
@@ -118,7 +133,7 @@ public class HDF5File {
 	 * @param slice
 	 * @return true if writeable
 	 */
-	public boolean addWriteJob(ILazyWriteableDataset destination, IDataset data, SliceND slice) {
+	public synchronized boolean addWriteJob(ILazyWriteableDataset destination, IDataset data, SliceND slice) {
 		if (writeable) {
 			if (thread == null) {
 				thread = new Worker("Writer for " + file);
@@ -132,18 +147,31 @@ public class HDF5File {
 	/**
 	 * Finish all writes (block until it is done)
 	 */
-	public void flushWrites() {
+	public synchronized void flushWrites() {
 		if (thread != null) {
 			thread.flush();
+			Throwable t = thread.getThrowable();
+			if (t != null) {
+				throw new RuntimeException(t);
+			}
 		}
 	}
 
 	/**
 	 * @param milliseconds to wait before finishing
 	 */
-	public void finish(long milliseconds) {
+	public synchronized void finish(long milliseconds) {
 		if (thread != null) {
 			thread.finish(milliseconds);
+			Throwable t = thread.getThrowable();
+			if (t != null) {
+				throw new RuntimeException(t);
+			}
 		}
+	}
+
+	@Override
+	public String toString() {
+		return file;
 	}
 }
