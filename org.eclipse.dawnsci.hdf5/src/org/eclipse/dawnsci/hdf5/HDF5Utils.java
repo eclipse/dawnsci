@@ -732,7 +732,7 @@ public class HDF5Utils {
 	 * @param asUnsigned
 	 * @throws ScanFileHolderException
 	 */
-	public static void createDatasetWithClose(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned) throws ScanFileHolderException {
+	static void createDatasetWithClose(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned) throws ScanFileHolderException {
 		createDataset(fileName, parentPath, name, initialShape, maxShape, chunking, dtype, fill, asUnsigned, true);
 	}
 
@@ -1095,7 +1095,7 @@ public class HDF5Utils {
 	 * @param value
 	 * @throws ScanFileHolderException
 	 */
-	public static void setDatasetSliceWithClose(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
+	static void setDatasetSliceWithClose(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
 		setDatasetSlice(fileName, parentPath, name, slice, value, true, false);
 	}
 
