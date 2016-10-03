@@ -17,6 +17,7 @@ import java.util.Arrays;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
+import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.january.IMonitor;
 import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
@@ -182,18 +183,15 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazyAsyncSaver, Se
 	@Override
 	public void setSliceAsync(IMonitor mon, IDataset data, SliceND slice) throws IOException {
 		try {
-			try {
-				HDF5File fid = HDF5FileFactory.acquireFile(filePath, true);
-				expandShape(slice);
+			HDF5File fid = HDF5FileFactory.acquireFile(filePath, true);
+			synchronized (fid) {
 				fid.addWriteJob(writeableDataset, data, slice);
-			} catch (Throwable le) {
-				logger.error("Problem setting slice of dataset in file: {}", filePath, le);
-				throw new ScanFileHolderException("Problem setting slice of dataset in file: " + filePath, le);
-			} finally {
-				HDF5FileFactory.releaseFile(filePath, false);
+				fid.decrementCount();
 			}
+			expandShape(slice);
 		} catch (ScanFileHolderException e) {
-			throw new IOException(e);
+			logger.error("Problem setting slice of dataset in file: {}", filePath, e);
+			throw new IOException("Problem setting slice of dataset in file: " + filePath, e);
 		}
 	}
 
