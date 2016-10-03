@@ -1195,7 +1195,7 @@ public class HDF5Utils {
 						newShape = toLongArray(slice.getSourceShape());
 					} else {
 						long[] mShape = toLongArray(slice.getStop());
-						if (isGreaterThan(mShape, dims)) {
+						if (expandToGreatestShape(mShape, dims)) {
 							newShape = mShape;
 						}
 					}
@@ -1290,14 +1290,18 @@ public class HDF5Utils {
 		}
 	}
 
-	private static boolean isGreaterThan(long[] a, long[] b) {
+	private static boolean expandToGreatestShape(long[] a, long[] b) {
 		int rank = a.length;
+		boolean isExpanded = false;
 		for (int i = 0; i < rank; i++) {
 			if (a[i] > b[i]) {
-				return true;
+				isExpanded = true;
+			} else { // ensure shape is maximal
+				a[i] = b[i];
 			}
 		}
-		return false;
+
+		return isExpanded;
 	}
 
 	/**
