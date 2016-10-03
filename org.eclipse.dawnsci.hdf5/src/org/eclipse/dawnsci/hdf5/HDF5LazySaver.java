@@ -41,6 +41,8 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazyAsyncSaver, Se
 
 	private ILazyWriteableDataset writeableDataset;
 
+	private String dataPath;
+
 	/**
 	 * 
 	 * @param hostname
@@ -68,6 +70,7 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazyAsyncSaver, Se
 		this.chunks = chunks == null ? null : chunks.clone();
 		this.fill = fill;
 		isWriteable = false;
+		dataPath = HDF5Utils.absolutePathToData(parentPath, name);
 	}
 
 	/**
@@ -140,7 +143,14 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazyAsyncSaver, Se
 				HDF5Utils.setDatasetSlice(filePath, parentPath, name, slice, data);
 				create = true;
 			} else {
-				HDF5Utils.setExistingDatasetSlice(filePath, parentPath, name, slice, data);
+				HDF5File fid = HDF5FileFactory.acquireFile(filePath, true);
+				try {
+					HDF5Utils.writeDatasetSlice(fid, dataPath, slice, data);
+				} catch (NexusException e) {
+					throw new ScanFileHolderException("Problem writing slice to dataset", e);
+				} finally {
+					fid.decrementCount();
+				}
 			}
 			expandShape(slice);
 		} catch (ScanFileHolderException e) {
@@ -206,5 +216,10 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazyAsyncSaver, Se
 	@Override
 	public int[] refreshShape() {
 		return trueShape.clone();
+	}
+
+	@Override
+	public String toString() {
+		return dataPath;
 	}
 }

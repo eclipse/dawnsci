@@ -205,10 +205,27 @@ public class HDF5Utils {
 	public static Dataset loadDataset(final String fileName, final String node)
 				throws ScanFileHolderException {
 
-		Dataset data = null;
 		try {
 			HDF5File fid = HDF5FileFactory.acquireFile(fileName, false);
 
+			return loadDataset(fid, node);
+		} finally {
+			HDF5FileFactory.releaseFile(fileName);
+		}
+	}
+
+	/**
+	 * Load entire dataset from given file
+	 * @param fileName
+	 * @param node
+	 * @return dataset
+	 * @throws Exception
+	 */
+	public static Dataset loadDataset(final HDF5File fid, final String node)
+				throws ScanFileHolderException {
+
+		Dataset data = null;
+		try {
 			int[][] shapes = readDatasetShape(fid, node);
 			int[] shape = shapes[0];
 			int[] start = new int[shape.length];
@@ -216,10 +233,8 @@ public class HDF5Utils {
 			Arrays.fill(step, 1);
 			data = readDataset(fid, node, start, shape, step, -1, -1, false);
 		} catch (Throwable le) {
-			logger.error("Problem loading dataset in file: {}", fileName, le);
-			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
-		} finally {
-			HDF5FileFactory.releaseFile(fileName);
+			logger.error("Problem loading dataset in file: {}", fid, le);
+			throw new ScanFileHolderException("Problem loading file: " + fid, le);
 		}
 
 		return data;
@@ -637,7 +652,10 @@ public class HDF5Utils {
 		return data;
 	}
 
-	private static String absolutePathToData(String parentPath, String name) {
+	/**
+	 * @return the absolute path to data
+	 */
+	public static String absolutePathToData(String parentPath, String name) {
 		if (parentPath == null || parentPath.isEmpty()) {
 			parentPath = Tree.ROOT;
 		} else if (!parentPath.startsWith(Tree.ROOT)) {
@@ -1258,18 +1276,24 @@ public class HDF5Utils {
 						try {
 							H5.H5Tclose(hdfDatatypeId);
 						} catch (HDF5Exception ex) {
+							logger.error("Could not close datatype", ex);
+							throw ex;
 						}
 					}
 					if (hdfMemspaceId != -1) {
 						try {
 							H5.H5Sclose(hdfMemspaceId);
 						} catch (HDF5Exception ex) {
+							logger.error("Could not close memory space", ex);
+							throw ex;
 						}
 					}
 					if (hdfDataspaceId != -1) {
 						try {
 							H5.H5Sclose(hdfDataspaceId);
 						} catch (HDF5Exception ex) {
+							logger.error("Could not close file space", ex);
+							throw ex;
 						}
 					}
 				}
@@ -1278,10 +1302,14 @@ public class HDF5Utils {
 					try {
 						H5.H5Dflush(hdfDatasetId);
 					} catch (HDF5Exception ex) {
+						logger.error("Could not flush data", ex);
+						throw ex;
 					}
 					try {
 						H5.H5Dclose(hdfDatasetId);
 					} catch (HDF5Exception ex) {
+						logger.error("Could not close data", ex);
+						throw ex;
 					}
 				}
 			}
