@@ -32,7 +32,7 @@ public class HDF5FileFactory {
 	private static final Logger logger = LoggerFactory.getLogger(HDF5FileFactory.class);
 
 	private static long heldPeriod = 5000; // 5 seconds
-	private static long finishPeriod = heldPeriod/10; // 0.5 seconds
+	private static long finishPeriod = heldPeriod / 5; // 1 seconds
 	private static boolean verbose = false;
 
 	/**
@@ -141,7 +141,7 @@ public class HDF5FileFactory {
 
 					long now = System.currentTimeMillis();
 					long next = now + heldPeriod;
-					synchronized (INSTANCE) {
+					synchronized (INSTANCE.map) {
 						Iterator<String> iter = INSTANCE.map.keySet().iterator();
 						while (iter.hasNext()) {
 							String f = iter.next();
@@ -188,7 +188,7 @@ public class HDF5FileFactory {
 	 * @return file ID
 	 * @throws ScanFileHolderException
 	 */
-	private static HDF5File acquireFile(String fileName, boolean writeable, boolean asNew, boolean withLatestVersion) throws ScanFileHolderException {
+	private synchronized static HDF5File acquireFile(String fileName, boolean writeable, boolean asNew, boolean withLatestVersion) throws ScanFileHolderException {
 		final String cPath;
 		try {
 			cPath = canonicalisePath(fileName);
@@ -202,7 +202,7 @@ public class HDF5FileFactory {
 		long fapl = -1;
 		boolean canSWMR = false;
 
-		synchronized (INSTANCE) {
+		synchronized (INSTANCE.map) {
 			try {
 				if (INSTANCE.map.containsKey(cPath)) {
 					access = INSTANCE.map.get(cPath);
@@ -347,7 +347,7 @@ public class HDF5FileFactory {
 			throw new ScanFileHolderException("Problem canonicalising path", e);
 		}
 
-		synchronized (INSTANCE) {
+		synchronized (INSTANCE.map) {
 			if (INSTANCE.map.containsKey(cPath)) {
 				try {
 					HDF5File access = INSTANCE.map.get(cPath);
@@ -366,6 +366,9 @@ public class HDF5FileFactory {
 							throw e;
 						}
 					} else {
+						if (verbose) {
+							System.err.println("Cannot close as file being used " + cPath);
+						}
 						logger.error("File is currently being used: {}", cPath);
 						throw new ScanFileHolderException("File is currently being used: " + cPath);
 					}
@@ -406,7 +409,7 @@ public class HDF5FileFactory {
 			throw new ScanFileHolderException("Problem canonicalising path", e);
 		}
 
-		synchronized (INSTANCE) {
+		synchronized (INSTANCE.map) {
 			if (!INSTANCE.map.containsKey(cPath)) {
 				logger.debug("File not known - has it already been released?");
 				return;
@@ -418,9 +421,8 @@ public class HDF5FileFactory {
 					if (close) {
 						try {
 							if (verbose) {
-								System.err.println("Flushing writes for " + cPath);
+								System.err.println("Finishing writes for " + cPath);
 							}
-							access.flushWrites();
 							access.finish(finishPeriod);
 							if (verbose) {
 								System.err.println("Closing " + cPath);
@@ -458,14 +460,20 @@ public class HDF5FileFactory {
 			throw new ScanFileHolderException("Problem canonicalising path", e);
 		}
 
-		synchronized (INSTANCE) {
+		HDF5File access = null;
+		synchronized (INSTANCE.map) {
 			if (!INSTANCE.map.containsKey(cPath)) {
 //				logger.debug("File not known - has it already been released?");
 				return;
 			}
+			access = INSTANCE.map.get(cPath);
+		}
 
+		synchronized(access) {
 			try {
-				HDF5File access = INSTANCE.map.get(cPath);
+				if (verbose) {
+					System.err.println("Flushing writes for " + cPath);
+				}
 				access.flushWrites();
 				int status = H5.H5Fflush(access.getID(), HDF5Constants.H5F_SCOPE_GLOBAL);
 				if (status < 0) {
