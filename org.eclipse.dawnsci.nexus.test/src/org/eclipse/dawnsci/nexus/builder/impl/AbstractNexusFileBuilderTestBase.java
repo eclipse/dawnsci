@@ -30,13 +30,24 @@ import org.eclipse.dawnsci.nexus.builder.NexusEntryBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusEntryModification;
 import org.eclipse.dawnsci.nexus.builder.NexusFileBuilder;
 import org.eclipse.dawnsci.nexus.builder.NexusScanFile;
-import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusBuilderFactory;
 import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith(Parameterized.class)
 public abstract class AbstractNexusFileBuilderTestBase {
+	@Parameters(name="{index}: async={0}")
+	public static Object[] data() {
+		return new Object[] {true, false};
+	}
+
+	@Parameter
+	public boolean async;
 	
 	public static final String TEST_FILE_FOLDER = "testfiles/dawnsci/data/nexus/";
 
@@ -54,7 +65,8 @@ public abstract class AbstractNexusFileBuilderTestBase {
 	public void setUp() throws Exception {
 		nexusBuilderFactory = getNexusBuilderFactory();
 		final String testClassName = getTestClassName();
-		testScratchDirectoryName = TestUtils.generateDirectorynameFromClassname(testClassName);
+		String s = async ? "Async" : "Sync";
+		testScratchDirectoryName = TestUtils.generateDirectorynameFromClassname(testClassName) + s + "/";
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
 		filePath = testScratchDirectoryName + getFilename();
 		comparisonFilePath = TEST_FILE_FOLDER + getFilename();
@@ -99,7 +111,7 @@ public abstract class AbstractNexusFileBuilderTestBase {
 		addApplicationDefinitions(entryBuilder);
 		
 		// save the nexus file
-		NexusScanFile scanFile = fileBuilder.createFile(false);
+		NexusScanFile scanFile = fileBuilder.createFile(async);
 		scanFile.openToWrite();
 		
 		// compare with file in repository

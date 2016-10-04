@@ -86,7 +86,7 @@ public class NexusAssert {
 			String attrPath = path + Node.ATTRIBUTE + attributeName;
 			Attribute expectedAttr = expectedGroup.getAttribute(attributeName);
 			Attribute actualAttr = actualGroup.getAttribute(attributeName);
-			if (!expectedAttr.getName().equals("target")) {
+			if (!expectedAttr.getName().equals("target") && !expectedAttr.getName().equals("file_name")) {
 				assertNotNull(attrPath, actualAttr);
 				assertAttributesEquals(attrPath, expectedAttr, actualAttr);
 			}
