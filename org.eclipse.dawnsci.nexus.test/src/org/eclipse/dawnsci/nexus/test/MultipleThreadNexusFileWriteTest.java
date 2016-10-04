@@ -217,8 +217,13 @@ public class MultipleThreadNexusFileWriteTest {
 		return positioners;
 	}
 
+	String makeFileName(boolean async, final int numPositioners) {
+		String s = async ? "Async" : "Sync";
+		return testScratchDirectoryName + "test" + numPositioners + s + "Positioners.nxs";
+	}
+
 	private NexusScanFile createNexusFile(boolean async, final int numPositioners) throws NexusException {
-		String fileName = testScratchDirectoryName + "test" + numPositioners + "Positioners.nxs";
+		String fileName = makeFileName(async, numPositioners);
 		NexusFileBuilder fileBuilder = new DefaultNexusFileBuilder(fileName);
 		final NexusEntryBuilder entryBuilder = fileBuilder.newEntry();
 		entryBuilder.addDefaultGroups();
@@ -294,7 +299,7 @@ public class MultipleThreadNexusFileWriteTest {
 	}
 
 	public void doTestMultiplePositioners(boolean async, final int numPositioners, final int numSteps, final long stepTime) throws Exception {
-		String filePath = testScratchDirectoryName + "test" + numPositioners + "Positioners.nxs"; 
+		String filePath = makeFileName(async, numPositioners); 
 		NexusScanFile nexusFile = createNexusFile(async, numPositioners);
 		initializeDevices(stepTime, numSteps);
 		nexusFile.openToWrite();
@@ -310,29 +315,47 @@ public class MultipleThreadNexusFileWriteTest {
 		System.err.println("Took " + elapsedTime + "ms, timeout was " + timeout + "ms");
 	}
 
-	public void doTestNPositioners(final int numPositioners) throws Exception {
+	public void doTestNPositionersSync(final int numPositioners) throws Exception {
 		doTestMultiplePositioners(false, numPositioners, 100, 100);
 	}
 
-	@Test
-	public void test2Positioners() throws Exception {
-		doTestNPositioners(2);
+	public void doTestNPositionersAsync(final int numPositioners) throws Exception {
+		doTestMultiplePositioners(true, numPositioners, 100, 100);
 	}
 
 	@Test
-	public void test20Positioners() throws Exception {
-		doTestNPositioners(20);
+	public void test2PositionersSync() throws Exception {
+		doTestNPositionersSync(2);
 	}
 
 	@Test
-	public void test200Positioners() throws Exception {
-		doTestNPositioners(200);
+	public void test20PositionersSync() throws Exception {
+		doTestNPositionersSync(20);
+	}
+
+	@Test
+	public void test200PositionersSync() throws Exception {
+		doTestNPositionersSync(200);
+	}
+
+	@Test
+	public void test2PositionersAsync() throws Exception {
+		doTestNPositionersAsync(2);
+	}
+
+	@Test
+	public void test20PositionersAsync() throws Exception {
+		doTestNPositionersAsync(20);
+	}
+
+	@Test
+	public void test200PositionersAsync() throws Exception {
+		doTestNPositionersAsync(200);
 	}
 
 	@Test
 	@Ignore // this test times out most times
-	public void test500Positioners() throws Exception {
-		doTestNPositioners(500);
+	public void test500PositionersAsync() throws Exception {
+		doTestNPositionersAsync(500);
 	}
-
 }

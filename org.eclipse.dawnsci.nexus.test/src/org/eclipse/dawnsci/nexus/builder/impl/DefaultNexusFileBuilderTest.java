@@ -23,8 +23,20 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith(Parameterized.class)
 public class DefaultNexusFileBuilderTest {
+	@Parameters
+	public static Object[] data() {
+		return new Object[] {true, false};
+	}
+
+	@Parameter
+	public boolean async;
 
 	private static final String fileName = "testFile.nx5";
 	
@@ -41,12 +53,13 @@ public class DefaultNexusFileBuilderTest {
 		testScratchDirectoryName = TestUtils.generateDirectorynameFromClassname(
 				DefaultNexusFileBuilderTest.class.getSimpleName());
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
-		filePath = testScratchDirectoryName + fileName;
-		fileInSubDirPath = testScratchDirectoryName +  "subdir/" + filePath; 
 	}
 	
 	@Before
 	public void setUp() {
+		String s = async ? "Async" : "Sync";
+		filePath = testScratchDirectoryName + s + fileName;
+		fileInSubDirPath = testScratchDirectoryName +  "subdir/" + filePath; 
 		nexusFileBuilder = new DefaultNexusFileBuilder(filePath);
 	}
 	
@@ -56,7 +69,7 @@ public class DefaultNexusFileBuilderTest {
 		NexusEntryBuilder nexusEntryBuilder = nexusFileBuilder.newEntry();
 		nexusEntryBuilder.getNXentry().setTitleScalar("test");
 		
-		nexusFileBuilder.createFile(false);
+		nexusFileBuilder.createFile(async);
 		
 		TreeFile nexusFile = NexusTestUtils.loadNexusFile(filePath, true);
 		assertThat(nexusFile, notNullValue());
@@ -74,7 +87,7 @@ public class DefaultNexusFileBuilderTest {
 		NexusEntryBuilder nexusEntryBuilder = nexusSubdirFileBuilder.newEntry();
 
 		nexusEntryBuilder.getNXentry().setTitleScalar("test");
-		nexusSubdirFileBuilder.createFile(false);
+		nexusSubdirFileBuilder.createFile(async);
 		
 		TreeFile nexusFile = NexusTestUtils.loadNexusFile(fileInSubDirPath, true);
 		assertThat(nexusFile, notNullValue());
