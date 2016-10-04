@@ -76,6 +76,4 @@ public interface NexusFileBuilder {
 	 * @throws NexusException if the nexus file could not be saved for any reason 
 	 */
 	public NexusScanFile createFile(boolean async) throws NexusException;
-	
-	public NexusScanFile createFile() throws NexusException;
 }
