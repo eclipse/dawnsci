@@ -108,14 +108,6 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.NexusFileBuilder#createFile()
-	 */
-	@Override
-	public NexusScanFile createFile() throws NexusException {
-		return createFile(false);
-	}
-
-	/* (non-Javadoc)
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusFileBuilder#createFile(boolean)
 	 */
 	@Override
