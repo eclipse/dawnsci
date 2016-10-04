@@ -246,7 +246,7 @@ public class NexusFileHDF5 implements NexusFile {
 	@Override
 	public void openToRead() throws NexusException {
 		try {
-			file = HDF5FileFactory.acquireFile(fileName, false);
+			file = HDF5FileFactory.acquireFile(fileName, false, useSWMR);
 			fileId = file.getID();
 		} catch (ScanFileHolderException e) {
 			throw new NexusException("Cannot open to read", e);
@@ -258,14 +258,14 @@ public class NexusFileHDF5 implements NexusFile {
 	public void openToWrite(boolean createIfNecessary) throws NexusException {
 		if (new java.io.File(fileName).exists()) {
 			try {
-				file = HDF5FileFactory.acquireFile(fileName, true);
+				file = HDF5FileFactory.acquireFile(fileName, true, useSWMR);
 				fileId = file.getID();
 			} catch (ScanFileHolderException e) {
 				throw new NexusException("Cannot open to write", e);
 			}
 		} else if (createIfNecessary) {
 			try {
-				file = HDF5FileFactory.acquireFile(fileName, true);
+				file = HDF5FileFactory.acquireFile(fileName, true, useSWMR);
 				fileId = file.getID();
 			} catch (ScanFileHolderException e) {
 				throw new NexusException("Cannot create to write", e);
@@ -694,6 +694,7 @@ public class NexusFileHDF5 implements NexusFile {
 			HDF5LazySaver saver = new HDF5LazySaver(null, fileName, path, name, iShape, itemSize,
 					datasetType, extendUnsigned, iMaxShape, iChunks, fill);
 			lazyDataset = new LazyWriteableDataset(name, datasetType, iShape, iMaxShape, iChunks, saver);
+			saver.setAlreadyCreated();
 			if (writeAsync) {
 				saver.setAsyncWriteableDataset((LazyWriteableDataset) lazyDataset);
 			}
@@ -903,7 +904,7 @@ public class NexusFileHDF5 implements NexusFile {
 		long[] maxShape = HDF5Utils.toLongArray(iMaxShape);
 		long[] chunks = HDF5Utils.toLongArray(iChunks);
 		boolean stringDataset = data.getElementClass().equals(String.class);
-		boolean writeVlenString = stringDataset && !useSWMR; //SWMR does not allow vlen structures
+		boolean writeVlenString = stringDataset && !file.canSwitchSWMR(); //SWMR does not allow vlen structures
 		long hdfType = getHDF5Type(data);
 		try {
 			try (HDF5Resource hdfDatatype = new HDF5DatatypeResource(H5.H5Tcopy(hdfType));
@@ -964,6 +965,7 @@ public class NexusFileHDF5 implements NexusFile {
 
 		HDF5LazySaver saver = new HDF5LazySaver(null, fileName, parentPath + Node.SEPARATOR + name, name,
 				iShape, itemSize, dataType, false, iMaxShape, iChunks, fillValue);
+		saver.setAlreadyCreated();
 		if (writeAsync) {
 			saver.setAsyncWriteableDataset(data);
 		}
@@ -1392,7 +1394,7 @@ public class NexusFileHDF5 implements NexusFile {
 
 	@Override
 	public void activateSwmrMode() throws NexusException {
-		if (!useSWMR) {
+		if (!file.canSwitchSWMR()) {
 			throw new IllegalStateException("File was not created to use SWMR");
 		}
 
@@ -1483,6 +1485,11 @@ public class NexusFileHDF5 implements NexusFile {
 			return;
 		}
 		try {
+			try {
+				file.flushWrites();
+			} catch (Exception e) {
+				throw new NexusException("Cannot flush file", e);
+			}
 			tryToCloseOpenObjects();
 			fileId = -1;
 			tree = null;
