@@ -25,8 +25,7 @@ Export-Package: org.eclipse.dawnsci.analysis.api,
  org.eclipse.dawnsci.analysis.api.processing.model,
  org.eclipse.dawnsci.analysis.api.roi,
  org.eclipse.dawnsci.analysis.api.rpc,
- org.eclipse.dawnsci.analysis.api.tree,
- org.eclipse.dawnsci.analysis.api.worker
+ org.eclipse.dawnsci.analysis.api.tree
 Import-Package: javax.measure.unit;version="4.3.1",
  org.osgi.framework;version="1.7.0",
  org.slf4j;version="[1.7.2,2.0.0)"

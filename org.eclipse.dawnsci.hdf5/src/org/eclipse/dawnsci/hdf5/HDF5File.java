@@ -9,9 +9,13 @@
 
 package org.eclipse.dawnsci.hdf5;
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.dawnsci.analysis.api.worker.Worker;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyWriteableDataset;
@@ -28,7 +32,8 @@ public class HDF5File {
 	private boolean writeable; // if true then can write
 	private boolean canSWMR;
 
-	private Worker thread; // optional writing thread
+	private ThreadPoolExecutor service;
+	private long checkingPeriod = 100000; // period between checking finished flag in nanoseconds
 
 	/**
 	 * 
@@ -135,11 +140,16 @@ public class HDF5File {
 	 */
 	public synchronized boolean addWriteJob(ILazyWriteableDataset destination, IDataset data, SliceND slice) {
 		if (writeable) {
-			if (thread == null) {
-				thread = new Worker("Writer for " + file);
+			if (service == null) {
+				service = new ThreadPoolExecutor(1, 1, 0, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
 			}
-			thread.addJob(new WriteJob(destination, data, slice));
-			return true;
+			if (!service.isShutdown()) {
+				try {
+					service.submit(new WriteJob(destination, data, slice));
+					return true;
+				} catch (RejectedExecutionException e) {
+				}
+			}
 		}
 		return false;
 	}
@@ -148,11 +158,16 @@ public class HDF5File {
 	 * Finish all writes (block until it is done)
 	 */
 	public synchronized void flushWrites() {
-		if (thread != null) {
-			thread.flush();
-			Throwable t = thread.getThrowable();
-			if (t != null) {
-				throw new RuntimeException(t);
+		if (service != null) {
+			BlockingQueue<Runnable> queue = service.getQueue();
+			final long wait = checkingPeriod*100l;
+			final int nano = (int) (wait % 1000000);
+			final long milli = wait/1000000;
+			while (!service.isTerminated() && queue.peek() != null) {
+				try {
+					Thread.sleep(milli, nano);
+				} catch (InterruptedException e) {
+				}
 			}
 		}
 	}
@@ -161,11 +176,14 @@ public class HDF5File {
 	 * @param milliseconds to wait before finishing
 	 */
 	public synchronized void finish(long milliseconds) {
-		if (thread != null) {
-			thread.finish(milliseconds);
-			Throwable t = thread.getThrowable();
-			if (t != null) {
-				throw new RuntimeException(t);
+		if (service != null) {
+			service.shutdown();
+			try {
+				service.awaitTermination(milliseconds, TimeUnit.MILLISECONDS);
+				if (!service.isTerminated()) {
+					service.shutdownNow();
+				}
+			} catch (InterruptedException e) {
 			}
 		}
 	}
