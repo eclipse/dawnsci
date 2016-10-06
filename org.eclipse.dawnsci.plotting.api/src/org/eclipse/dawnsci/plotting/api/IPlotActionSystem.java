@@ -98,4 +98,17 @@ public interface IPlotActionSystem extends ITraceActionProvider{
 	 * @param manType
 	 */
 	public void registerAction(String groupName, IAction action, ActionType actionType, ManagerType manType);
+	
+	/**
+	 * Call to turn of the showing of the plot actions added by extension points.
+	 * @param show
+	 */
+	public void setShowCustomPlotActions(boolean show);
+	
+	/**
+	 * Call to turn of the showing of the plot actions added by extension points.
+	 * @return if actions are shown (default is true)
+	 */
+	public boolean isShowCustomPlotActions();
+
 }
