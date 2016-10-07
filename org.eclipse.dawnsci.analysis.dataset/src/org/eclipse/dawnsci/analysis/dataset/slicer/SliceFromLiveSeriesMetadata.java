@@ -14,13 +14,15 @@ public class SliceFromLiveSeriesMetadata extends SliceFromSeriesMetadata {
 	private int port;
 	private String host;
 	private String[] axesNames;
-	
-	public SliceFromLiveSeriesMetadata(SourceInformation source, SliceInformation slice, String host, int port, String[] axesNames) {
+	private String xAxisForRemapping;
+
+	public SliceFromLiveSeriesMetadata(SourceInformation source, SliceInformation slice, String host, int port, String[] axesNames, String xAxisForRemapping) {
 		super(source, slice);
 		
 		this.port = port;
 		this.host = host;
 		this.axesNames = axesNames;
+		this.xAxisForRemapping = xAxisForRemapping;
 
 	}
 
@@ -36,11 +38,15 @@ public class SliceFromLiveSeriesMetadata extends SliceFromSeriesMetadata {
 		return host;
 	}
 	
+	public String getxAxisForRemapping() {
+		return xAxisForRemapping;
+	}
+	
 	@Override
 	public SliceFromLiveSeriesMetadata clone() {
 		SourceInformation soi = this.getSourceInfo() != null ? this.getSourceInfo().clone() : null;
 		SliceInformation sli = this.getSliceInfo() != null ? this.getSliceInfo().clone() : null;
 		
-		return new SliceFromLiveSeriesMetadata(soi, sli, host, port,axesNames);
+		return new SliceFromLiveSeriesMetadata(soi, sli, host, port,axesNames, xAxisForRemapping);
 	}
 }
