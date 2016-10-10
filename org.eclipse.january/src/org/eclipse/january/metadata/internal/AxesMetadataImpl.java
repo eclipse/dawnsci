@@ -156,7 +156,6 @@ public class AxesMetadataImpl implements AxesMetadata {
 	public int[] refresh(int[] shape) {
 		int[] maxShape = shape.clone();
 
-
 		for (int i = 0 ; i < allAxes.length; i++) {
 			List<ILazyDataset> axis = allAxes[i];
 			if (axis == null) continue;
