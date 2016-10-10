@@ -18,7 +18,7 @@ public interface IOperationBean {
 
 	public void setDataKey(String dataKey);
 
-	public void setFilePath(String fileName);
+	public void setFilePath(String filePath);
 
 	public void setOutputFilePath(String outputFilePath);
 	
@@ -28,21 +28,23 @@ public interface IOperationBean {
 
 	public void setSlicing(String slicing);
 
-	public void setProcessingPath(String persistencePath);
+	public void setProcessingPath(String processingPath);
 
 	public void setAxesNames(List<String>[] axesNames);
 
-	public void setDeleteProcessingFile(boolean deletePersistenceFile);
+	public void setDeleteProcessingFile(boolean deleteProcessingFile);
 
 	public void setXmx(String xmx);
 
 	public void setDataDimensions(int[] dataDimensions);
+	
+	public void setScanRank(int scanRank);
 
 	public void setReadable(boolean readable);
 	
 	public void setName(String name);
 	
-	public void setRunDirectory(String visitDir);
+	public void setRunDirectory(String runDirectory);
 
 	public void setNumberOfCores(int numberOfCores);
 }
