@@ -19,6 +19,8 @@ public interface IOperationBean {
 	public void setDataKey(String dataKey);
 
 	public void setFilePath(String filePath);
+	
+	public String getFilePath();
 
 	public void setOutputFilePath(String outputFilePath);
 	
@@ -47,4 +49,5 @@ public interface IOperationBean {
 	public void setRunDirectory(String runDirectory);
 
 	public void setNumberOfCores(int numberOfCores);
+
 }
