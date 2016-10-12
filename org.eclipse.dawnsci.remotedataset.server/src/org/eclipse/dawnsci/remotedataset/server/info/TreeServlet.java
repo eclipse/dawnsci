@@ -94,7 +94,7 @@ public class TreeServlet extends HttpServlet {
 					        
 			final Tree tree = holder.getTree();
 			Map<String,Object> map = TreeToMapUtils.treeToMap(tree);
-			final String json = ServiceHolder.getMarshallerService().marshal(map);
+			final String json = ServiceHolder.getMarshallerService().marshal(map, false);
 			response.getWriter().println(json);
 		   
 		} catch (Exception e) {

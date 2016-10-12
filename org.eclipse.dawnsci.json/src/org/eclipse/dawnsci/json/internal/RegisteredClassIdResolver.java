@@ -54,6 +54,11 @@ public class RegisteredClassIdResolver extends TypeIdResolverBase {
 		String id = registry.getIdFromClass(clazz);
 
 		if (id == null) {
+			// As far as I can tell, there isn't a standard way of indicating that an id
+			// cannot be found for a particular type. As a result, this may or may not get
+			// wrapped by a JsonMappingException, depending on where this code gets
+			// called by Jackson, resulting in different error signatures. The text is
+			// always included, however!
 			throw new IllegalArgumentException("Id not found for " + clazz.toString());
 		}
 

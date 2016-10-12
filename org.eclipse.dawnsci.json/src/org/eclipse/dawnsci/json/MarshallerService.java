@@ -220,12 +220,9 @@ public class MarshallerService implements IMarshallerService {
 			// might be wrongly interpreted as a class name, in which case we get a ClassNotFoundException
 			if ((ex instanceof JsonMappingException && ex.getMessage().contains(TYPE_INFO_FIELD_NAME))
 					|| ex instanceof IllegalArgumentException && ex.getCause() instanceof ClassNotFoundException) {
-				// TODO @Martin: Determine if this gets triggered during any unit tests. If it does get used, it
-				// shouldn't be! Possibly replace with standardMapper, as this old mapper is never used for encoding
-				// anyway.
-
-				// Possibly no class information in the JSON - fall back to old mapper in case JSON has come
-				// from an older version
+				// This code is used to decode, for instance, trees consisting of Map<String, Object>'s nested
+				// inside each other, such as in TreeServlet. This behaviour is necessary to avoid inclusion of type
+				// id's for every map, or extensive modifications to the ObjectMapper.
 				try {
 					if (oldMapper == null) oldMapper = createOldMapper();
 					return oldMapper.readValue(string, beanClass);

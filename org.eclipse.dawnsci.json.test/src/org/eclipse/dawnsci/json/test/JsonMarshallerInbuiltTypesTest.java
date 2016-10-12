@@ -56,6 +56,13 @@ public class JsonMarshallerInbuiltTypesTest {
 	private static final String JSON_FOR_STRING_OBJECT_MAP = "{ \"String key\" : \"String value\", \"Int key\" : 5 }";
 	private static final String JSON_FOR_WRAPPED_STRING = "{\n  \"@class_id\" : \"jsontest.objectwrapper\",\n  \"object\" : \"Test string\"\n}";
 	private static final String JSON_FOR_WRAPPED_STRING_WITHOUT_TYPES = "{\n  \"object\" : \"Test string\"\n}";
+
+	// The following JSON strings are used for testing the functionality of the TreeServlet marshaller.
+	private static final String JSON_FOR_STRING_OBJECT_MAP_NON_NULL_EMPTY = "{ \"/\":{} }";
+	private static final String JSON_FOR_STRING_OBJECT_MAP_NULL_EMPTY = "{ \"/\":null }";
+	private static final String JSON_FOR_STRING_OBJECT_MAP_SINGLE_ENTRY = "{ \"/\":{\"entry\":{}} }";
+	private static final String JSON_FOR_STRING_OBJECT_MAP_NESTED_ENTRIES = "{ \"/\":{\"entry\":{\"entry2\":{}}, \"entry3\":null}, \"entry4\":{} }";
+
 	private IMarshallerService marshaller;
 	private String json;
 
@@ -212,6 +219,15 @@ public class JsonMarshallerInbuiltTypesTest {
 	}
 
 	@Test
+	public void testSimpleMapSerialization() throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("String key", "String value");
+		map.put("Int key", 5);
+		json = marshaller.marshal(map);
+		assertJsonEquals(JSON_FOR_STRING_OBJECT_MAP, json);
+	}
+
+	@Test
 	public void testSimpleMapDeserialization() throws Exception {
 		Map<String, Object> expected = new HashMap<>();
 		expected.put("String key", "String value");
@@ -238,6 +254,89 @@ public class JsonMarshallerInbuiltTypesTest {
 	public void testWrappedStringDeserializationWithoutTypeInfo() throws Exception {
 		ObjectWrapper<String> expected = new ObjectWrapper<>("Test string");
 		Object actual = marshaller.unmarshal(JSON_FOR_WRAPPED_STRING_WITHOUT_TYPES, ObjectWrapper.class);
+		assertEquals(expected, actual);
+	}
+
+	// Tests for RemoteDataTest (TreeServlet).
+
+	@Test
+	public void testMapSerializationNonNullEmpty() throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("/", new HashMap<>());
+		json = marshaller.marshal(map, false);
+		assertJsonEquals(JSON_FOR_STRING_OBJECT_MAP_NON_NULL_EMPTY, json);
+	}
+
+	@Test
+	public void testMapDeserializationNonNullEmpty() throws Exception {
+		Map<String, Object> expected = new HashMap<>();
+		expected.put("/", new HashMap<>());
+		Map<?,?> actual = marshaller.unmarshal(JSON_FOR_STRING_OBJECT_MAP_NON_NULL_EMPTY, Map.class);
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testMapSerializationNullEmpty() throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("/", null);
+		json = marshaller.marshal(map, false);
+		assertJsonEquals(JSON_FOR_STRING_OBJECT_MAP_NULL_EMPTY, json);
+	}
+
+	@Test
+	public void testMapDeserializationNullEmpty() throws Exception {
+		Map<String, Object> expected = new HashMap<>();
+		expected.put("/", null);
+		Map<?,?> actual = marshaller.unmarshal(JSON_FOR_STRING_OBJECT_MAP_NULL_EMPTY, Map.class);
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testMapSerializationSingleEntry() throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map2 = new HashMap<>();
+		map2.put("entry", new HashMap<>());
+		map.put("/", map2);
+		json = marshaller.marshal(map, false);
+		assertJsonEquals(JSON_FOR_STRING_OBJECT_MAP_SINGLE_ENTRY, json);
+	}
+
+	@Test
+	public void testMapDeserializationSingleEntry() throws Exception {
+		Map<String, Object> expected = new HashMap<>();
+		Map<String, Object> map2 = new HashMap<>();
+		map2.put("entry", new HashMap<>());
+		expected.put("/", map2);
+		Map<?,?> actual = marshaller.unmarshal(JSON_FOR_STRING_OBJECT_MAP_SINGLE_ENTRY, Map.class);
+		assertEquals(expected, actual);
+	}
+
+
+	@Test
+	public void testMapSerializationNestedEntries() throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map2 = new HashMap<>();
+		Map<String, Object> map3 = new HashMap<>();
+		map3.put("entry2", new HashMap<>());
+		map2.put("entry", map3);
+		map2.put("entry3", null);
+		map.put("/", map2);
+		map.put("entry4", new HashMap<>());
+		json = marshaller.marshal(map, false);
+		assertJsonEquals(JSON_FOR_STRING_OBJECT_MAP_NESTED_ENTRIES, json);
+	}
+
+	@Test
+	public void testMapDeserializationNestedEntries() throws Exception {
+		Map<String, Object> expected = new HashMap<>();
+		Map<String, Object> map2 = new HashMap<>();
+		Map<String, Object> map3 = new HashMap<>();
+		map3.put("entry2", new HashMap<>());
+		map2.put("entry", map3);
+		map2.put("entry3", null);
+		expected.put("/", map2);
+		expected.put("entry4", new HashMap<>());
+		Map<?,?> actual = marshaller.unmarshal(JSON_FOR_STRING_OBJECT_MAP_NESTED_ENTRIES, Map.class);
 		assertEquals(expected, actual);
 	}
 }
