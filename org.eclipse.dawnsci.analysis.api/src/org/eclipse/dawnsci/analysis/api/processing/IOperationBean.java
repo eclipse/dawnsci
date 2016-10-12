@@ -40,7 +40,7 @@ public interface IOperationBean {
 
 	public void setDataDimensions(int[] dataDimensions);
 	
-	public void setScanRank(int scanRank);
+	public void setScanRank(Integer scanRank);
 
 	public void setReadable(boolean readable);
 	
