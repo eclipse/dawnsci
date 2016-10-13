@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.eclipse.dawnsci.json.test;
+package org.eclipse.dawnsci.json.test.testobject;
 
 import java.util.Properties;
 

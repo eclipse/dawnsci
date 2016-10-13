@@ -14,8 +14,6 @@ package org.eclipse.dawnsci.json.test.testobject;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.dawnsci.json.test.TestStatusBean;
-
 /**
  * Bean to serialise with JSON and be sent to the server.
  *

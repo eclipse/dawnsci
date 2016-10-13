@@ -1,13 +1,13 @@
-package org.eclipse.dawnsci.json.test;
+package org.eclipse.dawnsci.json.test.testobject;
 
 import java.util.UUID;
 
 
 public class TestIdBean {
-	
+
 	private String    uniqueId;         // Unique id for each object.
 	private boolean   explicitlySetId;
-	
+
 	public TestIdBean() {
 		uniqueId = UUID.randomUUID().toString(); // Normally overridden
 	}
@@ -51,7 +51,7 @@ public class TestIdBean {
 
 	/**
 	 * Subclasses must override this method calling super.merge(...)
-	 * 
+	 *
 	 * @param with
 	 */
 	public <T extends TestIdBean> void merge(T with) {

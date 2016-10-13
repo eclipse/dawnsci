@@ -13,6 +13,7 @@ package org.eclipse.dawnsci.json.test.testobject;
 
 public class Person {
 
+	// TODO @Martin: Need to delete these for all testing classes, as they are unnecessary.
 	public static final String BUNDLE_NAME_FOR_TESTING = "uk.ac.diamond.daq.test.example";
 	public static final String BUNDLE_VERSION_FOR_TESTING = "1.2.0.test";
 
@@ -31,6 +32,7 @@ public class Person {
 	public void setPet(Animal pet) {
 		this.pet = pet;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

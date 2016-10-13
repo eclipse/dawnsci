@@ -17,8 +17,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshaller;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.analysis.api.roi.IOrientableROI;
@@ -42,9 +44,10 @@ import org.eclipse.dawnsci.analysis.dataset.roi.RingROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.SectorROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.XAxisBoxROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.YAxisBoxROI;
-import org.eclipse.dawnsci.json.internal.BundleAndClassNameIdResolver;
-import org.eclipse.dawnsci.json.internal.BundleProvider;
-import org.eclipse.dawnsci.json.internal.OSGiBundleProvider;
+import org.eclipse.dawnsci.json.internal.MarshallerServiceClassRegistry;
+import org.eclipse.dawnsci.json.internal.MarshallerServiceClassRegistry.ClassRegistryDuplicateIdException;
+import org.eclipse.dawnsci.json.internal.ROIClassRegistry;
+import org.eclipse.dawnsci.json.internal.RegisteredClassIdResolver;
 import org.eclipse.dawnsci.json.mixin.roi.CircularFitROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.CircularROIMixIn;
 import org.eclipse.dawnsci.json.mixin.roi.EllipticalFitMixIn;
@@ -70,6 +73,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -87,38 +91,31 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 /**
  * JSON marshaller implementation which allows objects to be converted to and from JSON strings
  * <p>
- * This implementation adds OSGi type information to encoded JSON strings and will use it if present when deserializing.
+ * This implementation adds class_id type information to encoded JSON strings and will use it when deserializing.
  * <p>
- * If type information is not present in a JSON string it will attempt to deserialize it anyway, but in an OSGi
- * environment this will probably fail for anything except primitive and core Java types since other classes will not be
- * available to this bundle's classloader. If classloading fails, it might still be possible to make deserialization
- * work correctly in some cases by setting the thread context classloader before calling the unmarshal method, since
- * some of the required classes (but not necessarily all) might be available to the classloader which loaded the
- * caller's class:
- * <pre>
- * ClassLoader tccl = Thread.currentThread().getContextClassLoader();
- * try {
- * 	Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
- * 	// call the unmarshaller
- * } finally {
- * 	Thread.currentThread().setContextClassLoader(tccl);
- * }
- * </pre>
+ * Type information is typically obtained from the attribute definition of the class in which it is defined,
+ * or the class passed to the {@link #marshal(Object anyObject, boolean useRegisteredClassTyping)}.
+ * <p>
+ * This is not useful when working with interface, abstract base class or Object definitions, as it could be a number of
+ * different classes. In these situations, the key "@class_id" is used to indicate a string for class identification.
  *
  * @author Colin Palmer
+ * @author Martin Gaughran
  */
 public class MarshallerService implements IMarshallerService {
 
-	private static final String TYPE_INFO_FIELD_NAME = "@bundle_and_class";
+	private static final String TYPE_INFO_FIELD_NAME = "@class_id";
 
 	private static final Logger logger = LoggerFactory.getLogger(MarshallerService.class);
 
-	private BundleProvider bundleProvider;
-	private ObjectMapper osgiMapper;
+	private List<IClassRegistry> extra_registries;
+	private ObjectMapper registeredClassMapper;
 	private ObjectMapper standardMapper;
-	private ObjectMapper nonOsgiMapper;
+	private ObjectMapper oldMapper;
 
 	private List<IMarshaller> marshallers;
+
+	private boolean platformIsRunning;
 
 	static {
 		System.out.println("Started " + IMarshallerService.class.getSimpleName());
@@ -128,25 +125,43 @@ public class MarshallerService implements IMarshallerService {
 	 * Default public constructor - for testing purposes only! Otherwise use OSGi to get the service.
 	 */
 	public MarshallerService() {
-		this(null, new OSGiBundleProvider());
+		this(null, null);
 	}
 
 	/**
-	 * Constructor for testing to allow a BundleProvider to be injected.
+	 * Constructor for testing to allow IClassRegistry('s) to be injected.
 	 *
-	 * @param bundleProvider
+	 * @param extra_registries
 	 */
-	public MarshallerService(BundleProvider bundleProvider) {
-		this(null, bundleProvider);
+	public MarshallerService(IClassRegistry... extra_registries) {
+		this(Arrays.asList(extra_registries), null);
 	}
 
+	/**
+	 * Constructor for testing to allow IMarshaller(s) to be injected.
+	 *
+	 * @param marshallers
+	 */
 	public MarshallerService(IMarshaller... marshallers) {
-		this(Arrays.asList(marshallers), new OSGiBundleProvider());
+		this(null, Arrays.asList(marshallers));
 	}
 
-	public MarshallerService(List<IMarshaller> marshallers, BundleProvider bundleProvider) {
+	/**
+	 * Constructor for testing to allow IMarshaller(s) or IClassRegistry('s) to be injected.
+	 *
+	 * @param extra_registries
+	 * @param marshallers
+	 */
+	public MarshallerService(List<IClassRegistry> extra_registries, List<IMarshaller> marshallers) {
+		platformIsRunning = Platform.isRunning();
+
 		if (marshallers!=null) this.marshallers = Collections.unmodifiableList(marshallers);
-		this.bundleProvider = bundleProvider;
+
+		this.extra_registries = new ArrayList<IClassRegistry>();
+		this.extra_registries.add(new ROIClassRegistry());
+		if (extra_registries!=null) this.extra_registries.addAll(extra_registries);
+
+		this.extra_registries = Collections.unmodifiableList(this.extra_registries);
 	}
 
 	/**
@@ -158,15 +173,16 @@ public class MarshallerService implements IMarshallerService {
 	 */
 	@Override
 	public String marshal(Object anyObject) throws Exception {
+		// Use registered class typing by default, as it is only an issue with out-of-date software.
 		return marshal(anyObject, true);
 	}
 
 	@Override
-	public String marshal(Object anyObject, boolean requireBundleAndClass)  throws Exception {
+	public String marshal(Object anyObject, boolean useRegisteredClassTyping)  throws Exception {
 		String json;
-		if (requireBundleAndClass) {
-			if (osgiMapper==null) osgiMapper = createOsgiMapper();
-			json = osgiMapper.writeValueAsString(anyObject);
+		if (useRegisteredClassTyping) {
+			if (registeredClassMapper==null) registeredClassMapper = createRegisteredClassMapper();
+			json = registeredClassMapper.writeValueAsString(anyObject);
 		} else {
 			if (standardMapper==null) standardMapper = createJacksonMapper();
 			json = standardMapper.writeValueAsString(anyObject);
@@ -175,38 +191,28 @@ public class MarshallerService implements IMarshallerService {
 		return json;
 	}
 
-	private ObjectMapper createOsgiMapper() throws InstantiationException, IllegalAccessException {
+	private ObjectMapper createRegisteredClassMapper() throws InstantiationException, IllegalAccessException, ClassRegistryDuplicateIdException, CoreException {
 		ObjectMapper mapper = createJacksonMapper();
-		mapper.setDefaultTyping(createOSGiTypeIdResolver());
+		mapper.setDefaultTyping(createRegisteredTypeIdResolver());
 		return mapper;
 	}
 
 	/**
 	 * Deserialize the given JSON string as an instance of the given class
 	 * <p>
-	 * This method will try to find the correct classes for deserialization if possible. If you still have problems
-	 * with ClassNotFoundExceptions, one option which might help is to try setting the thread context classloader
-	 * before calling the unmarshal method:
-	 * <pre>
-	 * ClassLoader tccl = Thread.currentThread().getContextClassLoader();
-	 * try {
-	 *     Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-	 *     // call the unmarshaller
-	 * } finally {
-	 *     Thread.currentThread().setContextClassLoader(tccl);
-	 * }
-	 * </pre>
+	 * This method will try to find the correct classes for deserialization from the class id, if type not
+	 * given.
 	 */
 	@Override
 	public <U> U unmarshal(String string, Class<U> beanClass) throws Exception {
 		try {
-			if (osgiMapper == null) osgiMapper = createOsgiMapper();
+			if (registeredClassMapper == null) registeredClassMapper = createRegisteredClassMapper();
 			if (beanClass != null) {
-				return osgiMapper.readValue(string, beanClass);
+				return registeredClassMapper.readValue(string, beanClass);
 			}
 			// If bean class is not supplied, try using Object
 			@SuppressWarnings("unchecked")
-			U result = (U) osgiMapper.readValue(string, Object.class);
+			U result = (U) registeredClassMapper.readValue(string, Object.class);
 			return result;
 		} catch (JsonMappingException | IllegalArgumentException ex) {
 			// Check if this is due to missing type info. This can appear in two ways: the type info field can be
@@ -214,11 +220,12 @@ public class MarshallerService implements IMarshallerService {
 			// might be wrongly interpreted as a class name, in which case we get a ClassNotFoundException
 			if ((ex instanceof JsonMappingException && ex.getMessage().contains(TYPE_INFO_FIELD_NAME))
 					|| ex instanceof IllegalArgumentException && ex.getCause() instanceof ClassNotFoundException) {
-				// Possibly no bundle and class information in the JSON - fall back to old mapper in case JSON has come
-				// from an older version
+				// This code is used to decode, for instance, trees consisting of Map<String, Object>'s nested
+				// inside each other, such as in TreeServlet. This behaviour is necessary to avoid inclusion of type
+				// id's for every map, or extensive modifications to the ObjectMapper.
 				try {
-					if (nonOsgiMapper == null) nonOsgiMapper = createNonOsgiMapper();
-					return nonOsgiMapper.readValue(string, beanClass);
+					if (oldMapper == null) oldMapper = createOldMapper();
+					return oldMapper.readValue(string, beanClass);
 				} catch (Exception withoutTypeException) {
 					logger.error("Could not deserialize string assuming no type info present: {}", string, withoutTypeException);
 				}
@@ -229,7 +236,7 @@ public class MarshallerService implements IMarshallerService {
 		}
 	}
 
-	private final ObjectMapper createJacksonMapper() throws InstantiationException, IllegalAccessException {
+	private final ObjectMapper createJacksonMapper() throws InstantiationException, IllegalAccessException, CoreException {
 
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -270,6 +277,7 @@ public class MarshallerService implements IMarshallerService {
 		// check the exact contents of the serialized JSON string
 		mapper.setSerializationInclusion(Include.NON_NULL);
 		mapper.enable(MapperFeature.REQUIRE_SETTERS_FOR_GETTERS);
+		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 		//mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		return mapper;
 	}
@@ -298,26 +306,34 @@ public class MarshallerService implements IMarshallerService {
 		return false;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void createModuleExtensions(SimpleModule module) throws InstantiationException, IllegalAccessException {
-
+	private void createModuleExtensions(SimpleModule module) throws InstantiationException, IllegalAccessException, CoreException {
         List<IMarshaller> ms = new ArrayList<>(7);
-		try {
-	        IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.dawnsci.analysis.api.marshaller");
 
-	        for (IConfigurationElement e : elements) {
-				final IMarshaller marshaller = (IMarshaller) e.createExecutableExtension("class");
-				ms.add(marshaller);
-	        }
-		} catch (Exception ne) {
-			// It is legal to fail the configuration elements because
-			// one may use the json service in non-OSGi
-			// Instead tests should attempt to serialize their custom objects
-			// and problems with serialization be picked up this way.
-		}
+        ms.addAll(getAvailableMarshallerExtensions());
+
         if (marshallers!=null && !marshallers.isEmpty()) ms.addAll(marshallers);
 
-        for (IMarshaller marshaller : ms) {
+        applyMarshallersToModule(module, ms);
+	}
+
+	private List<IMarshaller> getAvailableMarshallerExtensions() throws CoreException {
+        List<IMarshaller> marshallers = new ArrayList<>(7);
+
+		if (!platformIsRunning) return marshallers;
+
+        IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.dawnsci.analysis.api.marshaller");
+
+        for (IConfigurationElement e : elements) {
+			final IMarshaller marshaller = (IMarshaller) e.createExecutableExtension("class");
+			marshallers.add(marshaller);
+        }
+
+		return marshallers;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void applyMarshallersToModule(SimpleModule module, List<IMarshaller> marshallers) throws InstantiationException, IllegalAccessException {
+		for (IMarshaller marshaller : marshallers) {
 			Class<?> objectClass = marshaller.getObjectClass();
 			if (objectClass!=null) {
 				module.addSerializer(objectClass,  (JsonSerializer)marshaller.getSerializerClass().newInstance());
@@ -333,16 +349,21 @@ public class MarshallerService implements IMarshallerService {
 	}
 
 	/**
-	 * Create a TypeResolverBuilder which will add bundle and class name information to JSON-serialized objects to
+	 * Create a TypeResolverBuilder which will add class id information to JSON-serialized objects to
 	 * allow the correct classes to be loaded during deserialization.
+	 * <p>
+	 * Any IMarshaller-provided serializers / deserializers take precedence over this class identification info.
 	 * <p>
 	 * NOTE: this strongly relies on the exact implementation of the Jackson library - it was written to work with
 	 * version 2.2.0 and has not been tested with any other version.
 	 *
-	 * @return the customised TypeResolverBuilder for use in an OSGi environment
+	 * @return the customised TypeResolverBuilder
+	 * @throws ClassRegistryDuplicateIdException
+	 * @throws CoreException
 	 */
-	private TypeResolverBuilder<?> createOSGiTypeIdResolver() {
-		TypeResolverBuilder<?> typer = new OSGiTypeResolverBuilder();
+	private TypeResolverBuilder<?> createRegisteredTypeIdResolver() throws ClassRegistryDuplicateIdException, CoreException {
+		MarshallerServiceClassRegistry registry = new MarshallerServiceClassRegistry(extra_registries);
+		TypeResolverBuilder<?> typer = new RegisteredTypeResolverBuilder(registry);
 		typer = typer.init(JsonTypeInfo.Id.CUSTOM, null);
 		typer = typer.inclusion(JsonTypeInfo.As.PROPERTY);
 		typer = typer.typeProperty(TYPE_INFO_FIELD_NAME);
@@ -350,45 +371,59 @@ public class MarshallerService implements IMarshallerService {
 	}
 
 	/**
-	 * A TypeResolverBuilder for use in an OSGi environment.
+	 * A TypeResolverBuilder for use with registered classes.
 	 */
-	private class OSGiTypeResolverBuilder extends DefaultTypeResolverBuilder {
+	private class RegisteredTypeResolverBuilder extends DefaultTypeResolverBuilder {
 		private static final long serialVersionUID = 1L;
+		private MarshallerServiceClassRegistry registry;
 
-		public OSGiTypeResolverBuilder() {
-			this(null);
+		public RegisteredTypeResolverBuilder(MarshallerServiceClassRegistry registry) {
+			this(null, registry);
 		}
 
-		public OSGiTypeResolverBuilder(DefaultTyping typing) {
+		public RegisteredTypeResolverBuilder(DefaultTyping typing, MarshallerServiceClassRegistry registry) {
 			super(typing);
+			this.registry = registry;
 		}
 
-		// Override StdTypeResolverBuilder#idResolver() to return our custom BundleAndClassNameIdResolver
+		// Override StdTypeResolverBuilder#idResolver() to return our custom RegisteredClassIdResolver
 		// (We need this override, rather than just providing a custom resolver in StdTypeResolverBuilder#init(), because
 		//  the default implementation does not normally pass the base type to the custom resolver but we need it.)
 		@Override
 		protected TypeIdResolver idResolver(MapperConfig<?> config,
-				JavaType baseType, Collection<NamedType> subtypes,
-				boolean forSer, boolean forDeser) {
-			return new BundleAndClassNameIdResolver(baseType, config.getTypeFactory(), bundleProvider);
+		JavaType baseType, Collection<NamedType> subtypes,
+		boolean forSer, boolean forDeser) {
+			return new RegisteredClassIdResolver(baseType, config.getTypeFactory(), registry);
 		}
 
-		// Override DefaultTypeResolverBuilder#useForType() to add type information to all except primitive and final
-		// core Java types
+		// Override DefaultTypeResolverBuilder#useForType() to add type information only to those required.
 		@Override
 		public boolean useForType(JavaType type) {
-			while (type.isArrayType()) {
-				type = type.getContentType();
-			}
-			boolean isNotPrimitive = !type.isPrimitive();
-			boolean isFinal = type.isFinal();
-			boolean isCoreJavaClass = type.getRawClass().getName().startsWith("java.");
-			boolean isNotFinalCoreJavaClass = !(isFinal && isCoreJavaClass);
-			return isNotPrimitive && isNotFinalCoreJavaClass;
+			Class<?> clazz = type.getRawClass();
+			// Note: This does not work well with generics defined at or above the same scope as the call
+			// to marshal or unmarshal. As a result, only use such generics there when dealing with a primitive
+			// type or registered class, as these will cope with the idResolver.
+
+			// We can lookup the class in the registry, for marshalling and unmarshalling.
+			Boolean registryHasClass = registry.isClass(clazz);
+
+			// We only ever declare as object if we intend to use one of our own classes (or a primitive).
+			Boolean isObject = (Object.class.equals(clazz));
+
+			// Also include abstract classes and interfaces as these are always defined with a type id. This
+			// is not the case for container types, however, so these are excluded.
+			Boolean isAbstract = type.isAbstract();
+			Boolean isInterface = type.isInterface();
+			Boolean isNotContainer = !type.isContainerType();
+
+			// Primitive types are considered abstract, so exclude these as well.
+			Boolean isNotPrimitive = !type.isPrimitive();
+
+			return registryHasClass || ((isObject || isAbstract || isInterface) && isNotContainer && isNotPrimitive);
 		}
 	}
 
-	private final ObjectMapper createNonOsgiMapper() {
+	private final ObjectMapper createOldMapper() {
 
 		ObjectMapper mapper = new ObjectMapper();
 

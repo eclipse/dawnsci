@@ -17,9 +17,11 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(org.junit.runners.Suite.class)
 @SuiteClasses({
 
-	BundleAndClassNameIdResolverTest.class,
-	JsonMarshallerNonOSGiTest.class,
-	JsonMarshallerOSGiBundleTest.class
+	JsonMarshallerInbuiltTypesTest.class,
+	JsonMarshallerCustomClassesTest.class,
+	JsonMarshallerROITypesTest.class,
+	JsonMarshallerSerializerTest.class,
+	JsonMarshallerClassRegistryTest.class,
 
 })
 public class Suite {

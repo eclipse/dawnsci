@@ -48,7 +48,7 @@ public class SerializationPluginTest {
 		String key = bfs.keySet().iterator().next();
 		
 		final Map<String, Object> map = TreeToMapUtils.treeToMap(tree);
-		final String json = marshaller.marshal(map);
+		final String json = marshaller.marshal(map, false);
 		final Map<String, Object>  ntree = marshaller.unmarshal(json, Map.class);
 		
 		assertTrue(map.keySet().containsAll(ntree.keySet()));
