@@ -59,7 +59,7 @@ public class RegisteredClassIdResolver extends TypeIdResolverBase {
 			// wrapped by a JsonMappingException, depending on where this code gets
 			// called by Jackson, resulting in different error signatures. The text is
 			// always included, however!
-			throw new IllegalArgumentException("Id not found for " + clazz.toString());
+			throw new IllegalArgumentException("Id not found for " + clazz.getName());
 		}
 
 		return id;
