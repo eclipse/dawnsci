@@ -39,13 +39,22 @@ import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
  */
 public class MarshallerServiceClassRegistry {
 
-	private Map<String, Class<?>> idToClassMap = new HashMap<String, Class<?>>();
-	private boolean platformIsRunning;
+	private Map<String, Class<?>> idToClassMap;
 
 	public MarshallerServiceClassRegistry(List<IClassRegistry> extraRegistries) throws ClassRegistryDuplicateIdException, CoreException {
-		List<IClassRegistry> registries = new ArrayList<IClassRegistry>();
-		platformIsRunning = Platform.isRunning();
 
+		this.idToClassMap = new HashMap<String, Class<?>>();
+
+		// TODO FIXME: this is not ok. Types like these arrays
+		// should work automatically.
+		idToClassMap.put("dict",     HashMap.class);
+		idToClassMap.put("long[]",   long[].class);
+		idToClassMap.put("int[]",    int[].class);
+		idToClassMap.put("double[]", double[].class);
+		idToClassMap.put("float[]",  float[].class);
+		idToClassMap.put("String[]", String[].class);
+
+		List<IClassRegistry> registries = new ArrayList<IClassRegistry>();
 		if (extraRegistries!=null) registries.addAll(extraRegistries);
 
 		// Extensions not available for unit tests / non-OSGI mode.
@@ -57,10 +66,12 @@ public class MarshallerServiceClassRegistry {
 	}
 
 	private List<IClassRegistry> getAvailableRegistryExtensions() throws CoreException {
+
 		List<IClassRegistry> registries = new ArrayList<IClassRegistry>();
 
-		if (!platformIsRunning) return registries;
-
+		// TODO Perhaps instead of platform we may one day use the IRegistryProvider service
+		// which avoids a static method call onto Platform
+		if (!Platform.isRunning()) return registries;
         IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.dawnsci.analysis.api.classregistry");
 
         for (IConfigurationElement e : elements) {
