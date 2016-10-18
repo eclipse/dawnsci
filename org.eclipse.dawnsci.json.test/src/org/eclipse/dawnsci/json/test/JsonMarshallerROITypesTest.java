@@ -44,10 +44,10 @@ import org.junit.Test;
 public class JsonMarshallerROITypesTest {
 
 	// Example of JSON produced for an ROI
-	private static final String JSON_FOR_RECTANGULAR_ROI = "{\n  \"@class_id\" : \"roi.rectangular\",\n  \"lengths\" : [ 8.0, 6.1 ],\n  \"angle\" : 0.0,\n  \"point\" : [ -3.5, 4.0 ]\n}";
+	private static final String JSON_FOR_RECTANGULAR_ROI = "{\n  \"@type\" : \"roi.rectangular\",\n  \"lengths\" : [ 8.0, 6.1 ],\n  \"angle\" : 0.0,\n  \"point\" : [ -3.5, 4.0 ]\n}";
 
-	private static final String JSON_FOR_WRAPPED_RECTANGULAR_ROI = "{\n  \"@class_id\" : \"jsontest.roiwrapper\",\n  \"object\" : {\n    \"@class_id\" : \"roi.rectangular\",\n    \"lengths\" : [ 8.0, 6.1 ],\n    \"angle\" : 0.0,\n    \"point\" : [ -3.5, 4.0 ]\n  }\n}";
-	private static final String JSON_FOR_GENERIC_WRAPPED_RECTANGULAR_ROI = "{\n  \"@class_id\" : \"jsontest.objectwrapper\",\n  \"object\" : {\n    \"@class_id\" : \"roi.rectangular\",\n    \"lengths\" : [ 8.0, 6.1 ],\n    \"angle\" : 0.0,\n    \"point\" : [ -3.5, 4.0 ]\n  }\n}";
+	private static final String JSON_FOR_WRAPPED_RECTANGULAR_ROI = "{\n  \"@type\" : \"jsontest.roiwrapper\",\n  \"object\" : {\n    \"@type\" : \"roi.rectangular\",\n    \"lengths\" : [ 8.0, 6.1 ],\n    \"angle\" : 0.0,\n    \"point\" : [ -3.5, 4.0 ]\n  }\n}";
+	private static final String JSON_FOR_GENERIC_WRAPPED_RECTANGULAR_ROI = "{\n  \"@type\" : \"jsontest.objectwrapper\",\n  \"object\" : {\n    \"@type\" : \"roi.rectangular\",\n    \"lengths\" : [ 8.0, 6.1 ],\n    \"angle\" : 0.0,\n    \"point\" : [ -3.5, 4.0 ]\n  }\n}";
 
 	private IMarshallerService marshaller;
 	private String json;

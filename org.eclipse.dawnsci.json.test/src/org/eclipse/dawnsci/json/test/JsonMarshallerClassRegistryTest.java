@@ -39,8 +39,8 @@ import org.junit.rules.ExpectedException;
 
 public class JsonMarshallerClassRegistryTest {
 
-	private static final String JSON_FOR_TTRegBean = "{\"@class_id\":\"jsontest.testtypebean\",\"ttreg\": {\"@class_id\" : \"jsontest.testtyperegistered\", \"string\" : \"Registered test type.\"} }";
-	private static final String JSON_FOR_TTRegAltBean = "{\"@class_id\":\"jsontest.testtypebean\",\"ttreg\": {\"@class_id\" : \"jsontest.testtyperegisteredalt\", \"string\" : \"Alternative Registered test type.\"} }";
+	private static final String JSON_FOR_TTRegBean = "{\"@type\":\"jsontest.testtypebean\",\"ttreg\": {\"@type\" : \"jsontest.testtyperegistered\", \"string\" : \"Registered test type.\"} }";
+	private static final String JSON_FOR_TTRegAltBean = "{\"@type\":\"jsontest.testtypebean\",\"ttreg\": {\"@type\" : \"jsontest.testtyperegisteredalt\", \"string\" : \"Alternative Registered test type.\"} }";
 
 	private IMarshallerService marshaller;
 	private String json;
