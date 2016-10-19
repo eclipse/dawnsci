@@ -258,9 +258,9 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 			
 			if (!getOutputRank().equals(OperationRank.SAME)) {
 				if (getInputRank().equals(OperationRank.ANY)) {
-					rankDif = ShapeUtils.squeezeShape(original.getShape(), false).length - getOutputRank().getRank();
+					rankDif = ShapeUtils.squeezeShape(original.getShape(), false).length - outr;
 				} else {
-					rankDif = getInputRank().getRank() - getOutputRank().getRank();
+					rankDif = getInputRank().getRank() - outr;
 				}
 			}
 			
