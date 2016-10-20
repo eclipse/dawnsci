@@ -1,4 +1,5 @@
 package org.eclipse.dawnsci.remotedataset.test.server;
+import org.eclipse.dawnsci.remotedataset.test.core.XMLMarshallerTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
@@ -8,7 +9,8 @@ import org.junit.runners.Suite.SuiteClasses;
     RemoteDatasetTest.class,
     RemoteDatasetSliceTest.class,
     FileMonitoringTest.class,
-    RemoteDataTest.class
+    RemoteDataTest.class,
+    XMLMarshallerTest.class
 })
 public class Suite {
 
