@@ -48,9 +48,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class JsonMarshallerSerializerTest {
 
-	private static final String JSON_WITH_NO_REG_WITH_SERIALIZER = "{\"@class_id\":\"jsontest.testtypebean\",\"ttnonReg\":\"TestTypeNonRegisteredSerializer used.\"}";
-	private static final String JSON_WITH_REG_WITH_NO_SERIALIZER = "{\"@class_id\":\"jsontest.testtypebean\",\"ttreg\": {\"@class_id\" : \"jsontest.testtyperegistered\", \"string\" : \"Registered, marshaller not available.\"} }";
-	private static final String JSON_WITH_REG_WITH_SERIALIZER = "{\"@class_id\":\"jsontest.testtypebean\",\"ttreg\": \"TestTypeRegisteredSerializer used.\" }";
+	private static final String JSON_WITH_NO_REG_WITH_SERIALIZER = "{\"@type\":\"jsontest.testtypebean\",\"ttnonReg\":\"TestTypeNonRegisteredSerializer used.\"}";
+	private static final String JSON_WITH_REG_WITH_NO_SERIALIZER = "{\"@type\":\"jsontest.testtypebean\",\"ttreg\": {\"@type\" : \"jsontest.testtyperegistered\", \"string\" : \"Registered, marshaller not available.\"} }";
+	private static final String JSON_WITH_REG_WITH_SERIALIZER = "{\"@type\":\"jsontest.testtypebean\",\"ttreg\": \"TestTypeRegisteredSerializer used.\" }";
 
 	private IMarshallerService marshaller;
 	private IMarshallerService marshallerWithMarshalledInterfaces;
