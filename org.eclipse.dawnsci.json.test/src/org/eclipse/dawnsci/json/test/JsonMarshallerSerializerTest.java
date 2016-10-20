@@ -20,8 +20,13 @@ package org.eclipse.dawnsci.json.test;
 
 import static org.eclipse.dawnsci.json.test.JsonUtils.assertJsonEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.io.ObjectInputStream;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
@@ -131,6 +136,49 @@ public class JsonMarshallerSerializerTest {
 		TestTypeBean returnBean;
 		returnBean = marshallerWithMarshalledInterfaces.unmarshal(JSON_WITH_REG_WITH_SERIALIZER, null);
 		assertEquals("TestTypeRegisteredDeserializer used.", returnBean.getTTReg().getString());
+	}
+
+	@Test
+	public void testTreeSerializationSimple() throws Exception {
+
+		Map<String, Object> map = new HashMap<>(1);
+		map.put("/", new HashMap<>(1));
+		testMap(map);
+	}
+
+	@Test
+	public void testTreeSerializationSimpleNonHashMap() throws Exception {
+
+		Map<String, Object> map = new HashMap<>(1);
+		map.put("/", new Hashtable<>(1));
+		testMap(map);
+	}
+
+
+	/**
+	 * We cannot do this one yet, we still test it but we expect the
+	 * maps not to be equal.
+	 * @throws Exception
+	 */
+	@Test(expected=AssertionError.class)
+	public void testTreeSerializationComplex() throws Exception {
+
+		final ObjectInputStream in = new ObjectInputStream(getClass().getResourceAsStream("treetomap.ser"));
+		Map<String, Object> map = (Map<String, Object>)in.readObject();
+		in.close();
+		testMap(map);
+	}
+
+
+	private Map<String, Object> testMap(Map<String, Object> map) throws Exception {
+
+		assertTrue(!map.isEmpty());
+
+		String json = marshaller.marshal(map, false);
+       	Map<String, Object> pam = marshaller.unmarshal(json, Map.class);
+
+       	assertEquals(map, pam);
+       	return pam;
 	}
 
 }
