@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eclipse.dawnsci.json.test;
+package org.eclipse.dawnsci.remotedataset.test.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -27,8 +27,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
-import org.eclipse.dawnsci.json.MarshallerService;
-import org.eclipse.dawnsci.json.test.classregistry.TestObjectClassRegistry;
+import org.eclipse.dawnsci.remotedataset.XMLMarshallerService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,7 +38,7 @@ public class XMLMarshallerTest {
 	@Before
 	public void setUp() throws Exception {
 
-		marshaller = new MarshallerService(new TestObjectClassRegistry());
+		marshaller = new XMLMarshallerService();
 	}
 
 
@@ -48,7 +47,8 @@ public class XMLMarshallerTest {
 
 		Map<String, Object> map = new HashMap<>(1);
 		map.put("/", new HashMap<>(1));
-		testMap(map);
+		Map<String, Object> pam = testMap(map);
+      	assertEquals(map, pam);
 	}
 
 	@Test
@@ -56,7 +56,8 @@ public class XMLMarshallerTest {
 
 		Map<String, Object> map = new HashMap<>(1);
 		map.put("/", new Hashtable<>(1));
-		testMap(map);
+		Map<String, Object> pam = testMap(map);
+      	assertEquals(map, pam);
 	}
 
 
@@ -65,13 +66,18 @@ public class XMLMarshallerTest {
 	 * maps not to be equal.
 	 * @throws Exception
 	 */
-	@Test(expected=AssertionError.class)
+	@Test
 	public void testTreeSerializationComplex() throws Exception {
 
 		final ObjectInputStream in = new ObjectInputStream(getClass().getResourceAsStream("treetomap.ser"));
 		Map<String, Object> map = (Map<String, Object>)in.readObject();
 		in.close();
-		testMap(map);
+		Map<String, Object> pam = testMap(map);
+
+        String[] maxes = (String[])((Map)((Map)((Map)map.get("/")).get("entry")).get("mandelbrot_spectrum")).get("axes");
+        String[] paxes = (String[])((Map)((Map)((Map)pam.get("/")).get("entry")).get("mandelbrot_spectrum")).get("axes");
+
+        assertEquals(maxes, paxes);
 	}
 
 
@@ -80,10 +86,9 @@ public class XMLMarshallerTest {
 		assertTrue(!map.isEmpty());
 
 		String xml = marshaller.marshal(map, false);
-       	Map<String, Object> pam = marshaller.unmarshal(xml, Map.class);
+       	assertTrue(xml.indexOf('\n')<0);
 
-       	assertEquals(map, pam);
-       	return pam;
+       	return marshaller.unmarshal(xml, Map.class);
 	}
 
 }

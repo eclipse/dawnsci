@@ -21,9 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
+import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.tree.TreeToMapUtils;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.dawnsci.remotedataset.XMLMarshallerService;
 import org.eclipse.january.IMonitor;
 
 /**
@@ -94,8 +96,9 @@ public class TreeServlet extends HttpServlet {
 					        
 			final Tree tree = holder.getTree();
 			Map<String,Object> map = TreeToMapUtils.treeToMap(tree);
-			final String json = ServiceHolder.getMarshallerService().marshal(map, false);
-			response.getWriter().println(json);
+			IMarshallerService mservice = new XMLMarshallerService();
+			final String xml = mservice.marshal(map);
+			response.getWriter().println(xml);
 		   
 		} catch (Exception e) {
 			e.printStackTrace();

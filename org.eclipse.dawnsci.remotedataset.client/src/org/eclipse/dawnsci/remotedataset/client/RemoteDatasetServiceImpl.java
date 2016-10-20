@@ -16,8 +16,6 @@ import org.eclipse.january.dataset.IDatasetConnector;
 
 public class RemoteDatasetServiceImpl implements IRemoteDatasetService {
 	
-	private static IMarshallerService marshallerService;
-
 	static {
 		System.out.println("Starting remote dataset service.");
 	}
@@ -65,13 +63,5 @@ public class RemoteDatasetServiceImpl implements IRemoteDatasetService {
 	@Override
 	public IRemoteData createRemoteData(String serverName, int port) {
 		return new RemoteData(this, serverName, port, getExecutor());
-	}
-
-	public static IMarshallerService getMarshallerService() {
-		return marshallerService;
-	}
-
-	public void setMarshallerService(IMarshallerService marshallerService) {
-		RemoteDatasetServiceImpl.marshallerService = marshallerService;
 	}
 }

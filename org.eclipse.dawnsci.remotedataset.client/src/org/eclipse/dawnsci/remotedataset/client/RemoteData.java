@@ -9,8 +9,9 @@ import java.util.concurrent.Executor;
 
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
-import org.eclipse.january.dataset.IRemoteData;
+import org.eclipse.dawnsci.remotedataset.XMLMarshallerService;
 import org.eclipse.january.dataset.IDatasetConnector;
+import org.eclipse.january.dataset.IRemoteData;
 
 class RemoteData implements IRemoteData {
 
@@ -36,9 +37,9 @@ class RemoteData implements IRemoteData {
 
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 		try {
-			String json = reader.readLine();
-			IMarshallerService marshaller = RemoteDatasetServiceImpl.getMarshallerService();
-			return (Map<String, Object>)marshaller.unmarshal(json, Map.class);
+			String xml = reader.readLine();
+			IMarshallerService marshaller = new XMLMarshallerService();
+			return (Map<String, Object>)marshaller.unmarshal(xml, Map.class);
 
 		} finally {
 			reader.close();

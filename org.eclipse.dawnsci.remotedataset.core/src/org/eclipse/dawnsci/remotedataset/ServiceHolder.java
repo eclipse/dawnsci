@@ -28,7 +28,6 @@ public class ServiceHolder {
 	private static IDownsampleService downService;
 	private static IPlotImageService plotImageService;
 	private static IClassLoaderService classLoaderService;
-	private static IMarshallerService marshallerService;
 
 	public static IClassLoaderService getClassLoaderService() {
 		return classLoaderService;
@@ -68,14 +67,6 @@ public class ServiceHolder {
 
 	public static void setPlotImageService(IPlotImageService plotImageService) {
 		ServiceHolder.plotImageService = plotImageService;
-	}
-
-	public static IMarshallerService getMarshallerService() {
-		return marshallerService;
-	}
-
-	public static void setMarshallerService(IMarshallerService marshallerService) {
-		ServiceHolder.marshallerService = marshallerService;
 	}
 
 }

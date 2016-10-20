@@ -13,16 +13,13 @@ package org.eclipse.dawnsci.remotedataset.test.server;
 
 import static org.junit.Assert.assertTrue;
 
-import java.net.URL;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.analysis.tree.TreeToMapUtils;
-import org.eclipse.dawnsci.json.MarshallerService;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
-import org.eclipse.dawnsci.remotedataset.test.core.BundleUtils;
 import org.eclipse.dawnsci.remotedataset.test.mock.LoaderServiceMock;
 import org.eclipse.january.dataset.IRemoteData;
 import org.junit.Before;
@@ -47,9 +44,7 @@ public class RemoteDataTest extends DataServerTest {
 	@Before
 	public void before() {
 		service = new RemoteDatasetServiceImpl(); // Instead of OSGi - do not copy!
-		((RemoteDatasetServiceImpl)service).setMarshallerService(new MarshallerService());
 		ServiceHolder.setLoaderService(new LoaderServiceMock(factory));
-		ServiceHolder.setMarshallerService(new MarshallerService());
 	}
 
 	@Test
