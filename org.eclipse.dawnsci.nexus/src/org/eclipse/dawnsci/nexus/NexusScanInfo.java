@@ -112,6 +112,10 @@ public class NexusScanInfo {
 		return null;
 	}
 
+	public int[] createChunk(int... datashape) {
+		return createChunk(true, datashape);
+	}
+
 	/**
 	 * Attempts to make a chunk size from the scan.
 	 * NOTE This assumes that the datashape is a resonable size currently.
@@ -121,9 +125,9 @@ public class NexusScanInfo {
 	 * @param datashape
 	 * @return the suggested chunk array
 	 */
-	public int[] createChunk(int... datashape) {
+	public int[] createChunk(boolean append, int... datashape) {
 		// Create chunk array of correct length
-		final int[] chunk = new int[rank+datashape.length];
+		final int[] chunk = append ? new int[rank+datashape.length] : new int[rank];
 
 		// Initialise the array to all 1
 		// TODO this is slightly redundant but ensures no zeros can ever be allowed through
