@@ -54,7 +54,7 @@ public class JsonMarshallerInbuiltTypesTest {
 	private static final String JSON_FOR_STRING_ARRAY = "[ \"a\", \"b\", \"c\" ]";
 	private static final String JSON_FOR_OBJECT_ARRAY = "[ \"a\", \"b\", 5 ]";
 	private static final String JSON_FOR_STRING_OBJECT_MAP = "{ \"String key\" : \"String value\", \"Int key\" : 5 }";
-	private static final String JSON_FOR_WRAPPED_STRING = "{\n  \"@class_id\" : \"jsontest.objectwrapper\",\n  \"object\" : \"Test string\"\n}";
+	private static final String JSON_FOR_WRAPPED_STRING = "{\n  \"@type\" : \"jsontest.objectwrapper\",\n  \"object\" : \"Test string\"\n}";
 	private static final String JSON_FOR_WRAPPED_STRING_WITHOUT_TYPES = "{\n  \"object\" : \"Test string\"\n}";
 
 	// The following JSON strings are used for testing the functionality of the TreeServlet marshaller.

@@ -91,20 +91,20 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 /**
  * JSON marshaller implementation which allows objects to be converted to and from JSON strings
  * <p>
- * This implementation adds class_id type information to encoded JSON strings and will use it when deserializing.
+ * This implementation adds type information to encoded JSON strings and will use it when deserializing.
  * <p>
  * Type information is typically obtained from the attribute definition of the class in which it is defined,
  * or the class passed to the {@link #marshal(Object anyObject, boolean useRegisteredClassTyping)}.
  * <p>
  * This is not useful when working with interface, abstract base class or Object definitions, as it could be a number of
- * different classes. In these situations, the key "@class_id" is used to indicate a string for class identification.
+ * different classes. In these situations, the key "@type" is used to indicate a string for class identification.
  *
  * @author Colin Palmer
  * @author Martin Gaughran
  */
 public class MarshallerService implements IMarshallerService {
 
-	private static final String TYPE_INFO_FIELD_NAME = "@class_id";
+	private static final String TYPE_INFO_FIELD_NAME = "@type";
 
 	private static final Logger logger = LoggerFactory.getLogger(MarshallerService.class);
 
