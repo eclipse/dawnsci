@@ -1703,6 +1703,10 @@ public class HDF5Utils {
 			}
 			type.dtype = HDF_TYPES_TO_DATASET_TYPES.get(typeRepresentation);
 			type.unsigned = UNSIGNED_HDF_TYPES.contains(typeRepresentation);
+			type.name = DTypeUtils.getDTypeName(type.dtype, type.isize);
+			if (type.unsigned) {
+				type.name = "U" + type.name;
+			}
 		}
 //		isRegRef = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_DSETREG);
 		return type;
