@@ -1,6 +1,5 @@
 package org.eclipse.dawnsci.nexus.builder.data.impl;
 
-import java.text.MessageFormat;
 import java.util.Objects;
 
 import org.eclipse.dawnsci.nexus.NXdata;
@@ -26,10 +25,10 @@ public class DataFieldModel {
 	public DataFieldModel(String sourceFieldName, String destinationFieldName, int fieldRank) {
 		Objects.requireNonNull(sourceFieldName);
 		Objects.requireNonNull(destinationFieldName);
-		if (fieldRank < 1) {
-			throw new IllegalArgumentException(MessageFormat.format(
-					"Dataset rank must be at least 1, was {0}: {1}", fieldRank, sourceFieldName));
-		}
+//		if (fieldRank < 1) {
+//			throw new IllegalArgumentException(MessageFormat.format(
+//					"Dataset rank must be at least 1, was {0}: {1}", fieldRank, sourceFieldName));
+//		}
 		this.sourceFieldName = sourceFieldName;
 		this.destinationFieldName = destinationFieldName;
 		this.fieldRank = fieldRank;
