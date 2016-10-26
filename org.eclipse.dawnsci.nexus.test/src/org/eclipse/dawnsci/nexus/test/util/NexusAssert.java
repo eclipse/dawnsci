@@ -120,6 +120,10 @@ public class NexusAssert {
 		assertEquals(path, expectedAttr.getTypeName(), actualAttr.getTypeName());
 		assertEquals(path, expectedAttr.getFirstElement(), actualAttr.getFirstElement());
 		assertEquals(path, expectedAttr.getSize(), actualAttr.getSize());
+		if (expectedAttr.getSize() == 1 && expectedAttr.getRank() == 1 && actualAttr.getRank() == 0) {
+			// TODO fix examples now that we can save scalar (or zero-ranked) datasets
+			actualAttr.getValue().setShape(1);
+		}
 		assertEquals(path, expectedAttr.getRank(), actualAttr.getRank());
 		assertArrayEquals(path, expectedAttr.getShape(), actualAttr.getShape());
 		assertDatasetsEqual(path, expectedAttr.getValue(), actualAttr.getValue());
@@ -169,16 +173,12 @@ public class NexusAssert {
 		assertEquals(path, expectedDataset.getElementClass(), actualDataset.getElementClass());
 		assertEquals(path, expectedDataset.getElementsPerItem(), actualDataset.getElementsPerItem());
 		assertEquals(path, expectedDataset.getSize(), actualDataset.getSize());
-		if (actualDataset.getRank() == 0) {
-			// TODO: special case for scalar datasets. This could be fixed in future by marking the
-			// dataset as scalar in the HDF5 file
-			assertEquals(path, 1, expectedDataset.getRank());
-			assertArrayEquals(path, new int[] { 1 }, expectedDataset.getShape());
-		} else {
-			assertEquals(path, expectedDataset.getRank(), actualDataset.getRank());
-			assertArrayEquals(path, expectedDataset.getShape(), actualDataset.getShape());
+		if (expectedDataset.getSize() == 1 && expectedDataset.getRank() == 1 && actualDataset.getRank() == 0) {
+			// TODO fix examples now that we can save scalar (or zero-ranked) datasets
+			actualDataset.setShape(1);
 		}
-
+		assertEquals(path, expectedDataset.getRank(), actualDataset.getRank());
+		assertArrayEquals(path, expectedDataset.getShape(), actualDataset.getShape());
 		assertDatasetDataEqual(path, expectedDataset, actualDataset);
 
 		// TODO: in future also check metadata
@@ -249,7 +249,7 @@ public class NexusAssert {
 	public static void assertSignal(NXdata nxData, String expectedSignalFieldName) {
 		Attribute signalAttr = nxData.getAttribute(ATTR_NAME_SIGNAL);
 		assertThat(signalAttr, is(notNullValue()));
-		assertThat(signalAttr.getRank(), is(1));
+		assertThat(signalAttr.getRank(), is(0));
 		assertThat(signalAttr.getFirstElement(), is(equalTo(expectedSignalFieldName)));
 		assertThat(nxData.getNode(expectedSignalFieldName), is(notNullValue()));
 	}

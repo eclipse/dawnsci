@@ -414,6 +414,7 @@ public class HDF5Utils {
 			ntid = H5.H5Tget_native_type(tid);
 			DatasetType type = getDatasetType(tid, ntid);
 			long sid = -1, pid = -1;
+			long msid = -1;
 			int rank;
 			boolean isText, isVLEN; //, isUnsigned = false;
 //				boolean isEnum, isRegRef, isNativeDatatype;
@@ -434,15 +435,8 @@ public class HDF5Utils {
 				final int ldtype = dtype >= 0 ? dtype : type.dtype;
 				final int lisize = isize >= 0 ? isize : type.isize;
 
-				if (rank == 0) {
-					// a single data point
-					rank = 1;
-					dims = new long[1];
-					dims[0] = 1;
-				} else {
-					dims = new long[rank];
-					H5.H5Sget_simple_extent_dims(sid, dims, null);
-				}
+				dims = new long[rank];
+				H5.H5Sget_simple_extent_dims(sid, dims, null);
 
 				long[] schunk = null; // source chunking
 
@@ -483,14 +477,18 @@ public class HDF5Utils {
 					}
 				}
 				if (schunk == null || all) {
-					H5.H5Sselect_hyperslab(sid, HDF5Constants.H5S_SELECT_SET, sstart, sstride, dsize, null);
+					if (rank == 0) {
+						msid = H5.H5Screate(HDF5Constants.H5S_SCALAR);
+					} else {
+						H5.H5Sselect_hyperslab(sid, HDF5Constants.H5S_SELECT_SET, sstart, sstride, dsize, null);
 //						long length = 1;
 //						for (int i = 0; i < rank; i++)
 //							length *= count[i];
 //
-//						long msid = H5.H5Screate_simple(1, new long[] {length}, null);
-					long msid = H5.H5Screate_simple(rank, dsize, null);
-					H5.H5Sselect_all(msid);
+//						msid = H5.H5Screate_simple(1, new long[] {length}, null);
+						msid = H5.H5Screate_simple(rank, dsize, null);
+						H5.H5Sselect_all(msid);
+					}
 					data = DatasetFactory.zeros(lisize, count, ldtype);
 					Object odata = data.getBuffer();
 
@@ -557,8 +555,8 @@ public class HDF5Utils {
 						logger.error("Out of memory", err);
 						throw new NexusException("Out Of Memory", err);
 					}
-//						long msid = H5.H5Screate_simple(1, new long[] {length}, null);
-					long msid = H5.H5Screate_simple(rank, dsize, null);
+//						msid = H5.H5Screate_simple(1, new long[] {length}, null);
+					msid = H5.H5Screate_simple(rank, dsize, null);
 					H5.H5Sselect_all(msid);
 
 					PositionIterator it = data.getPositionIterator(axes);
@@ -612,6 +610,12 @@ public class HDF5Utils {
 				logger.error("Could not get data space information", ex);
 				throw new NexusException("Could not get data space information", ex);
 			} finally {
+				if (msid != -1) {
+					try {
+						H5.H5Sclose(msid);
+					} catch (HDF5Exception ex2) {
+					}
+				}
 				if (sid != -1) {
 					try {
 						H5.H5Sclose(sid);
@@ -921,8 +925,7 @@ public class HDF5Utils {
 	public static void writeDataset(HDF5File f, String dataPath, IDataset data) throws NexusException {
 		Dataset dataset = DatasetUtils.convertToDataset(data);
 
-		// cannot write zero-rank datasets so make them 1D
-		long[] shape = dataset.getRank() == 0 ? new long[] {1} : toLongArray(dataset.getShapeRef());
+		long[] shape = toLongArray(dataset.getShapeRef());
 
 		int dtype = dataset.getDType();
 		boolean stringDataset = dtype == Dataset.STRING;
@@ -935,7 +938,7 @@ public class HDF5Utils {
 
 			try {
 				hdfDatatypeId = H5.H5Tcopy(hdfType);
-				hdfDataspaceId = H5.H5Screate_simple(shape.length, shape, null);
+				hdfDataspaceId = shape.length == 0 ? H5.H5Screate(HDF5Constants.H5S_SCALAR) : H5.H5Screate_simple(shape.length, shape, null);
 				hdfPropertiesId = H5.H5Pcreate(HDF5Constants.H5P_DATASET_CREATE);
 
 				if (stringDataset) {
@@ -1038,12 +1041,13 @@ public class HDF5Utils {
 			Dataset attrData = DatasetUtils.convertToDataset(attr);
 			long baseHdf5Type = getHDF5type(attrData.getDType());
 
-			final long[] shape = attrData.getRank() == 0 ? new long[] {1} : toLongArray(attrData.getShapeRef());
+			final boolean isScalar = attrData.getRank() == 0;
+			final long[] shape = toLongArray(attrData.getShapeRef());
 			long datatypeID = -1;
 			long dataspaceID = -1;
 			try {
 				datatypeID = H5.H5Tcopy(baseHdf5Type);
-				dataspaceID = H5.H5Screate_simple(shape.length, shape, shape);
+				dataspaceID = isScalar ? H5.H5Screate(HDF5Constants.H5S_SCALAR) : H5.H5Screate_simple(shape.length, shape, shape);
 				boolean stringDataset = attrData.getDType() == Dataset.STRING;
 				Serializable buffer = DatasetUtils.serializeDataset(attrData);
 				if (stringDataset) {
@@ -1227,8 +1231,9 @@ public class HDF5Utils {
 						}
 						hdfDataspaceId = H5.H5Dget_space(hdfDatasetId);
 					}
-
-					H5.H5Sselect_hyperslab(hdfDataspaceId, HDF5Constants.H5S_SELECT_SET, start, stride, shape, null);
+					if (rank != 0) { // not a scalar (or null) dataspace
+						H5.H5Sselect_hyperslab(hdfDataspaceId, HDF5Constants.H5S_SELECT_SET, start, stride, shape, null);
+					}
 	
 					Dataset data = DatasetUtils.convertToDataset(value);
 					int dtype = data.getDType();
@@ -1732,15 +1737,10 @@ public class HDF5Utils {
 					if (type == null) {
 						throw new NexusException("Unknown data type");
 					}
-					if (H5.H5Sget_simple_extent_type(spaceId) == HDF5Constants.H5S_SCALAR) {
-						shape = new long[] {1};
-						maxShape = new long[] {1};
-					} else {
-						final int nDims = H5.H5Sget_simple_extent_ndims(spaceId);
-						shape = new long[nDims];
-						maxShape = new long[nDims];
-						H5.H5Sget_simple_extent_dims(spaceId, shape, maxShape);
-					}
+					final int nDims = H5.H5Sget_simple_extent_ndims(spaceId);
+					shape = new long[nDims];
+					maxShape = new long[nDims];
+					H5.H5Sget_simple_extent_dims(spaceId, shape, maxShape);
 					final int[] iShape = toIntArray(shape);
 					int strCount = 1;
 					for (int d : iShape) {

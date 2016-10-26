@@ -93,7 +93,8 @@ public class AttributeImpl implements Attribute, Serializable {
 
 	@Override
 	public String getFirstElement() {
-		return value.getString(0);
+		int r = value.getRank(); // FIXME remove when getXXX() returns first value
+		return r == 0 ? value.getString() : value.getString(new int[r]);
 	}
 
 	@Override
@@ -114,8 +115,5 @@ public class AttributeImpl implements Attribute, Serializable {
 	@Override
 	public void setValue(Object obj, boolean isUnsigned) {
 		value = DatasetFactory.createFromObject(isUnsigned, obj);
-		if (value.getRank() == 0) {
-			value.setShape(1);
-		}
 	}
 }

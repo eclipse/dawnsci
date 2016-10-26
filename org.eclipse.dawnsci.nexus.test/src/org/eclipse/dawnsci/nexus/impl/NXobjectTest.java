@@ -34,7 +34,6 @@ import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyWriteableDataset;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class NXobjectTest {
@@ -281,9 +280,9 @@ public class NXobjectTest {
 		detector.setAttribute("field", "attribute", value);
 		IDataset dataset = detector.getAttr("field", "attribute");
 		assertNotNull(dataset);
-		assertEquals(1, dataset.getRank());
+		assertEquals(0, dataset.getRank());
 		assertEquals(1, dataset.getSize());
-		assertEquals(value, dataset.getString(0));
+		assertEquals(value, dataset.getString());
 	}
 	
 	@Test

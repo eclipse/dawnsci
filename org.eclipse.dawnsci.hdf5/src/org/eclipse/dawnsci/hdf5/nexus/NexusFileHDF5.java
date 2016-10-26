@@ -591,8 +591,7 @@ public class NexusFileHDF5 implements NexusFile {
 			}
 			if (isNapiMount(group)) {
 				parentGroup.removeGroupNode(group);
-				IDataset mountData = group.getAttribute("napimount").getValue();
-				String mountString = mountData.getString(0);
+				String mountString = group.getAttribute("napimount").getFirstElement();
 				mountString = mountString.replace("nxfile://", "");
 				String[] parts = mountString.split("#");
 				String extFileName = determineExternalFilePath(parts[0], this.fileName);
@@ -1030,19 +1029,21 @@ public class NexusFileHDF5 implements NexusFile {
 			throw new NullPointerException("Dataset name must be defined");
 		}
 
-		String dataPath = parentNode.path + parentNode.name + Node.SEPARATOR + name;
+		String dataPath = (parentNode.path == null ? "" : parentNode.path + parentNode.name) + Node.SEPARATOR + name;
 		if (isPathValid(dataPath)) {
 			throw new NexusException("Object already exists at specified location");
 		}
 
 		boolean stringDataset = data.getElementClass().equals(String.class);//ngd.isChar();
-		final long[] shape = data.getRank() == 0 ? new long[] {1} : HDF5Utils.toLongArray(data.getShape());
+		final boolean isScalar = data.getRank() == 0;
+		final long[] shape = HDF5Utils.toLongArray(data.getShape());
 
 		long type = getHDF5Type(data);
 
 		try {
 			try (HDF5Resource hdfDatatype = new HDF5DatatypeResource(H5.H5Tcopy(type));
-					HDF5Resource hdfDataspace = new HDF5DataspaceResource(
+					HDF5Resource hdfDataspace = new HDF5DataspaceResource(isScalar ?
+							H5.H5Screate(HDF5Constants.H5S_SCALAR) :
 							H5.H5Screate_simple(shape.length, shape, (long[])null))) {
 
 				final long datatypeId = hdfDatatype.getResource();
@@ -1109,7 +1110,7 @@ public class NexusFileHDF5 implements NexusFile {
 	}
 
 	private void recursivelyUpdateTree(String parentPath, String name, Node node) throws NexusException {
-		String nxClass = node.containsAttribute("NX_class") ? node.getAttribute("NX_class").getValue().getString(0) : "";
+		String nxClass = node.containsAttribute("NX_class") ? node.getAttribute("NX_class").getFirstElement() : "";
 		String fullPath = parentPath + Node.SEPARATOR + (name == null ? "" : name);
 		fullPath = fullPath.replaceAll("//", "/");
 		NodeData parentNodeData = getNode(parentPath, false);
@@ -1134,7 +1135,7 @@ public class NexusFileHDF5 implements NexusFile {
 			while (it.hasNext()) {
 				Attribute attr = it.next();
 				if (!existingNode.containsAttribute(attr.getName())) {
-					IDataset value = attr.getValue().getSlice();
+					IDataset value = attr.getValue().clone();
 					value.setName(attr.getName());
 					addAttribute(existingNode, createAttribute(value));
 				}
@@ -1160,7 +1161,7 @@ public class NexusFileHDF5 implements NexusFile {
 			while (it.hasNext()) {
 				Attribute attr = it.next();
 				if (!existingNode.containsAttribute(attr.getName())) {
-					IDataset value = attr.getValue().getSlice();
+					IDataset value = attr.getValue().clone();
 					value.setName(attr.getName());
 					addAttribute(existingNode, createAttribute(value));
 				}
@@ -1212,10 +1213,12 @@ public class NexusFileHDF5 implements NexusFile {
 			}
 			IDataset attrData = attr.getValue();
 			long baseHdf5Type = getHDF5Type(attrData);
-			final long[] shape = attrData.getRank() == 0 ? new long[] {1} : HDF5Utils.toLongArray(attrData.getShape());
+			final boolean isScalar = attrData.getRank() == 0;
+			final long[] shape = HDF5Utils.toLongArray(attrData.getShape());
 			try {
 				try (HDF5Resource typeResource = new HDF5DatatypeResource(H5.H5Tcopy(baseHdf5Type));
-						HDF5Resource spaceResource = new HDF5DataspaceResource(
+						HDF5Resource spaceResource = new HDF5DataspaceResource(isScalar ?
+								H5.H5Screate(HDF5Constants.H5S_SCALAR) :
 								H5.H5Screate_simple(shape.length, shape, shape))) {
 
 					long datatypeId = typeResource.getResource();
