@@ -136,7 +136,7 @@ public class NexusFileIntegrationTest {
 
 	private void checkGroup(GroupNode g) {
 		assertTrue(g.containsAttribute("hello"));
-		assertEquals("world", g.getAttribute("hello").getValue().getString());
+		assertEquals("world", g.getAttribute("hello").getValue().getString()); // TODO
 		assertTrue(g.isPopulated() && g.containsDataNode("d"));
 	}
 
