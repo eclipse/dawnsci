@@ -269,11 +269,13 @@ public class DefaultNexusDataBuilder extends AbstractNexusDataBuilder implements
 		// to the placeholder value "."
 		signalNode = primaryDataDevice.getFieldNode(signalFieldSourceName);
 		signalFieldRank = primaryDataDevice.getFieldRank(signalFieldSourceName);
-		dimensionDefaultAxisNames = DatasetFactory.zeros(StringDataset.class, signalFieldRank);
-		dimensionDefaultAxisNames.fill(NO_DEFAULT_AXIS_PLACEHOLDER);
+		if (signalFieldRank > 0) {
+			dimensionDefaultAxisNames = DatasetFactory.zeros(StringDataset.class, signalFieldRank);
+			dimensionDefaultAxisNames.fill(NO_DEFAULT_AXIS_PLACEHOLDER);
 		
-		final Attribute axesAttribute = TreeFactory.createAttribute(ATTR_NAME_AXES, dimensionDefaultAxisNames, false);
-		nxData.addAttribute(axesAttribute);
+			final Attribute axesAttribute = TreeFactory.createAttribute(ATTR_NAME_AXES, dimensionDefaultAxisNames, false);
+			nxData.addAttribute(axesAttribute);
+		}
 	}
 	
 	private Attribute createAxisIndicesAttribute(DataDevice<?> dataDevice, String sourceFieldName) {

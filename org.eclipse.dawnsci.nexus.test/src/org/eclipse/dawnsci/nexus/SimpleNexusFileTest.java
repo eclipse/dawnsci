@@ -42,6 +42,7 @@ public class SimpleNexusFileTest extends AbstractNexusFileTestBase {
 		dataGroup.setAttribute("counts", "axes", "two_theta");
 
 		IDataset twoTheta = DatasetFactory.createRange(18.9094, 18.9122, 0.0002, Dataset.FLOAT64);
+//		IDataset twoTheta = DatasetFactory.createFromObject(18.9094);
 		dataGroup.setDataset("two_theta", twoTheta);
 		dataGroup.setAttribute("two_theta", "units", "degrees");
 		dataGroup.setAttribute("two_theta", "long_name", "two_theta (degrees)");
