@@ -35,9 +35,9 @@ public class MetadataPlotUtils {
 		IDataset x = null;
 		IDataset y = null;
 		IDataset mask = null;
-		
+		String dataname = data.getName();
 		data = data.getSliceView().squeeze();
-		
+		data.setName(dataname);
 		IDataset[] axes = getAxesFromMetadata(data);
 		
 		MaskMetadata mmd = data.getFirstMetadata(MaskMetadata.class);
