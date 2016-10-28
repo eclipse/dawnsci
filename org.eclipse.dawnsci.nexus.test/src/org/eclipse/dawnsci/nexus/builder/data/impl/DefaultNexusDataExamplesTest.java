@@ -96,15 +96,15 @@ public class DefaultNexusDataExamplesTest {
 			super(name, NexusBaseClass.NX_POSITIONER);
 			this.dimensionIndex = dimensionIndex;
 			this.scanShape = scanShape;
-			setAxisDataFieldNames("rbv", "demand");
-			setDefaultAxisDataFieldName("demand");
+			setAxisDataFieldNames("rbv", "set");
+			setDefaultAxisDataFieldName("set");
 		}
 		
 		@Override
 		protected NXpositioner createNexusObject() {
 			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
 			positioner.setField("rbv", DatasetFactory.zeros(FloatDataset.class, scanShape));
-			positioner.setField("demand", DatasetFactory.zeros(FloatDataset.class, scanShape[dimensionIndex]));
+			positioner.setField("set", DatasetFactory.zeros(FloatDataset.class, scanShape[dimensionIndex]));
 			return positioner;
 		}
 		
@@ -255,13 +255,13 @@ public class DefaultNexusDataExamplesTest {
 		dataBuilder.addAxisDevice(timePositioner, null, 0, 1);
 		
 		assertSignal(nxData, "det1");
-		assertAxes(nxData, "polar_angle_demand", "frame_number", ".");
+		assertAxes(nxData, "polar_angle_set", "frame_number", ".");
 		assertShape(nxData, "det1", 50, 5, 1024);
 		assertTarget(nxData, "det1", nxRoot, "/entry/instrument/det1/data");
 		
-		assertIndices(nxData, "polar_angle_demand", 0);
-		assertShape(nxData, "polar_angle_demand", 50);
-		assertTarget(nxData, "polar_angle_demand", nxRoot, "/entry/instrument/polar_angle/demand");
+		assertIndices(nxData, "polar_angle_set", 0);
+		assertShape(nxData, "polar_angle_set", 50);
+		assertTarget(nxData, "polar_angle_set", nxRoot, "/entry/instrument/polar_angle/set");
 		assertIndices(nxData, "polar_angle_rbv", 0, 1);
 		assertShape(nxData, "polar_angle_rbv", 50, 5);
 		assertTarget(nxData, "polar_angle_rbv", nxRoot, "/entry/instrument/polar_angle/rbv");
