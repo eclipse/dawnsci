@@ -41,6 +41,7 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	private int isize;
 	private boolean extendUnsigned;
 	protected String name;
+	protected File file;
 
 	/**
 	 * @param hostname
@@ -73,7 +74,10 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	@Override
 	public boolean isFileReadable() {
 		if (!isReadable && !isRemote) { // keep trying if local
-			isReadable = new File(filePath).canRead();
+			if (file == null) {
+				file = new File(filePath);
+			}
+			isReadable = file.canRead();
 		}
 		return isReadable;
 	}
