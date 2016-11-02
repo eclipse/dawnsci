@@ -514,6 +514,7 @@ public class ThreadSafePlottingSystem<T> extends ThreadSafeObject implements IPl
 		call(getMethodName(Thread.currentThread().getStackTrace()), new Class[] { boolean.class }, b);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		return call(getMethodName(Thread.currentThread().getStackTrace()), new Class[] { adapter }, adapter);

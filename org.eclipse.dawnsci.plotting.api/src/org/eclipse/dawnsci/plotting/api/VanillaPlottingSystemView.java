@@ -40,7 +40,7 @@ public class VanillaPlottingSystemView extends ViewPart implements IAdaptable {
 
 	}
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Object getAdapter(Class adapter) {
 		if (IPlottingSystem.class == adapter) return system;

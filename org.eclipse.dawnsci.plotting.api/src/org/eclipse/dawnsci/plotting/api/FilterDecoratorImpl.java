@@ -142,7 +142,7 @@ class FilterDecoratorImpl implements IFilterDecorator {
 	public void apply() {
 		final Collection<ITrace> traces = system.getTraces();
 		
-		final Collection<ITrace> existing = getExistingFilteredTraces();
+//		final Collection<ITrace> existing = getExistingFilteredTraces();
 		for (ITrace trace : traces) {
 			if (trace instanceof ILineTrace) {
 				ILineTrace lt = (ILineTrace)trace;
@@ -160,6 +160,7 @@ class FilterDecoratorImpl implements IFilterDecorator {
 
 
 
+	@SuppressWarnings("unused")
 	private Collection<ITrace> getExistingFilteredTraces() {
 		if (filters.isEmpty()) return null;
         final IPlottingFilter filter = filters.get(0);
