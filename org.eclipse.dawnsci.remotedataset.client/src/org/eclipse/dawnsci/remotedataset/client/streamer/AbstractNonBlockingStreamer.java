@@ -99,6 +99,7 @@ abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable 
 			logger.error("Cannot read input stream in "+getClass().getSimpleName(), ne);
 			
 		} finally {
+			setFinished(true);
 			try {
 				in.close();
 			} catch (Exception ne) {
@@ -160,7 +161,7 @@ abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable 
 		T bi = null;
 		try {
 			bi = getFromStream(bais);
-			if (bi == getQueueEndObject()) {
+			if (isFinished || bi == getQueueEndObject()) {
 				setFinished(true);
 				return null;
 			}
