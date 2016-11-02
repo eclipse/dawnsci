@@ -17,6 +17,7 @@ public class PlotRegistrationEvent extends EventObject {
 		super(source);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> IPlottingSystem<T> getPlottingSystem() {
 		return (IPlottingSystem<T>)getSource();
 	}

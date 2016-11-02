@@ -64,6 +64,7 @@ public abstract class AbstractDelayedFilter extends AbstractPlottingFilter  {
 			super(filterName);
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
 			try {

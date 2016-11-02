@@ -42,6 +42,7 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 		this.cache = new ArrayList<OriginalData>(7);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void filter(IPlottingSystem<?> system, TraceWillPlotEvent evt) throws Exception {
 		final ITrace trace = (ITrace)evt.getSource();
