@@ -62,6 +62,10 @@ public class BasePlottingConstants {
 	public static final String HISTO_PREF = "org.dawb.plotting.system.histogram.type";
 
 	/**
+	 * Histogram tool id
+	 */
+	public static final String HISTO_TOOL_ID = "org.dawnsci.plotting.histogram.histogram_tool_page_2";
+	/**
 	 * 
 	 */
 	public static final String HISTO_LO = "org.dawb.plotting.system.histogram.lo";
