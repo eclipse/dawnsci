@@ -187,14 +187,6 @@ public interface IOperationService {
 	 */
 	public OperationCategory getCategory(String operationId);
 	
-	/** 
-	 * Return the id of the corresponding OperationDialog, if available.
-	 * @param operationId
-	 * @return the OperationDialogId
-	 * @throws Exception if operationId has no corresponding operationDialogId
-	 */
-	public String getOperationDialogId(String operationId) throws Exception;
-	
 	/**
 	 * Creates an operation bean for use with remote/headless processing
 	 * @return operationBean
