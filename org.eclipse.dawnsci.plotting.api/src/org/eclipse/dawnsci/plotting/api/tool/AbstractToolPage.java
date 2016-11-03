@@ -94,6 +94,7 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 		this.plotSystem = system;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
     public <T> IPlottingSystem<T> getPlottingSystem() {
     	if (getLinkedToolPlot()!=null) return (IPlottingSystem<T>)getLinkedToolPlot();
@@ -220,6 +221,7 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 	/**
 	 * Default does nothing
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class key) {
 		if (key == IPlottingSystem.class) return getPlottingSystem();
@@ -372,6 +374,7 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
     	return linkedTool !=null ? linkedTool.getToolPlottingSystem() : null;
     }
     	
+	@SuppressWarnings("unchecked")
 	@Override
 	public IPlottingSystem<Composite> getToolPlottingSystem() {
 		return null;

@@ -319,6 +319,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 		return (Boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<IDataset> getAxes() {
 		return (List<IDataset>) call(getMethodName(Thread.currentThread().getStackTrace()));
@@ -460,6 +461,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 		return (Boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> getAxesNames() {
 		return (List<String>)call(getMethodName(Thread.currentThread().getStackTrace()));

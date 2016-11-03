@@ -198,7 +198,7 @@ public interface IRemotePlottingSystem extends Remote {
 
 	public void setShowLegend(boolean b) throws RemoteException;
 
-	public Object getAdapter(Class adapter) throws RemoteException;
+	public Object getAdapter(Class<?> adapter) throws RemoteException;
 
 	public boolean isDisposed() throws RemoteException;
 

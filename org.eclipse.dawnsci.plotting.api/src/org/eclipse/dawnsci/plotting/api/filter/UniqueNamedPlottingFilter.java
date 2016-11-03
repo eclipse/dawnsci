@@ -46,6 +46,7 @@ public abstract class UniqueNamedPlottingFilter extends AbstractPlottingFilter {
 		return -1; // Not used!
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void filter(final IPlottingSystem<?> system, final TraceWillPlotEvent evt) throws Exception {
 		

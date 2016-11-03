@@ -65,6 +65,7 @@ public class PlottingFactory {
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> IPlottingSystem<T> createPlottingSystem() throws Exception {
 				
 		final ScopedPreferenceStore store = new ScopedPreferenceStore(InstanceScope.INSTANCE,"org.dawb.workbench.ui");
@@ -92,6 +93,7 @@ public class PlottingFactory {
 		return  createPlottingSystem("org.dawb.workbench.editors.plotting.lightWeightPlottingSystem");		
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static final <T> IPlottingSystem<T> createPlottingSystem(final String plottingSystemId) throws CoreException {
 		
         IConfigurationElement[] systems = Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.dawnsci.plotting.api.plottingClass");
@@ -103,6 +105,7 @@ public class PlottingFactory {
 	}
 
 	
+	@SuppressWarnings("rawtypes")
 	private static Map<String, IPlottingSystem> plottingSystems;
 	
 	/**
@@ -110,6 +113,7 @@ public class PlottingFactory {
 	 * @param plotName
 	 * @return the removed system
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> IPlottingSystem<T> removePlottingSystem(String plotName) {
 		if (filterCache!=null && filterCache.containsKey(plotName)) {
 			final List<IFilterDecorator> decorators = filterCache.remove(plotName);
@@ -134,6 +138,7 @@ public class PlottingFactory {
 	 * @param abstractPlottingSystem
 	 * @return the replaced system if any or null otherwise.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T> IPlottingSystem<T> registerPlottingSystem(final String                 plotName,
 			                                                    final IPlottingSystem<T> abstractPlottingSystem) {
 		
@@ -194,6 +199,7 @@ public class PlottingFactory {
 	 *                     Generally used for plotting systems on servers.
 	 * @return
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T> IPlottingSystem<T> getPlottingSystem(String plotName, boolean threadSafe) {
 		if (plottingSystems==null) return null;
 		IPlottingSystem<T> ps = plottingSystems.get(plotName);
@@ -222,6 +228,7 @@ public class PlottingFactory {
 	 * @internal
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> IPlottingSystem<T>[] getPlottingSystems() {
 		if (plottingSystems==null) return null;
 		return plottingSystems.values().toArray(new IPlottingSystem[plottingSystems.size()]);

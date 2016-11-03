@@ -96,6 +96,7 @@ public class PlottingSystemsView extends ViewPart {
 		initializeMenu();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void createColumns(TableViewer viewer, TableColumnLayout layout) {
 		
        

@@ -54,13 +54,13 @@ public class EmptyPageSite implements IPageSite {
 		
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Object getAdapter(Class adapter) {
 		return null;
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Object getService(Class api) {
 		return PlatformUI.getWorkbench().getService(api);
