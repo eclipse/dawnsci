@@ -42,6 +42,21 @@ public class BasePlottingConstants {
 	public static final String ORIGIN_PREF = "org.dawb.plotting.system.originChoice";
 
 	/**
+	 * Image origin menu id
+	 */
+	public static final String IMAGE_ORIGIN_MENU_ID = "org.dawnsci.plotting.system.imageOriginMenu";
+
+	/**
+	 * id for XY plot menu
+	 */
+	public static final String XY_PLOT_MENU_ID = "org.dawnsci.plotting.system.xyPlotMenu";
+
+	/**
+	 * id for image plot menu
+	 */
+	public static final String IMAGE_PLOT_MENU_ID = "org.dawnsci.plotting.system.imagePlotMenu";
+
+	/**
 	 * true when the image should keep aspect ratio, otherwise it will stretch to the available area.
 	 */
 	public static final String ASPECT = "org.dawb.plotting.system.aspectRatio";
