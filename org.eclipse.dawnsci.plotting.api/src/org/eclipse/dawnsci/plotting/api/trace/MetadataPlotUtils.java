@@ -22,9 +22,12 @@ import org.eclipse.january.metadata.AxesMetadata;
 import org.eclipse.january.metadata.MaskMetadata;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 public class MetadataPlotUtils {
 
+	private final static Logger logger = LoggerFactory.getLogger(MetadataPlotUtils.class);
 	
 	public static void plotDataWithMetadata(IDataset data, final IPlottingSystem<?> system) {
 		plotDataWithMetadata(data, system, true);
@@ -256,5 +259,28 @@ public class MetadataPlotUtils {
 	public static String removeSquareBrackets(String string) {
 		if (string == null) return null;
 		return string.replaceAll("\\[(.+?)\\]$", "");
+	}
+
+	public static IDataset[] getAxesAsIDatasetArray(ILazyDataset data) {
+IDataset[] out = new IDataset[data.getRank()];
+		
+		AxesMetadata md = data.getFirstMetadata(AxesMetadata.class);
+		
+		if (md == null) return out;
+		
+		ILazyDataset[] axes = md.getAxes();
+		
+		if (axes == null) return out;
+		
+		for (int i = 0 ; i < axes.length; i++) {
+			try {
+				out[i] = axes[i] == null ? null : axes[i].getSlice();
+			} catch (Exception e) {
+				logger.error("Could not slice axes",e);
+			}
+			
+		}
+		
+		return out;
 	}
 }
