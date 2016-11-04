@@ -6,6 +6,7 @@
    <extension-point id="peakfinder" name="PeakFinder" schema="schema/peakfinder.exsd"/>
    <extension-point id="marshaller" name="Marshaller" schema="schema/marshaller.exsd"/>
    <extension-point id="classregistry" name="Class Registry" schema="schema/classregistry.exsd"/>
+   <extension-point id="operationsetupwizardpage" name="Operation Setup Wizard Page" schema="schema/operationsetupwizardpage.exsd"/>
    <extension
          point="org.eclipse.dawnsci.analysis.classloader">
       <bundle
