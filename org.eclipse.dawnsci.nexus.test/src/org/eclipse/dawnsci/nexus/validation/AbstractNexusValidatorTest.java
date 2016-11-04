@@ -115,7 +115,7 @@ public class AbstractNexusValidatorTest {
 	@Test(expected = NexusValidationException.class)
 	public void testValidateFieldEnumeration_illegalRank() throws Exception {
 		StringDataset dataset = DatasetFactory.zeros(StringDataset.class, 3, 3);
-		dataset.set("foo", 0);
+		dataset.set("foo", 0, 0);
 		validator.validateFieldEnumeration("enumField", dataset, "foo", "bar");
 	}
 	
