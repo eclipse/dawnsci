@@ -16,7 +16,7 @@ import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
 import org.junit.Test;
 
 /**
- * Tests for serialisation into EPICS V4 structures for transmission over PVAccess
+ * Tests for the RectangularROI class.
  * @author Matt Taylor
  *
  */
