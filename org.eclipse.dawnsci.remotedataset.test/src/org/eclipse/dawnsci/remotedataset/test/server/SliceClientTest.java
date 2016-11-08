@@ -12,6 +12,7 @@
 package org.eclipse.dawnsci.remotedataset.test.server;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.util.Arrays;
 
 import org.eclipse.dawnsci.remotedataset.Format;
@@ -109,8 +110,9 @@ public class SliceClientTest extends DataServerTest {
 		client.setHisto("MEAN");
 		client.setSleep(100); // Default anyway is 100ms
 		
-		
+		BufferedImage lastImage = null;
 		int i = 0;
+		int diffCount = 0;
 		while(!client.isFinished()) {
 			
 			final BufferedImage image = client.take();
@@ -118,10 +120,25 @@ public class SliceClientTest extends DataServerTest {
 			if (image.getHeight()!=512) throw new Exception("Unexpected image height '"+image.getHeight()+"'");
 			if (image.getWidth()!=512)  throw new Exception("Unexpected image height '"+image.getWidth()+"'");
 			++i;
-			System.out.println("Image "+i+" found");
+			
+			if (lastImage != null) {
+				DataBufferByte newDbb = (DataBufferByte)image.getData().getDataBuffer();
+				DataBufferByte oldDbb = (DataBufferByte)lastImage.getData().getDataBuffer();
+				
+				if (!Arrays.equals(newDbb.getData(), oldDbb.getData())) {
+					diffCount++;
+					lastImage = image;
+					System.out.println("NEW Image (after "+i+") found");
+				}
+			} else {
+				diffCount++;
+				lastImage = image;
+				System.out.println("NEW Image (after "+i+") found");
+			}
 		}
+		System.out.println("images found = " + i + ". Different images found = " + diffCount);
 	
-		if (i != 4) throw new Exception("4 images were not found! "+i+" were!");
+		if (diffCount != 4) throw new Exception("4 different images were not found! "+i+" were!");
 		System.out.println("> testDownsampledMJPG ok");
 	}
 	
