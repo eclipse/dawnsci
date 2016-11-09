@@ -136,6 +136,7 @@ abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable 
 		if (isFinished) return;
 		
 		latestBytes = imageBytes;
+		receivedImages++;
 	}
 
 	/**
@@ -165,7 +166,6 @@ abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable 
 				setFinished(true);
 				return null;
 			}
-			receivedImages++;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
