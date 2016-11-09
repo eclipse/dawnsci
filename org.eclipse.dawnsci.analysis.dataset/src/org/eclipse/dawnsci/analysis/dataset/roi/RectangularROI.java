@@ -25,7 +25,7 @@ import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
  */
 public class RectangularROI extends OrientableROIBase implements IRectangularROI, Serializable {
 
-	protected double[] len; // width and height
+	protected double[] len; // width and height. These should NOT be negative
 	private boolean clippingCompensation; // compensate for clipping
 
 	/**
@@ -52,42 +52,51 @@ public class RectangularROI extends OrientableROIBase implements IRectangularROI
 	/**
 	 * Square constructor
 	 * 
-	 * @param width
+	 * @param width A Non-Negative value for the width
 	 * @param angle
+	 * @throws IllegalArgumentException if the width is negative (Not allowed to have negative width or height)
 	 */
-	public RectangularROI(double width, double angle) {
+	public RectangularROI(double width, double angle) throws IllegalArgumentException {
 		this(0, 0, width, width, angle);
 	}
 
 	/**
-	 * @param width
-	 * @param height
+	 * @param width A Non-Negative value for the width
+	 * @param height A Non-Negative value for the height
 	 * @param angle
+	 * @throws IllegalArgumentException if the width or height is negative (Not allowed to have negative width or height)
 	 */
-	public RectangularROI(double width, double height, double angle) {
+	public RectangularROI(double width, double height, double angle) throws IllegalArgumentException {
 		this(0, 0, width, height, angle);
 	}
 
 	/**
 	 * @param ptx
 	 * @param pty
-	 * @param width
-	 * @param height
+	 * @param width A Non-Negative value for the width
+	 * @param height A Non-Negative value for the height
 	 * @param angle
+	 * @throws IllegalArgumentException if the width or height is negative (Not allowed to have negative width or height)
 	 */
-	public RectangularROI(double ptx, double pty, double width, double height, double angle) {
+	public RectangularROI(double ptx, double pty, double width, double height, double angle) throws IllegalArgumentException {
 		this(ptx, pty, width, height, angle, false);
 	}
 
 	/**
 	 * @param ptx
 	 * @param pty
-	 * @param width
-	 * @param height
+	 * @param width A Non-Negative value for the width
+	 * @param height A Non-Negative value for the height
 	 * @param angle
 	 * @param clip 
+	 * @throws IllegalArgumentException if the width or height is negative (Not allowed to have negative width or height)
 	 */
-	public RectangularROI(double ptx, double pty, double width, double height, double angle, boolean clip) {
+	public RectangularROI(double ptx, double pty, double width, double height, double angle, boolean clip) throws IllegalArgumentException {
+		if (width < 0) {
+			throw new IllegalArgumentException("RectanglularROI cannot have negative width");
+		} else if (height < 0) {
+			throw new IllegalArgumentException("RectanglularROI cannot have negative height");
+		}
 		spt = new double[] { ptx, pty };
 		len = new double[] { width, height };
 		ang = angle;
@@ -129,19 +138,31 @@ public class RectangularROI extends OrientableROIBase implements IRectangularROI
 	}
 
 	/**
-	 * @param len (width, height)
+	 * @param len (width, height) Non-Negative numbers for the width and height
+	 * @throws IllegalArgumentException if the width or height is negative (Not allowed to have negative width or height)
 	 */
-	public void setLengths(double len[]) {
+	public void setLengths(double len[]) throws IllegalArgumentException {
+		if (len[0] < 0) {
+			throw new IllegalArgumentException("RectanglularROI cannot have negative width");
+		} else if (len[1] < 0) {
+			throw new IllegalArgumentException("RectanglularROI cannot have negative height");
+		}
 		this.len[0] = len[0];
 		this.len[1] = len[1];
 		setDirty();
 	}
 
 	/**
-	 * @param major (width)
-	 * @param minor (height)
+	 * @param major (width) A Non-Negative value for the width
+	 * @param minor (height) A Non-Negative value for the height
+	 * @throws IllegalArgumentException if the width or height is negative (Not allowed to have negative width or height)
 	 */
-	public void setLengths(double major, double minor) {
+	public void setLengths(double major, double minor) throws IllegalArgumentException {
+		if (major < 0) {
+			throw new IllegalArgumentException("RectanglularROI cannot have negative width");
+		} else if (minor < 0) {
+			throw new IllegalArgumentException("RectanglularROI cannot have negative height");
+		}
 		len[0] = major;
 		len[1] = minor;
 		setDirty();
@@ -150,8 +171,14 @@ public class RectangularROI extends OrientableROIBase implements IRectangularROI
 	/**
 	 * @param x (width)
 	 * @param y (height)
+	 * @throws IllegalArgumentException if the width or height is negative as a result (Not allowed to have negative width or height)
 	 */
-	public void addToLengths(double x, double y) {
+	public void addToLengths(double x, double y) throws IllegalArgumentException {
+		if (len[0] + x < 0) {
+			throw new IllegalArgumentException("RectanglularROI cannot have negative width");
+		} else if (len[1] + y < 0) {
+			throw new IllegalArgumentException("RectanglularROI cannot have negative height");
+		}
 		len[0] += x;
 		len[1] += y;
 		setDirty();
@@ -695,12 +722,7 @@ public class RectangularROI extends OrientableROIBase implements IRectangularROI
 		bnd = roi.getBounds();
 		double[] s2 = bnd.getPoint();
 		double[] e2 = bnd.getEndPoint();
-		
-		double minSpt = Math.min(Math.min(Math.min(s1[0], s2[0]), e1[0]), e2[0]);
-		double minEpt = Math.min(Math.min(Math.min(s1[1], s2[1]), e1[1]), e2[1]);
-		double maxSpt = Math.max(Math.max(Math.max(s1[0], s2[0]), e1[0]), e2[0]);
-		double maxEpt = Math.max(Math.max(Math.max(s1[1], s2[1]), e1[1]), e2[1]);
-		
-		return new RectangularROI(new double[]{minSpt, minEpt}, new double[]{maxSpt, maxEpt});
+		return new RectangularROI(new double[]{Math.min(s1[0], s2[0]), Math.min(s1[1], s2[1])},
+				                  new double[]{Math.max(e1[0], e2[0]), Math.max(e1[1], e2[1])});
 	}
 }
