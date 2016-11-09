@@ -111,9 +111,9 @@ public abstract class AbstractTransferableDataObject implements ITransferableDat
 	
 	@Override
 	public String getAxis(List<ITransferableDataObject> selections, boolean is2D, boolean isXFirst) {
-		
 		if (is2D) return isChecked() ? "-" : "";
 		int axis = getAxisIndex(selections, isXFirst);
+		// this is completely bizarre and full of unexplained special cases....
 		if (axis<0) return "";
 		if (axis==0) {
 			return isXFirst ? "X" : "Y1";
@@ -123,11 +123,12 @@ public abstract class AbstractTransferableDataObject implements ITransferableDat
 
 	@Override
 	public int getAxisIndex(List<ITransferableDataObject> selections, boolean isXFirst) {
+		// this is completely bizarre and full of unexplained special cases....
 		if (selections!=null&&!selections.isEmpty()) {
 			if (selections.size()>1) {
 				if (selections.contains(this)) {
 					if (selections.indexOf(this)==0) {
-						return isXFirst ? 0 : 1;
+						return isXFirst ? 0 : yaxis;
 					}
 					return yaxis;
 				}
