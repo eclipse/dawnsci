@@ -17,6 +17,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.eclipse.dawnsci.remotedataset.Constants;
 import org.slf4j.Logger;
@@ -26,11 +28,11 @@ abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable 
 		
 	protected static final Logger logger = LoggerFactory.getLogger(AbstractNonBlockingStreamer.class);
 
+	private BlockingQueue<byte[]> queue;
 	private InputStream      in;
 	private long             sleepTime;
 	private long             receivedImages = 0;
 	private boolean          isFinished;
-	private byte[] latestBytes = null;
 	
 	private String             delimiter;
 
@@ -52,6 +54,7 @@ abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable 
         if (!contentType.startsWith(Constants.MCONTENT_TYPE)) throw new Exception("getImages() may only be used with "+Constants.MCONTENT_TYPE+", not "+contentType);
 
         this.delimiter  = contentType.split("boundary=")[1];
+		this.queue      = new LinkedBlockingQueue<byte[]>(1);
 		this.in         = new BufferedInputStream(conn.getInputStream());
 		this.sleepTime  = sleepTime;
 
@@ -105,6 +108,8 @@ abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable 
 			} catch (Exception ne) {
 				logger.error("Cannot close connection!", ne);
 			}
+			// Cannot have null, instead add tiny empty image
+			queue.add(new byte[]{});
 		}
 	}
 
@@ -134,9 +139,8 @@ abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable 
 		}       
 
 		if (isFinished) return;
-		
-		latestBytes = imageBytes;
-		receivedImages++;
+		queue.clear();
+		queue.offer(imageBytes);
 	}
 
 	/**
@@ -155,9 +159,7 @@ abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable 
 	 * @throws InterruptedException
 	 */
 	public T take() throws InterruptedException {
-		while (latestBytes == null) {
-			Thread.sleep(sleepTime);
-		}
+		byte[] latestBytes = queue.take(); // Might get interrupted
 		ByteArrayInputStream bais = new ByteArrayInputStream(latestBytes);	
 		T bi = null;
 		try {
@@ -169,6 +171,7 @@ abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		receivedImages++;
 		return bi;
 	}
 
