@@ -20,6 +20,7 @@
 		<module>../../dawn-hdf/hdf.hdf5lib</module>
 		<module>../../dawn-hdf/hdf.object</module>
 		<module>../org.eclipse.richbeans</module>
+		<module>../org.eclipse.january</module>
 		<module>org.eclipse.january</module>
 		<module>org.eclipse.january.asserts</module>
 		<module>org.eclipse.january.test</module>
