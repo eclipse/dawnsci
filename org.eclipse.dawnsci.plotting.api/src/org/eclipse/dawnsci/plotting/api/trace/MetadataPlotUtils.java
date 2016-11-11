@@ -201,8 +201,8 @@ public class MetadataPlotUtils {
 		return getAxesFromMetadata(data,true);
 	}
 	
-	public static IDataset[] getAxesFromMetadata(IDataset data, boolean squeeze) {
-		if (squeeze) data = data.getSliceView().squeeze();
+	public static IDataset[] getAxesFromMetadata(ILazyDataset data, boolean squeeze) {
+		if (squeeze) data = data.getSliceView().squeezeEnds();
 		return getAxesFromMetadata((ILazyDataset)data);
 	}
 	
