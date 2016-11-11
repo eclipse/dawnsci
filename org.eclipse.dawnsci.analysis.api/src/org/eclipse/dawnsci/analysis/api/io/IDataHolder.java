@@ -96,7 +96,9 @@ public interface IDataHolder extends IDataAnalysisObject {
 
 	/**
 	 * @return Number of unique dataset names
+	 * @deprecated Use {@link #size()}
 	 */
+	@Deprecated
 	public int namesSize();
 	
 	/**
