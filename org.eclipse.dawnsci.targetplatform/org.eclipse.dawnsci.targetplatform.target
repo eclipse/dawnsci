@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Dawnsci" sequenceNumber="83">
+<?pde version="3.8"?><target name="Dawnsci" sequenceNumber="84">
 <locations>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.jetty.bundles.f.feature.group" version="9.2.13.201508192117"/>
@@ -43,6 +43,11 @@
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.dawnsci.third.feature.feature.group" version="1.0.0"/>
 <repository location="http://www.opengda.org/updates/tp_dawnsci/trunk/"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.january" version="1.0.0.v201610161242"/>
+<unit id="org.eclipse.january.source" version="1.0.0.v201610161242"/>
+<repository location="http://download.eclipse.org/january/builds/january-master/latest/repository/"/>
 </location>
 </locations>
 </target>

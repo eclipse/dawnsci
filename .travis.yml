@@ -20,7 +20,6 @@ jdk:
 # - bash ./org.eclipse.dawnsci.releng/build/commit-msg.sh
 
 before_install:
- - git clone --depth=50 --branch=master https://github.com/eclipse/january.git ../org.eclipse.january
  - git clone --depth=50 --branch=master https://github.com/eclipse/richbeans.git ../org.eclipse.richbeans
  - git clone --depth=50 --branch=master https://github.com/DawnScience/dawn-hdf.git ../../dawn-hdf
 
