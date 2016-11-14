@@ -17,7 +17,7 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-class MJPGStreamer extends AbstractNonBlockingStreamer<BufferedImage> {
+class MJPGStreamer extends AbstractNonCachingStreamer<BufferedImage> {
 
 	/**
 	 * 
