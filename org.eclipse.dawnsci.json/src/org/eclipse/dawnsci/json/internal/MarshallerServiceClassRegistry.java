@@ -79,7 +79,7 @@ public class MarshallerServiceClassRegistry {
 
 			prevVal = idToClassMap.put(entry.getKey(), entry.getValue());
 			// prevVal stores previous value, if there is one
-			if (prevVal != null) {
+			if ((prevVal != null) && (prevVal != entry.getValue())){
 				String message = "Class id clash with registry: " + registry.toString() +
 						". Previous value for id " + entry.getKey() + " is " + prevVal +
 						". Overwriting value is: " + entry.getValue() + ".";
