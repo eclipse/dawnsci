@@ -8,7 +8,7 @@
  *
  * Contributors:
  *    Matthew Gerring - initial version 'AbstractStreamer' on which this class is based
- *    Matthew Taylor  - modified to be non-blocking, constantly updating the latest data
+ *    Matthew Taylor  - modified to be non-caching, misses sleeps to catch-up to source, and only processing the data when it's requested
  *******************************************************************************/
 package org.eclipse.dawnsci.remotedataset.client.streamer;
 
@@ -24,9 +24,9 @@ import org.eclipse.dawnsci.remotedataset.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable {
+abstract class AbstractNonCachingStreamer<T> implements IStreamer<T>, Runnable {
 		
-	protected static final Logger logger = LoggerFactory.getLogger(AbstractNonBlockingStreamer.class);
+	protected static final Logger logger = LoggerFactory.getLogger(AbstractNonCachingStreamer.class);
 
 	private BlockingQueue<byte[]> queue;
 	private InputStream      in;
@@ -72,9 +72,12 @@ abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable 
 
 			int c       = -1;
 			boolean foundImage = false;
+			int bytesAvailableAfterLastSleep = in.available();
+			int bytesReadSinceLastSleep = 0;
 			
 			while(!isFinished && (c=in.read())> -1 ) {
-				
+
+				bytesReadSinceLastSleep++;
 				buf.append((char)c);
 				if (buf.length()>0 && buf.charAt(buf.length()-1)  == '\n') { // Line found
 					
@@ -88,8 +91,15 @@ abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable 
 						if (isFinished) return;
 						
 						foundImage = false;
+						bytesReadSinceLastSleep+=clength;
 						
-						Thread.sleep(sleepTime); // We don't want to use all the CPU!
+						// We don't want to use all the CPU so sleep unless there's a lot more data in the buffer we haven't read since the last sleep.
+						// We don't want the buffer to build up too far ahead, so we don't sleep in order to catch up
+						if (bytesReadSinceLastSleep >= bytesAvailableAfterLastSleep) {
+							Thread.sleep(sleepTime);
+							bytesAvailableAfterLastSleep = in.available();
+							bytesReadSinceLastSleep = 0;
+						}
 					}
 					
 					buf.delete(0, buf.length());
@@ -109,7 +119,8 @@ abstract class AbstractNonBlockingStreamer<T> implements IStreamer<T>, Runnable 
 				logger.error("Cannot close connection!", ne);
 			}
 			// Cannot have null, instead add tiny empty image
-			queue.add(new byte[]{});
+			queue.clear();
+			queue.offer(new byte[]{});
 		}
 	}
 
