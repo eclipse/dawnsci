@@ -28,6 +28,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -38,6 +40,8 @@ import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
  * @author Martin Gaughran
  */
 public class MarshallerServiceClassRegistry {
+
+	private final static Logger logger = LoggerFactory.getLogger(MarshallerServiceClassRegistry.class);
 
 	private Map<String, Class<?>> idToClassMap = new HashMap<String, Class<?>>();
 	private boolean platformIsRunning;
@@ -53,6 +57,11 @@ public class MarshallerServiceClassRegistry {
 
 		for (IClassRegistry registry : registries) {
 			populateClassMap(registry);
+		}
+
+		logger.debug("REGISTERED CLASSES");
+		for (Entry<String, Class<?>> entry : idToClassMap.entrySet()) {
+			logger.debug(entry.getKey() + " " + entry.getValue().getName());
 		}
 	}
 
