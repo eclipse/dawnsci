@@ -16,15 +16,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
-import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.impl.PrimaryDataFieldModel;
 import org.eclipse.january.dataset.ILazyWriteableDataset;
@@ -83,7 +83,9 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	
 	private Map<String, PrimaryDataFieldModel> primaryDataFieldModels = null;
 	
-	private String externalFileName = null;
+	private String defaultExternalFileName = null;
+	
+	private Set<String> externalFileNames = null;
 
 	private Map<String, Integer> externalDatasetRanks = null;
 	
@@ -183,16 +185,28 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getExternalFileName()
 	 */
 	@Override
-	public String getExternalFileName() {
-		return externalFileName;
+	public Set<String> getExternalFileNames() {
+		return externalFileNames == null ? Collections.emptySet() : externalFileNames;
 	}
 	
 	/**
 	 * Set the name of the external file that this device writes its data to.
 	 * @param externalFileName external file name
 	 */
-	public void setExternalFileName(String externalFileName) {
-		this.externalFileName = externalFileName;
+	public void setDefaultExternalFileName(String externalFileName) {
+		defaultExternalFileName = externalFileName;
+		addExternalFileName(externalFileName);
+	}
+	
+	/**
+	 * Adds an external filename to this {@link AbstractNexusObjectProvider}.
+	 * @param externalFileName
+	 */
+	public void addExternalFileName(String externalFileName) {
+		if (externalFileNames == null) {
+			externalFileNames = new HashSet<>(4);
+		}
+		externalFileNames.add(externalFileName);
 	}
 
 	/**
@@ -204,8 +218,8 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	 * <code>axes</code> and <code>&lt;axisname&gt;_indices</code> to be
 	 * created.
 	 * <p>
-	 * An external file must have been set by calling
-	 * {@link #setExternalDatasetRank(String, int)} prior to calling this method.
+	 * An external file must have been set by calling {@link #setDefaultExternalFileName(String)}
+	 * prior to calling this method.
 	 *  
 	 * @param groupNode group node to add external link to
 	 * @param fieldName name of external dataset within the group
@@ -214,9 +228,17 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	 */
 	public void addExternalLink(NXobject groupNode, String fieldName,
 			String pathToNode, int rank) {
-		if (externalFileName == null) {
+		if (defaultExternalFileName == null) {
 			throw new IllegalStateException("External file name not set.");
 		}
+		
+		groupNode.addExternalLink(fieldName, defaultExternalFileName, pathToNode);
+		setExternalDatasetRank(fieldName, rank);
+	}
+	
+	public void addExternalLink(NXobject groupNode, String fieldName, String externalFileName,
+			String pathToNode, int rank) {
+		addExternalFileName(externalFileName);
 		
 		groupNode.addExternalLink(fieldName, externalFileName, pathToNode);
 		setExternalDatasetRank(fieldName, rank);
@@ -236,14 +258,14 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 
 	/**
 	 * Set the rank of an external dataset within the nexus object returned by
-	 * {@link #getNexusObject()}. The method {@link #setExternalFileName(String)} must
+	 * {@link #getNexusObject()}. The method {@link #setDefaultExternalFileName(String)} must
 	 * have been invoked before calling this method.
 	 * @param fieldName the name of the external dataset within the nexus object
 	 * @param rank the rank of the external dataset
 	 */
 	public void setExternalDatasetRank(String fieldName, int rank) {
-		if (externalFileName == null) { 
-			throw new IllegalStateException("External file name must be set before adding external datasets.");
+		if (externalFileNames == null || externalFileNames.isEmpty()) { 
+			throw new IllegalStateException("An external file name must be added before adding external datasets.");
 		}
 		
 		if (externalDatasetRanks == null) {

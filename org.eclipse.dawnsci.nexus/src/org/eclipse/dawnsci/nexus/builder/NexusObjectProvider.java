@@ -13,6 +13,7 @@
 package org.eclipse.dawnsci.nexus.builder;
 
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.dawnsci.nexus.NXcollection;
 import org.eclipse.dawnsci.nexus.NXdata;
@@ -78,11 +79,11 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	public String getCollectionName();
 	
 	/**
-	 * Returns the name of the external HDF5 file that this device writes
-	 * its data to, or <code>null</code> if none
+	 * Returns the names of the external HDF5 file(s) that this device writes
+	 * its data to, or <code>null</code> if none.
 	 * @return name of external file, or <code>null</code>
 	 */
-	public String getExternalFileName();
+	public Set<String> getExternalFileNames();
 	
 	/**
 	 * Returns the rank of the external dataset with the given field name.

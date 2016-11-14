@@ -359,6 +359,8 @@ public class NexusUtils {
 				// nexusFile.getGroup() causes that group to be populated
 				GroupNode childGroup = nexusFile.getGroup(group, nodeName, null, false);
 				recursivelyLoadNexusTree(nexusFile, childGroup);
+			} else if (group.containsDataNode(nodeName)) {
+				nexusFile.getData(group, nodeName);
 			}
 		}
 	}
