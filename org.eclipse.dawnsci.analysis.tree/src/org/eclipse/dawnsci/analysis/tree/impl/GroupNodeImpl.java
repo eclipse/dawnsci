@@ -272,10 +272,10 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		final Iterator<String> nodeNameIter = getNodeNameIterator();
 		while (nodeNameIter.hasNext()) {
 			Node node = getNode(nodeNameIter.next());
-			if (node instanceof SymbolicNode) {
+			while (node instanceof SymbolicNode) {
 				node = ((SymbolicNode) node).getNode();
 			}
-			if (node instanceof GroupNode) {
+			if (node instanceof DataNode) {
 				dataNodes.add((DataNode) node);
 			}
 		}
@@ -290,7 +290,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		while (nodeNameIter.hasNext()) {
 			final String nodeName = nodeNameIter.next();
 			Node node = getNode(nodeName);
-			if (node instanceof SymbolicNode) {
+			while (node instanceof SymbolicNode) {
 				node = ((SymbolicNode) node).getNode();
 			}
 			if (node instanceof DataNode) {
