@@ -47,7 +47,7 @@
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.january" version="1.0.0.v201610161242"/>
 <unit id="org.eclipse.january.source" version="1.0.0.v201610161242"/>
-<repository location="http://download.eclipse.org/january/builds/january-master/latest/repository/"/>
+<repository location="https://alfred.diamond.ac.uk/sites/download.eclipse.org/january/releases/1.0.1-20161109_163336/repository/"/>
 </location>
 </locations>
 </target>
