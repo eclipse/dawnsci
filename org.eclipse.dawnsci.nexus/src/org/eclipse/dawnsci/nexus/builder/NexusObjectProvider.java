@@ -194,4 +194,18 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 */
 	public Boolean getUseDeviceNameInNXdata();
 	
+	/**
+	 * Returns the value of the application defined property of this object with the given name.
+	 * This allows arbitrary application or implementation specific information to be
+	 * associated with this object.
+	 * <p>
+	 * Note that these properties should not be confused with the fields of the
+	 * NeXus object returned by {@link #getNexusObject()}.
+	 * 
+	 * @param propertyName name of property
+	 * @return the value of the property with the given name, or <code>null</code> if no property
+	 *   with the given name is set
+	 */
+	public Object getPropertyValue(String propertyName);
+	
 }

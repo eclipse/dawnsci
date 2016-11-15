@@ -96,6 +96,8 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	private NexusBaseClass category = null;
 	
 	private Boolean useDeviceNameInNXdata = null;
+	
+	private Map<String, Object> properties = null;
 
 	/**
 	 * Creates a new {@link AbstractNexusObjectProvider} for given name, base class type
@@ -497,5 +499,21 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	public void setUseDeviceNameInNXdata(boolean useDeviceNameInNXdata) {
 		this.useDeviceNameInNXdata = useDeviceNameInNXdata;
 	}
+
+	@Override
+	public Object getPropertyValue(String propertyName) {
+		if (properties == null) return null;
+		return properties.get(propertyName);
+	}
+	
+	public void setPropertyValue(String propertyName, Object value) {
+		if (properties == null) {
+			properties = new HashMap<>(4);
+		}
+		
+		properties.put(propertyName, value);
+	}
+	
+	 
 
 }
