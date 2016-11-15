@@ -86,7 +86,7 @@ public class DefaultNexusDataBuilderTest {
 		
 		public TestDetectorWithExternalLink() {
 			super("testDetector", NexusBaseClass.NX_DETECTOR, NXdetector.NX_DATA);
-			setExternalFileName("external.nxs");
+			setDefaultExternalFileName("external.nxs");
 		}
 		
 		@Override
@@ -143,7 +143,7 @@ public class DefaultNexusDataBuilderTest {
 		
 		public TestPositionerWithExternalLink() {
 			super("positioner", NexusBaseClass.NX_POSITIONER, NXpositioner.NX_VALUE);
-			setExternalFileName("external.nxs");
+			setDefaultExternalFileName("external.nxs");
 		}
 		
 		@Override

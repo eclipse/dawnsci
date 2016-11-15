@@ -100,4 +100,14 @@ public class JsonMarshallerClassRegistryTest {
 		marshaller.marshal(null);
 	}
 
+	@Test
+	public void testGivenTwoClassRegistriesWithIdClashButSameReferencedClassThenNoExceptionRaised() throws Exception {
+		marshaller = new MarshallerService(new TestObjectClassRegistry(), new TestObjectAlternativeClassRegistry(), new TestObjectAlternativeClassRegistry());
+
+		ttbean.setTTReg(new TestTypeRegisteredAlternativeImpl("Registered test type."));
+		json = marshaller.marshal(ttbean);
+
+		assertJsonEquals(JSON_FOR_TTRegAltBean, json);
+	}
+
 }
