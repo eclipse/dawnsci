@@ -27,6 +27,8 @@ import org.eclipse.january.IMonitor;
 import org.eclipse.january.dataset.DTypeUtils;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.metadata.DimensionMetadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The handler for incoming requests. No work should be done here
@@ -61,6 +63,8 @@ data
  *
  */
 public class InfoServlet extends HttpServlet {
+	
+	private static Logger logger = LoggerFactory.getLogger(InfoServlet.class);
 			
     /**
 	 * 
@@ -109,7 +113,7 @@ public class InfoServlet extends HttpServlet {
 			}
 		   
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.trace("Invalid dataset loaded from "+path, e);
 			response.setContentType("text/html;charset=utf-8");
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			response.getWriter().println("<h1>"+e.getMessage()+"</h1>");
