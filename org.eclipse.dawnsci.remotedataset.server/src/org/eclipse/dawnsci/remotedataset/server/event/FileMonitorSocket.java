@@ -26,6 +26,8 @@ import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import hdf.hdf5lib.exceptions.HDF5FunctionArgumentException;
+
 public class FileMonitorSocket extends WebSocketAdapter {
 	
 	private static final Logger logger = LoggerFactory.getLogger(FileMonitorSocket.class);
@@ -154,6 +156,12 @@ public class FileMonitorSocket extends WebSocketAdapter {
 			                	session.getRemote().sendString(json);
 			                    if (diagInfo!=null) diagInfo.record("JSON Send", json);
 			                	
+			               	 
+	 	             		} catch (HDF5FunctionArgumentException h5error) {
+	 	             			// This happens sometimes when the file is not ready to read.
+	 	             			logger.trace("Path might not be ready to read "+path);
+	 	             			continue;
+	 	           			
 	 	             		} catch (Exception ne) {
 	 	             			logger.error("Exception getting data from "+path);
 	 	             			continue;
