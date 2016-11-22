@@ -67,7 +67,7 @@ public class RectangularRoiTest {
 				new RectangularROI(6, 6, -1, 1, 0);
 				fail("No Exception thrown");
 			} catch (IllegalArgumentException ex) {
-				assertEquals("RectanglularROI cannot have negative width", ex.getMessage());
+				assertEquals("RectangularROI cannot have negative width", ex.getMessage());
 			}
 		}
 		
@@ -77,7 +77,7 @@ public class RectangularRoiTest {
 				new RectangularROI(6, 6, 1, -1, 0);
 				fail("No Exception thrown");
 			} catch (IllegalArgumentException ex) {
-				assertEquals("RectanglularROI cannot have negative height", ex.getMessage());
+				assertEquals("RectangularROI cannot have negative height", ex.getMessage());
 			}
 		}
 		
@@ -87,7 +87,7 @@ public class RectangularRoiTest {
 				new RectangularROI(6, 6, -1, -1, 0);
 				fail("No Exception thrown");
 			} catch (IllegalArgumentException ex) {
-				assertEquals("RectanglularROI cannot have negative width", ex.getMessage());
+				assertEquals("RectangularROI cannot have negative width", ex.getMessage());
 			}
 		}
 		
@@ -98,7 +98,7 @@ public class RectangularRoiTest {
 				r1.setLengths(new double[]{-1,2});
 				fail("No Exception thrown");
 			} catch (IllegalArgumentException ex) {
-				assertEquals("RectanglularROI cannot have negative width", ex.getMessage());
+				assertEquals("RectangularROI cannot have negative width", ex.getMessage());
 			}
 		}
 		
@@ -109,7 +109,7 @@ public class RectangularRoiTest {
 				r1.setLengths(new double[]{1,-2});
 				fail("No Exception thrown");
 			} catch (IllegalArgumentException ex) {
-				assertEquals("RectanglularROI cannot have negative height", ex.getMessage());
+				assertEquals("RectangularROI cannot have negative height", ex.getMessage());
 			}
 		}
 		
@@ -120,7 +120,7 @@ public class RectangularRoiTest {
 				r1.setLengths(new double[]{-1,-2});
 				fail("No Exception thrown");
 			} catch (IllegalArgumentException ex) {
-				assertEquals("RectanglularROI cannot have negative width", ex.getMessage());
+				assertEquals("RectangularROI cannot have negative width", ex.getMessage());
 			}
 		}
 		
@@ -131,7 +131,7 @@ public class RectangularRoiTest {
 				r1.setLengths(-1, 4);
 				fail("No Exception thrown");
 			} catch (IllegalArgumentException ex) {
-				assertEquals("RectanglularROI cannot have negative width", ex.getMessage());
+				assertEquals("RectangularROI cannot have negative width", ex.getMessage());
 			}
 		}
 		
@@ -142,7 +142,7 @@ public class RectangularRoiTest {
 				r1.setLengths(1,-2);
 				fail("No Exception thrown");
 			} catch (IllegalArgumentException ex) {
-				assertEquals("RectanglularROI cannot have negative height", ex.getMessage());
+				assertEquals("RectangularROI cannot have negative height", ex.getMessage());
 			}
 		}
 		
@@ -153,7 +153,7 @@ public class RectangularRoiTest {
 				r1.setLengths(-1,-2);
 				fail("No Exception thrown");
 			} catch (IllegalArgumentException ex) {
-				assertEquals("RectanglularROI cannot have negative width", ex.getMessage());
+				assertEquals("RectangularROI cannot have negative width", ex.getMessage());
 			}
 		}
 		
@@ -171,7 +171,7 @@ public class RectangularRoiTest {
 				r1.addToLengths(-7, 4);
 				fail("No Exception thrown");
 			} catch (IllegalArgumentException ex) {
-				assertEquals("RectanglularROI cannot have negative width", ex.getMessage());
+				assertEquals("RectangularROI cannot have negative width", ex.getMessage());
 			}
 		}
 		
@@ -189,7 +189,7 @@ public class RectangularRoiTest {
 				r1.addToLengths(5, -9);
 				fail("No Exception thrown");
 			} catch (IllegalArgumentException ex) {
-				assertEquals("RectanglularROI cannot have negative height", ex.getMessage());
+				assertEquals("RectangularROI cannot have negative height", ex.getMessage());
 			}
 		}
 		
