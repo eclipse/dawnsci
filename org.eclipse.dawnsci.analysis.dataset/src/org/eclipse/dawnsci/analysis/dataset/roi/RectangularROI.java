@@ -93,9 +93,9 @@ public class RectangularROI extends OrientableROIBase implements IRectangularROI
 	 */
 	public RectangularROI(double ptx, double pty, double width, double height, double angle, boolean clip) throws IllegalArgumentException {
 		if (width < 0) {
-			throw new IllegalArgumentException("RectanglularROI cannot have negative width");
+			throw new IllegalArgumentException("RectangularROI cannot have negative width");
 		} else if (height < 0) {
-			throw new IllegalArgumentException("RectanglularROI cannot have negative height");
+			throw new IllegalArgumentException("RectangularROI cannot have negative height");
 		}
 		spt = new double[] { ptx, pty };
 		len = new double[] { width, height };
@@ -143,9 +143,9 @@ public class RectangularROI extends OrientableROIBase implements IRectangularROI
 	 */
 	public void setLengths(double len[]) throws IllegalArgumentException {
 		if (len[0] < 0) {
-			throw new IllegalArgumentException("RectanglularROI cannot have negative width");
+			throw new IllegalArgumentException("RectangularROI cannot have negative width");
 		} else if (len[1] < 0) {
-			throw new IllegalArgumentException("RectanglularROI cannot have negative height");
+			throw new IllegalArgumentException("RectangularROI cannot have negative height");
 		}
 		this.len[0] = len[0];
 		this.len[1] = len[1];
@@ -159,9 +159,9 @@ public class RectangularROI extends OrientableROIBase implements IRectangularROI
 	 */
 	public void setLengths(double major, double minor) throws IllegalArgumentException {
 		if (major < 0) {
-			throw new IllegalArgumentException("RectanglularROI cannot have negative width");
+			throw new IllegalArgumentException("RectangularROI cannot have negative width");
 		} else if (minor < 0) {
-			throw new IllegalArgumentException("RectanglularROI cannot have negative height");
+			throw new IllegalArgumentException("RectangularROI cannot have negative height");
 		}
 		len[0] = major;
 		len[1] = minor;
@@ -175,9 +175,9 @@ public class RectangularROI extends OrientableROIBase implements IRectangularROI
 	 */
 	public void addToLengths(double x, double y) throws IllegalArgumentException {
 		if (len[0] + x < 0) {
-			throw new IllegalArgumentException("RectanglularROI cannot have negative width");
+			throw new IllegalArgumentException("RectangularROI cannot have negative width");
 		} else if (len[1] + y < 0) {
-			throw new IllegalArgumentException("RectanglularROI cannot have negative height");
+			throw new IllegalArgumentException("RectangularROI cannot have negative height");
 		}
 		len[0] += x;
 		len[1] += y;
