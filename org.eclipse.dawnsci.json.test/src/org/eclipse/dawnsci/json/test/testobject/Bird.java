@@ -13,9 +13,6 @@ package org.eclipse.dawnsci.json.test.testobject;
 
 public class Bird extends Animal {
 
-	public static final String BUNDLE_NAME_FOR_TESTING = "uk.ac.diamond.daq.test.example";
-	public static final String BUNDLE_VERSION_FOR_TESTING = "2.0.0";
-
 	String feathers;
 
 	public String getFeathers() {
