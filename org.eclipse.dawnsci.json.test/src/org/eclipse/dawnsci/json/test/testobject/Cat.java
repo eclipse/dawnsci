@@ -13,8 +13,6 @@ package org.eclipse.dawnsci.json.test.testobject;
 
 public class Cat extends Animal {
 
-	public static final String BUNDLE_NAME_FOR_TESTING = "uk.ac.diamond.daq.test.other_example";
-
 	String whiskers;
 
 	public String getWhiskers() {
