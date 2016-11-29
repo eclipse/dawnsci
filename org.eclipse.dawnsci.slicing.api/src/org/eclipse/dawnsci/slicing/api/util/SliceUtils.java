@@ -565,6 +565,9 @@ public class SliceUtils {
 			} 
 			
 			final String name = slice.getName();
+			if (slice.getError() != null) {
+				slice.setError(DatasetUtils.sliceAndConvertLazyDataset(slice.getError()));
+			}
 			slice = slice.squeeze();		
 			if (currentSlice.getX() > currentSlice.getY() && slice.getShape().length==2) {
 				// transpose clobbers name
