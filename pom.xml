@@ -25,7 +25,6 @@
 		<module>org.eclipse.dawnsci.analysis.dataset.test</module>
 		<module>org.eclipse.dawnsci.analysis.examples</module>
 		<module>org.eclipse.dawnsci.analysis.tree</module>
-		<module>org.eclipse.dawnsci.doe</module>
 		<module>org.eclipse.dawnsci.hdf5</module>
 		<module>org.eclipse.dawnsci.hdf5.editor</module>
 		<module>org.eclipse.dawnsci.hdf5.model</module>
