@@ -98,6 +98,7 @@ public class TreeServlet extends HttpServlet {
 			Map<String,Object> map = TreeToMapUtils.treeToMap(tree);
 			IMarshallerService mservice = new XMLMarshallerService();
 			final String xml = mservice.marshal(map);
+			response.setContentType("text/xml;charset=utf-8");
 			response.getWriter().println(xml);
 		   
 		} catch (Exception e) {
