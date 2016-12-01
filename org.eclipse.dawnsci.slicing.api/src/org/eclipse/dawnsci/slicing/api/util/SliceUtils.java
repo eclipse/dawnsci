@@ -26,7 +26,6 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDatasetMathsService;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.io.SliceObject;
-import org.eclipse.dawnsci.doe.DOEUtils;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
@@ -45,6 +44,7 @@ import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.Slice;
 import org.eclipse.january.dataset.SliceND;
+import org.eclipse.richbeans.annot.DOEUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

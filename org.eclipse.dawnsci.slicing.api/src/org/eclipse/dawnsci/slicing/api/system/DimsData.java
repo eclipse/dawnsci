@@ -19,8 +19,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.eclipse.dawnsci.doe.DOEField;
-import org.eclipse.dawnsci.doe.DOEUtils;
+import org.eclipse.richbeans.annot.DOEField;
+import org.eclipse.richbeans.annot.DOEUtils;
 
 
 /**
