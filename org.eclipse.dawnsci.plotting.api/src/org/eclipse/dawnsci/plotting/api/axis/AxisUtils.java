@@ -52,4 +52,47 @@ public class AxisUtils {
 		return avail;
 	}
 
+	/**
+	 * Find first X axis with given name 
+	 * @param axisName
+	 * @param system
+	 * @return axis or null if not found
+	 */
+	public static IAxis findXAxis(String axisName, IPlottingSystem<?> system) {
+		return findAxis(false, axisName, system);
+	}
+
+	/**
+	 * Find first Y axis with given name 
+	 * @param axisName
+	 * @param system
+	 * @return axis or null if not found
+	 */
+	public static IAxis findYAxis(String axisName, IPlottingSystem<?> system) {
+		return findAxis(true, axisName, system);
+	}
+
+	/**
+	 * Find first axis with given name 
+	 * Note this is better than {@link IPlottingSystem#getAxis(String)} as that returns the first named
+	 * axis which can be an X or Y one
+	 * @param isY
+	 * @param axisName
+	 * @param system
+	 * @return
+	 */
+	public static IAxis findAxis(final boolean isY, final String axisName, final IPlottingSystem<?> system) {
+		if (axisName == null) {
+			return null;
+		}
+
+		final List<IAxis> axes = system.getAxes();
+		for (IAxis a : axes) {
+			if (a.isYAxis() == isY && axisName.equals(a.getTitle())) {
+				return a;
+			}
+		}
+
+		return null;
+	}
 }
