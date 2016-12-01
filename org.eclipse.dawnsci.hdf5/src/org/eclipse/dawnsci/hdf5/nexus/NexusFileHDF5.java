@@ -175,6 +175,8 @@ public class NexusFileHDF5 implements NexusFile {
 
 	private String fileName;
 
+	private String fileDir;
+
 	private TreeFile tree;
 
 	private static long ROOT_NODE_ADDR = -1234;
@@ -196,6 +198,7 @@ public class NexusFileHDF5 implements NexusFile {
 
 	public NexusFileHDF5(String path, boolean enableSWMR) {
 		fileName = path;
+		fileDir = new File(fileName).getParentFile().getAbsolutePath();
 		useSWMR  = enableSWMR;
 	}
 
@@ -426,9 +429,13 @@ public class NexusFileHDF5 implements NexusFile {
 						H5.H5Lget_value(objId, linkName, value, HDF5Constants.H5P_DEFAULT);
 						String extFilePath = value[1];
 						if (!new File(extFilePath).exists()) {
-							//TODO: cache "lazy" node
-							//this results on a potentially invalid cache
-							continue;
+							// link may be relative
+							extFilePath = fileDir + Node.SEPARATOR + extFilePath;
+							if (!new File(extFilePath).exists()) {
+								//TODO: cache "lazy" node
+								//this results on a potentially invalid cache
+								continue;
+							}
 						}
 					}
 					String childPath = path + linkName;
