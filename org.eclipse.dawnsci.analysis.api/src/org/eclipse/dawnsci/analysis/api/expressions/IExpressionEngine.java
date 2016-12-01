@@ -34,7 +34,7 @@ public interface IExpressionEngine {
 	 * @return Object
 	 * @throws Exception
 	 */
-	public Object evaluate() throws Exception;
+	public <T> T evaluate() throws Exception;
 	
 	/**
 	 * Adds a listener for expression evaluated with event (calculation performed in separate thread)
