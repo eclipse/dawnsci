@@ -42,9 +42,9 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	private int timeout = 1000;
 
 	
-	public DynamicSliceViewIterator(IDynamicDataset lazy, IDynamicDataset[] keys, IDynamicDataset finished) {
+	public DynamicSliceViewIterator(IDynamicDataset lazy, IDynamicDataset[] keys, IDynamicDataset finished, int dataSize) {
 		try {
-			iterator = new DynamicSliceNDIterator(lazy.getShape(), mergeKeys(keys), keys[0].getRank());
+			iterator = new DynamicSliceNDIterator(lazy.getShape(), mergeKeys(keys), lazy.getRank()-dataSize);
 		} catch (DatasetException e) {
 			logger.error("Could not get data from lazy dataset", e);
 		}
@@ -53,7 +53,6 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 		this.finished = finished;
 		
 		int lr = lazy.getRank();
-		int dataSize = lazy.getRank() - keys[0].getRank();
 		
 		this.axes = new int[dataSize];
 		
