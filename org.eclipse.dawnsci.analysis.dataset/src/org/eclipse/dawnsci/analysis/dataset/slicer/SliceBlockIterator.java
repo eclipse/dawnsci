@@ -48,7 +48,7 @@ private static final Logger logger = LoggerFactory.getLogger(SliceBlockIterator.
 		if (sampling == null) sampling = new SliceND(lazyDataset.getShape());
 		this.lazyDataset = lazyDataset.getSliceView(sampling);
 //		this.sampling = sampling != null ? sampling : new SliceND(lazyDataset.getShape());
-		this.iterator = new SliceNDIterator(new SliceND(lazyDataset.getShape()), axes);
+		this.iterator = new SliceNDIterator(sampling, axes);
 		this.axes = axes;
 		this.sampling = sampling;
 		count = 0;
