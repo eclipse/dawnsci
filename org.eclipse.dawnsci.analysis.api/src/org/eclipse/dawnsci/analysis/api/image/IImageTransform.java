@@ -1,13 +1,13 @@
 /*-
  *******************************************************************************
- * Copyright (c) 2011, 2014 Diamond Light Source Ltd.
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Peter Chang - initial API and implementation and/or initial documentation
+ *    Baha El-Kassaby - initial API and implementation and/or initial documentation
  *******************************************************************************/
 
 package org.eclipse.dawnsci.analysis.api.image;
@@ -67,6 +67,7 @@ public interface IImageTransform {
 	 * Aligns lazily a stack of images using feature association: given a lazy dataset, it returns a lazy dataset. This
 	 * alignment process saves the aligned data in an hdf5 file saved on disk and this method can be used without
 	 * running into a MemoryOverflowError.
+	 * Alignment performed with Affine Transformation
 	 * 
 	 * @param images
 	 *            stack of images
@@ -76,6 +77,19 @@ public interface IImageTransform {
 	 * @throws Exception
 	 */
 	public ILazyDataset align(ILazyDataset images, IMonitor monitor) throws Exception;
+
+	/**
+	 * 
+	 * @param images
+	 * @param iterativeAlgoParams
+	 *             contains parameters for the detection algorithm
+	 * @param hessianParams
+	 *             contains parameters for the Hessian registration
+	 * @return aligned stack of images
+	 * @param monitor
+	 * @throws Exception
+	 */
+	public ILazyDataset align(ILazyDataset images, DetectionAlgoParameters iterativeAlgoParams, HessianRegParameters hessianParams, IMonitor monitor) throws Exception;
 
 	/**
 	 * <p>
