@@ -1323,6 +1323,141 @@ public class HDF5Utils {
 			throw new NexusException("Could not write dataset slice", e);
 		}
 	}
+	
+	
+	/**
+	 * Write to a slice in a dataset
+	 * @param f
+	 * @param dataPath
+	 * @param slice
+	 * @param value
+	 * @throws NexusException
+	 */
+	public static void writeDatasetSliceWithID(long[] id, String dataPath, SliceND slice, IDataset value) throws NexusException {
+		if (id[1] == -1) {
+			try {
+				id[1] = H5.H5Dopen(id[0], dataPath, HDF5Constants.H5P_DEFAULT);
+			} catch (HDF5LibraryException e1) {
+				// TODO Auto-generated catch block
+				logger.error("TODO put description of error here", e1);
+				return;
+			} catch (NullPointerException e1) {
+				// TODO Auto-generated catch block
+				logger.error("TODO put description of error here", e1);
+				return;
+			}
+		}
+		try {
+			long hdfDatasetId = id[1];
+
+			long hdfDataspaceId = -1;
+			long hdfMemspaceId = -1;
+			long hdfDatatypeId = -1;
+			try {
+				hdfDataspaceId = H5.H5Dget_space(hdfDatasetId);
+				int rank = H5.H5Sget_simple_extent_ndims(hdfDataspaceId);
+				long[] dims = new long[rank];
+				long[] mdims = new long[rank];
+				H5.H5Sget_simple_extent_dims(hdfDataspaceId, dims, mdims);
+				long[] start = toLongArray(slice.getStart());
+				long[] stride = toLongArray(slice.getStep());
+				long[] shape = toLongArray(slice.getShape());
+
+				long[] newShape = null;
+				if (slice.isExpanded()) {
+					newShape = toLongArray(slice.getSourceShape());
+				} else {
+					long[] mShape = toLongArray(slice.getStop());
+					if (expandToGreatestShape(mShape, dims)) {
+						newShape = mShape;
+					}
+				}
+				if (newShape != null) {
+					H5.H5Dset_extent(hdfDatasetId, newShape);
+					H5.H5Dflush(hdfDatasetId);
+					try {
+						H5.H5Sclose(hdfDataspaceId);
+					} catch (HDF5Exception ex) {
+					}
+					hdfDataspaceId = H5.H5Dget_space(hdfDatasetId);
+				}
+				if (rank != 0) { // not a scalar (or null) dataspace
+					H5.H5Sselect_hyperslab(hdfDataspaceId, HDF5Constants.H5S_SELECT_SET, start, stride, shape, null);
+				}
+
+				Dataset data = DatasetUtils.convertToDataset(value);
+				int dtype = data.getDType();
+				long memtype = getHDF5type(dtype);
+				Serializable buffer = DatasetUtils.serializeDataset(data);
+
+				hdfMemspaceId = H5.H5Screate_simple(rank, HDF5Utils.toLongArray(data.getShape()), null);
+				if (dtype == Dataset.STRING) {
+					boolean vlenString = false;
+					hdfDatatypeId = H5.H5Dget_type(hdfDatasetId);
+					int typeSize = -1;
+					try {
+						typeSize = (int) H5.H5Tget_size(hdfDatatypeId);
+						vlenString = H5.H5Tis_variable_str(hdfDatatypeId);
+					} finally {
+						H5.H5Tclose(hdfDatatypeId);
+						hdfDatatypeId = -1;
+					}
+					hdfDatatypeId = H5.H5Tcopy(memtype);
+					H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
+					H5.H5Tset_size(hdfDatatypeId, vlenString ? HDF5Constants.H5T_VARIABLE : typeSize);
+					if (vlenString) {
+						H5.H5Dwrite_VLStrings(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, (String[]) buffer);
+					} else {
+						String[] strings = (String[]) buffer;
+						byte[] strBuffer = new byte[typeSize * strings.length];
+						int idx = 0;
+						for (String str : (String[]) strings) {
+							//typesize - 1 since we always want to leave room for \0 at the end of the string
+							if (str.length() > typeSize - 1) {
+								logger.warn("String does not fit into space allocated in HDF5 file in " + dataPath + " - string will be truncated");
+							}
+							byte[] src = str.getBytes(UTF8);
+							int length = Math.min(typeSize - 1, src.length);
+							System.arraycopy(src, 0, strBuffer, idx, length);
+							idx += typeSize;
+						}
+						H5.H5Dwrite(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, strBuffer);
+					}
+				} else {
+					H5.H5Dwrite(hdfDatasetId, memtype, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, buffer);
+				}
+			} finally {
+				if (hdfDatatypeId != -1) {
+					try {
+						H5.H5Tclose(hdfDatatypeId);
+					} catch (HDF5Exception ex) {
+						logger.error("Could not close datatype", ex);
+						throw ex;
+					}
+				}
+				if (hdfMemspaceId != -1) {
+					try {
+						H5.H5Sclose(hdfMemspaceId);
+					} catch (HDF5Exception ex) {
+						logger.error("Could not close memory space", ex);
+						throw ex;
+					}
+				}
+				if (hdfDataspaceId != -1) {
+					try {
+						H5.H5Sclose(hdfDataspaceId);
+					} catch (HDF5Exception ex) {
+						logger.error("Could not close file space", ex);
+						throw ex;
+					}
+				}
+			}
+		}
+		catch (HDF5Exception e) {
+			logger.error("Could not write dataset slice", e);
+			throw new NexusException("Could not write dataset slice", e);
+		}
+	}
 
 	private static boolean expandToGreatestShape(long[] a, long[] b) {
 		int rank = a.length;

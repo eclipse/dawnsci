@@ -32,6 +32,7 @@ import org.eclipse.dawnsci.analysis.api.tree.TreeUtils;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
 import org.eclipse.dawnsci.hdf5.HDF5AttributeResource;
+import org.eclipse.dawnsci.hdf5.HDF5CachingLazySaver;
 import org.eclipse.dawnsci.hdf5.HDF5DatasetResource;
 import org.eclipse.dawnsci.hdf5.HDF5DataspaceResource;
 import org.eclipse.dawnsci.hdf5.HDF5DatatypeResource;
@@ -189,6 +190,7 @@ public class NexusFileHDF5 implements NexusFile {
 
 	private boolean useSWMR = false;
 	private boolean writeAsync;
+	private boolean cacheDataset = false;
 
 	private static int DEF_FIXED_STRING_LENGTH = 1024;
 
@@ -969,8 +971,17 @@ public class NexusFileHDF5 implements NexusFile {
 			throw new NexusException("Could not create dataset", e);
 		}
 
-		HDF5LazySaver saver = new HDF5LazySaver(null, fileName, parentPath + Node.SEPARATOR + name, name,
-				iShape, itemSize, dataType, false, iMaxShape, iChunks, fillValue);
+		HDF5LazySaver saver = null;
+		
+		if (cacheDataset) {
+			saver = new HDF5CachingLazySaver(null, fileName, parentPath + Node.SEPARATOR + name, name,
+					iShape, itemSize, dataType, false, iMaxShape, iChunks, fillValue);
+		} else {
+			saver = new HDF5LazySaver(null, fileName, parentPath + Node.SEPARATOR + name, name,
+					iShape, itemSize, dataType, false, iMaxShape, iChunks, fillValue);
+		}
+		
+		
 		saver.setAlreadyCreated();
 		if (writeAsync) {
 			saver.setAsyncWriteableDataset(data);
@@ -1656,6 +1667,10 @@ public class NexusFileHDF5 implements NexusFile {
 		default:
 			return null;
 		}
+	}
+
+	public void setCacheDataset(boolean cacheDataset) {
+		this.cacheDataset = cacheDataset;
 	}
 
 }
