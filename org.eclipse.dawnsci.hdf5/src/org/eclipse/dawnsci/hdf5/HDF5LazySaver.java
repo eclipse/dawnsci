@@ -33,16 +33,16 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazyAsyncSaver, Se
 	private static final long serialVersionUID = -5244067010482825423L;
 
 	boolean isWriteable;
-	private String parentPath; // path of group containing dataset
+	protected String parentPath; // path of group containing dataset
 	private int[] maxShape;
 	private int[] chunks;
 	private Object fill;
-	private boolean create = false; // create on first slice setting
-	private boolean init = false;   // has been initialized?
+	protected boolean create = false; // create on first slice setting
+	protected boolean init = false;   // has been initialized?
 
 	private ILazyWriteableDataset writeableDataset;
 
-	private String dataPath;
+	protected String dataPath;
 
 	/**
 	 * 
@@ -197,7 +197,7 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazyAsyncSaver, Se
 		}
 	}
 
-	private boolean expandShape(SliceND slice) {
+	protected boolean expandShape(SliceND slice) {
 		int[] eShape = slice.getSourceShape();
 		if (eShape.length != trueShape.length) {
 			throw new IllegalArgumentException("Slice shape must match this saver's shape");
