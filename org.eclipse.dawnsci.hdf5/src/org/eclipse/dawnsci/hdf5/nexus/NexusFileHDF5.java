@@ -1515,6 +1515,10 @@ public class NexusFileHDF5 implements NexusFile {
 		}
 	}
 	
+	public void flushAllCachedDatasets() {
+		for (HDF5CachingLazySaver saver : saverCache.values()) saver.flushDataset();
+	}
+	
 
 	@Override
 	public void close() throws NexusException {
