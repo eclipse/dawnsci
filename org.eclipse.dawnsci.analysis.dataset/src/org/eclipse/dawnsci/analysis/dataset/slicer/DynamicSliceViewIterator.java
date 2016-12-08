@@ -91,6 +91,7 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 			try {
 				Thread.sleep(timeout);
 				updateShape();
+				finished.refreshShape();
 				last = finished.getSlice().getInt(0) == 1;
 				time += timeout;
 			} catch (InterruptedException e) {
