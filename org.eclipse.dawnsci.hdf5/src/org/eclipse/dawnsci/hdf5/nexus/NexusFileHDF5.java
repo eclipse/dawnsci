@@ -191,6 +191,8 @@ public class NexusFileHDF5 implements NexusFile {
 	private boolean useSWMR = false;
 	private boolean writeAsync;
 	private boolean cacheDataset = false;
+	
+	private Map<String, HDF5CachingLazySaver> saverCache = new HashMap<>();
 
 	private static int DEF_FIXED_STRING_LENGTH = 1024;
 
@@ -974,8 +976,14 @@ public class NexusFileHDF5 implements NexusFile {
 		HDF5LazySaver saver = null;
 		
 		if (cacheDataset) {
-			saver = new HDF5CachingLazySaver(null, fileName, parentPath + Node.SEPARATOR + name, name,
+			
+			String fullPath = parentPath + name;
+			
+			saver = new HDF5CachingLazySaver(null, fileName, fullPath, name,
 					iShape, itemSize, dataType, false, iMaxShape, iChunks, fillValue);
+			
+			saverCache.put(fullPath, (HDF5CachingLazySaver)saver);
+			
 		} else {
 			saver = new HDF5LazySaver(null, fileName, parentPath + Node.SEPARATOR + name, name,
 					iShape, itemSize, dataType, false, iMaxShape, iChunks, fillValue);
@@ -1499,12 +1507,23 @@ public class NexusFileHDF5 implements NexusFile {
 			throw new NexusException("Could not query for open objects", e);
 		}
 	}
+	
+	public void flushCachedDataset(String fullPath) {
+		if (saverCache.containsKey(fullPath)) {
+			HDF5CachingLazySaver saver = saverCache.get(fullPath);
+			saver.flushDataset();
+		}
+	}
+	
 
 	@Override
 	public void close() throws NexusException {
 		if (fileId == -1) {
 			return;
 		}
+		
+		closeCached();
+		
 		try {
 			try {
 				file.flushWrites();
@@ -1526,6 +1545,10 @@ public class NexusFileHDF5 implements NexusFile {
 				throw new NexusException("Cannot release file", e);
 			}
 		}
+	}
+	
+	private void closeCached(){
+		for (HDF5CachingLazySaver saver : saverCache.values()) saver.closeDataset();
 	}
 
 	@Override
