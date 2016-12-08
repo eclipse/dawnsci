@@ -25,7 +25,7 @@ public class HDF5CachingLazySaver extends HDF5LazySaver {
 	
 	private static final long serialVersionUID = 1L;
 	
-	long[] datasetID = new long[]{-1,-1};
+	long[] datasetID = new long[]{-1,-1,-1};
 
 	public HDF5CachingLazySaver(String hostname, String filename, String node, String name, int[] trueShape, int isize,
 			int dtype, boolean extendUnsigned, int[] maxShape, int[] chunks, Object fill) {

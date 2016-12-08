@@ -1337,6 +1337,7 @@ public class HDF5Utils {
 		if (id[1] == -1) {
 			try {
 				id[1] = H5.H5Dopen(id[0], dataPath, HDF5Constants.H5P_DEFAULT);
+				id[2] = H5.H5Dget_space(id[1]);
 			} catch (HDF5LibraryException e1) {
 				// TODO Auto-generated catch block
 				logger.error("TODO put description of error here", e1);
@@ -1350,7 +1351,7 @@ public class HDF5Utils {
 		try {
 			long hdfDatasetId = id[1];
 
-			long hdfDataspaceId = -1;
+			long hdfDataspaceId = id[2];
 			long hdfMemspaceId = -1;
 			long hdfDatatypeId = -1;
 			try {
@@ -1373,13 +1374,22 @@ public class HDF5Utils {
 					}
 				}
 				if (newShape != null) {
+					
 					H5.H5Dset_extent(hdfDatasetId, newShape);
-					H5.H5Dflush(hdfDatasetId);
+					
 					try {
 						H5.H5Sclose(hdfDataspaceId);
 					} catch (HDF5Exception ex) {
 					}
-					hdfDataspaceId = H5.H5Dget_space(hdfDatasetId);
+					
+					hdfDataspaceId = H5.H5Screate_simple(rank, newShape,mdims);
+					id[2] = hdfDataspaceId;
+//					H5.H5Dflush(hdfDatasetId);
+//					try {
+//						H5.H5Sclose(hdfDataspaceId);
+//					} catch (HDF5Exception ex) {
+//					}
+//					hdfDataspaceId = H5.H5Dget_space(hdfDatasetId);
 				}
 				if (rank != 0) { // not a scalar (or null) dataspace
 					H5.H5Sselect_hyperslab(hdfDataspaceId, HDF5Constants.H5S_SELECT_SET, start, stride, shape, null);
