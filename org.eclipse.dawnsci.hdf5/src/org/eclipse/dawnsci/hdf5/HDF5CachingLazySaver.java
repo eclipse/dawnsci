@@ -18,6 +18,9 @@ import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.SliceND;
 
+import hdf.hdf5lib.H5;
+import hdf.hdf5lib.exceptions.HDF5Exception;
+
 public class HDF5CachingLazySaver extends HDF5LazySaver {
 	
 	private static final long serialVersionUID = 1L;
@@ -70,6 +73,31 @@ public class HDF5CachingLazySaver extends HDF5LazySaver {
 			expandShape(slice);
 		} catch (ScanFileHolderException e) {
 			throw new IOException(e);
+		}
+	}
+	
+	public void closeDataset(){
+		if (datasetID[1] != -1) {
+			try {
+				H5.H5Dflush(datasetID[1]);
+			} catch (HDF5Exception ex) {
+				logger.error("Could not flush data", ex);
+			}
+			try {
+				H5.H5Dclose(datasetID[1]);
+			} catch (HDF5Exception ex) {
+				logger.error("Could not close data", ex);
+			}
+		}
+	}
+	
+	public void flushDataset(){
+		if (datasetID[1] != -1) {
+			try {
+				H5.H5Dflush(datasetID[1]);
+			} catch (HDF5Exception ex) {
+				logger.error("Could not flush data", ex);
+			}
 		}
 	}
 	
