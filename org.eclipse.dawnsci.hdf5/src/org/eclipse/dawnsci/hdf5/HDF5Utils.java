@@ -1267,7 +1267,7 @@ public class HDF5Utils {
 	public static void writeDatasetSlice(HDF5File f, String dataPath, SliceND slice, IDataset value) throws NexusException {
 		long[] ids = null;
 		try {
-			ids = openDataset(f, dataPath);
+			ids = f.openDataset(dataPath);
 			long hdfDatasetId = ids[0];
 			long hdfDataspaceId = ids[1];
 
@@ -1367,10 +1367,12 @@ public class HDF5Utils {
 			logger.error("Could not write dataset slice", e);
 			throw new NexusException("Could not write dataset slice", e);
 		} finally {
-			closeDataset(ids);
+			if (!f.containsDataset(dataPath)) {
+				closeDataset(ids);
+			}
 		}
 	}
-	
+
 	/**
 	 * Write to a slice in a dataset
 	 * @param f

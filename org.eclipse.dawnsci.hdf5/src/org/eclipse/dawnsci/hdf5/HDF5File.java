@@ -9,6 +9,9 @@
 
 package org.eclipse.dawnsci.hdf5;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
@@ -16,15 +19,20 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyWriteableDataset;
 import org.eclipse.january.dataset.SliceND;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class to hold state of a HDF5 file
  */
 public class HDF5File {
+	private static final Logger logger = LoggerFactory.getLogger(HDF5File.class);
+
 	private String file;
 	private long id;   // HDF5 low level ID
 	private long time; // time of release
@@ -34,6 +42,9 @@ public class HDF5File {
 
 	private ThreadPoolExecutor service;
 	private long checkingPeriod = 100000; // period between checking finished flag in nanoseconds
+
+	private Map<String, long[]> datasetIDs;
+	private boolean cacheIDs;
 
 	/**
 	 * 
@@ -51,6 +62,8 @@ public class HDF5File {
 		if (!writeable && canBeSWMR) {
 			throw new IllegalArgumentException("Only writeable files can be SWMR");
 		}
+		datasetIDs = new HashMap<>();
+		cacheIDs = false;
 	}
 
 	public long getID() {
@@ -170,9 +183,11 @@ public class HDF5File {
 				}
 			}
 		}
+		flushDatasets();
 	}
 
 	/**
+	 * Finish with file
 	 * @param milliseconds to wait before finishing
 	 */
 	public synchronized void finish(long milliseconds) {
@@ -186,10 +201,102 @@ public class HDF5File {
 			} catch (InterruptedException e) {
 			}
 		}
+
+		Iterator<String> it = datasetIDs.keySet().iterator();
+		while (it.hasNext()) {
+			String dataPath = it.next();
+			long[] ids = datasetIDs.get(dataPath);
+			it.remove();
+			if (ids != null) {
+				try {
+					HDF5Utils.closeDataset(ids);
+				} catch (NexusException e) {
+					logger.error("Could not close {} in {}", dataPath, file, e);
+				}
+			}
+
+		}
 	}
 
 	@Override
 	public String toString() {
 		return file;
+	}
+
+	/**
+	 * Set dataset IDs caching
+	 * @param cacheIDs if true, then also do not close
+	 */
+	public void setDatasetIDsCaching(boolean cacheIDs) {
+		this.cacheIDs = cacheIDs; 
+	}
+
+	/**
+	 * Open dataset
+	 * <p>
+	 * This can use cached IDs and store them too if set to do so
+	 * @param dataPath
+	 * @return IDs of dataset and its data space
+	 */
+	public synchronized long[] openDataset(final String dataPath) {
+		long[] ids = datasetIDs.get(dataPath);
+		if (ids == null) {
+			try {
+				ids = HDF5Utils.openDataset(this, dataPath);
+				if (cacheIDs) {
+					datasetIDs.put(dataPath, ids);
+				}
+			} catch (NexusException e) {
+				logger.error("Could not open {} in {}", dataPath, file, e);
+			}
+		}
+		return ids;
+	}
+
+	/**
+	 * Close dataset if its IDs were cached
+	 * @param dataPath
+	 */
+	public synchronized void closeDataset(final String dataPath) {
+		long[] ids = datasetIDs.remove(dataPath);
+		if (ids != null) {
+			try {
+				HDF5Utils.closeDataset(ids);
+			} catch (NexusException e) {
+				logger.error("Could not close {} in {}", dataPath, file, e);
+			}
+		}
+	}
+
+	/**
+	 * Flush dataset if it has been opened and cached
+	 * @param dataPath
+	 */
+	public synchronized void flushDataset(final String dataPath) {
+		long[] ids = datasetIDs.get(dataPath);
+		if (ids != null) {
+			try {
+				HDF5Utils.flushDataset(ids);
+			} catch (NexusException e) {
+				logger.error("Could not flush {} in {}", dataPath, file, e);
+			}
+		}
+	}
+
+	/**
+	 * Flush all datasets whose IDs have been opened and cached
+	 */
+	public synchronized void flushDatasets() {
+		for (String dataPath: datasetIDs.keySet()) {
+			flushDataset(dataPath);
+		}
+	}
+
+	/**
+	 * @param dataPath
+	 * @return true if dataset IDs are cached
+	 */
+	public synchronized boolean containsDataset(final String dataPath) {
+		return datasetIDs.containsKey(dataPath);
 	}
 }

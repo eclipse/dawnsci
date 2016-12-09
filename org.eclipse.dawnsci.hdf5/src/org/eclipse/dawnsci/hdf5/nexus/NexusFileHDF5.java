@@ -32,7 +32,6 @@ import org.eclipse.dawnsci.analysis.api.tree.TreeUtils;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.analysis.tree.impl.TreeFileImpl;
 import org.eclipse.dawnsci.hdf5.HDF5AttributeResource;
-import org.eclipse.dawnsci.hdf5.HDF5CachingLazySaver;
 import org.eclipse.dawnsci.hdf5.HDF5DatasetResource;
 import org.eclipse.dawnsci.hdf5.HDF5DataspaceResource;
 import org.eclipse.dawnsci.hdf5.HDF5DatatypeResource;
@@ -190,10 +189,7 @@ public class NexusFileHDF5 implements NexusFile {
 
 	private boolean useSWMR = false;
 	private boolean writeAsync;
-	private boolean cacheDataset = false;
 	
-	private Map<String, HDF5CachingLazySaver> saverCache = new HashMap<>();
-
 	private static int DEF_FIXED_STRING_LENGTH = 1024;
 
 	public NexusFileHDF5(String path) {
@@ -973,23 +969,9 @@ public class NexusFileHDF5 implements NexusFile {
 			throw new NexusException("Could not create dataset", e);
 		}
 
-		HDF5LazySaver saver = null;
-		
-		if (cacheDataset) {
-			
-			String fullPath = parentPath + name;
-			
-			saver = new HDF5CachingLazySaver(null, fileName, fullPath, name,
-					iShape, itemSize, dataType, false, iMaxShape, iChunks, fillValue);
-			
-			saverCache.put(fullPath, (HDF5CachingLazySaver)saver);
-			
-		} else {
-			saver = new HDF5LazySaver(null, fileName, parentPath + Node.SEPARATOR + name, name,
-					iShape, itemSize, dataType, false, iMaxShape, iChunks, fillValue);
-		}
-		
-		
+		HDF5LazySaver saver = new HDF5LazySaver(null, fileName, parentPath + Node.SEPARATOR + name,
+				name, iShape, itemSize, dataType, false, iMaxShape, iChunks, fillValue);
+
 		saver.setAlreadyCreated();
 		if (writeAsync) {
 			saver.setAsyncWriteableDataset(data);
@@ -1507,16 +1489,9 @@ public class NexusFileHDF5 implements NexusFile {
 			throw new NexusException("Could not query for open objects", e);
 		}
 	}
-	
-	public void flushCachedDataset(String fullPath) {
-		if (saverCache.containsKey(fullPath)) {
-			HDF5CachingLazySaver saver = saverCache.get(fullPath);
-			saver.flushDataset();
-		}
-	}
-	
+
 	public void flushAllCachedDatasets() {
-		for (HDF5CachingLazySaver saver : saverCache.values()) saver.flushDataset();
+		file.flushDatasets();
 	}
 	
 
@@ -1525,9 +1500,7 @@ public class NexusFileHDF5 implements NexusFile {
 		if (fileId == -1) {
 			return;
 		}
-		
-		closeCached();
-		
+
 		try {
 			try {
 				file.flushWrites();
@@ -1549,10 +1522,6 @@ public class NexusFileHDF5 implements NexusFile {
 				throw new NexusException("Cannot release file", e);
 			}
 		}
-	}
-	
-	private void closeCached(){
-		for (HDF5CachingLazySaver saver : saverCache.values()) saver.closeDataset();
 	}
 
 	@Override
@@ -1697,7 +1666,7 @@ public class NexusFileHDF5 implements NexusFile {
 	}
 
 	public void setCacheDataset(boolean cacheDataset) {
-		this.cacheDataset = cacheDataset;
+		file.setDatasetIDsCaching(cacheDataset);
 	}
 
 }
