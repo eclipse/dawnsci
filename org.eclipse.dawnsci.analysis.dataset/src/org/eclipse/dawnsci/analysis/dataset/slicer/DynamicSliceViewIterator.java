@@ -109,9 +109,13 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	/**
 	 * Resets the iterator
 	 */
+	@Override
 	public void reset() {
 		count = 0;
 		iterator.reset();
+		last = false;
+		updateShape();
+		next = iterator.hasNext();
 	}
 	
 	/**

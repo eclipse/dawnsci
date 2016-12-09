@@ -17,4 +17,6 @@ public interface ISliceViewIterator extends Iterator<ILazyDataset> {
 	
 	public int[] getShape();
 	
+	public void reset();
+	
 }

@@ -63,7 +63,8 @@ public class DynamicSliceNDIterator {
 	}
 	
 	public SliceND getCurrentSlice() {
-		return absCurrentPosition == -1 ? null : currentSlice;
+		if (absCurrentPosition == -1) throw new IllegalArgumentException("Current position is at -1!, has hasNext been called?");
+		return currentSlice;
 	}
 	
 	public boolean hasNext() {
