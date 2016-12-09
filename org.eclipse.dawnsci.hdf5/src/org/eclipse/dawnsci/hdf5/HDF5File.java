@@ -60,6 +60,7 @@ public class HDF5File {
 		this.writeable = writeable;
 		this.canSWMR = canBeSWMR;
 		if (!writeable && canBeSWMR) {
+			logger.error("Only writeable files can be SWMR");
 			throw new IllegalArgumentException("Only writeable files can be SWMR");
 		}
 		datasetIDs = new HashMap<>();
