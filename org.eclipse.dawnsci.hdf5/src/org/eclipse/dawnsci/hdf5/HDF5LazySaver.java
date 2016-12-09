@@ -33,16 +33,16 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazyAsyncSaver, Se
 	private static final long serialVersionUID = -5244067010482825423L;
 
 	boolean isWriteable;
-	protected String parentPath; // path of group containing dataset
+	private String parentPath; // path of group containing dataset
 	private int[] maxShape;
 	private int[] chunks;
 	private Object fill;
-	protected boolean create = false; // create on first slice setting
-	protected boolean init = false;   // has been initialized?
+	private boolean create = false; // create on first slice setting
+	private boolean init = false;   // has been initialized?
 
 	private ILazyWriteableDataset writeableDataset;
 
-	protected String dataPath;
+	private String dataPath;
 
 	/**
 	 * 
