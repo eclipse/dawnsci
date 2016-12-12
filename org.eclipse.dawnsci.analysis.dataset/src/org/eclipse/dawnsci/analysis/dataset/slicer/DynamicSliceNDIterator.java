@@ -44,10 +44,11 @@ public class DynamicSliceNDIterator {
 	}
 	
 	private void updateScanShape(int[] initialShape){
+		//change for shape of 0?
 		System.arraycopy(initialShape, 0, scanShape, 0, scanShape.length);
-		currentMax = scanShape[0];
+		currentMax = scanShape[0] == 0 ? 1 : scanShape[0]; 
 		for (int i = 1; i < scanShape.length; i++){
-			currentMax *= scanShape[i];
+			currentMax *= scanShape[i] == 0 ? 1 : scanShape[i]; 
 		}
 		currentMax--;
 	}
