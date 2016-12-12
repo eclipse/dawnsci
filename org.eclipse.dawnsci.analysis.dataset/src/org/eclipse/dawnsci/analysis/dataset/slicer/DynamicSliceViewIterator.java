@@ -71,8 +71,12 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	public void updateShape() {
 		try {
 			lazy.refreshShape();
+			int[] current = lazy.getShape();
 			for (IDynamicDataset k : keys) k.refreshShape();
 			int[] s = DynamicMetadataUtils.refreshDynamicAxesMetadata(lazy.getMetadata(AxesMetadata.class), lazy.getShape());
+			for (int i = 0; i < axes.length;i++) {
+				s[axes[i]] = current[axes[i]];
+			}
 			lazy.resize(s);
 			iterator.updateShape(lazy.getShape(), mergeKeys(keys));
 		} catch (Exception e) {
