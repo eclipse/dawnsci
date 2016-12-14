@@ -194,7 +194,7 @@ public class SliceFromSeriesMetadata implements OriginMetadata {
 		Slice[] oSlices = getSliceFromInput();
 		Slice[] slices = new Slice[shape.length];
 		
-		for (int i = 0; i < slices.length; i++) {
+		for (int i = 0; i < slices.length && i < oShape.length; i++) {
 			if (ArrayUtils.contains(datadims, i)) {
 				slices[i] = null;
 			} else {
