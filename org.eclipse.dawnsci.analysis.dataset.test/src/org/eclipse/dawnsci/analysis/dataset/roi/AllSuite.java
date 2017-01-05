@@ -1,6 +1,6 @@
 /*-
  *******************************************************************************
- * Copyright (c) 2016 Diamond Light Source Ltd.
+ * Copyright (c) 2017 Diamond Light Source Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,23 +10,14 @@
  *    Peter Chang - initial API and implementation and/or initial documentation
  *******************************************************************************/
 
-package org.eclipse.dawnsci.analysis.dataset;
+package org.eclipse.dawnsci.analysis.dataset.roi;
 
-import org.eclipse.dawnsci.analysis.dataset.DCTTest;
-import org.eclipse.dawnsci.analysis.dataset.FFTTest;
-import org.eclipse.dawnsci.analysis.dataset.ImageTest;
-import org.eclipse.dawnsci.analysis.dataset.SignalTest;
-import org.eclipse.dawnsci.analysis.dataset.SummedAreaTableTest;
 import org.eclipse.january.asserts.TestUtils;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(TestUtils.VerboseSuite.class)
-@SuiteClasses({ DCTTest.class, FFTTest.class, ImageTest.class, SignalTest.class, SummedAreaTableTest.class, RectangularRoiTest.class,
-	org.eclipse.dawnsci.analysis.dataset.function.AllSuite.class,
-	org.eclipse.dawnsci.analysis.dataset.roi.AllSuite.class,
-	org.eclipse.dawnsci.analysis.dataset.slicer.AllSuite.class,
-		})
+@SuiteClasses({ ROITest.class, ROISliceTest.class })
 public class AllSuite {
 
 }
