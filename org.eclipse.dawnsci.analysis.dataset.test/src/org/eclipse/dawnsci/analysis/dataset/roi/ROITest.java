@@ -154,8 +154,8 @@ public class ROITest {
 
 		PolygonalROI empty = new PolygonalROI();
 		roi = empty.getBounds();
-		assertEquals(0, roi.getLength(0), 1e-8);
-		assertEquals(0, roi.getLength(1), 1e-8);
+		assertTrue(Double.isNaN(roi.getLength(0)));
+		assertTrue(Double.isNaN(roi.getLength(1)));
 		assertTrue(Double.isNaN(roi.getPointX()));
 		assertTrue(Double.isNaN(roi.getPointY()));
 
