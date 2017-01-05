@@ -237,14 +237,17 @@ public class PolylineROI extends ROIBase implements IPolylineROI, Serializable {
 	@Override
 	public RectangularROI getBounds() {
 		if (bounds == null) {
-			double[] max = new double[] { -Double.MAX_VALUE, -Double.MAX_VALUE };
-			double[] min = new double[] { Double.MAX_VALUE, Double.MAX_VALUE };
-			for (int i = 0, imax = pts.size(); i < imax; i++) {
-				ROIUtils.updateMaxMin(max, min, pts.get(i).getPointRef());
-			}
 			bounds = new RectangularROI();
-			bounds.setPoint(min);
-			bounds.setLengths(max[0] - min[0], max[1] - min[1]);
+			int imax = pts.size();
+			if (imax > 0) {
+				double[] max = new double[] { -Double.MAX_VALUE, -Double.MAX_VALUE };
+				double[] min = new double[] { Double.MAX_VALUE, Double.MAX_VALUE };
+				for (int i = 0; i < imax; i++) {
+					ROIUtils.updateMaxMin(max, min, pts.get(i).getPointRef());
+				}
+				bounds.setPoint(min);
+				bounds.setLengths(max[0] - min[0], max[1] - min[1]);
+			}
 		}
 		return bounds;
 	}
