@@ -241,8 +241,12 @@ class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
 	}
 
 	private int[] toIntArray(String array) {
+		// array is null, or of the form [1,2,3,4]
 		if (array.equals("null"))
 			return null;
+		if (array.length() <= 2) {
+			return new int[0]; // special case of scalar dataset
+		}
 
 		final String[] split = array.substring(1, array.length()-1).split(",");
 		final int[]    ret   = new int[split.length];
