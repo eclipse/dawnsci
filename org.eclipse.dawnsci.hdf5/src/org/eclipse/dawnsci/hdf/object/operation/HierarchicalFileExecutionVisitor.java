@@ -321,7 +321,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 
 						if (setDims.contains(i)) {
 							if(first) {
-								ILazyDataset error = axDataset.getError();
+								ILazyDataset error = axDataset.getErrors();
 								IDataset e = null;
 								if (error != null) {
 									e = error.getSlice().squeeze();
@@ -342,7 +342,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 								}
 							}
 
-							ILazyDataset error = axDataset.getError();
+							ILazyDataset error = axDataset.getErrors();
 
 							if (error != null) {
 								IDataset e = error.getSlice();
@@ -417,7 +417,7 @@ public class HierarchicalFileExecutionVisitor implements IExecutionVisitor {
 		//write
 		H5Utils.insertDataset(file, group, dataset, sliceOut, newShape);
 
-		ILazyDataset error = dataset.getError();
+		ILazyDataset error = dataset.getErrors();
 
 		if (error != null) {
 			IDataset e = error.getSlice();
