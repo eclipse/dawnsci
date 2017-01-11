@@ -36,5 +36,5 @@ env:
 # Maven compile and test 
 # No need to run this as default travis will find maven and run it
 script: 
-  - mvn clean install surefire:test -Dtest.includes=org/eclipse/dawnsci/**/*Suite.java
+  - mvn -q clean install surefire:test -Dtest.includes=org/eclipse/dawnsci/**/*Suite.java
 

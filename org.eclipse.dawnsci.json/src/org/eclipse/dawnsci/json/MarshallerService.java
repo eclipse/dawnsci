@@ -227,11 +227,9 @@ public class MarshallerService implements IMarshallerService {
 					if (oldMapper == null) oldMapper = createOldMapper();
 					return oldMapper.readValue(string, beanClass);
 				} catch (Exception withoutTypeException) {
-					logger.error("Could not deserialize string assuming no type info present: {}", string, withoutTypeException);
+					throw ex;
 				}
 			}
-			// Log and re-throw the original exception since this is more likely to be useful to clients
-			logger.error("Could not deserialize string assuming type info present: {}", string, ex);
 			throw ex;
 		}
 	}
