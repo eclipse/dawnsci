@@ -16,6 +16,7 @@ public class SourceInformation {
 	private ILazyDataset parent;
 	private String datasetName;
 	private String filePath;
+	private boolean isLive = false;
 	
 	/**
 	 * Bean to store the information about the source of a dataset in the 
@@ -30,6 +31,11 @@ public class SourceInformation {
 		this.datasetName = datasetName;
 		this.parent = parent;
 		
+	}
+	
+	public SourceInformation(String filePath, String datasetName, ILazyDataset parent, boolean isLive) {
+		this(filePath, datasetName, parent);
+		this.isLive = isLive;
 	}
 	
 	public ILazyDataset getParent() {
@@ -47,6 +53,10 @@ public class SourceInformation {
 	@Override
 	public SourceInformation clone() {
 		return new SourceInformation(new String(filePath), new String (datasetName), parent);
+	}
+
+	public boolean isLive() {
+		return isLive;
 	}
 
 }

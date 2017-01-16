@@ -14,6 +14,7 @@ import java.util.Arrays;
 import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.Slice;
 import org.eclipse.january.metadata.OriginMetadata;
@@ -183,6 +184,12 @@ public class SliceFromSeriesMetadata implements OriginMetadata {
 	 */
 	public IDataset getMatchingSlice(ILazyDataset ds) throws DatasetException {
 		
+		boolean isLive = sourceInfo.isLive();
+		
+		if (isLive) {
+			if (ds instanceof IDynamicDataset) ((IDynamicDataset)ds).refreshShape();
+		}
+		
 		int[] oShape = getParent().getShape();
 		int[] shape = ds.getShape();
 		int[] datadims = getDataDimensions();
@@ -198,8 +205,15 @@ public class SliceFromSeriesMetadata implements OriginMetadata {
 			if (ArrayUtils.contains(datadims, i)) {
 				slices[i] = null;
 			} else {
-				if (shape[i] != oShape[i]) return null;
-				slices[i] = oSlices[i];
+				
+				if (isLive && shape[i] >= oSlices[i].getStart()) {
+					slices[i] = oSlices[i];
+				} else if (shape[i] != oShape[i]) {
+					return null;
+				} else {
+					slices[i] = oSlices[i];
+				}
+				
 			}
 		}
 		
