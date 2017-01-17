@@ -84,7 +84,10 @@ public class MetadataPlotUtils {
 			if (x != null) {
 				x.setName(removeSquareBrackets(x.getName())+getUnit(x));
 			}
-			if (clear) system.reset();
+			if (clear) {
+				system.clearTraces();
+				system.resetAxes();
+			}
 			system.updatePlot1D(x,Arrays.asList(new IDataset[]{data}),null);
 		}
 		
