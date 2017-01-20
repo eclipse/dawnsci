@@ -320,7 +320,7 @@ public class NexusUtils {
 							final int[]   axesDims = getAttributeIntValues(attribute);
 							final long[]  shapeAxes = ((Dataset)hObject).getDims();
 							final long[]  shapeData = signal.getDims();
-							if (axesDims!=null && Arrays.equals(shapeAxes, shapeData)) {
+							if (axesDims!=null && axesCompatible(axesDims,shapeAxes,shapeData)) {
 								for (int dim : axesDims) {
 									if (dim == dimension) {
 										axis = ((Dataset)hObject).getFullName()+":"+dimension;
@@ -390,6 +390,21 @@ public class NexusUtils {
 		return axes;
 	}
 
+	private static boolean axesCompatible(int[] axesDims, long[]  shapeAxes, long[]  shapeData) {
+		if (axesDims == null) return false;
+		if (Arrays.equals(shapeAxes, shapeData)) return true;
+		
+		
+		for (int i = 0 ; i < axesDims.length; i++) {
+			if (shapeAxes[i] != shapeData[axesDims[i]-1]) {
+				return false;
+			}
+		}
+		
+		return true;
+		
+	}
+	
 	/**
 	 * Gets the int value or returns -1 (Can only be used for values which are not allowed to be -1!)
 	 * @param attribute
