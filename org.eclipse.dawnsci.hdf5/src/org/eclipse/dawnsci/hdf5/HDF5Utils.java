@@ -43,7 +43,6 @@ import hdf.hdf5lib.HDFNativeData;
 import hdf.hdf5lib.exceptions.HDF5Exception;
 import hdf.hdf5lib.exceptions.HDF5LibraryException;
 import hdf.hdf5lib.structs.H5O_info_t;
-import hdf.object.Datatype;
 import hdf.object.h5.H5Datatype;
 
 public class HDF5Utils {
@@ -75,11 +74,9 @@ public class HDF5Utils {
 	 * @return dataset type
 	 */
 	public static int getDType(final int dclass, final int dsize) {
-		switch (dclass) {
-		case Datatype.CLASS_STRING:
+		if (dclass == HDF5Constants.H5T_STRING) {
 			return Dataset.STRING;
-		case Datatype.CLASS_CHAR:
-		case Datatype.CLASS_INTEGER:
+		} else if (dclass == HDF5Constants.H5T_INTEGER) {
 			switch (dsize) {
 			case 1:
 				return Dataset.INT8;
@@ -90,8 +87,7 @@ public class HDF5Utils {
 			case 8:
 				return Dataset.INT64;
 			}
-			break;
-		case Datatype.CLASS_BITFIELD:
+		} else if (dclass == HDF5Constants.H5T_BITFIELD) {
 			switch (dsize) {
 			case 1:
 				return Dataset.INT8;
@@ -102,15 +98,13 @@ public class HDF5Utils {
 			case 8:
 				return Dataset.INT64;
 			}
-			break;
-		case Datatype.CLASS_FLOAT:
+		} else if (dclass == HDF5Constants.H5T_FLOAT) {
 			switch (dsize) {
 			case 4:
 				return Dataset.FLOAT32;
 			case 8:
 				return Dataset.FLOAT64;
 			}
-			break;
 		}
 		return -1;
 	}
