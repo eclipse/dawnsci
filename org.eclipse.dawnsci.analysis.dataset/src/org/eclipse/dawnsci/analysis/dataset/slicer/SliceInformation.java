@@ -9,6 +9,8 @@
 
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.january.dataset.Slice;
 import org.eclipse.january.dataset.SliceND;
@@ -138,5 +140,19 @@ public class SliceInformation {
 		}
 		
 		return new SliceND(newShape, newSlice);
+	}
+	
+	public int calculateFastestDimension() {
+		int[] dd = dataDimensions.clone();
+		Arrays.sort(dd);
+		
+		int[] shape = getSubSampledShape();
+		
+		for (int i = shape.length-1; i > -1; i--) {
+			int key = Arrays.binarySearch(dd, i);
+			if (key < 0) return i;
+		}
+		
+		return -1;	
 	}
 }
