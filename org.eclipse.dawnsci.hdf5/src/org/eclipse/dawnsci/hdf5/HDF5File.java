@@ -41,7 +41,6 @@ public class HDF5File {
 	private boolean canSWMR;
 
 	private ThreadPoolExecutor service;
-	private long checkingPeriod = 100000; // period between checking finished flag in nanoseconds
 
 	private Map<String, long[]> datasetIDs;
 	private boolean cacheIDs;
@@ -174,12 +173,10 @@ public class HDF5File {
 	public synchronized void flushWrites() {
 		if (service != null) {
 			BlockingQueue<Runnable> queue = service.getQueue();
-			final long wait = checkingPeriod*100l;
-			final int nano = (int) (wait % 1000000);
-			final long milli = wait/1000000;
+			final long milli = 10; // period to sleep between checking for empty queue
 			while (!service.isTerminated() && queue.peek() != null) {
 				try {
-					Thread.sleep(milli, nano);
+					Thread.sleep(milli);
 				} catch (InterruptedException e) {
 				}
 			}

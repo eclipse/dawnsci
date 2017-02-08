@@ -39,11 +39,9 @@ import org.slf4j.LoggerFactory;
 
 import hdf.hdf5lib.H5;
 import hdf.hdf5lib.HDF5Constants;
-import hdf.hdf5lib.HDFNativeData;
 import hdf.hdf5lib.exceptions.HDF5Exception;
 import hdf.hdf5lib.exceptions.HDF5LibraryException;
 import hdf.hdf5lib.structs.H5O_info_t;
-import hdf.object.h5.H5Datatype;
 
 public class HDF5Utils {
 	private static final Logger logger = LoggerFactory.getLogger(HDF5Utils.class);
@@ -405,13 +403,16 @@ public class HDF5Utils {
 		try {
 			did = H5.H5Dopen(f.getID(), node, HDF5Constants.H5P_DEFAULT);
 			tid = H5.H5Dget_type(did);
+			if (H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_OBJ)) {
+				logger.error("Could not handle reference object data");
+				throw new NexusException("Could not handle reference object data");
+			}
+
 			ntid = H5.H5Tget_native_type(tid);
 			DatasetType type = getDatasetType(tid, ntid);
 			long sid = -1, pid = -1;
 			long msid = -1;
 			int rank;
-			boolean isText, isVLEN; //, isUnsigned = false;
-//				boolean isEnum, isRegRef, isNativeDatatype;
 			long[] dims;
 
 			// create a new scalar dataset
@@ -422,9 +423,6 @@ public class HDF5Utils {
 				sid = H5.H5Dget_space(did);
 
 				rank = H5.H5Sget_simple_extent_ndims(sid);
-
-				isText = type.dtype == Dataset.STRING;
-				isVLEN = type.isVariableLength;
 
 				final int ldtype = dtype >= 0 ? dtype : type.dtype;
 				final int lisize = isize >= 0 ? isize : type.isize;
@@ -475,44 +473,27 @@ public class HDF5Utils {
 						msid = H5.H5Screate(HDF5Constants.H5S_SCALAR);
 					} else {
 						H5.H5Sselect_hyperslab(sid, HDF5Constants.H5S_SELECT_SET, sstart, sstride, dsize, null);
-//						long length = 1;
-//						for (int i = 0; i < rank; i++)
-//							length *= count[i];
-//
-//						msid = H5.H5Screate_simple(1, new long[] {length}, null);
 						msid = H5.H5Screate_simple(rank, dsize, null);
 						H5.H5Sselect_all(msid);
 					}
 					data = DatasetFactory.zeros(lisize, count, ldtype);
 					Object odata = data.getBuffer();
 
-					boolean isREF = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_OBJ);
-					if (isVLEN) {
+					if (type.isVariableLength) {
 						H5.H5Dread_VLStrings(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
+					} else if (type.dtype == Dataset.STRING) {
+						H5.H5Dread_string(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (String[]) odata);
 					} else {
 						H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
-
-						if (odata instanceof byte[] && ldtype != Dataset.INT8) {
-							// TODO check if this is actually used
-							Object idata = null;
-							byte[] bdata = (byte[]) odata;
-							if (isText) {
-								idata = hdf.object.Dataset.byteToString(bdata, (int) H5.H5Tget_size(tid));
-							} else if (isREF) {
-								idata = HDFNativeData.byteToLong(bdata);
-							}
-
-							if (idata != null) {
-								data = createDataset(idata, count, ldtype, false); // extend later, if necessary
-							}
-						}
 					}
 				} else {
 					// read in many split chunks
+					final int[] cshape = new int[rank];
 					final boolean[] isSplit = new boolean[rank];
 					final long[] send = new long[rank];
 					int length = 1;
 					for (int i = 0; i < rank; i++) {
+						cshape[i] = (int) schunk[i];
 						send[i] = sstart[i] + count[i] * step[i];
 						isSplit[i] = schunk[i] <= 1 && dsize[i] > 1;
 						if (isSplit[i]) {
@@ -542,14 +523,14 @@ public class HDF5Utils {
 						axes[i] = notSplit.get(i);
 					}
 					data = DatasetFactory.zeros(count, ldtype);
-					Object odata;
+					Object odata = null;
 					try {
-						odata = H5Datatype.allocateArray(tid, length);
+						// reserve space to read array and work with v-length strings too 
+						odata = DatasetFactory.zeros(cshape, ldtype).getBuffer();
 					} catch (OutOfMemoryError err) {
 						logger.error("Out of memory", err);
 						throw new NexusException("Out Of Memory", err);
 					}
-//						msid = H5.H5Screate_simple(1, new long[] {length}, null);
 					msid = H5.H5Screate_simple(rank, dsize, null);
 					H5.H5Sselect_all(msid);
 
@@ -558,30 +539,15 @@ public class HDF5Utils {
 					final boolean[] hit = it.getOmit();
 					while (it.hasNext()) {
 						H5.H5Sselect_hyperslab(sid, HDF5Constants.H5S_SELECT_SET, sstart, sstride, dsize, null);
-						boolean isREF = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_OBJ);
-						Object idata;
-						if (isVLEN) {
+						if (type.isVariableLength) {
 							H5.H5Dread_VLStrings(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
-							idata = odata;
+						} else if (type.dtype == Dataset.STRING) {
+							H5.H5Dread_string(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (String[]) odata);
 						} else {
 							H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
-
-							if (odata instanceof byte[] && ldtype != Dataset.INT8) {
-								// TODO check if this is actually used
-								byte[] bdata = (byte[]) odata;
-								if (isText) {
-									idata = hdf.object.Dataset.byteToString(bdata, (int) H5.H5Tget_size(tid));
-								} else if (isREF) {
-									idata = HDFNativeData.byteToLong(bdata);
-								} else {
-									idata = odata;
-								}
-							} else {
-								idata = odata;
-							}
 						}
 
-						data.setItemsOnAxes(pos, hit, idata);
+						data.setItemsOnAxes(pos, hit, odata);
 						int j = rank - 1;
 						for (; j >= 0; j--) {
 							if (isSplit[j]) {
@@ -1364,150 +1330,6 @@ public class HDF5Utils {
 			if (!f.containsDataset(dataPath)) {
 				closeDataset(ids);
 			}
-		}
-	}
-
-	/**
-	 * Write to a slice in a dataset
-	 * @param f
-	 * @param dataPath
-	 * @param slice
-	 * @param value
-	 * @throws NexusException
-	 */
-	public static void writeDatasetSliceWithID(long[] id, String dataPath, SliceND slice, IDataset value) throws NexusException {
-		if (id[1] == -1) {
-			try {
-				id[1] = H5.H5Dopen(id[0], dataPath, HDF5Constants.H5P_DEFAULT);
-				id[2] = H5.H5Dget_space(id[1]);
-			} catch (HDF5LibraryException e1) {
-				// TODO Auto-generated catch block
-				logger.error("TODO put description of error here", e1);
-				return;
-			} catch (NullPointerException e1) {
-				// TODO Auto-generated catch block
-				logger.error("TODO put description of error here", e1);
-				return;
-			}
-		}
-		try {
-			long hdfDatasetId = id[1];
-
-			long hdfDataspaceId = id[2];
-			long hdfMemspaceId = -1;
-			long hdfDatatypeId = -1;
-			try {
-				hdfDataspaceId = H5.H5Dget_space(hdfDatasetId);
-				int rank = H5.H5Sget_simple_extent_ndims(hdfDataspaceId);
-				long[] dims = new long[rank];
-				long[] mdims = new long[rank];
-				H5.H5Sget_simple_extent_dims(hdfDataspaceId, dims, mdims);
-				long[] start = toLongArray(slice.getStart());
-				long[] stride = toLongArray(slice.getStep());
-				long[] shape = toLongArray(slice.getShape());
-
-				long[] newShape = null;
-				if (slice.isExpanded()) {
-					newShape = toLongArray(slice.getSourceShape());
-				} else {
-					long[] mShape = toLongArray(slice.getStop());
-					if (expandToGreatestShape(mShape, dims)) {
-						newShape = mShape;
-					}
-				}
-				if (newShape != null) {
-					
-					H5.H5Dset_extent(hdfDatasetId, newShape);
-					
-					try {
-						H5.H5Sclose(hdfDataspaceId);
-					} catch (HDF5Exception ex) {
-					}
-					
-					hdfDataspaceId = H5.H5Screate_simple(rank, newShape,mdims);
-					id[2] = hdfDataspaceId;
-//					H5.H5Dflush(hdfDatasetId);
-//					try {
-//						H5.H5Sclose(hdfDataspaceId);
-//					} catch (HDF5Exception ex) {
-//					}
-//					hdfDataspaceId = H5.H5Dget_space(hdfDatasetId);
-				}
-				if (rank != 0) { // not a scalar (or null) dataspace
-					H5.H5Sselect_hyperslab(hdfDataspaceId, HDF5Constants.H5S_SELECT_SET, start, stride, shape, null);
-				}
-
-				Dataset data = DatasetUtils.convertToDataset(value);
-				int dtype = data.getDType();
-				long memtype = getHDF5type(dtype);
-				Serializable buffer = DatasetUtils.serializeDataset(data);
-
-				hdfMemspaceId = H5.H5Screate_simple(rank, HDF5Utils.toLongArray(data.getShape()), null);
-				if (dtype == Dataset.STRING) {
-					boolean vlenString = false;
-					hdfDatatypeId = H5.H5Dget_type(hdfDatasetId);
-					int typeSize = -1;
-					try {
-						typeSize = (int) H5.H5Tget_size(hdfDatatypeId);
-						vlenString = H5.H5Tis_variable_str(hdfDatatypeId);
-					} finally {
-						H5.H5Tclose(hdfDatatypeId);
-						hdfDatatypeId = -1;
-					}
-					hdfDatatypeId = H5.H5Tcopy(memtype);
-					H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
-					H5.H5Tset_size(hdfDatatypeId, vlenString ? HDF5Constants.H5T_VARIABLE : typeSize);
-					if (vlenString) {
-						H5.H5Dwrite_VLStrings(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, (String[]) buffer);
-					} else {
-						String[] strings = (String[]) buffer;
-						byte[] strBuffer = new byte[typeSize * strings.length];
-						int idx = 0;
-						for (String str : (String[]) strings) {
-							//typesize - 1 since we always want to leave room for \0 at the end of the string
-							if (str.length() > typeSize - 1) {
-								logger.warn("String does not fit into space allocated in HDF5 file in " + dataPath + " - string will be truncated");
-							}
-							byte[] src = str.getBytes(UTF8);
-							int length = Math.min(typeSize - 1, src.length);
-							System.arraycopy(src, 0, strBuffer, idx, length);
-							idx += typeSize;
-						}
-						H5.H5Dwrite(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, strBuffer);
-					}
-				} else {
-					H5.H5Dwrite(hdfDatasetId, memtype, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, buffer);
-				}
-			} finally {
-				if (hdfDatatypeId != -1) {
-					try {
-						H5.H5Tclose(hdfDatatypeId);
-					} catch (HDF5Exception ex) {
-						logger.error("Could not close datatype", ex);
-						throw ex;
-					}
-				}
-				if (hdfMemspaceId != -1) {
-					try {
-						H5.H5Sclose(hdfMemspaceId);
-					} catch (HDF5Exception ex) {
-						logger.error("Could not close memory space", ex);
-						throw ex;
-					}
-				}
-				if (hdfDataspaceId != -1) {
-					try {
-						H5.H5Sclose(hdfDataspaceId);
-					} catch (HDF5Exception ex) {
-						logger.error("Could not close file space", ex);
-						throw ex;
-					}
-				}
-			}
-		}
-		catch (HDF5Exception e) {
-			logger.error("Could not write dataset slice", e);
-			throw new NexusException("Could not write dataset slice", e);
 		}
 	}
 
