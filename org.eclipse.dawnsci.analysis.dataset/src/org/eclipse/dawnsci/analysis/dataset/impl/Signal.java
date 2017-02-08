@@ -27,7 +27,14 @@ import org.eclipse.january.dataset.Maths;
  */
 public class Signal {
 
-	private static int[] paddedShape(final int[] ashape, final int[] bshape, final int[] axes) {
+	/**
+	 * Pad shape to given an expanded shape
+	 * @param ashape
+	 * @param bshape
+	 * @param axes array of axes to pad, can be null to pad all axes
+	 * @return padded shape
+	 */
+	private static int[] padShape(final int[] ashape, final int[] bshape, final int[] axes) {
 		int[] s = ashape.clone();
 		if (axes == null) {
 			 // pad all axes
@@ -35,7 +42,7 @@ public class Signal {
 				s[i] += bshape[i] - 1; // pad 
 			}
 		} else {
-			 // pad chosen axes
+			// pad chosen axes
 			for (int i = 0; i < s.length; i++) {
 				int j = 0;
 				for (; j < axes.length; j++) {
@@ -101,7 +108,7 @@ public class Signal {
 		}
 
 		Dataset c = null, d = null;
-		int[] s = paddedShape(f.getShapeRef(), g.getShapeRef(), axes);
+		int[] s = padShape(f.getShapeRef(), g.getShapeRef(), axes);
 		c = FFT.fftn(f, s, axes);
 		d = FFT.fftn(g, s, axes);
 		c = Maths.multiply(c, d);
@@ -157,7 +164,7 @@ public class Signal {
 		}
 
 		Dataset c = null, d = null;
-		int[] s = paddedShape(f.getShapeRef(), g.getShapeRef(), axes);
+		int[] s = padShape(f.getShapeRef(), g.getShapeRef(), axes);
 		
 		c = FFT.fftn(f, s, axes);
 		d = FFT.fftn(g, s, axes);
@@ -232,7 +239,7 @@ public class Signal {
 	 */
 	public static List<Dataset> phaseCorrelate(final Dataset f, final Dataset g, final int[] axes, boolean includeInverse) {
 		Dataset c = null, d = null;
-		int[] s = paddedShape(f.getShapeRef(), g.getShapeRef(), axes);
+		int[] s = padShape(f.getShapeRef(), g.getShapeRef(), axes);
 		c = FFT.fftn(f, s, axes);
 		d = FFT.fftn(g, s, axes);
 		c.idivide(d);
@@ -330,6 +337,28 @@ public class Signal {
 		double f = 2*Math.PI/(n-1);
 		for (int i = 0; i < n; i++) {
 			w.setAbs(i, a - b*Math.cos(i*f));
+		}
+		return w;
+	}
+
+	/**
+	 * A Tukey (also known as a tapered cosine) window
+	 * @param n
+	 * @param a
+	 * @return window
+	 */
+	public static Dataset tukeyWindow(int n, double a) {
+		DoubleDataset w = DatasetFactory.ones(DoubleDataset.class, n);
+		if (a < 0 || a > 1) {
+			throw new IllegalArgumentException("Parameter a (taper width) must be in range [0,1]");
+		}
+		double p = a*(n-1)/2;
+		double f = Math.PI/p;
+		int imax = (int) Math.ceil(p);
+		for (int i = 0; i < imax; i++) {
+			double wv = 0.5 + 0.5*Math.cos(i*f - Math.PI);
+			w.setAbs(i, wv);
+			w.setAbs(n - 1 - i, wv);
 		}
 		return w;
 	}
