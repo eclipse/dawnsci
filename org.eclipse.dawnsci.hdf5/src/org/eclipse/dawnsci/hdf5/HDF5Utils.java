@@ -32,7 +32,6 @@ import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.LazyWriteableDataset;
-import org.eclipse.january.dataset.PositionIterator;
 import org.eclipse.january.dataset.SliceND;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -413,34 +412,12 @@ public class HDF5Utils {
 			long sid = -1, pid = -1;
 			long msid = -1;
 			int rank;
-			long[] dims;
 
 			// create a new scalar dataset
-
 			try {
 				pid = H5.H5Dget_create_plist(did);
-
 				sid = H5.H5Dget_space(did);
-
 				rank = H5.H5Sget_simple_extent_ndims(sid);
-
-				final int ldtype = dtype >= 0 ? dtype : type.dtype;
-				final int lisize = isize >= 0 ? isize : type.isize;
-
-				dims = new long[rank];
-				H5.H5Sget_simple_extent_dims(sid, dims, null);
-
-				long[] schunk = null; // source chunking
-
-				try {
-					if (H5.H5Pget_layout(pid) == HDF5Constants.H5D_CHUNKED) {
-						schunk = new long[rank];
-						H5.H5Pget_chunk(pid, rank, schunk);
-					}
-				} catch (HDF5Exception ex) {
-					logger.error("Could not get chunk size");
-					throw new NexusException("Could not get chunk size", ex);
-				}
 
 				final long[] sstart = new long[rank]; // source start
 				final long[] sstride = new long[rank]; // source steps
@@ -452,116 +429,24 @@ public class HDF5Utils {
 					dsize[i] = count[i];
 				}
 
-				boolean all = false;
-				if (schunk == null) {
-					all = true;
+				if (rank == 0) {
+					msid = H5.H5Screate(HDF5Constants.H5S_SCALAR);
 				} else {
-					if (Arrays.equals(dims, schunk)) {
-						all = true;
-					} else {
-						int j = rank - 1; // find last chunked dimension that is sliced across
-						while (j >= 0) {
-							if (schunk[j] > 1 && dsize[j] <= 1)
-								break;
-							j--;
-						}
-						all = j < 0;
-					}
-				}
-				if (schunk == null || all) {
-					if (rank == 0) {
-						msid = H5.H5Screate(HDF5Constants.H5S_SCALAR);
-					} else {
-						H5.H5Sselect_hyperslab(sid, HDF5Constants.H5S_SELECT_SET, sstart, sstride, dsize, null);
-						msid = H5.H5Screate_simple(rank, dsize, null);
-						H5.H5Sselect_all(msid);
-					}
-					data = DatasetFactory.zeros(lisize, count, ldtype);
-					Object odata = data.getBuffer();
-
-					if (type.isVariableLength) {
-						H5.H5Dread_VLStrings(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
-					} else if (type.dtype == Dataset.STRING) {
-						H5.H5Dread_string(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (String[]) odata);
-					} else {
-						H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
-					}
-				} else {
-					// read in many split chunks
-					final int[] cshape = new int[rank];
-					final boolean[] isSplit = new boolean[rank];
-					final long[] send = new long[rank];
-					int length = 1;
-					for (int i = 0; i < rank; i++) {
-						cshape[i] = (int) schunk[i];
-						send[i] = sstart[i] + count[i] * step[i];
-						isSplit[i] = schunk[i] <= 1 && dsize[i] > 1;
-						if (isSplit[i]) {
-							dsize[i] = 1;
-						} else {
-							length *= dsize[i];
-						}
-					}
-					if (length == 1) { // if just single point then bulk up request
-						for (int i = rank - 1; i >= 0; i--) {
-							int l = count[i];
-							if (l > 1) {
-								dsize[i] = l;
-								length = l;
-								isSplit[i] = false;
-								break;
-							}
-						}
-					}
-					final List<Integer> notSplit = new ArrayList<Integer>();
-					for (int i = 0; i < rank; i++) {
-						if (!isSplit[i])
-							notSplit.add(i);
-					}
-					final int[] axes = new int[notSplit.size()];
-					for (int i = 0; i < axes.length; i++) {
-						axes[i] = notSplit.get(i);
-					}
-					data = DatasetFactory.zeros(count, ldtype);
-					Object odata = null;
-					try {
-						// reserve space to read array and work with v-length strings too 
-						odata = DatasetFactory.zeros(cshape, ldtype).getBuffer();
-					} catch (OutOfMemoryError err) {
-						logger.error("Out of memory", err);
-						throw new NexusException("Out Of Memory", err);
-					}
+					H5.H5Sselect_hyperslab(sid, HDF5Constants.H5S_SELECT_SET, sstart, sstride, dsize, null);
 					msid = H5.H5Screate_simple(rank, dsize, null);
 					H5.H5Sselect_all(msid);
+				}
+				final int ldtype = dtype >= 0 ? dtype : type.dtype;
+				final int lisize = isize >= 0 ? isize : type.isize;
+				data = DatasetFactory.zeros(lisize, count, ldtype);
+				Object odata = data.getBuffer();
 
-					PositionIterator it = data.getPositionIterator(axes);
-					final int[] pos = it.getPos();
-					final boolean[] hit = it.getOmit();
-					while (it.hasNext()) {
-						H5.H5Sselect_hyperslab(sid, HDF5Constants.H5S_SELECT_SET, sstart, sstride, dsize, null);
-						if (type.isVariableLength) {
-							H5.H5Dread_VLStrings(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
-						} else if (type.dtype == Dataset.STRING) {
-							H5.H5Dread_string(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (String[]) odata);
-						} else {
-							H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
-						}
-
-						data.setItemsOnAxes(pos, hit, odata);
-						int j = rank - 1;
-						for (; j >= 0; j--) {
-							if (isSplit[j]) {
-								sstart[j] += sstride[j];
-								if (sstart[j] >= send[j]) {
-									sstart[j] = start[j];
-								} else {
-									break;
-								}
-							}
-						}
-						if (j == -1)
-							break;
-					}
+				if (type.isVariableLength) {
+					H5.H5Dread_VLStrings(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
+				} else if (type.dtype == Dataset.STRING) {
+					H5.H5Dread_string(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (String[]) odata);
+				} else {
+					H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
 				}
 				if (extend) {
 					data = DatasetUtils.makeUnsigned(data);
