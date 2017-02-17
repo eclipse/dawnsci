@@ -50,7 +50,7 @@ public class JsonMarshallerInbuiltTypesTest {
 	private static final String JSON_FOR_TEST_LONG = "12345678900";
 
 	private static final String[] STRING_ARRAY = { "a", "b", "c" };
-	private static final String JSON_FOR_STRING_ARRAY = "[ \"a\", \"b\", \"c\" ]";
+	private static final String JSON_FOR_STRING_ARRAY = "[\"String[]\", [ \"a\", \"b\", \"c\" ]]";
 	private static final String JSON_FOR_OBJECT_ARRAY = "[ \"a\", \"b\", 5 ]";
 	private static final String JSON_FOR_STRING_OBJECT_MAP = "{ \"String key\" : \"String value\", \"Int key\" : 5 }";
 	private static final String JSON_FOR_WRAPPED_STRING = "{\n  \"@type\" : \"jsontest.objectwrapper\",\n  \"object\" : \"Test string\"\n}";
@@ -190,7 +190,7 @@ public class JsonMarshallerInbuiltTypesTest {
 	@Test
 	public void testStringArraySerializationWithoutClassRegistries() throws Exception {
 		json = marshaller.marshal(STRING_ARRAY, false);
-		assertJsonEquals(JSON_FOR_STRING_ARRAY, json);
+		assertJsonEquals("[ \"a\", \"b\", \"c\" ]", json);
 	}
 
 	@Test
