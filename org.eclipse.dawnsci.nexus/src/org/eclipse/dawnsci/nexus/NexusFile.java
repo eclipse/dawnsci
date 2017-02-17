@@ -89,7 +89,21 @@ public interface NexusFile extends AutoCloseable {
 	 * @param async
 	 */
 	public void setWritesAsync(boolean async);
+	
+	/**
+	 * Sets the datasets written to to be held open until the file is closed
+	 * 
+	 * With this value set to true, datasets will not be flushed until the file is closed,
+	 * call {@link #flushAllCachedDatasets()} to flush
+	 * @param cacheDataset
+	 */
+	public void setCacheDataset(boolean cacheDataset);
 
+	/**
+	 * Flush datasets cached when {@link #setCacheDataset(boolean)} is set true
+	 */
+	public void flushAllCachedDatasets();
+	
 	/**
 	 * Set to instrument some method calls via logging at the DEBUG level
 	 * @param debug
