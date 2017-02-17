@@ -159,6 +159,7 @@ public class MarshallerService implements IMarshallerService {
 
 		this.extra_registries = new ArrayList<IClassRegistry>();
 		this.extra_registries.add(new ROIClassRegistry());
+		this.extra_registries.add(new ArrayRegistry());
 		if (extra_registries!=null) this.extra_registries.addAll(extra_registries);
 
 		this.extra_registries = Collections.unmodifiableList(this.extra_registries);
