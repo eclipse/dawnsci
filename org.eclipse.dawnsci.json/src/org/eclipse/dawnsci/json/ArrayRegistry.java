@@ -12,7 +12,6 @@
 
 package org.eclipse.dawnsci.json;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +25,6 @@ class ArrayRegistry implements IClassRegistry {
 
 		Map<String, Class<?>> tmp = new HashMap<>();
 		tmp.put("String[]",    String[].class);
-		tmp.put("ArrayList",   ArrayList.class);
 
 		idToClassMap = Collections.unmodifiableMap(tmp);
 	}
