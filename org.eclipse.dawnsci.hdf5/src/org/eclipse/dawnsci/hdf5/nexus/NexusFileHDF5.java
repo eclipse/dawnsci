@@ -1446,50 +1446,6 @@ public class NexusFileHDF5 implements NexusFile {
 		}
 	}
 
-	private void tryToCloseOpenObjects() throws NexusException {
-		try {
-			//try datasets, datatypes and groups (things that can be closed with H5Oclose)
-			int typeIdentifier = HDF5Constants.H5F_OBJ_DATASET |
-					HDF5Constants.H5F_OBJ_DATATYPE |
-					HDF5Constants.H5F_OBJ_GROUP |
-					HDF5Constants.H5F_OBJ_LOCAL;
-			int openObjectCount = (int) H5.H5Fget_obj_count(fileId, typeIdentifier);
-			if (openObjectCount > 0) {
-				logger.debug("Trying to close hdf5 file with open objects");
-				long[] openIds = new long[openObjectCount];
-				H5.H5Fget_obj_ids(fileId, typeIdentifier, openObjectCount, openIds);
-				for (int i = 0; i < openObjectCount; i++) {
-					long id = openIds[i];
-					try {
-						H5.H5Oclose(id);
-						openIds[i] = -1;
-					} catch (HDF5LibraryException e) {
-						logger.error("Error closing hdf5 file - could not close open object");
-					}
-				}
-			}
-			//try attributes
-			typeIdentifier = HDF5Constants.H5F_OBJ_ATTR | HDF5Constants.H5F_OBJ_LOCAL;
-			openObjectCount = (int) H5.H5Fget_obj_count(fileId, typeIdentifier);
-			if (openObjectCount > 0) {
-				logger.debug("Trying to close hdf5 file with open attributes");
-				long[] attrIds = new long[openObjectCount];
-				H5.H5Fget_obj_ids(fileId, typeIdentifier, openObjectCount, attrIds);
-				for (int i = 0; i < openObjectCount; i++) {
-					long id = attrIds[i];
-					try {
-						H5.H5Aclose(id);
-						attrIds[i] = -1;
-					} catch (HDF5LibraryException e) {
-						logger.error("Error closing hdf5 file - could not close open attribute");
-					}
-				}
-			}
-		} catch (HDF5LibraryException e) {
-			throw new NexusException("Could not query for open objects", e);
-		}
-	}
-
 	public void flushAllCachedDatasets() {
 		file.flushDatasets();
 	}
@@ -1507,7 +1463,6 @@ public class NexusFileHDF5 implements NexusFile {
 			} catch (Exception e) {
 				throw new NexusException("Cannot flush file", e);
 			}
-			tryToCloseOpenObjects();
 			fileId = -1;
 			tree = null;
 			nodeMap = null;
