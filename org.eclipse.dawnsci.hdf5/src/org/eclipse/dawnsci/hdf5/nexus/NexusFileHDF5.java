@@ -1287,18 +1287,15 @@ public class NexusFileHDF5 implements NexusFile {
 		try {
 			object = getGroup(sa[0], false);
 		} catch (NexusException ne) {
-			//if Exception, it might be a datanode
+			// if Exception, it might be a datanode
 			object = getData(sa[0]);
 		}
 
-		for(Iterator<?> iterator = object.getAttributeIterator(); iterator.hasNext();) {
-			Object attribute = iterator.next();
-			if (attribute instanceof Attribute) {
-				Attribute a = (Attribute)attribute;
-				if (!sa[1].equals(a.getName())) continue;
-				return a.getFirstElement();
-			}
+		Attribute a = object.getAttribute(sa[1]);
+		if (a != null) {
+			return a.getFirstElement();
 		}
+
 		return null;
 	}
 
