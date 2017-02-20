@@ -299,6 +299,15 @@ public interface NexusFile extends AutoCloseable {
 	public Attribute createAttribute(IDataset attr);
 
 	/**
+	 * The full attribute key is: <node full path>@<attribute name>
+	 * e.g. /entry1/data@napimount
+	 * @param fullAttributeKey
+	 * @return
+	 * @throws NexusException
+	 */
+	public String getAttributeValue(String path) throws NexusException;
+
+	/**
 	 * Add (and write) attribute(s) to given node
 	 * @param node
 	 * @param attribute

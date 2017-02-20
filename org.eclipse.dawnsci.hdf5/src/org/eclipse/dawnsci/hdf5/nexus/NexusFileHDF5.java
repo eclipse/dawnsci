@@ -1280,6 +1280,28 @@ public class NexusFileHDF5 implements NexusFile {
 		addAttribute(path, attribute);
 	}
 
+	@Override
+	public String getAttributeValue(String fullAttributeKey) throws NexusException {
+		final String[] sa    = fullAttributeKey.split(Node.ATTRIBUTE);
+		Node object = null;
+		try {
+			object = getGroup(sa[0], false);
+		} catch (NexusException ne) {
+			//if Exception, it might be a datanode
+			object = getData(sa[0]);
+		}
+
+		for(Iterator<?> iterator = object.getAttributeIterator(); iterator.hasNext();) {
+			Object attribute = iterator.next();
+			if (attribute instanceof Attribute) {
+				Attribute a = (Attribute)attribute;
+				if (!sa[1].equals(a.getName())) continue;
+				return a.getFirstElement();
+			}
+		}
+		return null;
+	}
+
 	private void createSoftLink(String source, String destination) throws NexusException {
 		boolean useNameAtSource = destination.endsWith(Node.SEPARATOR);
 		String linkName = destination;
