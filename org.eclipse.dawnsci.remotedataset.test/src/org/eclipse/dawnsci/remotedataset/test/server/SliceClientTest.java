@@ -53,7 +53,7 @@ public class SliceClientTest extends DataServerTest {
 		client.setSlice("[0,:2048,:2048]");
 
 		final IDataset data = client.get();
-		if (!Arrays.equals(data.getShape(), new int[]{2048, 2048})) {
+		if (!Arrays.equals(data.getShape(), new int[]{1,2048, 2048})) {
 			throw new Exception("Unexpected shape "+Arrays.toString(data.getShape()));
 		}
 		System.out.println("> testFullData ok");
