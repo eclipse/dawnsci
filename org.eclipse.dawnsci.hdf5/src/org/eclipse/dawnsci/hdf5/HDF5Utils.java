@@ -276,7 +276,7 @@ public class HDF5Utils {
 
 			data = readDataset(fid, node, start, count, step, dtype, isize, extend);
 		} catch (Throwable le) {
-			logger.error("Problem loading dataset in file: {}", fileName, le);
+			logger.error("Problem loading dataset {} in file: {}", node, fileName, le);
 			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
 		} finally {
 			HDF5FileFactory.releaseFile(fileName, close);
@@ -441,15 +441,20 @@ public class HDF5Utils {
 				data = DatasetFactory.zeros(lisize, count, ldtype);
 				Object odata = data.getBuffer();
 
-				if (type.isVariableLength) {
-					H5.H5Dread_VLStrings(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
-				} else if (type.dtype == Dataset.STRING) {
-					H5.H5Dread_string(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (String[]) odata);
-				} else {
-					H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
-				}
-				if (extend) {
-					data = DatasetUtils.makeUnsigned(data);
+				try {
+					if (type.isVariableLength) {
+						H5.H5Dread_VLStrings(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
+					} else if (type.dtype == Dataset.STRING) {
+						H5.H5Dread_string(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (String[]) odata);
+					} else {
+						H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
+					}
+					if (extend) {
+						data = DatasetUtils.makeUnsigned(data);
+					}
+				} catch (HDF5LibraryException e) {
+					logger.error("Could not read data", e);
+					throw new NexusException("Could not read data", e);
 				}
 			} catch (HDF5Exception ex) {
 				logger.error("Could not get data space information", ex);

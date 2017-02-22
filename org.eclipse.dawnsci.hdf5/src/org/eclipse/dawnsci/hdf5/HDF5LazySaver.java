@@ -156,6 +156,12 @@ public class HDF5LazySaver extends HDF5LazyLoader implements ILazyAsyncSaver, Se
 				}
 			}
 			expandShape(slice);
+			if (mon != null) {
+				if (mon.isCancelled()) {
+					return;
+				}
+				mon.worked(1);
+			}
 		} catch (ScanFileHolderException e) {
 			throw new IOException(e);
 		}
