@@ -15,6 +15,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.FFT;
 import org.eclipse.january.asserts.TestUtils;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.january.dataset.IndexIterator;
 import org.junit.Test;
 
@@ -874,5 +875,52 @@ public class FFTTest {
 		s = DatasetFactory.createFromObject(new double[] { 0, 0.05714286, 0.11428571, 0.17142857, -0.17142857, -0.11428571,
 				-0.05714286 });
 		TestUtils.assertDatasetEquals(s, f, 1e-7, 1e-12);
+	}
+
+	@Test
+	public void testZeroPad() {
+		Dataset w, z;
+		w = DatasetFactory.createRange(DoubleDataset.class, 9).reshape(3, 3);
+		z = FFT.zeroPad(w, new int[] {5, 5}, false);
+		TestUtils.assertDatasetEquals(DatasetFactory.createFromObject(new double[] {
+				0, 1, 2, 0, 0,
+				3, 4, 5, 0, 0,
+				6, 7, 8, 0, 0,
+				0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0}).reshape(5, 5), z);
+
+		z = FFT.zeroPad(w, new int[] {5, 5}, true);
+		TestUtils.assertDatasetEquals(DatasetFactory.createFromObject(new double[] {
+				0, 1, 0, 0, 2,
+				3, 4, 0, 0, 5,
+				0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0,
+				6, 7, 0, 0, 8}).reshape(5, 5), z);
+	}
+
+	@Test
+	public void testNewShift() {
+		Dataset w, z;
+		w = DatasetFactory.createRange(DoubleDataset.class, 35).reshape(5, 7);
+		z = FFT.shift(w, true);
+		TestUtils.assertDatasetEquals(DatasetFactory.createFromObject(new double[] {
+				25, 26, 27, 21, 22, 23, 24,
+				32, 33, 34, 28, 29, 30, 31,
+				4, 5, 6, 0, 1, 2, 3,
+				11, 12, 13, 7, 8, 9, 10,
+				18, 19, 20, 14, 15, 16, 17}).reshape(5, 7), z);
+
+		z = FFT.shift(z, false);
+		TestUtils.assertDatasetEquals(w, z);
+
+		z = FFT.shift(w, false);
+		TestUtils.assertDatasetEquals(DatasetFactory.createFromObject(new double[] {
+				17, 18, 19, 20, 14, 15, 16,
+				24, 25, 26, 27, 21, 22, 23,
+				31, 32, 33, 34, 28, 29, 30,
+				3, 4, 5, 6, 0, 1, 2,
+				10, 11, 12, 13, 7, 8, 9}).reshape(5, 7), z);
+		z = FFT.shift(z, true);
+		TestUtils.assertDatasetEquals(w, z);
 	}
 }
