@@ -196,10 +196,10 @@ class SliceRequest implements HttpSessionBindingListener {
 
 		if (data==null) throw new Exception("Cannot get slice of data for '"+lz+"'");
 
-		data = data.squeeze();
 
 		// We downsample if there was one
 		if (bin!=null) {
+			data = data.squeeze();
 			data = ServiceHolder.getDownService().downsample(bin, data).get(0);
 		}
         return data;
@@ -326,6 +326,8 @@ class SliceRequest implements HttpSessionBindingListener {
 						   HttpServletRequest  request,
 			               HttpServletResponse response, 
 			               Format              format) throws Exception {
+		
+		data.squeeze();
 		
 		if (data.getRank()!=2 && data.getRank()!=1) {
 			throw new Exception("The data used to make an image must either be 1D or 2D!"); 
