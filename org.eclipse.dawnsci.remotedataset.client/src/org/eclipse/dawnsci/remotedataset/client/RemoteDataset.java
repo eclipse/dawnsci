@@ -111,6 +111,7 @@ class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
 		this.urlBuilder = new URLBuilder(serverName, port);
 		urlBuilder.setWritingExpected(true);
 		this.exec       = exec;
+		this.loader = new RemoteLoader(urlBuilder);
 	}
 
 	@Override
@@ -124,8 +125,6 @@ class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
 	 */
 	@Override
 	public String connect(long time, TimeUnit unit) throws DatasetException {
-
-		this.loader = new RemoteLoader(urlBuilder);
 		try {
 			createInfo();
 			if (eventDelegate.hasDataListeners()) {
@@ -168,7 +167,7 @@ class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
     	try {
 			createInfo();
 		} catch (Exception e) {
-			//TODO log
+			e.printStackTrace();
 		}
     	return true;
     }
@@ -233,7 +232,7 @@ class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
 		
 		List<String> info = getInfo();
 		
-		this.name  = info.get(0);
+		if (this.name == null) this.name  = info.get(0);
 		this.shape = toIntArray(info.get(1));
 		setMax(shape);
 		this.oShape = shape;
@@ -321,5 +320,28 @@ class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
 	@Override
 	public IDynamicDataset getDataset() {
 		return this;
+	}
+	
+	@Override
+	public RemoteDataset clone() {
+		RemoteDataset ret = new RemoteDataset(urlBuilder.getServerName(),urlBuilder.getPort(),this.exec);
+		ret.urlBuilder.setDataset(this.urlBuilder.getDataset());
+		ret.urlBuilder.setPath(this.urlBuilder.getPath());
+		ret.client = this.client;
+		ret.connection = this.connection;
+		ret.loader = this.loader;
+		ret.shape = shape;
+		ret.size = size;
+		ret.prepShape = prepShape;
+		ret.postShape = postShape;
+		ret.begSlice = begSlice;
+		ret.delSlice = delSlice;
+		ret.map = map;
+		ret.base = base;
+		ret.metadata = copyMetadata();
+		ret.oMetadata = oMetadata;
+		ret.eventDelegate = eventDelegate;
+		ret.name = this.name;
+		return ret;
 	}
 }
