@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *    Matthew Dickie - initial API and implementation and/or initial documentation
  *******************************************************************************/
 package org.eclipse.dawnsci.nexus.builder;
 
