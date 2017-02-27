@@ -1,4 +1,18 @@
-sudo: false # use containers
+dist: trusty
+sudo: required
+
+# SonarQube
+# See https://docs.travis-ci.com/user/sonarqube/
+addons:
+  sonarqube:
+    token:
+      # See https://travis-ci.org/eclipse/dawnsci/settings, here be variables (ask webmaster@eclipse.org for permission to see)
+      # SONAR_TOKEN = SONAR_GITHUB_TOKEN = The sonar token at https://sonarqube.com/account/security/
+      secure: $SONAR_TOKEN 
+    github_token:
+      # See https://github.com/settings/tokens to create a token for GITHUB_READ_REPO
+      # GITHUB_READ_REPO = https://github.com/settings/tokens sonarqube-travis  token ('repo' and 'admin:repo_hook' permissions)
+      secure: $GITHUB_READ_REPO
 
 language: java
 
@@ -37,4 +51,5 @@ env:
 # No need to run this as default travis will find maven and run it
 script: 
   - mvn -q clean install surefire:test -Dtest.includes=org/eclipse/dawnsci/**/*Suite.java
+  - sonar-scanner
 
