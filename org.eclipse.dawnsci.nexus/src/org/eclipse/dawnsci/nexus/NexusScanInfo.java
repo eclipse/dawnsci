@@ -28,6 +28,8 @@ import org.eclipse.january.dataset.SliceND;
  * 
  * For instance, names of scannables in the axes and the rank of the scan.
  * 
+ * TODO mattd 2017-02-28: should this class be removed and we use ScanInformation / ScanModel instead?
+ * 
  * @author Matthew Gerring
  *
  */
@@ -40,6 +42,8 @@ public class NexusScanInfo {
 	private int rank;
 	
 	private final Map<ScanRole, Collection<String>> deviceNames;
+	
+	private int[] shape;
 	
 	public NexusScanInfo() {
 		this(Collections.emptyList());
@@ -106,6 +110,15 @@ public class NexusScanInfo {
 	public void setMetadataScannableNames(Set<String> metadataScannableNames) {
 		setDeviceNames(ScanRole.METADATA, metadataScannableNames);
 	}
+	
+	public int[] getShape() {
+		return shape;
+	}
+
+	public void setShape(int[] shape) {
+		this.shape = shape;
+	}
+
 	/**
 	 * Returns the {@link ScanRole} of the device with the given name within the scan,
 	 * or <code>null</code> if none
