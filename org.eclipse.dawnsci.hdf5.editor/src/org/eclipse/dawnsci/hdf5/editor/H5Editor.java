@@ -1,6 +1,6 @@
 /*-
  *******************************************************************************
- * Copyright (c) 2011, 2014 Diamond Light Source Ltd.
+ * Copyright (c) 2011, 2017 Diamond Light Source Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,18 +8,19 @@
  *
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *    Baha El-Kassaby - Removal of IHierchicalDataFile and HObject usage
  *******************************************************************************/ 
 package org.eclipse.dawnsci.hdf5.editor;
-
-import javax.swing.tree.TreeNode;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
+import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -45,17 +46,16 @@ import org.slf4j.LoggerFactory;
 public class H5Editor extends EditorPart implements IReusableEditor, IH5Editor {
 
 	public static final String ID = "org.eclipse.dawnsci.hdf5.editor.raw.tree";
-	
-    private static final Logger logger = LoggerFactory.getLogger(H5Editor.class);
-	
+
+	private static final Logger logger = LoggerFactory.getLogger(H5Editor.class);
+
 	private TreeViewer tree;
-	
+
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
-		
 		setSite(site);
 		super.setInput(input);
-        setPartName(input.getName());
+		setPartName(input.getName());
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class H5Editor extends EditorPart implements IReusableEditor, IH5Editor {
 		super.setInput(input);
 		setPartName(input.getName());
 		refresh();
-	}	
+	}
 
 	/**
 	 * Get the file path from a FileStoreEditorInput. Removes any "file:"
@@ -149,19 +149,20 @@ public class H5Editor extends EditorPart implements IReusableEditor, IH5Editor {
 		
 		try {
 			// NOTE This file may get closed externally
-	    	IHierarchicalDataFile file = HierarchicalDataFactory.getReader(getFilePath(getEditorInput()));
-	        try {
-	
-				final TreeNode root = file.getNode();
-				tree.getTree().setItemCount(root.getChildCount());
+			IDataHolder dh = ServiceHolder.getLoaderService().getData(getFilePath(getEditorInput()), null);
+			try {
+				Tree hdftree = dh.getTree();
+				NodeLink root = hdftree.getNodeLink();
+				GroupNode group = (GroupNode)root.getDestination();
+				int numitem = group.getNumberOfNodelinks();
+				tree.getTree().setItemCount(numitem);
 				tree.setContentProvider(new H5ContentProvider());
-				tree.setLabelProvider(new H5LabelProvider(file));
+				tree.setLabelProvider(new H5LabelProvider());
 				tree.setInput(root);
 				tree.expandToLevel(1);
-				        	
 			} catch (Exception e) {
 				logger.error("Cannot open h5 file "+getFilePath(getEditorInput()), e);
-	        } 
+			} 
 		} catch (Exception neOther) {
 			logger.error("Cannot open H5 file!", neOther);
 		}
@@ -188,9 +189,9 @@ public class H5Editor extends EditorPart implements IReusableEditor, IH5Editor {
 		return false;
 	}
 
-    /**
-     * The adapter IContentProvider gives the value of the H5Dataset
-     */
+	/**
+	 * The adapter IContentProvider gives the value of the H5Dataset
+	 */
 	public Object getAdapter(final Class clazz) {
 
 		if (clazz == IContentProvider.class) {

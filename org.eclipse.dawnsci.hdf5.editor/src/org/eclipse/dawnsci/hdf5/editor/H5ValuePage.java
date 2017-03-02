@@ -1,6 +1,6 @@
 /*-
  *******************************************************************************
- * Copyright (c) 2011, 2014 Diamond Light Source Ltd.
+ * Copyright (c) 2011, 2017 Diamond Light Source Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,24 +8,22 @@
  *
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *    Baha El-Kassaby - Removal of IHierchicalDataFile and HObject usage
  *******************************************************************************/ 
 package org.eclipse.dawnsci.hdf5.editor;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-
+import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
-import org.eclipse.dawnsci.analysis.api.tree.TreeAdaptable;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
@@ -38,7 +36,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbench;
@@ -49,12 +46,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import hdf.object.Attribute;
-import hdf.object.Dataset;
-import hdf.object.Datatype;
-import hdf.object.Group;
-import hdf.object.HObject;
 
 public class H5ValuePage extends Page  implements ISelectionListener, IPartListener {
 
@@ -188,47 +179,12 @@ public class H5ValuePage extends Page  implements ISelectionListener, IPartListe
 	}
 
 	public void updateObjectSelection(Object sel)  throws Exception{
-
-		if (sel instanceof DefaultMutableTreeNode) {
-			final DefaultMutableTreeNode node = (DefaultMutableTreeNode)sel;
-			final Object                 ob   = node.getUserObject();
-			if (ob instanceof HObject) {
-				createH5Value((HObject)ob);
-			}
- 		} else if (sel instanceof H5Path) { // Might be nexus part.
-			try {
-				final String path   = ((H5Path) sel).getPath();
-				final IEditorPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-				if (part instanceof IH5Editor) {
-					final String filePath = ((IH5Editor)part).getFilePath();
-					
-					IHierarchicalDataFile file = null;
-					try {
-						file = HierarchicalDataFactory.getReader(filePath);
-						final HObject ob = (HObject)file.getData(path);
-						createH5Value(ob);
-					} finally {
-						if (file!=null) file.close();
-					}
-				}
-			} catch (Exception ne) {
-				logger.error(ne.getMessage()); // Not serious, no need for stack.
-			}
- 		} else if (sel instanceof TreeAdaptable) {
- 			NodeLink nl = ((TreeAdaptable) sel).getNodeLink();
- 			if (nl != null) {
-	 			if (nl.isDestinationGroup())
-	 				label.setText("Group name of '" + nl.getName() + "' children:");
-	 			else if (nl.isDestinationData())
-	 				label.setText("Dataset name of '" + nl.getName() + "' value:");
-	
-	 			sourceViewer.getTextWidget().setText(getNodeLinkValue(nl));
- 			} else {
- 				org.eclipse.dawnsci.analysis.api.tree.Attribute a = ((TreeAdaptable) sel).getAttribute();
-	 			if (a != null) {
-	 				sourceViewer.getTextWidget().setText(a.toString());
-	 			}
- 			}
+		if (sel instanceof Attribute) {
+			Attribute att = (Attribute) sel;
+			createAttributeValue(att);
+		} else if (sel instanceof NodeLink) {
+			NodeLink node = (NodeLink) sel;
+			createNodeValue(node);
 		}
 	}
 	
@@ -242,7 +198,6 @@ public class H5ValuePage extends Page  implements ISelectionListener, IPartListe
 			DataNode hd = (DataNode)node;
 			ILazyDataset lz = hd.getDataset();
 			if (lz.getRank()==1 && lz.getShape()[0]<500) {
-								
 				try {
 					IDataset data = lz.getSlice();
 					if (Number.class.isAssignableFrom(data.getElementClass())) {
@@ -268,95 +223,82 @@ public class H5ValuePage extends Page  implements ISelectionListener, IPartListe
 		return buf.toString();
 	}
 	
+	@SuppressWarnings("unused")
 	private static boolean isNumericalDType(int dtype) {
 		return (dtype <= 8 );
 	}
 
+	private void createAttributeValue(Attribute att) throws Exception {
+	}
 
-	private void createH5Value(HObject ob) throws Exception {
-		
-		if (ob instanceof Dataset) {
-			final Dataset  set   = (Dataset)ob;
-			final Datatype dType = set.getDatatype();
-			final long[] shape = (long[])set.getDims();
-			
+	private void createNodeValue(NodeLink link) throws Exception {
+		Node node = link.getDestination();
+		if (node instanceof DataNode) {
+			final DataNode set = (DataNode) node;
+			final String dType = set.getTypeName();
+			final int[] shape = set.getDataset().getShape();
+
 			final StringBuilder buf = new StringBuilder();
-			if (dType!=null && dType.getDatatypeClass()==Datatype.CLASS_STRING) {
-				label.setText("Dataset name of '"+set.getName()+"' value:");
-				final long id = set.open();
+			if (dType != null && dType.equals("STRING")) {
+				label.setText("Dataset name of '" + link.getName() + "' value:");
 				try {
-					final String[] value = (String[])set.read();
-					buf.append(value[0]);
+					final String value = set.getString();
+					buf.append(value);
 				} catch (Exception e) {
 					// Ignored
-				} finally {
-					set.close(id);
 				}
 			} else if (shape!=null) {
-				label.setText("Dataset name of '"+set.getName()+"' shape:");
+				label.setText("Dataset name of '"+link.getName()+"' shape:");
 				buf.append(Arrays.toString(shape).trim());
 				
 				long size = shape[0];
 				for (int i = 1; i < shape.length; i++) size*=shape[i];
 				if (size<10) {
 					buf.append("\n\nValue:\n");
-					
-					final Object data = set.getData();
-				    int length = Array.getLength(data);
-				    buf.append('[');
-				    for (int i = 0; i < length; ++i) {
-					    buf.append(Array.get(data, i));
-					    if (i<length-1) buf.append(',');
-				    }
-				    buf.append(']');
+					String value = getNodeLinkValue(link);
+					buf.append(value);
 				}
-				
 			} else {
-				label.setText("Dataset name of '"+set.getName()+"'");
+				label.setText("Dataset name of '"+link.getName()+"'");
 			}
-			appendAttributes(set, buf);
+			appendAttributes("\nAttributes", set, buf);
 			sourceViewer.getTextWidget().setText(buf.toString());
-			
-		} if (ob instanceof Group) {
-			final Group  grp   = (Group)ob;
-			
-			label.setText("Group name of '"+grp.getName()+"' children:");
-			final List members = grp.getMemberList();
-			
-			final StringBuilder buf = (members!=null) ? new StringBuilder(members.toString()) : new StringBuilder();
-			final Group par = grp.getParent();
-			if (par.isRoot())  appendAttributes("\nFile Attributes", par, buf);
-			
-			appendAttributes(par.isRoot() ? "Attributes" : "\nAttributes", grp, buf);
-			sourceViewer.getTextWidget().setText(buf.toString());
-
-		}
-	}
-	
-	private void appendAttributes(HObject set, StringBuilder buf) throws Exception {
-
-		appendAttributes("\nAttributes", set, buf);
-	}
-	
-	private void appendAttributes(String title, HObject set, StringBuilder buf) throws Exception {
-		
-		final List meta = set.getMetadata();
-		if (meta==null || meta.isEmpty()) return;
-		
-		buf.append("\n"+title+":\n");
-		for (Object attribute : meta) {
-			
-			if (attribute instanceof Attribute) {
-				Attribute a = (Attribute)attribute;
-				buf.append(a.getName());
-				buf.append(" = ");
-				buf.append(HierarchicalDataUtils.extractValue(a.getValue()));
-				buf.append("\n");
+		} else if (node instanceof GroupNode) {
+			final GroupNode grp = (GroupNode) node;
+			label.setText("Group name of '" + link.getName() + "' children:");
+			final List<String> members = new ArrayList<String>(grp.getNumberOfNodelinks());
+			Iterator<String> nameIterator = grp.getNodeNameIterator();
+			while (nameIterator.hasNext()) {
+				String name = (String) nameIterator.next();
+				members.add(name);
 			}
+			final StringBuilder buf = (members != null) ? new StringBuilder(members.toString()) : new StringBuilder();
+
+			GroupNode source = (GroupNode)link.getSource();
+			Attribute hdf5version = source.getAttribute("HDF5_Version");
+			// if it is the root node
+			if (hdf5version != null) {
+				appendAttributes("\nFile Attributes", source, buf);
+				appendAttributes("Attributes", grp, buf);
+			} else {
+				appendAttributes("\nAttributes", grp, buf);
+			}
+			sourceViewer.getTextWidget().setText(buf.toString());
 		}
 	}
 
-
+	private void appendAttributes(String title, Node set, StringBuilder buf) throws Exception {
+		Iterator<? extends Attribute> attIterator = set.getAttributeIterator();
+		if (attIterator.hasNext())
+			buf.append("\n" + title + ":\n");
+		while (attIterator.hasNext()) {
+			Attribute a = (Attribute) attIterator.next();
+			buf.append(a.getName());
+			buf.append(" = ");
+			buf.append("[" + a.getFirstElement() + "]");
+			buf.append("\n");
+		}
+	}
 
 	private static IWorkbenchPage getActivePage() {
 		final IWorkbench bench = PlatformUI.getWorkbench();
@@ -365,6 +307,5 @@ public class H5ValuePage extends Page  implements ISelectionListener, IPartListe
 		if (window == null) return null;
 		return window.getActivePage();
 	}
-	
 
 }
