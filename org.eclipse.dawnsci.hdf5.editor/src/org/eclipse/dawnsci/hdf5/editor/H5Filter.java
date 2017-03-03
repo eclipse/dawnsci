@@ -1,6 +1,6 @@
 /*-
  *******************************************************************************
- * Copyright (c) 2011, 2014 Diamond Light Source Ltd.
+ * Copyright (c) 2011, 2017 Diamond Light Source Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,16 +8,13 @@
  *
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *    Baha El-Kassaby - Removal of HObject usage
  *******************************************************************************/ 
 package org.eclipse.dawnsci.hdf5.editor;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
-
+import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
-
-import hdf.object.HObject;
 
 class H5Filter extends ViewerFilter {
 
@@ -33,21 +30,21 @@ class H5Filter extends ViewerFilter {
 		if (searchString == null || searchString.length() == 0) {
 			return true;
 		}
+		if (element instanceof NodeLink) {
+			NodeLink link = (NodeLink) element;
+			final String name = link.getName();
 
-		final TreeNode node   = (TreeNode)element;
-		final HObject  object = (HObject)((DefaultMutableTreeNode)node).getUserObject();
-		final String name     = object.getName();
-		
-		if (name==null || "".equals(name)) return true;
+			if (name == null || "".equals(name))
+				return true;
 
-		if (name.matches(searchString)) {
-			return true;
+			if (name.matches(searchString)) {
+				return true;
+			}
+			if (name.matches(searchString)) {
+				return true;
+			}
+
 		}
-		if (name.matches(searchString)) {
-			return true;
-		}
-
-
 		return false;
 	}
 
