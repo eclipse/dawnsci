@@ -64,16 +64,12 @@ public class SliceViewIterator implements ISliceViewIterator{
 		
 		next = iterator.hasNext();
 		
-		List<SliceFromSeriesMetadata> sl;
-		try {
-			sl = lazyDataset.getMetadata(SliceFromSeriesMetadata.class);
-			if (sl != null && !sl.isEmpty() && sl.get(0) != null) {
-				SliceFromSeriesMetadata ss = sl.get(0);
+
+			SliceFromSeriesMetadata ss = lazyDataset.getFirstMetadata(SliceFromSeriesMetadata.class);
+			if (ss != null) {
 				if (ss.getSourceInfo() != null) source = ss.getSourceInfo();
 			}
-		} catch (Exception e) {
-			logger.warn("Lazy dataset contains no source information", e);
-		}
+			
 	}
 	
 	/**
