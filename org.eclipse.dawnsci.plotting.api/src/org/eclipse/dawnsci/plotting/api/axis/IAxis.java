@@ -292,4 +292,14 @@ public interface IAxis {
 	 * @return true if autoscaling axis is tight to displayed data
 	 */
 	public boolean isAxisAutoscaleTight();
+	
+	/**
+	 * @param set whether axis is inverted
+	 */
+	public void setInverted(boolean isInverted);
+	
+	/**
+	 * @return true if axis is inverted
+	 */
+	public boolean isInverted();
 }

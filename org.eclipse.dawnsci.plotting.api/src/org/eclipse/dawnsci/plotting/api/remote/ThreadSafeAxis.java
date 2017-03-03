@@ -257,6 +257,17 @@ class ThreadSafeAxis extends ThreadSafeObject implements IAxis, Serializable {
 		return (Boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
+	@Override
+	public void setInverted(boolean isInverted) {
+		call(getMethodName(Thread.currentThread().getStackTrace()), isInverted);
+		
+	}
+
+	@Override
+	public boolean isInverted() {
+		return (Boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
+	}
+	
 	IAxis getDelegate() {
 		return delegate;
 	}
