@@ -939,7 +939,7 @@ public class NexusFileHDF5 implements NexusFile {
 				}
 				//chunks == null check is unnecessary, but compiler warns otherwise
 				if (!Arrays.equals(shape, maxShape) && (recalcChunks || chunks == null || chunks[chunks.length - 1] == 1)) {
-					logger.warn("Inappropriate chunking requested for {}; attempting to estimate suitable chunking.", name);
+					logger.info("Inappropriate chunking requested for {}; attempting to estimate suitable chunking.", name);
 					chunks = estimateChunking(shape, maxShape, (int) H5.H5Tget_size(hdfDatatypeId));
 					iChunks = HDF5Utils.toIntArray(chunks);
 					data.setChunking(iChunks);
