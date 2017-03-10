@@ -7,7 +7,7 @@
 3. Press build-all on the site.xml.
 
 4. Deploy the site to public url using scp:
-       scp -r org.eclipse.dawnsci.third.site/* www.opengda.org:/var/www/html/updates/tp_dawnsci/trunk
+       scp -r org.eclipse.dawnsci.third.site/* $USERNAME@www.opengda.org:/var/www/html/updates/tp_dawnsci/releases/$VERSION/
        
 5. If you delete /var/www/html/updates/tp_dawnsci/trunk it is required to ssh back in and make
 the directories read only again - chmod!
