@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.dawnsci.third.feature_1.0.0.jar" id="org.eclipse.dawnsci.third.feature" version="1.0.0"/>
+   <feature url="features/org.eclipse.dawnsci.third.site.feature_1.0.0.jar" id="org.eclipse.dawnsci.third.site.feature" version="1.0.0"/>
 </site>
