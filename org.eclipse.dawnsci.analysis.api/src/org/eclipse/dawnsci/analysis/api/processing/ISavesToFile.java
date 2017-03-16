@@ -12,5 +12,7 @@ package org.eclipse.dawnsci.analysis.api.processing;
 public interface ISavesToFile {
 	
 	public String getFileName();
+	
+	public void includeLinkTo(String fileName);
 
 }
