@@ -40,7 +40,6 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	
 	private int maxTimeout = 60000;
 	private int timeout = 1000;
-
 	
 	public DynamicSliceViewIterator(IDynamicDataset lazy, IDynamicDataset[] keys, IDynamicDataset finished, int dataSize) {
 		try {
@@ -66,6 +65,11 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 		if (ssm != null && ssm instanceof SliceFromSeriesMetadata && ((SliceFromSeriesMetadata)ssm).getSourceInfo() != null) source = ((SliceFromSeriesMetadata)ssm).getSourceInfo();
 		else logger.warn("Lazy dataset contains no source information");
 
+	}
+	
+	public void setMaxTimeout(int maxTimeout) {
+		this.maxTimeout = maxTimeout;
+		timeout = maxTimeout/50;
 	}
 
 	public void updateShape() {
