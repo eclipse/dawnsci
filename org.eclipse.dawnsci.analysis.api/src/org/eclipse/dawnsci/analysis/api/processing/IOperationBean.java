@@ -11,8 +11,6 @@ package org.eclipse.dawnsci.analysis.api.processing;
 
 import java.util.List;
 
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Default;
-
 /**
  * Interface to set up an operation processing run
  */
