@@ -332,6 +332,8 @@ class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
 		ret.loader = this.loader;
 		ret.shape = shape;
 		ret.size = size;
+		ret.maxShape = maxShape;
+		ret.oShape = oShape;
 		ret.prepShape = prepShape;
 		ret.postShape = postShape;
 		ret.begSlice = begSlice;
