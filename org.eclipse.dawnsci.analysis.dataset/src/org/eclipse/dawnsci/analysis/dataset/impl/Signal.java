@@ -116,7 +116,7 @@ public class Signal {
 		Dataset conv = FFT.ifftn(c, s, axes);
 		if (f.isComplex() || g.isComplex())
 			return conv;
-		return conv.getReal();
+		return conv.getRealView();
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class Signal {
 
 		Dataset corr = FFT.ifftn(c, s, axes);
 		if (!f.isComplex() && !g.isComplex())
-			corr = corr.getReal();
+			corr = corr.getRealView();
 
 		int rank = s.length;
 		int alen;
@@ -253,14 +253,14 @@ public class Signal {
 		if (f.isComplex() || g.isComplex())
 			results.add(corr);
 		else
-			results.add(corr.getReal());
+			results.add(corr.getRealView());
 
 		if (includeInverse) {
 			corr = FFT.ifftn(c, s, axes);
 			if (f.isComplex() || g.isComplex())
 				results.add(corr);
 			else
-				results.add(corr.getReal());
+				results.add(corr.getRealView());
 		}
 
 		return results;
