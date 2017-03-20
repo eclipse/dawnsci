@@ -109,7 +109,10 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 			}
 		}
 		
-		if (time >= maxTimeout) last = true;
+		if (time >= maxTimeout) {
+			last = true;
+			logger.error("Dynamic slice view iterator has timed-out");
+		}
 		
 		return hasNext;
 	}
