@@ -31,6 +31,9 @@ import org.eclipse.january.dataset.LongDataset;
  */
 public class FunctionalUtils {
 
+	private static final int FLAGS = Spliterator.SIZED | Spliterator.DISTINCT | Spliterator.CONCURRENT
+			| Spliterator.IMMUTABLE | Spliterator.NONNULL;
+
 	private FunctionalUtils() {
 	}
 
@@ -50,14 +53,15 @@ public class FunctionalUtils {
 
 		@Override
 		public int applyAsInt(int value) {
+			int v = value;
 			int index = offset;
-			for (int i = rank-1; value > 0 && i >= 0; i--) {
+			for (int i = rank-1; v > 0 && i >= 0; i--) {
 				int s = shape[i];
-				int p = value % s;
+				int p = v % s;
 				if (p != 0) {
 					index += p * strides[i];
 				}
-				value /= s;
+				v /= s;
 			}
 			return index;
 		}
@@ -75,9 +79,6 @@ public class FunctionalUtils {
 		}
 		return new DatasetIndexOperator(a);
 	}
-
-	private static final int FLAGS = Spliterator.SIZED | Spliterator.DISTINCT | Spliterator.CONCURRENT |
-			Spliterator.IMMUTABLE | Spliterator.NONNULL;
 
 	private static class IndexSpliterator extends Spliterators.AbstractIntSpliterator {
 
@@ -109,25 +110,25 @@ public class FunctionalUtils {
 		private boolean gotNext;
 		private final IndexIterator it;
 		private final Dataset data;
-	
+
 		public DatasetIntSpliterator(Dataset a) {
 			super(a.getSize(), FLAGS);
 			data = a;
 			gotNext = a.getSize() > 0;
 			it = a.getIterator();
 		}
-	
+
 		@Override
 		public boolean tryAdvance(IntConsumer action) {
 			if (action == null) {
 				throw new NullPointerException();
 			}
-	
+
 			gotNext = it.hasNext();
 			if (gotNext) {
 				action.accept((int) data.getElementLongAbs(it.index));
 			}
-	
+
 			return gotNext;
 		}
 	}
@@ -136,25 +137,25 @@ public class FunctionalUtils {
 		private boolean gotNext;
 		private final IndexIterator it;
 		private final Dataset data;
-	
+
 		public DatasetLongSpliterator(Dataset a) {
 			super(a.getSize(), FLAGS);
 			data = a;
 			gotNext = a.getSize() > 0;
 			it = a.getIterator();
 		}
-	
+
 		@Override
 		public boolean tryAdvance(LongConsumer action) {
 			if (action == null) {
 				throw new NullPointerException();
 			}
-	
+
 			gotNext = it.hasNext();
 			if (gotNext) {
 				action.accept(data.getElementLongAbs(it.index));
 			}
-	
+
 			return gotNext;
 		}
 	}
@@ -164,25 +165,25 @@ public class FunctionalUtils {
 		private boolean gotNext;
 		private final IndexIterator it;
 		private final Dataset data;
-	
+
 		public DatasetDoubleSpliterator(Dataset a) {
 			super(a.getSize(), FLAGS);
 			data = a;
 			gotNext = a.getSize() > 0;
 			it = a.getIterator();
 		}
-	
+
 		@Override
 		public boolean tryAdvance(DoubleConsumer action) {
 			if (action == null) {
 				throw new NullPointerException();
 			}
-	
+
 			gotNext = it.hasNext();
 			if (gotNext) {
 				action.accept(data.getElementDoubleAbs(it.index));
 			}
-	
+
 			return gotNext;
 		}
 	}

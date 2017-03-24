@@ -20,6 +20,18 @@ import org.junit.Test;
 
 public class FunctionalUtilsTest {
 
+	@SuppressWarnings("unchecked")
+	private static final Class <? extends Dataset>[] allDS = new Class[] {
+			ByteDataset.class,
+			ShortDataset.class,
+			IntegerDataset.class,
+			LongDataset.class,
+			FloatDataset.class,
+			DoubleDataset.class,
+	};
+
+	private static final double TOLERANCE = 1e-15;
+
 	@Test
 	public void testDatasetIndexFunction() {
 		Dataset a = DatasetFactory.createRange(144).reshape(12, -1);
@@ -37,9 +49,10 @@ public class FunctionalUtilsTest {
 	}
 
 	private int[] generateIndexes(Dataset v) {
-		int[] eIndex = new int[v.getSize()];
+		int size = v.getSize();
+		int[] eIndex = new int[size];
 		IndexIterator it = v.getIterator();
-		for (int i = 0; it.hasNext(); i++) {
+		for (int i = 0; it.hasNext() || i < size ; i++) { // unnecessary check (is ORed) to keep SonarQube happy
 			eIndex[i] = it.index;
 		}
 		return eIndex;
@@ -78,18 +91,6 @@ public class FunctionalUtilsTest {
 
 		assertArrayEquals(eIndex, aIndex);
 	}
-
-	@SuppressWarnings("unchecked")
-	private static final Class <? extends Dataset>[] allDS = new Class[] {
-			ByteDataset.class,
-			ShortDataset.class,
-			IntegerDataset.class,
-			LongDataset.class,
-			FloatDataset.class,
-			DoubleDataset.class,
-	};
-
-	private static final double TOLERANCE = 1e-15;
 
 	private void testDatasetIntStream(Dataset a, boolean parallel) {
 		int[] eArray = a.cast(IntegerDataset.class).getData();
@@ -155,7 +156,7 @@ public class FunctionalUtilsTest {
 		eArray = v.copy(DoubleDataset.class).getData();
 		aArray = FunctionalUtils.createDatasetDoubleStream(v, parallel).toArray();
 		assertArrayEquals(eArray, aArray, TOLERANCE);
-	
+
 		v = a.getSliceView(new Slice(3, 10), new Slice(null, null, -2));
 		eArray = v.copy(DoubleDataset.class).getData();
 		aArray = FunctionalUtils.createDatasetDoubleStream(v, parallel).toArray();
@@ -164,7 +165,7 @@ public class FunctionalUtilsTest {
 		eArray = v.copy(DoubleDataset.class).getData();
 		aArray = FunctionalUtils.createDatasetDoubleStream(v, parallel).toArray();
 		assertArrayEquals(eArray, aArray, TOLERANCE);
-	
+
 		Dataset z = a.getSliceView(new Slice(3, 3), new Slice(1, 1));
 		eArray = z.copy(DoubleDataset.class).getData();
 		aArray = FunctionalUtils.createDatasetDoubleStream(z, parallel).toArray();
