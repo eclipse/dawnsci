@@ -4,7 +4,7 @@ Bundle-Name: Dataset tests
 Bundle-SymbolicName: org.eclipse.dawnsci.analysis.dataset.test
 Bundle-Version: 1.0.0.qualifier
 Fragment-Host: org.eclipse.dawnsci.analysis.dataset;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.junit;bundle-version="[4.12.0,5.0.0)",
  org.eclipse.january.asserts;bundle-version="1.0.0"
 Export-Package: org.eclipse.dawnsci.analysis.dataset
