@@ -11,6 +11,7 @@ package org.eclipse.dawnsci.analysis.dataset;
 
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.IntUnaryOperator;
@@ -18,10 +19,15 @@ import java.util.function.LongConsumer;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import org.eclipse.dawnsci.analysis.dataset.slicer.SliceViewIterator;
+import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.IndexIterator;
 import org.eclipse.january.dataset.IntegerDataset;
 import org.eclipse.january.dataset.LongDataset;
@@ -268,6 +274,58 @@ public class FunctionalUtils {
 			return gotNext;
 		}
 	}
+	
+	private static class LazyDatasetSpliterator extends Spliterators.AbstractSpliterator<ILazyDataset> {
+
+		private final SliceViewIterator it;
+		
+		public LazyDatasetSpliterator(SliceViewIterator it){
+			super(it.getTotal(),FLAGS);
+			this.it = it;
+		}
+
+		@Override
+		public boolean tryAdvance(Consumer<? super ILazyDataset> action) {
+			if (action == null) {
+				throw new NullPointerException();
+			}
+
+			boolean hasNext = it.hasNext();
+			if (hasNext) {
+				action.accept(it.next());
+			}
+
+			return hasNext;
+		}
+	}
+	
+	private static class DatasetSpliterator extends Spliterators.AbstractSpliterator<IDataset> {
+
+		private final SliceViewIterator it;
+		
+		public DatasetSpliterator(SliceViewIterator it){
+			super(it.getTotal(),FLAGS);
+			this.it = it;
+		}
+
+		@Override
+		public boolean tryAdvance(Consumer<? super IDataset> action) {
+			if (action == null) {
+				throw new NullPointerException();
+			}
+
+			boolean hasNext = it.hasNext();
+			if (hasNext) {
+				try {
+					action.accept(it.next().getSlice());
+				} catch (DatasetException e) {
+					throw new RuntimeException("Could not slice dataset",e);
+				}
+			}
+
+			return hasNext;
+		}
+	}
 
 	/**
 	 * Create a stream of index for iterating through a dataset
@@ -349,5 +407,31 @@ public class FunctionalUtils {
 			return createDatasetStream((DoubleDataset) a, parallel);
 		}
 		return StreamSupport.doubleStream(new DatasetDoubleSpliterator(a), parallel);
+	}
+	
+	/**
+	 * Create a stream of ILazyDatasets from iterating through an ILazyDataset, omiting some axes
+	 * 
+	 * @param a - ILazyDataset
+	 * @param omit - dimensions to omit from iteration (e.g. dimensions of image in a stack)
+	 * @param parallel
+	 * @return stream
+	 */
+	public static Stream<ILazyDataset> createLazyDatasetStream(ILazyDataset a, int[] omit, boolean parallel) {
+		SliceViewIterator it = new SliceViewIterator(a, null, omit);
+		return StreamSupport.stream(new LazyDatasetSpliterator(it), parallel);
+	}
+	
+	/**
+	 * Create a stream of IDataset from iterating through an ILazyDataset, omiting some axes
+	 * 
+	 * @param a - ILazyDataset
+	 * @param omit - dimensions to omit from iteration (e.g. dimensions of image in a stack)
+	 * @param parallel
+	 * @return stream
+	 */
+	public static Stream<IDataset> createDatasetStream(ILazyDataset a, int[] omit, boolean parallel) {
+		SliceViewIterator it = new SliceViewIterator(a, null, omit);
+		return StreamSupport.stream(new DatasetSpliterator(it), parallel);
 	}
 }

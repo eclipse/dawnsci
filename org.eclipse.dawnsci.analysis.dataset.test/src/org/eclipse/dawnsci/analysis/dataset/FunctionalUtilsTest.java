@@ -3,19 +3,28 @@ package org.eclipse.dawnsci.analysis.dataset;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
+import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.ByteDataset;
+import org.eclipse.january.dataset.Comparisons;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.january.dataset.FloatDataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.IndexIterator;
 import org.eclipse.january.dataset.IntegerDataset;
 import org.eclipse.january.dataset.LongDataset;
 import org.eclipse.january.dataset.Random;
 import org.eclipse.january.dataset.ShortDataset;
 import org.eclipse.january.dataset.Slice;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class FunctionalUtilsTest {
@@ -206,6 +215,38 @@ public class FunctionalUtilsTest {
 			Dataset v = a.cast(c);
 			testDatasetDoubleStream(v, false);
 			testDatasetDoubleStream(v, true);
+		}
+	}
+	
+	@Test
+	public void testLazyDatasetStream() {
+		Dataset original = DatasetFactory.createRange(DoubleDataset.class,10);
+		Dataset a = original.getSlice().reshape(new int[]{1,1,10});
+		a = DatasetUtils.tile(a, new int[]{4,5,1});
+		Stream<ILazyDataset> lzStream = FunctionalUtils.createLazyDatasetStream(a, new int[]{0, 1}, false);
+		doTest(lzStream.map(d -> safeSlice(d)), original);
+	}
+	
+	@Test
+	public void testDatasetStream() {
+		Dataset original = DatasetFactory.createRange(DoubleDataset.class,10);
+		Dataset a = original.getSlice().reshape(new int[]{1,1,10});
+		a = DatasetUtils.tile(a, new int[]{4,5,1});
+		Stream<IDataset> lzStream = FunctionalUtils.createDatasetStream(a, new int[]{0, 1}, false);
+		doTest(lzStream,original);
+	}
+	
+	private void doTest(Stream<IDataset> stream, Dataset original) {
+		List<Double> collect = stream.map(d -> d.max().doubleValue()).collect(Collectors.toList());
+		Dataset d = DatasetFactory.createFromList(collect);
+		Assert.assertTrue(Comparisons.equalTo(original, d).all());
+	}
+	
+	private static IDataset safeSlice(ILazyDataset lz) {
+		try {
+			return lz.getSlice();
+		} catch (DatasetException e) {
+			throw new RuntimeException("Couldn't slice data");
 		}
 	}
 }
