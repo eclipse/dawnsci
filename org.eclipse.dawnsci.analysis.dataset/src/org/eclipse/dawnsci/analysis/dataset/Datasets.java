@@ -29,12 +29,12 @@ import org.eclipse.january.dataset.LongDataset;
 /**
  * Provide static methods to use Datasets in functional ways 
  */
-public class FunctionalUtils {
+public class Datasets {
 
 	private static final int FLAGS = Spliterator.SIZED | Spliterator.DISTINCT | Spliterator.CONCURRENT
 			| Spliterator.IMMUTABLE | Spliterator.NONNULL;
 
-	private FunctionalUtils() {
+	private Datasets() {
 	}
 
 	private static class DatasetIndexOperator implements IntUnaryOperator {
