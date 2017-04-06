@@ -28,13 +28,16 @@ import org.eclipse.january.dataset.LongDataset;
 
 /**
  * Provide static methods to use Datasets in functional ways 
+ *
+ * This class provides dataset values as streams.
+ * @see StreamSupport
  */
-public class Datasets {
+public class DatasetStreamSupport {
 
 	private static final int FLAGS = Spliterator.SIZED | Spliterator.DISTINCT | Spliterator.CONCURRENT
 			| Spliterator.IMMUTABLE | Spliterator.NONNULL;
 
-	private Datasets() {
+	private DatasetStreamSupport() {
 	}
 
 	private static class DatasetIndexOperator implements IntUnaryOperator {

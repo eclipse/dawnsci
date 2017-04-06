@@ -23,7 +23,18 @@ import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 
-public class Slices {
+/**
+ * This class provides slices as streams for Lazy Datasets for instance:
+ * 
+ * <pre>
+ * <code>
+final ILazyDataset lz = Random.lazyRand(64, 64, 100, 100);		
+List<Number> maxes = SliceStreamSupport.sliceStream(lz, 2, 3).map(set->set.max()).collect(Collectors.toList());
+  </code>
+ *</pre> 
+ * @see StreamSupport 
+ */
+public class SliceStreamSupport {
 
 	private static final int FLAGS = Spliterator.SIZED | Spliterator.DISTINCT | Spliterator.CONCURRENT
 			| Spliterator.IMMUTABLE | Spliterator.NONNULL;
