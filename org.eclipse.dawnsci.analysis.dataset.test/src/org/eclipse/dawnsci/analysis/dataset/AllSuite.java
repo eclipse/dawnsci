@@ -22,11 +22,19 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(TestUtils.VerboseSuite.class)
-@SuiteClasses({ DCTTest.class, FFTTest.class, ImageTest.class, SignalTest.class, SummedAreaTableTest.class, RectangularRoiTest.class,
+@SuiteClasses({
+	FunctionalUtilsTest.class, 
+	StreamTest.class, 
+	DCTTest.class, 
+	FFTTest.class, 
+	ImageTest.class, 
+	SignalTest.class, 
+	SummedAreaTableTest.class, 
+	RectangularRoiTest.class,
 	org.eclipse.dawnsci.analysis.dataset.function.AllSuite.class,
 	org.eclipse.dawnsci.analysis.dataset.roi.AllSuite.class,
 	org.eclipse.dawnsci.analysis.dataset.slicer.AllSuite.class,
-		})
+})
 public class AllSuite {
 
 }

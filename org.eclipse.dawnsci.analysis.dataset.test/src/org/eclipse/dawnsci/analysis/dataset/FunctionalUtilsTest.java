@@ -60,7 +60,7 @@ public class FunctionalUtilsTest {
 
 	private void generateAndCheckFunction(Dataset v) {
 		int[] eIndex = generateIndexes(v);
-		int[] aIndex = IntStream.range(0, v.getSize()).map(FunctionalUtils.createDatasetIndexFunction(v)).toArray();
+		int[] aIndex = IntStream.range(0, v.getSize()).map(DatasetStreamSupport.createDatasetIndexFunction(v)).toArray();
 
 		assertArrayEquals(eIndex, aIndex);
 	}
@@ -87,92 +87,92 @@ public class FunctionalUtilsTest {
 
 	private void generateAndCheckStream(Dataset v, boolean parallel) {
 		int[] eIndex = generateIndexes(v);
-		int[] aIndex = FunctionalUtils.createDatasetIndexStream(v, parallel).toArray();
+		int[] aIndex = DatasetStreamSupport.createDatasetIndexStream(v, parallel).toArray();
 
 		assertArrayEquals(eIndex, aIndex);
 	}
 
 	private void testDatasetIntStream(Dataset a, boolean parallel) {
 		int[] eArray = a.cast(IntegerDataset.class).getData();
-		int[] aArray = FunctionalUtils.createDatasetIntStream(a, parallel).toArray();
+		int[] aArray = DatasetStreamSupport.createDatasetIntStream(a, parallel).toArray();
 		assertArrayEquals(eArray, aArray);
 		Dataset v = a.getTransposedView();
 		eArray = v.copy(IntegerDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetIntStream(v, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetIntStream(v, parallel).toArray();
 		assertArrayEquals(eArray, aArray);
 
 		v = a.getSliceView(new Slice(3, 10), new Slice(null, null, -2));
 		eArray = v.copy(IntegerDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetIntStream(v, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetIntStream(v, parallel).toArray();
 		assertArrayEquals(eArray, aArray);
 		v = v.getTransposedView();
 		eArray = v.copy(IntegerDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetIntStream(v, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetIntStream(v, parallel).toArray();
 		assertArrayEquals(eArray, aArray);
 
 		Dataset z = a.getSliceView(new Slice(3, 3), new Slice(1, 1));
 		eArray = z.copy(IntegerDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetIntStream(z, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetIntStream(z, parallel).toArray();
 		assertArrayEquals(eArray, aArray);
 		z = z.getTransposedView();
 		eArray = z.copy(IntegerDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetIntStream(z, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetIntStream(z, parallel).toArray();
 		assertArrayEquals(eArray, aArray);
 	}
 
 	private void testDatasetLongStream(Dataset a, boolean parallel) {
 		long[] eArray = a.cast(LongDataset.class).getData();
-		long[] aArray = FunctionalUtils.createDatasetLongStream(a, parallel).toArray();
+		long[] aArray = DatasetStreamSupport.createDatasetLongStream(a, parallel).toArray();
 		assertArrayEquals(eArray, aArray);
 		Dataset v = a.getTransposedView();
 		eArray = v.copy(LongDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetLongStream(v, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetLongStream(v, parallel).toArray();
 		assertArrayEquals(eArray, aArray);
 
 		v = a.getSliceView(new Slice(3, 10), new Slice(null, null, -2));
 		eArray = v.copy(LongDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetLongStream(v, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetLongStream(v, parallel).toArray();
 		assertArrayEquals(eArray, aArray);
 		v = v.getTransposedView();
 		eArray = v.copy(LongDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetLongStream(v, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetLongStream(v, parallel).toArray();
 		assertArrayEquals(eArray, aArray);
 
 		Dataset z = a.getSliceView(new Slice(3, 3), new Slice(1, 1));
 		eArray = z.copy(LongDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetLongStream(z, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetLongStream(z, parallel).toArray();
 		assertArrayEquals(eArray, aArray);
 		z = z.getTransposedView();
 		eArray = z.copy(LongDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetLongStream(z, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetLongStream(z, parallel).toArray();
 		assertArrayEquals(eArray, aArray);
 	}
 
 	private void testDatasetDoubleStream(Dataset a, boolean parallel) {
 		double[] eArray = a.cast(DoubleDataset.class).getData();
-		double[] aArray = FunctionalUtils.createDatasetDoubleStream(a, parallel).toArray();
+		double[] aArray = DatasetStreamSupport.createDatasetDoubleStream(a, parallel).toArray();
 		assertArrayEquals(eArray, aArray, TOLERANCE);
 		Dataset v = a.getTransposedView();
 		eArray = v.copy(DoubleDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetDoubleStream(v, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetDoubleStream(v, parallel).toArray();
 		assertArrayEquals(eArray, aArray, TOLERANCE);
 
 		v = a.getSliceView(new Slice(3, 10), new Slice(null, null, -2));
 		eArray = v.copy(DoubleDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetDoubleStream(v, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetDoubleStream(v, parallel).toArray();
 		assertArrayEquals(eArray, aArray, TOLERANCE);
 		v = v.getTransposedView();
 		eArray = v.copy(DoubleDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetDoubleStream(v, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetDoubleStream(v, parallel).toArray();
 		assertArrayEquals(eArray, aArray, TOLERANCE);
 
 		Dataset z = a.getSliceView(new Slice(3, 3), new Slice(1, 1));
 		eArray = z.copy(DoubleDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetDoubleStream(z, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetDoubleStream(z, parallel).toArray();
 		assertArrayEquals(eArray, aArray, TOLERANCE);
 		z = z.getTransposedView();
 		eArray = z.copy(DoubleDataset.class).getData();
-		aArray = FunctionalUtils.createDatasetDoubleStream(z, parallel).toArray();
+		aArray = DatasetStreamSupport.createDatasetDoubleStream(z, parallel).toArray();
 		assertArrayEquals(eArray, aArray, TOLERANCE);
 	}
 
