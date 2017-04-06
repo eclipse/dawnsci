@@ -45,7 +45,7 @@ public class StreamTest {
 		Dataset original = DatasetFactory.createRange(DoubleDataset.class,10);
 		Dataset a = original.getSlice().reshape(new int[]{1,1,10});
 		a = DatasetUtils.tile(a, new int[]{4,5,1});
-		Stream<ILazyDataset> lzStream = Slices.stream(a, false, 0, 1);
+		Stream<ILazyDataset> lzStream = SliceStreamSupport.stream(a, false, 0, 1);
 		doTest(lzStream.map(d -> safeSlice(d)), original);
 	}
 
@@ -54,7 +54,7 @@ public class StreamTest {
 		Dataset original = DatasetFactory.createRange(DoubleDataset.class,10);
 		Dataset a = original.getSlice().reshape(new int[]{1,1,10});
 		a = DatasetUtils.tile(a, new int[]{4,5,1});
-		Stream<IDataset> lzStream = Slices.sliceStream(a, false, 0, 1);
+		Stream<IDataset> lzStream = SliceStreamSupport.sliceStream(a, false, 0, 1);
 		doTest(lzStream,original);
 	}
 
@@ -78,7 +78,7 @@ public class StreamTest {
 		final ILazyDataset lz = Random.lazyRand(64, 64, 100, 100);		
 		
 		// That is more like it!
-		Slices.stream(lz, 2,3).forEach(image -> assertTrue(Arrays.equals(new int[]{1,1,100, 100}, image.getShape())));
+		SliceStreamSupport.stream(lz, 2,3).forEach(image -> assertTrue(Arrays.equals(new int[]{1,1,100, 100}, image.getShape())));
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class StreamTest {
 		
 		final ILazyDataset lz = Random.lazyRand(64, 64, 100, 100);		
 		
-		List<Number> maxes = Slices.sliceStream(lz, 2, 3).map(set->set.max()).collect(Collectors.toList());
+		List<Number> maxes = SliceStreamSupport.sliceStream(lz, 2, 3).map(set->set.max()).collect(Collectors.toList());
 		assertEquals(64*64, maxes.size());
 	}
 
@@ -95,8 +95,17 @@ public class StreamTest {
 		
 		final ILazyDataset lz = Random.lazyRand(64, 64, 100, 100);		
 		
-		List<Number> maxes = Slices.sliceStream(lz, 0, 1).map(set->set.max()).collect(Collectors.toList());
+		List<Number> maxes = SliceStreamSupport.sliceStream(lz, 0, 1).map(set->set.max()).collect(Collectors.toList());
 		assertEquals(100*100, maxes.size());
+	}
+
+	@Test
+	public void iterateImageSumStream3() throws DatasetException {
+		
+		final ILazyDataset lz = Random.lazyRand(64, 64, 100, 100);		
+		
+		List<Number> maxes = SliceStreamSupport.sliceStream(lz, 0, 2).map(set->set.max()).collect(Collectors.toList());
+		assertEquals(64*100, maxes.size());
 	}
 
 	@Test
@@ -104,7 +113,7 @@ public class StreamTest {
 		
 		final ILazyDataset lz = DatasetFactory.ones(64, 64, 100, 100);		
 		
-		List<Number> maxes = Slices.sliceStream(lz, 2, 3).parallel().map(set->set.max()).collect(Collectors.toList());
+		List<Number> maxes = SliceStreamSupport.sliceStream(lz, 2, 3).parallel().map(set->set.max()).collect(Collectors.toList());
 		assertEquals(64*64, maxes.size());
 	}
 
@@ -113,7 +122,7 @@ public class StreamTest {
 		
 		final ILazyDataset lz = Random.lazyRand(64, 64, 100, 100);		
 		
-		List<Number> maxes = Slices.sliceStream(lz, 0, 1).parallel().map(set->set.max()).collect(Collectors.toList());
+		List<Number> maxes = SliceStreamSupport.sliceStream(lz, 0, 1).parallel().map(set->set.max()).collect(Collectors.toList());
 		assertEquals(100*100, maxes.size());
 	}
 
@@ -123,7 +132,7 @@ public class StreamTest {
 		
 		final ILazyDataset lz = DatasetFactory.ones(64, 64, 100, 100);		
 		
-		List<Number> maxes = Slices.sliceStream(lz, true, 2, 3).map(set->set.max()).collect(Collectors.toList());
+		List<Number> maxes = SliceStreamSupport.sliceStream(lz, true, 2, 3).map(set->set.max()).collect(Collectors.toList());
 		assertEquals(64*64, maxes.size());
 	}
 
@@ -132,7 +141,7 @@ public class StreamTest {
 		
 		final ILazyDataset lz = Random.lazyRand(64, 64, 100, 100);		
 		
-		List<Number> maxes = Slices.sliceStream(lz, true, 0, 1).map(set->set.max()).collect(Collectors.toList());
+		List<Number> maxes = SliceStreamSupport.sliceStream(lz, true, 0, 1).map(set->set.max()).collect(Collectors.toList());
 		assertEquals(100*100, maxes.size());
 	}
 
@@ -142,7 +151,7 @@ public class StreamTest {
 		final ILazyDataset lz = Random.lazyRand(64, 64, 100, 100);		
 		
 		Dataset sum = DatasetFactory.zeros(1,1,100, 100);
-		Slices.sliceStream(lz, 2, 3).forEach(image -> sum.iadd(image));
+		SliceStreamSupport.sliceStream(lz, 2, 3).forEach(image -> sum.iadd(image));
 		
 		IntStream.range(0, sum.getSize()).forEach(i -> assertTrue("The sum is "+sum.getElementDoubleAbs(i), sum.getElementDoubleAbs(i)>1000));
 	}
