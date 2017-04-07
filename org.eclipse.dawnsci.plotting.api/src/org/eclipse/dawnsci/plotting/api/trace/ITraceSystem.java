@@ -12,6 +12,7 @@
 package org.eclipse.dawnsci.plotting.api.trace;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * No methods in this interface are thread safe.
@@ -123,6 +124,10 @@ public interface ITraceSystem {
 	 * @return
 	 */
 	public IPlane3DTrace createPlane3DTrace(String traceName);
+	
+	public <U extends ITrace> U createTrace(String traceName, Class<U> clazz);
+	
+	public List<Class<? extends ITrace>> getRegisteredTraceClasses();
 
 	/**
 	 * Adds and plots the trace. Not Thread safe
