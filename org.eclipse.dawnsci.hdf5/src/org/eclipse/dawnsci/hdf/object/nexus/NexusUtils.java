@@ -13,16 +13,19 @@ package org.eclipse.dawnsci.hdf.object.nexus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.TreeMap;
 
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.hdf.object.H5Utils;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.IFileFormatDataFile;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.dataset.IDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -496,12 +499,13 @@ public class NexusUtils {
 	}
 	
 	/**
-	 * Breath first search of a hierarchical data file group.
-	 * 
+	 * Breath first search of a hierarchical data file group.<br>
+	 * Use {@link nexusBreadthFirstSearch(NexusFile,IFindInNexus, String, boolean)} instead.
 	 * @param finder - IFindInNexus object, used to test a group
 	 * @param rootGroup - the group to be searched
 	 * @param findFirst - whether the search returns when the first object is found (quicker for single objects)
 	 */
+	@Deprecated
 	public static List<String> nexusBreadthFirstSearch(IHierarchicalDataFile file, IFindInNexus finder, String rootGroup, boolean findFirst) throws Exception {
 		
 		List<String> out = new ArrayList<String>();
@@ -543,6 +547,70 @@ public class NexusUtils {
 			logger.debug("This many times through loop (For node "+ name +"): " + i.toString());
 		}
 		
+		return out;
+	}
+
+	/**
+	 * Breath first search of a NexusFile data file group.
+	 * 
+	 * @param finder - IFindInNexus object, used to test a group
+	 * @param rootGroup - the group to be searched
+	 * @param findFirst - whether the search returns when the first object is found (quicker for single objects)
+	 */
+	public static List<String> nexusBreadthFirstSearch(NexusFile file, IFindInNexus finder, String rootGroup, boolean findFirst) throws Exception {
+		List<String> out = new ArrayList<String>();
+		
+		Queue<String> queue = new LinkedList<String>();
+		GroupNode group = file.getGroup(rootGroup, false);
+		Iterator<String> iterator = group.getNodeNameIterator();
+		while (iterator.hasNext()) {
+			String nxObject = (String) iterator.next();
+			nxObject = "/" + nxObject;
+			if (finder.inNexus(nxObject)) {
+				if (findFirst) return Arrays.asList(nxObject);
+				else out.add(nxObject);
+			}
+			
+			try{
+				GroupNode mygroup = file.getGroup(nxObject, false);
+				if (mygroup != null) {
+					queue.add(nxObject);
+				}
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
+		
+		Integer i = 0;
+		
+		while (queue.size() != 0) {
+			String grouppath = queue.poll();
+			
+			GroupNode groupnode = file.getGroup(grouppath, false);
+			Iterator<String> iterator2 = groupnode.getNodeNameIterator();
+			while (iterator2.hasNext()) {
+				String nxObject = (String) iterator2.next();
+				nxObject = grouppath + "/" + nxObject;
+				if (finder.inNexus(nxObject)) {
+					if (findFirst) return Arrays.asList(nxObject);
+					else out.add(nxObject);
+				}
+				
+				try{
+					GroupNode mygroup = file.getGroup(nxObject, false);
+					if (mygroup != null) {
+						queue.add(nxObject);
+					}
+				} catch (Exception e) {
+					// do nothing
+				}
+				i++;
+			}
+		}
+		if (i > 50) {
+			final String name = rootGroup.substring(rootGroup.lastIndexOf('/')+1);
+			logger.debug("This many times through loop (For node "+ name +"): " + i.toString());
+		}
 		return out;
 	}
 }
