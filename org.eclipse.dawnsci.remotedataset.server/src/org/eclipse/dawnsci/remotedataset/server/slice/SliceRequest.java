@@ -46,10 +46,11 @@ import org.eclipse.january.dataset.IDynamicDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.Random;
 import org.eclipse.january.dataset.Slice;
-import org.eclipse.january.metadata.OriginMetadata;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.RGB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * There are one of these objects per session.
  * 
@@ -103,6 +104,7 @@ class SliceRequest implements HttpSessionBindingListener {
 	private ReentrantLock lock;
 	private String sessionId;
 
+	private static Logger logger = LoggerFactory.getLogger(SliceRequest.class);
 
 	// Actually the SliceRequest
 	SliceRequest(String sessionId) {
@@ -170,9 +172,17 @@ class SliceRequest implements HttpSessionBindingListener {
 		
 		final File   file = new File(path); // Can we see the file using the local file system?
 		if (!file.exists()) throw new IOException("Path '"+path+"' does not exist!");
-		ServiceHolder.getLoaderService().clearSoftReferenceCache();
+//		ServiceHolder.getLoaderService().clearSoftReferenceCache();
+		long startTime = System.currentTimeMillis();
 		final IDataHolder holder = ServiceHolder.getLoaderService().getData(path, new IMonitor.Stub()); // TOOD Make it cancellable?
 		
+		long endTime = System.currentTimeMillis()-startTime;
+		
+		if (endTime > 100 && endTime < 500) {
+			logger.info("Read of data holder from {} took {} ms", path, endTime);
+		} else if (endTime >= 500) {
+			logger.warn("Read of data holder from {} took {} ms", path, endTime);
+		}
 		final ILazyDataset lz = dataset!=null 
 				              ? holder.getLazyDataset(dataset)
 				              : holder.getLazyDataset(0);
@@ -189,13 +199,22 @@ class SliceRequest implements HttpSessionBindingListener {
 
 	private IDataset getData(ILazyDataset lz, Slice[] slices, String bin) throws Exception {
 		
+		long startTime = System.currentTimeMillis();
+		
 		IDataset data = slices!=null ? lz.getSlice(slices) : null;
-
+		
 		// We might load all the data if it is not too large
 		if (data==null && lz.getRank()<3) data = lz.getSlice(); // Loads all data
 
 		if (data==null) throw new Exception("Cannot get slice of data for '"+lz+"'");
 
+		long endTime = System.currentTimeMillis()-startTime;
+		
+		if (endTime > 100 && endTime < 500) {
+			logger.info("Read of data slice {} from {} took {} ms", Slice.createString(slices), lz.getName(), endTime);
+		} else if (endTime >= 500) {
+			logger.warn("Read of data slice {} from {} took {} ms",Slice.createString(slices), lz.getName(), endTime);
+		}
 
 		// We downsample if there was one
 		if (bin!=null) {

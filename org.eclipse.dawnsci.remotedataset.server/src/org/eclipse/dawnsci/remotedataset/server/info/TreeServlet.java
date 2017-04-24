@@ -27,6 +27,8 @@ import org.eclipse.dawnsci.analysis.tree.TreeToMapUtils;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.XMLMarshallerService;
 import org.eclipse.january.IMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The handler for incoming requests. No work should be done here
@@ -67,6 +69,8 @@ public class TreeServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 9159927667493661200L;
+	
+	private static Logger logger = LoggerFactory.getLogger(TreeServlet.class);
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	doHandle(req, resp);
@@ -92,9 +96,20 @@ public class TreeServlet extends HttpServlet {
 		
 		try {
 			final ILoaderService lservice = ServiceHolder.getLoaderService();
+			lservice.clearSoftReferenceCache();
+			long startTime = System.currentTimeMillis();
+			
 			final IDataHolder holder = lservice.getData(path, true, new IMonitor.Stub());
-					        
 			final Tree tree = holder.getTree();
+			
+			long endTime = System.currentTimeMillis()-startTime;
+			
+			if (endTime > 100 && endTime < 500) {
+				logger.info("Read of tree from {} took {} ms", path, endTime);
+			} else if (endTime >= 500) {
+				logger.warn("Read of tree from {} took {} ms", path, endTime);
+			}
+			
 			Map<String,Object> map = TreeToMapUtils.treeToMap(tree);
 			IMarshallerService mservice = new XMLMarshallerService();
 			final String xml = mservice.marshal(map);
@@ -102,7 +117,7 @@ public class TreeServlet extends HttpServlet {
 			response.getWriter().println(xml);
 		   
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Read of tree from {} failed due to {}", path, e.getMessage());
 			response.setContentType("text/html;charset=utf-8");
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			response.getWriter().println("<h1>"+e.getMessage()+"</h1>");
