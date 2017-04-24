@@ -20,13 +20,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
-import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.tree.TreeToMapUtils;
-import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.XMLMarshallerService;
-import org.eclipse.january.IMonitor;
+import org.eclipse.dawnsci.remotedataset.server.utils.DataServerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,20 +93,10 @@ public class TreeServlet extends HttpServlet {
 		final String path    = request.getParameter("path");
 		
 		try {
-			final ILoaderService lservice = ServiceHolder.getLoaderService();
-			lservice.clearSoftReferenceCache();
-			long startTime = System.currentTimeMillis();
 			
-			final IDataHolder holder = lservice.getData(path, true, new IMonitor.Stub());
+			final IDataHolder holder = DataServerUtils.getDataHolderWithLogging(path);
 			final Tree tree = holder.getTree();
 			
-			long endTime = System.currentTimeMillis()-startTime;
-			
-			if (endTime > 100 && endTime < 500) {
-				logger.info("Read of tree from {} took {} ms", path, endTime);
-			} else if (endTime >= 500) {
-				logger.warn("Read of tree from {} took {} ms", path, endTime);
-			}
 			
 			Map<String,Object> map = TreeToMapUtils.treeToMap(tree);
 			IMarshallerService mservice = new XMLMarshallerService();

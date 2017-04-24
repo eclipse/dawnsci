@@ -40,7 +40,7 @@ import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.ImageOrigin;
 import org.eclipse.dawnsci.remotedataset.Constants;
 import org.eclipse.dawnsci.remotedataset.Format;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
-import org.eclipse.january.IMonitor;
+import org.eclipse.dawnsci.remotedataset.server.utils.DataServerUtils;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IDynamicDataset;
 import org.eclipse.january.dataset.ILazyDataset;
@@ -172,17 +172,9 @@ class SliceRequest implements HttpSessionBindingListener {
 		
 		final File   file = new File(path); // Can we see the file using the local file system?
 		if (!file.exists()) throw new IOException("Path '"+path+"' does not exist!");
-//		ServiceHolder.getLoaderService().clearSoftReferenceCache();
-		long startTime = System.currentTimeMillis();
-		final IDataHolder holder = ServiceHolder.getLoaderService().getData(path, new IMonitor.Stub()); // TOOD Make it cancellable?
+
+		final IDataHolder holder = DataServerUtils.getDataHolderWithLogging(path);
 		
-		long endTime = System.currentTimeMillis()-startTime;
-		
-		if (endTime > 100 && endTime < 500) {
-			logger.info("Read of data holder from {} took {} ms", path, endTime);
-		} else if (endTime >= 500) {
-			logger.warn("Read of data holder from {} took {} ms", path, endTime);
-		}
 		final ILazyDataset lz = dataset!=null 
 				              ? holder.getLazyDataset(dataset)
 				              : holder.getLazyDataset(0);
@@ -391,7 +383,7 @@ class SliceRequest implements HttpSessionBindingListener {
 			ostream.writeObject(data);
 			
 		} catch (Exception ne) {
-			ne.printStackTrace();
+			logger.error("Error writing object to output stream",ne);
 			throw ne;
 		} finally {
 			ostream.flush();
@@ -470,9 +462,9 @@ class SliceRequest implements HttpSessionBindingListener {
 	}
 
 	public void start() {
-		System.out.println(">>>>>> Slice Request Started");
+		logger.info(">>>>>> Slice Request Started");
 	}
 	public void stop() {
-		System.out.println(">>>>>> Slice Request Stopped");
+		logger.info(">>>>>> Slice Request Stopped");
 	}
 }
