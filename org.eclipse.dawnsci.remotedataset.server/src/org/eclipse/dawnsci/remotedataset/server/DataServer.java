@@ -13,8 +13,6 @@ package org.eclipse.dawnsci.remotedataset.server;
 
 import java.util.HashMap;
 import java.util.Map;
-
-
 import org.eclipse.dawnsci.remotedataset.server.event.EventServlet;
 import org.eclipse.dawnsci.remotedataset.server.event.FileMonitorSocket;
 import org.eclipse.dawnsci.remotedataset.server.info.InfoServlet;
@@ -47,9 +45,6 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
  *
  */
 public class DataServer extends PortServer {
-	
-	
-	private DataServerMode mode = DataServerMode.NORMAL;
 	
 	public DataServer() {
          	
@@ -133,7 +128,6 @@ public class DataServer extends PortServer {
 	}
 	
 	public void setMode(DataServerMode mode) {
-		this.mode = mode;
 		
 		// TODO Other diagnostic things...
 		if (mode.equals(DataServerMode.DIAGNOSTIC)) {

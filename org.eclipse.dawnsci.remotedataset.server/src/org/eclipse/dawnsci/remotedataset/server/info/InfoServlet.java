@@ -25,6 +25,7 @@ import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.january.IMonitor;
 import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.IDynamicDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.metadata.DimensionMetadata;
 import org.slf4j.Logger;
@@ -100,6 +101,10 @@ public class InfoServlet extends HttpServlet {
 			final ILazyDataset lz    = dataset!=null && !"".equals(dataset)
 					                 ? holder.getLazyDataset(dataset)
 					                 : holder.getLazyDataset(0);
+
+			if (lz instanceof IDynamicDataset) {
+				((IDynamicDataset)lz).refreshShape();
+			}
 					                 
 			response.getWriter().println(lz.getName());
 			response.getWriter().println(Arrays.toString(lz.getShape()));
