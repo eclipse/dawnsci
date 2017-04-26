@@ -16,9 +16,9 @@ addons:
 
 language: java
 
-cache:
-  directories:
-    - $HOME/.m2 # Maven dependencies
+#cache:
+#  directories:
+#    - $HOME/.m2 # Maven dependencies
 
 # whitelist
 branches:
