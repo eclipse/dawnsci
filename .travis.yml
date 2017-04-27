@@ -34,9 +34,9 @@ jdk:
 # - bash ./org.eclipse.dawnsci.releng/build/commit-msg.sh
 
 before_install:
-# - git clone --depth=50 --branch=master https://github.com/DawnScience/dawn-hdf.git ../../dawn-hdf
  - wget `curl https://api.github.com/repos/eclipse/richbeans/releases/latest | jq -r .assets[0].browser_download_url ` && unzip org.eclipse.richbeans.repository-1.0.0-SNAPSHOT.zip
  - mvn install:install-file -Dfile=plugins/org.eclipse.richbeans.annot_1.0.0.201702271148.jar
+ - git clone --depth=50 --branch=master https://github.com/DawnScience/dawn-hdf.git ../../dawn-hdf
   
 
 # Run the build from org.eclipse.dawnsci
