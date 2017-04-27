@@ -35,7 +35,7 @@ jdk:
 
 before_install:
  - wget `curl https://api.github.com/repos/eclipse/richbeans/releases/latest | jq -r .assets[0].browser_download_url ` && unzip org.eclipse.richbeans.repository-1.0.0-SNAPSHOT.zip
- - cd plugins && mvn install:install-file -Dfile=org.eclipse.richbeans.annot_1.0.0.201702271148.jar && cd ..
+ - cd plugins && mvn install:install-file -Dfile=org.eclipse.richbeans.annot_1.0.0.201702271148.jar -DgroupId=org.eclipse -DartifactId=org.eclipse.richbeans.annot -Dversion=1.0.0-SNAPSHOT -Dpackaging=eclipse-plugin && cd ..
  - git clone --depth=50 --branch=master https://github.com/DawnScience/dawn-hdf.git ../../dawn-hdf
   
 
