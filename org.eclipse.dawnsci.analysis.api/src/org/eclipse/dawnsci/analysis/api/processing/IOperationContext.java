@@ -145,11 +145,30 @@ public interface IOperationContext {
 	public ExecutionType getExecutionType();
 	
 	/**
+	 * Sets the execution type for operations.
+	 * If the ExecutionType is set to PARALLEL all processors seen
+	 * by Runtime will be set as the number of available cores by
+	 * default. If the number of CPU cores to be set is to be defined 
+	 * implicitly this must be done after setting the execution type
 	 * 
 	 * @param executionType
 	 */
 	public void setExecutionType(ExecutionType executionType) ;
 
+	/**
+	 * 
+	 * @return number of cores.
+	 */
+	public int getNumberOfCores();
+	
+	/**
+	 * Sets the number of CPU cores to use.
+	 * Must be set after setting the execution type
+	 * 
+	 * @param numberOfCores
+	 */
+	public void setNumberOfCores(int numberOfCores) ;
+	
 	/**
 	 * Timeout in parallel mode.
 	 * @return timeout

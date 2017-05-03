@@ -59,13 +59,14 @@ public class Slicer {
 		
 	}
 
-	public static void visitParallel(ISliceViewIterator iterator, final SliceVisitor visitor) throws Exception {
+	public static void visitParallel(ISliceViewIterator iterator, final SliceVisitor visitor, int nProcessors) throws Exception {
 
 		//Can't just farm out each slice to a separate thread, need to block when thread pool full,
 		//other wise there is the potential run out of memory from loading all the data before any is processed
 		
 		//use one less thread than processors, as we are using one for the rejectedhandler
-		int nProcessors = Math.max(Runtime.getRuntime().availableProcessors()-1,1);
+		nProcessors = nProcessors - 1;
+
 		BlockingQueue<Runnable> blockingQueue = new ArrayBlockingQueue<Runnable>(nProcessors);
 	    RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.CallerRunsPolicy();
 	    final ExecutorService pool =  new ThreadPoolExecutor(nProcessors, nProcessors, 
