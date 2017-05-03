@@ -32,7 +32,7 @@ public class Plane3DExample extends PlotExample {
 		try {
 			// We create a basic plot
 			system.createPlotPart(parent, "Plane 3D Example", getViewSite()
-					.getActionBars(), PlotType.PLANE3D, this);
+					.getActionBars(), PlotType.XY, this);
 			system.setPlotType(PlotType.PLANE3D);
 			File loc = new File(
 					BundleUtils.getBundleLocation(Activator.PLUGIN_ID),
