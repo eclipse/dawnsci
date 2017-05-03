@@ -32,7 +32,7 @@ public class VolumeExample extends PlotExample {
 		try {
 			// We create a basic plot
 			system.createPlotPart(parent, "Volume Example", getViewSite()
-					.getActionBars(), PlotType.VOLUME, this);
+					.getActionBars(), PlotType.XY, this);
 			system.setPlotType(PlotType.VOLUME);
 			File loc = new File(
 					BundleUtils.getBundleLocation(Activator.PLUGIN_ID),
