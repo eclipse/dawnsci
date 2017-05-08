@@ -409,13 +409,12 @@ public class HDF5Utils {
 
 			ntid = H5.H5Tget_native_type(tid);
 			DatasetType type = getDatasetType(tid, ntid);
-			long sid = -1, pid = -1;
+			long sid = -1;
 			long msid = -1;
 			int rank;
 
 			// create a new scalar dataset
 			try {
-				pid = H5.H5Dget_create_plist(did);
 				sid = H5.H5Dget_space(did);
 				rank = H5.H5Sget_simple_extent_ndims(sid);
 
@@ -470,12 +469,6 @@ public class HDF5Utils {
 					try {
 						H5.H5Sclose(sid);
 					} catch (HDF5Exception ex2) {
-					}
-				}
-				if (pid != -1) {
-					try {
-						H5.H5Pclose(pid);
-					} catch (HDF5Exception ex) {
 					}
 				}
 			}
