@@ -64,11 +64,17 @@ public interface IPlottingSystemViewer<T> extends IAxisSystem, IRegionSystem, IA
 	public boolean isTraceTypeSupported(Class<? extends ITrace> clazz);
 	
 	/**
+	 * Returns array of trace classes supported by this viewer
+	 * @return clazzArray
+	 */
+	public Collection<Class<? extends ITrace>> getSupportTraceTypes();
+	
+	/**
 	 * 
 	 * @param clazz
 	 * @return
 	 */
-	public ITrace createTrace(String name, Class<? extends ITrace> clazz);
+	public <U extends ITrace> U createTrace(String name, Class<? extends ITrace> clazz);
 	
 	/**
 	 * Short cut method for creating several line traces in one go.
@@ -247,7 +253,7 @@ public interface IPlottingSystemViewer<T> extends IAxisSystem, IRegionSystem, IA
 
 	
 	
-	public class Stub<T> implements IPlottingSystemViewer<T> {
+	public abstract class Stub<T> implements IPlottingSystemViewer<T> {
 
 
 		protected IPlottingSystem<T> system;
@@ -466,7 +472,7 @@ public interface IPlottingSystemViewer<T> extends IAxisSystem, IRegionSystem, IA
 		}
 
 		@Override
-		public ITrace createTrace(String name, Class<? extends ITrace> clazz) {
+		public <U extends ITrace> U createTrace(String name, Class<? extends ITrace> clazz){
 			
 			return null;
 		}
@@ -477,6 +483,11 @@ public interface IPlottingSystemViewer<T> extends IAxisSystem, IRegionSystem, IA
 				Map<String, ITrace> traceMap, Map<Object, Color> colorMap,
 				IProgressMonitor monitor) {
 			
+			return null;
+		}
+		
+		@Override
+		public Collection<Class<? extends ITrace>> getSupportTraceTypes(){
 			return null;
 		}
 

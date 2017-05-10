@@ -644,4 +644,14 @@ public class ThreadSafePlottingSystem<T> extends ThreadSafeObject implements IPl
 		call(getMethodName(Thread.currentThread().getStackTrace()), oldName, name);
 	}
 
+	@Override
+	public <U extends ITrace> U createTrace(String traceName, Class<U> clazz) {
+		return delegate.createTrace(traceName, clazz);
+	}
+
+	@Override
+	public List<Class<? extends ITrace>> getRegisteredTraceClasses() {
+		return delegate.getRegisteredTraceClasses();
+	}
+
 }
