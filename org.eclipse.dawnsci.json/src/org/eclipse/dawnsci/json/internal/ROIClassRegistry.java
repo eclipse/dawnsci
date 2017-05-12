@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.persistence.IClassRegistry;
+import org.eclipse.dawnsci.analysis.api.roi.IROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.CircularFitROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.CircularROI;
 import org.eclipse.dawnsci.analysis.dataset.roi.EllipticalFitROI;
@@ -39,6 +40,7 @@ public class ROIClassRegistry implements IClassRegistry {
 	static {
 		Map<String, Class<?>> tmp = new HashMap<String, Class<?>>();
 
+		tmp.put("roi.iroi", IROI.class);
 		tmp.put("roi.circularfit", CircularFitROI.class);
 		tmp.put("roi.circular", CircularROI.class);
 		tmp.put("roi.ellipticalfit", EllipticalFitROI.class);
