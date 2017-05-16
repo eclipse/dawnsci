@@ -41,6 +41,7 @@ import org.eclipse.dawnsci.nexus.NXroot;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.DTypeUtils;
 import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.PositionIterator;
@@ -139,7 +140,11 @@ public class NexusAssert {
 		assertArrayEquals(path, expectedAttr.getShape(), actualAttr.getShape());
 		assertDatasetsEqual(path, expectedAttr.getValue(), actualAttr.getValue());
 	}
-
+	
+	public static void assertDatasetValue(Object expectedValue, ILazyDataset dataset) {
+		assertDatasetsEqual(null, DatasetFactory.createFromObject(expectedValue), dataset);
+	}
+	
 	public static void assertDataNodesEqual(final String path,
 			final DataNode expectedDataNode, final DataNode actualDataNode) {
 		// check number of attributes same (i.e. actualDataNode has no additional attributes)

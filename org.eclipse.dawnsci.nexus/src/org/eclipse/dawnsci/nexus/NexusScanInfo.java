@@ -11,6 +11,10 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.nexus;
 
+import static org.eclipse.dawnsci.nexus.NexusScanInfo.NexusRole.PER_POINT;
+import static org.eclipse.dawnsci.nexus.NexusScanInfo.NexusRole.PER_SCAN;
+import static org.eclipse.dawnsci.nexus.NexusScanInfo.ScanRole.MONITOR_PER_SCAN;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -35,10 +39,29 @@ import org.eclipse.january.dataset.SliceND;
  */
 public class NexusScanInfo {
 	
-	public static enum ScanRole {
-		DETECTOR, SCANNABLE, MONITOR, METADATA
+	public static enum NexusRole {
+		PER_POINT, PER_SCAN
 	}
-
+	
+	public static enum ScanRole {
+		DETECTOR(PER_POINT),
+		SCANNABLE(PER_POINT),
+		MONITOR_PER_POINT(PER_POINT),
+		MONITOR_PER_SCAN(PER_SCAN),
+		NONE(PER_SCAN);
+		
+		private final NexusRole nexusRole;
+		
+		private ScanRole(NexusRole nexusRole) {
+			this.nexusRole = nexusRole;
+		}
+		
+		public NexusRole getNexusRole() {
+			return nexusRole;
+		}
+		
+	}
+	
 	private int rank;
 	
 	private final Map<ScanRole, Collection<String>> deviceNames;
@@ -96,19 +119,19 @@ public class NexusScanInfo {
 	}
 	
 	public Set<String> getMonitorNames() {
-		return (Set<String>) getDeviceNames(ScanRole.MONITOR);
+		return (Set<String>) getDeviceNames(ScanRole.MONITOR_PER_POINT);
 	}
 	
 	public void setMonitorNames(Set<String> monitorNames) {
-		setDeviceNames(ScanRole.MONITOR, monitorNames);
+		setDeviceNames(ScanRole.MONITOR_PER_POINT, monitorNames);
 	}
 	
 	public Set<String> getMetadataScannableNames() {
-		return (Set<String>) getDeviceNames(ScanRole.METADATA);
+		return (Set<String>) getDeviceNames(ScanRole.MONITOR_PER_SCAN);
 	}
 	
 	public void setMetadataScannableNames(Set<String> metadataScannableNames) {
-		setDeviceNames(ScanRole.METADATA, metadataScannableNames);
+		setDeviceNames(ScanRole.MONITOR_PER_SCAN, metadataScannableNames);
 	}
 	
 	public int[] getShape() {
@@ -120,10 +143,10 @@ public class NexusScanInfo {
 	}
 
 	/**
-	 * Returns the {@link ScanRole} of the device with the given name within the scan,
-	 * or <code>null</code> if none
+	 * Returns the {@link ScanRole} of the device with the given name within the scan. If the device
+	 * is not in the scan {@link ScanRole#NONE} is returned.
 	 * @param name name of device
-	 * @return role or device within scan, or <code>null</code>
+	 * @return role or device within scan, never <code>null</code>
 	 */
 	public ScanRole getScanRole(String name) {
 		for (ScanRole scanRole : deviceNames.keySet()) {
@@ -133,9 +156,20 @@ public class NexusScanInfo {
 			}
 		}
 		
-		return null;
+		return ScanRole.NONE;
 	}
-
+	
+	/**
+	 * Returns whether the device with the given name should write its data
+	 * once for the whole scan, or 
+	 * @param name
+	 * @return
+	 */
+	public boolean writeDataPerScan(String name) {
+		final ScanRole scanRole = getScanRole(name);
+		return scanRole == null || scanRole == MONITOR_PER_SCAN;
+	}
+	
 	public int[] createChunk(int... datashape) {
 		return createChunk(true, datashape);
 	}
