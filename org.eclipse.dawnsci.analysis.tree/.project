@@ -3,6 +3,7 @@
 	<name>org.eclipse.dawnsci.analysis.tree</name>
 	<comment></comment>
 	<projects>
+		<project>org.eclipse.dawnsci.analysis.dataset</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
