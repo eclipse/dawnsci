@@ -3,6 +3,7 @@
 	<name>org.eclipse.dawnsci.analysis.dataset</name>
 	<comment></comment>
 	<projects>
+		<project>org.eclipse.dawnsci.analysis.api</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
