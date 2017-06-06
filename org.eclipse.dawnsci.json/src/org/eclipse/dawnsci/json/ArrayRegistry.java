@@ -25,6 +25,7 @@ class ArrayRegistry implements IClassRegistry {
 
 		Map<String, Class<?>> tmp = new HashMap<>();
 		tmp.put("String[]",    String[].class);
+		tmp.put("Object[]",    Object[].class);
 
 		idToClassMap = Collections.unmodifiableMap(tmp);
 	}
