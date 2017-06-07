@@ -1,6 +1,6 @@
 /*-
  *******************************************************************************
- * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * Copyright (c) 2011, 2017 Diamond Light Source Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,13 +11,11 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.nexus.validation;
 
-import static javax.measure.unit.SI.*;
-
 import javax.measure.quantity.AmountOfSubstance;
 import javax.measure.quantity.Angle;
 import javax.measure.quantity.Area;
 import javax.measure.quantity.Dimensionless;
-import javax.measure.quantity.Duration;
+import javax.measure.quantity.Time;
 import javax.measure.quantity.ElectricCharge;
 import javax.measure.quantity.ElectricCurrent;
 import javax.measure.quantity.ElectricPotential;
@@ -30,8 +28,7 @@ import javax.measure.quantity.Pressure;
 import javax.measure.quantity.SolidAngle;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Volume;
-import javax.measure.unit.Unit;
-
+import javax.measure.Unit;
 
 public enum NexusUnitCategory {
 	
