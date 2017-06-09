@@ -23,6 +23,7 @@ import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.tree.TreeToMapUtils;
+import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.XMLMarshallerService;
 import org.eclipse.dawnsci.remotedataset.server.utils.DataServerUtils;
 import org.slf4j.Logger;
@@ -93,6 +94,8 @@ public class TreeServlet extends HttpServlet {
 		final String path    = request.getParameter("path");
 		
 		try {
+			
+			ServiceHolder.getLoaderService().clearSoftReferenceCache();
 			
 			final IDataHolder holder = DataServerUtils.getDataHolderWithLogging(path);
 			final Tree tree = holder.getTree();
