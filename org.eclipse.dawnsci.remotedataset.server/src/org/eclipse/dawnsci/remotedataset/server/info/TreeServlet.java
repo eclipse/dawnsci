@@ -12,14 +12,12 @@
 package org.eclipse.dawnsci.remotedataset.server.info;
 
 import java.io.IOException;
-import java.security.Provider.Service;
 import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.ServiceMode;
 
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
