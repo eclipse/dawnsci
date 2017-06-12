@@ -11,11 +11,12 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.nexus.validation;
 
+import javax.measure.Quantity;
+import javax.measure.Unit;
 import javax.measure.quantity.AmountOfSubstance;
 import javax.measure.quantity.Angle;
 import javax.measure.quantity.Area;
 import javax.measure.quantity.Dimensionless;
-import javax.measure.quantity.Time;
 import javax.measure.quantity.ElectricCharge;
 import javax.measure.quantity.ElectricCurrent;
 import javax.measure.quantity.ElectricPotential;
@@ -27,103 +28,110 @@ import javax.measure.quantity.Power;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.SolidAngle;
 import javax.measure.quantity.Temperature;
+import javax.measure.quantity.Time;
 import javax.measure.quantity.Volume;
-import javax.measure.Unit;
+import javax.measure.spi.ServiceProvider;
+
+import tec.units.ri.unit.Units;
 
 public enum NexusUnitCategory {
 	
-	NX_ANGLE(Angle.UNIT),
+	NX_ANGLE(getUnit(Angle.class)),
 	
 	// TODO: check standard unit for this unit category (perhaps any units are ok?)
-	NX_ANY(Dimensionless.UNIT),
+	NX_ANY(getUnit(Dimensionless.class)),
 	
-	NX_AREA(Area.UNIT),
+	NX_AREA(getUnit(Area.class)),
 	
-	NX_CHARGE(ElectricCharge.UNIT),
+	NX_CHARGE(getUnit(ElectricCharge.class)),
 	
-	NX_CROSS_SECTION(Area.UNIT),
+	NX_CROSS_SECTION(getUnit(Area.class)),
 	
-	NX_CURRENT(ElectricCurrent.UNIT),
+	NX_CURRENT(getUnit(ElectricCurrent.class)),
 	
-	NX_DIMENSIONLESS(Dimensionless.UNIT),
+	NX_DIMENSIONLESS(getUnit(Dimensionless.class)),
 	
 	/**
 	 * Emmittance, a length * angle, e.g. metre-radians
 	 */
-	NX_EMITTANCE(METRE.times(RADIAN)),
+	NX_EMITTANCE(Units.METRE.multiply(Units.RADIAN)),
 	
-	NX_ENERGY(Energy.UNIT),
+	NX_ENERGY(getUnit(Energy.class)),
 	
 	/**
 	 * TODO: what unit of flux to use?
 	 * The nexus format documentation gives the example: s-1 cm-2,
 	 */
-	NX_FLUX(SECOND.inverse().divide(Area.UNIT)),
+	NX_FLUX(Units.SECOND.inverse().divide(getUnit(Area.class))),
 	
-	NX_FREQUENCY(Frequency.UNIT),
+	NX_FREQUENCY(getUnit(Frequency.class)),
 	
-	NX_LENGTH(METRE),
+	NX_LENGTH(Units.METRE.getSystemUnit()),
 	
-	NX_MASS(Mass.UNIT),
+	NX_MASS(getUnit(Mass.class)),
 	
-	NX_MASS_DENSITY(Mass.UNIT.divide(Volume.UNIT)),
+	NX_MASS_DENSITY(getUnit(Mass.class).divide(getUnit(Volume.class))),
 	
-	NX_MOLECULAR_WEIGHT(Mass.UNIT.divide(AmountOfSubstance.UNIT)),
+	NX_MOLECULAR_WEIGHT(getUnit(Mass.class).divide(getUnit(AmountOfSubstance.class))),
 	
 	/**
 	 * Alias to {@link #NX_TIME}
 	 */
-	NX_PERIOD(Duration.UNIT),
+	NX_PERIOD(getUnit(Time.class)),
 	
-	NX_PER_AREA(Area.UNIT.inverse()),
+	NX_PER_AREA(getUnit(Area.class).inverse()),
 	
-	NX_PER_LENGTH(Length.UNIT.inverse()),
+	NX_PER_LENGTH(getUnit(Length.class).inverse()),
 	
-	NX_POWER(Power.UNIT),
+	NX_POWER(getUnit(Power.class)),
 	
-	NX_PRESSURE(Pressure.UNIT),
+	NX_PRESSURE(getUnit(Pressure.class)),
 	
 	/**
 	 * Alias to NX_NUMBER
 	 * TODO check unit for this category - could use sub-interface of Dimensionless
 	 */
-	NX_PULSES(Dimensionless.UNIT),
+	NX_PULSES(getUnit(Dimensionless.class)),
 	
-	NX_SCATTERING_LENGTH_DENSITY(Area.UNIT.inverse()),
+	NX_SCATTERING_LENGTH_DENSITY(getUnit(Area.class).inverse()),
 	
-	NX_SOLID_ANGLE(SolidAngle.UNIT),
+	NX_SOLID_ANGLE(getUnit(SolidAngle.class)),
 	
-	NX_TEMPERATURE(Temperature.UNIT),
+	NX_TEMPERATURE(getUnit(Temperature.class)),
 	
-	NX_TIME(Duration.UNIT),
+	NX_TIME(getUnit(Time.class)),
 	
 	/**
 	 * Alias to {@link #NX_TIME}
 	 */
-	NX_TIME_OF_FLIGHT(Duration.UNIT),
+	NX_TIME_OF_FLIGHT(getUnit(Time.class)),
 	
 	/**
 	 * TODO, what units for unitless? could we use a subinterface of Dimensionless?
 	 */
 	NX_UNITLESS(null),
 	
-	NX_VOLTAGE(ElectricPotential.UNIT),
+	NX_VOLTAGE(getUnit(ElectricPotential.class)),
 	
-	NX_VOLUME(Volume.UNIT),
+	NX_VOLUME(getUnit(Volume.class)),
 	
-	NX_WAVELENGTH(Length.UNIT),
+	NX_WAVELENGTH(getUnit(Length.class)),
 	
-	NX_WAVENUMBER(Length.UNIT.inverse());
+	NX_WAVENUMBER(getUnit(Length.class).inverse());
 	
 	private Unit<?> standardUnit;
 	
 	private NexusUnitCategory(Unit<?> unit) {
 		// make sure we have the standard unit
-		standardUnit = unit.getStandardUnit();
+		standardUnit = unit;
 	}
 	
 	public boolean isCompatible(Unit<?> unit) {
-		return unit.getStandardUnit().equals(standardUnit);
+		return unit.equals(standardUnit);
+	}
+
+	static Unit<? extends Quantity<?>> getUnit(Class clazz) {
+		return ServiceProvider.current().getQuantityFactory(clazz).getSystemUnit();
 	}
 
 }
