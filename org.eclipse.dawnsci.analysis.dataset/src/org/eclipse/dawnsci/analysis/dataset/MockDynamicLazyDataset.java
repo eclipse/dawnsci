@@ -19,7 +19,7 @@ public class MockDynamicLazyDataset extends LazyDynamicDataset {
 	private int[][] shapeArrays;
 	private int count = 1;
 	private Dataset parent;
-	public boolean allowIncrement = false;
+	private boolean allowIncrement = false;
 
 
 	public MockDynamicLazyDataset(int[][] shapes, Dataset parent) {
@@ -47,14 +47,12 @@ public class MockDynamicLazyDataset extends LazyDynamicDataset {
 
 	@Override
 	public void setMaxShape(int... maxShape) {
-		// TODO Auto-generated method stub
-
+		//do nothing
 	}
 
 	@Override
 	public void startUpdateChecker(int milliseconds, IDatasetChangeChecker checker) {
-		// TODO Auto-generated method stub
-
+		//do nothing
 	}
 
 	@Override
@@ -75,20 +73,17 @@ public class MockDynamicLazyDataset extends LazyDynamicDataset {
 
 	@Override
 	public void addDataListener(IDataListener l) {
-		// TODO Auto-generated method stub
-
+		//do nothing
 	}
 
 	@Override
 	public void removeDataListener(IDataListener l) {
-		// TODO Auto-generated method stub
-
+		//do nothing
 	}
 
 	@Override
 	public void fireDataListeners() {
-		// TODO Auto-generated method stub
-
+		//do nothing
 	}
 
 	@Override

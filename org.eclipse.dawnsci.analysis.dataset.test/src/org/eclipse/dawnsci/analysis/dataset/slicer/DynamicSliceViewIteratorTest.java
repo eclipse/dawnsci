@@ -78,7 +78,6 @@ public class DynamicSliceViewIteratorTest {
 		for (int i = 0 ; i < end; i++) {
 			boolean hasNext = iterator.hasNext();
 			assertTrue(hasNext);
-			System.out.println(i);
 			Dataset slice = DatasetUtils.convertToDataset(iterator.next().getSlice());
 			assertEquals(i*10*11, (double)slice.sum(),0.000001);
 		}
