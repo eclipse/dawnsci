@@ -32,18 +32,20 @@ public class MaskCircularBuffer {
 		this.shape = shape;
 	}
 	
-	public void maskROI(IROI roi) {
+	public void maskROI(IROI inputROI) {
+		IROI roi = inputROI.copy();
 		IRectangularROI bounds = roi.getBounds();
 		
 		int iStart = (int)Math.floor(bounds.getPointY());
 		int iStop = (int)Math.ceil(bounds.getPointY()+bounds.getLength(1));
 		if (iStop > shape[0]) iStop = shape[0];
+		if (iStart < 0) iStart = 0;
 		
 		for (int i = iStart; i < iStop; i++) {
 			double[] hi = roi.findHorizontalIntersections(i);
 			if (hi != null) {
 				boolean cutsStart = roi.containsPoint(0, i);
-				boolean cutsEnd = roi.containsPoint(shape[1]-1, i);
+				boolean cutsEnd = roi.containsPoint(shape[1]-1d, i);
 				
 				List<Integer> inters = new ArrayList<>();
 				if (cutsStart) inters.add(0);
@@ -68,7 +70,7 @@ public class MaskCircularBuffer {
 						int s = inters.get(0);
 						int e = inters.get(1);
 						
-						if (roi.containsPoint(s+(e-s)/2, i)) {
+						if (roi.containsPoint(s+(e-s)/2d, i)) {
 							start[1] = s;
 							stop[1] = e;
 							IntegerDataset data = (IntegerDataset)mask.getSliceView(start, stop, step);
