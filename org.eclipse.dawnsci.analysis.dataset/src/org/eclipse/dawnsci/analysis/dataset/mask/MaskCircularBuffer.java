@@ -10,6 +10,7 @@ import org.eclipse.january.dataset.BooleanDataset;
 import org.eclipse.january.dataset.Comparisons;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IndexIterator;
 import org.eclipse.january.dataset.IntegerDataset;
 
@@ -111,7 +112,21 @@ public class MaskCircularBuffer {
 	}
 	
 	public boolean isBufferEmpty() {
-		return bitMask == 1;
+		return bitMask == START;
+	}
+	
+	public void invert(){
+		
+		IndexIterator iterator = mask.getIterator();
+		
+		while (iterator.hasNext()) {
+			int v = (int)mask.getElementLongAbs(iterator.index);
+			
+			mask.setAbs(iterator.index, v == 0 ? 1 : 0);
+		}
+		
+		bitMask = START;
+		nextBitMask();
 	}
 	
 	public void clear() {
@@ -165,6 +180,28 @@ public class MaskCircularBuffer {
 				mask.setAbs(count, (int)v);
 			}
 			
+			count++;
+		}
+		
+		nextBitMask();
+	}
+	
+	public void merge(Dataset m) {
+		if (!Arrays.equals(mask.getShape(), m.getShape())) throw new IllegalArgumentException("must have same shape");
+		
+		int count = 0;
+		
+		IndexIterator iterator = m.getIterator();
+		
+		while (iterator.hasNext()) {
+			double element = m.getElementDoubleAbs(iterator.index);
+			
+			if (element == 0) {
+				long v = mask.getElementLongAbs(count);
+				v= v | bitMask;
+				mask.setAbs(count, (int)v);
+			}
+				
 			count++;
 		}
 		
