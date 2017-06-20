@@ -145,5 +145,81 @@ public class MaskCircularBufferTest {
 		}
 		
 	}
+	
+	@Test
+	public void testInvert() {
+
+		MaskCircularBuffer buffer = new MaskCircularBuffer(new int[]{10,20});
+		BooleanDataset mask = buffer.getMask();
+		assertTrue(Comparisons.allTrue(mask));
+
+		RectangularROI roi = new RectangularROI(new double[]{1, 1}, new double[]{2.1,2.1});
+
+		buffer.maskROI(roi);
+
+		BooleanDataset m = buffer.getMask();
+		assertEquals((10*20-4), (double)m.sum(),0.00000001);
+
+		SliceND s = new SliceND(m.getShape());
+		s.setSlice(0, 1,3,1);
+		s.setSlice(1, 1,3,1);
+
+		Dataset slice = m.getSlice(s);
+		assertEquals(0, (double)slice.sum(),0.00000001);
+		
+		buffer.invert();
+		m = buffer.getMask();
+		assertEquals((4), (double)m.sum(),0.00000001);
+
+		slice = m.getSlice(s);
+		assertEquals(4, (double)slice.sum(),0.00000001);
+
+		buffer.undo();
+		
+		m = buffer.getMask();
+		assertTrue(Comparisons.allTrue(m));
+	}
+	
+	@Test
+	public void testMerge() {
+
+		MaskCircularBuffer buffer = new MaskCircularBuffer(new int[]{10,20});
+		BooleanDataset mask = buffer.getMask();
+		assertTrue(Comparisons.allTrue(mask));
+
+		RectangularROI roi = new RectangularROI(new double[]{1, 1}, new double[]{2.1,2.1});
+
+		buffer.maskROI(roi);
+
+		BooleanDataset m = buffer.getMask();
+		assertEquals((10*20-4), (double)m.sum(),0.00000001);
+
+		SliceND s = new SliceND(m.getShape());
+		s.setSlice(0, 1,3,1);
+		s.setSlice(1, 1,3,1);
+
+		Dataset slice = m.getSlice(s);
+		assertEquals(0, (double)slice.sum(),0.00000001);
+		
+		BooleanDataset toMerge = DatasetFactory.ones(BooleanDataset.class,new int[]{10,20});
+		toMerge.setAbs(0, false);
+		
+		buffer.merge(toMerge);
+		
+		m = buffer.getMask();
+		
+		slice = m.getSlice(s);
+		assertEquals(0, (double)slice.sum(),0.00000001);
+		
+		assertFalse(m.getAbs(0));
+		
+		buffer.undo();
+		
+		m = buffer.getMask();
+		
+		slice = m.getSlice(s);
+		assertEquals(0, (double)slice.sum(),0.00000001);
+		assertTrue(m.getAbs(0));
+	}
 
 }
