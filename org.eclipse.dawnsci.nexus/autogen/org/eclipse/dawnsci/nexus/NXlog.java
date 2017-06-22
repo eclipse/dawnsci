@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-09-28T15:24:07.968+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -20,25 +20,35 @@ import org.eclipse.january.dataset.IDataset;
 
 /**
  * Information recorded as a function of time.
- * Description of information that is recorded against time,
- * such as information monitored during the run.
- * It contains
- * the logged values and the times at which they were measured as elapsed time since a starting
- * time recorded in ISO8601 format. This method of storing logged data helps to distinguish
+ * Description of information that is recorded against
+ * time. There are two common use cases for this:
+ * - When logging data such as temperature during a run
+ * - When data is taken in streaming mode data acquisition,
+ * i.e. just timestamp, value pairs are stored and
+ * correlated later in data reduction with other data,
+ * It both cases NXlog contains
+ * the logged or streamed values and the times at which they were measured as elapsed time since a starting
+ * time recorded in ISO8601 format. The time units are
+ * specified in the units attribute. An optional scaling attribute
+ * can be used to accomodate non standard clocks.
+ * This method of storing logged data helps to distinguish
  * instances in which a variable is a dimension scale of the data, in which case it is stored
  * in an :ref:`NXdata` group, and instances in which it is logged during the
  * run, when it should be stored in an :ref:`NXlog` group.
- * Note: When using multiple :ref:`NXlog` groups, it is suggested to place
- * them inside a :ref:`NXcollection` group. In such cases, when
- * :ref:`NXlog` is used in another class,
- * :ref:`NXcollection`/:ref:`NXlog` is then constructed.
+ * In order to make random access to timestamped data faster there is an optional array pair of
+ * ``cue_timestamp_zero`` and ``cue_index``. The ``cue_timestamp_zero`` will
+ * contain coarser timestamps than in the time array, say
+ * every five minutes. The ``cue_index`` will then contain the
+ * index into the time,value pair of arrays for that
+ * coarser ``cue_timestamp_zero``.
  * 
- * @version 1.0
+ * @version 1.1
  */
 public interface NXlog extends NXobject {
 
 	public static final String NX_TIME = "time";
 	public static final String NX_TIME_ATTRIBUTE_START = "start";
+	public static final String NX_TIME_ATTRIBUTE_SCALING = "scaling";
 	public static final String NX_VALUE = "value";
 	public static final String NX_RAW_VALUE = "raw_value";
 	public static final String NX_DESCRIPTION = "description";
@@ -47,9 +57,14 @@ public interface NXlog extends NXobject {
 	public static final String NX_MINIMUM_VALUE = "minimum_value";
 	public static final String NX_MAXIMUM_VALUE = "maximum_value";
 	public static final String NX_DURATION = "duration";
+	public static final String NX_CUE_TIMESTAMP_ZERO = "cue_timestamp_zero";
+	public static final String NX_CUE_TIMESTAMP_ZERO_ATTRIBUTE_START = "start";
+	public static final String NX_CUE_INDEX = "cue_index";
 	/**
 	 * Time of logged entry. The times are relative to the "start" attribute
-	 * and in the units specified in the "units" attribute.
+	 * and in the units specified in the "units"
+	 * attribute. Please note that absolute
+	 * timestamps under unix are relative to ``1970-01-01T:00:00``.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_TIME
@@ -61,7 +76,9 @@ public interface NXlog extends NXobject {
 	
 	/**
 	 * Time of logged entry. The times are relative to the "start" attribute
-	 * and in the units specified in the "units" attribute.
+	 * and in the units specified in the "units"
+	 * attribute. Please note that absolute
+	 * timestamps under unix are relative to ``1970-01-01T:00:00``.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_TIME
@@ -73,7 +90,9 @@ public interface NXlog extends NXobject {
 
 	/**
 	 * Time of logged entry. The times are relative to the "start" attribute
-	 * and in the units specified in the "units" attribute.
+	 * and in the units specified in the "units"
+	 * attribute. Please note that absolute
+	 * timestamps under unix are relative to ``1970-01-01T:00:00``.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_TIME
@@ -85,7 +104,9 @@ public interface NXlog extends NXobject {
 
 	/**
 	 * Time of logged entry. The times are relative to the "start" attribute
-	 * and in the units specified in the "units" attribute.
+	 * and in the units specified in the "units"
+	 * attribute. Please note that absolute
+	 * timestamps under unix are relative to ``1970-01-01T:00:00``.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_TIME
@@ -108,7 +129,23 @@ public interface NXlog extends NXobject {
 	public void setTimeAttributeStart(Date start);
 
 	/**
-	 * Array of logged value, such as temperature
+	 * 
+	 * @return  the value.
+	 */
+	public Number getTimeAttributeScaling();
+	
+	/**
+	 * 
+	 * @param scaling the scaling
+	 */
+	public void setTimeAttributeScaling(Number scaling);
+
+	/**
+	 * Array of logged value, such as temperature. If this is
+	 * a single value the dimensionality is
+	 * nEntries. However, NXlog can also be used to store
+	 * multi dimensional time stamped data such as images. In
+	 * this example the dimensionality of values would be value[nEntries,xdim,ydim].
 	 * <p>
 	 * <b>Units:</b> NX_ANY
 	 * <b>Type:</b> NX_NUMBER
@@ -119,7 +156,11 @@ public interface NXlog extends NXobject {
 	public IDataset getValue();
 	
 	/**
-	 * Array of logged value, such as temperature
+	 * Array of logged value, such as temperature. If this is
+	 * a single value the dimensionality is
+	 * nEntries. However, NXlog can also be used to store
+	 * multi dimensional time stamped data such as images. In
+	 * this example the dimensionality of values would be value[nEntries,xdim,ydim].
 	 * <p>
 	 * <b>Units:</b> NX_ANY
 	 * <b>Type:</b> NX_NUMBER
@@ -130,7 +171,11 @@ public interface NXlog extends NXobject {
 	public DataNode setValue(IDataset value);
 
 	/**
-	 * Array of logged value, such as temperature
+	 * Array of logged value, such as temperature. If this is
+	 * a single value the dimensionality is
+	 * nEntries. However, NXlog can also be used to store
+	 * multi dimensional time stamped data such as images. In
+	 * this example the dimensionality of values would be value[nEntries,xdim,ydim].
 	 * <p>
 	 * <b>Units:</b> NX_ANY
 	 * <b>Type:</b> NX_NUMBER
@@ -141,7 +186,11 @@ public interface NXlog extends NXobject {
 	public Number getValueScalar();
 
 	/**
-	 * Array of logged value, such as temperature
+	 * Array of logged value, such as temperature. If this is
+	 * a single value the dimensionality is
+	 * nEntries. However, NXlog can also be used to store
+	 * multi dimensional time stamped data such as images. In
+	 * this example the dimensionality of values would be value[nEntries,xdim,ydim].
 	 * <p>
 	 * <b>Units:</b> NX_ANY
 	 * <b>Type:</b> NX_NUMBER
@@ -430,5 +479,109 @@ public interface NXlog extends NXobject {
 	 * @param duration the duration
 	 */
 	public DataNode setDurationScalar(Double duration);
+
+	/**
+	 * Timestamps matching the corresponding cue_index into the
+	 * time, value pair.
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getCue_timestamp_zero();
+	
+	/**
+	 * Timestamps matching the corresponding cue_index into the
+	 * time, value pair.
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param cue_timestamp_zero the cue_timestamp_zero
+	 */
+	public DataNode setCue_timestamp_zero(IDataset cue_timestamp_zero);
+
+	/**
+	 * Timestamps matching the corresponding cue_index into the
+	 * time, value pair.
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public Date getCue_timestamp_zeroScalar();
+
+	/**
+	 * Timestamps matching the corresponding cue_index into the
+	 * time, value pair.
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param cue_timestamp_zero the cue_timestamp_zero
+	 */
+	public DataNode setCue_timestamp_zeroScalar(Date cue_timestamp_zero);
+
+	/**
+	 * 
+	 * @return  the value.
+	 */
+	public Date getCue_timestamp_zeroAttributeStart();
+	
+	/**
+	 * 
+	 * @param start the start
+	 */
+	public void setCue_timestamp_zeroAttributeStart(Date start);
+
+	/**
+	 * Index into the time, value pair matching the corresponding
+	 * cue_timestamp.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getCue_index();
+	
+	/**
+	 * Index into the time, value pair matching the corresponding
+	 * cue_timestamp.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * </p>
+	 * 
+	 * @param cue_index the cue_index
+	 */
+	public DataNode setCue_index(IDataset cue_index);
+
+	/**
+	 * Index into the time, value pair matching the corresponding
+	 * cue_timestamp.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public Long getCue_indexScalar();
+
+	/**
+	 * Index into the time, value pair matching the corresponding
+	 * cue_timestamp.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * </p>
+	 * 
+	 * @param cue_index the cue_index
+	 */
+	public DataNode setCue_indexScalar(Long cue_index);
 
 }

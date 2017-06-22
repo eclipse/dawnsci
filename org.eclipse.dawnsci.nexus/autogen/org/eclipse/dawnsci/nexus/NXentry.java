@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-09-28T15:24:07.968+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -22,7 +22,8 @@ import org.eclipse.january.dataset.IDataset;
 /**
  * (**required**) :ref:`NXentry` describes the measurement.
  * The top-level NeXus group which contains all the data and associated
- * information that comprise a single measurement. It is mandatory that there is at least one
+ * information that comprise a single measurement.
+ * It is mandatory that there is at least one
  * group of this type in the NeXus file.
  * 
  * @version 1.0
@@ -61,10 +62,10 @@ public interface NXentry extends NXsubentry {
 	 * contains the data to be shown by default.
 	 * It is needed to resolve ambiguity when more than one :ref:`NXdata` group exists.
 	 * The value is the name of the default :ref:`NXdata` group.
-	 * It is recommended (as of NIAC2014) to use this attribute
+	 * It is recommended (as of NIAC2014 [#]_) to use this attribute
 	 * to help define the path to the default dataset to be plotted.
-	 * See http://wiki.nexusformat.org/2014_How_to_find_default_data
-	 * for a summary of the discussion.
+	 * .. [#] NIAC2014 discussion summary:
+	 * http://wiki.nexusformat.org/2014_How_to_find_default_data
 	 * 
 	 * @return  the value.
 	 */
@@ -76,24 +77,66 @@ public interface NXentry extends NXsubentry {
 	 * contains the data to be shown by default.
 	 * It is needed to resolve ambiguity when more than one :ref:`NXdata` group exists.
 	 * The value is the name of the default :ref:`NXdata` group.
-	 * It is recommended (as of NIAC2014) to use this attribute
+	 * It is recommended (as of NIAC2014 [#]_) to use this attribute
 	 * to help define the path to the default dataset to be plotted.
-	 * See http://wiki.nexusformat.org/2014_How_to_find_default_data
-	 * for a summary of the discussion.
+	 * .. [#] NIAC2014 discussion summary:
+	 * http://wiki.nexusformat.org/2014_How_to_find_default_data
 	 * 
 	 * @param default_ the default
 	 */
 	public void setAttributeDefault(String default_);
 
 	/**
-	 * The required data group
+	 * The data group
+	 * .. note:: Before the NIAC2016 meeting [#]_, at least one
+	 * :ref:`NXdata` group was required in each :ref:`NXentry` group.
+	 * At the NIAC2016 meeting, it was decided to make :ref:`NXdata`
+	 * an optional group in :ref:`NXentry` groups for data files that
+	 * do not use an application definition.
+	 * It is recommended strongly that all NeXus data files provide
+	 * a NXdata group.
+	 * It is permissable to omit the NXdata group only when
+	 * defining the default plot is not practical or possible
+	 * from the available data.
+	 * For example, neutron event data may not have anything that
+	 * makes a useful plot without extensive processing.
+	 * Certain application definitions override this decision and
+	 * require an :ref:`NXdata` group
+	 * in the :ref:`NXentry` group. The ``minOccurs=0`` attribute
+	 * in the application definition will indicate the
+	 * :ref:`NXdata` group
+	 * is optional, otherwise, it is required.
+	 * .. [#] NIAC2016:
+	 * http://wiki.nexusformat.org/NIAC2016,
+	 * https://github.com/nexusformat/NIAC/issues/16
 	 * 
 	 * @return  the value.
 	 */
 	public NXdata getData();
 	
 	/**
-	 * The required data group
+	 * The data group
+	 * .. note:: Before the NIAC2016 meeting [#]_, at least one
+	 * :ref:`NXdata` group was required in each :ref:`NXentry` group.
+	 * At the NIAC2016 meeting, it was decided to make :ref:`NXdata`
+	 * an optional group in :ref:`NXentry` groups for data files that
+	 * do not use an application definition.
+	 * It is recommended strongly that all NeXus data files provide
+	 * a NXdata group.
+	 * It is permissable to omit the NXdata group only when
+	 * defining the default plot is not practical or possible
+	 * from the available data.
+	 * For example, neutron event data may not have anything that
+	 * makes a useful plot without extensive processing.
+	 * Certain application definitions override this decision and
+	 * require an :ref:`NXdata` group
+	 * in the :ref:`NXentry` group. The ``minOccurs=0`` attribute
+	 * in the application definition will indicate the
+	 * :ref:`NXdata` group
+	 * is optional, otherwise, it is required.
+	 * .. [#] NIAC2016:
+	 * http://wiki.nexusformat.org/NIAC2016,
+	 * https://github.com/nexusformat/NIAC/issues/16
 	 * 
 	 * @param data the data
 	 */
@@ -103,7 +146,28 @@ public interface NXentry extends NXsubentry {
 	 * Get a NXdata node by name:
 	 * <ul>
 	 * <li>
-	 * The required data group</li>
+	 * The data group
+	 * .. note:: Before the NIAC2016 meeting [#]_, at least one
+	 * :ref:`NXdata` group was required in each :ref:`NXentry` group.
+	 * At the NIAC2016 meeting, it was decided to make :ref:`NXdata`
+	 * an optional group in :ref:`NXentry` groups for data files that
+	 * do not use an application definition.
+	 * It is recommended strongly that all NeXus data files provide
+	 * a NXdata group.
+	 * It is permissable to omit the NXdata group only when
+	 * defining the default plot is not practical or possible
+	 * from the available data.
+	 * For example, neutron event data may not have anything that
+	 * makes a useful plot without extensive processing.
+	 * Certain application definitions override this decision and
+	 * require an :ref:`NXdata` group
+	 * in the :ref:`NXentry` group. The ``minOccurs=0`` attribute
+	 * in the application definition will indicate the
+	 * :ref:`NXdata` group
+	 * is optional, otherwise, it is required.
+	 * .. [#] NIAC2016:
+	 * http://wiki.nexusformat.org/NIAC2016,
+	 * https://github.com/nexusformat/NIAC/issues/16</li>
 	 * </ul>
 	 * 
 	 * @param name  the name of the node.
@@ -115,7 +179,28 @@ public interface NXentry extends NXsubentry {
 	 * Set a NXdata node by name:
 	 * <ul>
 	 * <li>
-	 * The required data group</li>
+	 * The data group
+	 * .. note:: Before the NIAC2016 meeting [#]_, at least one
+	 * :ref:`NXdata` group was required in each :ref:`NXentry` group.
+	 * At the NIAC2016 meeting, it was decided to make :ref:`NXdata`
+	 * an optional group in :ref:`NXentry` groups for data files that
+	 * do not use an application definition.
+	 * It is recommended strongly that all NeXus data files provide
+	 * a NXdata group.
+	 * It is permissable to omit the NXdata group only when
+	 * defining the default plot is not practical or possible
+	 * from the available data.
+	 * For example, neutron event data may not have anything that
+	 * makes a useful plot without extensive processing.
+	 * Certain application definitions override this decision and
+	 * require an :ref:`NXdata` group
+	 * in the :ref:`NXentry` group. The ``minOccurs=0`` attribute
+	 * in the application definition will indicate the
+	 * :ref:`NXdata` group
+	 * is optional, otherwise, it is required.
+	 * .. [#] NIAC2016:
+	 * http://wiki.nexusformat.org/NIAC2016,
+	 * https://github.com/nexusformat/NIAC/issues/16</li>
 	 * </ul>
 	 * 
 	 * @param name the name of the node
@@ -127,7 +212,28 @@ public interface NXentry extends NXsubentry {
 	 * Get all NXdata nodes:
 	 * <ul>
 	 * <li>
-	 * The required data group</li>
+	 * The data group
+	 * .. note:: Before the NIAC2016 meeting [#]_, at least one
+	 * :ref:`NXdata` group was required in each :ref:`NXentry` group.
+	 * At the NIAC2016 meeting, it was decided to make :ref:`NXdata`
+	 * an optional group in :ref:`NXentry` groups for data files that
+	 * do not use an application definition.
+	 * It is recommended strongly that all NeXus data files provide
+	 * a NXdata group.
+	 * It is permissable to omit the NXdata group only when
+	 * defining the default plot is not practical or possible
+	 * from the available data.
+	 * For example, neutron event data may not have anything that
+	 * makes a useful plot without extensive processing.
+	 * Certain application definitions override this decision and
+	 * require an :ref:`NXdata` group
+	 * in the :ref:`NXentry` group. The ``minOccurs=0`` attribute
+	 * in the application definition will indicate the
+	 * :ref:`NXdata` group
+	 * is optional, otherwise, it is required.
+	 * .. [#] NIAC2016:
+	 * http://wiki.nexusformat.org/NIAC2016,
+	 * https://github.com/nexusformat/NIAC/issues/16</li>
 	 * </ul>
 	 * 
 	 * @return  a map from node names to the NXdata for that node.
@@ -138,7 +244,28 @@ public interface NXentry extends NXsubentry {
 	 * Set multiple child nodes of a particular type.
 	 * <ul>
 	 * <li>
-	 * The required data group</li>
+	 * The data group
+	 * .. note:: Before the NIAC2016 meeting [#]_, at least one
+	 * :ref:`NXdata` group was required in each :ref:`NXentry` group.
+	 * At the NIAC2016 meeting, it was decided to make :ref:`NXdata`
+	 * an optional group in :ref:`NXentry` groups for data files that
+	 * do not use an application definition.
+	 * It is recommended strongly that all NeXus data files provide
+	 * a NXdata group.
+	 * It is permissable to omit the NXdata group only when
+	 * defining the default plot is not practical or possible
+	 * from the available data.
+	 * For example, neutron event data may not have anything that
+	 * makes a useful plot without extensive processing.
+	 * Certain application definitions override this decision and
+	 * require an :ref:`NXdata` group
+	 * in the :ref:`NXentry` group. The ``minOccurs=0`` attribute
+	 * in the application definition will indicate the
+	 * :ref:`NXdata` group
+	 * is optional, otherwise, it is required.
+	 * .. [#] NIAC2016:
+	 * http://wiki.nexusformat.org/NIAC2016,
+	 * https://github.com/nexusformat/NIAC/issues/16</li>
 	 * </ul>
 	 * 
 	 * @param data the child nodes to add 
@@ -352,7 +479,7 @@ public interface NXentry extends NXsubentry {
 	public DataNode setEntry_identifierScalar(String entry_identifier);
 
 	/**
-	 * Reserved for furture use by NIAC.
+	 * Reserved for future use by NIAC.
 	 * See https://github.com/nexusformat/definitions/issues/382
 	 * 
 	 * @return  the value.
@@ -360,7 +487,7 @@ public interface NXentry extends NXsubentry {
 	public IDataset getFeatures();
 	
 	/**
-	 * Reserved for furture use by NIAC.
+	 * Reserved for future use by NIAC.
 	 * See https://github.com/nexusformat/definitions/issues/382
 	 * 
 	 * @param features the features
@@ -368,7 +495,7 @@ public interface NXentry extends NXsubentry {
 	public DataNode setFeatures(IDataset features);
 
 	/**
-	 * Reserved for furture use by NIAC.
+	 * Reserved for future use by NIAC.
 	 * See https://github.com/nexusformat/definitions/issues/382
 	 * 
 	 * @return  the value.
@@ -376,7 +503,7 @@ public interface NXentry extends NXsubentry {
 	public String getFeaturesScalar();
 
 	/**
-	 * Reserved for furture use by NIAC.
+	 * Reserved for future use by NIAC.
 	 * See https://github.com/nexusformat/definitions/issues/382
 	 * 
 	 * @param features the features
@@ -920,62 +1047,6 @@ public interface NXentry extends NXsubentry {
 	 * @param thumbnail the thumbnail
 	 */
 	public void setThumbnail(NXnote thumbnail);
-
-	/**
-	 * 
-	 * @return  the value.
-	 */
-	public NXcharacterization getCharacterization();
-	
-	/**
-	 * 
-	 * @param characterization the characterization
-	 */
-	public void setCharacterization(NXcharacterization characterization);
-  
-	/**
-	 * Get a NXcharacterization node by name:
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 * 
-	 * @param name  the name of the node.
-	 * @return  a map from node names to the NXcharacterization for that node.
-	 */
-	public NXcharacterization getCharacterization(String name);
-	
-	/**
-	 * Set a NXcharacterization node by name:
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 * 
-	 * @param name the name of the node
-	 * @param characterization the value to set
-	 */
-	public void setCharacterization(String name, NXcharacterization characterization);
-	
-	/**
-	 * Get all NXcharacterization nodes:
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 * 
-	 * @return  a map from node names to the NXcharacterization for that node.
-	 */
-	public Map<String, NXcharacterization> getAllCharacterization();
-	
-	/**
-	 * Set multiple child nodes of a particular type.
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 * 
-	 * @param characterization the child nodes to add 
-	 */
-	
-	public void setAllCharacterization(Map<String, NXcharacterization> characterization);
-	
 
 	/**
 	 * 

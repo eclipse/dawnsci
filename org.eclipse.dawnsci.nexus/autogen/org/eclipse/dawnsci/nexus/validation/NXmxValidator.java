@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-09-28T15:24:10.531+01:00
+ * Generated at: 2017-06-22T16:43:44.279+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.validation;
@@ -24,6 +24,7 @@ import org.eclipse.dawnsci.nexus.NXsubentry;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXattenuator;
+import org.eclipse.dawnsci.nexus.NXdetector_group;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXtransformations;
 import org.eclipse.dawnsci.nexus.NXcollection;
@@ -120,6 +121,12 @@ public class NXmxValidator extends AbstractNexusValidator implements NexusApplic
 			validateGroup_NXentry_NXinstrument_NXattenuator(attenuator);
 		}
 
+		// validate unnamed child group of type NXdetector_group (possibly multiple)
+		final Map<String, NXdetector_group> allDetector_group = group.getAllDetector_group();
+		for (final NXdetector_group detector_group : allDetector_group.values()) {
+			validateGroup_NXentry_NXinstrument_NXdetector_group(detector_group);
+		}
+
 		// validate unnamed child group of type NXdetector (possibly multiple)
 		final Map<String, NXdetector> allDetector = group.getAllDetector();
 		for (final NXdetector detector : allDetector.values()) {
@@ -143,6 +150,33 @@ public class NXmxValidator extends AbstractNexusValidator implements NexusApplic
 	}
 
 	/**
+	 * Validate optional unnamed group of type NXdetector_group.
+	 */
+	private void validateGroup_NXentry_NXinstrument_NXdetector_group(final NXdetector_group group) throws NexusValidationException {
+		// validate that the group is not null
+		validateGroupNotNull(null, NXdetector_group.class, group);
+		clearLocalGroupDimensionPlaceholderValues();
+
+		// validate field 'group_names' of type NX_CHAR.
+		final IDataset group_names = group.getGroup_names();
+		validateFieldNotNull("group_names", group_names);
+		validateFieldType("group_names", group_names, NX_CHAR);
+		validateFieldDimensions("group_names", group_names, null, "");
+
+		// validate field 'group_index' of type NX_INT.
+		final IDataset group_index = group.getGroup_index();
+		validateFieldNotNull("group_index", group_index);
+		validateFieldType("group_index", group_index, NX_INT);
+		validateFieldDimensions("group_index", group_index, null, "i");
+
+		// validate field 'group_parent' of type NX_INT.
+		final IDataset group_parent = group.getGroup_parent();
+		validateFieldNotNull("group_parent", group_parent);
+		validateFieldType("group_parent", group_parent, NX_INT);
+		validateFieldDimensions("group_parent", group_parent, null, "");
+	}
+
+	/**
 	 * Validate unnamed group of type NXdetector.
 	 */
 	private void validateGroup_NXentry_NXinstrument_NXdetector(final NXdetector group) throws NexusValidationException {
@@ -160,8 +194,7 @@ public class NXmxValidator extends AbstractNexusValidator implements NexusApplic
 		validateFieldNotNull("data", data);
 		validateFieldType("data", data, NX_NUMBER);
 		validateFieldUnits("data", data, NX_ANY);
-		validateFieldRank("data", data, 3);
-		validateFieldDimensions("data", data, null, "np", "i", "j");
+		validateFieldDimensions("data", data, null, "np", "i", "j", "k");
 
 		// validate optional field 'description' of unknown type.
 		final IDataset description = group.getDescription();
@@ -225,8 +258,7 @@ public class NXmxValidator extends AbstractNexusValidator implements NexusApplic
 		final IDataset angular_calibration = group.getAngular_calibration();
 		if (angular_calibration != null) {
 			validateFieldType("angular_calibration", angular_calibration, NX_FLOAT);
-			validateFieldRank("angular_calibration", angular_calibration, 2);
-			validateFieldDimensions("angular_calibration", angular_calibration, null, "i", "j");
+			validateFieldDimensions("angular_calibration", angular_calibration, null, "i", "j", "k");
 		}
 
 		// validate optional field 'flatfield_applied' of type NX_BOOLEAN.
@@ -239,16 +271,14 @@ public class NXmxValidator extends AbstractNexusValidator implements NexusApplic
 		final IDataset flatfield = group.getFlatfield();
 		if (flatfield != null) {
 			validateFieldType("flatfield", flatfield, NX_FLOAT);
-			validateFieldRank("flatfield", flatfield, 2);
-			validateFieldDimensions("flatfield", flatfield, null, "i", "j");
+			validateFieldDimensions("flatfield", flatfield, null, "i", "j", "k");
 		}
 
 		// validate optional field 'flatfield_error' of type NX_FLOAT.
 		final IDataset flatfield_error = group.getFlatfield_error();
 		if (flatfield_error != null) {
 			validateFieldType("flatfield_error", flatfield_error, NX_FLOAT);
-			validateFieldRank("flatfield_error", flatfield_error, 2);
-			validateFieldDimensions("flatfield_error", flatfield_error, null, "i", "j");
+			validateFieldDimensions("flatfield_error", flatfield_error, null, "i", "j", "k");
 		}
 
 		// validate optional field 'pixel_mask_applied' of type NX_BOOLEAN.
@@ -261,8 +291,7 @@ public class NXmxValidator extends AbstractNexusValidator implements NexusApplic
 		final IDataset pixel_mask = group.getPixel_mask();
 		if (pixel_mask != null) {
 			validateFieldType("pixel_mask", pixel_mask, NX_INT);
-			validateFieldRank("pixel_mask", pixel_mask, 2);
-			validateFieldDimensions("pixel_mask", pixel_mask, null, "i", "j");
+			validateFieldDimensions("pixel_mask", pixel_mask, null, "i", "j", "k");
 		}
 
 		// validate optional field 'countrate_correction_applied' of type NX_BOOLEAN. Note: field not defined in base class.
@@ -377,6 +406,12 @@ public class NXmxValidator extends AbstractNexusValidator implements NexusApplic
 		validateFieldNotNull("data_size", data_size);
 		validateFieldType("data_size", data_size, NX_INT);
 
+		// validate optional field 'data_stride' of type NX_INT. Note: field not defined in base class.
+		final IDataset data_stride = group.getDataset("data_stride");
+		if (data_stride != null) {
+			validateFieldType("data_stride", data_stride, NX_INT);
+		}
+
 		// validate field 'module_offset' of type NX_NUMBER.
 		final IDataset module_offset = group.getModule_offset();
 		validateFieldNotNull("module_offset", module_offset);
@@ -478,15 +513,15 @@ public class NXmxValidator extends AbstractNexusValidator implements NexusApplic
 			validateFieldDimensions("temperature", temperature, "NXsample", "n_Temp");
 		}
 
+		// validate NXtransformations groups (special case)
+		final Map<String, NXtransformations> allTransformations = group.getChildren(NXtransformations.class);
+		validateTransformations(allTransformations, depends_on.getString(0));
+
 		// validate unnamed child group of type NXbeam (possibly multiple)
 		final Map<String, NXbeam> allBeam = group.getAllBeam();
 		for (final NXbeam beam : allBeam.values()) {
 			validateGroup_NXentry_NXsample_NXbeam(beam);
 		}
-
-		// validate NXtransformations groups (special case)
-		final Map<String, NXtransformations> allTransformations = group.getChildren(NXtransformations.class);
-		validateTransformations(allTransformations, depends_on.getString(0));
 	}
 
 	/**
@@ -497,13 +532,28 @@ public class NXmxValidator extends AbstractNexusValidator implements NexusApplic
 		validateGroupNotNull(null, NXbeam.class, group);
 		clearLocalGroupDimensionPlaceholderValues();
 
-		// validate optional field 'incident_wavelength' of type NX_NUMBER.
+		// validate optional field 'incident_wavelength' of type NX_FLOAT.
 		final IDataset incident_wavelength = group.getIncident_wavelength();
 		if (incident_wavelength != null) {
-			validateFieldType("incident_wavelength", incident_wavelength, NX_NUMBER);
+			validateFieldType("incident_wavelength", incident_wavelength, NX_FLOAT);
 			validateFieldUnits("incident_wavelength", incident_wavelength, NX_WAVELENGTH);
 			validateFieldRank("incident_wavelength", incident_wavelength, 1);
 			validateFieldDimensions("incident_wavelength", incident_wavelength, "NXbeam", "i");
+		}
+
+		// validate optional field 'incident_wavelength_weight' of type NX_FLOAT. Note: field not defined in base class.
+		final IDataset incident_wavelength_weight = group.getDataset("incident_wavelength_weight");
+		if (incident_wavelength_weight != null) {
+			validateFieldType("incident_wavelength_weight", incident_wavelength_weight, NX_FLOAT);
+		}
+
+		// validate optional field 'incident_wavelength_spread' of type NX_FLOAT.
+		final IDataset incident_wavelength_spread = group.getIncident_wavelength_spread();
+		if (incident_wavelength_spread != null) {
+			validateFieldType("incident_wavelength_spread", incident_wavelength_spread, NX_FLOAT);
+			validateFieldUnits("incident_wavelength_spread", incident_wavelength_spread, NX_WAVELENGTH);
+			validateFieldRank("incident_wavelength_spread", incident_wavelength_spread, 1);
+			validateFieldDimensions("incident_wavelength_spread", incident_wavelength_spread, "NXbeam", "i");
 		}
 
 		// validate optional field 'flux' of type NX_FLOAT.
@@ -513,6 +563,33 @@ public class NXmxValidator extends AbstractNexusValidator implements NexusApplic
 			validateFieldUnits("flux", flux, NX_FLUX);
 			validateFieldRank("flux", flux, 1);
 			validateFieldDimensions("flux", flux, "NXbeam", "i");
+		}
+
+		// validate optional field 'total_flux' of type NX_FLOAT. Note: field not defined in base class.
+		final IDataset total_flux = group.getDataset("total_flux");
+		if (total_flux != null) {
+			validateFieldType("total_flux", total_flux, NX_FLOAT);
+			validateFieldUnits("total_flux", total_flux, NX_FREQUENCY);
+		}
+
+		// validate optional field 'incident_beam_size' of type NX_FLOAT. Note: field not defined in base class.
+		final IDataset incident_beam_size = group.getDataset("incident_beam_size");
+		if (incident_beam_size != null) {
+			validateFieldType("incident_beam_size", incident_beam_size, NX_FLOAT);
+			validateFieldUnits("incident_beam_size", incident_beam_size, NX_LENGTH);
+			validateFieldRank("incident_beam_size", incident_beam_size, 1);
+			validateFieldDimensions("incident_beam_size", incident_beam_size, null, 2);
+		}
+
+		// validate optional field 'profile' of type NX_CHAR. Note: field not defined in base class.
+		final IDataset profile = group.getDataset("profile");
+		if (profile != null) {
+			validateFieldType("profile", profile, NX_CHAR);
+			validateFieldEnumeration("profile", profile,
+					"Gaussian",
+					"Airy",
+					"top-hat",
+					"rectangular");
 		}
 
 		// validate optional field 'incident_polarisation_stokes' of unknown type. Note: field not defined in base class.

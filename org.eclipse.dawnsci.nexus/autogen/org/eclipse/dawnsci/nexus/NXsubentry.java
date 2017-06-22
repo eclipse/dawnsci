@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-09-28T15:24:07.968+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -808,62 +808,6 @@ public interface NXsubentry extends NXobject {
 	 * @param thumbnail the thumbnail
 	 */
 	public void setThumbnail(NXnote thumbnail);
-
-	/**
-	 * 
-	 * @return  the value.
-	 */
-	public NXcharacterization getCharacterization();
-	
-	/**
-	 * 
-	 * @param characterization the characterization
-	 */
-	public void setCharacterization(NXcharacterization characterization);
-  
-	/**
-	 * Get a NXcharacterization node by name:
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 * 
-	 * @param name  the name of the node.
-	 * @return  a map from node names to the NXcharacterization for that node.
-	 */
-	public NXcharacterization getCharacterization(String name);
-	
-	/**
-	 * Set a NXcharacterization node by name:
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 * 
-	 * @param name the name of the node
-	 * @param characterization the value to set
-	 */
-	public void setCharacterization(String name, NXcharacterization characterization);
-	
-	/**
-	 * Get all NXcharacterization nodes:
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 * 
-	 * @return  a map from node names to the NXcharacterization for that node.
-	 */
-	public Map<String, NXcharacterization> getAllCharacterization();
-	
-	/**
-	 * Set multiple child nodes of a particular type.
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 * 
-	 * @param characterization the child nodes to add 
-	 */
-	
-	public void setAllCharacterization(Map<String, NXcharacterization> characterization);
-	
 
 	/**
 	 * 

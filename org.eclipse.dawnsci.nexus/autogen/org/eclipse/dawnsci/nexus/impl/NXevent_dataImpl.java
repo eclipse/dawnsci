@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-09-28T15:24:07.968+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -23,9 +23,29 @@ import org.eclipse.january.dataset.IDataset;
 import org.eclipse.dawnsci.nexus.*;
 
 /**
- * Time-of-flight events
+ * NXevent_data is a special group for storing data from neutron
+ * detectors in event mode. In this mode, the detector electronics
+ * emits a stream of detectorID, timestamp pairs. With detectorID
+ * describing the detector element in which the neutron was detected
+ * and timestamp the timestamp at which the neutron event was
+ * detected. In NeXus detectorID maps to event_id, event_time_offset
+ * to the timestamp.
+ * As this kind of data is common at pulsed neutron
+ * sources, the timestamp is almost always relative to the start of a
+ * neutron pulse. Thus the pulse timestamp is recorded too together
+ * with an index in the event_id, event_time_offset pair at which data for
+ * that pulse starts. At reactor source the same pulsed data effect
+ * may be achieved through the use of choppers or in stroboscopic
+ * measurement setups.
+ * In order to make random access to timestamped data
+ * faster there is an optional array pair of
+ * cue_timestamp_zero and cue_index. The cue_timestamp_zero will
+ * contain courser timestamps then in the time array, say
+ * every five minutes. The cue_index will then contain the
+ * index into the event_id,event_time_offset pair of arrays for that
+ * courser cue_timestamp_zero.
  * 
- * @version 1.0
+ * @version 1.1
  */
 public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 
@@ -59,93 +79,93 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 	
 
 	@Override
-	public IDataset getTime_of_flight() {
-		return getDataset(NX_TIME_OF_FLIGHT);
+	public IDataset getEvent_time_offset() {
+		return getDataset(NX_EVENT_TIME_OFFSET);
 	}
 
 	@Override
-	public Long getTime_of_flightScalar() {
-		return getLong(NX_TIME_OF_FLIGHT);
+	public Long getEvent_time_offsetScalar() {
+		return getLong(NX_EVENT_TIME_OFFSET);
 	}
 
 	@Override
-	public DataNode setTime_of_flight(IDataset time_of_flight) {
-		return setDataset(NX_TIME_OF_FLIGHT, time_of_flight);
+	public DataNode setEvent_time_offset(IDataset event_time_offset) {
+		return setDataset(NX_EVENT_TIME_OFFSET, event_time_offset);
 	}
 
 	@Override
-	public DataNode setTime_of_flightScalar(Long time_of_flight) {
-		return setField(NX_TIME_OF_FLIGHT, time_of_flight);
+	public DataNode setEvent_time_offsetScalar(Long event_time_offset) {
+		return setField(NX_EVENT_TIME_OFFSET, event_time_offset);
 	}
 
 	@Override
-	public IDataset getPixel_number() {
-		return getDataset(NX_PIXEL_NUMBER);
+	public IDataset getEvent_id() {
+		return getDataset(NX_EVENT_ID);
 	}
 
 	@Override
-	public Long getPixel_numberScalar() {
-		return getLong(NX_PIXEL_NUMBER);
+	public Long getEvent_idScalar() {
+		return getLong(NX_EVENT_ID);
 	}
 
 	@Override
-	public DataNode setPixel_number(IDataset pixel_number) {
-		return setDataset(NX_PIXEL_NUMBER, pixel_number);
+	public DataNode setEvent_id(IDataset event_id) {
+		return setDataset(NX_EVENT_ID, event_id);
 	}
 
 	@Override
-	public DataNode setPixel_numberScalar(Long pixel_number) {
-		return setField(NX_PIXEL_NUMBER, pixel_number);
+	public DataNode setEvent_idScalar(Long event_id) {
+		return setField(NX_EVENT_ID, event_id);
 	}
 
 	@Override
-	public IDataset getPulse_time() {
-		return getDataset(NX_PULSE_TIME);
+	public IDataset getEvent_time_zero() {
+		return getDataset(NX_EVENT_TIME_ZERO);
 	}
 
 	@Override
-	public Long getPulse_timeScalar() {
-		return getLong(NX_PULSE_TIME);
+	public Long getEvent_time_zeroScalar() {
+		return getLong(NX_EVENT_TIME_ZERO);
 	}
 
 	@Override
-	public DataNode setPulse_time(IDataset pulse_time) {
-		return setDataset(NX_PULSE_TIME, pulse_time);
+	public DataNode setEvent_time_zero(IDataset event_time_zero) {
+		return setDataset(NX_EVENT_TIME_ZERO, event_time_zero);
 	}
 
 	@Override
-	public DataNode setPulse_timeScalar(Long pulse_time) {
-		return setField(NX_PULSE_TIME, pulse_time);
+	public DataNode setEvent_time_zeroScalar(Long event_time_zero) {
+		return setField(NX_EVENT_TIME_ZERO, event_time_zero);
 	}
 
 	@Override
-	public Date getPulse_timeAttributeOffset() {
-		return getAttrDate(NX_PULSE_TIME, NX_PULSE_TIME_ATTRIBUTE_OFFSET);
+	public Date getEvent_time_zeroAttributeOffset() {
+		return getAttrDate(NX_EVENT_TIME_ZERO, NX_EVENT_TIME_ZERO_ATTRIBUTE_OFFSET);
 	}
 
 	@Override
-	public void setPulse_timeAttributeOffset(Date offset) {
-		setAttribute(NX_PULSE_TIME, NX_PULSE_TIME_ATTRIBUTE_OFFSET, offset);
+	public void setEvent_time_zeroAttributeOffset(Date offset) {
+		setAttribute(NX_EVENT_TIME_ZERO, NX_EVENT_TIME_ZERO_ATTRIBUTE_OFFSET, offset);
 	}
 
 	@Override
-	public IDataset getEvents_per_pulse() {
-		return getDataset(NX_EVENTS_PER_PULSE);
+	public IDataset getEvent_index() {
+		return getDataset(NX_EVENT_INDEX);
 	}
 
 	@Override
-	public Long getEvents_per_pulseScalar() {
-		return getLong(NX_EVENTS_PER_PULSE);
+	public Long getEvent_indexScalar() {
+		return getLong(NX_EVENT_INDEX);
 	}
 
 	@Override
-	public DataNode setEvents_per_pulse(IDataset events_per_pulse) {
-		return setDataset(NX_EVENTS_PER_PULSE, events_per_pulse);
+	public DataNode setEvent_index(IDataset event_index) {
+		return setDataset(NX_EVENT_INDEX, event_index);
 	}
 
 	@Override
-	public DataNode setEvents_per_pulseScalar(Long events_per_pulse) {
-		return setField(NX_EVENTS_PER_PULSE, events_per_pulse);
+	public DataNode setEvent_indexScalar(Long event_index) {
+		return setField(NX_EVENT_INDEX, event_index);
 	}
 
 	@Override
@@ -166,6 +186,56 @@ public class NXevent_dataImpl extends NXobjectImpl implements NXevent_data {
 	@Override
 	public DataNode setPulse_heightScalar(Double pulse_height) {
 		return setField(NX_PULSE_HEIGHT, pulse_height);
+	}
+
+	@Override
+	public IDataset getCue_timestamp_zero() {
+		return getDataset(NX_CUE_TIMESTAMP_ZERO);
+	}
+
+	@Override
+	public Date getCue_timestamp_zeroScalar() {
+		return getDate(NX_CUE_TIMESTAMP_ZERO);
+	}
+
+	@Override
+	public DataNode setCue_timestamp_zero(IDataset cue_timestamp_zero) {
+		return setDataset(NX_CUE_TIMESTAMP_ZERO, cue_timestamp_zero);
+	}
+
+	@Override
+	public DataNode setCue_timestamp_zeroScalar(Date cue_timestamp_zero) {
+		return setDate(NX_CUE_TIMESTAMP_ZERO, cue_timestamp_zero);
+	}
+
+	@Override
+	public Date getCue_timestamp_zeroAttributeStart() {
+		return getAttrDate(NX_CUE_TIMESTAMP_ZERO, NX_CUE_TIMESTAMP_ZERO_ATTRIBUTE_START);
+	}
+
+	@Override
+	public void setCue_timestamp_zeroAttributeStart(Date start) {
+		setAttribute(NX_CUE_TIMESTAMP_ZERO, NX_CUE_TIMESTAMP_ZERO_ATTRIBUTE_START, start);
+	}
+
+	@Override
+	public IDataset getCue_index() {
+		return getDataset(NX_CUE_INDEX);
+	}
+
+	@Override
+	public Long getCue_indexScalar() {
+		return getLong(NX_CUE_INDEX);
+	}
+
+	@Override
+	public DataNode setCue_index(IDataset cue_index) {
+		return setDataset(NX_CUE_INDEX, cue_index);
+	}
+
+	@Override
+	public DataNode setCue_indexScalar(Long cue_index) {
+		return setField(NX_CUE_INDEX, cue_index);
 	}
 
 }

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-09-28T15:24:07.968+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -26,7 +26,8 @@ import org.eclipse.dawnsci.nexus.*;
 /**
  * (**required**) :ref:`NXentry` describes the measurement.
  * The top-level NeXus group which contains all the data and associated
- * information that comprise a single measurement. It is mandatory that there is at least one
+ * information that comprise a single measurement.
+ * It is mandatory that there is at least one
  * group of this type in the NeXus file.
  * 
  * @version 1.0
@@ -41,7 +42,6 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 		NexusBaseClass.NX_NOTE,
 		NexusBaseClass.NX_NOTE,
 		NexusBaseClass.NX_NOTE,
-		NexusBaseClass.NX_CHARACTERIZATION,
 		NexusBaseClass.NX_USER,
 		NexusBaseClass.NX_SAMPLE,
 		NexusBaseClass.NX_INSTRUMENT,
@@ -567,36 +567,6 @@ public class NXentryImpl extends NXobjectImpl implements NXentry {
 	@Override
 	public void setThumbnail(NXnote thumbnail) {
 		putChild("thumbnail", thumbnail);
-	}
-
-	@Override
-	public NXcharacterization getCharacterization() {
-		return getChild("characterization", NXcharacterization.class);
-	}
-
-	@Override
-	public void setCharacterization(NXcharacterization characterization) {
-		putChild("characterization", characterization);
-	}
-
-	@Override
-	public NXcharacterization getCharacterization(String name) {
-		return getChild(name, NXcharacterization.class);
-	}
-
-	@Override
-	public void setCharacterization(String name, NXcharacterization characterization) {
-		putChild(name, characterization);
-	}
-
-	@Override
-	public Map<String, NXcharacterization> getAllCharacterization() {
-		return getChildren(NXcharacterization.class);
-	}
-	
-	@Override
-	public void setAllCharacterization(Map<String, NXcharacterization> characterization) {
-		setChildren(characterization);
 	}
 
 	@Override

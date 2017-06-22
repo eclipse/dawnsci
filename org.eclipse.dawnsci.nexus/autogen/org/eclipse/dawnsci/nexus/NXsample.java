@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-09-28T15:24:07.968+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -54,10 +54,13 @@ public interface NXsample extends NXobject {
 	public static final String NX_STRESS_FIELD_ATTRIBUTE_DIRECTION = "direction";
 	public static final String NX_PRESSURE = "pressure";
 	public static final String NX_CHANGER_POSITION = "changer_position";
+	public static final String NX_UNIT_CELL_ABC = "unit_cell_abc";
+	public static final String NX_UNIT_CELL_ALPHABETAGAMMA = "unit_cell_alphabetagamma";
 	public static final String NX_UNIT_CELL = "unit_cell";
 	public static final String NX_UNIT_CELL_VOLUME = "unit_cell_volume";
 	public static final String NX_SAMPLE_ORIENTATION = "sample_orientation";
 	public static final String NX_ORIENTATION_MATRIX = "orientation_matrix";
+	public static final String NX_UB_MATRIX = "ub_matrix";
 	public static final String NX_MASS = "mass";
 	public static final String NX_DENSITY = "density";
 	public static final String NX_RELATIVE_MOLECULAR_MASS = "relative_molecular_mass";
@@ -71,7 +74,8 @@ public interface NXsample extends NXobject {
 	public static final String NX_VOLUME_FRACTION = "volume_fraction";
 	public static final String NX_SCATTERING_LENGTH_DENSITY = "scattering_length_density";
 	public static final String NX_UNIT_CELL_CLASS = "unit_cell_class";
-	public static final String NX_UNIT_CELL_GROUP = "unit_cell_group";
+	public static final String NX_SPACE_GROUP = "space_group";
+	public static final String NX_POINT_GROUP = "point_group";
 	public static final String NX_PATH_LENGTH = "path_length";
 	public static final String NX_PATH_LENGTH_WINDOW = "path_length_window";
 	public static final String NX_THICKNESS = "thickness";
@@ -549,6 +553,102 @@ public interface NXsample extends NXobject {
 	public DataNode setChanger_positionScalar(Long changer_position);
 
 	/**
+	 * Crystallography unit cell parameters a, b, and c
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: 3;
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getUnit_cell_abc();
+	
+	/**
+	 * Crystallography unit cell parameters a, b, and c
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: 3;
+	 * </p>
+	 * 
+	 * @param unit_cell_abc the unit_cell_abc
+	 */
+	public DataNode setUnit_cell_abc(IDataset unit_cell_abc);
+
+	/**
+	 * Crystallography unit cell parameters a, b, and c
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: 3;
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public Double getUnit_cell_abcScalar();
+
+	/**
+	 * Crystallography unit cell parameters a, b, and c
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_LENGTH
+	 * <b>Dimensions:</b> 1: 3;
+	 * </p>
+	 * 
+	 * @param unit_cell_abc the unit_cell_abc
+	 */
+	public DataNode setUnit_cell_abcScalar(Double unit_cell_abc);
+
+	/**
+	 * Crystallography unit cell parameters alpha, beta, and gamma
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * <b>Dimensions:</b> 1: 3;
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getUnit_cell_alphabetagamma();
+	
+	/**
+	 * Crystallography unit cell parameters alpha, beta, and gamma
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * <b>Dimensions:</b> 1: 3;
+	 * </p>
+	 * 
+	 * @param unit_cell_alphabetagamma the unit_cell_alphabetagamma
+	 */
+	public DataNode setUnit_cell_alphabetagamma(IDataset unit_cell_alphabetagamma);
+
+	/**
+	 * Crystallography unit cell parameters alpha, beta, and gamma
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * <b>Dimensions:</b> 1: 3;
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public Double getUnit_cell_alphabetagammaScalar();
+
+	/**
+	 * Crystallography unit cell parameters alpha, beta, and gamma
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Units:</b> NX_ANGLE
+	 * <b>Dimensions:</b> 1: 3;
+	 * </p>
+	 * 
+	 * @param unit_cell_alphabetagamma the unit_cell_alphabetagamma
+	 */
+	public DataNode setUnit_cell_alphabetagammaScalar(Double unit_cell_alphabetagamma);
+
+	/**
 	 * Unit cell parameters (lengths and angles)
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -745,6 +845,66 @@ public interface NXsample extends NXobject {
 	public DataNode setOrientation_matrixScalar(Double orientation_matrix);
 
 	/**
+	 * UB matrix of single crystal sample using Busing-Levy convention:
+	 * W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464. This is
+	 * the multiplication of the orientation_matrix, given above,
+	 * with the :math:`B` matrix which
+	 * can be derived from the lattice constants.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Dimensions:</b> 1: n_comp; 2: 3; 3: 3;
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getUb_matrix();
+	
+	/**
+	 * UB matrix of single crystal sample using Busing-Levy convention:
+	 * W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464. This is
+	 * the multiplication of the orientation_matrix, given above,
+	 * with the :math:`B` matrix which
+	 * can be derived from the lattice constants.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Dimensions:</b> 1: n_comp; 2: 3; 3: 3;
+	 * </p>
+	 * 
+	 * @param ub_matrix the ub_matrix
+	 */
+	public DataNode setUb_matrix(IDataset ub_matrix);
+
+	/**
+	 * UB matrix of single crystal sample using Busing-Levy convention:
+	 * W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464. This is
+	 * the multiplication of the orientation_matrix, given above,
+	 * with the :math:`B` matrix which
+	 * can be derived from the lattice constants.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Dimensions:</b> 1: n_comp; 2: 3; 3: 3;
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public Double getUb_matrixScalar();
+
+	/**
+	 * UB matrix of single crystal sample using Busing-Levy convention:
+	 * W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464. This is
+	 * the multiplication of the orientation_matrix, given above,
+	 * with the :math:`B` matrix which
+	 * can be derived from the lattice constants.
+	 * <p>
+	 * <b>Type:</b> NX_FLOAT
+	 * <b>Dimensions:</b> 1: n_comp; 2: 3; 3: 3;
+	 * </p>
+	 * 
+	 * @param ub_matrix the ub_matrix
+	 */
+	public DataNode setUb_matrixScalar(Double ub_matrix);
+
+	/**
 	 * Mass of sample
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
@@ -894,6 +1054,8 @@ public interface NXsample extends NXobject {
 	 * <li><b>sample</b> </li>
 	 * <li><b>sample+can</b> </li>
 	 * <li><b>can</b> </li>
+	 * <li><b>sample+buffer</b> </li>
+	 * <li><b>buffer</b> </li>
 	 * <li><b>calibration sample</b> </li>
 	 * <li><b>normalisation sample</b> </li>
 	 * <li><b>simulated data</b> </li>
@@ -911,6 +1073,8 @@ public interface NXsample extends NXobject {
 	 * <li><b>sample</b> </li>
 	 * <li><b>sample+can</b> </li>
 	 * <li><b>can</b> </li>
+	 * <li><b>sample+buffer</b> </li>
+	 * <li><b>buffer</b> </li>
 	 * <li><b>calibration sample</b> </li>
 	 * <li><b>normalisation sample</b> </li>
 	 * <li><b>simulated data</b> </li>
@@ -928,6 +1092,8 @@ public interface NXsample extends NXobject {
 	 * <li><b>sample</b> </li>
 	 * <li><b>sample+can</b> </li>
 	 * <li><b>can</b> </li>
+	 * <li><b>sample+buffer</b> </li>
+	 * <li><b>buffer</b> </li>
 	 * <li><b>calibration sample</b> </li>
 	 * <li><b>normalisation sample</b> </li>
 	 * <li><b>simulated data</b> </li>
@@ -945,6 +1111,8 @@ public interface NXsample extends NXobject {
 	 * <li><b>sample</b> </li>
 	 * <li><b>sample+can</b> </li>
 	 * <li><b>can</b> </li>
+	 * <li><b>sample+buffer</b> </li>
+	 * <li><b>buffer</b> </li>
 	 * <li><b>calibration sample</b> </li>
 	 * <li><b>normalisation sample</b> </li>
 	 * <li><b>simulated data</b> </li>
@@ -1174,6 +1342,74 @@ public interface NXsample extends NXobject {
 	 */
 	
 	public void setAllBeam(Map<String, NXbeam> beam);
+	
+
+	/**
+	 * One group per sample component
+	 * This is the perferred way of recording per component information over the n_comp arrays
+	 * 
+	 * @return  the value.
+	 */
+	public NXsample_component getSample_componentGroup();
+	
+	/**
+	 * One group per sample component
+	 * This is the perferred way of recording per component information over the n_comp arrays
+	 * 
+	 * @param sample_componentGroup the sample_componentGroup
+	 */
+	public void setSample_componentGroup(NXsample_component sample_componentGroup);
+  
+	/**
+	 * Get a NXsample_component node by name:
+	 * <ul>
+	 * <li>
+	 * One group per sample component
+	 * This is the perferred way of recording per component information over the n_comp arrays</li>
+	 * </ul>
+	 * 
+	 * @param name  the name of the node.
+	 * @return  a map from node names to the NXsample_component for that node.
+	 */
+	public NXsample_component getSample_componentGroup(String name);
+	
+	/**
+	 * Set a NXsample_component node by name:
+	 * <ul>
+	 * <li>
+	 * One group per sample component
+	 * This is the perferred way of recording per component information over the n_comp arrays</li>
+	 * </ul>
+	 * 
+	 * @param name the name of the node
+	 * @param sample_componentGroup the value to set
+	 */
+	public void setSample_componentGroup(String name, NXsample_component sample_componentGroup);
+	
+	/**
+	 * Get all NXsample_component nodes:
+	 * <ul>
+	 * <li>
+	 * One group per sample component
+	 * This is the perferred way of recording per component information over the n_comp arrays</li>
+	 * </ul>
+	 * 
+	 * @return  a map from node names to the NXsample_component for that node.
+	 */
+	public Map<String, NXsample_component> getAllSample_componentGroup();
+	
+	/**
+	 * Set multiple child nodes of a particular type.
+	 * <ul>
+	 * <li>
+	 * One group per sample component
+	 * This is the perferred way of recording per component information over the n_comp arrays</li>
+	 * </ul>
+	 * 
+	 * @param sample_componentGroup the child nodes to add 
+	 */
+	
+	public void setAllSample_componentGroup(Map<String, NXsample_component> sample_componentGroup);
 	
 
 	/**
@@ -1419,13 +1655,14 @@ public interface NXsample extends NXobject {
 	/**
 	 * In case it is all we know and we want to record/document it
 	 * <p>
-	 * <b>Dimensions:</b> 1: n_comp;
 	 * <p><b>Enumeration:</b><ul>
-	 * <li><b>cubic</b> </li>
-	 * <li><b>tetragonal</b> </li>
-	 * <li><b>orthorhombic</b> </li>
+	 * <li><b>triclinic</b> </li>
 	 * <li><b>monoclinic</b> </li>
-	 * <li><b>triclinic</b> </li></ul></p>
+	 * <li><b>orthorhombic</b> </li>
+	 * <li><b>tetragonal</b> </li>
+	 * <li><b>rhombohedral</b> </li>
+	 * <li><b>hexagonal</b> </li>
+	 * <li><b>cubic</b> </li></ul></p>
 	 * </p>
 	 * 
 	 * @return  the value.
@@ -1435,13 +1672,14 @@ public interface NXsample extends NXobject {
 	/**
 	 * In case it is all we know and we want to record/document it
 	 * <p>
-	 * <b>Dimensions:</b> 1: n_comp;
 	 * <p><b>Enumeration:</b><ul>
-	 * <li><b>cubic</b> </li>
-	 * <li><b>tetragonal</b> </li>
-	 * <li><b>orthorhombic</b> </li>
+	 * <li><b>triclinic</b> </li>
 	 * <li><b>monoclinic</b> </li>
-	 * <li><b>triclinic</b> </li></ul></p>
+	 * <li><b>orthorhombic</b> </li>
+	 * <li><b>tetragonal</b> </li>
+	 * <li><b>rhombohedral</b> </li>
+	 * <li><b>hexagonal</b> </li>
+	 * <li><b>cubic</b> </li></ul></p>
 	 * </p>
 	 * 
 	 * @param unit_cell_class the unit_cell_class
@@ -1451,13 +1689,14 @@ public interface NXsample extends NXobject {
 	/**
 	 * In case it is all we know and we want to record/document it
 	 * <p>
-	 * <b>Dimensions:</b> 1: n_comp;
 	 * <p><b>Enumeration:</b><ul>
-	 * <li><b>cubic</b> </li>
-	 * <li><b>tetragonal</b> </li>
-	 * <li><b>orthorhombic</b> </li>
+	 * <li><b>triclinic</b> </li>
 	 * <li><b>monoclinic</b> </li>
-	 * <li><b>triclinic</b> </li></ul></p>
+	 * <li><b>orthorhombic</b> </li>
+	 * <li><b>tetragonal</b> </li>
+	 * <li><b>rhombohedral</b> </li>
+	 * <li><b>hexagonal</b> </li>
+	 * <li><b>cubic</b> </li></ul></p>
 	 * </p>
 	 * 
 	 * @return  the value.
@@ -1467,13 +1706,14 @@ public interface NXsample extends NXobject {
 	/**
 	 * In case it is all we know and we want to record/document it
 	 * <p>
-	 * <b>Dimensions:</b> 1: n_comp;
 	 * <p><b>Enumeration:</b><ul>
-	 * <li><b>cubic</b> </li>
-	 * <li><b>tetragonal</b> </li>
-	 * <li><b>orthorhombic</b> </li>
+	 * <li><b>triclinic</b> </li>
 	 * <li><b>monoclinic</b> </li>
-	 * <li><b>triclinic</b> </li></ul></p>
+	 * <li><b>orthorhombic</b> </li>
+	 * <li><b>tetragonal</b> </li>
+	 * <li><b>rhombohedral</b> </li>
+	 * <li><b>hexagonal</b> </li>
+	 * <li><b>cubic</b> </li></ul></p>
 	 * </p>
 	 * 
 	 * @param unit_cell_class the unit_cell_class
@@ -1481,44 +1721,84 @@ public interface NXsample extends NXobject {
 	public DataNode setUnit_cell_classScalar(String unit_cell_class);
 
 	/**
-	 * Crystallographic point or space group
+	 * Crystallographic space group
 	 * <p>
 	 * <b>Dimensions:</b> 1: n_comp;
 	 * </p>
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getUnit_cell_group();
+	public IDataset getSpace_group();
 	
 	/**
-	 * Crystallographic point or space group
+	 * Crystallographic space group
 	 * <p>
 	 * <b>Dimensions:</b> 1: n_comp;
 	 * </p>
 	 * 
-	 * @param unit_cell_group the unit_cell_group
+	 * @param space_group the space_group
 	 */
-	public DataNode setUnit_cell_group(IDataset unit_cell_group);
+	public DataNode setSpace_group(IDataset space_group);
 
 	/**
-	 * Crystallographic point or space group
+	 * Crystallographic space group
 	 * <p>
 	 * <b>Dimensions:</b> 1: n_comp;
 	 * </p>
 	 * 
 	 * @return  the value.
 	 */
-	public String getUnit_cell_groupScalar();
+	public String getSpace_groupScalar();
 
 	/**
-	 * Crystallographic point or space group
+	 * Crystallographic space group
 	 * <p>
 	 * <b>Dimensions:</b> 1: n_comp;
 	 * </p>
 	 * 
-	 * @param unit_cell_group the unit_cell_group
+	 * @param space_group the space_group
 	 */
-	public DataNode setUnit_cell_groupScalar(String unit_cell_group);
+	public DataNode setSpace_groupScalar(String space_group);
+
+	/**
+	 * Crystallographic point group, deprecated if space_group present
+	 * <p>
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getPoint_group();
+	
+	/**
+	 * Crystallographic point group, deprecated if space_group present
+	 * <p>
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @param point_group the point_group
+	 */
+	public DataNode setPoint_group(IDataset point_group);
+
+	/**
+	 * Crystallographic point group, deprecated if space_group present
+	 * <p>
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public String getPoint_groupScalar();
+
+	/**
+	 * Crystallographic point group, deprecated if space_group present
+	 * <p>
+	 * <b>Dimensions:</b> 1: n_comp;
+	 * </p>
+	 * 
+	 * @param point_group the point_group
+	 */
+	public DataNode setPoint_groupScalar(String point_group);
 
 	/**
 	 * Path length through sample/can for simple case when
