@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-09-28T15:24:07.968+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -19,22 +19,43 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.january.dataset.IDataset;
 
 /**
- * Time-of-flight events
+ * NXevent_data is a special group for storing data from neutron
+ * detectors in event mode. In this mode, the detector electronics
+ * emits a stream of detectorID, timestamp pairs. With detectorID
+ * describing the detector element in which the neutron was detected
+ * and timestamp the timestamp at which the neutron event was
+ * detected. In NeXus detectorID maps to event_id, event_time_offset
+ * to the timestamp.
+ * As this kind of data is common at pulsed neutron
+ * sources, the timestamp is almost always relative to the start of a
+ * neutron pulse. Thus the pulse timestamp is recorded too together
+ * with an index in the event_id, event_time_offset pair at which data for
+ * that pulse starts. At reactor source the same pulsed data effect
+ * may be achieved through the use of choppers or in stroboscopic
+ * measurement setups.
+ * In order to make random access to timestamped data
+ * faster there is an optional array pair of
+ * cue_timestamp_zero and cue_index. The cue_timestamp_zero will
+ * contain courser timestamps then in the time array, say
+ * every five minutes. The cue_index will then contain the
+ * index into the event_id,event_time_offset pair of arrays for that
+ * courser cue_timestamp_zero.
  * 
- * @version 1.0
+ * @version 1.1
  */
 public interface NXevent_data extends NXobject {
 
-	public static final String NX_TIME_OF_FLIGHT = "time_of_flight";
-	public static final String NX_PIXEL_NUMBER = "pixel_number";
-	public static final String NX_PULSE_TIME = "pulse_time";
-	public static final String NX_PULSE_TIME_ATTRIBUTE_OFFSET = "offset";
-	public static final String NX_EVENTS_PER_PULSE = "events_per_pulse";
+	public static final String NX_EVENT_TIME_OFFSET = "event_time_offset";
+	public static final String NX_EVENT_ID = "event_id";
+	public static final String NX_EVENT_TIME_ZERO = "event_time_zero";
+	public static final String NX_EVENT_TIME_ZERO_ATTRIBUTE_OFFSET = "offset";
+	public static final String NX_EVENT_INDEX = "event_index";
 	public static final String NX_PULSE_HEIGHT = "pulse_height";
+	public static final String NX_CUE_TIMESTAMP_ZERO = "cue_timestamp_zero";
+	public static final String NX_CUE_TIMESTAMP_ZERO_ATTRIBUTE_START = "start";
+	public static final String NX_CUE_INDEX = "cue_index";
 	/**
-	 * A list of time of flight for each event as it comes in.
-	 * This list is for all pulses with information to attach
-	 * to a particular pulse located in events_per_pulse.
+	 * A list of timestamps for each event as it comes in.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Units:</b> NX_TIME_OF_FLIGHT
@@ -43,26 +64,22 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getTime_of_flight();
+	public IDataset getEvent_time_offset();
 	
 	/**
-	 * A list of time of flight for each event as it comes in.
-	 * This list is for all pulses with information to attach
-	 * to a particular pulse located in events_per_pulse.
+	 * A list of timestamps for each event as it comes in.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Units:</b> NX_TIME_OF_FLIGHT
 	 * <b>Dimensions:</b> 1: i;
 	 * </p>
 	 * 
-	 * @param time_of_flight the time_of_flight
+	 * @param event_time_offset the event_time_offset
 	 */
-	public DataNode setTime_of_flight(IDataset time_of_flight);
+	public DataNode setEvent_time_offset(IDataset event_time_offset);
 
 	/**
-	 * A list of time of flight for each event as it comes in.
-	 * This list is for all pulses with information to attach
-	 * to a particular pulse located in events_per_pulse.
+	 * A list of timestamps for each event as it comes in.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Units:</b> NX_TIME_OF_FLIGHT
@@ -71,26 +88,23 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public Long getTime_of_flightScalar();
+	public Long getEvent_time_offsetScalar();
 
 	/**
-	 * A list of time of flight for each event as it comes in.
-	 * This list is for all pulses with information to attach
-	 * to a particular pulse located in events_per_pulse.
+	 * A list of timestamps for each event as it comes in.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Units:</b> NX_TIME_OF_FLIGHT
 	 * <b>Dimensions:</b> 1: i;
 	 * </p>
 	 * 
-	 * @param time_of_flight the time_of_flight
+	 * @param event_time_offset the event_time_offset
 	 */
-	public DataNode setTime_of_flightScalar(Long time_of_flight);
+	public DataNode setEvent_time_offsetScalar(Long event_time_offset);
 
 	/**
 	 * There will be extra information in the NXdetector to convert
-	 * pixel_number to detector_number. This list is for all pulses with
-	 * information to attach to a particular pulse located in events_per_pulse.
+	 * event_id to detector_number.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Units:</b> NX_DIMENSIONLESS
@@ -99,26 +113,24 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPixel_number();
+	public IDataset getEvent_id();
 	
 	/**
 	 * There will be extra information in the NXdetector to convert
-	 * pixel_number to detector_number. This list is for all pulses with
-	 * information to attach to a particular pulse located in events_per_pulse.
+	 * event_id to detector_number.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Units:</b> NX_DIMENSIONLESS
 	 * <b>Dimensions:</b> 1: i;
 	 * </p>
 	 * 
-	 * @param pixel_number the pixel_number
+	 * @param event_id the event_id
 	 */
-	public DataNode setPixel_number(IDataset pixel_number);
+	public DataNode setEvent_id(IDataset event_id);
 
 	/**
 	 * There will be extra information in the NXdetector to convert
-	 * pixel_number to detector_number. This list is for all pulses with
-	 * information to attach to a particular pulse located in events_per_pulse.
+	 * event_id to detector_number.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Units:</b> NX_DIMENSIONLESS
@@ -127,21 +139,20 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public Long getPixel_numberScalar();
+	public Long getEvent_idScalar();
 
 	/**
 	 * There will be extra information in the NXdetector to convert
-	 * pixel_number to detector_number. This list is for all pulses with
-	 * information to attach to a particular pulse located in events_per_pulse.
+	 * event_id to detector_number.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Units:</b> NX_DIMENSIONLESS
 	 * <b>Dimensions:</b> 1: i;
 	 * </p>
 	 * 
-	 * @param pixel_number the pixel_number
+	 * @param event_id the event_id
 	 */
-	public DataNode setPixel_numberScalar(Long pixel_number);
+	public DataNode setEvent_idScalar(Long event_id);
 
 	/**
 	 * The time that each pulse started with respect to the offset
@@ -153,7 +164,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getPulse_time();
+	public IDataset getEvent_time_zero();
 	
 	/**
 	 * The time that each pulse started with respect to the offset
@@ -163,9 +174,9 @@ public interface NXevent_data extends NXobject {
 	 * <b>Dimensions:</b> 1: j;
 	 * </p>
 	 * 
-	 * @param pulse_time the pulse_time
+	 * @param event_time_zero the event_time_zero
 	 */
-	public DataNode setPulse_time(IDataset pulse_time);
+	public DataNode setEvent_time_zero(IDataset event_time_zero);
 
 	/**
 	 * The time that each pulse started with respect to the offset
@@ -177,7 +188,7 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public Long getPulse_timeScalar();
+	public Long getEvent_time_zeroScalar();
 
 	/**
 	 * The time that each pulse started with respect to the offset
@@ -187,28 +198,27 @@ public interface NXevent_data extends NXobject {
 	 * <b>Dimensions:</b> 1: j;
 	 * </p>
 	 * 
-	 * @param pulse_time the pulse_time
+	 * @param event_time_zero the event_time_zero
 	 */
-	public DataNode setPulse_timeScalar(Long pulse_time);
+	public DataNode setEvent_time_zeroScalar(Long event_time_zero);
 
 	/**
 	 * ISO8601
 	 * 
 	 * @return  the value.
 	 */
-	public Date getPulse_timeAttributeOffset();
+	public Date getEvent_time_zeroAttributeOffset();
 	
 	/**
 	 * ISO8601
 	 * 
 	 * @param offset the offset
 	 */
-	public void setPulse_timeAttributeOffset(Date offset);
+	public void setEvent_time_zeroAttributeOffset(Date offset);
 
 	/**
-	 * This connects the index "i" to the index "j".
-	 * The jth element is the number of events in "i"
-	 * that occurred during the jth pulse.
+	 * The index into the event_time_offset, event_id pair for
+	 * the pulse occurring at the matching entry in event_time_zero.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Units:</b> NX_DIMENSIONLESS
@@ -217,26 +227,24 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public IDataset getEvents_per_pulse();
+	public IDataset getEvent_index();
 	
 	/**
-	 * This connects the index "i" to the index "j".
-	 * The jth element is the number of events in "i"
-	 * that occurred during the jth pulse.
+	 * The index into the event_time_offset, event_id pair for
+	 * the pulse occurring at the matching entry in event_time_zero.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Units:</b> NX_DIMENSIONLESS
 	 * <b>Dimensions:</b> 1: j;
 	 * </p>
 	 * 
-	 * @param events_per_pulse the events_per_pulse
+	 * @param event_index the event_index
 	 */
-	public DataNode setEvents_per_pulse(IDataset events_per_pulse);
+	public DataNode setEvent_index(IDataset event_index);
 
 	/**
-	 * This connects the index "i" to the index "j".
-	 * The jth element is the number of events in "i"
-	 * that occurred during the jth pulse.
+	 * The index into the event_time_offset, event_id pair for
+	 * the pulse occurring at the matching entry in event_time_zero.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Units:</b> NX_DIMENSIONLESS
@@ -245,21 +253,20 @@ public interface NXevent_data extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public Long getEvents_per_pulseScalar();
+	public Long getEvent_indexScalar();
 
 	/**
-	 * This connects the index "i" to the index "j".
-	 * The jth element is the number of events in "i"
-	 * that occurred during the jth pulse.
+	 * The index into the event_time_offset, event_id pair for
+	 * the pulse occurring at the matching entry in event_time_zero.
 	 * <p>
 	 * <b>Type:</b> NX_INT
 	 * <b>Units:</b> NX_DIMENSIONLESS
 	 * <b>Dimensions:</b> 1: j;
 	 * </p>
 	 * 
-	 * @param events_per_pulse the events_per_pulse
+	 * @param event_index the event_index
 	 */
-	public DataNode setEvents_per_pulseScalar(Long events_per_pulse);
+	public DataNode setEvent_indexScalar(Long event_index);
 
 	/**
 	 * If voltages from the ends of the detector are read out this
@@ -320,5 +327,109 @@ public interface NXevent_data extends NXobject {
 	 * @param pulse_height the pulse_height
 	 */
 	public DataNode setPulse_heightScalar(Double pulse_height);
+
+	/**
+	 * Timestamps matching the corresponding cue_index into the
+	 * event_id, event_time_offset pair.
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getCue_timestamp_zero();
+	
+	/**
+	 * Timestamps matching the corresponding cue_index into the
+	 * event_id, event_time_offset pair.
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param cue_timestamp_zero the cue_timestamp_zero
+	 */
+	public DataNode setCue_timestamp_zero(IDataset cue_timestamp_zero);
+
+	/**
+	 * Timestamps matching the corresponding cue_index into the
+	 * event_id, event_time_offset pair.
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public Date getCue_timestamp_zeroScalar();
+
+	/**
+	 * Timestamps matching the corresponding cue_index into the
+	 * event_id, event_time_offset pair.
+	 * <p>
+	 * <b>Type:</b> NX_DATE_TIME
+	 * <b>Units:</b> NX_TIME
+	 * </p>
+	 * 
+	 * @param cue_timestamp_zero the cue_timestamp_zero
+	 */
+	public DataNode setCue_timestamp_zeroScalar(Date cue_timestamp_zero);
+
+	/**
+	 * 
+	 * @return  the value.
+	 */
+	public Date getCue_timestamp_zeroAttributeStart();
+	
+	/**
+	 * 
+	 * @param start the start
+	 */
+	public void setCue_timestamp_zeroAttributeStart(Date start);
+
+	/**
+	 * Index into the event_id, event_time_offset pair matching the corresponding
+	 * cue_timestamp.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public IDataset getCue_index();
+	
+	/**
+	 * Index into the event_id, event_time_offset pair matching the corresponding
+	 * cue_timestamp.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * </p>
+	 * 
+	 * @param cue_index the cue_index
+	 */
+	public DataNode setCue_index(IDataset cue_index);
+
+	/**
+	 * Index into the event_id, event_time_offset pair matching the corresponding
+	 * cue_timestamp.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * </p>
+	 * 
+	 * @return  the value.
+	 */
+	public Long getCue_indexScalar();
+
+	/**
+	 * Index into the event_id, event_time_offset pair matching the corresponding
+	 * cue_timestamp.
+	 * <p>
+	 * <b>Type:</b> NX_INT
+	 * </p>
+	 * 
+	 * @param cue_index the cue_index
+	 */
+	public DataNode setCue_indexScalar(Long cue_index);
 
 }

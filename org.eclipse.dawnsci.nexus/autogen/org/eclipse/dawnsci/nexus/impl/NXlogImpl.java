@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-09-28T15:24:07.968+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -24,20 +24,29 @@ import org.eclipse.dawnsci.nexus.*;
 
 /**
  * Information recorded as a function of time.
- * Description of information that is recorded against time,
- * such as information monitored during the run.
- * It contains
- * the logged values and the times at which they were measured as elapsed time since a starting
- * time recorded in ISO8601 format. This method of storing logged data helps to distinguish
+ * Description of information that is recorded against
+ * time. There are two common use cases for this:
+ * - When logging data such as temperature during a run
+ * - When data is taken in streaming mode data acquisition,
+ * i.e. just timestamp, value pairs are stored and
+ * correlated later in data reduction with other data,
+ * It both cases NXlog contains
+ * the logged or streamed values and the times at which they were measured as elapsed time since a starting
+ * time recorded in ISO8601 format. The time units are
+ * specified in the units attribute. An optional scaling attribute
+ * can be used to accomodate non standard clocks.
+ * This method of storing logged data helps to distinguish
  * instances in which a variable is a dimension scale of the data, in which case it is stored
  * in an :ref:`NXdata` group, and instances in which it is logged during the
  * run, when it should be stored in an :ref:`NXlog` group.
- * Note: When using multiple :ref:`NXlog` groups, it is suggested to place
- * them inside a :ref:`NXcollection` group. In such cases, when
- * :ref:`NXlog` is used in another class,
- * :ref:`NXcollection`/:ref:`NXlog` is then constructed.
+ * In order to make random access to timestamped data faster there is an optional array pair of
+ * ``cue_timestamp_zero`` and ``cue_index``. The ``cue_timestamp_zero`` will
+ * contain coarser timestamps than in the time array, say
+ * every five minutes. The ``cue_index`` will then contain the
+ * index into the time,value pair of arrays for that
+ * coarser ``cue_timestamp_zero``.
  * 
- * @version 1.0
+ * @version 1.1
  */
 public class NXlogImpl extends NXobjectImpl implements NXlog {
 
@@ -98,6 +107,16 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 	@Override
 	public void setTimeAttributeStart(Date start) {
 		setAttribute(NX_TIME, NX_TIME_ATTRIBUTE_START, start);
+	}
+
+	@Override
+	public Number getTimeAttributeScaling() {
+		return getAttrNumber(NX_TIME, NX_TIME_ATTRIBUTE_SCALING);
+	}
+
+	@Override
+	public void setTimeAttributeScaling(Number scaling) {
+		setAttribute(NX_TIME, NX_TIME_ATTRIBUTE_SCALING, scaling);
 	}
 
 	@Override
@@ -258,6 +277,56 @@ public class NXlogImpl extends NXobjectImpl implements NXlog {
 	@Override
 	public DataNode setDurationScalar(Double duration) {
 		return setField(NX_DURATION, duration);
+	}
+
+	@Override
+	public IDataset getCue_timestamp_zero() {
+		return getDataset(NX_CUE_TIMESTAMP_ZERO);
+	}
+
+	@Override
+	public Date getCue_timestamp_zeroScalar() {
+		return getDate(NX_CUE_TIMESTAMP_ZERO);
+	}
+
+	@Override
+	public DataNode setCue_timestamp_zero(IDataset cue_timestamp_zero) {
+		return setDataset(NX_CUE_TIMESTAMP_ZERO, cue_timestamp_zero);
+	}
+
+	@Override
+	public DataNode setCue_timestamp_zeroScalar(Date cue_timestamp_zero) {
+		return setDate(NX_CUE_TIMESTAMP_ZERO, cue_timestamp_zero);
+	}
+
+	@Override
+	public Date getCue_timestamp_zeroAttributeStart() {
+		return getAttrDate(NX_CUE_TIMESTAMP_ZERO, NX_CUE_TIMESTAMP_ZERO_ATTRIBUTE_START);
+	}
+
+	@Override
+	public void setCue_timestamp_zeroAttributeStart(Date start) {
+		setAttribute(NX_CUE_TIMESTAMP_ZERO, NX_CUE_TIMESTAMP_ZERO_ATTRIBUTE_START, start);
+	}
+
+	@Override
+	public IDataset getCue_index() {
+		return getDataset(NX_CUE_INDEX);
+	}
+
+	@Override
+	public Long getCue_indexScalar() {
+		return getLong(NX_CUE_INDEX);
+	}
+
+	@Override
+	public DataNode setCue_index(IDataset cue_index) {
+		return setDataset(NX_CUE_INDEX, cue_index);
+	}
+
+	@Override
+	public DataNode setCue_indexScalar(Long cue_index) {
+		return setField(NX_CUE_INDEX, cue_index);
 	}
 
 }

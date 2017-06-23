@@ -14,46 +14,43 @@ package org.eclipse.dawnsci.nexus.impl;
 
 import java.util.Set;
 import java.util.EnumSet;
+import java.util.Map;
+
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
+import org.eclipse.january.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
 /**
- * An unvalidated set of terms, such as the description of a beam line.
- * Use :ref:`NXcollection` to gather together any set of terms.
- * The original suggestion is to use this as a container
- * class for the description of a beamline.
- * For NeXus validation, :ref:`NXcollection` will always generate
- * a warning since it is always an optional group.
- * Anything (groups, fields, or attributes) placed in
- * an :ref:`NXcollection` group will not be validated.
+ * This is a definition for reflection data from diffraction experiments
  * 
  * @version 1.0
  */
-public class NXcollectionImpl extends NXobjectImpl implements NXcollection {
+public class NXreflectionsImpl extends NXobjectImpl implements NXreflections {
 
 	private static final long serialVersionUID = 1L;  // no state in this class, so always compatible
 
 
-	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.noneOf(NexusBaseClass.class);
+	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
+		NexusBaseClass.NX_ENTRY);
 
-	public NXcollectionImpl() {
+	public NXreflectionsImpl() {
 		super();
 	}
 
-	public NXcollectionImpl(final long oid) {
+	public NXreflectionsImpl(final long oid) {
 		super(oid);
 	}
 	
 	@Override
 	public Class<? extends NXobject> getNXclass() {
-		return NXcollection.class;
+		return NXreflections.class;
 	}
 	
 	@Override
 	public NexusBaseClass getNexusBaseClass() {
-		return NexusBaseClass.NX_COLLECTION;
+		return NexusBaseClass.NX_REFLECTIONS;
 	}
 	
 	@Override
@@ -61,5 +58,35 @@ public class NXcollectionImpl extends NXobjectImpl implements NXcollection {
 		return PERMITTED_CHILD_GROUP_CLASSES;
 	}
 	
+
+	@Override
+	public NXentry getEntry() {
+		return getChild("entry", NXentry.class);
+	}
+
+	@Override
+	public void setEntry(NXentry entry) {
+		putChild("entry", entry);
+	}
+
+	@Override
+	public NXentry getEntry(String name) {
+		return getChild(name, NXentry.class);
+	}
+
+	@Override
+	public void setEntry(String name, NXentry entry) {
+		putChild(name, entry);
+	}
+
+	@Override
+	public Map<String, NXentry> getAllEntry() {
+		return getChildren(NXentry.class);
+	}
+	
+	@Override
+	public void setAllEntry(Map<String, NXentry> entry) {
+		setChildren(entry);
+	}
 
 }

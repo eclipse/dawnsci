@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-09-28T15:24:07.968+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -39,6 +39,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY,
 		NexusBaseClass.NX_BEAM,
+		NexusBaseClass.NX_SAMPLE_COMPONENT,
 		NexusBaseClass.NX_DATA,
 		NexusBaseClass.NX_LOG,
 		NexusBaseClass.NX_ENVIRONMENT,
@@ -262,6 +263,46 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
+	public IDataset getUnit_cell_abc() {
+		return getDataset(NX_UNIT_CELL_ABC);
+	}
+
+	@Override
+	public Double getUnit_cell_abcScalar() {
+		return getDouble(NX_UNIT_CELL_ABC);
+	}
+
+	@Override
+	public DataNode setUnit_cell_abc(IDataset unit_cell_abc) {
+		return setDataset(NX_UNIT_CELL_ABC, unit_cell_abc);
+	}
+
+	@Override
+	public DataNode setUnit_cell_abcScalar(Double unit_cell_abc) {
+		return setField(NX_UNIT_CELL_ABC, unit_cell_abc);
+	}
+
+	@Override
+	public IDataset getUnit_cell_alphabetagamma() {
+		return getDataset(NX_UNIT_CELL_ALPHABETAGAMMA);
+	}
+
+	@Override
+	public Double getUnit_cell_alphabetagammaScalar() {
+		return getDouble(NX_UNIT_CELL_ALPHABETAGAMMA);
+	}
+
+	@Override
+	public DataNode setUnit_cell_alphabetagamma(IDataset unit_cell_alphabetagamma) {
+		return setDataset(NX_UNIT_CELL_ALPHABETAGAMMA, unit_cell_alphabetagamma);
+	}
+
+	@Override
+	public DataNode setUnit_cell_alphabetagammaScalar(Double unit_cell_alphabetagamma) {
+		return setField(NX_UNIT_CELL_ALPHABETAGAMMA, unit_cell_alphabetagamma);
+	}
+
+	@Override
 	public IDataset getUnit_cell() {
 		return getDataset(NX_UNIT_CELL);
 	}
@@ -339,6 +380,26 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	@Override
 	public DataNode setOrientation_matrixScalar(Double orientation_matrix) {
 		return setField(NX_ORIENTATION_MATRIX, orientation_matrix);
+	}
+
+	@Override
+	public IDataset getUb_matrix() {
+		return getDataset(NX_UB_MATRIX);
+	}
+
+	@Override
+	public Double getUb_matrixScalar() {
+		return getDouble(NX_UB_MATRIX);
+	}
+
+	@Override
+	public DataNode setUb_matrix(IDataset ub_matrix) {
+		return setDataset(NX_UB_MATRIX, ub_matrix);
+	}
+
+	@Override
+	public DataNode setUb_matrixScalar(Double ub_matrix) {
+		return setField(NX_UB_MATRIX, ub_matrix);
 	}
 
 	@Override
@@ -522,6 +583,36 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
+	public NXsample_component getSample_componentGroup() {
+		return getChild("sample_componentGroup", NXsample_component.class);
+	}
+
+	@Override
+	public void setSample_componentGroup(NXsample_component sample_componentGroup) {
+		putChild("sample_componentGroup", sample_componentGroup);
+	}
+
+	@Override
+	public NXsample_component getSample_componentGroup(String name) {
+		return getChild(name, NXsample_component.class);
+	}
+
+	@Override
+	public void setSample_componentGroup(String name, NXsample_component sample_componentGroup) {
+		putChild(name, sample_componentGroup);
+	}
+
+	@Override
+	public Map<String, NXsample_component> getAllSample_componentGroup() {
+		return getChildren(NXsample_component.class);
+	}
+	
+	@Override
+	public void setAllSample_componentGroup(Map<String, NXsample_component> sample_componentGroup) {
+		setChildren(sample_componentGroup);
+	}
+
+	@Override
 	public IDataset getComponent() {
 		return getDataset(NX_COMPONENT);
 	}
@@ -642,23 +733,43 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public IDataset getUnit_cell_group() {
-		return getDataset(NX_UNIT_CELL_GROUP);
+	public IDataset getSpace_group() {
+		return getDataset(NX_SPACE_GROUP);
 	}
 
 	@Override
-	public String getUnit_cell_groupScalar() {
-		return getString(NX_UNIT_CELL_GROUP);
+	public String getSpace_groupScalar() {
+		return getString(NX_SPACE_GROUP);
 	}
 
 	@Override
-	public DataNode setUnit_cell_group(IDataset unit_cell_group) {
-		return setDataset(NX_UNIT_CELL_GROUP, unit_cell_group);
+	public DataNode setSpace_group(IDataset space_group) {
+		return setDataset(NX_SPACE_GROUP, space_group);
 	}
 
 	@Override
-	public DataNode setUnit_cell_groupScalar(String unit_cell_group) {
-		return setString(NX_UNIT_CELL_GROUP, unit_cell_group);
+	public DataNode setSpace_groupScalar(String space_group) {
+		return setString(NX_SPACE_GROUP, space_group);
+	}
+
+	@Override
+	public IDataset getPoint_group() {
+		return getDataset(NX_POINT_GROUP);
+	}
+
+	@Override
+	public String getPoint_groupScalar() {
+		return getString(NX_POINT_GROUP);
+	}
+
+	@Override
+	public DataNode setPoint_group(IDataset point_group) {
+		return setDataset(NX_POINT_GROUP, point_group);
+	}
+
+	@Override
+	public DataNode setPoint_groupScalar(String point_group) {
+		return setString(NX_POINT_GROUP, point_group);
 	}
 
 	@Override

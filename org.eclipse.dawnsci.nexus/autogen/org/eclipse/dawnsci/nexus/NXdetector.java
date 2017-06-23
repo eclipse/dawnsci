@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-09-28T15:24:07.968+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -1692,80 +1692,6 @@ public interface NXdetector extends NXobject {
 	public void setData_file(NXnote data_file);
 
 	/**
-	 * :see: https://github.com/nexusformat/definitions/issues/177
-	 * 
-	 * @deprecated use :ref:`NXcollection` instead
-	 * @return  the value.
-	 */
-	@Deprecated
-	public NXcharacterization getCharacterization();
-	
-	/**
-	 * :see: https://github.com/nexusformat/definitions/issues/177
-	 * 
-	 * @deprecated use :ref:`NXcollection` instead
-	 * @param characterization the characterization
-	 */
-	@Deprecated
-	public void setCharacterization(NXcharacterization characterization);
-  
-	/**
-	 * Get a NXcharacterization node by name:
-	 * <ul>
-	 * <li>
-	 * :see: https://github.com/nexusformat/definitions/issues/177</li>
-	 * </ul>
-	 * 
-	 * @deprecated use :ref:`NXcollection` instead
-	 * @param name  the name of the node.
-	 * @return  a map from node names to the NXcharacterization for that node.
-	 */
-	@Deprecated
-	public NXcharacterization getCharacterization(String name);
-	
-	/**
-	 * Set a NXcharacterization node by name:
-	 * <ul>
-	 * <li>
-	 * :see: https://github.com/nexusformat/definitions/issues/177</li>
-	 * </ul>
-	 * 
-	 * @deprecated use :ref:`NXcollection` instead
-	 * @param name the name of the node
-	 * @param characterization the value to set
-	 */
-	@Deprecated
-	public void setCharacterization(String name, NXcharacterization characterization);
-	
-	/**
-	 * Get all NXcharacterization nodes:
-	 * <ul>
-	 * <li>
-	 * :see: https://github.com/nexusformat/definitions/issues/177</li>
-	 * </ul>
-	 * 
-	 * @deprecated use :ref:`NXcollection` instead
-	 * @return  a map from node names to the NXcharacterization for that node.
-	 */
-	@Deprecated
-	public Map<String, NXcharacterization> getAllCharacterization();
-	
-	/**
-	 * Set multiple child nodes of a particular type.
-	 * <ul>
-	 * <li>
-	 * :see: https://github.com/nexusformat/definitions/issues/177</li>
-	 * </ul>
-	 * 
-	 * @deprecated use :ref:`NXcollection` instead
-	 * @param characterization the child nodes to add 
-	 */
-	
-	@Deprecated
-	public void setAllCharacterization(Map<String, NXcharacterization> characterization);
-	
-
-	/**
 	 * Use this group to provide other data related to this NXdetector group.
 	 * 
 	 * @return  the value.
@@ -1877,8 +1803,9 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * This is the x position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1890,8 +1817,9 @@ public interface NXdetector extends NXobject {
 	
 	/**
 	 * This is the x position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1903,8 +1831,9 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * This is the x position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1916,8 +1845,9 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * This is the x position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1929,8 +1859,9 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * This is the y position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1942,8 +1873,9 @@ public interface NXdetector extends NXobject {
 	
 	/**
 	 * This is the y position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1955,8 +1887,9 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * This is the y position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1968,8 +1901,9 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * This is the y position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-09-28T15:24:07.968+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -190,14 +190,14 @@ public interface NXaperture extends NXobject {
 	public DataNode setDescriptionScalar(String description);
 
 	/**
-	 * describe an additional information in a note*
+	 * describe any additional information in a note*
 	 * 
 	 * @return  the value.
 	 */
 	public NXnote getNote();
 	
 	/**
-	 * describe an additional information in a note*
+	 * describe any additional information in a note*
 	 * 
 	 * @param note the note
 	 */
@@ -207,7 +207,7 @@ public interface NXaperture extends NXobject {
 	 * Get a NXnote node by name:
 	 * <ul>
 	 * <li>
-	 * describe an additional information in a note*</li>
+	 * describe any additional information in a note*</li>
 	 * </ul>
 	 * 
 	 * @param name  the name of the node.
@@ -219,7 +219,7 @@ public interface NXaperture extends NXobject {
 	 * Set a NXnote node by name:
 	 * <ul>
 	 * <li>
-	 * describe an additional information in a note*</li>
+	 * describe any additional information in a note*</li>
 	 * </ul>
 	 * 
 	 * @param name the name of the node
@@ -231,7 +231,7 @@ public interface NXaperture extends NXobject {
 	 * Get all NXnote nodes:
 	 * <ul>
 	 * <li>
-	 * describe an additional information in a note*</li>
+	 * describe any additional information in a note*</li>
 	 * </ul>
 	 * 
 	 * @return  a map from node names to the NXnote for that node.
@@ -242,7 +242,7 @@ public interface NXaperture extends NXobject {
 	 * Set multiple child nodes of a particular type.
 	 * <ul>
 	 * <li>
-	 * describe an additional information in a note*</li>
+	 * describe any additional information in a note*</li>
 	 * </ul>
 	 * 
 	 * @param note the child nodes to add 

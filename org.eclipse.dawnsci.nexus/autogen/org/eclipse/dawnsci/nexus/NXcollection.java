@@ -7,14 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-09-28T15:24:07.968+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.january.dataset.IDataset;
 
 /**
  * An unvalidated set of terms, such as the description of a beam line.
@@ -29,34 +28,5 @@ import org.eclipse.january.dataset.IDataset;
  * @version 1.0
  */
 public interface NXcollection extends NXobject {
-
-	public static final String NX_BEAMLINE = "beamline";
-	/**
-	 * name of the beamline for this collection
-	 * 
-	 * @return  the value.
-	 */
-	public IDataset getBeamline();
-	
-	/**
-	 * name of the beamline for this collection
-	 * 
-	 * @param beamline the beamline
-	 */
-	public DataNode setBeamline(IDataset beamline);
-
-	/**
-	 * name of the beamline for this collection
-	 * 
-	 * @return  the value.
-	 */
-	public String getBeamlineScalar();
-
-	/**
-	 * name of the beamline for this collection
-	 * 
-	 * @param beamline the beamline
-	 */
-	public DataNode setBeamlineScalar(String beamline);
 
 }

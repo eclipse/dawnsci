@@ -605,8 +605,20 @@ import org.eclipse.january.dataset.DatasetFactory;</xsl:if>
 <xsl:template mode="scalarFieldType" match="nx:field[@type='NX_BINARY']">Object</xsl:template>
 
 <!-- Field names in Java -->
-<xsl:template mode="fieldName" match="nx:attribute|nx:field|nx:group[@name]"><xsl:value-of select="@name"/></xsl:template>
-<xsl:template mode="fieldName" match="nx:group"><xsl:value-of select="substring(@type, 3)"/></xsl:template>
+<!-- Simple case, the field has the same name as the attribute, field or group name in the NXDL -->
+<xsl:template mode="fieldName" match="nx:attribute|nx:field|nx:group[@name]">
+	<xsl:value-of select="@name"/>
+</xsl:template>
+
+<!-- For unnamed groups we use the type, minux the 'NX' prefix -->
+<xsl:template mode="fieldName" match="nx:group">
+	<xsl:variable name="fieldName" select="substring(@type, 3)"/>
+	<xsl:choose>
+		<!-- Special case when a field exists with the same name. NXsample.sampleComponent is an example of this -->
+		<xsl:when test="../nx:field[@name = $fieldName]"><xsl:value-of select="$fieldName"/>Group</xsl:when>
+		<xsl:otherwise><xsl:value-of select="$fieldName"/></xsl:otherwise>
+	</xsl:choose>
+</xsl:template>
 
 <!-- Field labels in Java -->
 <xsl:template mode="fieldLabel" match="nx:field|nx:group"><xsl:param name="fieldName">
@@ -618,7 +630,7 @@ import org.eclipse.january.dataset.DatasetFactory;</xsl:if>
 </xsl:template>
 <xsl:template mode="fieldLabel" match="nx:field/nx:attribute">
 	<xsl:param name="fieldName"/><xsl:apply-templates mode="fieldLabel" select=".."/>_ATTRIBUTE_<xsl:value-of select="upper-case($fieldName)"/>
-	</xsl:template>
+</xsl:template>
 
 <!-- Method name suffixes (to get/set) -->
 <xsl:template mode="methodNameSuffix" match="nx:field|nx:group">
