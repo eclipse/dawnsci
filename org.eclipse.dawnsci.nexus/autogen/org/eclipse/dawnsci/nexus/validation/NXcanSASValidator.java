@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2017-06-22T16:43:44.279+01:00
+ * Generated at: 2017-06-23T11:33:23.232+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.validation;
@@ -130,9 +130,10 @@ public class NXcanSASValidator extends AbstractNexusValidator implements NexusAp
 		}
 
 		// validate unnamed child group of type NXdata (possibly multiple)
-		// commented out manually as allData is a duplicate local variable name
-		// This is because the NXDL definition has two entries for child groups
-		// of type NXdata. See http://jira.diamond.ac.uk/browse/DAQ-720
+		// Manually commented out this section as it uses a duplicate local variable name
+		// This is due to NXcanSAS.nxdl.xml having two unnamed child group entries under NXentry.
+		// We should decide what to do about this. Commenting out for now as validator are not currently used.
+		// See http://jira.diamond.ac.uk/browse/DAQ-720
 //		final Map<String, NXdata> allData = group.getAllData();
 //		for (final NXdata data : allData.values()) {
 //			validateGroup_NXentry_NXdata(data);
@@ -768,8 +769,9 @@ public class NXcanSASValidator extends AbstractNexusValidator implements NexusAp
 
 	}
 
-	// Commented out manually. This method has a duplicate method name. It is generated as
-	// The NXDL definition has two entries for NXdata within NXentry. We need to decide how to handle this.
+	// Manually commented out this method as it has a duplicate name.
+	// This is due to NXcanSAS.nxdl.xml having two unnamed child group entries under NXentry.
+	// We should decide what to do about this. Commenting out for now as validator are not currently used.
 	// See http://jira.diamond.ac.uk/browse/DAQ-720
 //	/**
 //	 * Validate optional unnamed group of type NXdata.
