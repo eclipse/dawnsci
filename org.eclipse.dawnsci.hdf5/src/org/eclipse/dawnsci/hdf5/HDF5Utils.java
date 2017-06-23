@@ -114,6 +114,8 @@ public class HDF5Utils {
 	public static long getHDF5type(Class<?> clazz) {
 		if (clazz.equals(String.class)) {
 			return HDF5Constants.H5T_C_S1;
+		} else if (clazz.equals(Boolean.class)) {
+			return HDF5Constants.H5T_NATIVE_INT8;
 		} else if (clazz.equals(Byte.class)) {
 			return HDF5Constants.H5T_NATIVE_INT8;
 		} else if (clazz.equals(Short.class)) {
@@ -1151,6 +1153,18 @@ public class HDF5Utils {
 				int dtype = data.getDType();
 				long memtype = getHDF5type(dtype);
 				Serializable buffer = DatasetUtils.serializeDataset(data);
+
+				// convert boolean[] data to byte[]
+				// the HDF5 library cannot handle boolean[]
+				if (data.getElementClass().equals(Boolean.class)) {
+					boolean[] original = (boolean[]) buffer;
+					int length = original.length;
+					byte[] converted = new byte[length];
+					for (int i = 0; i < length; i++) {
+						converted[i] = (byte) (original[i] ? 1 : 0);
+					}
+					buffer = converted;
+				}
 
 				hdfMemspaceId = H5.H5Screate_simple(rank, HDF5Utils.toLongArray(data.getShape()), null);
 				if (dtype == Dataset.STRING) {

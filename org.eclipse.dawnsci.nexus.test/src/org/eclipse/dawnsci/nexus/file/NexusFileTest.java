@@ -589,6 +589,22 @@ public class NexusFileTest {
 	}
 
 	@Test
+	public void testWriteBooleanDataset() throws Exception {
+		GroupNode g = nf.getGroup("/entry1:NXentry", true);
+		NexusUtils.write(nf, g, "bool_array", new boolean[] {true, false});
+		nf.close();
+
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
+		DataNode d = nf.getData("/entry1/bool_array");
+		IDataset ds = d.getDataset().getSlice();
+		int[] shape = ds.getShape();
+		assertArrayEquals(new int[] {2}, shape);
+		assertEquals(Byte.class, ds.getElementClass());
+		byte[] buffer = new byte[] {ds.getByte(0), ds.getByte(1)};
+		assertArrayEquals(new byte[] {1, 0}, buffer);
+	}
+
+	@Test
 	public void testWritingSimpleStringArray() throws Exception {
 		GroupNode g = nf.getGroup("/entry1:NXentry", true);
 		NexusUtils.write(nf, g, "stringarray", new String[] {"String", "String Å"});
@@ -652,6 +668,20 @@ public class NexusFileTest {
 		DataNode node = nf.getData("/test/intarray");
 		Dataset data = DatasetUtils.convertToDataset(node.getDataset().getSlice(new int[] {0, 0}, new int[] {2, 2}, new int[] {1, 1}));
 		assertArrayEquals(new int[] {-1, -1, -1, -1}, (int[]) data.getBuffer());
+	}
+
+	@Test
+	public void testLazyWrite2DBoolArray() throws Exception {
+		GroupNode g = nf.getGroup("/test:NXnote", true);
+		ILazyWriteableDataset lazy = NexusUtils.createLazyWriteableDataset("boolarray", Dataset.BOOL,
+				new int[] {ILazyWriteableDataset.UNLIMITED, 10}, null, null);
+		nf.createData(g, lazy);
+		lazy.setSlice(null, DatasetFactory.createFromObject(new int[] {1, 1, 1, 1}).reshape(2, 2), new int[] {0, 0}, new int[] {2, 2}, null);
+		nf.close();
+		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
+		DataNode node = nf.getData("/test/boolarray");
+		Dataset data = DatasetUtils.convertToDataset(node.getDataset().getSlice(new int[] {0, 0}, new int[] {2, 2}, new int[] {1, 1}));
+		assertArrayEquals(new byte[] {1, 1, 1, 1}, (byte[]) data.getBuffer());
 	}
 
 	@Test

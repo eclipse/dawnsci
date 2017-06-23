@@ -1070,6 +1070,15 @@ public class NexusFileHDF5 implements NexusFile {
 						H5.H5Dwrite_VLStrings(dataId, datatypeId, HDF5Constants.H5S_ALL, HDF5Constants.H5S_ALL, HDF5Constants.H5P_DEFAULT, strings);
 					} else {
 						Serializable buffer = DatasetUtils.serializeDataset(data);
+						if (data.getElementClass().equals(Boolean.class)) {
+							boolean[] original = (boolean[]) buffer;
+							int length = original.length;
+							byte[] converted = new byte[length];
+							for (int i = 0; i < length; i++) {
+								converted[i] = (byte) (original[i] ? 1 : 0);
+							}
+							buffer = converted;
+						}
 						H5.H5Dwrite(dataId, datatypeId, HDF5Constants.H5S_ALL, HDF5Constants.H5S_ALL, HDF5Constants.H5P_DEFAULT, buffer);
 					}
 				}
@@ -1581,6 +1590,9 @@ public class NexusFileHDF5 implements NexusFile {
 		Class<?> clazz = data.getElementClass();
 		if (clazz.equals(String.class)) {
 			return HDF5Constants.H5T_C_S1;
+		} else if (clazz.equals(Boolean.class)) {
+			// H5T_NATIVE_HBOOL usually maps to UINT8 and we convert boolean[] to byte[]
+			return HDF5Constants.H5T_NATIVE_INT8;
 		} else if (clazz.equals(Byte.class)) {
 			return HDF5Constants.H5T_NATIVE_INT8;
 		} else if (clazz.equals(Short.class)) {
