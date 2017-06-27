@@ -127,7 +127,7 @@ abstract public class ROIHandler<T extends IROI> {
 	 * Interpret mouse dragging
 	 * @param spt
 	 * @param ept
-	 * @return roi
+	 * @return roi, can be null if handle movement is invalid
 	 */
 	public T interpretMouseDragging(int[] spt, int[] ept) {
 		return interpretMouseDragging(ROIUtils.convertToDoubleArray(spt), ROIUtils.convertToDoubleArray(ept));
@@ -137,7 +137,7 @@ abstract public class ROIHandler<T extends IROI> {
 	 * Interpret mouse dragging
 	 * @param spt
 	 * @param ept
-	 * @return roi
+	 * @return roi, can be null if handle movement is invalid
 	 */
 	abstract public T interpretMouseDragging(double[] spt, double[] ept);
 }
