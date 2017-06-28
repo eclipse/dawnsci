@@ -189,10 +189,6 @@ public class NexusAssert {
 		assertEquals(path, expectedDataset.getElementClass(), actualDataset.getElementClass());
 		assertEquals(path, expectedDataset.getElementsPerItem(), actualDataset.getElementsPerItem());
 		assertEquals(path, expectedDataset.getSize(), actualDataset.getSize());
-		if (expectedDataset.getSize() == 1 && expectedDataset.getRank() == 1 && actualDataset.getRank() == 0) {
-			// TODO fix examples now that we can save scalar (or zero-ranked) datasets
-			actualDataset.setShape(1);
-		}
 		assertEquals(path, expectedDataset.getRank(), actualDataset.getRank());
 		assertArrayEquals(path, expectedDataset.getShape(), actualDataset.getShape());
 		assertDatasetDataEqual(path, expectedDataset, actualDataset);
