@@ -1,11 +1,10 @@
 package org.eclipse.dawnsci.analysis.dataset.mask;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
-import org.eclipse.dawnsci.analysis.api.roi.IRectangularROI;
+import org.eclipse.dawnsci.analysis.dataset.slicer.ROIVisitor;
+import org.eclipse.dawnsci.analysis.dataset.slicer.SliceVisitor;
 import org.eclipse.january.dataset.BooleanDataset;
 import org.eclipse.january.dataset.Comparisons;
 import org.eclipse.january.dataset.Dataset;
@@ -13,6 +12,8 @@ import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IndexIterator;
 import org.eclipse.january.dataset.IntegerDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Buffer that allows multiple masking steps to be applied and undone
@@ -23,70 +24,34 @@ import org.eclipse.january.dataset.IntegerDataset;
 public class MaskCircularBuffer {
 
 	private IntegerDataset mask;
-	private int[] shape;
 	int bitMask = START;
 	private static final int END = 0x80000000;
 	private static final int START = 0x00000001;
 	
+	private final static Logger logger = LoggerFactory.getLogger(MaskCircularBuffer.class);
+	
 	public MaskCircularBuffer(int[] shape) {
 		mask = DatasetFactory.zeros(IntegerDataset.class, shape);
-		this.shape = shape;
 	}
 	
 	public void maskROI(IROI inputROI) {
-		IROI roi = inputROI.copy();
-		IRectangularROI bounds = roi.getBounds();
 		
-		int iStart = (int)Math.floor(bounds.getPointY());
-		int iStop = (int)Math.ceil(bounds.getPointY()+bounds.getLength(1));
-		if (iStop > shape[0]) iStop = shape[0];
-		if (iStart < 0) iStart = 0;
-		
-		for (int i = iStart; i < iStop; i++) {
-			double[] hi = roi.findHorizontalIntersections(i);
-			if (hi != null) {
-				boolean cutsStart = roi.containsPoint(0, i);
-				boolean cutsEnd = roi.containsPoint(shape[1]-1d, i);
+		try {
+			ROIVisitor.visitHorizontalSections(mask, inputROI, new SliceVisitor() {
 				
-				List<Integer> inters = new ArrayList<>();
-				if (cutsStart) inters.add(0);
-				for (double d : hi) {
-					if (!inters.contains((int)d) && d > 0 && d < shape[1]-1) inters.add((int)d);
-				}
-				if (cutsEnd && !inters.contains(shape[1]-1)) inters.add(shape[1]-1);
-				
-				int[] start = new int[]{i,0};
-				int[] stop = new int[]{i+1,0};
-				int[] step = new int[]{1,1};
-				
-				while (!inters.isEmpty()) {
+				@Override
+				public void visit(IDataset data) throws Exception {
+					updateArray((IntegerDataset)data);
 					
-					if (inters.size() == 1) {
-						start[1] = inters.get(0);
-						stop[1] = start[1]+1;
-						IntegerDataset data = (IntegerDataset)mask.getSliceView(start, stop, step);
-						updateArray(data);
-						inters.remove(0);
-					} else {
-						int s = inters.get(0);
-						int e = inters.get(1);
-						
-						if (roi.containsPoint(s+(e-s)/2d, i)) {
-							start[1] = s;
-							stop[1] = e;
-							IntegerDataset data = (IntegerDataset)mask.getSliceView(start, stop, step);
-							updateArray(data);
-							inters.remove(0);
-						} else {
-							start[1] = inters.get(0);
-							stop[1] = start[1]+1;
-							IntegerDataset data = (IntegerDataset)mask.getSliceView(start, stop, step);
-							updateArray(data);
-							inters.remove(0);
-						}
-					}
 				}
-			}
+				
+				@Override
+				public boolean isCancelled() {
+					return false;
+				}
+			});
+		} catch (Exception e) {
+			logger.error("Error during ROI masking!", e);
 		}
 
 		nextBitMask();
