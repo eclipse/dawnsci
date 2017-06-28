@@ -43,11 +43,11 @@
 <repository location="http://download.eclipse.org/releases/mars"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.january.asserts" version="2.0.0.v201703101303"/>
-<unit id="org.eclipse.january.asserts.source" version="2.0.0.v201703101303"/>
-<unit id="org.eclipse.january" version="2.0.0.v201703102126"/>
-<unit id="org.eclipse.january.source" version="2.0.0.v201703102126"/>
-<repository location="https://alfred.diamond.ac.uk/sites/download.eclipse.org/january/releases/2.0.0/repository/"/>
+<unit id="org.eclipse.january.asserts" version="2.0.1.v201703300842"/>
+<unit id="org.eclipse.january.asserts.source" version="2.0.1.v201703300842"/>
+<unit id="org.eclipse.january" version="2.0.1.v201703300842"/>
+<unit id="org.eclipse.january.source" version="2.0.1.v201703300842"/>
+<repository location="https://alfred.diamond.ac.uk/sites/download.eclipse.org/january/releases/2.0.1/repository/"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.dawnsci.third.feature.feature.group" version="1.0.0"/>
