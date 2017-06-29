@@ -30,6 +30,8 @@ Import-Package: org.osgi.framework;version="1.7.0",
  org.slf4j;version="[1.7.2,2.0.0)"
 Require-Bundle: javax.vecmath;bundle-version="1.5.2",
  org.eclipse.january;bundle-version="1.0.0",
- javax.measure.unit-api;bundle-version="1.0.0"
+ javax.measure.unit-api;bundle-version="1.0.0",
+ si.uom.si-units,
+ tec.units.unit-ri
 Bundle-Activator: org.eclipse.dawnsci.analysis.api.Activator
 Bundle-ActivationPolicy: lazy
