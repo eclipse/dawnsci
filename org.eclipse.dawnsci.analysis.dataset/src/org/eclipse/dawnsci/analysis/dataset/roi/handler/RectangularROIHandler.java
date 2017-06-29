@@ -194,9 +194,6 @@ public class RectangularROIHandler extends ROIHandler<RectangularROI> {
 	public RectangularROI reorient(double[] pt) {
 		RectangularROI rroi = null;
 
-		if (handle == 4 || handle % 2 != 0)
-			return rroi;
-
 		rroi = roi.copy();
 		double nang, oang;
 
@@ -207,12 +204,33 @@ public class RectangularROIHandler extends ROIHandler<RectangularROI> {
 			rroi.addAngle(nang-oang);
 			rroi.setEndPointKeepLengths(roi.getEndPoint());
 			break;
+		case 1:
+			oang = roi.getAngleRelativeToPoint(0.5, 1.0, roi.getPoint(0.5, 0.0));
+			nang = roi.getAngleRelativeToPoint(0.5, 1.0, pt);
+			rroi.translate(0.5, 1.0);
+			rroi.addAngle(nang-oang);
+			rroi.translate(-0.5, -1.0);
+			break;
 		case 2:
 			oang = roi.getAngleRelativeToPoint(0.0, 1.0, roi.getPoint(1.0, 0.0));
 			nang = roi.getAngleRelativeToPoint(0.0, 1.0, pt);
 			rroi.translate(0.0, 1.0);
 			rroi.addAngle(nang-oang);
 			rroi.translate(0.0, -1.0);
+			break;
+		case 3:
+			oang = roi.getAngleRelativeToPoint(1.0, 0.5, roi.getPoint(0.0, 0.5));
+			nang = roi.getAngleRelativeToPoint(1.0, 0.5, pt);
+			rroi.translate(1.0, 0.5);
+			rroi.addAngle(nang-oang);
+			rroi.translate(-1.0, -0.5);
+			break;
+		case 5:
+			oang = roi.getAngleRelativeToPoint(0.0, 0.5, roi.getPoint(1.0, 0.5));
+			nang = roi.getAngleRelativeToPoint(0.0, 0.5, pt);
+			rroi.translate(0.0, 0.5);
+			rroi.addAngle(nang-oang);
+			rroi.translate(0.0, -0.5);
 			break;
 		case 6:
 			oang = roi.getAngleRelativeToPoint(1.0, 0.0, roi.getPoint(0.0, 1.0));
@@ -221,11 +239,20 @@ public class RectangularROIHandler extends ROIHandler<RectangularROI> {
 			rroi.addAngle(nang-oang);
 			rroi.translate(-1.0, 0.0);
 			break;
+		case 7:
+			oang = roi.getAngleRelativeToPoint(0.5, 0.0, roi.getPoint(0.5, 1.0));
+			nang = roi.getAngleRelativeToPoint(0.5, 0.0, pt);
+			rroi.translate(0.5, 0.0);
+			rroi.addAngle(nang-oang);
+			rroi.translate(-0.5, 0.0);
+			break;
 		case 8: // keep start point
 			oang = roi.getAngleRelativeToPoint(0, 0, roi.getPoint(1.0, 1.0));
 			nang = roi.getAngleRelativeToPoint(0, 0, pt);
 			rroi.addAngle(nang-oang);
 			break;
+		default:
+			rroi = null;
 		}
 		return rroi;
 	}
