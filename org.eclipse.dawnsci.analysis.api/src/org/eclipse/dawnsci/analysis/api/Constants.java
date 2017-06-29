@@ -36,6 +36,37 @@ public class Constants {
 	public final static Unit<Dimensionless> dimensionLessUnit = ServiceProvider.current().getQuantityFactory(Dimensionless.class).getSystemUnit();
 
 	/**
+	 * Holds the international foot: 0.3048 m exact.
+	 */
+	private static final int INTERNATIONAL_FOOT_DIVIDEND = 3048;
+	private static final int INTERNATIONAL_FOOT_DIViSOR = 10000;
+
+	/**
+	 * A unit of length equal to <code>0.3048 m</code> (standard name <code>ft</code>).
+	 */
+	public static final Unit<Length> FOOT = Units.METRE.multiply(INTERNATIONAL_FOOT_DIVIDEND).divide(INTERNATIONAL_FOOT_DIViSOR);
+
+	/**
+	 * A unit of length equal to <code>0.0254 m</code> (standard name <code>in</code>).
+	 */
+	public static final Unit<Length> INCH = FOOT.divide(12);
+
+	/**
+	 * A unit of length equal to <code>0.013837 {@link #INCH}</code> exactly (standard name <code>pt</code>).
+	 * 
+	 * @see #PIXEL
+	 */
+	public static final Unit<Length> POINT = INCH.multiply(13837).divide(1000000);
+
+	/**
+	 * A unit of length equal to <code>1/72 {@link #INCH}</code> (standard name <code>pixel</code>). It is the American
+	 * point rounded to an even 1/72 inch.
+	 * 
+	 * @see #POINT
+	 */
+	public static final Unit<Length> PIXEL = INCH.divide(72);
+
+	/**
 	 * Holds the standard acceleration due to gravity (approximately equal to the acceleration due to gravity on the
 	 * Earth's surface).
 	 *
