@@ -147,10 +147,24 @@ public class ThreadSafePlottingSystem<T> extends ThreadSafeObject implements IPl
 	}
 
 	private List<ITrace> getThreadSafe(Collection<ITrace> traces) {
-		if (traces==null) return null;
-		if (traces.isEmpty()) return Collections.emptyList();
-		List<ITrace> ret = new ArrayList<ITrace>(traces.size());
-		for (ITrace iTrace : traces) ret.add(new ThreadSafeTrace(iTrace));
+		if (traces==null)
+			return null;
+		if (traces.isEmpty())
+			return Collections.emptyList();
+		List<ITrace> ret = new ArrayList<>(traces.size());
+		for (ITrace iTrace : traces) 
+			ret.add(new ThreadSafeTrace(iTrace));
+		return ret;
+	}
+
+	private <Y extends ITrace> List<Y> getThreadSafeByClass(Collection<Y> traces, Class<Y> klazz) {
+		if (traces==null)
+			return null;
+		if (traces.isEmpty())
+			return Collections.emptyList();
+		List<Y> ret = new ArrayList<>(traces.size());
+		for (Y iTrace : traces)
+			ret.add(klazz.cast(new ThreadSafeTrace(iTrace)));
 		return ret;
 	}
 
@@ -159,6 +173,11 @@ public class ThreadSafePlottingSystem<T> extends ThreadSafeObject implements IPl
 		return getThreadSafe(delegate.getTraces(clazz));
 	}
 
+	@Override
+	public <W extends ITrace> Collection<W> getTracesByClass(Class<W> klazz) {
+		return getThreadSafeByClass(delegate.getTracesByClass(klazz), klazz);
+	}
+	
 	@Override
 	public void addTraceListener(ITraceListener l) {
 		delegate.addTraceListener(l);
