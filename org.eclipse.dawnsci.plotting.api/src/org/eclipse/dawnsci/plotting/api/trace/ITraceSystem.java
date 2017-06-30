@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.plotting.api.trace;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -169,6 +170,20 @@ public interface ITraceSystem {
 	 */
 	public Collection<ITrace> getTraces(Class<? extends ITrace> clazz);
 	
+	/**
+	 * Call this method to retrieve what is currently plotted by trace type
+	 * See all ITraceListener.
+	 * 
+	 * @return
+	 */
+	public default <T extends ITrace> Collection<T> getTracesByClass(Class<T> clazz) {
+		Collection<ITrace> traces = getTraces(clazz);
+		List<T> rv = new ArrayList<>();
+		for (ITrace trace : traces) {
+			rv.add(clazz.cast(trace));
+		}
+		return rv;
+	}
 
 	/**
 	 * Add a listener to be notified of new traces plotted
