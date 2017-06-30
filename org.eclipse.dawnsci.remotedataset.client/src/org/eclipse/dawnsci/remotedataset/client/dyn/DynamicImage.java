@@ -116,7 +116,8 @@ class DynamicImage implements IDynamicMonitorDatasetHolder {
 
 	@Override
 	public void setDataset(IDataset sdata) {
-		Serializable buffer = DatasetUtils.cast(greyScale ? ShortDataset.class : RGBDataset.class, sdata).getBuffer();	
+		Dataset data = greyScale ? DatasetUtils.cast(ShortDataset.class, sdata) : DatasetUtils.cast(RGBDataset.class, sdata);
+		Serializable buffer = data.getBuffer();
 		
 		int[] shape = sdata.getShape();
 		if (dynamicShape) {
