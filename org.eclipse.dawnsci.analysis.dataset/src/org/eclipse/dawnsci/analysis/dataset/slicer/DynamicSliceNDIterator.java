@@ -23,6 +23,10 @@ public class DynamicSliceNDIterator {
 	private int currentMax = 0;
 	private SliceND currentSlice;
 	
+	private boolean repeating = false;
+	private long currentkey;
+	private int count = 0;
+	
 	public DynamicSliceNDIterator(int[] initialShape, IDataset key, int scanRank) {
 		scanShape = new int[scanRank];
 		this.key = DatasetUtils.convertToDataset(key);
@@ -70,34 +74,64 @@ public class DynamicSliceNDIterator {
 	
 	public boolean hasNext() {
 		
+		//if repeating, process current position if key different
+		if (repeating && absCurrentPosition >= 0) {
+			
+			long k = key.getElementLongAbs(absCurrentPosition);
+			
+			if (k != currentkey) {
+				currentkey = key.getElementLongAbs(absCurrentPosition);
+				return true;
+			}
+		}
+		
 		if (absCurrentPosition == currentMax) return false;
 		
 		absCurrentPosition++;
-		if ( key.getSize() <= absCurrentPosition || key.getElementDoubleAbs(absCurrentPosition) == 0) {
+		if ( key.getSize() <= absCurrentPosition || key.getElementLongAbs(absCurrentPosition) == 0) {
 			absCurrentPosition--;
 			return false;
 		}
 		
-		updateCurrentSlice();
+		if (repeating) currentkey = key.getElementLongAbs(absCurrentPosition);
 		
+		updateCurrentSlice();
+		count++;
 		return true;
 	}
 	
 	public boolean peekHasNext() {
+		
+		if (repeating && absCurrentPosition >= 0) {
+			long k = key.getElementLongAbs(absCurrentPosition);
+			
+			if (k != currentkey) return true;
+		}
+		
+		
 		if (absCurrentPosition == currentMax) return false;
 		
 		if (key.getSize() <= absCurrentPosition +1 ) return false;
 		
-		return !(key.getElementDoubleAbs(absCurrentPosition + 1) == 0);
-
+		return key.getElementLongAbs(absCurrentPosition + 1) != 0;
 	}
 	
 	public void reset() {
 		absCurrentPosition = -1;
+		count = 0;
+		currentkey = 0;
 	}
 	
 	public int getCurrentMax() {
 		return currentMax;
+	}
+	
+	public void enableRepeating() {
+		repeating = true;
+	}
+
+	public int getCount() {
+		return count;
 	}
 	
 }
