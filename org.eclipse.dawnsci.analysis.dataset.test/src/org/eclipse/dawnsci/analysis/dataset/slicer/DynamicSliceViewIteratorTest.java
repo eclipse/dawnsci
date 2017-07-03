@@ -94,7 +94,7 @@ public class DynamicSliceViewIteratorTest {
 	@Test
 	public void testPassRepeating() throws DatasetException {
 		
-		int fastest = 4;
+		int fastest = 5;
 		
 		MockDynamicLazyDataset mock = getData(fastest);
 		MockDynamicLazyDataset mockkey = getKey(fastest);
@@ -171,6 +171,19 @@ public class DynamicSliceViewIteratorTest {
 		assertTrue(iterator.hasNext());
 		next = iterator.next().getSlice();
 		assertEquals(3, next.getDouble(0,0,0), 0.00000001);
+		
+		mockkey.getParent().set(14, 4);
+		mockfinished.getParent().set(1, 0);
+		assertTrue(iterator.hasNext());
+		next = iterator.next().getSlice();
+		assertEquals(3, next.getDouble(0,0,0), 0.00000001);
+		
+		assertTrue(iterator.hasNext());
+		next = iterator.next().getSlice();
+		assertEquals(4, next.getDouble(0,0,0), 0.00000001);
+		
+		assertFalse(iterator.hasNext());
+
 		
 	}
 	
