@@ -151,5 +151,12 @@ public interface IOperationBean {
 	 * @param linkEntry
 	 */
 	default void setLinkParentEntry(boolean linkEntry){};
+	
+	/**
+	 * Set whether the raw data is going to be overwritten
+	 * 
+	 * @param overwrite
+	 */
+	default void setMonitorForOverwrite(boolean overwrite){};
 
 }
