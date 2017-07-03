@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import javax.swing.plaf.SliderUI;
-
 import org.eclipse.dawnsci.analysis.dataset.MockDynamicLazyDataset;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.Dataset;
@@ -14,9 +12,7 @@ import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IDynamicDataset;
-import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.IntegerDataset;
-import org.eclipse.january.dataset.LazyDataset;
 import org.eclipse.january.dataset.Slice;
 import org.junit.Test;
 
