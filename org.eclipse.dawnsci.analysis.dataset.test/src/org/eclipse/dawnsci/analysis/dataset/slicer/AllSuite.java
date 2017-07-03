@@ -17,7 +17,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(TestUtils.VerboseSuite.class)
-@SuiteClasses({ DynamicSliceNDIteratorTest.class, SliceInformationTest.class, SliceNDGeneratorTest.class })
+@SuiteClasses({ DynamicSliceViewIteratorTest.class,DynamicSliceNDIteratorTest.class, SliceInformationTest.class, SliceNDGeneratorTest.class })
 public class AllSuite {
 
 }

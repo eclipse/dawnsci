@@ -16,6 +16,7 @@ import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IDynamicDataset;
 import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.LongDataset;
 import org.eclipse.january.dataset.SliceND;
 import org.eclipse.january.metadata.AxesMetadata;
 import org.eclipse.january.metadata.DynamicMetadataUtils;
@@ -27,7 +28,6 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	private static final Logger logger = LoggerFactory.getLogger(DynamicSliceViewIterator.class);
 	
 	private DynamicSliceNDIterator iterator = null;
-	int count;
 	
 	private IDynamicDataset lazy;
 	private IDynamicDataset[] keys;
@@ -36,14 +36,19 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	private SourceInformation source;
 	private boolean next = false;
 	
-	boolean last = false;
+	private boolean last = false;
 	
 	private int maxTimeout = 60000;
 	private int timeout = 1000;
 	
 	public DynamicSliceViewIterator(IDynamicDataset lazy, IDynamicDataset[] keys, IDynamicDataset finished, int dataSize) {
+		this(lazy, keys, finished, dataSize, false);
+	}
+	
+	public DynamicSliceViewIterator(IDynamicDataset lazy, IDynamicDataset[] keys, IDynamicDataset finished, int dataSize, boolean repeating) {
 		try {
 			iterator = new DynamicSliceNDIterator(lazy.getShape(), mergeKeys(keys), lazy.getRank()-dataSize);
+			if (repeating) iterator.enableRepeating();
 		} catch (DatasetException e) {
 			logger.error("Could not get data from lazy dataset", e);
 		}
@@ -122,7 +127,6 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	 */
 	@Override
 	public void reset() {
-		count = 0;
 		iterator.reset();
 		last = false;
 		updateShape();
@@ -136,7 +140,6 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	 */
 	@Override
 	public ILazyDataset next() {
-		count++;
 		SliceND current = iterator.getCurrentSlice().clone();
 		ILazyDataset view;
 		try {
@@ -146,6 +149,8 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 			return null;
 		}
 		view.clearMetadata(SliceFromSeriesMetadata.class);
+		
+		int count = iterator.getCount();
 		
 		SliceInformation sl = new SliceInformation(current,
 				current.clone(), new SliceND(lazy.getShape()),
@@ -167,15 +172,6 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	 */
 	public int getTotal(){
 		return -1;
-	}
-	
-	/**
-	 * Get the number of the current ILazyDataset
-	 * 
-	 * @return current
-	 */
-	public int getCurrent(){
-		return count;
 	}
 	
 	/**
@@ -205,15 +201,19 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 			if (dk[i].getSize() < minSize) minSize = dk[i].getSize();
 		}
 		
-		Dataset key = DatasetFactory.zeros(new int[]{minSize}, Dataset.INT64);
+		Dataset key = DatasetFactory.zeros(LongDataset.class,new int[]{minSize});
 		
 		for (int i = 0; i < minSize ; i++) {
+			long sum = 0;
 			for (Dataset k : dk) {
 				if (i > k.getSize()) return key;
+				long l = k.getElementLongAbs(i);
 				if (k.getElementLongAbs(i) == 0) return key;
+				sum+=l;
+				
 			}
 			
-			key.set(i+1, i);
+			key.set(sum, i);
 		}
 		
 		return key;
