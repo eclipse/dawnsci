@@ -17,8 +17,8 @@ import javax.imageio.ImageIO;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.dawnsci.analysis.api.conversion.IConversionContext;
+import org.eclipse.dawnsci.analysis.api.conversion.IConversionSchemeService;
 import org.eclipse.dawnsci.analysis.api.conversion.IConversionService;
-import org.eclipse.dawnsci.analysis.api.conversion.IConversionContext.ConversionScheme;
 import org.eclipse.dawnsci.analysis.api.downsample.IDownsampleService;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
@@ -68,7 +68,8 @@ public class Exercise3 extends Exercise2 {
 	        // We now use the conversion service to convert the files to nexus
 	        IConversionService cservice = Examples.getCurrent().getConversionService();
 	        IConversionContext context  = cservice.open(dir.getAbsolutePath()+"/.+png");
-	        context.setConversionScheme(ConversionScheme.H5_FROM_IMAGEDIR);
+	        IConversionSchemeService schemeService = Examples.getCurrent().getConversionSchemeService();
+	        context.setConversionScheme(schemeService.getScheme("org.eclipse.dawnsci.plotting.examples.exercises.dawnsci"));
 	        context.setOutputPath(output.getAbsolutePath());
 	        context.setDatasetName("/entry/data"); // With this conversion dataset is the OUTPUT
 	        cservice.process(context);

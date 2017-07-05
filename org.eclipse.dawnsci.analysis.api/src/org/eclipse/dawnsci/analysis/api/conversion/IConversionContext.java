@@ -10,8 +10,6 @@
 package org.eclipse.dawnsci.analysis.api.conversion;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -24,121 +22,6 @@ import org.eclipse.january.dataset.Slice;
  */
 public interface IConversionContext {
 
-	/**
-	 * Schemes to be edited as required, current list is a guess
-	 * of the conversions we have spoken about before.
-	 */
-	public enum ConversionScheme {
-
-		ASCII_FROM_1D(" ascii from 1D data",   true,  1), 
-		ASCII_FROM_2D(" ascii from 2D data",   false, 2), 
-		TIFF_FROM_3D(" image files from image stack", true, false, 2,3,4,5),
-		AVI_FROM_3D(" video from image stack", true, 2,3,4,5),
-		STITCHED_FROM_IMAGEDIR(" stitched/mosaic image from directory of images", true, false, 1, 2),
-		ALIGNED_FROM_3D(" align stack of images", true, false, 2, 3, 4, 5),
-		H5_FROM_IMAGEDIR(" nexus stack from directory of images", true, false, false, 2),
-		H5_FROM_1D(" nexus from 1D data",   true, false,  1),
-		CUSTOM_NCD(" ascii from NCD data",     true, 1,2,3,4,5,6),
-		CUSTOM_TOMO(" tiff from tomography nexus file(s) [nxtomo]",    true, 3),
-		COMPARE(" compare data",    true,  false, 0,1,2,3,4,5),
-		PROCESS(" process data", false, true, 1,2,3,4,5),
-		B18_REPROCESS_ASCII(" reprocess B18 ascii", true, false, false, 1),
-		B18_AVERAGE(" average B18 data", true, false, false, 1); // for now allow only ASCII
-		
-		private final String  uiLabel;
-		private final int[]   preferredRanks;
-		private final boolean userVisible;
-		private final boolean nexusOnly;
-		private boolean nexusSourceAllowed;
-
-		ConversionScheme(String uiLabel, boolean userVisible, int... preferredRanks) {
-			this(uiLabel, userVisible, true, preferredRanks);
-		}
-		ConversionScheme(String uiLabel, boolean userVisible, boolean nexusOnly, int... preferredRanks) {
-			this(uiLabel, userVisible, nexusOnly, true, preferredRanks);
-		}
-		ConversionScheme(String uiLabel, boolean userVisible, boolean nexusOnly, boolean nexusSourceAllowed, int... preferredRanks) {
-			this.uiLabel        = uiLabel;
-			this.userVisible    = userVisible;
-			this.nexusOnly      = nexusOnly;
-			this.nexusSourceAllowed     = nexusSourceAllowed;
-			this.preferredRanks = preferredRanks;
-		}
-		
-		public String getUiLabel() {
-			return uiLabel;
-		}
-		
-		public static ConversionScheme fromLabel(String uiLabel) {
-			for (ConversionScheme cs : values()) {
-				if (cs.getUiLabel().equals(uiLabel)) return cs;
-			}
-			return null;
-		}
-
-		/**
-		 * The labels of the active user interface schemes.
-		 * @return all labels
-		 */
-		public static String[] getLabels() {
-			final List<String> labels = new ArrayList<String>(3);
-			for (int i = 0; i < values().length; i++)  {
-				if (values()[i].isUserVisible()) labels.add(values()[i].getUiLabel());
-			}
-			return labels.toArray(new String[labels.size()]);
-		}
-
-		/**
-		 * The preferred dimensions of data sets likely to be chosen
-		 * by this wizard, if null, there is no preference.
-		 * @return preferred ranks
-		 */
-		public int[] getPreferredRanks() {
-			return preferredRanks;
-		}
-
-		public boolean isRankSupported(int rank) {
-			if (preferredRanks==null) return false;
-			for (int i = 0; i < preferredRanks.length; i++) {
-				if (preferredRanks[i]==rank) return true;
-			}
-			return false;
-		}
-
-		/**
-		 * 
-		 * @return true if scheme should appear in UI choices such as the
-		 * conversion wizard.
-		 */
-		public boolean isUserVisible() {
-			return userVisible;
-		}
-		public boolean isNexusOnly() {
-			return nexusOnly;
-		}
-		public boolean isNexusSourceAllowed() {
-			return nexusSourceAllowed;
-		}
-		
-		public String getDescription() {
-			final StringBuilder buf = new StringBuilder();
-			buf.append("Conversion Name:\t");
-			buf.append(uiLabel);
-			buf.append("\n\n");
-			
-			buf.append("Data Source:\t");
-			buf.append(isNexusOnly()?"HDF5 or Nexus files only":"Any loadable data of correct rank");
-			buf.append("\n\n");
-			
-			buf.append("Supported Data Ranks:\t");
-			buf.append(Arrays.toString(preferredRanks));
-			buf.append("\n\n");
-			
-			return buf.toString();
-		}
-		
-	}
-	
 	/**
 	 * 
 	 * @return the monitor
@@ -155,13 +38,13 @@ public interface IConversionContext {
 	 * Get the current conversion.
 	 * @return the scheme
 	 */
-	public ConversionScheme getConversionScheme();
+	public IConversionScheme getConversionScheme();
 	
 	/**
 	 * Set the way in which we will convert
 	 * @param cs
 	 */
-	public void setConversionScheme(ConversionScheme cs);
+	public void setConversionScheme(IConversionScheme cs);
 	
 	/**
 	 * Call to override the conversion scheme. If this 

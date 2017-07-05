@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.plotting.examples;
 
+import org.eclipse.dawnsci.analysis.api.conversion.IConversionSchemeService;
 import org.eclipse.dawnsci.analysis.api.conversion.IConversionService;
 import org.eclipse.dawnsci.analysis.api.dataset.IDatasetMathsService;
 import org.eclipse.dawnsci.analysis.api.downsample.IDownsampleService;
@@ -33,6 +34,7 @@ public class Examples {
 	private IImageService        imageService;
 	private IConversionService   conversionService;
 	private IDownsampleService   downsampleService;
+	private IConversionSchemeService conversionSchemeService;
 	
 	public IDownsampleService getDownsampleService() {
 		return downsampleService;
@@ -77,6 +79,13 @@ public class Examples {
 		this.plottingService = plottingService;
 	}
 	
+	public IConversionSchemeService getConversionSchemeService() {
+		return conversionSchemeService;
+	}
+	public void setConversionSchemeService(IConversionSchemeService conversionSchemeService) {
+		this.conversionSchemeService = conversionSchemeService;
+	}
+
 	private static Examples current;
 
 	public void start(ComponentContext context) {
