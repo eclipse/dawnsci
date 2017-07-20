@@ -26,6 +26,17 @@ public class OperationException extends RuntimeException {
 		this.operation = operation;
 	}
 
+	/**
+	 * Construct an OperationException with given operation, reason and cause
+	 * @param operation
+	 * @param reason message containing details of reason for exception 
+	 * @param cause
+	 */
+	public OperationException(IOperation<?, ?> operation, String reason, Throwable cause) {
+		super(reason, cause);
+		this.operation = operation;
+	}
+
 	public OperationException(IOperation<?, ?> operation, String reason) {
 		super(reason);
 		this.operation = operation;
