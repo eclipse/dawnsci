@@ -29,6 +29,11 @@ public class BasePlottingConstants {
 	 * Stores if colour map is to be inverted.
 	 */
 	public static final String CM_INVERTED = "org.eclipse.dawnsci.plotting.preference.colourMapInverted";
+	
+	/**
+	 * Stores if colour map is to have log scale.
+	 */
+	public static final String CM_LOGSCALE = "org.eclipse.dawnsci.plotting.preference.colourMapLogScale";
 
 	/**
 	 *  This String is used to retrieve the plot view colour map preference which is in analysis.rcp
