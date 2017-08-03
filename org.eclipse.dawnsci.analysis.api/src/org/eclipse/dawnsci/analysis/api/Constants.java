@@ -24,8 +24,8 @@ import javax.measure.quantity.Time;
 import javax.measure.spi.ServiceProvider;
 
 import si.uom.SI;
-import tec.units.ri.unit.Units;
-import tec.units.ri.quantity.Quantities;
+import tec.uom.se.quantity.Quantities;
+import tec.uom.se.unit.Units;
 
 /**
  * Physics constants found on <a href="http://physics.nist.gov/cuu/Constants/bibliography.html">The NIST Reference on

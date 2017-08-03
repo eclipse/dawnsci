@@ -31,7 +31,7 @@ Import-Package: org.osgi.framework;version="1.7.0",
 Require-Bundle: javax.vecmath;bundle-version="1.5.2",
  org.eclipse.january;bundle-version="1.0.0",
  javax.measure.unit-api;bundle-version="1.0.0",
- si.uom.si-units,
- tec.units.unit-ri
+ tec.uom.se,
+ si.uom.si-units-java8;bundle-version="0.6.6"
 Bundle-Activator: org.eclipse.dawnsci.analysis.api.Activator
 Bundle-ActivationPolicy: lazy
