@@ -32,7 +32,7 @@ import javax.measure.quantity.Time;
 import javax.measure.quantity.Volume;
 import javax.measure.spi.ServiceProvider;
 
-import tec.units.ri.unit.Units;
+import tec.uom.se.unit.Units;
 
 public enum NexusUnitCategory {
 	
