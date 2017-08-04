@@ -68,6 +68,8 @@ public class NexusScanInfo {
 	
 	private int[] shape;
 	
+	private String filePath;
+	
 	public NexusScanInfo() {
 		this(Collections.emptyList());
 	}
@@ -118,22 +120,30 @@ public class NexusScanInfo {
 		setDeviceNames(ScanRole.SCANNABLE, axisNames);
 	}
 	
-	public Set<String> getMonitorNames() {
+	public Set<String> getPerPointMonitorNames() {
 		return (Set<String>) getDeviceNames(ScanRole.MONITOR_PER_POINT);
 	}
 	
-	public void setMonitorNames(Set<String> monitorNames) {
+	public void setPerPointMonitorNames(Set<String> monitorNames) {
 		setDeviceNames(ScanRole.MONITOR_PER_POINT, monitorNames);
 	}
 	
-	public Set<String> getMetadataScannableNames() {
+	public Set<String> getPerScanMonitorNames() {
 		return (Set<String>) getDeviceNames(ScanRole.MONITOR_PER_SCAN);
 	}
 	
-	public void setMetadataScannableNames(Set<String> metadataScannableNames) {
+	public void setPerScanMonitorNames(Set<String> metadataScannableNames) {
 		setDeviceNames(ScanRole.MONITOR_PER_SCAN, metadataScannableNames);
 	}
 	
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
 	public int[] getShape() {
 		return shape;
 	}
