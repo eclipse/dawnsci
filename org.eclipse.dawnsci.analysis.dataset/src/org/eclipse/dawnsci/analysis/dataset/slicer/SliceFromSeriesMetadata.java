@@ -219,6 +219,12 @@ public class SliceFromSeriesMetadata implements OriginMetadata {
 		
 		return ds.getSlice(slices);
 	}
+	
+	public void setSliceDimensionToFull(int dim) {
+		if (sliceInfo.isDataDimension(dim)) throw new IllegalArgumentException("Cannot apply to data dimension!");
+		sliceInfo.convertSliceDimensionToFull(dim);
+		
+	}
 
 	@Override
 	public int[] getDataMaxDimensions() {
