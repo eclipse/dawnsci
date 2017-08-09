@@ -37,6 +37,7 @@ import org.eclipse.dawnsci.hdf5.HDF5DataspaceResource;
 import org.eclipse.dawnsci.hdf5.HDF5DatatypeResource;
 import org.eclipse.dawnsci.hdf5.HDF5File;
 import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
+import org.eclipse.dawnsci.hdf5.HDF5FileResource;
 import org.eclipse.dawnsci.hdf5.HDF5LazyLoader;
 import org.eclipse.dawnsci.hdf5.HDF5LazySaver;
 import org.eclipse.dawnsci.hdf5.HDF5ObjectResource;
@@ -436,6 +437,18 @@ public class NexusFileHDF5 implements NexusFile {
 								//this results on a potentially invalid cache
 								continue;
 							}
+						}
+						// test we can open the file
+						try {
+							try (HDF5Resource extFile = new HDF5FileResource(
+									H5.H5Fopen(extFilePath, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT))) {
+								// do nothing - just let it close
+							}
+						} catch (HDF5LibraryException e) {
+							// someone else has opened the file
+							// TODO: same caveat as the "file does not exist" case above
+							logger.warn("Cannot open external file {}", extFilePath, e);
+							continue;
 						}
 					}
 					String childPath = path + linkName;
