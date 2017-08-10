@@ -115,6 +115,10 @@ public class SliceInformation {
 		ss[dim].setStop(sss[dim]);
 		ss[dim].setStep(1);
 		
+		int[] dd = new int[dataDimensions.length +1];
+		System.arraycopy(dataDimensions, 0, dd, 1, dataDimensions.length);
+		dd[0] = dim;
+		dataDimensions = dd;
 		output = new SliceND(sss, cs);
 		sampling = new SliceND(sss,ss);
 	}
