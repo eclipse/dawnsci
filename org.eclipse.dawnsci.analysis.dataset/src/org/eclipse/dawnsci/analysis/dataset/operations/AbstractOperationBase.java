@@ -10,6 +10,7 @@
 package org.eclipse.dawnsci.analysis.dataset.operations;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Comparator;
 import java.util.List;
 
@@ -283,8 +284,18 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	}
 	
 	public Class<T> getModelClass() {
-		if (model != null) return (Class<T>) model.getClass();
-		return (Class<T>)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+		if (model != null)
+			return (Class<T>) model.getClass();
+		
+		Type superClass = this.getClass().getGenericSuperclass();
+	
+		// Look for first parameterized super class -> this one will contain the model
+		while (!ParameterizedType.class.isInstance(superClass)) {
+			superClass = ((Class<T>) superClass).getGenericSuperclass();
+		}
+		
+		Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
+		return (Class<T>) type;
 	}
 	
 	public static class OperationComparitor implements Comparator<IOperation<? extends IOperationModel, ? extends OperationData>> {
