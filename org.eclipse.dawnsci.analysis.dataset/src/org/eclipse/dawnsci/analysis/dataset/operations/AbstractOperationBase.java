@@ -287,12 +287,12 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 		if (model != null)
 			return (Class<T>) model.getClass();
 		
-		Type superClass = this.getClass().getGenericSuperclass();
+		Type superClass = this.getClass();
 	
 		// Look for first parameterized super class -> this one will contain the model
-		while (!ParameterizedType.class.isInstance(superClass)) {
+		do {
 			superClass = ((Class<T>) superClass).getGenericSuperclass();
-		}
+		} while (!ParameterizedType.class.isInstance(superClass));
 		
 		Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
 		return (Class<T>) type;
