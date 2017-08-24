@@ -24,6 +24,7 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
+import org.eclipse.dawnsci.analysis.api.tree.TreeAdaptable;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
@@ -128,12 +129,13 @@ public class H5ValuePage extends Page  implements ISelectionListener, IPartListe
 			this.lastSelection = (StructuredSelection)selection;
 			final Object sel = lastSelection.getFirstElement();
 			
-			updateObjectSelection(sel);				
-			
-			sourceViewer.refresh();
-			label.getParent().layout(new Control[]{label, sourceViewer.getTextWidget()});
-			
-			return;
+			if (sel instanceof TreeAdaptable) {
+				updateObjectSelection((TreeAdaptable) sel);
+				
+				sourceViewer.refresh();
+				label.getParent().layout(new Control[]{label, sourceViewer.getTextWidget()});
+				return;
+			}
 		}
 		
 		clear();
@@ -178,13 +180,15 @@ public class H5ValuePage extends Page  implements ISelectionListener, IPartListe
 		
 	}
 
-	public void updateObjectSelection(Object sel)  throws Exception{
-		if (sel instanceof Attribute) {
-			Attribute att = (Attribute) sel;
-			createAttributeValue(att);
-		} else if (sel instanceof NodeLink) {
-			NodeLink node = (NodeLink) sel;
-			createNodeValue(node);
+	public void updateObjectSelection(TreeAdaptable sel)  throws Exception{
+		Attribute attr = sel.getAttribute();
+		if (attr != null) {
+			createAttributeValue(attr);
+		} else {
+			NodeLink node = sel.getNodeLink();
+			if (node != null) {
+				createNodeValue(node);
+			}
 		}
 	}
 	
@@ -229,6 +233,9 @@ public class H5ValuePage extends Page  implements ISelectionListener, IPartListe
 	}
 
 	private void createAttributeValue(Attribute att) throws Exception {
+		label.setText("Attribute name of '" + att.getName() + "' value:");
+
+		sourceViewer.getTextWidget().setText(att.toString());
 	}
 
 	private void createNodeValue(NodeLink link) throws Exception {
