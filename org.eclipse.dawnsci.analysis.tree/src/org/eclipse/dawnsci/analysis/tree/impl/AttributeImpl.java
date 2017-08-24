@@ -93,8 +93,7 @@ public class AttributeImpl implements Attribute, Serializable {
 
 	@Override
 	public String getFirstElement() {
-		int r = value.getRank(); // FIXME remove when getXXX() returns first value
-		return r == 0 ? value.getString() : value.getString(new int[r]);
+		return value.getString();
 	}
 
 	@Override
