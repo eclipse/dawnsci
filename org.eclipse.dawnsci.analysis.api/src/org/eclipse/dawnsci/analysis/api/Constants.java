@@ -21,7 +21,6 @@ import javax.measure.quantity.MagneticFlux;
 import javax.measure.quantity.Mass;
 import javax.measure.quantity.Speed;
 import javax.measure.quantity.Time;
-import javax.measure.spi.ServiceProvider;
 
 import si.uom.SI;
 import tec.uom.se.quantity.Quantities;
@@ -33,7 +32,7 @@ import tec.uom.se.unit.Units;
  */
 public class Constants {
 
-	public final static Unit<Dimensionless> dimensionLessUnit = ServiceProvider.current().getQuantityFactory(Dimensionless.class).getSystemUnit();
+	public final static Unit<Dimensionless> dimensionLessUnit = Units.getInstance().getUnit(Dimensionless.class).getSystemUnit();
 
 	/**
 	 * Holds the international foot: 0.3048 m exact.
@@ -246,7 +245,7 @@ public class Constants {
 	 */
 	public final static Quantity<ElectricConductance> G0 = Quantities.getQuantity(
 			e.multiply(e).divide(ℎ).multiply(2).getValue().doubleValue(),
-			ServiceProvider.current().getQuantityFactory(ElectricConductance.class).getSystemUnit());
+			Units.getInstance().getUnit(ElectricConductance.class).getSystemUnit());
 
 	/**
 	 * Holds the Bohr magneton (ℏ·e/2me)

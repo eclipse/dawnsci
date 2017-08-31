@@ -30,7 +30,6 @@ import javax.measure.quantity.SolidAngle;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Time;
 import javax.measure.quantity.Volume;
-import javax.measure.spi.ServiceProvider;
 
 import tec.uom.se.unit.Units;
 
@@ -131,7 +130,7 @@ public enum NexusUnitCategory {
 	}
 
 	static Unit<? extends Quantity<?>> getUnit(Class clazz) {
-		return ServiceProvider.current().getQuantityFactory(clazz).getSystemUnit();
+		return Units.getInstance().getUnit(clazz).getSystemUnit();
 	}
 
 }
