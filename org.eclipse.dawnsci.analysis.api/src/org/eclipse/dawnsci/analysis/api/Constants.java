@@ -63,14 +63,16 @@ public class Constants extends AbstractSystemOfUnits{
 	/**
 	 * A unit of length equal to <code>0.0254 m</code> (standard name <code>in</code>).
 	 */
-	public static final Unit<Length> INCH = FOOT.divide(12);
+	public static final Unit<Length> INCH = AbstractSystemOfUnits.Helper.addUnit(INSTANCE.units,
+			new TransformedUnit<Length>("inch", FOOT, new RationalConverter(1, 12)), "inch", "in");
 
 	/**
 	 * A unit of length equal to <code>0.013837 {@link #INCH}</code> exactly (standard name <code>pt</code>).
 	 * 
 	 * @see #PIXEL
 	 */
-	public static final Unit<Length> POINT = INCH.multiply(13837).divide(1000000);
+	public static final Unit<Length> POINT = AbstractSystemOfUnits.Helper.addUnit(INSTANCE.units,
+			new TransformedUnit<Length>("point", INCH, new RationalConverter(13837, 1000000)), "point", "pt");
 
 	/**
 	 * A unit of length equal to <code>1/72 {@link #INCH}</code> (standard name <code>pixel</code>). It is the American
@@ -78,7 +80,8 @@ public class Constants extends AbstractSystemOfUnits{
 	 * 
 	 * @see #POINT
 	 */
-	public static final Unit<Length> PIXEL = INCH.divide(72);
+	public static final Unit<Length> PIXEL = AbstractSystemOfUnits.Helper.addUnit(INSTANCE.units,
+			new TransformedUnit<Length>("pixel", INCH, new RationalConverter(1, 72)), "pixel", "px");
 
 	/**
 	 * Holds the standard acceleration due to gravity (approximately equal to the acceleration due to gravity on the
