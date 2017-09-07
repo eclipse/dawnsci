@@ -22,15 +22,23 @@ import javax.measure.quantity.Mass;
 import javax.measure.quantity.Speed;
 import javax.measure.quantity.Time;
 
+import si.uom.NonSI;
 import si.uom.SI;
+import tec.uom.se.AbstractSystemOfUnits;
+import tec.uom.se.function.RationalConverter;
 import tec.uom.se.quantity.Quantities;
+import tec.uom.se.unit.TransformedUnit;
 import tec.uom.se.unit.Units;
 
 /**
  * Physics constants found on <a href="http://physics.nist.gov/cuu/Constants/bibliography.html">The NIST Reference on
  * Constants, Units and Uncertainty</a>
  */
-public class Constants {
+public class Constants extends AbstractSystemOfUnits{
+
+	private static final Constants INSTANCE = new Constants();
+
+	private static final String SYSTEM_NAME = "NonSI Units and Constants";
 
 	public final static Unit<Dimensionless> dimensionLessUnit = Units.getInstance().getUnit(Dimensionless.class).getSystemUnit();
 
@@ -39,6 +47,13 @@ public class Constants {
 	 */
 	private static final int INTERNATIONAL_FOOT_DIVIDEND = 3048;
 	private static final int INTERNATIONAL_FOOT_DIViSOR = 10000;
+
+	/**
+	 * A unit of length equal to <code>1E-10 m</code> (standard name <code>\u00C5ngstr\u00F6m</code>).
+	 * This unit unit defined here has also the correct symbol associated with it as opposed to {@link NonSI}.ANGSTROM.
+	 */
+	public static final Unit<Length> ANGSTROM = AbstractSystemOfUnits.Helper.addUnit(INSTANCE.units,
+			new TransformedUnit<Length>("Å", Units.METRE, new RationalConverter(1, 10000000000L)), "Angstrom", "Å");
 
 	/**
 	 * A unit of length equal to <code>0.3048 m</code> (standard name <code>ft</code>).
@@ -214,7 +229,8 @@ public class Constants {
 	/**
 	 * Holds the unified atomic mass unit (0.001 kg/mol)/N
 	 */
-	public final static Quantity<Mass> amu = Quantities.getQuantity(Quantities.getQuantity(1E-3, Units.KILOGRAM.divide(Units.MOLE)).divide(N).getValue().doubleValue(), Units.KILOGRAM);
+	private final static Unit KG = Units.KILOGRAM; 
+	public final static Quantity<Mass> amu = (Quantity<Mass>) Quantities.getQuantity(1E-3, Units.KILOGRAM.divide(Units.MOLE)).divide(N).to(KG);
 
 	/**
 	 * Holds the Rydberg constant (α²·me·c/2h).
@@ -238,14 +254,14 @@ public class Constants {
 	/**
 	 * Holds the magnetic flux quantum (h/2e)
 	 */
-	public final static Quantity<MagneticFlux> Φ0 = Quantities.getQuantity(ℎ.divide(e).divide(2).getValue().doubleValue(), Units.WEBER);
+	private final static Unit WEBER = Units.WEBER;
+	public final static Quantity<MagneticFlux> Φ0 = (Quantity<MagneticFlux>) ℎ.divide(e).divide(2).to(WEBER);
 
 	/**
 	 * Holds the conductance quantum (2e²/h)
 	 */
-	public final static Quantity<ElectricConductance> G0 = Quantities.getQuantity(
-			e.multiply(e).divide(ℎ).multiply(2).getValue().doubleValue(),
-			Units.getInstance().getUnit(ElectricConductance.class).getSystemUnit());
+	private final static Unit CONDUCTANCE = Units.getInstance().getUnit(ElectricConductance.class).getSystemUnit();
+	public final static Quantity<ElectricConductance> G0 = (Quantity<ElectricConductance>) e.multiply(e).divide(ℎ).multiply(2).to(CONDUCTANCE);
 
 	/**
 	 * Holds the Bohr magneton (ℏ·e/2me)
@@ -271,4 +287,9 @@ public class Constants {
 	 * Holds the Planck time (lP/c)
 	 */
 	public final static Quantity<Time> tP = Quantities.getQuantity(lP.divide(c).getValue().doubleValue(), Units.SECOND);
+
+	@Override
+	public String getName() {
+		return SYSTEM_NAME;
+	}
 }

@@ -32,6 +32,7 @@ Require-Bundle: javax.vecmath;bundle-version="1.5.2",
  org.eclipse.january;bundle-version="1.0.0",
  javax.measure.unit-api;bundle-version="1.0.0",
  tec.uom.se,
- si.uom.si-units-java8;bundle-version="0.6.6"
+ si.uom.si-units-java8;bundle-version="0.6.6",
+ tec.uom.lib.uom-lib-common;bundle-version="1.0.2"
 Bundle-Activator: org.eclipse.dawnsci.analysis.api.Activator
 Bundle-ActivationPolicy: lazy
