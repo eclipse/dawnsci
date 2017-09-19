@@ -17,6 +17,7 @@ import org.eclipse.january.IMonitor;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.FloatDataset;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.Maths;
@@ -147,15 +148,15 @@ public class ROISliceUtils {
 		
 		sl[dim] = new Slice(0,1);
 
-		Dataset datasetStart = DatasetUtils.cast(dataBlock.getSlice(monitor, sl),Dataset.FLOAT32);
-		Dataset result = DatasetFactory.zeros(datasetStart, Dataset.FLOAT32);
+		Dataset datasetStart = dataBlock.getSlice(monitor, sl).cast(FloatDataset.class);
+		Dataset result = DatasetFactory.zeros(datasetStart);
 		Dataset datasetEnd = DatasetFactory.zeros(datasetStart);
 		
 		for (int i = 1; i < (end-start+1); i++) {
 			if (monitor != null && monitor.isCancelled()) return null;
 			sl[dim].setStart(i);
 			sl[dim].setStop(i+1);
-			datasetEnd = DatasetUtils.cast(dataBlock.getSlice(monitor, sl),Dataset.FLOAT32);
+			datasetEnd = dataBlock.getSlice(monitor, sl).cast(FloatDataset.class);
 			datasetStart.iadd(datasetEnd);
 			datasetStart.idivide(2.0);
 			double val = Math.abs(axis.getDouble(start+i)-axis.getDouble(start+i-1));
