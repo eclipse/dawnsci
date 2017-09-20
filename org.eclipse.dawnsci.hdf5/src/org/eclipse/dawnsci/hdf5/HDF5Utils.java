@@ -1,5 +1,5 @@
 /*-
- * Copyright 2015 Diamond Light Source Ltd.
+ * Copyright 2015, 2017 Diamond Light Source Ltd.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -1741,4 +1741,33 @@ public class HDF5Utils {
 		}
 		return out;
 	}
+
+	/**
+	 * List of HDF5 possible extensions
+	 */
+	public final static List<String> H5_EXT;
+	static {
+		List<String> tmp = new ArrayList<String>(7);
+		tmp.add("h5");
+		tmp.add("nxs");
+		tmp.add("hd5");
+		tmp.add("hdf5");
+		tmp.add("hdf");
+		tmp.add("nexus");
+		H5_EXT = Collections.unmodifiableList(tmp);
+	}
+
+	/**
+	 * 
+	 * @param filePath
+	 * @return true if file has {@code H5_EXT} extension
+	 */
+	public static boolean isH5(final String filePath) {
+		if (filePath == null) { return false; }
+		int posExt = filePath.lastIndexOf(".");
+		final String ext = posExt == -1 ? "" : filePath.substring(posExt + 1);
+		if (ext == null) { return false; }
+		return H5_EXT.contains(ext.toLowerCase());
+	}
+
 }
