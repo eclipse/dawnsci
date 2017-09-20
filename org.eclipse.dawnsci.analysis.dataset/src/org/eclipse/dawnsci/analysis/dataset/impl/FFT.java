@@ -769,7 +769,7 @@ public class FFT {
 	 * @return zero-padded dataset
 	 */
 	public static Dataset zeroPad(Dataset input, int[] newShape, boolean inFreqSpace) {
-		Dataset output = DatasetFactory.zeros(input.getElementsPerItem(), newShape, input.getDType());
+		Dataset output = DatasetFactory.zeros(input.getElementsPerItem(), input.getClass(), newShape);
 		if (inFreqSpace) {
 			int rank = input.getRank();
 			int[] iShape = input.getShapeRef();

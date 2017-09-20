@@ -272,7 +272,7 @@ public class Signal {
 	 * @return window
 	 */
 	public static Dataset rectangularWindow(int n) {
-		return DatasetFactory.ones(new int[] {n}, Dataset.FLOAT64);
+		return DatasetFactory.ones(n);
 	}
 
 	/**
@@ -281,7 +281,7 @@ public class Signal {
 	 * @return window
 	 */
 	public static Dataset triangularWindow(int n) {
-		DoubleDataset w = DatasetFactory.zeros(DoubleDataset.class, n);
+		DoubleDataset w = DatasetFactory.zeros(n);
 		double f = 2./(n+1);
 		double o = f*(n-1)*0.5;
 		for (int i = 0; i < n; i++) {
