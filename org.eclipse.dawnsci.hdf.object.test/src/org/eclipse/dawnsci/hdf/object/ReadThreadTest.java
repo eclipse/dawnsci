@@ -78,8 +78,6 @@ public class ReadThreadTest extends AbstractThreadTestBase {
 	private void prepareForTest(String file, int nthreads) throws Exception {
 		HDF5FileFactory.deleteFile(file);
 
-		HDF5FileFactory.acquireFile(file, true);
-
 		HierarchicalDataFactory.acquireLowLevelReadingAccess(file);
 		long fid = -1;
 		try {
@@ -96,7 +94,6 @@ public class ReadThreadTest extends AbstractThreadTestBase {
 			HDF5Utils.writeDataset(f, "data" + i, data);
 		}
 		H5.H5Fclose(fid);
-		HDF5FileFactory.releaseFile(file);
 		HierarchicalDataFactory.releaseLowLevelReadingAccess(file);
 	}
 }
