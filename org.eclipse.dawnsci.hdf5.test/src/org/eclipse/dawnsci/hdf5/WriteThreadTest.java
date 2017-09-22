@@ -10,7 +10,6 @@
 package org.eclipse.dawnsci.hdf5;
 
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.hdf.object.AbstractThreadTestBase;
 import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
 import org.eclipse.dawnsci.hdf5.HDF5Utils;
 import org.eclipse.january.dataset.Dataset;
