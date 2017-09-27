@@ -51,7 +51,7 @@
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.dawnsci.third.feature.feature.group" version="1.0.0"/>
-<repository location="http://www.opengda.org/updates/tp_dawnsci/releases/1.0.0/"/>
+<repository location="https://alfred.diamond.ac.uk/opengda/updates/tp_dawnsci/releases/1.0.0/"/>
 </location>
 </locations>
 </target>
