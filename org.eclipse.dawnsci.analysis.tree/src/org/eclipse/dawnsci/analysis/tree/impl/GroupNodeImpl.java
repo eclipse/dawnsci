@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -468,8 +469,10 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	
 
 	@Override
-	public Iterator<String> getNodeNameIterator() {
-		return nodes.keySet().iterator();
+	public synchronized Iterator<String> getNodeNameIterator() {
+		synchronized (nodes) {
+			return new LinkedHashSet<>(nodes.keySet()).iterator();
+		}
 	}
 
 	@Override
