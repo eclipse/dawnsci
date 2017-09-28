@@ -14,6 +14,7 @@ package org.eclipse.dawnsci.analysis.api.processing.model;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +22,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ModelUtils {
 
@@ -75,8 +78,9 @@ public class ModelUtils {
 		// Decided not to use the obvious BeanMap here because class problems with
 		// GDA and we have to read annotations anyway.
 		final List<Field> allFields = new ArrayList<Field>(31);
-		allFields.addAll(Arrays.asList(model.getClass().getDeclaredFields()));
-		allFields.addAll(Arrays.asList(model.getClass().getSuperclass().getDeclaredFields()));
+		// exclude static and final fields!
+		allFields.addAll(Stream.of(model.getClass().getDeclaredFields()).filter(field -> !Modifier.isStatic(field.getModifiers()) && !Modifier.isFinal(field.getModifiers())).collect(Collectors.toList()));
+		allFields.addAll(Stream.of(model.getClass().getSuperclass().getDeclaredFields()).filter(field -> !Modifier.isStatic(field.getModifiers()) && !Modifier.isFinal(field.getModifiers())).collect(Collectors.toList()));
 		
 		// The returned descriptor
 		final List<ModelField> ret = new ArrayList<ModelField>();
