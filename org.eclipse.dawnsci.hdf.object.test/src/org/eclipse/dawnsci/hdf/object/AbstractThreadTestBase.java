@@ -10,7 +10,7 @@
  *    Matthew Gerring - initial API and implementation and/or initial documentation
  *******************************************************************************/
 
-package org.eclipse.dawnsci.hdf5;
+package org.eclipse.dawnsci.hdf.object;
 
 /**
  * Class to extend, does not have any tests itself.
