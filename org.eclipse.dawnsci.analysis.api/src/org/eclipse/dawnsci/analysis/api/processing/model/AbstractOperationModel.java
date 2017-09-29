@@ -35,13 +35,6 @@ import org.eclipse.dawnsci.analysis.api.roi.IROI;
  * 
  * This class MUST define a no argument constructor with getters and setters.
  * 
- * NOTE You can currently have only two level of inheritance below this class so
- * 
- * class B extends A ...
- * class A extends AbstractOperationModel 
- * 
- * Would be ok; BUT class C extends B ...  IS NOT OK - TWO LEVELS ONLY ARE ALLOWED! :)
- * 
  */
 public abstract class AbstractOperationModel implements IOperationModel {
 	
