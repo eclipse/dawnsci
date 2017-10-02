@@ -57,6 +57,7 @@ public class HDF5Utils {
 	private static String host;
 
 	/**
+	 * Gracefully gets the local host name (if there is a mis-configuration or any other issue, "localhost" is returned) 
 	 * @return local host name
 	 */
 	public static String getLocalHostName() {
@@ -65,7 +66,7 @@ public class HDF5Utils {
 			Future<String> fu = ex.submit(new Callable<String>() {
 				@Override
 				public String call() throws Exception {
-					try {
+					try { // this can block for a long while
 						return InetAddress.getLocalHost().getHostName();
 					} catch (UnknownHostException e) {
 						logger.error("Could not find host name", e);
@@ -74,12 +75,13 @@ public class HDF5Utils {
 				}
 			});
 	
-			try {
+			try { // time-out after 5 seconds
 				host = fu.get(5, TimeUnit.SECONDS);
 			} catch (TimeoutException e) {
 				logger.error("Timed out finding host name", e);
 			} catch (InterruptedException e) {
 				logger.error("Thread interrupted on finding host name", e);
+				Thread.currentThread().interrupt();
 			} catch (ExecutionException e) {
 				logger.error("Task aborted on finding host name", e);
 			}
