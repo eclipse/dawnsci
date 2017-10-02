@@ -42,7 +42,17 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	private boolean extendUnsigned;
 	protected String name;
 	protected File file;
-
+	private static String localHostName;
+	
+	static {
+		try {
+			localHostName = InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e) {
+			localHostName = "localhost";
+			logger.error("Could not get local hostname:", e);
+		}
+	}
+	
 	/**
 	 * @param hostname
 	 * @param filename
@@ -55,12 +65,7 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	 */
 	public HDF5LazyLoader(String hostname, String filename, String node, String name, int[] trueShape, int isize, int dtype,
 			boolean extendUnsigned) {
-		try {
-			isRemote = hostname != null && hostname.length() > 0 && !hostname.equals(InetAddress.getLocalHost().getHostName());
-		} catch (UnknownHostException e) {
-			isRemote = false;
-			logger.warn("Problem finding local host so ignoring check", e);
-		}
+		isRemote = hostname != null && hostname.length() > 0 && !hostname.equals(localHostName);
 		filePath = filename;
 		isReadable = false;
 		nodePath = node;
