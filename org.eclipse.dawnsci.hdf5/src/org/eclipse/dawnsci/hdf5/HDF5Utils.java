@@ -11,6 +11,8 @@ package org.eclipse.dawnsci.hdf5;
 
 import java.io.File;
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +22,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
@@ -44,6 +53,45 @@ import hdf.hdf5lib.structs.H5O_info_t;
 
 public class HDF5Utils {
 	private static final Logger logger = LoggerFactory.getLogger(HDF5Utils.class);
+
+	private static String host;
+
+	/**
+	 * Gracefully gets the local host name (if there is a mis-configuration or any other issue, "localhost" is returned) 
+	 * @return local host name
+	 */
+	public static String getLocalHostName() {
+		if (host == null) {
+			ExecutorService ex = Executors.newSingleThreadExecutor();
+			Future<String> fu = ex.submit(new Callable<String>() {
+				@Override
+				public String call() throws Exception {
+					try { // this can block for a long while
+						return InetAddress.getLocalHost().getHostName();
+					} catch (UnknownHostException e) {
+						logger.error("Could not find host name", e);
+					}
+					return null;
+				}
+			});
+	
+			try { // time-out after 5 seconds
+				host = fu.get(5, TimeUnit.SECONDS);
+			} catch (TimeoutException e) {
+				logger.error("Timed out finding host name", e);
+			} catch (InterruptedException e) {
+				logger.error("Thread interrupted on finding host name", e);
+				Thread.currentThread().interrupt();
+			} catch (ExecutionException e) {
+				logger.error("Task aborted on finding host name", e);
+			}
+			if (host == null) {
+				host = "localhost";
+			}
+		}
+		return host;
+	}
+
 
 	/**
 	 * Create a dataset from the given data object

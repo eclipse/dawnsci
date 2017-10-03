@@ -12,8 +12,6 @@ package org.eclipse.dawnsci.hdf5;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
@@ -55,12 +53,7 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	 */
 	public HDF5LazyLoader(String hostname, String filename, String node, String name, int[] trueShape, int isize, int dtype,
 			boolean extendUnsigned) {
-		try {
-			isRemote = hostname != null && hostname.length() > 0 && !hostname.equals(InetAddress.getLocalHost().getHostName());
-		} catch (UnknownHostException e) {
-			isRemote = false;
-			logger.warn("Problem finding local host so ignoring check", e);
-		}
+		isRemote = hostname != null && hostname.length() > 0 && !hostname.equals(HDF5Utils.getLocalHostName());
 		filePath = filename;
 		isReadable = false;
 		nodePath = node;
