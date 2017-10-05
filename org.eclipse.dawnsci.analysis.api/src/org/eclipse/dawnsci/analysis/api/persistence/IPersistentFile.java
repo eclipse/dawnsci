@@ -459,5 +459,17 @@ public interface IPersistentFile {
 	 * @throws Exception
 	 */
 	public OriginMetadata getOperationDataOrigin() throws Exception;
+	
+	/**
+	 * Write data and axes in a single call.
+	 * 
+	 * For 1D data set yAxis as null
+	 * 
+	 * @param data
+	 * @param xAxis
+	 * @param yAxis
+	 * @throws Exception
+	 */
+	public void setData(IDataset data, IDataset xAxis, IDataset yAxis) throws Exception;
 
 }
