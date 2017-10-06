@@ -27,6 +27,7 @@
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.analysis.dataset/bin" />
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.analysis.tree/bin" />
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.hdf5/bin" />
+				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.hdf.object/bin" />
 				<pathelement location="${workspace.git.loc}/dawn-hdf.git/hdf.hdf5lib/bin" />
 				<pathelement location="${workspace.git.loc}/dawn-hdf.git/hdf.object/bin" />
 				<path refid="tp.slf4j.path" />  <!-- ensure that required org.slf4j.LoggerFactory appears first in classpath -->
