@@ -143,20 +143,19 @@ public interface IOperationBean {
 	 * 
 	 * @param timeOut
 	 */
-	default void setTimeOut(int timeOut) {};
-	
+	default void setTimeOut(int timeOut) {}
+
 	/**
 	 * Set whether a link to the input data should be included in the processed
 	 * 
 	 * @param linkEntry
 	 */
-	default void setLinkParentEntry(boolean linkEntry){};
-	
+	default void setLinkParentEntry(boolean linkEntry) {}
+
 	/**
 	 * Set whether the raw data is going to be overwritten
 	 * 
 	 * @param overwrite
 	 */
-	default void setMonitorForOverwrite(boolean overwrite){};
-
+	default void setMonitorForOverwrite(boolean overwrite) {}
 }

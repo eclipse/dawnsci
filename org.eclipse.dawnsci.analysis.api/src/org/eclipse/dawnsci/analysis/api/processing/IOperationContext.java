@@ -13,7 +13,6 @@
 package org.eclipse.dawnsci.analysis.api.processing;
 
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
 import org.eclipse.january.IMonitor;
@@ -23,7 +22,7 @@ import org.eclipse.january.dataset.SliceND;
 /**
  * Essential things to set
  * 1. Either: 
- *   a) an ILazyDataset (setData(..)) or    [If the lazydataset is there it takes precidence.]
+ *   a) an ILazyDataset (setData(..)) or    [If the lazy dataset is there it takes precedence.]
  *   b) the filePath and datasetPath
  * 
  * 2. The slicing
@@ -32,7 +31,7 @@ import org.eclipse.january.dataset.SliceND;
  * Optional
  * 1. Execution type
  * 2. Parallel timeout (default 5000ms) [series runs have no timeout]
- * 3. Vistor
+ * 3. Visitor
  * 4. Monitor
  * 
  * Parallel Timeout Handling:
