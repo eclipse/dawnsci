@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -66,8 +67,22 @@ public class TreeUtils {
 	 * @return map with full path as key and NodeLink as value
 	 */
 	public static Map<String, NodeLink> treeBreadthFirstSearch(GroupNode file, IFindInTree finder, boolean findFirst, IMonitor mon) {
+		return treeBreadthFirstSearch(file, finder, findFirst, false, mon);
+	}
+	
+	/**
+	 * Breadth first search of nexus tree using visitor to determine whether a node link matches
+	 * those searched for
+	 * @param file
+	 * @param finder
+	 * @param findFirst
+	 * @param maintainOrder
+	 * @param mon
+	 * @return map with full path as key and NodeLink as value
+	 */
+	public static Map<String, NodeLink> treeBreadthFirstSearch(GroupNode file, IFindInTree finder, boolean findFirst, boolean maintainOrder, IMonitor mon) {
 		
-		Map<String, NodeLink> map = new HashMap<String, NodeLink>();
+		Map<String, NodeLink> map = maintainOrder ? new LinkedHashMap<String, NodeLink>() :  new HashMap<String, NodeLink>();
 		List<NamedNodeLink> out = new ArrayList<NamedNodeLink>();
 		
 		Queue<NamedNodeLink> queue = new LinkedList<NamedNodeLink>();
