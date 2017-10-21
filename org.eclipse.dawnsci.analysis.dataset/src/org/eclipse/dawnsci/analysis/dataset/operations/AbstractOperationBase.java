@@ -11,9 +11,11 @@ package org.eclipse.dawnsci.analysis.dataset.operations;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
 import org.eclipse.dawnsci.analysis.api.processing.IOperation;
 import org.eclipse.dawnsci.analysis.api.processing.OperationData;
 import org.eclipse.dawnsci.analysis.api.processing.OperationException;
@@ -24,8 +26,6 @@ import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.metadata.AxesMetadata;
 import org.eclipse.january.metadata.ErrorMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
-import org.eclipse.january.metadata.IMetadata;
 import org.eclipse.january.metadata.MaskMetadata;
 import org.eclipse.january.metadata.MetadataType;
 
@@ -282,22 +282,27 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	public boolean isPassUnmodifiedData() {
 		return passUnmodifiedData;
 	}
-	
+
+	@SuppressWarnings({ "unchecked" })
 	public Class<T> getModelClass() {
-		if (model != null)
+		if (model != null) {
 			return (Class<T>) model.getClass();
-		
-		Type superClass = this.getClass();
-	
+		}
+
+		Type type = this.getClass();
 		// Look for first parameterized super class -> this one will contain the model
-		do {
-			superClass = ((Class<T>) superClass).getGenericSuperclass();
-		} while (!ParameterizedType.class.isInstance(superClass));
-		
-		Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
+		while (!(type instanceof ParameterizedType)) {
+			type = ((Class<?>) type).getGenericSuperclass();
+		}
+
+		type = ((ParameterizedType) type).getActualTypeArguments()[0];
+		if (type instanceof TypeVariable) {
+			return (Class<T>) ((TypeVariable<?>) type).getBounds()[0];
+		}
+
 		return (Class<T>) type;
 	}
-	
+
 	public static class OperationComparitor implements Comparator<IOperation<? extends IOperationModel, ? extends OperationData>> {
 
 		@Override
