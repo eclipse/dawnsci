@@ -303,7 +303,7 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 		return (Class<T>) type;
 	}
 
-	public static class OperationComparitor implements Comparator<IOperation<? extends IOperationModel, ? extends OperationData>> {
+	public static class OperationComparator implements Comparator<IOperation<? extends IOperationModel, ? extends OperationData>> {
 
 		@Override
 		public int compare(IOperation<? extends IOperationModel, ? extends OperationData> arg0, IOperation<? extends IOperationModel, ? extends OperationData> arg1) {
