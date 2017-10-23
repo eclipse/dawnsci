@@ -103,7 +103,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="model" type="string" use="required">
+         <attribute name="model" type="string">
             <annotation>
                <documentation>
                   
