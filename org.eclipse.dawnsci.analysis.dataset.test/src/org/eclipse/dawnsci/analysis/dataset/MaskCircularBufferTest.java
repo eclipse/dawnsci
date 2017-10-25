@@ -32,14 +32,14 @@ public class MaskCircularBufferTest {
 		buffer.maskROI(roi);
 		
 		BooleanDataset m = buffer.getMask();
-		assertEquals((10*20-4), (double)m.sum(),0.00000001);
+		assertEquals((10*20-4), ((Number) m.sum()).doubleValue(), 0.00000001);
 		
 		SliceND s = new SliceND(m.getShape());
 		s.setSlice(0, 1,3,1);
 		s.setSlice(1, 1,3,1);
 		
 		Dataset slice = m.getSlice(s);
-		assertEquals(0, (double)slice.sum(),0.00000001);
+		assertEquals(0, ((Number) slice.sum()).doubleValue(), 0.00000001);
 		
 		buffer.undo();
 		
@@ -70,10 +70,10 @@ public class MaskCircularBufferTest {
 		
 		buffer.maskThreshold(null, 0.9, data);
 		mask = buffer.getMask();
-		assertEquals((10*20-4), (double)mask.sum(),0.00000001);
+		assertEquals((10*20-4), ((Number) mask.sum()).doubleValue(), 0.00000001);
 		
 		Dataset slice = mask.getSlice(s);
-		assertEquals(0, (double)slice.sum(),0.00000001);
+		assertEquals(0, ((Number) slice.sum()).doubleValue(), 0.00000001);
 		
 		buffer.undo();
 		
@@ -84,10 +84,10 @@ public class MaskCircularBufferTest {
 		
 		buffer.maskThreshold(-0.5, null, data);
 		mask = buffer.getMask();
-		assertEquals((10*20-4), (double)mask.sum(),0.00000001);
+		assertEquals((10*20-4), ((Number) mask.sum()).doubleValue(), 0.00000001);
 		
 		slice = mask.getSlice(s);
-		assertEquals(0, (double)slice.sum(),0.00000001);
+		assertEquals(0, ((Number) slice.sum()).doubleValue(), 0.00000001);
 		
 		buffer.undo();
 		mask = buffer.getMask();
@@ -158,21 +158,21 @@ public class MaskCircularBufferTest {
 		buffer.maskROI(roi);
 
 		BooleanDataset m = buffer.getMask();
-		assertEquals((10*20-4), (double)m.sum(),0.00000001);
+		assertEquals((10*20-4), ((Number) m.sum()).doubleValue(), 0.00000001);
 
 		SliceND s = new SliceND(m.getShape());
 		s.setSlice(0, 1,3,1);
 		s.setSlice(1, 1,3,1);
 
 		Dataset slice = m.getSlice(s);
-		assertEquals(0, (double)slice.sum(),0.00000001);
+		assertEquals(0, ((Number) slice.sum()).doubleValue(), 0.00000001);
 		
 		buffer.invert();
 		m = buffer.getMask();
-		assertEquals((4), (double)m.sum(),0.00000001);
+		assertEquals((4), ((Number) m.sum()).doubleValue(), 0.00000001);
 
 		slice = m.getSlice(s);
-		assertEquals(4, (double)slice.sum(),0.00000001);
+		assertEquals(4, ((Number) slice.sum()).doubleValue(), 0.00000001);
 
 		buffer.undo();
 		
@@ -192,14 +192,14 @@ public class MaskCircularBufferTest {
 		buffer.maskROI(roi);
 
 		BooleanDataset m = buffer.getMask();
-		assertEquals((10*20-4), (double)m.sum(),0.00000001);
+		assertEquals((10*20-4), ((Number) m.sum()).doubleValue(), 0.00000001);
 
 		SliceND s = new SliceND(m.getShape());
 		s.setSlice(0, 1,3,1);
 		s.setSlice(1, 1,3,1);
 
 		Dataset slice = m.getSlice(s);
-		assertEquals(0, (double)slice.sum(),0.00000001);
+		assertEquals(0, ((Number) slice.sum()).doubleValue(), 0.00000001);
 		
 		BooleanDataset toMerge = DatasetFactory.ones(BooleanDataset.class,new int[]{10,20});
 		toMerge.setAbs(0, false);
@@ -209,7 +209,7 @@ public class MaskCircularBufferTest {
 		m = buffer.getMask();
 		
 		slice = m.getSlice(s);
-		assertEquals(0, (double)slice.sum(),0.00000001);
+		assertEquals(0, ((Number) slice.sum()).doubleValue(), 0.00000001);
 		
 		assertFalse(m.getAbs(0));
 		
@@ -218,7 +218,7 @@ public class MaskCircularBufferTest {
 		m = buffer.getMask();
 		
 		slice = m.getSlice(s);
-		assertEquals(0, (double)slice.sum(),0.00000001);
+		assertEquals(0, ((Number) slice.sum()).doubleValue(), 0.00000001);
 		assertTrue(m.getAbs(0));
 	}
 
