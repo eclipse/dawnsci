@@ -37,21 +37,21 @@ public class SignalTest {
 		
 		Dataset result = Signal.convolve(f, g, null);
 		
-		assertEquals("Arrays are not equal area",  (Double) f.sum(), (Double) result.sum(), 0.1); 
+		assertEquals("Arrays are not equal area", ((Number) f.sum()).doubleValue(), ((Number) result.sum()).doubleValue(), 0.1); 
 		
 		// set against a zeroed filter
 		g.set(0, 1, 1);
 		
 		result = Signal.convolve(f, g, null);
 		
-		assertEquals("Array not zero size",  0.0, (Double) result.sum(), 0.1); 	
+		assertEquals("Array not zero size",  0.0, ((Number) result.sum()).doubleValue(), 0.1); 	
 		
 		// set against a doubling filter
 		g.set(2, 1, 1);
 		
 		result = Signal.convolve(f, g, null);
 		
-		assertEquals("convolved array not twice the size",  (Double)f.sum()*2.0, (Double) result.sum(), 0.1); 
+		assertEquals("convolved array not twice the size", ((Number) f.sum()).doubleValue()*2.0, ((Number) result.sum()).doubleValue(), 0.1); 
 	}
 	
 	/**

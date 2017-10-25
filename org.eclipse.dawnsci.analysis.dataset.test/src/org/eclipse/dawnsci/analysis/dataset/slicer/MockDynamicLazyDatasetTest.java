@@ -36,7 +36,7 @@ public class MockDynamicLazyDatasetTest {
 		
 		Dataset slice = mock.getSlice();
 		assertArrayEquals(s0, slice.getShape());
-		assertEquals((double)slice.sum(), 0,0.00001);
+		assertEquals(((Number) slice.sum()).doubleValue(), 0,0.00001);
 		slice.toString();
 		mock.refreshShape();
 		slice = mock.getSlice();
@@ -61,7 +61,7 @@ public class MockDynamicLazyDatasetTest {
 		SliceND s = new SliceND(mock.getShape());
 		s.setSlice(0, mock.getShape()[0]-1,mock.getShape()[0],1);
 		Dataset slice2 = mock.getSlice(s);
-		assertEquals((double)slice2.sum(), 29*10*11,0.00001);
+		assertEquals(((Number) slice2.sum()).doubleValue(), 29*10*11,0.00001);
 		
 		mock.refreshShape();
 		slice = mock.getSlice();
