@@ -55,7 +55,7 @@ public class DynamicSliceViewIteratorTest {
 			boolean hasNext = iterator.hasNext();
 			assertTrue(hasNext);
 			Dataset slice = DatasetUtils.convertToDataset(iterator.next().getSlice());
-			assertEquals(i*10*11, (double)slice.sum(),0.000001);
+			assertEquals(i*10*11, ((Number) slice.sum()).doubleValue(),0.000001);
 		}
 	}
 	
@@ -80,7 +80,7 @@ public class DynamicSliceViewIteratorTest {
 			boolean hasNext = iterator.hasNext();
 			assertTrue(hasNext);
 			Dataset slice = DatasetUtils.convertToDataset(iterator.next().getSlice());
-			assertEquals(i*10*11, (double)slice.sum(),0.000001);
+			assertEquals(i*10*11, ((Number) slice.sum()).doubleValue(),0.000001);
 		}
 		
 		boolean hasNext = iterator.hasNext();
