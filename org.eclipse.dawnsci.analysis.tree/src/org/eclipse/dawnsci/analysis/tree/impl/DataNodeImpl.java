@@ -20,7 +20,6 @@ import org.eclipse.january.MetadataException;
 import org.eclipse.january.dataset.IDynamicDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.ILazyWriteableDataset;
-import org.eclipse.january.dataset.IndexIterator;
 import org.eclipse.january.dataset.StringDataset;
 import org.eclipse.january.metadata.DimensionMetadata;
 import org.eclipse.january.metadata.MetadataFactory;
@@ -162,14 +161,14 @@ public class DataNodeImpl extends NodeImpl implements DataNode, Serializable {
 			}
 		}
 
-		StringBuilder out = new StringBuilder();
-		IndexIterator it = a.getIterator();
-		while (it.hasNext()) {
-			out.append(a.getAbs(it.index));
-			out.append('\n');
+		int size = a.getSize();
+		if (size == 0) {
+			return "";
+		} else if (size == 1) {
+			return a.getString();
 		}
-		int end = out.length() - 1;
-		return end > 0 ? out.substring(0, end) : "";
+
+		return a.toString(true);
 	}
 
 	@Override
