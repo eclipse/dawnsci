@@ -22,7 +22,6 @@ import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IndexIterator;
 import org.eclipse.january.dataset.RGBDataset;
-import org.eclipse.january.dataset.SliceIterator;
 
 /**
  * Down-sample a dataset by a given bin. Also is the implementation of a service
@@ -127,6 +126,7 @@ public class Downsample implements DatasetToDatasetFunction, IDownsampleService 
 					binned.setObjectAbs(biter.index, dataset.getObject(spos));
 				}
 				break;
+			case SUM:
 			case MEAN:
 				if (isize == 1) {
 					while (biter.hasNext()) {
@@ -136,7 +136,7 @@ public class Downsample implements DatasetToDatasetFunction, IDownsampleService 
 							if (epos[i] > dshape[i]) // ensure bin is within dataset
 								epos[i] = dshape[i];
 						}
-						SliceIterator siter = (SliceIterator) dataset.getSliceIterator(spos, epos, null);
+						IndexIterator siter = dataset.getSliceIterator(spos, epos, null);
 
 						double mean = 0;
 						int num = 0;
@@ -148,6 +148,9 @@ public class Downsample implements DatasetToDatasetFunction, IDownsampleService 
 							final double delta = val - mean;
 							mean += delta / num;
 						}
+						if (m == DownsampleMode.SUM) {
+							mean *= num;
+						}
 						binned.setObjectAbs(biter.index, mean);
 					}
 				} else {
@@ -158,7 +161,7 @@ public class Downsample implements DatasetToDatasetFunction, IDownsampleService 
 							if (epos[i] > dshape[i])
 								epos[i] = dshape[i];
 						}
-						SliceIterator siter = (SliceIterator) dataset.getSliceIterator(spos, epos, null);
+						IndexIterator siter = dataset.getSliceIterator(spos, epos, null);
 
 						final double[] mean = new double[isize];
 						int num = 0;
@@ -170,6 +173,11 @@ public class Downsample implements DatasetToDatasetFunction, IDownsampleService 
 								num++;
 								final double delta = val - mean[i];
 								mean[i] += delta / num;
+							}
+						}
+						if (m == DownsampleMode.SUM) {
+							for (int i = 0; i < isize; i++) {
+								mean[i] *= num;
 							}
 						}
 						binned.setObjectAbs(biter.index, mean);
@@ -185,7 +193,7 @@ public class Downsample implements DatasetToDatasetFunction, IDownsampleService 
 							if (epos[i] > dshape[i])
 								epos[i] = dshape[i];
 						}
-						SliceIterator siter = (SliceIterator) dataset.getSliceIterator(spos, epos, null);
+						IndexIterator siter = dataset.getSliceIterator(spos, epos, null);
 
 						double max = Double.NEGATIVE_INFINITY;
 						while (siter.hasNext()) {
@@ -205,7 +213,7 @@ public class Downsample implements DatasetToDatasetFunction, IDownsampleService 
 							if (epos[i] > dshape[i])
 								epos[i] = dshape[i];
 						}
-						SliceIterator siter = (SliceIterator) dataset.getSliceIterator(spos, epos, null);
+						IndexIterator siter = dataset.getSliceIterator(spos, epos, null);
 
 						final double[] max = new double[isize];
 						for (int i = 0; i < isize; i++)
@@ -232,7 +240,7 @@ public class Downsample implements DatasetToDatasetFunction, IDownsampleService 
 							if (epos[i] > dshape[i])
 								epos[i] = dshape[i];
 						}
-						SliceIterator siter = (SliceIterator) dataset.getSliceIterator(spos, epos, null);
+						IndexIterator siter = dataset.getSliceIterator(spos, epos, null);
 
 						double min = Double.POSITIVE_INFINITY;
 						while (siter.hasNext()) {
@@ -252,7 +260,7 @@ public class Downsample implements DatasetToDatasetFunction, IDownsampleService 
 							if (epos[i] > dshape[i])
 								epos[i] = dshape[i];
 						}
-						SliceIterator siter = (SliceIterator) dataset.getSliceIterator(spos, epos, null);
+						IndexIterator siter = dataset.getSliceIterator(spos, epos, null);
 
 						final double[] min = new double[isize];
 						for (int i = 0; i < isize; i++)
