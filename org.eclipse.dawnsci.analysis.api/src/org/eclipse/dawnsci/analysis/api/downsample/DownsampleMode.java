@@ -16,5 +16,6 @@ public enum DownsampleMode {
 	POINT,  // select corner point of bin
 	MEAN,   // mean average over bin
 	MAXIMUM, // use maximum value in bin
-	MINIMUM // use minimum value in bin
+	MINIMUM, // use minimum value in bin
+	SUM,   // sum over bin
 }
