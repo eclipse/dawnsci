@@ -499,7 +499,7 @@ public class HDF5Utils {
 						H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
 					}
 					if (extend) {
-						data = DatasetUtils.makeUnsigned(data);
+						data = DatasetUtils.makeUnsigned(data, true);
 					}
 				} catch (HDF5LibraryException e) {
 					logger.error("Could not read data", e);
