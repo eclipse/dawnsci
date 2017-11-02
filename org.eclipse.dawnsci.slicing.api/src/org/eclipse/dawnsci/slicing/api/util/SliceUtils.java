@@ -26,13 +26,13 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDatasetMathsService;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.io.SliceObject;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.expressions.IVariableManager;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.slicing.api.Activator;
+import org.eclipse.dawnsci.slicing.api.ServiceHolder;
 import org.eclipse.dawnsci.slicing.api.system.AxisType;
 import org.eclipse.dawnsci.slicing.api.system.DimsData;
 import org.eclipse.dawnsci.slicing.api.system.DimsDataList;
@@ -430,10 +430,12 @@ public class SliceUtils {
 		}
 		
 		if (requireUnit) { // Slower
-			IHierarchicalDataFile file = null;
+			NexusFile file = null;
 			try {
-				file = HierarchicalDataFactory.getReader(currentSlice.getPath());
-				final String  group    = file.getParent(currentSlice.getName());
+				file = ServiceHolder.getNexusFileFactory().newNexusFile(currentSlice.getPath());
+				file.openToRead();
+
+				final String  group = currentSlice.getName();
 				
 				final String fullName = group+"/"+axisName;
 				
