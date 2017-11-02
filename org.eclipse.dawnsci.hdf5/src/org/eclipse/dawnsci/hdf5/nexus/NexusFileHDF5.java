@@ -310,6 +310,11 @@ public class NexusFileHDF5 implements NexusFile {
 	}
 
 	@Override
+	public String getRoot() {
+		return TreeUtils.getPath(tree, tree.getGroupNode());
+	}
+
+	@Override
 	public GroupNode getGroup(String augmentedPath, boolean createPathIfNecessary) throws NexusException {
 		assertOpen();
 		String plainPath = NexusUtils.stripAugmentedPath(augmentedPath);
