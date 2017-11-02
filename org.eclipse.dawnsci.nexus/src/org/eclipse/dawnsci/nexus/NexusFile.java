@@ -111,6 +111,12 @@ public interface NexusFile extends AutoCloseable {
 	public void setDebug(boolean debug);
 
 	/**
+	 * Get the path of rood node from internal tree
+	 * @return root node path
+	 */
+	public String getRoot();
+
+	/**
 	 * Get path of node from internal tree
 	 * @param node
 	 * @return (depth-first) path of node
