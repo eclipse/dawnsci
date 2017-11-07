@@ -210,13 +210,13 @@ public class NexusFileHDF5 implements NexusFile {
 			nodeMap = new HashMap<Long, Node>();
 			passedNodeMap = new IdentityHashMap<Node, String>();
 		} else {
-			throw new IllegalStateException("File is already open");
+			throw new IllegalStateException("File (" + fileName + ") is already open");
 		}
 	}
 
 	private ParsedNode[] parseAugmentedPath(String path) {
 		if (!path.startsWith(Tree.ROOT)) {
-			throw new IllegalArgumentException("Path must be absolute");
+			throw new IllegalArgumentException("Path (" + path + ") must be absolute");
 		}
 		String[] parts = path.split(Node.SEPARATOR);
 		ParsedNode[] nodes = new ParsedNode[parts.length];
@@ -253,7 +253,7 @@ public class NexusFileHDF5 implements NexusFile {
 			file = HDF5FileFactory.acquireFile(fileName, false, useSWMR);
 			fileId = file.getID();
 		} catch (ScanFileHolderException e) {
-			throw new NexusException("Cannot open to read", e);
+			throw new NexusException("Cannot open '" + fileName + "' to read", e);
 		}
 		initializeTree();
 	}
@@ -265,17 +265,17 @@ public class NexusFileHDF5 implements NexusFile {
 				file = HDF5FileFactory.acquireFile(fileName, true, useSWMR);
 				fileId = file.getID();
 			} catch (ScanFileHolderException e) {
-				throw new NexusException("Cannot open to write", e);
+				throw new NexusException("Cannot open '" + fileName + "' to write", e);
 			}
 		} else if (createIfNecessary) {
 			try {
 				file = HDF5FileFactory.acquireFile(fileName, true, useSWMR);
 				fileId = file.getID();
 			} catch (ScanFileHolderException e) {
-				throw new NexusException("Cannot create to write", e);
+				throw new NexusException("Cannot create '" + fileName + "' to write", e);
 			}
 		} else {
-			throw new NexusException("File not found and not created");
+			throw new NexusException("File '" + fileName + "' not found and not created");
 		}
 		initializeTree();
 		writeable = true;
@@ -287,7 +287,7 @@ public class NexusFileHDF5 implements NexusFile {
 			file = HDF5FileFactory.acquireFileAsNew(fileName, useSWMR);
 			fileId = file.getID();
 		} catch (ScanFileHolderException e) {
-			throw new NexusException("Cannot create to write", e);
+			throw new NexusException("Cannot create '" + fileName + "' to write", e);
 		}
 		initializeTree();
 		writeable = true;
@@ -327,7 +327,7 @@ public class NexusFileHDF5 implements NexusFile {
 				}
 				return g;
 			}
-			throw new NexusException("Path specified is not for a group");
+			throw new NexusException("Path specified (" + plainPath + ") is not for a group");
 		}
 		NodeData node = getGroupNode(augmentedPath, createPathIfNecessary);
 		//NodeData node = getNode(augmentedPath, createPathIfNecessary);
@@ -458,7 +458,7 @@ public class NexusFileHDF5 implements NexusFile {
 					} else if (objectInfo.type == HDF5Constants.H5O_TYPE_DATASET) {
 						group.addDataNode(linkName, getDataNodeFromFile(childPath, group, linkName));
 					} else {
-						throw new NexusException("Unhandled object type");
+						throw new NexusException("Unhandled object type (" + objectInfo.type + ")");
 					}
 				}
 			}
@@ -476,7 +476,7 @@ public class NexusFileHDF5 implements NexusFile {
 		} else if (new File(filePathFragment).exists()) {
 			return filePathFragment;
 		}
-		throw new NexusException("Could not find specified file");
+		throw new NexusException("Could not find specified file: " + filePathFragment);
 	}
 
 	private boolean isNapiMount(Node node) {
@@ -583,7 +583,7 @@ public class NexusFileHDF5 implements NexusFile {
 				}
 				break;
 			} else {
-				throw new NexusException("Unhandled node type");
+				throw new NexusException("Unhandled node type: " + type);
 			}
 			//establish group in our cache
 			try {
@@ -637,7 +637,7 @@ public class NexusFileHDF5 implements NexusFile {
 			H5O_info_t info = H5.H5Oget_info_by_name(fileId, absolutePath, HDF5Constants.H5P_DEFAULT);
 			NodeType type = NodeType.valueOf(info.type);
 			if (type == null) {
-				throw new NexusException("Unsupported object type");
+				throw new NexusException("Unsupported object type: " + info.type);
 			}
 			return type;
 		} catch (HDF5LibraryException e) {
@@ -647,12 +647,12 @@ public class NexusFileHDF5 implements NexusFile {
 
 	private long openNode(String absolutePath) throws NexusException {
 		if (!absolutePath.startsWith(Tree.ROOT)) {
-			throw new IllegalArgumentException("Group path must be absolute");
+			throw new IllegalArgumentException("Group path (" + absolutePath + ") must be absolute");
 		}
 		try {
 			return H5.H5Oopen(fileId, absolutePath, HDF5Constants.H5P_DEFAULT);
 		} catch (HDF5LibraryException e) {
-			throw new NexusException("Cannot open object", e);
+			throw new NexusException("Cannot open object: " + absolutePath, e);
 		}
 	}
 
@@ -666,14 +666,14 @@ public class NexusFileHDF5 implements NexusFile {
 					groupId = H5.H5Gcreate(fileId, absolutePath,
 							HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
 				} catch (HDF5LibraryException e) {
-					throw new NexusException("Cannot create group", e);
+					throw new NexusException("Cannot create group: " + absolutePath, e);
 				}
 				addAttribute(absolutePath, TreeFactory.createAttribute(NXCLASS, nxClass, false));
 			} else {
-				throw new NexusException("Group does not exist and cannot be created");
+				throw new NexusException("Group '" + absolutePath + "' does not exist and cannot be created");
 			}
 		} else if (type != NodeType.GROUP) {
-			throw new NexusException("Specified path is not a group");
+			throw new NexusException("Specified path (" + absolutePath + ") is not a group");
 		} else {
 			groupId = openNode(absolutePath);
 		}
@@ -683,7 +683,7 @@ public class NexusFileHDF5 implements NexusFile {
 	private long openDataset(String absolutePath) throws NexusException {
 		NodeType type = getNodeType(absolutePath);
 		if (type != NodeType.DATASET) {
-			throw new NexusException("Path does not refer to dataset");
+			throw new NexusException("Path (" + absolutePath + ") does not refer to dataset");
 		}
 		return openNode(absolutePath);
 	}
@@ -784,7 +784,7 @@ public class NexusFileHDF5 implements NexusFile {
 			if (node instanceof DataNode) {
 				return (DataNode) node;
 			} else if (node != null) {
-				throw new IllegalArgumentException("Path specified is not for a dataset");
+				throw new IllegalArgumentException("Path specified (" + path + ") is not for a dataset");
 			}
 		}
 
@@ -793,7 +793,7 @@ public class NexusFileHDF5 implements NexusFile {
 			if (link.isDestinationData()) {
 				return (DataNode) link.getDestination();
 			}
-			throw new IllegalArgumentException("Path specified is not for a dataset");
+			throw new IllegalArgumentException("Path specified (" + path + ") is not for a dataset");
 		}
 
 		String dataName = NexusUtils.getName(path);
@@ -810,7 +810,7 @@ public class NexusFileHDF5 implements NexusFile {
 			if (potentialDataNode instanceof DataNode) {
 				return (DataNode) potentialDataNode;
 			}
-			throw new NexusException("Path points to non-dataset object");
+			throw new NexusException("Path (" + path + ") points to non-dataset object");
 		}
 
 		dataNode = getDataNodeFromFile(path, (GroupNode)parentNodeData.node, dataName);
@@ -904,7 +904,7 @@ public class NexusFileHDF5 implements NexusFile {
 		}
 		String dataPath = parentPath + name;
 		if (isPathValid(dataPath)) {
-			throw new NexusException("Object already exists at specified location");
+			throw new NexusException("Object already exists at specified location: " + dataPath);
 		}
 
 		int itemSize = 1;
@@ -979,7 +979,7 @@ public class NexusFileHDF5 implements NexusFile {
 				H5.H5Dclose(datasetId);
 			}
 		} catch (HDF5Exception e) {
-			throw new NexusException("Could not create dataset", e);
+			throw new NexusException("Could not create dataset " + name, e);
 		}
 
 		HDF5LazySaver saver = new HDF5LazySaver(null, fileName, parentPath + Node.SEPARATOR + name,
@@ -1052,7 +1052,7 @@ public class NexusFileHDF5 implements NexusFile {
 
 		String dataPath = (parentNode.path == null ? "" : parentNode.path + parentNode.name) + Node.SEPARATOR + name;
 		if (isPathValid(dataPath)) {
-			throw new NexusException("Object already exists at specified location");
+			throw new NexusException("Object already exists at specified location: " + dataPath);
 		}
 
 		boolean stringDataset = data.getElementClass().equals(String.class);//ngd.isChar();
@@ -1097,7 +1097,7 @@ public class NexusFileHDF5 implements NexusFile {
 				}
 			}
 		} catch (HDF5Exception e) {
-			throw new NexusException("Could not create dataset", e);
+			throw new NexusException("Could not create dataset " + name, e);
 		}
 		DataNode dataNode = TreeFactory.createDataNode(dataPath.hashCode());
 		long fileAddr = getLinkTarget(dataPath);
@@ -1126,10 +1126,10 @@ public class NexusFileHDF5 implements NexusFile {
 
 	@Override
 	public void addNode(String path, Node node) throws NexusException {
-		if (path == null || path == "") {
+		if (path == null || "".equals(path)) {
 			throw new IllegalArgumentException("Path name must be specified.");
 		}
-		if (path == "/") {
+		if ("/".equals(path)) {
 			recursivelyUpdateTree("/", null, node);
 		} else {
 			String[] components = path.split(Node.SEPARATOR);
@@ -1183,7 +1183,7 @@ public class NexusFileHDF5 implements NexusFile {
 				} else if ((dataset instanceof ILazyWriteableDataset)) {
 					createData(parentNode, name, (ILazyWriteableDataset) dataset);
 				} else {
-					throw new NexusException("Unrecognised dataset type");
+					throw new NexusException("Unrecognised dataset type: " + dataset.getClass());
 				}
 			}
 			DataNode existingNode = getData(parentNode, name);
@@ -1235,7 +1235,7 @@ public class NexusFileHDF5 implements NexusFile {
 					try {
 						H5.H5Adelete_by_name(fileId, path, attrName, HDF5Constants.H5P_DEFAULT);
 					} catch (HDF5LibraryException e) {
-						throw new NexusException("Could not delete existing attribute", e);
+						throw new NexusException("Could not delete existing attribute: " + attrName, e);
 					}
 				}
 			} catch (HDF5LibraryException e) {
@@ -1291,7 +1291,7 @@ public class NexusFileHDF5 implements NexusFile {
 				}
 				node.addAttribute(attr);
 			} catch (HDF5Exception e) {
-				throw new NexusException("Could not create attribute", e);
+				throw new NexusException("Could not create attribute: " + attrName, e);
 			}
 		}
 	}
@@ -1335,7 +1335,7 @@ public class NexusFileHDF5 implements NexusFile {
 		try {
 			H5.H5Lcreate_soft(source, fileId, linkName, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
 		} catch (HDF5LibraryException e) {
-			throw new NexusException("Could not create hard link", e);
+			throw new NexusException("Could not create soft link from " + source + " to " + destination, e);
 		}
 	}
 
@@ -1343,7 +1343,7 @@ public class NexusFileHDF5 implements NexusFile {
 		boolean useNameAtSource = destination.endsWith(Node.SEPARATOR);
 		NodeData sourceData = getNode(source, false);
 		if (sourceData.name == null) {
-			throw new IllegalArgumentException("Source does not exist");
+			throw new IllegalArgumentException("Source (" + source + ") does not exist");
 		}
 		String linkName = destination;
 		String nodeName;
@@ -1369,7 +1369,7 @@ public class NexusFileHDF5 implements NexusFile {
 		try {
 			H5.H5Lcreate_hard(fileId, source, fileId, linkName, HDF5Constants.H5P_DEFAULT, HDF5Constants.H5P_DEFAULT);
 		} catch (HDF5LibraryException e) {
-			throw new NexusException("Could not create hard link", e);
+			throw new NexusException("Could not create hard link from " + source + " to " + destination, e);
 		}
 		//TODO: Maybe remove this and fix the areas where this is required (NexusLoader and some tests?)
 		IDataset target = DatasetFactory.createFromObject(source);
@@ -1394,7 +1394,7 @@ public class NexusFileHDF5 implements NexusFile {
 			H5.H5Pset_elink_acc_flags(lapl, HDF5Constants.H5F_ACC_RDONLY);
 			H5.H5Lcreate_external(externalFileName, source, fileId, linkName, HDF5Constants.H5P_DEFAULT, lapl);
 		} catch (HDF5LibraryException e) {
-			throw new NexusException("Could not create external link", e);
+			throw new NexusException("Could not create external link " + linkNodeName + " to " + externalFileName, e);
 		}
 	}
 
@@ -1549,7 +1549,7 @@ public class NexusFileHDF5 implements NexusFile {
 				}
 			}
 		} catch (HDF5LibraryException e) {
-			throw new NexusException("Error checking for external links", e);
+			throw new NexusException("Error checking for external links: " + path, e);
 		}
 		return false;
 	}
@@ -1573,9 +1573,9 @@ public class NexusFileHDF5 implements NexusFile {
 			} else if (linkInfo.type == HDF5Constants.H5L_TYPE_EXTERNAL) {
 				return IS_EXTERNAL_LINK;
 			}
-			throw new NexusException("Unhandled link type");
+			throw new NexusException("Unhandled link type: " + linkInfo.type);
 		} catch (HDF5LibraryException e) {
-			throw new NexusException("Could not get link target", e);
+			throw new NexusException("Could not get link target from: " + path, e);
 		}
 	}
 
@@ -1595,7 +1595,7 @@ public class NexusFileHDF5 implements NexusFile {
 			}
 			return true;
 		} catch (HDF5LibraryException e) {
-			throw new NexusException("Could not verify chain", e);
+			throw new NexusException("Could not verify chain (path: " + path + ")", e);
 		}
 	}
 
@@ -1619,7 +1619,7 @@ public class NexusFileHDF5 implements NexusFile {
 		} else if (clazz.equals(Double.class)) {
 			return HDF5Constants.H5T_NATIVE_DOUBLE;
 		}
-		throw new IllegalArgumentException("Invalid datatype requested");
+		throw new IllegalArgumentException("Invalid datatype requested: " + clazz.getName());
 	}
 
 	private static Object[] getFillValue(Class<?> clazz) {
