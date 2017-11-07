@@ -13,11 +13,15 @@ package org.eclipse.dawnsci.nexus;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
+import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
@@ -542,5 +546,177 @@ public class NexusUtils {
 	 */
 	public static int[] estimateChunking(int[] expectedMaxShape, int dataByteSize) {
 		return estimateChunking(expectedMaxShape, dataByteSize, null, DEFAULT_CHUNK_STRATEGY);
+	}
+
+	/**
+	 * Returns names of axes in group at same level as name passed in.
+	 * 
+	 * This opens and safely closes a nexus file if one is not already open for this
+	 * location.
+	 * 
+	 * @param filePath
+	 * @param nexusPath
+	 *            - path to signal dataset
+	 * @param dimension,
+	 *            the dimension we want the axis for starting with 1
+	 * @return
+	 * @throws Exception
+	 */
+	public static List<String> getAxisNames(String filePath, String nexusPath, int dimension) throws Exception {
+
+		if (filePath == null || nexusPath == null)
+			return null;
+		if (dimension < 1)
+			return null;
+		try (NexusFile file = ServiceHolder.getNexusFileFactory().newNexusFile(filePath)) {
+			file.openToRead();
+			DataNode signal = file.getData(nexusPath);
+
+			final List<String> axesTmp = new ArrayList<String>(3);
+			final Map<Integer, String> axesMap = new TreeMap<Integer, String>();
+
+			int[] shape = signal.getDataset().getShape();
+			if (dimension > shape.length)
+				return null;
+			final long size = shape[dimension - 1];
+
+			final String parentPath = file.getPath(signal).substring(0, file.getPath(signal).lastIndexOf(Node.SEPARATOR));
+
+			final GroupNode parent = file.getGroup(parentPath, false);
+
+			int fakePosValue = Integer.MAX_VALUE;
+
+			for (NodeLink child : parent) {
+				Node node = child.getDestination();
+				if (node instanceof DataNode) {
+					DataNode dataNode = (DataNode) node;
+					final Iterator<? extends Attribute> att = dataNode.getAttributeIterator();
+					if (!(child.isDestinationData()))
+						continue;
+					if (child.getName().equals(signal.getDataset().getName()))
+						continue;
+
+					String axis = null;
+					int pos = -1;
+					boolean isSignal = false;
+					while (att.hasNext()) {
+						Attribute attribute = att.next();
+						if ("axis".equals(attribute.getName())) {
+							int iaxis = getAttributeIntValue(attribute);
+							if (iaxis < 0) { // We look for comma separated string
+								final int[] axesDims = attribute.getShape();
+
+								final int[] shapeAxes = dataNode.getDataset().getShape();
+								final int[] shapeData = shape;
+								if (axesDims != null && axesCompatible(axesDims, shapeAxes, shapeData)) {
+									for (int dim : axesDims) {
+										if (dim == dimension) {
+											axis = parentPath + Node.SEPARATOR + dataNode.getDataset().getName() + ":" + dimension;
+											break;
+										}
+									}
+								}
+
+							}
+							if (iaxis == dimension) {
+
+								final int[] dims = dataNode.getDataset().getShape();
+
+								if ((dims.length == 1 && dims[0] == size) || dims.length != 1) {
+									axis = parentPath + Node.SEPARATOR + dataNode.getDataset().getName();
+								}
+
+							}
+
+						} else if ("primary".equals(attribute.getName())) {
+							if (pos != 0)
+								pos = getAttributeIntValue(attribute);
+
+						} else if ("label".equals(attribute.getName())) {
+							int labelAxis = getAttributeIntValue(attribute);
+							if (labelAxis == dimension)
+								pos = 0;
+
+						} else if ("signal".equals(attribute.getName())) {
+							isSignal = true;
+							axis = null;
+							pos = -1;
+							break;
+						}
+					}
+
+					// prioritise datasets that specify an axes (even with no primary attribute)
+					// over other datasets
+					if (axis != null && pos == -1) {
+						pos = fakePosValue--;
+					}
+
+					// Add any the same shape as this dimension
+					// providing that they are not signals
+					// Some nexus files set axis wrong
+					if (axis == null && !isSignal) {
+						final int[] dims = dataNode.getDataset().getShape();
+						if (dims[0] == size && dims.length == 1) {
+							axis = parentPath + Node.SEPARATOR + dataNode.getDataset().getName();
+						}
+					}
+
+					if (axis != null) {
+						if (pos < 0) {
+							axesTmp.add(axis);
+						} else {
+							axesMap.put(pos, axis);
+						}
+					}
+				}
+			}
+
+			final List<String> axes = new ArrayList<String>(3);
+			if (!axesMap.isEmpty()) {
+				for (Integer pos : axesMap.keySet()) {
+					axes.add(axesMap.get(pos));
+				}
+			}
+			axes.addAll(axesTmp);
+
+			return axes;
+		}
+	}
+
+	/**
+	 * Gets the int value or returns -1 (Can only be used for values which are not
+	 * allowed to be -1!)
+	 * 
+	 * @param attribute
+	 * @return
+	 */
+	private static int getAttributeIntValue(Attribute attribute) {
+		final Object ob = attribute.getValue();
+		if (ob instanceof int[]) {
+			int[] ia = (int[]) ob;
+			return ia[0];
+		} else if (ob instanceof String[]) {
+			String[] sa = (String[]) ob;
+			try {
+				return Integer.parseInt(sa[0]);
+			} catch (Throwable ne) {
+				return -1;
+			}
+		}
+		return -1;
+	}
+
+	private static boolean axesCompatible(int[] axesDims, int[] shapeAxes, int[] shapeData) {
+		if (axesDims == null)
+			return false;
+		if (Arrays.equals(shapeAxes, shapeData))
+			return true;
+
+		for (int i = 0; i < axesDims.length; i++) {
+			if (shapeAxes[i] != shapeData[axesDims[i] - 1]) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
