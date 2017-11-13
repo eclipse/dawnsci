@@ -719,4 +719,68 @@ public class NexusUtils {
 		}
 		return true;
 	}
+
+	/**
+	 * Compare object a as a scalar to String b by first converting b to a type
+	 * that matches a.
+	 *
+	 * @see Comparable#compareTo(Object)
+	 * @throws NumberFormatException
+	 *             if b can not be converted to the same type as a
+	 */
+	public static int compareScalarToString(Object a, String b)
+			throws NumberFormatException {
+		if (a instanceof Short) {
+			return ((Short) a).compareTo(Short.parseShort(b));
+		}
+		if (a instanceof Integer) {
+			return ((Integer) a).compareTo(Integer.parseInt(b));
+		}
+		if (a instanceof Long) {
+			return ((Long) a).compareTo(Long.parseLong(b));
+		}
+		if (a instanceof Character) {
+			return ((Character) a).toString().compareTo(b);
+		}
+		if (a instanceof Float) {
+			return ((Float) a).compareTo(Float.parseFloat(b));
+		}
+		if (a instanceof Double) {
+			return ((Double) a).compareTo(Double.parseDouble(b));
+		}
+		if (a instanceof Boolean) {
+			return ((Boolean) a).compareTo(Boolean.parseBoolean(b));
+		}
+		if (a instanceof Byte) {
+			return ((Byte) a).compareTo(Byte.valueOf(b));
+		}
+		if (a instanceof String) {
+			return ((String) a).compareTo(b);
+		}
+		String name;
+		if (a == null) {
+			name = "null";
+		} else {
+			name = "a.getClass().getName()";
+		}
+		throw new NumberFormatException("a has unknown type for conversion: "
+				+ name);
+	}
+
+	/**
+	 * Compares the two scalar objects if they are the same type and Comparable
+	 * using their compareTo method, else compares the toString value.
+	 *
+	 * @see Comparable#compareTo(Object)
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static int compareScalars(Object a, Object b) {
+		if (a instanceof Comparable && b instanceof Comparable) {
+			Comparable ca = (Comparable) a;
+			Comparable cb = (Comparable) b;
+			if (a.getClass() == b.getClass())
+				return ca.compareTo(cb);
+		}
+		return a.toString().compareTo(b.toString());
+	}
 }
