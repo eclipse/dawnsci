@@ -43,10 +43,10 @@ public class RectangularROI extends OrientableROIBase implements IRectangularROI
 	}
 
 	/**
-	 * Default has undefined start point and lengths
+	 * Default square of 100 pixels
 	 */
 	public RectangularROI() {
-		this(Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0);
+		this(100, 0);
 	}
 
 	/**

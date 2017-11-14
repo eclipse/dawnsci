@@ -237,7 +237,7 @@ public class PolylineROI extends ROIBase implements IPolylineROI, Serializable {
 	@Override
 	public RectangularROI getBounds() {
 		if (bounds == null) {
-			bounds = new RectangularROI();
+			bounds = new RectangularROI(Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0);
 			int imax = pts.size();
 			if (imax > 0) {
 				double[] max = new double[] { -Double.MAX_VALUE, -Double.MAX_VALUE };
