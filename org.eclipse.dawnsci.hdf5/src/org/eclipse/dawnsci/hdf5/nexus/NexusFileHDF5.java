@@ -1175,7 +1175,7 @@ public class NexusFileHDF5 implements NexusFile {
 	}
 
 	private void recursivelyUpdateTree(String parentPath, String name, Node node) throws NexusException {
-		String nxClass = node.containsAttribute("NX_class") ? node.getAttribute("NX_class").getFirstElement() : "";
+		String nxClass = node.containsAttribute(NexusFile.NXCLASS) ? node.getAttribute(NexusFile.NXCLASS).getFirstElement() : "";
 		String fullPath = parentPath + Node.SEPARATOR + (name == null ? "" : name);
 		fullPath = fullPath.replaceAll("//", "/");
 		NodeData parentNodeData = getNode(parentPath, false);
