@@ -1,6 +1,6 @@
 /*-
  *******************************************************************************
- * Copyright (c) 2011, 2014 Diamond Light Source Ltd.
+ * Copyright (c) 2011, 2017 Diamond Light Source Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,15 +13,17 @@ package org.eclipse.dawnsci.hdf5.model.internal;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.dawnsci.analysis.api.tree.Attribute;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.hdf5.model.IHierarchicalDataFileModel;
-
-import hdf.object.Dataset;
-import hdf.object.HObject;
+import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusFile;
+import org.eclipse.dawnsci.nexus.NexusUtils;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Slice;
 
 public class HierarchicalDataFileModel implements IHierarchicalDataFileModel {
 	private static class Node {
@@ -87,34 +89,54 @@ public class HierarchicalDataFileModel implements IHierarchicalDataFileModel {
 					return null;
 				}
 				if (node.attributes != null) {
-					return node.attributes.get(attribute);
+					Attribute attr = (Attribute) node.attributes.get(attribute);
+					// attribute does not exist
+					if (attr == null) {
+						return null;
+					}
+					Object attValue = attr.getValue();
+					return NexusUtils.extractScalarFromDataset(attValue);
 				}
 			}
 
 			// attributes have not been loaded
-			try (IHierarchicalDataFile reader = getReader.getReader()) {
-				Map<String, Object> map = reader.getAttributeValues(path);
-				if (map == null) {
-					// path does not exist in file
+			try {
+				NexusFile reader = null;
+				//test if file exists
+				try {
+					reader = getReader.getReader();
+				} catch(NexusException ne) {
+					if (ne.getMessage().startsWith("File not found"))
+						// exit
+						return null;
+				}
+				if (!reader.isPathValid(path)) {
+					// if path does not exist
+					cache.put(path, null);
+					return null;
+				}
+				org.eclipse.dawnsci.analysis.api.tree.Node myNode = reader.getNode(path);
+				Iterator<? extends Attribute> attIterator = myNode.getAttributeIterator();
+				if (!attIterator.hasNext()) {
 					cache.put(path, null);
 					return null;
 				} else {
 					// Extract scalars for all entries
-					for (Entry<String, Object> entry : map.entrySet()) {
-						Object extractedValue = HierarchicalDataUtils
-								.extractScalar(entry.getValue());
-						if (extractedValue != null) {
-							entry.setValue(extractedValue);
-						}
-					}
-
 					Node node = cache.get(path);
 					if (node == null) {
 						node = new Node();
 						cache.put(path, node);
 					}
-					node.attributes = map;
-					return map.get(attribute);
+					if (node.attributes == null) {
+						node.attributes = new HashMap<>();
+					}
+
+					while (attIterator.hasNext()) {
+						Attribute att = attIterator.next();
+						node.attributes.put(att.getName(), att);
+					}
+					Attribute theAttribute = (Attribute) node.attributes.get(attribute);
+					return NexusUtils.extractScalarFromDataset(theAttribute.getValue());
 				}
 			} catch (Exception e) {
 				// file is bad, return now
@@ -150,14 +172,26 @@ public class HierarchicalDataFileModel implements IHierarchicalDataFileModel {
 			}
 
 			// scalar has not been loaded
-			try (IHierarchicalDataFile reader = getReader.getReader()) {
-				HObject data = (HObject)reader.getData(path);
-				if (data == null) {
+			try {
+				NexusFile reader = null;
+				// test if file exist
+				try {
+					reader = getReader.getReader();
+				} catch (NexusException ne) {
+					if (ne.getMessage().startsWith("File not found"))
+						return null;
+				}
+				if (!reader.isPathValid(path)) {
 					// path does not exist in file
 					cache.put(path, null);
 					return null;
 				}
-
+				org.eclipse.dawnsci.analysis.api.tree.Node myNode = reader.getNode(path);
+				if (myNode == null) {
+					// path does not exist in file
+					cache.put(path, null);
+					return null;
+				}
 				Node node = cache.get(path);
 				if (node == null) {
 					node = new Node();
@@ -165,12 +199,15 @@ public class HierarchicalDataFileModel implements IHierarchicalDataFileModel {
 				}
 				node.scalarValid = true;
 				node.scalar = null;
-				if (data instanceof Dataset) {
-					Dataset dataset = ((Dataset) data);
 
-					long[] dims = dataset.getDims();
+				if (myNode instanceof DataNode) {
+					DataNode data = (DataNode) myNode;
+
+					ILazyDataset dataset = data.getDataset();
+
+					int[] dims = dataset.getShape();
 					boolean allSizeOneDim = true;
-					for (long dim : dims) {
+					for (int dim : dims) {
 						if (dim != 1) {
 							allSizeOneDim = false;
 						}
@@ -180,12 +217,13 @@ public class HierarchicalDataFileModel implements IHierarchicalDataFileModel {
 					// with extractScalar, loading them in the first place
 					// uses unnecessary procession time.
 					if (allSizeOneDim) {
-						Object value = dataset.read();
-						node.scalar = HierarchicalDataUtils
-								.extractScalar(value);
+						int size = dataset.getSize();
+						Object value = dataset.getSlice(new Slice(size));
+						node.scalar = NexusUtils.extractScalarFromDataset(value);
 					}
+					return node.scalar;
 				}
-				return node.scalar;
+				return null;
 			} catch (Exception e) {
 				// file is bad, return now
 				isValidFile = false;

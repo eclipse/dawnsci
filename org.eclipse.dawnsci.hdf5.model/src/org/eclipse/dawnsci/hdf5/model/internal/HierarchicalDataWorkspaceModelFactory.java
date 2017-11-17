@@ -1,6 +1,6 @@
 /*-
  *******************************************************************************
- * Copyright (c) 2011, 2014 Diamond Light Source Ltd.
+ * Copyright (c) 2011, 2017 Diamond Light Source Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,10 +20,10 @@ import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf5.model.IHierarchicalDataFileModel;
 import org.eclipse.dawnsci.hdf5.model.IHierarchicalDataModel;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
+import org.eclipse.dawnsci.nexus.NexusFile;
 
 public class HierarchicalDataWorkspaceModelFactory {
 
@@ -69,8 +69,10 @@ public class HierarchicalDataWorkspaceModelFactory {
 		}
 
 		@Override
-		public IHierarchicalDataFile getReader() throws Exception {
-			return HierarchicalDataFactory.getReader(fullPath);
+		public NexusFile getReader() throws Exception {
+			NexusFile nexusFile = NexusFileHDF5.openNexusFile(fullPath);
+			nexusFile.openToRead();
+			return nexusFile;
 		}
 	}
 

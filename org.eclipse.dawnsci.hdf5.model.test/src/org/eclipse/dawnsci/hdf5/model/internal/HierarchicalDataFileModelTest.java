@@ -1,6 +1,6 @@
 /*-
  *******************************************************************************
- * Copyright (c) 2011, 2014 Diamond Light Source Ltd.
+ * Copyright (c) 2011, 2017 Diamond Light Source Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,15 +16,19 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataUtils;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.dawnsci.analysis.api.tree.Attribute;
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.hdf5.model.IHierarchicalDataFileModel;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
+import org.eclipse.dawnsci.nexus.NexusFile;
+import org.eclipse.dawnsci.nexus.NexusUtils;
 import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
 import org.junit.Test;
 
 public class HierarchicalDataFileModelTest {
@@ -32,8 +36,8 @@ public class HierarchicalDataFileModelTest {
 	private static final IHierarchicalDataFileGetReader get_i05_4859_Reader = new IHierarchicalDataFileGetReader() {
 
 		@Override
-		public IHierarchicalDataFile getReader() throws Exception {
-			return HierarchicalDataFactory.getReader(new File("testfiles/i05-4859.nxs").getAbsolutePath());
+		public NexusFile getReader() throws Exception {
+			return NexusFileHDF5.openNexusFile(new File("testfiles/i05-4859.nxs").getAbsolutePath());
 		}
 	};
 
@@ -42,35 +46,36 @@ public class HierarchicalDataFileModelTest {
 	 */
 	@Test
 	public void printDataContents() throws Exception {
-		try (IHierarchicalDataFile reader = get_i05_4859_Reader.getReader()) {
+		try (NexusFile reader = get_i05_4859_Reader.getReader()) {
 			printDataContents(reader);
 		}
 
 	}
 
-	private void printDataContents(IHierarchicalDataFile reader)
-			throws Exception {
-		Map<String, Object> attributeValues = reader.getAttributeValues();
-		for (Entry<String, Object> entry : attributeValues.entrySet()) {
-			String ln = entry.getKey() + "=" + entry.getValue() + "=="
-					+ HierarchicalDataUtils.extractScalar(entry.getValue());
+	private void printDataContents(NexusFile reader) throws Exception {
+		String root = reader.getRoot();
+		GroupNode rootGroup = reader.getGroup(root, true);
+		Iterator<? extends Attribute> attrIter = rootGroup.getAttributeIterator();
+		while (attrIter.hasNext()) {
+			Attribute attribute = attrIter.next();
+			String ln = attribute.getName() + "=" + attribute.getValue() + "=="
+					+ NexusUtils.extractScalarFromDataset(attribute.getValue());
 			System.out.println(ln);
-
 		}
-
-		String g = reader.getRoot();
-		printGroup(reader, g);
+		printGroup(reader, root);
 	}
 
-	private void printGroup(IHierarchicalDataFile reader, String g) throws Exception {
-		
-		List<String> members = reader.memberList(g);
+	private void printGroup(NexusFile reader, String g) throws Exception {
+		GroupNode rootGroup = reader.getGroup(g, true);
+		List<String> members = (List<String>) rootGroup.getNames();
 
 		int n = members.size();
 		for (int i = 0; i < n; i++) {
 			String childPath = members.get(i);
+			childPath = Node.SEPARATOR + childPath;
 			System.out.print(childPath);
-			if (reader.isDataset(childPath)) {
+			GroupNode group = reader.getGroup(childPath, false);
+			if (group.isDataNode()) {
 				hdf.object.Dataset dataset = (hdf.object.Dataset) reader.getData(childPath);
 				Object value = dataset.read();
 				System.out.print("=DIMS(");
@@ -78,10 +83,14 @@ public class HierarchicalDataFileModelTest {
 				System.out.print(")");
 				System.out.print(value);
 				System.out.print("=="
-						+ HierarchicalDataUtils.extractScalar(value));
+						+ NexusUtils.extractScalarFromDataset(value));
 				
-			} else if (reader.isGroup(childPath)) {
-				printGroup(reader, childPath);
+			} else if (group.isGroupNode()) {
+				Collection<String> names = group.getNames();
+				for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
+					String name = iterator.next();
+					System.out.println("node: " + name);
+				}
 			}
 			System.out.println();
 
@@ -93,9 +102,11 @@ public class HierarchicalDataFileModelTest {
 		IHierarchicalDataFileGetReader getInvalidFileReader = new IHierarchicalDataFileGetReader() {
 
 			@Override
-			public IHierarchicalDataFile getReader() throws Exception {
+			public NexusFile getReader() throws Exception {
 				String absolutePath = "/tmp/non-existent-file.nxs";
-				return HierarchicalDataFactory.getReader(absolutePath);
+				NexusFile nexusFile = NexusFileHDF5.openNexusFile(absolutePath);
+				nexusFile.openToRead();
+				return nexusFile;
 			}
 		};
 		IHierarchicalDataFileModel invalidFileModel = new HierarchicalDataFileModel(
@@ -201,7 +212,7 @@ public class HierarchicalDataFileModelTest {
 		final int[] count = new int[] { 0 };
 		IHierarchicalDataFileGetReader getCountingReader = new IHierarchicalDataFileGetReader() {
 			@Override
-			public IHierarchicalDataFile getReader() throws Exception {
+			public NexusFile getReader() throws Exception {
 				count[0] += 1;
 				return get_i05_4859_Reader.getReader();
 			}
@@ -306,35 +317,38 @@ public class HierarchicalDataFileModelTest {
 				model.getPath("/entry1/instrument/analyser/cps@units"));
 	}
 
-	private Object createNexusFile(final int dtype, final long[] shape, final Object buffer) throws Exception {
+	private Object createNexusFile(final int dtype, final int[] shape, final Object buffer) throws Exception {
 		
-		String PATH = "kichwa1";
+		String PATH = Node.SEPARATOR + "kichwa1";
+		String dataPath = PATH + Node.SEPARATOR + "Gold";
 		final File file = File.createTempFile("HierarchicalDataFileModelTest",
 				".nxs");
 		file.delete();
 		try {
 
 			// Create a file and verify it
-			IHierarchicalDataFile writer = HierarchicalDataFactory.getWriter(file.getAbsolutePath());
-			writer.createDataset(PATH, dtype, shape, buffer, writer.getRoot());
+			NexusFile writer = NexusFileHDF5.createNexusFile(file.getAbsolutePath());
+			Dataset data = DatasetFactory.createFromObject(dtype, buffer, shape);
+			data.setName("Gold");
+			writer.createData(PATH, data, true);
 			writer.close();
-			try (IHierarchicalDataFile reader = HierarchicalDataFactory
-					.getReader(file.getAbsolutePath());) {
+			try (NexusFile reader = NexusFileHDF5.openNexusFile(file.getAbsolutePath())) {
 				printDataContents(reader);
+				reader.close();
 			}
 
 			IHierarchicalDataFileModel model = new HierarchicalDataFileModel(
 					new IHierarchicalDataFileGetReader() {
 
 						@Override
-						public IHierarchicalDataFile getReader()
+						public NexusFile getReader()
 								throws Exception {
 							String absolutePath = file.getAbsolutePath();
-							return HierarchicalDataFactory
-									.getReader(absolutePath);
+							NexusFile nexusFile = NexusFileHDF5.openNexusFile(absolutePath);
+							return nexusFile;
 						}
 					});
-			return model.getPath(PATH);
+			return model.getPath(dataPath);
 		} finally {
 			file.delete();
 		}
@@ -350,37 +364,37 @@ public class HierarchicalDataFileModelTest {
 	@Test
 	public void testMultiDimArrayString() throws Exception {
 		final String GOLD = "Gold";
-		assertEquals(GOLD, createNexusFile(Dataset.STRING, new long[] { 1 }, new String[] { GOLD }));
+		assertEquals(GOLD, createNexusFile(Dataset.STRING, new int[] { 1 }, new String[] { GOLD }));
 		assertEquals(
-				GOLD, createNexusFile(Dataset.STRING, new long[] { 1, 1 },
+				GOLD, createNexusFile(Dataset.STRING, new int[] { 1, 1 },
 						new String[] { GOLD }));
 		assertEquals(
-				GOLD, createNexusFile(Dataset.STRING, new long[] { 1, 1, 1 },
+				GOLD, createNexusFile(Dataset.STRING, new int[] { 1, 1, 1 },
 						new String[] { GOLD }));
 		assertEquals(
-				GOLD, createNexusFile(Dataset.STRING, new long[] { 1, 1, 1, 1 },
+				GOLD, createNexusFile(Dataset.STRING, new int[] { 1, 1, 1, 1 },
 						new String[] { GOLD }));
 	}
 
 	@Test
 	public void testMultiDimArrayFloat() throws Exception {
 		assertEquals(1.0,
-				createNexusFile(Dataset.FLOAT64, new long[] { 1 }, new double[] { 1.0 }));
+				createNexusFile(Dataset.FLOAT64, new int[] { 1 }, new double[] { 1.0 }));
 		assertEquals(
 				1.0,
-				createNexusFile(Dataset.FLOAT64, new long[] { 1, 1 },
+				createNexusFile(Dataset.FLOAT64, new int[] { 1, 1 },
 						new double[][] { { 1.0 } }));
 		assertEquals(
 				1.0,
-				createNexusFile(Dataset.FLOAT64, new long[] { 1, 1, 1 },
+				createNexusFile(Dataset.FLOAT64, new int[] { 1, 1, 1 },
 						new double[][][] { { { 1.0 } } }));
 		assertEquals(
 				1.0,
-				createNexusFile(Dataset.FLOAT64, new long[] { 1, 1 },
+				createNexusFile(Dataset.FLOAT64, new int[] { 1, 1 },
 						new double[] { 1.0 }));
 		assertEquals(
 				1.0,
-				createNexusFile(Dataset.FLOAT64, new long[] { 1, 1, 1 },
+				createNexusFile(Dataset.FLOAT64, new int[] { 1, 1, 1 },
 						new double[] { 1.0 }));
 
 	}
