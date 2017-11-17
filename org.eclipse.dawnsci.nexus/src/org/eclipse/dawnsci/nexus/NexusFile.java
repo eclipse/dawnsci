@@ -370,4 +370,12 @@ public interface NexusFile extends AutoCloseable {
 	 */
 	public void activateSwmrMode() throws NexusException;
 
+	/**
+	 * Get Node with given path. Can be a GroupNode or a DataNode
+	 *
+	 * @param path
+	 * @return node or null if group does not exist at specified path
+	 */
+	public Node getNode(String path) throws NexusException;
+
 }

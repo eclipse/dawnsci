@@ -340,6 +340,36 @@ public class NexusFileHDF5 implements NexusFile {
 	}
 
 	@Override
+	public Node getNode(String augmentedPath) throws NexusException {
+		String plainPath = NexusUtils.stripAugmentedPath(augmentedPath);
+		if (!isPathValid(plainPath)) {
+			return null;
+		}
+		NodeLink link = tree.findNodeLink(plainPath);
+		if (link != null) {
+			if (link.isDestinationData()) {
+				return getData(augmentedPath);
+			} else if (link.isDestinationGroup()) {
+				return getGroup(augmentedPath, true);
+			}
+		} else {
+			// test if root
+			NodeData node = getNode(plainPath, false);
+			NodeType type = node.type;
+			if (type == NodeType.DATASET) {
+				String parentPath = plainPath.substring(0, plainPath.lastIndexOf(Node.SEPARATOR));
+				String name = plainPath.substring(plainPath.lastIndexOf(Node.SEPARATOR) + 1, plainPath.length());
+				GroupNode parentNode = getGroup(parentPath, true);
+				return getData(parentNode, name);
+			} else if (type == NodeType.GROUP) {
+				GroupNode groupNode = getGroup(plainPath, true);
+				return groupNode;
+			}
+		}
+		throw new NexusException("Path specified does not exist");
+	}
+
+	@Override
 	public GroupNode getGroup(GroupNode group,
 			String name,
 			String nxClass,
