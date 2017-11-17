@@ -1,5 +1,5 @@
 /*-
- * Copyright 2015 Diamond Light Source Ltd.
+ * Copyright 2015, 2017 Diamond Light Source Ltd.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -782,5 +782,21 @@ public class NexusUtils {
 				return ca.compareTo(cb);
 		}
 		return a.toString().compareTo(b.toString());
+	}
+
+	/**
+	 * Convert the size == 1 array to a scalar. Works on January data types Dataset
+	 *
+	 * @param value
+	 *         a January Dataset is expected
+	 * @return the scalar value, or <code>null</code> if no scalar can be
+	 *         extracted
+	 */
+	public static Object extractScalarFromDataset(Object value) {
+		if (value instanceof Dataset) {
+			Dataset d = (Dataset) value;
+			return d.getSize() == 1 ? d.getObject() : null;
+		}
+		return null;
 	}
 }
