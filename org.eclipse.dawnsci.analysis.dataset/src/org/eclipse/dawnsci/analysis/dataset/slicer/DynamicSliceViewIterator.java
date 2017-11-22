@@ -9,6 +9,8 @@
 
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
+import java.util.Arrays;
+
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
@@ -190,6 +192,20 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	}
 	
 	private IDataset mergeKeys(IDynamicDataset[] keys) throws DatasetException {
+		
+		try {
+			
+			for (IDynamicDataset key : keys) {
+				String name = key.getName();
+				if (name == null) name = "unknown";
+				logger.info("merge " + name + " with shape " + Arrays.toString(key.getShape()));
+			}
+			
+			//For testing on I18
+		} catch (Exception e) {
+			logger.info("Exception testing keys",e);
+		}
+		
 		if (keys.length == 1) return keys[0].getSlice();
 		Dataset[] dk = new Dataset[keys.length];
 		int[] maxShape = new int[keys[0].getRank()];
