@@ -150,7 +150,6 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 			throw new IOException("Problem loading dataset", e);
 		}
 		
-		logger.debug(nodePath + " has size " + d.getSize() + " for slice " + slice.toString() );
 		return d;
 	}
 
