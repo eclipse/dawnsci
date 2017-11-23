@@ -489,7 +489,6 @@ public class HDF5Utils {
 				final int lisize = isize >= 0 ? isize : type.isize;
 				data = DatasetFactory.zeros(lisize, count, ldtype);
 				Object odata = data.getBuffer();
-				logger.info(node + " has item " + lisize + " count " + Arrays.toString(count) + " type " + ldtype);
 
 				try {
 					if (type.isVariableLength) {
