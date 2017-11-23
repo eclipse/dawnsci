@@ -85,6 +85,7 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 			int[] current = lazy.getShape();
 			for (IDynamicDataset k : keys) k.refreshShape();
 			int[] s = DynamicMetadataUtils.refreshDynamicAxesMetadata(lazy.getMetadata(AxesMetadata.class), lazy.getShape());
+			logger.info("Dynamic iterator setting max shape " + Arrays.toString(s) + " for lazy shape " + Arrays.toString(current));
 			for (int i = 0; i < axes.length;i++) {
 				s[axes[i]] = current[axes[i]];
 			}
