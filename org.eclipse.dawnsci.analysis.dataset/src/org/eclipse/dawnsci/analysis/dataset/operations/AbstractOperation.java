@@ -48,7 +48,7 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 
 
 	protected abstract OperationData process(IDataset input, IMonitor monitor) throws OperationException;
-	
+
 	@Override
 	public D execute(IDataset slice, IMonitor monitor) throws OperationException {
 		
@@ -61,9 +61,9 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 		
 		OperationData output = process(view,monitor);
 
-		if (output == null) return null;
+		if (output == null || output.getData() == null) return null;
 		
-		return updateOutputToFullRank(output, slice);	
+		return updateOutputToFullRank(output, slice);
 	}
 	
 	/**
@@ -122,7 +122,7 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 		updateOutputDataShape(output.getData(), inr-rankDif, datadims, rankDif);
 		updateAxes(output.getData(),original,metadata,rankDif, datadims, oddims);
 		updateAuxData(output.getAuxData(), original);
-		
+
 		return (D)output;
 	}
 	
@@ -135,7 +135,7 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 	 * @param rankDif
 	 */
 	private void updateOutputDataShape(IDataset out, int rank, int[] dataDims, int rankDif) {
-		int[] shape = out.getSliceView().squeeze().getShape();
+		int[] shape = ShapeUtils.squeezeShape(out.getShape(), false);
 		
 		int[] updated = new int[rank];
 		Arrays.fill(updated, 1);
