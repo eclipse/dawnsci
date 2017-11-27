@@ -23,6 +23,8 @@ public class OperationData {
 
 	private IDataset data;
 	private Serializable[] auxData;
+	private OperationLog log;
+	private Serializable[] summaryData;
 
 	public IDataset getData() {
 		return data;
@@ -52,5 +54,31 @@ public class OperationData {
 	public void setAuxData(Serializable... auxData) {
 		this.auxData = auxData;
 	}
+
+	public OperationLog getLog() {
+		return log;
+	}
+
+	public void setLog(OperationLog log) {
+		this.log = log;
+	}
+
+	/**
+	 * @return summary data. This is distinct from auxiliary data in that it summarises the
+	 * state of the operation to date and is continually overwritten in the file
+	 */
+	public Serializable[] getSummaryData() {
+		return summaryData;
+	}
+
+	/**
+	 * Set summary data. This is distinct from auxiliary data in that it summarises the
+	 * state of the operation to date and is continually overwritten in the file
+	 * @param summaryData
+	 */
+	public void setSummaryData(Serializable... summaryData) {
+		this.summaryData = summaryData;
+	}
+
 
 }
