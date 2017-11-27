@@ -156,14 +156,27 @@ public class DiffractionCrystalEnvironment implements Serializable, Cloneable {
 	public double getWavelength() {
 		return wavelength;
 	}
-	
+
+	/**
+	 * Energy equivalent (1eV)/(h c) [m^-1] from NIST CODATA 2014
+	 */
+	private static final double CODATA_ENERGY = 8.065544005e5;
+
+	/**
+	 * @return keV energy
+	 */
+	public double getEnergy() {
+		// energy(keV) = 10^7 * (h * c / e) / lambda(A) 
+		return 1e7 / (CODATA_ENERGY * wavelength);
+	}
+
 	/**
 	 * Sets the wavelength from energy in keV
 	 * @param keV energy
 	 */
 	public void setWavelengthFromEnergykeV(double keV) {
 		// lambda(A) = 10^7 * (h*c/e) / energy(keV)
-		this.wavelength = 1./(0.0806554465*keV); // constant from NIST CODATA 2006
+		this.wavelength = 1e7 / (CODATA_ENERGY * keV);
 		// Tell listeners
 		fireDiffractionCrystalEnvironmentListeners(new DiffractionCrystalEnvironmentEvent(this, EventType.WAVELENGTH));
 	}
