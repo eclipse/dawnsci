@@ -61,6 +61,13 @@ public interface IOperation<M extends IOperationModel, D extends OperationData> 
 	 */
 	public String getId();
 
+	/**
+	 * @return a short suffix that will be used to synthesis a file name when the operation
+	 * is the last one in a chain. Can be null
+	 */
+	public default String getFilenameSuffix() {
+		return null;
+	}
 		
 	/**
 	 * The execute method operates on the data set last send via setDataset() and the
