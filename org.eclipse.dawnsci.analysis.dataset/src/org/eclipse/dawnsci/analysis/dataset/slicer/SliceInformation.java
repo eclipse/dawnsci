@@ -30,7 +30,7 @@ public class SliceInformation {
 	 * @param current - slice describing where this data comes from in the original dataset 
 	 * @param output - slice describing where this data goes in the output dataset
 	 * @param sampling - slice describing how original data is subsampled for iteration 
-	 * @param dataDimensions - dimensions which correspond to the data (as apposed to the stack or scan)
+	 * @param dataDimensions - dimensions which correspond to the data (as opposed to the stack or scan)
 	 * @param total - total number of slices that can be taken
 	 * @param number - which number this slice corresponds to
 	 */

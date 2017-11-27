@@ -38,7 +38,7 @@ public class OperationDataForDisplay extends OperationData {
 		return displayData;
 	}
 
-	public void setDisplayData(IDataset[] displayData) {
+	public void setDisplayData(IDataset... displayData) {
 		this.displayData = displayData;
 	}
 }

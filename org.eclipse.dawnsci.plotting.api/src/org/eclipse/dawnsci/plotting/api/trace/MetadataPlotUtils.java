@@ -34,6 +34,9 @@ public class MetadataPlotUtils {
 	}
 	
 	public static void plotDataWithMetadata(IDataset data, final IPlottingSystem<?> system, boolean clear) {
+		if (data.getSize() == 1) {
+			return;
+		}
 		
 		IDataset x = null;
 		IDataset y = null;
@@ -45,7 +48,7 @@ public class MetadataPlotUtils {
 		
 		MaskMetadata mmd = data.getFirstMetadata(MaskMetadata.class);
 		
-		if (mmd != null ) {
+		if (mmd != null) {
 			mask = mmd.getMask().getSlice().squeeze();
 		}
 		
@@ -227,34 +230,35 @@ public class MetadataPlotUtils {
 		if (amd != null && !amd.isEmpty()) {
 			AxesMetadata am = amd.get(0);
 			ILazyDataset[] axes = am.getAxes();
-			ILazyDataset lz0 = axes[0];
-			ILazyDataset lz1 = null;
 			IDataset[] out;
-			if (data.getRank() > 1) {
-				out = new IDataset[2];
-				lz1 = axes[1];
-			}else {
-				out= new IDataset[1];
-			}
-			
-			if (lz0 != null){
-//				lz0.clearMetadata(null);
-				try {
-					x = lz0.getSlice().squeeze();
-					out[0] = x;
-				} catch (DatasetException e) {
+			if (axes.length > 0) {
+				ILazyDataset lz0 = axes[0];
+				ILazyDataset lz1 = null;
+				if (data.getRank() > 1) {
+					out = new IDataset[2];
+					lz1 = axes[1];
+				}else {
+					out= new IDataset[1];
 				}
-			}
-			if (lz1 != null) {
-//				lz1.clearMetadata(null);
-				try {
-					y = lz1.getSlice().squeeze();
-					out[1] = y;
-				} catch (DatasetException e) {
+				
+				if (lz0 != null){
+	//				lz0.clearMetadata(null);
+					try {
+						x = lz0.getSlice().squeeze();
+						out[0] = x;
+					} catch (DatasetException e) {
+					}
 				}
+				if (lz1 != null) {
+	//				lz1.clearMetadata(null);
+					try {
+						y = lz1.getSlice().squeeze();
+						out[1] = y;
+					} catch (DatasetException e) {
+					}
+				}
+				return out;
 			}
-			
-			return out;
 		}
 		return null;
 	}
@@ -265,7 +269,7 @@ public class MetadataPlotUtils {
 	}
 
 	public static IDataset[] getAxesAsIDatasetArray(ILazyDataset data) {
-IDataset[] out = new IDataset[data.getRank()];
+		IDataset[] out = new IDataset[data.getRank()];
 		
 		AxesMetadata md = data.getFirstMetadata(AxesMetadata.class);
 		
