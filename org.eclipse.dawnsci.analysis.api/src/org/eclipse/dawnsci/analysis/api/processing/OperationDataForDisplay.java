@@ -16,16 +16,29 @@ import org.eclipse.january.dataset.IDataset;
 /**
  * Extension to the OperationData class, including extra datasets,
  * which will not be written to file, but can be used for display
- * with the output data
+ * with the output data.
  */
 public class OperationDataForDisplay extends OperationData {
 
 	private IDataset[] displayData;
-	
+
+	private boolean showSeparately = false;
+
 	public OperationDataForDisplay() {
 		super();
 	}
 	
+	public boolean isShowSeparately() {
+		return showSeparately;
+	}
+
+	/**
+	 * @param showSeparately if true then show extra datasets separately from output data
+	 */
+	public void setShowSeparately(boolean showSeparately) {
+		this.showSeparately = showSeparately;
+	}
+
 	public OperationDataForDisplay(IDataset data) {
 		super(data);
 	}
@@ -41,4 +54,6 @@ public class OperationDataForDisplay extends OperationData {
 	public void setDisplayData(IDataset... displayData) {
 		this.displayData = displayData;
 	}
+
+	
 }
