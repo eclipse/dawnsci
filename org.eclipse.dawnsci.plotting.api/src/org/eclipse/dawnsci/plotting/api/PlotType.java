@@ -33,7 +33,9 @@ public enum PlotType {
 
 	XY_SCATTER_3D(3, 1),// dimensions=1 X and Many Y
 
-	MULTI_IMAGE(4, 2);  // dimensions=2 X and Many Y
+	MULTI_IMAGE(4, 2),  // dimensions=2 X and Many Y
+	
+	DATA(2, 2);
 	
 
 

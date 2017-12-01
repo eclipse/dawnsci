@@ -13,12 +13,16 @@ package org.eclipse.dawnsci.plotting.api;
 
 public enum ActionType {
 
-	XY, IMAGE, XYANDIMAGE, THREED, SURFACE, SCATTER3D, MULTIIMAGE, ALL, FX3D;
+	XY, IMAGE, XYANDIMAGE, THREED, SURFACE, SCATTER3D, MULTIIMAGE, ALL, FX3D, DATA;
 
 	public boolean isCompatible(PlotType type) {
 
 		if (this == ALL)
 			return true;
+		if (type == PlotType.DATA && this == ActionType.DATA)
+			return true;
+		else if (type == PlotType.DATA)
+			return false;
 		if (type.is1D() && this == XY) {
 			return true;
 		}
