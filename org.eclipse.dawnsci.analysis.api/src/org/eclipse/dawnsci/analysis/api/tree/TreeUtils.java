@@ -20,11 +20,17 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import org.eclipse.january.DatasetException;
 import org.eclipse.january.IMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class TreeUtils {
 
+	
+	private final static Logger logger = LoggerFactory.getLogger(TreeUtils.class);
+	
 	/**
 	 * Get the path which ends with {@value Node#SEPARATOR} if it refers to a group
 	 * @param tree
@@ -143,6 +149,37 @@ public class TreeUtils {
 		return nodes;
 		
 		
+	}
+	
+	/**
+	 * Iterate though a tree and convert ILazyDatasets in DataNodes
+	 * to IDatasets, allowing the tree to be written into a file.
+	 * 
+	 * WARNING: only use on tree structures containing metadata not large datasets
+	 * as they will be loaded into memory
+	 * 
+	 * @param node
+	 */
+	public static void recursivelyLoadDataNodes(GroupNode node) {
+		
+		Iterator<String> iterator = node.getNodeNameIterator();
+		
+		while (iterator.hasNext()) {
+			Node n = node.getNode(iterator.next());
+			if (n instanceof GroupNode) {
+				recursivelyLoadDataNodes((GroupNode)n);
+			} else if (n instanceof DataNode){
+				DataNode d = (DataNode)n;
+				if (d.getDataset() == null) {
+					continue;
+				}
+				try {
+					d.setDataset(d.getDataset().getSlice());
+				} catch (DatasetException e) {
+					logger.error("Could not load lazydataset", e);
+				}
+			}
+		}
 	}
 	
 	private static void addNodes(GroupNode node, Map<DataNode,String> map, String name) {
