@@ -49,6 +49,7 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 
 	protected abstract OperationData process(IDataset input, IMonitor monitor) throws OperationException;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public D execute(IDataset slice, IMonitor monitor) throws OperationException {
 		
@@ -61,7 +62,7 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 		
 		OperationData output = process(view,monitor);
 
-		if (output == null || output.getData() == null) return null;
+		if (output == null || output.getData() == null) return (D) output;
 		
 		return updateOutputToFullRank(output, slice);
 	}
