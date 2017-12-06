@@ -92,6 +92,19 @@ public class HDF5Utils {
 		return host;
 	}
 
+	/**
+	 * Check if file is a HDF5 file
+	 * @param fileName
+	 * @return
+	 * @throws ScanFileHolderException
+	 */
+	public static boolean isHDF5(final String fileName) throws ScanFileHolderException {
+		try {
+			return H5.H5Fis_hdf5(fileName);
+		} catch (HDF5LibraryException e) {
+			throw new ScanFileHolderException("Problem using HDF5 library", e);
+		}
+	}
 
 	/**
 	 * Create a dataset from the given data object
