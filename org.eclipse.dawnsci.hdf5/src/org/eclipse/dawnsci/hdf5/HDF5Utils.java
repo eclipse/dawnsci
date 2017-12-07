@@ -95,15 +95,15 @@ public class HDF5Utils {
 	/**
 	 * Check if file is a HDF5 file
 	 * @param fileName
-	 * @return
-	 * @throws ScanFileHolderException
+	 * @return true if it can be read as an HDF5 file
 	 */
-	public static boolean isHDF5(final String fileName) throws ScanFileHolderException {
+	public static boolean isHDF5(final String fileName) {
 		try {
 			return H5.H5Fis_hdf5(fileName);
 		} catch (HDF5LibraryException e) {
-			throw new ScanFileHolderException("Problem using HDF5 library", e);
+			logger.error("Problem using HDF5 library when checking if a file is HDF5", e);
 		}
+		return false;
 	}
 
 	/**
