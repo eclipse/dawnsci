@@ -25,11 +25,14 @@ import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
+import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.ILazyWriteableDataset;
 import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.dataset.SliceND;
 
 /**
  * Utility methods for dealing with NeXus files.
@@ -798,5 +801,41 @@ public class NexusUtils {
 			return d.getSize() == 1 ? d.getObject() : null;
 		}
 		return null;
+	}
+
+	/**
+	 * Append data to a dataset in group node. If data node does not exist then create one. This assumes
+	 * that data is of a consistent rank R and will be appended to a shape with rank R+1 along the first
+	 * dimension 
+	 * @param f Nexus file
+	 * @param g group node
+	 * @param a dataset
+	 * @return data node
+	 * @throws NexusException
+	 * @throws DatasetException 
+	 */
+	public static DataNode appendData(NexusFile f, GroupNode g, Dataset a) throws NexusException, DatasetException {
+		int r = a.getRank();
+		int[] ns = new int[r + 1];
+		ns[0] = 1;
+		System.arraycopy(a.getShapeRef(), 0, ns, 1, r);
+		String name = a.getName();
+		a = a.reshape(ns);
+		DataNode d = g.getDataNode(name);
+		if (d == null) {
+			int[] ms = ns.clone();
+			ms[0] = -1;
+			LazyWriteableDataset w = new LazyWriteableDataset(name, a.getElementClass(), ns, ms, null, null);
+			return f.createData(g, w);
+		}
+	
+		ILazyWriteableDataset w = d.getWriteableDataset();
+		if (r != w.getRank() - 1) {
+			throw new IllegalArgumentException("Rank of input dataset must be " + (w.getRank() - 1) + " not " + r);
+		}
+		int[] cs = w.getShape();
+		SliceND slice = new SliceND(cs, w.getMaxShape(), new Slice(cs[0], cs[0] + 1));
+		w.setSlice(null, a, slice);
+		return d;
 	}
 }
