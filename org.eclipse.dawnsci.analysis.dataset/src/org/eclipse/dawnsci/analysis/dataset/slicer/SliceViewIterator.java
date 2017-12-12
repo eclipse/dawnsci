@@ -104,7 +104,7 @@ public class SliceViewIterator implements ISliceViewIterator{
 		view.clearMetadata(SliceFromSeriesMetadata.class);
 		SliceInformation sl = new SliceInformation(current,
 				iterator.getOutputSlice().clone(), sampling,
-				axes, total, count);
+				axes, total, count - 1);
 		
 		SliceFromSeriesMetadata m = new SliceFromSeriesMetadata(source, sl);
 		
