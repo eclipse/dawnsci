@@ -174,6 +174,26 @@ public interface NexusFile extends AutoCloseable {
 	public void addNode(GroupNode group, String name, Node node) throws NexusException;
 
 	/**
+	 * Remove node from given path.
+	 * <p>
+	 * Note, this will <b>fail</b> if the file is in SWMR node
+	 * @param path path to parent group of node
+	 * @param name name of node in parent group
+	 * @throws NexusException
+	 */
+	public void removeNode(String path, String name) throws NexusException;
+
+	/**
+	 * Remove node from given group.
+	 * <p>
+	 * Note, this will <b>fail</b> if the file is in SWMR node
+	 * @param group parent group of node
+	 * @param name name of node in parent group
+	 * @throws NexusException
+	 */
+	public void removeNode(GroupNode group, String name) throws NexusException;
+
+	/**
 	 * Create data node with given path to its group and create path if necessary
 	 * The name of the dataset is used as the name of the data node within the parent group.
 	 * @param path to group

@@ -1174,6 +1174,36 @@ public class NexusFileHDF5 implements NexusFile {
 		}
 	}
 
+	@Override
+	public void removeNode(GroupNode group, String name) throws NexusException {
+		removeNode(getPath(group), group, name);
+	}
+
+	@Override
+	public void removeNode(String path, String name) throws NexusException {
+		removeNode(path, getGroup(path, false), name);
+	}
+
+	private void removeNode(String path, GroupNode group, String name) throws NexusException {
+		if (group.containsDataNode(name)) {
+			group.removeDataNode(name);
+		} else if (group.containsGroupNode(name)) {
+			group.removeGroupNode(name);
+		} else if (group.containsSymbolicNode(name)) {
+			group.removeSymbolicNode(name);
+		} else {
+			throw new IllegalArgumentException("Cannot remove node " + name + ": it is not in group " + path);
+		}
+		path += Node.SEPARATOR + name;
+		try {
+			H5.H5Ldelete(fileId, path, HDF5Constants.H5P_DEFAULT);
+		} catch (HDF5LibraryException | NullPointerException e) {
+			String msg = String.format("Could not remove node (%s) from file", path);
+			logger.error(msg, e);
+			throw new NexusException(msg, e);
+		}
+	}
+
 	private void recursivelyUpdateTree(String parentPath, String name, Node node) throws NexusException {
 		String nxClass = node.containsAttribute(NexusFile.NXCLASS) ? node.getAttribute(NexusFile.NXCLASS).getFirstElement() : "";
 		String fullPath = parentPath + Node.SEPARATOR + (name == null ? "" : name);
