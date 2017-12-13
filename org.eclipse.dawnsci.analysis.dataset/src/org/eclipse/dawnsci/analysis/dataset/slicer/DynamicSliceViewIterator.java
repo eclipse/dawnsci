@@ -157,7 +157,7 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 		
 		SliceInformation sl = new SliceInformation(current,
 				current.clone(), new SliceND(lazy.getShape()),
-				axes, last ? count : -1, count);
+				axes, last ? count : -1, count - 1);
 		
 		SliceFromSeriesMetadata m = new SliceFromSeriesMetadata(source, sl);
 		
