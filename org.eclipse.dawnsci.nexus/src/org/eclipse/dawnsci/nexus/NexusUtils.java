@@ -28,6 +28,7 @@ import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.ILazyWriteableDataset;
 import org.eclipse.january.dataset.LazyWriteableDataset;
@@ -694,19 +695,11 @@ public class NexusUtils {
 	 * @return
 	 */
 	private static int getAttributeIntValue(Attribute attribute) {
-		final Object ob = attribute.getValue();
-		if (ob instanceof int[]) {
-			int[] ia = (int[]) ob;
-			return ia[0];
-		} else if (ob instanceof String[]) {
-			String[] sa = (String[]) ob;
-			try {
-				return Integer.parseInt(sa[0]);
-			} catch (Throwable ne) {
-				return -1;
-			}
+		if (attribute.isString()) {
+			return Integer.parseInt(attribute.getFirstElement());
 		}
-		return -1;
+		final Dataset ob = DatasetUtils.convertToDataset(attribute.getValue());
+		return ob.getInt();
 	}
 
 	private static boolean axesCompatible(int[] axesDims, int[] shapeAxes, int[] shapeData) {
