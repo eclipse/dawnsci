@@ -457,8 +457,6 @@ public class SliceUtils {
 			final ILoaderService service = (ILoaderService)Activator.getService(ILoaderService.class);
 			axis = service.getDataset(currentSlice.getPath(), fullName, new ProgressMonitorWrapper(monitor));
 			if (axis == null) return null;
-			axis = axis.squeeze();
-		
 		}
 
 		// TODO Should really be averaging not using first index.
@@ -466,9 +464,14 @@ public class SliceUtils {
 			axis = sliceDimension(axis, dimension);
 		}
 		
+		if (axis.getRank() > 1) {
+			axis = axis.squeeze();
+		}
+		if (axis.getRank() == 0) {
+			axis.setShape(1);
+		}
 		axis.setName(getAxisLabel(currentSlice, origName));
-	    return axis;
-
+		return axis;
 	}
 
 
