@@ -23,6 +23,7 @@ public class NexusFileRemoveNodeTest {
 
 	private static String testScratchDirectoryName;
 	private static String FILE_NAME;
+	private static String FILE_NAME_SWMR;
 
 	/**
 	 * Creates an empty directory for use by test code.
@@ -33,11 +34,12 @@ public class NexusFileRemoveNodeTest {
 	public static void setUpBeforeClass() throws Exception {
 		testScratchDirectoryName = TestUtils.generateDirectorynameFromClassname(NexusFileTest.class.getCanonicalName());
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
-		FILE_NAME = testScratchDirectoryName + "test.nxs";
+		FILE_NAME = testScratchDirectoryName + "remove_node_test.nxs";
+		FILE_NAME_SWMR = testScratchDirectoryName + "swmr_remove_node_test.nxs";
 	}
 
 	private NexusFile setUpFile(boolean swmr) throws NexusException {
-		String fileName = swmr ? "swmr_" + FILE_NAME : FILE_NAME;
+		String fileName = swmr ? FILE_NAME_SWMR : FILE_NAME;
 		new File(fileName).delete();
 		NexusFile nf = NexusTestUtils.createNexusFile(fileName, swmr);
 		GroupNode g = nf.getGroup("/entry/blah", true);
