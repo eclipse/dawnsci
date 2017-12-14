@@ -34,7 +34,7 @@ public class MetadataPlotUtils {
 	}
 	
 	public static void plotDataWithMetadata(IDataset data, final IPlottingSystem<?> system, boolean clear) {
-		if (data.getSize() == 1) {
+		if (data == null || data.getSize() == 1) {
 			return;
 		}
 		
