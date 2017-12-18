@@ -167,7 +167,7 @@ class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
     	try {
 			createInfo();
 		} catch (Exception e) {
-			e.printStackTrace();
+			return false;
 		}
     	return true;
     }
@@ -234,6 +234,10 @@ class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
 		
 		if (this.name == null) this.name  = info.get(0);
 		this.shape = toIntArray(info.get(1));
+		if (this.shape.length == 1 && shape[0] == -1) {
+			System.err.println();
+			
+		}
 		setMax(shape);
 		this.oShape = shape;
 		this.dtype = Integer.parseInt(info.get(2));
