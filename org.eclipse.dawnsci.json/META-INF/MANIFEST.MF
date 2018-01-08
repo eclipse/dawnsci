@@ -9,7 +9,7 @@ Bundle-Activator: org.eclipse.dawnsci.json.internal.Activator
 Service-Component: OSGI-INF/*.xml
 Require-Bundle: com.fasterxml.jackson.core.jackson-annotations;bundle-version="2.2.0",
  com.fasterxml.jackson.core.jackson-core;bundle-version="2.2.0",
- com.fasterxml.jackson.core.jackson-databind;bundle-version="[2.2.0,2.6.0)",
+ com.fasterxml.jackson.core.jackson-databind;bundle-version="2.2.0",
  org.eclipse.january;bundle-version="1.0.0",
  org.eclipse.dawnsci.analysis.api;bundle-version="1.1.0",
  org.eclipse.dawnsci.analysis.dataset,
