@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.hdf5.model.IHierarchicalDataFileModel;
@@ -29,6 +30,7 @@ import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.nexus.NexusUtils;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
 import org.junit.Test;
 
 public class HierarchicalDataFileModelTest {
@@ -76,12 +78,12 @@ public class HierarchicalDataFileModelTest {
 			System.out.print(childPath);
 			GroupNode group = reader.getGroup(childPath, false);
 			if (group.isDataNode()) {
-				hdf.object.Dataset dataset = (hdf.object.Dataset) reader.getData(childPath);
-				Object value = dataset.read();
+				DataNode dataset = reader.getData(childPath);
+				Dataset value = DatasetUtils.sliceAndConvertLazyDataset(dataset.getDataset());
 				System.out.print("=DIMS(");
-				System.out.print(Arrays.toString(dataset.getDims()));
+				System.out.print(Arrays.toString(value.getShape()));
 				System.out.print(")");
-				System.out.print(value);
+				System.out.print(value.toString(true));
 				System.out.print("=="
 						+ NexusUtils.extractScalarFromDataset(value));
 				
