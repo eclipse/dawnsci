@@ -24,12 +24,12 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf5.model.IHierarchicalDataFileModel;
 import org.eclipse.dawnsci.hdf5.model.internal.HierarchicalDataFileModel;
 import org.eclipse.dawnsci.hdf5.model.internal.HierarchicalDataModel;
 import org.eclipse.dawnsci.hdf5.model.internal.IHierarchicalDataFileGetReader;
 import org.eclipse.dawnsci.hdf5.model.internal.IHierarchicalDataModelGetFileModel;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,7 +53,7 @@ public class HierarchicalDataModelTest {
 						return new HierarchicalDataFileModel(
 								new IHierarchicalDataFileGetReader() {
 									@Override
-									public IHierarchicalDataFile getReader()
+									public NexusFile getReader()
 											throws Exception {
 										fail("This test should not be accessing underlying file");
 										return null;
