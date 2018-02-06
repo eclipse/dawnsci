@@ -20,7 +20,7 @@ public class ServiceHolder {
 		return nexusFileFactory;
 	}
 	
-	public void setNexusFileFactory(INexusFileFactory nexusFileFactory) {
+	public static void setNexusFileFactory(INexusFileFactory nexusFileFactory) {
 		ServiceHolder.nexusFileFactory = nexusFileFactory;
 	}
 
