@@ -57,7 +57,7 @@ public class ServiceHolder {
 		return loaderService;
 	}
 
-	public void setLoaderService(ILoaderService loaderService) {
+	public static void setLoaderService(ILoaderService loaderService) {
 		ServiceHolder.loaderService = loaderService;
 	}
 
