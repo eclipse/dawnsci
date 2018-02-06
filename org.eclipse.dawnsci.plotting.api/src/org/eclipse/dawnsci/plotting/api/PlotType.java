@@ -35,7 +35,9 @@ public enum PlotType {
 
 	MULTI_IMAGE(4, 2),  // dimensions=2 X and Many Y
 	
-	DATA(2, 2);
+	DATA(2, 2),
+	
+	JZY3D_COLOR(2,2);
 	
 
 
