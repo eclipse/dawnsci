@@ -20,7 +20,7 @@ public class NexusTestServiceHolder {
 	
 	private static INexusFileFactory nexusFileFactory;
 
-	public static void setNexusBuilderFactory(NexusBuilderFactory nexusBuilderFactory) {
+	public void setNexusBuilderFactory(NexusBuilderFactory nexusBuilderFactory) {
 		NexusTestServiceHolder.nexusBuilderFactory = nexusBuilderFactory; 
 	}
 	
@@ -28,7 +28,7 @@ public class NexusTestServiceHolder {
 		return nexusBuilderFactory;
 	}
 	
-	public static void setNexusFileFactory(INexusFileFactory nexusFileFactory) {
+	public void setNexusFileFactory(INexusFileFactory nexusFileFactory) {
 		NexusTestServiceHolder.nexusFileFactory = nexusFileFactory; 
 	}
 	

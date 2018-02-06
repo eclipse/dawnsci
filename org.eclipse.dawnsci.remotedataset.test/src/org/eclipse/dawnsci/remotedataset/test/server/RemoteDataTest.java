@@ -44,7 +44,7 @@ public class RemoteDataTest extends DataServerTest {
 	@Before
 	public void before() {
 		service = new RemoteDatasetServiceImpl(); // Instead of OSGi - do not copy!
-		ServiceHolder.setLoaderService(new LoaderServiceMock(factory));
+		new ServiceHolder().setLoaderService(new LoaderServiceMock(factory));
 	}
 
 	@Test

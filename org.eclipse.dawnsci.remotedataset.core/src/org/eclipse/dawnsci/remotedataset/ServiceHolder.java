@@ -33,7 +33,7 @@ public class ServiceHolder {
 		return classLoaderService;
 	}
 
-	public static void setClassLoaderService(IClassLoaderService classLoaderService) {
+	public void setClassLoaderService(IClassLoaderService classLoaderService) {
 		ServiceHolder.classLoaderService = classLoaderService;
 	}
 
@@ -41,7 +41,7 @@ public class ServiceHolder {
 		return downService;
 	}
 
-	public static void setDownService(IDownsampleService downService) {
+	public void setDownService(IDownsampleService downService) {
 		ServiceHolder.downService = downService;
 	}
 
@@ -49,7 +49,7 @@ public class ServiceHolder {
 		return imageService;
 	}
 
-	public static void setImageService(IImageService imageService) {
+	public void setImageService(IImageService imageService) {
 		ServiceHolder.imageService = imageService;
 	}
 
@@ -57,7 +57,7 @@ public class ServiceHolder {
 		return loaderService;
 	}
 
-	public static void setLoaderService(ILoaderService loaderService) {
+	public void setLoaderService(ILoaderService loaderService) {
 		ServiceHolder.loaderService = loaderService;
 	}
 
@@ -65,7 +65,7 @@ public class ServiceHolder {
 		return plotImageService;
 	}
 
-	public static void setPlotImageService(IPlotImageService plotImageService) {
+	public void setPlotImageService(IPlotImageService plotImageService) {
 		ServiceHolder.plotImageService = plotImageService;
 	}
 

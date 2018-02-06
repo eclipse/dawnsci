@@ -216,7 +216,7 @@ public class MultipleThreadNexusFileWriteTest {
 	public void setUp() throws Exception {
 		testScratchDirectoryName = TestUtils.generateDirectorynameFromClassname(getClass().getCanonicalName());
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
-		ServiceHolder.setNexusFileFactory(new NexusFileFactoryHDF5());
+		new ServiceHolder().setNexusFileFactory(new NexusFileFactoryHDF5());
 	}
 
 	private List<TestPositioner> createPositioners(int numPositioners) {

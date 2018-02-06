@@ -46,10 +46,10 @@ public class MJPGTest {
 		// Sorry but the concrete classes for these services are not part of an eclipse project.
 		// To get these concrete services go to dawnsci.org and follow the instructions for
 		// setting up dawnsci to run in your application.
-		ServiceHolder.setDownService(new Downsample());
-		ServiceHolder.setImageService(new ImageServiceMock());
-		ServiceHolder.setLoaderService(new LoaderServiceMock()); // TODO Implement the mock to get the test working again.
-		ServiceHolder.setPlotImageService(new PlotImageServiceMock());
+		new ServiceHolder().setDownService(new Downsample());
+		new ServiceHolder().setImageService(new ImageServiceMock());
+		new ServiceHolder().setLoaderService(new LoaderServiceMock()); // TODO Implement the mock to get the test working again.
+		new ServiceHolder().setPlotImageService(new PlotImageServiceMock());
 	}
 	
 	@Test

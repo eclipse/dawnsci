@@ -39,7 +39,7 @@ public class LoadingExamples {
 	private static ILoaderService service;
 	
 	// Injected by OSGi
-	public static void setLoaderService(ILoaderService s) {
+	public void setLoaderService(ILoaderService s) {
 		service = s;
 	}
 	

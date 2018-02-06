@@ -80,9 +80,9 @@ public class DataServerTest {
 		// Sorry but the concrete classes for these services are not part of an eclipse project.
 		// To get these concrete services go to dawnsci.org and follow the instructions for
 		// setting up dawnsci to run in your application.
-		ServiceHolder.setDownService(new Downsample());
-		ServiceHolder.setImageService(new ImageServiceMock());
-		ServiceHolder.setPlotImageService(new PlotImageServiceMock());
+		new ServiceHolder().setDownService(new Downsample());
+		new ServiceHolder().setImageService(new ImageServiceMock());
+		new ServiceHolder().setPlotImageService(new PlotImageServiceMock());
 	
         // Start the DataServer
 		port   = TestUtils.getFreePort(8080);
@@ -100,7 +100,7 @@ public class DataServerTest {
 	@Before
 	public void setLoader() {
 		if (ServiceHolder.getLoaderService()==null) {
-			ServiceHolder.setLoaderService(new LoaderServiceMock(factory));
+			new ServiceHolder().setLoaderService(new LoaderServiceMock(factory));
 		}
 	}
 
