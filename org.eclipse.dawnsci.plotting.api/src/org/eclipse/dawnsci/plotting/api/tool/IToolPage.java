@@ -62,7 +62,9 @@ public interface IToolPage extends IPageBookViewPage, IAdaptable {
 		 */
 		@Deprecated
 		ROLE_1D_AND_2D("org.dawb.common.ui.plot.tool.ROLE_1D_AND_2D", true, true, "icons/plot-tool-any.png", "Plotting tools", "Plotting tools (used both for images and XY plots)"), // Measure, derivative, peak fitting
-		ROLE_3D("org.dawb.common.ui.plot.tool.ROLE_3D", false, false, "icons/plot-tool-any.png", "3D tools", "3D plotting tools"); // SubSurface
+		ROLE_3D("org.dawb.common.ui.plot.tool.ROLE_3D", false, false, "icons/plot-tool-any.png", "3D tools", "3D plotting tools"), // SubSurface
+		
+		ROLE_JUST_COLOUR("org.dawb.common.ui.plot.tool.ROLE_JUST_COLOUR", false, true, "icons/plot-tool-any.png", "Colour tools", "Colour plotting tools");
 		
 		private boolean is1D;
 		private boolean is2D;
