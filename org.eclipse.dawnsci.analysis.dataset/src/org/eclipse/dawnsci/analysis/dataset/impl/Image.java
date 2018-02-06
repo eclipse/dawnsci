@@ -51,11 +51,11 @@ public class Image {
 	private static IImageFilterService filterService;
 	private static IImageTransform transformService;
 
-	public static void setImageFilterService(IImageFilterService ifs) {
+	public void setImageFilterService(IImageFilterService ifs) {
 		filterService = ifs;
 	}
 
-	public static void setImageTransformService(IImageTransform its) {
+	public void setImageTransformService(IImageTransform its) {
 		transformService = its;
 	}
 

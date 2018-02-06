@@ -21,13 +21,13 @@ public class ServiceHolder {
 	public static IMarshallerService getMarshallerService() {
 		return marshaller;
 	}
-	public static void setMarshallerService(IMarshallerService marshaller) {
+	public void setMarshallerService(IMarshallerService marshaller) {
 		ServiceHolder.marshaller = marshaller;
 	}
 	public static ILoaderService getLoaderservice() {
 		return lservice;
 	}
-	public static void setLoaderService(ILoaderService lservice) {
+	public void setLoaderService(ILoaderService lservice) {
 		ServiceHolder.lservice = lservice;
 	}
 

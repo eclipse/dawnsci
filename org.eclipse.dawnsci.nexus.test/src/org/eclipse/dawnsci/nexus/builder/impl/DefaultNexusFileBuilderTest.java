@@ -76,7 +76,7 @@ public class DefaultNexusFileBuilderTest {
 	
 	@Test
 	public void testCreateAndOpenFile() throws NexusException {
-		ServiceHolder.setNexusFileFactory(new NexusFileFactoryHDF5());
+		new ServiceHolder().setNexusFileFactory(new NexusFileFactoryHDF5());
 		NexusEntryBuilder nexusEntryBuilder = nexusFileBuilder.newEntry();
 		nexusEntryBuilder.getNXentry().setTitleScalar("test");
 		
@@ -93,7 +93,7 @@ public class DefaultNexusFileBuilderTest {
 	
 	@Test
 	public void testCreateAndOpenFileInSubDir() throws NexusException {
-		ServiceHolder.setNexusFileFactory(new NexusFileFactoryHDF5());
+		new ServiceHolder().setNexusFileFactory(new NexusFileFactoryHDF5());
 		NexusFileBuilder nexusSubdirFileBuilder = new DefaultNexusFileBuilder(fileInSubDirPath);
 		NexusEntryBuilder nexusEntryBuilder = nexusSubdirFileBuilder.newEntry();
 
