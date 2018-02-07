@@ -98,6 +98,9 @@ public class HDF5Utils {
 	 * @return true if it can be read as an HDF5 file
 	 */
 	public static boolean isHDF5(final String fileName) {
+		if (fileName == null || !new File(fileName).canRead()) {
+			return false;
+		}
 		try {
 			return H5.H5Fis_hdf5(fileName);
 		} catch (HDF5LibraryException e) {
