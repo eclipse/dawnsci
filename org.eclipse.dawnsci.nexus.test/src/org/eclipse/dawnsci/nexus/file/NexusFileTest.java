@@ -172,7 +172,7 @@ public class NexusFileTest {
 		GroupNode parentGroup = nf.getGroup("/a/b", true);
 		GroupNode group = nf.getGroup(parentGroup, "c", className, true);
 
-		assertEquals(className, group.getAttribute(NexusConstants.CLASS).getFirstElement());
+		assertEquals(className, group.getAttribute(NexusConstants.NXCLASS).getFirstElement());
 		assertEquals(1, parentGroup.getNames().size());
 		assertTrue(parentGroup.getNames().contains("c"));
 	}
@@ -811,8 +811,8 @@ public class NexusFileTest {
 	public void testNxClassGroup() throws Exception {
 		GroupNode g = nf.getGroup("/entry1:NXentry/note:NXnote", true);
 		GroupNode e = nf.getGroup("/entry1", false);
-		Attribute gAttr = g.getAttribute(NexusConstants.CLASS);
-		Attribute eAttr = e.getAttribute(NexusConstants.CLASS);
+		Attribute gAttr = g.getAttribute(NexusConstants.NXCLASS);
+		Attribute eAttr = e.getAttribute(NexusConstants.NXCLASS);
 		assertNotNull(gAttr);
 		assertArrayEquals(gAttr.getValue().getShape(), new int[] {});
 		assertEquals(gAttr.getFirstElement(), NexusConstants.NOTE);
@@ -824,8 +824,8 @@ public class NexusFileTest {
 		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		g = nf.getGroup("/entry1:NXentry/note:NXnote", true);
 		e = nf.getGroup("/entry1", false);
-		gAttr = g.getAttribute(NexusConstants.CLASS);
-		eAttr = e.getAttribute(NexusConstants.CLASS);
+		gAttr = g.getAttribute(NexusConstants.NXCLASS);
+		eAttr = e.getAttribute(NexusConstants.NXCLASS);
 		assertNotNull(gAttr);
 		assertArrayEquals(gAttr.getValue().getShape(), new int[] {});
 		assertEquals(gAttr.getFirstElement(), NexusConstants.NOTE);

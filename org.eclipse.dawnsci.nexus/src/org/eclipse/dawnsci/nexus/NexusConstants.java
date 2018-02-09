@@ -16,7 +16,7 @@ public class NexusConstants {
 	/**
 	 * Group attribute to indicate NeXus class
 	 */
-	public static final String CLASS = "NX_class";
+	public static final String NXCLASS = "NX_class";
 
 	/**
 	 * Dataset attribute name for units
