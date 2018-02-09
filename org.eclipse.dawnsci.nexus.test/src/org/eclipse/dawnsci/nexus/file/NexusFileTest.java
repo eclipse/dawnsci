@@ -28,6 +28,7 @@ import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.tree.impl.DataNodeImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.GroupNodeImpl;
 import org.eclipse.dawnsci.analysis.tree.impl.SymbolicNodeImpl;
+import org.eclipse.dawnsci.nexus.NexusConstants;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.nexus.NexusUtils;
@@ -171,7 +172,7 @@ public class NexusFileTest {
 		GroupNode parentGroup = nf.getGroup("/a/b", true);
 		GroupNode group = nf.getGroup(parentGroup, "c", className, true);
 
-		assertEquals(className, group.getAttribute("NX_class").getFirstElement());
+		assertEquals(className, group.getAttribute(NexusConstants.CLASS).getFirstElement());
 		assertEquals(1, parentGroup.getNames().size());
 		assertTrue(parentGroup.getNames().contains("c"));
 	}
@@ -810,27 +811,27 @@ public class NexusFileTest {
 	public void testNxClassGroup() throws Exception {
 		GroupNode g = nf.getGroup("/entry1:NXentry/note:NXnote", true);
 		GroupNode e = nf.getGroup("/entry1", false);
-		Attribute gAttr = g.getAttribute("NX_class");
-		Attribute eAttr = e.getAttribute("NX_class");
+		Attribute gAttr = g.getAttribute(NexusConstants.CLASS);
+		Attribute eAttr = e.getAttribute(NexusConstants.CLASS);
 		assertNotNull(gAttr);
 		assertArrayEquals(gAttr.getValue().getShape(), new int[] {});
-		assertEquals(gAttr.getFirstElement(), "NXnote");
+		assertEquals(gAttr.getFirstElement(), NexusConstants.NOTE);
 		assertNotNull(eAttr);
 		assertArrayEquals(eAttr.getValue().getShape(), new int[] {});
-		assertEquals(eAttr.getFirstElement(), "NXentry");
+		assertEquals(eAttr.getFirstElement(), NexusConstants.ENTRY);
 
 		nf.close();
 		nf = NexusTestUtils.openNexusFileReadOnly(FILE_NAME);
 		g = nf.getGroup("/entry1:NXentry/note:NXnote", true);
 		e = nf.getGroup("/entry1", false);
-		gAttr = g.getAttribute("NX_class");
-		eAttr = e.getAttribute("NX_class");
+		gAttr = g.getAttribute(NexusConstants.CLASS);
+		eAttr = e.getAttribute(NexusConstants.CLASS);
 		assertNotNull(gAttr);
 		assertArrayEquals(gAttr.getValue().getShape(), new int[] {});
-		assertEquals(gAttr.getFirstElement(), "NXnote");
+		assertEquals(gAttr.getFirstElement(), NexusConstants.NOTE);
 		assertNotNull(eAttr);
 		assertArrayEquals(eAttr.getValue().getShape(), new int[] {});
-		assertEquals(eAttr.getFirstElement(), "NXentry");
+		assertEquals(eAttr.getFirstElement(), NexusConstants.ENTRY);
 	}
 
 	@Test
