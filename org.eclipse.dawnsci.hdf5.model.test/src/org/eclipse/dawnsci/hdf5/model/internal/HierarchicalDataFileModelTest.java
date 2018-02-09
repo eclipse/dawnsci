@@ -26,6 +26,7 @@ import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.hdf5.model.IHierarchicalDataFileModel;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
+import org.eclipse.dawnsci.nexus.NexusConstants;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.nexus.NexusUtils;
 import org.eclipse.january.dataset.Dataset;
@@ -142,7 +143,7 @@ public class HierarchicalDataFileModelTest {
 		// group
 		assertEquals(null, model.getPath("/entry1"));
 		// attrib on group
-		assertEquals("NXentry", model.getPath("/entry1@NX_class"));
+		assertEquals(NexusConstants.ENTRY, model.getPath("/entry1@NX_class"));
 		// path with non 1-size dataset
 		assertEquals(null,
 				model.getPath("/entry1/instrument/analyser/energies"));

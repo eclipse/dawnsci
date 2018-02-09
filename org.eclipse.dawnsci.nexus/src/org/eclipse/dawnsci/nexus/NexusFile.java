@@ -28,7 +28,10 @@ import org.eclipse.january.dataset.ILazyWriteableDataset;
  */
 public interface NexusFile extends AutoCloseable {
 
-	public static final String NXCLASS = "NX_class";
+	/**
+	 * @deprecated Use {@link NexusConstants#CLASS}
+	 */
+	public static final String NXCLASS = NexusConstants.CLASS;
 
 	public static final String NXCLASS_SEPARATOR = ":";
 
