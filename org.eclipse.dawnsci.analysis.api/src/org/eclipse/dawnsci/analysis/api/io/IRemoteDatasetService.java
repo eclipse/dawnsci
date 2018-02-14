@@ -102,5 +102,7 @@ public interface IRemoteDatasetService {
 	 * Get the executor used when a client connection is made.
 	 */
 	public Executor getExecutor();
+	
+	public IDataHolder createRemoteDataHolder(String path, String serverName, int port);
 
 }

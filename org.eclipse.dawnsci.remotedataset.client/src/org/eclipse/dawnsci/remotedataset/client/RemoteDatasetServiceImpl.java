@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.remotedataset.Format;
@@ -74,5 +75,9 @@ public class RemoteDatasetServiceImpl implements IRemoteDatasetService {
 	@Override
 	public IRemoteData createRemoteData(String serverName, int port) {
 		return new RemoteData(this, serverName, port, getExecutor());
+	}
+	
+	public IDataHolder createRemoteDataHolder(String path, String serverName, int port) {
+		return new RemoteDataHolder(path, serverName, port);
 	}
 }
