@@ -54,7 +54,15 @@ public class SliceInformation {
 	public int getSliceNumber() {
 		return number;
 	}
-	
+
+	public boolean isFirstSlice() {
+		return number == 0;
+	}
+
+	public boolean isLastSlice() {
+		return number == totalSlices - 1;
+	}
+
 	public int[] getSubSampledShape() {
 		return sampling.getShape();
 	}
