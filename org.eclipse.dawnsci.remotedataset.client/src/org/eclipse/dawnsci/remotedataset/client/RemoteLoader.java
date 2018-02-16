@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.SliceND;
 import org.eclipse.january.io.ILazyDynamicLoader;
@@ -60,7 +61,14 @@ class RemoteLoader implements ILazyLoader,ILazyDynamicLoader {
 	@Override
 	public int[] refreshShape() {
 
-		return null;
+		try {
+			RemoteDatasetInfo datasetInfo = getDatasetInfo();
+			return datasetInfo.getShape();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public RemoteDatasetInfo getDatasetInfo() throws Exception {

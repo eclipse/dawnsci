@@ -31,6 +31,7 @@ public class RemoteDataHolder implements IDataHolder {
 	
 	public RemoteDataHolder(String path, String host, int port) {
 		this.urlBuilder = new URLBuilder(host, port);
+		urlBuilder.setPath(path);
 		try {
 			this.tree = TreeToMapUtils.mapToTree(getTreeMap(),path);
 		} catch (Exception e) {
@@ -89,7 +90,7 @@ public class RemoteDataHolder implements IDataHolder {
 	public ILazyDataset getLazyDataset(String name) {
 		URLBuilder b = new URLBuilder(urlBuilder);
 		b.setDataset(name);
-		RemoteLoader loader = new RemoteLoader(urlBuilder);
+		RemoteLoader loader = new RemoteLoader(b);
 		try {
 			RemoteDatasetInfo datasetInfo = loader.getDatasetInfo();
 			LazyDynamicDataset lazy = new LazyDynamicDataset(name, datasetInfo.getDtype(),
