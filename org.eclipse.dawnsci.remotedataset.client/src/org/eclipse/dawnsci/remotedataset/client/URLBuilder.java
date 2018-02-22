@@ -64,6 +64,21 @@ public class URLBuilder {
 		this.serverName = serverName;
 		this.port       = port;
 	}
+	
+	public URLBuilder(URLBuilder builder) {
+		this.get             = builder.get;
+		this.url             = builder.url;	
+		this.serverName      = builder.serverName;
+		this.port            = builder.port;
+		this.slice           = builder.slice;
+		this.bin             = builder.bin;
+		this.format          = builder.format;
+		this.histo           = builder.histo;
+		this.sleep           = builder.sleep;
+		this.path            = builder.path;
+		this.dataset         = builder.dataset;
+		this.writingExpected = builder.writingExpected;
+	}
 
 	public URL getSliceURL() throws Exception {
 		if (url!=null) return url;

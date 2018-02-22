@@ -11,15 +11,23 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.remotedataset.client;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.SliceND;
+import org.eclipse.january.io.ILazyDynamicLoader;
 import org.eclipse.january.io.ILazyLoader;
 
-class RemoteLoader implements ILazyLoader {
+class RemoteLoader implements ILazyLoader,ILazyDynamicLoader {
 
 	/**
 	 * 
@@ -46,6 +54,42 @@ class RemoteLoader implements ILazyLoader {
 			ret = client.get();
 		} catch (Exception e) {
 			throw new IOException(e);
+		}
+		return ret;
+	}
+
+	@Override
+	public int[] refreshShape() {
+
+		try {
+			RemoteDatasetInfo datasetInfo = getDatasetInfo();
+			return datasetInfo.getShape();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public RemoteDatasetInfo getDatasetInfo() throws Exception {
+		List<String> info = getInfo();
+		
+		 return new RemoteDatasetInfo(info);
+		
+	}
+	
+	private List<String> getInfo() throws Exception {
+		
+		final List<String> ret = new ArrayList<String>();
+		final URL url = new URL(urlBuilder.getInfoURL());
+		URLConnection  conn = url.openConnection();
+
+		final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+		try {
+			String line = null;
+			while((line = reader.readLine())!=null) ret.add(line);
+		} finally {
+			reader.close();
 		}
 		return ret;
 	}
