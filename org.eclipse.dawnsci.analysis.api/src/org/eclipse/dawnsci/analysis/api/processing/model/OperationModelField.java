@@ -50,7 +50,12 @@ public @interface OperationModelField {
 	 * The label attribute. If unset, uses the name of the field for the label.
 	 */
 	public String label() default "";
-	
+
+	/**
+	 * The description attribute. Used for tooltip in label
+	 */
+	public String description() default "";
+
 	/**
 	 * 
 	 * @return maximum allowed legal value for field
