@@ -56,6 +56,15 @@ public class ModelField {
     	return name;
 	}
 
+	public String getDescription() {
+		OperationModelField anot = ModelUtils.getAnnotation(model, name);
+		if (anot != null) {
+			String descr = anot.description();
+			if (descr != null && !"".equals(descr))
+				return descr;
+		}
+		return null;
+	}
 
 	@Override
 	public int hashCode() {
