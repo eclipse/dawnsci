@@ -16,18 +16,17 @@ import org.eclipse.dawnsci.remotedataset.XMLMarshallerService;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.LazyDynamicDataset;
-import org.eclipse.january.io.ILazyLoader;
 import org.eclipse.january.metadata.IMetadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RemoteDataHolder implements IDataHolder {
 	
 	private String path;
-	private String host;
-	private int port;
 	private URLBuilder urlBuilder;
 	private Tree tree;
 	
-	
+	private static final Logger logger = LoggerFactory.getLogger(RemoteDataHolder.class);
 	
 	public RemoteDataHolder(String path, String host, int port) {
 		this.urlBuilder = new URLBuilder(host, port);
@@ -99,8 +98,7 @@ public class RemoteDataHolder implements IDataHolder {
 			
 			return lazy;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warn("Could not read info for remote dataset {}", name);
 		}
 		
 		return null;
