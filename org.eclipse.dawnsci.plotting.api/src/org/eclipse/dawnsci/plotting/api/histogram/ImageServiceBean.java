@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.swt.graphics.PaletteData;
 
@@ -32,9 +34,9 @@ public class ImageServiceBean {
 	private HistogramBound   maximumCutBound = HistogramBound.DEFAULT_MAXIMUM;
 	private HistogramBound   minimumCutBound = HistogramBound.DEFAULT_MINIMUM;
 	private HistogramBound   nanBound        = HistogramBound.DEFAULT_NAN;
-	private IDataset         image;
-	private IDataset         value; // values used to map colour
-	private IDataset         mask;
+	private Dataset         image;
+	private Dataset         value; // values used to map colour
+	private Dataset         mask;
 	private PaletteData      palette;
 	private ImageOrigin      origin;
 	private Number           min;
@@ -92,8 +94,8 @@ public class ImageServiceBean {
 	}
 
 	public ImageServiceBean(IDataset slice, HistoType histoType) {
-		this.image = slice;
-		value = slice;
+		this.image = DatasetUtils.convertToDataset(slice);
+		value = image;
 		this.histogramType = histoType;
 	}
 
@@ -125,7 +127,7 @@ public class ImageServiceBean {
 	}
 
 	public void setImage(IDataset image) {
-		this.image = image;
+		this.image = DatasetUtils.convertToDataset(image);
 		value = null;
 	}
 
@@ -141,7 +143,7 @@ public class ImageServiceBean {
 	 * @param value
 	 */
 	public void setImageValue(IDataset value) {
-		this.value = value;
+		this.value = DatasetUtils.convertToDataset(value);
 	}
 	
 	public PaletteData getPalette() {
@@ -298,20 +300,26 @@ public class ImageServiceBean {
 	 * @return
 	 */
 	public void setMask(IDataset mask) {
-		this.mask = mask;
+		this.mask = DatasetUtils.convertToDataset(mask);
 	}
 	public boolean isLogColorScale() {
 		return logColorScale;
 	}
+
 	public void setLogColorScale(boolean logColorScale) {
 		this.logColorScale = logColorScale;
 		if (logColorScale) {
-			logOffset = image.min().doubleValue()-1.0;
+			logOffset = image.min(true).doubleValue();
+			if (image.hasFloatingPointElements()) {
+				double range = image.peakToPeak(true).doubleValue();
+				logOffset -= 1.e-6 * range; // shift by fraction of range
+			} else {
+				logOffset -= 1.0; // as defined by nature of integers
+			}
 		} else {
 			logOffset = 0;
 		}
 	}
-	
 
 	public enum HistoType {
 		
