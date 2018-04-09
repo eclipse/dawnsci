@@ -308,14 +308,13 @@ public class ImageServiceBean {
 
 	public void setLogColorScale(boolean logColorScale) {
 		this.logColorScale = logColorScale;
-		if (logColorScale) {
+		if (logColorScale) { // shift by fraction of range
 			logOffset = image.min(true).doubleValue();
-			if (image.hasFloatingPointElements()) {
-				double range = image.peakToPeak(true).doubleValue();
-				logOffset -= 1.e-6 * range; // shift by fraction of range
-			} else {
-				logOffset -= 1.0; // as defined by nature of integers
+			double delta = 1e-6 * image.peakToPeak(true).doubleValue();
+			if (!image.hasFloatingPointElements() && delta < 1) {
+				delta = 1;
 			}
+			logOffset -= delta;
 		} else {
 			logOffset = 0;
 		}
