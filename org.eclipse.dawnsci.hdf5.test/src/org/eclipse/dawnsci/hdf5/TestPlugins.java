@@ -22,11 +22,13 @@ import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.FloatDataset;
 import org.eclipse.january.dataset.IndexIterator;
+import org.junit.Assert;
 import org.junit.Test;
 
 import hdf.hdf5lib.H5;
 import hdf.hdf5lib.HDF5Constants;
 import hdf.hdf5lib.exceptions.HDF5Exception;
+import hdf.hdf5lib.exceptions.HDF5LibraryException;
 
 /**
  * Test various filter plugins that are built into the hdf.hdf5lib
@@ -62,7 +64,14 @@ public class TestPlugins {
 		testFilter("test-scratch/testFilterBS.h5", 32008, 0, 2);
 	}
 
+	private static void assertFilterAvailable(int filterNumber) throws HDF5LibraryException, NullPointerException {
+		if (H5.H5Zfilter_avail(filterNumber) <= 0) {
+			Assert.fail("Filter not found");
+		}
+	}
+
 	public void testFilter(String filename, int filterNumber, int... filterParams) throws NullPointerException, HDF5Exception {
+		assertFilterAvailable(filterNumber);
 		createFilteredFile(filename, filterNumber, filterParams);
 		checkFilteredFile(filename);
 	}
