@@ -458,7 +458,7 @@ public class HDF5Utils {
 				return data;
 			}
 		} catch (HDF5Exception ex) {
-			logger.error("Could not find info about object {}" + node);
+			logger.error("Could not find info about object {}", node);
 			return data;
 		}
 
@@ -469,12 +469,16 @@ public class HDF5Utils {
 			did = H5.H5Dopen(f.getID(), node, HDF5Constants.H5P_DEFAULT);
 			tid = H5.H5Dget_type(did);
 			if (H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_OBJ)) {
-				logger.error("Could not handle reference object data");
-				throw new NexusException("Could not handle reference object data");
+				logger.error("Could not handle reference object data for node {}", node);
+				throw new NexusException("Could not handle reference object data for node: " + node);
 			}
 
 			ntid = H5.H5Tget_native_type(tid);
 			DatasetType type = getDatasetType(tid, ntid);
+			if (type == null) {
+				logger.error("Datatype not supported for node {}", node);
+				throw new NexusException("Datatype not supported for node: " + node);
+			}
 			long sid = -1;
 			long msid = -1;
 			int rank;
@@ -818,7 +822,7 @@ public class HDF5Utils {
 			String dataPath = absolutePathToData(parentPath, data.getName());
 			writeDataset(fid, dataPath, data);
 		} catch (Throwable le) {
-			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
+			throw new ScanFileHolderException("Problem dataset to file: " + fileName, le);
 		} finally {
 			HDF5FileFactory.releaseFile(fileName);
 		}
@@ -941,11 +945,13 @@ public class HDF5Utils {
 					try {
 						H5.H5Adelete_by_name(fileID, path, attrName, HDF5Constants.H5P_DEFAULT);
 					} catch (HDF5Exception e) {
+						logger.error("Could not delete existing attribute {}", attrName, e);
 						throw new NexusException("Could not delete existing attribute", e);
 					}
 				}
 			} catch (HDF5Exception e) {
-				throw new NexusException("Error inspecting existing attributes", e);
+				logger.error("Error inspecting existing attribute {}", attrName, e);
+				throw new NexusException("Error inspecting existing attribute", e);
 			}
 			Dataset attrData = DatasetUtils.convertToDataset(attr);
 			long baseHdf5Type = getHDF5type(attrData.getDType());
@@ -989,6 +995,7 @@ public class HDF5Utils {
 
 					H5.H5Awrite(attrID, datatypeID, buffer);
 				} catch (HDF5Exception e) {
+					logger.error("Could not create attribute {}", attrName, e);
 					throw new NexusException("Could not create attribute", e);
 				} finally {
 					if (attrID != -1) {
@@ -999,6 +1006,7 @@ public class HDF5Utils {
 					}
 				}
 			} catch (HDF5Exception e) {
+				logger.error("Could not make data type or space for attribute {}", attrName, e);
 				throw new NexusException("Could not make data type or space", e);
 			} finally {
 				if (dataspaceID != -1) {
