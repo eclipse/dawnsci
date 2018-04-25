@@ -1672,6 +1672,8 @@ public class HDF5Utils {
 				// TODO maybe convert to string dataset eventually
 				type.nEnum = H5.H5Tget_nmembers(nativeTypeId);
 				typeRepresentation = ENUM_SIZE_TO_HDF_TYPES.get(type.size);
+			} else if (tclass == HDF5Constants.H5T_REFERENCE) {
+				return null;
 			} else {
 				type.isVariableLength = tclass == HDF5Constants.H5T_VLEN;
 				typeRepresentation = getTypeRepresentation(nativeTypeId);
