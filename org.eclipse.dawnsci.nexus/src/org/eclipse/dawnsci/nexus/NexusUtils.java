@@ -831,4 +831,29 @@ public class NexusUtils {
 		w.setSlice(null, a, slice);
 		return d;
 	}
+
+	/**
+	 * Load group and its subgroups to given maximum depth
+	 * @param file
+	 * @param path
+	 * @param maxDepth
+	 * @return group
+	 * @throws NexusException
+	 */
+	public static GroupNode loadGroupFully(NexusFile file, String path, int maxDepth) throws NexusException {
+		// populate tree
+		GroupNode g = file.getGroup(path, false);
+		loadGroup(file, g, maxDepth);
+		return g;
+	}
+
+	private static void loadGroup(NexusFile file, GroupNode g, int maxDepth) throws NexusException {
+		if (maxDepth-- > 0) {
+			for (String n : g.getNames()) {
+				if (g.containsGroupNode(n)) {
+					loadGroup(file, file.getGroup(g, n, null, false), maxDepth);
+				}
+			}
+		}
+	}
 }
