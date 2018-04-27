@@ -9,7 +9,6 @@
 package org.eclipse.dawnsci.analysis.api.persistence;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -254,12 +253,13 @@ public interface IPersistentFile {
 	 * Method that reads a List of axes from entry/data.<br>
 	 * 
 	 * @param mon
+	 * @param dataName can be null for first data
 	 * @param axisNames
 	 * @return List<ILazyDataset>
 	 * @throws Exception
 	 *              is thrown if no correct entry is found in the file
 	 */
-	default public List<ILazyDataset> getAxes(IMonitor mon, String... axisNames) throws Exception {
+	default public List<ILazyDataset> getAxes(IMonitor mon, String dataName, String... axisNames) throws Exception {
 		if (axisNames == null || axisNames.length == 0) {
 			return getAxes("", "", mon);
 		} else if (axisNames.length == 1) {
