@@ -130,7 +130,7 @@ public interface IPersistentFile {
 	 * @param axes
 	 * @throws Exception
 	 */
-	default public void setData(IDataset data, IDataset... axes) throws Exception {
+	default public void setData(IDataset data, IDataset[] axes) throws Exception {
 		if (axes == null || axes.length == 0) {
 			setData(data);
 		} else if (axes.length == 1) {
