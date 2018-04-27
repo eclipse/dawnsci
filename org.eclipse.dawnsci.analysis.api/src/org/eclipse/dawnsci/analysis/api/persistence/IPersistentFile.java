@@ -8,7 +8,6 @@
  */
 package org.eclipse.dawnsci.analysis.api.persistence;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -100,17 +99,6 @@ public interface IPersistentFile {
 	public void addMask(String name, IDataset mask, IMonitor mon) throws Exception;
 
 	/**
-	 * Method to set a dataset: can be an image or a stack of images<br>
-	 * This will write the data to entry/data<br>
-	 * If the data already exist it will be overwritten.<br>
-	 * 
-	 * @param data
-	 * @throws Exception 
-	 */
-	public void setData(IDataset data) throws Exception;
-
-	
-	/**
 	 * Write data and axes in a single call.
 	 * 
 	 * For 1D data set yAxis as null
@@ -130,15 +118,7 @@ public interface IPersistentFile {
 	 * @param axes
 	 * @throws Exception
 	 */
-	default public void setData(IDataset data, IDataset[] axes) throws Exception {
-		if (axes == null || axes.length == 0) {
-			setData(data);
-		} else if (axes.length == 1) {
-			setData(data, axes[0], null);
-		} else {
-			setData(data, axes[0], axes[1]);
-		}
-	}
+	public void setData(IDataset data, IDataset[] axes) throws Exception;
 
 	/**
 	 * Method to set datasets which persist history
@@ -165,20 +145,7 @@ public interface IPersistentFile {
 	 * @param axes
 	 * @throws Exception 
 	 */
-	public void setAxes(List<? extends IDataset> axes) throws Exception;
-
-	/**
-	 * Method to set the axes<br>
-	 * This will write the data to entry/data<br>
-	 * If the axes already exist, they will be overwritten.<br>
-	 * <p>
-	 * <b>Important:</b> the axes should be in order of the dimensions of the dataset
-	 * @param axes
-	 * @throws Exception 
-	 */
-	default public void setAxes(IDataset... axes) throws Exception {
-		setAxes(Arrays.asList(axes));
-	}
+	public void setAxes(IDataset... axes) throws Exception;
 
 	/**
 	 * Method to set a map of ROIs<br>
@@ -240,18 +207,6 @@ public interface IPersistentFile {
 	/**
 	 * Method that reads a List of axes from entry/data.<br>
 	 * 
-	 * @param xAxisName
-	 * @param yAxisName
-	 * @param mon
-	 * @return List<ILazyDataset>
-	 * @throws Exception
-	 *              is thrown if no correct entry is found in the file
-	 */
-	public List<ILazyDataset> getAxes(String xAxisName, String yAxisName, IMonitor mon) throws Exception;
-
-	/**
-	 * Method that reads a List of axes from entry/data.<br>
-	 * 
 	 * @param mon
 	 * @param dataName can be null for first data
 	 * @param axisNames
@@ -259,14 +214,7 @@ public interface IPersistentFile {
 	 * @throws Exception
 	 *              is thrown if no correct entry is found in the file
 	 */
-	default public List<ILazyDataset> getAxes(IMonitor mon, String dataName, String... axisNames) throws Exception {
-		if (axisNames == null || axisNames.length == 0) {
-			return getAxes("", "", mon);
-		} else if (axisNames.length == 1) {
-			return getAxes(axisNames[0], "", mon);
-		}
-		return getAxes(axisNames[0], axisNames[1], mon);
-	}
+	public List<ILazyDataset> getAxes(IMonitor mon, String dataName, String... axisNames) throws Exception;
 
 	/**
 	 * Method that reads a map of all available masks from entry/mask.<br>
