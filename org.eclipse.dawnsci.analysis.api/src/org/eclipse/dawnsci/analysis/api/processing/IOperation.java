@@ -159,4 +159,11 @@ public interface IOperation<M extends IOperationModel, D extends OperationData> 
 	 * Called on each operation after each file is processed
 	 */
 	public void dispose();
+	
+	/**
+	 * Called when an operation gets removed from the pipeline in the Processing perspective 
+	 */
+	public default void destroy() {
+		// do nothing
+	}
 }
