@@ -1195,6 +1195,8 @@ public class NexusFileHDF5 implements NexusFile {
 			throw new IllegalArgumentException("Cannot remove node " + name + ": it is not in group " + path);
 		}
 		path += Node.SEPARATOR + name;
+		long fileAddr = getLinkTarget(path);
+		nodeMap.remove(fileAddr);
 		try {
 			H5.H5Ldelete(fileId, path, HDF5Constants.H5P_DEFAULT);
 		} catch (HDF5LibraryException | NullPointerException e) {
