@@ -70,7 +70,7 @@ public abstract class AbstractNexusFileBuilderTestBase {
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
 		filePath = testScratchDirectoryName + getFilename();
 		comparisonFilePath = TEST_FILE_FOLDER + getFilename();
-		new ServiceHolder().setNexusFileFactory(new NexusFileFactoryHDF5());
+		ServiceHolder.setNexusFileFactory(new NexusFileFactoryHDF5());
 	}
 	
 	protected NexusBuilderFactory getNexusBuilderFactory() {

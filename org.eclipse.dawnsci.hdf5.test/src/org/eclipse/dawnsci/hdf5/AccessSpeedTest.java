@@ -41,11 +41,11 @@ public class AccessSpeedTest {
 		HDF5File f = new HDF5File(file, fid, true, false);
 		int[] shape = new int[] {512, 128, 1024};
 		int size = ShapeUtils.calcSize(shape);
-		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
+		Dataset data1 = DatasetFactory.createRange(size);
 		data1.setShape(shape);
 		HDF5Utils.writeDataset(f, "data1", data1);
 
-		Dataset data2 = DatasetFactory.createRange(size, Dataset.FLOAT64);
+		Dataset data2 = DatasetFactory.createRange(size);
 		data1.setShape(shape);
 		HDF5Utils.writeDataset(f, "data2", data2);
 		H5.H5Fclose(fid);
@@ -114,9 +114,9 @@ public class AccessSpeedTest {
 		prepareFile(file);
 		int[] shape = new int[] {1, 128, 1024};
 		int size = ShapeUtils.calcSize(shape);
-		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
+		Dataset data1 = DatasetFactory.createRange(size);
 		data1.setShape(shape);
-		Dataset data2 = DatasetFactory.createRange(size, Dataset.FLOAT64);
+		Dataset data2 = DatasetFactory.createRange(size);
 		data2.setShape(shape);
 
 		shape[0] = 128;
@@ -194,7 +194,7 @@ public class AccessSpeedTest {
 		HDF5File f = HDF5FileFactory.acquireFileAsNew(file);
 		int[] shape = new int[] {1024, 128, 1024};
 		int size = ShapeUtils.calcSize(shape);
-		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
+		Dataset data1 = DatasetFactory.createRange(size);
 		data1.setShape(shape);
 		HDF5Utils.writeDataset(f, "data1", data1);
 		HDF5FileFactory.releaseFile(file);

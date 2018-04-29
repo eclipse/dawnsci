@@ -105,7 +105,7 @@ public class NexusConstants {
 	/**
 	 * NXdata attribute that points to error datasets (may also be legacy if attached to main dataset)
 	 */
-	public static final String DATA_UNCERTAINTIES ="uncertainties";
+	public static final String DATA_UNCERTAINTIES = "uncertainties";
 
 	/**
 	 * NXdata indicate no default for axis in axes attribute

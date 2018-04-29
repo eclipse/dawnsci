@@ -240,7 +240,7 @@ public class NexusUtils {
 	public static DataNode writeDouble(NexusFile file, GroupNode group, String name, double value, String units) throws NexusException {
 		DataNode node = write(file, group, name, value);
 		if (units != null) {
-			writeStringAttribute(file, node, "units", units);
+			writeStringAttribute(file, node,NexusConstants.UNITS, units);
 		}
 		return node;
 	}

@@ -21,6 +21,7 @@ import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 
 import org.eclipse.dawnsci.nexus.NXroot;
 import org.eclipse.dawnsci.nexus.NXsubentry;
+import org.eclipse.dawnsci.nexus.NexusConstants;
 import org.eclipse.dawnsci.nexus.NXentry;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXinstrument;
@@ -155,10 +156,10 @@ public class NXcanSASValidator extends AbstractNexusValidator implements NexusAp
 				"SASdata");
 
 		// validate attribute 'signal'
-		final Attribute signal_attr = group.getAttribute("signal");
-		validateAttributeNotNull("signal", signal_attr);
-		validateAttributeType("signal", signal_attr, NX_CHAR);
-		validateAttributeEnumeration("signal", signal_attr,
+		final Attribute signal_attr = group.getAttribute(NexusConstants.DATA_SIGNAL);
+		validateAttributeNotNull(NexusConstants.DATA_SIGNAL, signal_attr);
+		validateAttributeType(NexusConstants.DATA_SIGNAL, signal_attr, NX_CHAR);
+		validateAttributeEnumeration(NexusConstants.DATA_SIGNAL, signal_attr,
 				"I");
 
 		// validate attribute 'I_axes'
@@ -190,16 +191,16 @@ public class NXcanSASValidator extends AbstractNexusValidator implements NexusAp
 		validateFieldType("Q", Q, NX_NUMBER);
 		validateFieldUnits("Q", Q, NX_PER_LENGTH);
 		// validate attribute 'units' of field 'Q'
-		final Attribute Q_attr_units = group.getAttribute("units");
-		validateAttributeNotNull("units", Q_attr_units);
-		validateAttributeEnumeration("units", Q_attr_units,
+		final Attribute Q_attr_units = group.getAttribute(NexusConstants.UNITS);
+		validateAttributeNotNull(NexusConstants.UNITS, Q_attr_units);
+		validateAttributeEnumeration(NexusConstants.UNITS, Q_attr_units,
 				"1/m",
 				"1/nm",
 				"1/angstrom");
 
 		// validate attribute 'uncertainties' of field 'Q'
-		final Attribute Q_attr_uncertainties = group.getAttribute("uncertainties");
-		validateAttributeNotNull("uncertainties", Q_attr_uncertainties);
+		final Attribute Q_attr_uncertainties = group.getAttribute(NexusConstants.DATA_UNCERTAINTIES);
+		validateAttributeNotNull(NexusConstants.DATA_UNCERTAINTIES, Q_attr_uncertainties);
 
 		// validate attribute 'resolutions' of field 'Q'
 		final Attribute Q_attr_resolutions = group.getAttribute("resolutions");
@@ -217,9 +218,9 @@ public class NXcanSASValidator extends AbstractNexusValidator implements NexusAp
 		validateFieldNotNull("I", I);
 		validateFieldType("I", I, NX_NUMBER);
 		// validate attribute 'units' of field 'I'
-		final Attribute I_attr_units = group.getAttribute("units");
-		validateAttributeNotNull("units", I_attr_units);
-		validateAttributeEnumeration("units", I_attr_units,
+		final Attribute I_attr_units = group.getAttribute(NexusConstants.UNITS);
+		validateAttributeNotNull(NexusConstants.UNITS, I_attr_units);
+		validateAttributeEnumeration(NexusConstants.UNITS, I_attr_units,
 				"1/m",
 				"1/cm",
 				"m2/g",
@@ -227,8 +228,8 @@ public class NXcanSASValidator extends AbstractNexusValidator implements NexusAp
 				"arbitrary");
 
 		// validate attribute 'uncertainties' of field 'I'
-		final Attribute I_attr_uncertainties = group.getAttribute("uncertainties");
-		validateAttributeNotNull("uncertainties", I_attr_uncertainties);
+		final Attribute I_attr_uncertainties = group.getAttribute(NexusConstants.DATA_UNCERTAINTIES);
+		validateAttributeNotNull(NexusConstants.DATA_UNCERTAINTIES, I_attr_uncertainties);
 
 		// validate attribute 'scaling_factor' of field 'I'
 		final Attribute I_attr_scaling_factor = group.getAttribute("scaling_factor");
@@ -240,9 +241,9 @@ public class NXcanSASValidator extends AbstractNexusValidator implements NexusAp
 		if (Idev != null) {
 			validateFieldType("Idev", Idev, NX_NUMBER);
 		// validate attribute 'units' of field 'Idev'
-		final Attribute Idev_attr_units = group.getAttribute("units");
-		validateAttributeNotNull("units", Idev_attr_units);
-		validateAttributeEnumeration("units", Idev_attr_units,
+		final Attribute Idev_attr_units = group.getAttribute(NexusConstants.UNITS);
+		validateAttributeNotNull(NexusConstants.UNITS, Idev_attr_units);
+		validateAttributeEnumeration(NexusConstants.UNITS, Idev_attr_units,
 				"1/m",
 				"1/cm",
 				"m2/g",
@@ -257,9 +258,9 @@ public class NXcanSASValidator extends AbstractNexusValidator implements NexusAp
 			validateFieldType("Qdev", Qdev, NX_NUMBER);
 			validateFieldUnits("Qdev", Qdev, NX_PER_LENGTH);
 		// validate attribute 'units' of field 'Qdev'
-		final Attribute Qdev_attr_units = group.getAttribute("units");
-		validateAttributeNotNull("units", Qdev_attr_units);
-		validateAttributeEnumeration("units", Qdev_attr_units,
+		final Attribute Qdev_attr_units = group.getAttribute(NexusConstants.UNITS);
+		validateAttributeNotNull(NexusConstants.UNITS, Qdev_attr_units);
+		validateAttributeEnumeration(NexusConstants.UNITS, Qdev_attr_units,
 				"1/m",
 				"1/nm",
 				"1/angstrom");
@@ -272,9 +273,9 @@ public class NXcanSASValidator extends AbstractNexusValidator implements NexusAp
 			validateFieldType("dQw", dQw, NX_NUMBER);
 			validateFieldUnits("dQw", dQw, NX_PER_LENGTH);
 		// validate attribute 'units' of field 'dQw'
-		final Attribute dQw_attr_units = group.getAttribute("units");
-		validateAttributeNotNull("units", dQw_attr_units);
-		validateAttributeEnumeration("units", dQw_attr_units,
+		final Attribute dQw_attr_units = group.getAttribute(NexusConstants.UNITS);
+		validateAttributeNotNull(NexusConstants.UNITS, dQw_attr_units);
+		validateAttributeEnumeration(NexusConstants.UNITS, dQw_attr_units,
 				"1/m",
 				"1/nm",
 				"1/angstrom");
@@ -287,9 +288,9 @@ public class NXcanSASValidator extends AbstractNexusValidator implements NexusAp
 			validateFieldType("dQl", dQl, NX_NUMBER);
 			validateFieldUnits("dQl", dQl, NX_PER_LENGTH);
 		// validate attribute 'units' of field 'dQl'
-		final Attribute dQl_attr_units = group.getAttribute("units");
-		validateAttributeNotNull("units", dQl_attr_units);
-		validateAttributeEnumeration("units", dQl_attr_units,
+		final Attribute dQl_attr_units = group.getAttribute(NexusConstants.UNITS);
+		validateAttributeNotNull(NexusConstants.UNITS, dQl_attr_units);
+		validateAttributeEnumeration(NexusConstants.UNITS, dQl_attr_units,
 				"1/m",
 				"1/nm",
 				"1/angstrom");
@@ -302,9 +303,9 @@ public class NXcanSASValidator extends AbstractNexusValidator implements NexusAp
 			validateFieldType("Qmean", Qmean, NX_NUMBER);
 			validateFieldUnits("Qmean", Qmean, NX_PER_LENGTH);
 		// validate attribute 'units' of field 'Qmean'
-		final Attribute Qmean_attr_units = group.getAttribute("units");
-		validateAttributeNotNull("units", Qmean_attr_units);
-		validateAttributeEnumeration("units", Qmean_attr_units,
+		final Attribute Qmean_attr_units = group.getAttribute(NexusConstants.UNITS);
+		validateAttributeNotNull(NexusConstants.UNITS, Qmean_attr_units);
+		validateAttributeEnumeration(NexusConstants.UNITS, Qmean_attr_units,
 				"1/m",
 				"1/nm",
 				"1/angstrom");

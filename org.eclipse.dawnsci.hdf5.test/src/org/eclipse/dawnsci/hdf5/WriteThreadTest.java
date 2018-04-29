@@ -52,7 +52,7 @@ public class WriteThreadTest extends AbstractThreadTestBase {
 
 		int[] shape = chunk.clone();
 		int size = ShapeUtils.calcSize(shape);
-		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
+		Dataset data1 = DatasetFactory.createRange(size);
 		data1.setShape(shape);
 
 		shape[0] = 128;
