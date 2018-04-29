@@ -174,7 +174,7 @@ public class NexusFileStressTest {
 			int[] startPos = new int[rank];
 			int[] stop = dimArray.clone();
 			stop[0] = 1;
-			Dataset data = DatasetFactory.zeros(dim, Dataset.FLOAT64).reshape(stop);
+			Dataset data = DatasetFactory.zeros(dim).reshape(stop);
 
 			// create the file
 			NexusFile file = null;

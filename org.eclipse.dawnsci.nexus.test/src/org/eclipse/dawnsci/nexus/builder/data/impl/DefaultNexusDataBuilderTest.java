@@ -24,6 +24,7 @@ import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXpositioner;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
+import org.eclipse.dawnsci.nexus.NexusConstants;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.AbstractNexusObjectProvider;
@@ -66,7 +67,7 @@ public class DefaultNexusDataBuilderTest {
 		protected NXdetector createNexusObject() {
 			NXdetector detector = NexusNodeFactory.createNXdetector();
 			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Double.class);
-			detector.setAttribute(NXdetector.NX_DATA, "units", "mm");
+			detector.setAttribute(NXdetector.NX_DATA, NexusConstants.UNITS, "mm");
 			detector.initializeLazyDataset(NXdetector.NX_TIME_OF_FLIGHT, 1, Double.class);
 			
 			return detector;

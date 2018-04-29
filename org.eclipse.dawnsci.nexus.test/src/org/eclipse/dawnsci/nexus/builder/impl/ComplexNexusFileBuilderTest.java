@@ -22,6 +22,7 @@ import org.eclipse.dawnsci.nexus.NXpositioner;
 import org.eclipse.dawnsci.nexus.NXsource;
 import org.eclipse.dawnsci.nexus.NexusApplicationDefinition;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
+import org.eclipse.dawnsci.nexus.NexusConstants;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.AbstractNexusObjectProvider;
@@ -147,7 +148,7 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 				cs1.setField(cs1FieldNames[i], cs1FieldValues[i]);
 				cs1.setAttribute(cs1FieldNames[i], "field_type", "input");
 				cs1.setAttribute(cs1FieldNames[i], "format", "%5.5g");
-				cs1.setAttribute(cs1FieldNames[i], "units", "mm");
+				cs1.setAttribute(cs1FieldNames[i], NexusConstants.UNITS, "mm");
 			}
 			
 			// Create sample stage collection
@@ -160,7 +161,7 @@ public class ComplexNexusFileBuilderTest extends AbstractNexusFileBuilderTestBas
 			for (int i = 0; i < ss1FieldNames.length; i++) {
 				sampleStage.setField(ss1FieldNames[i], ss1FieldValues[i]);
 				sampleStage.setAttribute(ss1FieldNames[i], "field_type", "input");
-				sampleStage.setAttribute(ss1FieldNames[i], "units", units[i]);
+				sampleStage.setAttribute(ss1FieldNames[i], NexusConstants.UNITS, units[i]);
 				sampleStage.setAttribute(ss1FieldNames[i], "format", "%5.5g");
 				if (ss1FieldNames[i].contains("sample")) {
 					sampleStage.setAttribute(ss1FieldNames[i], "target",

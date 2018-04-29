@@ -88,7 +88,7 @@ public class TreeToMapUtils {
 			}
 			
 			if (o instanceof String || o instanceof String[]) {
-				parent.addAttribute(TreeFactory.createAttribute(key,o));
+				parent.addAttribute(TreeFactory.createAttribute(key, o));
 			}
 			
 		}

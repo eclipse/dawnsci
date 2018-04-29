@@ -76,7 +76,7 @@ public class ReadThreadTest extends AbstractThreadTestBase {
 
 		HDF5File f = HDF5FileFactory.acquireFileAsNew(file);
 		int size = ShapeUtils.calcSize(shape);
-		Dataset data = DatasetFactory.createRange(size, Dataset.FLOAT64);
+		Dataset data = DatasetFactory.createRange(size);
 		data.setShape(shape);
 
 		for (int i = 0; i < nthreads; i++) {

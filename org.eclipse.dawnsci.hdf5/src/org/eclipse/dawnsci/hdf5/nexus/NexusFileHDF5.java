@@ -46,6 +46,7 @@ import org.eclipse.dawnsci.hdf5.HDF5Resource;
 import org.eclipse.dawnsci.hdf5.HDF5Utils;
 import org.eclipse.dawnsci.hdf5.HDF5Utils.DatasetType;
 import org.eclipse.dawnsci.nexus.NXobject;
+import org.eclipse.dawnsci.nexus.NexusConstants;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
@@ -393,24 +394,24 @@ public class NexusFileHDF5 implements NexusFile {
 				try {
 					g = NexusNodeFactory.createNXobjectForClass(nxClass, oid);
 				} catch (IllegalArgumentException e) {
-					logger.warn("Attribute {} was {} but not a known one", NXCLASS, nxClass);
+					logger.warn("Attribute {} was {} but not a known one", NexusConstants.NXCLASS, nxClass);
 					g = TreeFactory.createGroupNode(oid);
 				}
 			}
 			if (nxClass != null && !nxClass.isEmpty()) {
-				g.addAttribute(TreeFactory.createAttribute(NXCLASS, nxClass, false));
+				g.addAttribute(TreeFactory.createAttribute(NexusConstants.NXCLASS, nxClass, false));
 			}
 			cacheAttributes(path + Node.SEPARATOR + name, g);
 			// if the new attributes now includes an nxClass attribute, create
 			// the appropriate subclass of NXobject (TODO is there a better way of doing this?)
-			if (!(g instanceof NXobject) && g.getAttribute(NXCLASS) != null) {
-				nxClass = g.getAttribute(NXCLASS).getFirstElement();
+			if (!(g instanceof NXobject) && g.getAttribute(NexusConstants.NXCLASS) != null) {
+				nxClass = g.getAttribute(NexusConstants.NXCLASS).getFirstElement();
 				if (nxClass != null && !nxClass.isEmpty()) {
 					try {
 						g = NexusNodeFactory.createNXobjectForClass(nxClass, oid);
 						cacheAttributes(path + Node.SEPARATOR + name, g);
 					} catch (IllegalArgumentException e) {
-						logger.warn("Attribute {} was {} but not a known one", NXCLASS, nxClass);
+						logger.warn("Attribute {} was {} but not a known one", NexusConstants.NXCLASS, nxClass);
 					}
 				}
 			}
@@ -703,7 +704,7 @@ public class NexusFileHDF5 implements NexusFile {
 				} catch (HDF5LibraryException e) {
 					throw new NexusException("Cannot create group: " + absolutePath, e);
 				}
-				addAttribute(absolutePath, TreeFactory.createAttribute(NXCLASS, nxClass, false));
+				addAttribute(absolutePath, TreeFactory.createAttribute(NexusConstants.NXCLASS, nxClass, false));
 			} else {
 				throw new NexusException("Group '" + absolutePath + "' does not exist and cannot be created");
 			}
@@ -1207,7 +1208,7 @@ public class NexusFileHDF5 implements NexusFile {
 	}
 
 	private void recursivelyUpdateTree(String parentPath, String name, Node node) throws NexusException {
-		String nxClass = node.containsAttribute(NexusFile.NXCLASS) ? node.getAttribute(NexusFile.NXCLASS).getFirstElement() : "";
+		String nxClass = node.containsAttribute(NexusConstants.NXCLASS) ? node.getAttribute(NexusConstants.NXCLASS).getFirstElement() : "";
 		String fullPath = parentPath + Node.SEPARATOR + (name == null ? "" : name);
 		fullPath = fullPath.replaceAll("//", "/");
 		NodeData parentNodeData = getNode(parentPath, false);
