@@ -88,15 +88,15 @@ public interface IPersistentFile {
 	/**
 	 * Method to add a mask to the current map of masks<br>
 	 * If the mask already exist, it will be overwritten.<br>
-	 * 
+	 * @param mon
 	 * @param name
 	 *           the name of the mask (must be unique)
 	 * @param mask
 	 *           the mask value as a BooleanDataset
-	 * @param mon
+	 * 
 	 * @throws Exception
 	 */
-	public void addMask(String name, IDataset mask, IMonitor mon) throws Exception;
+	public void addMask(IMonitor mon, String name, IDataset mask) throws Exception;
 
 	/**
 	 * Write data and axes in a single call.
@@ -195,14 +195,14 @@ public interface IPersistentFile {
 	/**
 	 * Method that returns an ILazyDataset. Could be an image or a stack of images.<br>
 	 * This method reads from entry/data.<br>
-	 * 
-	 * @param dataName
 	 * @param mon
+	 * @param dataName
+	 * 
 	 * @return ILazyDataset
 	 * @throws Exception
 	 *              is thrown if no correct entry is found in the file
 	 */
-	public ILazyDataset getData(String dataName, IMonitor mon) throws Exception;
+	public ILazyDataset getData(IMonitor mon, String dataName) throws Exception;
 
 	/**
 	 * Method that reads a List of axes from entry/data.<br>
