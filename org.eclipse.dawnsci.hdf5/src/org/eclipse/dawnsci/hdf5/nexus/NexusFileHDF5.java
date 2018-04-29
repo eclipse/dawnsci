@@ -1414,17 +1414,17 @@ public class NexusFileHDF5 implements NexusFile {
 		}
 		String linkName = destination;
 		String nodeName;
-		if (!useNameAtSource) {
-			destination = destination.substring(0, destination.lastIndexOf(Node.SEPARATOR));
-			nodeName = source.substring(source.lastIndexOf(Node.SEPARATOR));
-			if (destination.isEmpty()) destination = Tree.ROOT;
-		} else {
+		if (useNameAtSource) {
 			int index = source.lastIndexOf(Node.SEPARATOR);
-			nodeName = source.substring(index);
+			nodeName = source.substring(index + 1);
 			linkName += nodeName;
+		} else {
+			destination = destination.substring(0, destination.lastIndexOf(Node.SEPARATOR));
+			nodeName = source.substring(source.lastIndexOf(Node.SEPARATOR) + 1);
+			if (destination.isEmpty()) destination = Tree.ROOT;
 		}
 
-		GroupNode destNode = (GroupNode)getGroupNode(destination, true).node;
+		GroupNode destNode = (GroupNode) getGroupNode(destination, true).node;
 		switch(sourceData.type) {
 		case DATASET:
 			destNode.addDataNode(nodeName, (DataNode) sourceData.node);
