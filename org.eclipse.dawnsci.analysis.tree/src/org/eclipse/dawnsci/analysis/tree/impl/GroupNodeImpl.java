@@ -15,7 +15,6 @@ package org.eclipse.dawnsci.analysis.tree.impl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -104,8 +103,9 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	@Override
 	public void addNode(final String name, final Node node) {
-		if (node == null)
+		if (node == null) {
 			return;
+		}
 	
 		if (node instanceof SymbolicNode) {
 			addSymbolicNode(name, (SymbolicNode) node);
@@ -150,10 +150,10 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 		return null;
 	}
-	
+
 	@Override
 	public List<GroupNode> getGroupNodes() {
-		List<GroupNode> groupNodes = new ArrayList<GroupNode>(numGroupNodes);
+		List<GroupNode> groupNodes = new ArrayList<>(numGroupNodes);
 		final Iterator<String> nodeNameIter = getNodeNameIterator();
 		while (nodeNameIter.hasNext()) {
 			Node node = getNode(nodeNameIter.next());
@@ -167,10 +167,10 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		
 		return groupNodes;
 	}
-	
+
 	@Override
 	public Map<String, GroupNode> getGroupNodeMap() {
-		final Map<String, GroupNode> groupNodeMap = new HashMap<String, GroupNode>(numGroupNodes);
+		final Map<String, GroupNode> groupNodeMap = new LinkedHashMap<>(numGroupNodes);
 		final Iterator<String> nodeNameIter = getNodeNameIterator();
 		while (nodeNameIter.hasNext()) {
 			final String nodeName = nodeNameIter.next();
@@ -266,10 +266,10 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 		return null;
 	}
-	
+
 	@Override
 	public List<DataNode> getDataNodes() {
-		final List<DataNode> dataNodes = new ArrayList<DataNode>(numDataNodes);
+		final List<DataNode> dataNodes = new ArrayList<>(numDataNodes);
 		final Iterator<String> nodeNameIter = getNodeNameIterator();
 		while (nodeNameIter.hasNext()) {
 			Node node = getNode(nodeNameIter.next());
@@ -283,10 +283,10 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		
 		return dataNodes;
 	}
-	
+
 	@Override
 	public Map<String, DataNode> getDataNodeMap() {
-		final Map<String, DataNode> dataNodeMap = new HashMap<String, DataNode>(numDataNodes);
+		final Map<String, DataNode> dataNodeMap = new LinkedHashMap<>(numDataNodes);
 		final Iterator<String> nodeNameIter = getNodeNameIterator();
 		while (nodeNameIter.hasNext()) {
 			final String nodeName = nodeNameIter.next();
@@ -301,7 +301,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		
 		return dataNodeMap;
 	}
-	
+
 	public Node getNode(final String name) {
 		if (nodes.containsKey(name)) {
 			return nodes.get(name).getDestination();
@@ -398,7 +398,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			
 			return (SymbolicNode) n;
 		}
-		
+
 		return null;
 	}
 
@@ -407,12 +407,12 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		if (!nodes.containsKey(name)) {
 			throw new IllegalArgumentException("No node exists in this group with the name: " + name);
 		}
-		
+
 		Node n = nodes.get(name).getDestination();
 		if (!(n instanceof SymbolicNode)) {
 			throw new IllegalArgumentException("The node with the given name is not a symbolic node: " + name);
 		}
-		
+
 		nodes.remove(name);
 	}
 
@@ -425,10 +425,10 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 				return;
 			}
 		}
-		
+	
 		throw new IllegalArgumentException("Given symbolic node does not exist in this group");
 	}
-	
+
 	@Override
 	public boolean isGroupNode() {
 		return true;
@@ -458,15 +458,16 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		s.append(INDENT);
 		s.append(n);
 		Node node = nodes.get(n).getDestination();
-		if (node instanceof SymbolicNode)
+		if (node instanceof SymbolicNode) {
 			s.append('@');
-		else if (node instanceof GroupNode)
+		} else if (node instanceof GroupNode) {
 			s.append('/');
-//			else
+		}
+//		else {
 //				s.append(String.format("(%d)", node.getID()));
+//	}
 		s.append('\n');
 	}
-	
 
 	@Override
 	public synchronized Iterator<String> getNodeNameIterator() {
@@ -477,7 +478,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	@Override
 	public List<ILazyDataset> getDatasets(final String name) {
-		final ArrayList<ILazyDataset> list = new ArrayList<ILazyDataset>();
+		final ArrayList<ILazyDataset> list = new ArrayList<>();
 
 		for (NodeLink l : this) {
 			findDatasets(name, list, l);
@@ -489,15 +490,17 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		Node n = null;
 		if (link.isDestinationSymbolic()) {
 			SymbolicNode slink = (SymbolicNode) link.getDestination();
-			if (slink.isData())
+			if (slink.isData()) {
 				n = slink.getNode();
+			}
 		} else {
 			n = link.getDestination();
 		}
-	
-		if (n == null)
+
+		if (n == null) {
 			return;
-	
+		}
+
 		if (n instanceof GroupNode) {
 			for (NodeLink l : (GroupNode) n) {
 				findDatasets(name, list, l);
@@ -556,13 +559,13 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	@Override
 	public Iterator<NodeLink> iterator() {
-		return (Iterator<NodeLink>)  nodes.values().iterator();
+		return nodes.values().iterator();
 	}
 
 	@Override
 	public Collection<String> getNames() {
 		synchronized (nodes) {
-			return new ArrayList<String>(nodes.keySet());
+			return new ArrayList<>(nodes.keySet());
 		}
 	}
 }
