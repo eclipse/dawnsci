@@ -12,8 +12,6 @@ package org.eclipse.dawnsci.analysis.api.persistence;
  * Interface used to marshall from ROIBean/FunctionBean to JSON
  * and unmarshall from JSON to ROIBean/FunctionBean. <br>
  * Use {@link IMarshallerService} for serializing/deserializing ROIs.
- * 
- * @author wqk87977
  *
  */
 public interface IJSonMarshaller {

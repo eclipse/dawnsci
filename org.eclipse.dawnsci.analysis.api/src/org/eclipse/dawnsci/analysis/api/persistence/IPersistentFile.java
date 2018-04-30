@@ -59,13 +59,12 @@ import org.eclipse.january.metadata.OriginMetadata;
  * more regions with different names.
  * 
  * <br>
- * After using an IPersistentFile, the method close() needs to be called.
+ * As IPersistentFile is auto-closeable, its close() method is called when used in a try-with-resources
+ * block. Otherwise the close() method needs to be called.
  * <code>
- * //Get file ref
- * try {
+ * // Get file ref
+ * try (IPersistentFile fileRef = ...) {
  *    // save some things
- * } finally {
- *    fileref.close();
  * }
  * </code>
  * <br>
@@ -73,7 +72,7 @@ import org.eclipse.january.metadata.OriginMetadata;
  * @author Matthew Gerring
  *
  */
-public interface IPersistentFile {
+public interface IPersistentFile extends AutoCloseable {
 
 	/**
 	 * Method to set a map of masks<br>
@@ -114,6 +113,8 @@ public interface IPersistentFile {
 	 * Write data and axes in a single call.
 	 * <p>
 	 * <b>Important:</b> the axes should be in order of the dimensions of the dataset
+	 * <p>
+	 * Multiple calls to this will expand the entry/data group to a NXcollection of NXdata subgroups.
 	 * @param data
 	 * @param axes
 	 * @throws Exception
@@ -238,9 +239,10 @@ public interface IPersistentFile {
 	public IDataset getMask(String maskName, IMonitor mon) throws Exception;
 
 	/**
-	 * Close the Hierarchical file<br>
+	 * Close the file<br>
 	 * This method needs to be called after the saving / writing of the file is done.
 	 */
+	@Override
 	public void close();
 
 	/**
