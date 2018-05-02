@@ -99,18 +99,6 @@ public interface IPersistentFile extends AutoCloseable {
 
 	/**
 	 * Write data and axes in a single call.
-	 * 
-	 * For 1D data set yAxis as null
-	 * 
-	 * @param data
-	 * @param xAxis
-	 * @param yAxis
-	 * @throws Exception
-	 */
-	public void setData(IDataset data, IDataset xAxis, IDataset yAxis) throws Exception;
-
-	/**
-	 * Write data and axes in a single call.
 	 * <p>
 	 * <b>Important:</b> the axes should be in order of the dimensions of the dataset
 	 * <p>
@@ -119,7 +107,7 @@ public interface IPersistentFile extends AutoCloseable {
 	 * @param axes
 	 * @throws Exception
 	 */
-	public void setData(IDataset data, IDataset[] axes) throws Exception;
+	public void setData(IDataset data, IDataset... axes) throws Exception;
 
 	/**
 	 * Method to set datasets which persist history
@@ -136,17 +124,6 @@ public interface IPersistentFile extends AutoCloseable {
 	 * @throws Exception 
 	 */
 	public Map<String, ILazyDataset> getHistory(IMonitor mon) throws Exception;
-
-	/**
-	 * Method to set the axes<br>
-	 * This will write the data to entry/data<br>
-	 * If the axes already exist, they will be overwritten.<br>
-	 * <p>
-	 * <b>Important:</b> the axes should be in order of the dimensions of the dataset
-	 * @param axes
-	 * @throws Exception 
-	 */
-	public void setAxes(IDataset... axes) throws Exception;
 
 	/**
 	 * Method to set a map of ROIs<br>
