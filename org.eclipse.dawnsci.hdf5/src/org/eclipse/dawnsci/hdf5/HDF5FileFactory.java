@@ -121,7 +121,7 @@ public class HDF5FileFactory {
 				HDF5Constants.H5F_OBJ_GROUP |
 				HDF5Constants.H5F_OBJ_ATTR);
 		if (openObjects > 0) {
-			logger.error("There are " + openObjects + " hdf5 objects left open");
+			logger.error("There are {} hdf5 objects left open in {}", openObjects, f);
 		}
 		H5.H5Fclose(fid);
 	}
@@ -193,8 +193,9 @@ public class HDF5FileFactory {
 		try {
 			cPath = canonicalisePath(fileName);
 		} catch (IOException e) {
-			logger.error("Problem canonicalising path", e);
-			throw new ScanFileHolderException("Problem canonicalising path", e);
+			String msg = String.format("Problem canonicalising file path %s", fileName);
+			logger.error(msg, e);
+			throw new ScanFileHolderException(msg, e);
 		}
 
 		HDF5File access = null;
@@ -210,8 +211,9 @@ public class HDF5FileFactory {
 						// we should be able to create if nobody is actually using the old file handle,
 						// even though it hasn't been disposed yet
 						if (access.getCount() > 0) {
-							logger.error("File already open and will need to closed: {}", cPath);
-							throw new ScanFileHolderException("File already open and will need to closed");
+							String msg = String.format("File %s already open and will need to closed", cPath);
+							logger.error(msg);
+							throw new ScanFileHolderException(msg);
 						} else {
 							// close and allow fall through to file creation below
 							closeFile(access);
@@ -219,8 +221,9 @@ public class HDF5FileFactory {
 						}
 					} else {
 						if (writeable && !access.isWriteable()) {
-							logger.error("Cannot get file {} in writeable state as it has been opened read-only", cPath);
-							throw new ScanFileHolderException("Cannot get file in writeable state as it has been opened read-only");
+							String msg = String.format("Could not get file %s in writeable state as it has been opened read-only", cPath);
+							logger.error(msg);
+							throw new ScanFileHolderException(msg);
 						}
 						access.incrementCount();
 						return access;
@@ -261,8 +264,9 @@ public class HDF5FileFactory {
 								fid = H5.H5Fopen(cPath, a, fapl);
 							}
 						} else if (!writeable) {
-							logger.error("File {} does not exist!", cPath);
-							throw new FileNotFoundException("File does not exist!");
+							String msg = String.format("File %s does not exist!", cPath);
+							logger.error(msg);
+							throw new FileNotFoundException(msg);
 						} else {
 							if (verbose) {
 								System.err.println("Creating " + cPath + " with latest " + withLatestVersion);
@@ -283,8 +287,9 @@ public class HDF5FileFactory {
 //				if (!IDS.containsKey(cPath)) {
 //					HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
 //				}
-				logger.error("Could not acquire access to file: {}", cPath, le);
-				throw new ScanFileHolderException("Could not acquire access to file: " + cPath, le);
+				String msg = String.format("Could not acquire access to file %s", cPath);
+				logger.error(msg, le);
+				throw new ScanFileHolderException(msg, le);
 			}
 		}
 	}
@@ -343,8 +348,9 @@ public class HDF5FileFactory {
 		try {
 			cPath = canonicalisePath(fileName);
 		} catch (IOException e) {
-			logger.error("Problem canonicalising path", e);
-			throw new ScanFileHolderException("Problem canonicalising path", e);
+			String msg = String.format("Problem canonicalising file path %s", fileName);
+			logger.error(msg, e);
+			throw new ScanFileHolderException(msg, e);
 		}
 
 		synchronized (INSTANCE.map) {
@@ -367,14 +373,16 @@ public class HDF5FileFactory {
 						}
 					} else {
 						if (verbose) {
-							System.err.println("Cannot close as file being used " + cPath);
+							System.err.println("Could not close as file being used " + cPath);
 						}
-						logger.error("File is currently being used: {}", cPath);
-						throw new ScanFileHolderException("File is currently being used: " + cPath);
+						String msg = String.format("File %s currently being used", cPath);
+						logger.error(msg);
+						throw new ScanFileHolderException(msg);
 					}
 				} catch (Throwable le) {
-					logger.error("Problem releasing access to file: {}", cPath, le);
-					throw new ScanFileHolderException("Problem releasing access to file: " + cPath, le);
+					String msg = String.format("Problem releasing access to file %s", cPath);
+					logger.error(msg, le);
+					throw new ScanFileHolderException(msg, le);
 				}
 			}
 		}
@@ -405,8 +413,9 @@ public class HDF5FileFactory {
 		try {
 			cPath = canonicalisePath(fileName);
 		} catch (IOException e) {
-			logger.error("Problem canonicalising path", e);
-			throw new ScanFileHolderException("Problem canonicalising path", e);
+			String msg = String.format("Problem canonicalising file path %s", fileName);
+			logger.error(msg, e);
+			throw new ScanFileHolderException(msg, e);
 		}
 
 		synchronized (INSTANCE.map) {
@@ -441,8 +450,9 @@ public class HDF5FileFactory {
 					}
 				}
 			} catch (Throwable le) {
-				logger.error("Problem releasing access to file: {}", cPath, le);
-				throw new ScanFileHolderException("Problem releasing access to file: " + cPath, le);
+				String msg = String.format("Problem releasing access to file %s", cPath);
+				logger.error(msg, le);
+				throw new ScanFileHolderException(msg, le);
 			}
 		}
 	}
@@ -502,8 +512,9 @@ public class HDF5FileFactory {
 		try {
 			cPath = canonicalisePath(fileName);
 		} catch (IOException e) {
-			logger.error("Problem canonicalising path", e);
-			throw new ScanFileHolderException("Problem canonicalising path", e);
+			String msg = String.format("Problem canonicalising file path %s", fileName);
+			logger.error(msg, e);
+			throw new ScanFileHolderException(msg, e);
 		}
 
 		HDF5File access = null;
@@ -526,8 +537,9 @@ public class HDF5FileFactory {
 					throw new HDF5LibraryException("H5Fflush returned an error value: " + status);
 				}
 			} catch (Throwable le) {
-				logger.error("Problem flushing file: {}", cPath, le);
-				throw new ScanFileHolderException("Problem flushing file: " + cPath, le);
+				String msg = String.format("Problem flushing file %s", cPath);
+				logger.error(msg, le);
+				throw new ScanFileHolderException(msg, le);
 			}
 		}
 	}
