@@ -21,7 +21,12 @@ public class OperationLog {
 	private static final String NEWLINE = "\n";
 	StringBuilder log = new StringBuilder();
 
-	private boolean debug = false;
+	/**
+	 * Name of property to set to "true" to send OperationLog messages to {@link Logger} at DEBUG level
+	 */
+	public static final String OPERATION_LOG_DEBUG = "org.eclipse.dawnsci.processing.operation.log.debug";
+
+	private boolean debug = "true".equalsIgnoreCase(System.getProperty(OPERATION_LOG_DEBUG));
 
 	/**
 	 * Format a string like in {@link String#format(String, Object...)} and append it to the log
