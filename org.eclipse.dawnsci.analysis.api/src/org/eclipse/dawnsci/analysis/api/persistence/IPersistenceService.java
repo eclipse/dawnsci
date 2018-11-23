@@ -12,8 +12,6 @@ package org.eclipse.dawnsci.analysis.api.persistence;
 /**
  * This service can be called to save and/or load data from an hdf5 file.
  * 
- * @author wqk87977
- *
  */
 public interface IPersistenceService {
 
@@ -35,7 +33,7 @@ public interface IPersistenceService {
 
 	/**
 	 * 
-	 * @param file - currently must be the IHierarchicalDataFile or a class cast exception is thrown 
+	 * @param file - currently must be a String, File or NexusFile otherwise an exception is thrown 
 	 * @return file
 	 * @throws Exception
 	 */

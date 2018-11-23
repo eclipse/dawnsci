@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -39,6 +39,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	public static final Set<NexusBaseClass> PERMITTED_CHILD_GROUP_CLASSES = EnumSet.of(
 		NexusBaseClass.NX_GEOMETRY,
 		NexusBaseClass.NX_BEAM,
+		NexusBaseClass.NX_SAMPLE_COMPONENT,
 		NexusBaseClass.NX_DATA,
 		NexusBaseClass.NX_LOG,
 		NexusBaseClass.NX_ENVIRONMENT,
@@ -117,7 +118,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getTemperatureScalar() {
+	public Double getTemperatureScalar() {
 		return getDouble(NX_TEMPERATURE);
 	}
 
@@ -127,7 +128,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setTemperatureScalar(double temperature) {
+	public DataNode setTemperatureScalar(Double temperature) {
 		return setField(NX_TEMPERATURE, temperature);
 	}
 
@@ -137,7 +138,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getElectric_fieldScalar() {
+	public Double getElectric_fieldScalar() {
 		return getDouble(NX_ELECTRIC_FIELD);
 	}
 
@@ -147,7 +148,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setElectric_fieldScalar(double electric_field) {
+	public DataNode setElectric_fieldScalar(Double electric_field) {
 		return setField(NX_ELECTRIC_FIELD, electric_field);
 	}
 
@@ -167,7 +168,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getMagnetic_fieldScalar() {
+	public Double getMagnetic_fieldScalar() {
 		return getDouble(NX_MAGNETIC_FIELD);
 	}
 
@@ -177,7 +178,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setMagnetic_fieldScalar(double magnetic_field) {
+	public DataNode setMagnetic_fieldScalar(Double magnetic_field) {
 		return setField(NX_MAGNETIC_FIELD, magnetic_field);
 	}
 
@@ -197,7 +198,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getStress_fieldScalar() {
+	public Double getStress_fieldScalar() {
 		return getDouble(NX_STRESS_FIELD);
 	}
 
@@ -207,7 +208,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setStress_fieldScalar(double stress_field) {
+	public DataNode setStress_fieldScalar(Double stress_field) {
 		return setField(NX_STRESS_FIELD, stress_field);
 	}
 
@@ -227,7 +228,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getPressureScalar() {
+	public Double getPressureScalar() {
 		return getDouble(NX_PRESSURE);
 	}
 
@@ -237,7 +238,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setPressureScalar(double pressure) {
+	public DataNode setPressureScalar(Double pressure) {
 		return setField(NX_PRESSURE, pressure);
 	}
 
@@ -247,7 +248,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public long getChanger_positionScalar() {
+	public Long getChanger_positionScalar() {
 		return getLong(NX_CHANGER_POSITION);
 	}
 
@@ -257,8 +258,48 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setChanger_positionScalar(long changer_position) {
+	public DataNode setChanger_positionScalar(Long changer_position) {
 		return setField(NX_CHANGER_POSITION, changer_position);
+	}
+
+	@Override
+	public IDataset getUnit_cell_abc() {
+		return getDataset(NX_UNIT_CELL_ABC);
+	}
+
+	@Override
+	public Double getUnit_cell_abcScalar() {
+		return getDouble(NX_UNIT_CELL_ABC);
+	}
+
+	@Override
+	public DataNode setUnit_cell_abc(IDataset unit_cell_abc) {
+		return setDataset(NX_UNIT_CELL_ABC, unit_cell_abc);
+	}
+
+	@Override
+	public DataNode setUnit_cell_abcScalar(Double unit_cell_abc) {
+		return setField(NX_UNIT_CELL_ABC, unit_cell_abc);
+	}
+
+	@Override
+	public IDataset getUnit_cell_alphabetagamma() {
+		return getDataset(NX_UNIT_CELL_ALPHABETAGAMMA);
+	}
+
+	@Override
+	public Double getUnit_cell_alphabetagammaScalar() {
+		return getDouble(NX_UNIT_CELL_ALPHABETAGAMMA);
+	}
+
+	@Override
+	public DataNode setUnit_cell_alphabetagamma(IDataset unit_cell_alphabetagamma) {
+		return setDataset(NX_UNIT_CELL_ALPHABETAGAMMA, unit_cell_alphabetagamma);
+	}
+
+	@Override
+	public DataNode setUnit_cell_alphabetagammaScalar(Double unit_cell_alphabetagamma) {
+		return setField(NX_UNIT_CELL_ALPHABETAGAMMA, unit_cell_alphabetagamma);
 	}
 
 	@Override
@@ -267,7 +308,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getUnit_cellScalar() {
+	public Double getUnit_cellScalar() {
 		return getDouble(NX_UNIT_CELL);
 	}
 
@@ -277,7 +318,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setUnit_cellScalar(double unit_cell) {
+	public DataNode setUnit_cellScalar(Double unit_cell) {
 		return setField(NX_UNIT_CELL, unit_cell);
 	}
 
@@ -287,7 +328,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getUnit_cell_volumeScalar() {
+	public Double getUnit_cell_volumeScalar() {
 		return getDouble(NX_UNIT_CELL_VOLUME);
 	}
 
@@ -297,7 +338,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setUnit_cell_volumeScalar(double unit_cell_volume) {
+	public DataNode setUnit_cell_volumeScalar(Double unit_cell_volume) {
 		return setField(NX_UNIT_CELL_VOLUME, unit_cell_volume);
 	}
 
@@ -307,7 +348,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getSample_orientationScalar() {
+	public Double getSample_orientationScalar() {
 		return getDouble(NX_SAMPLE_ORIENTATION);
 	}
 
@@ -317,7 +358,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setSample_orientationScalar(double sample_orientation) {
+	public DataNode setSample_orientationScalar(Double sample_orientation) {
 		return setField(NX_SAMPLE_ORIENTATION, sample_orientation);
 	}
 
@@ -327,7 +368,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getOrientation_matrixScalar() {
+	public Double getOrientation_matrixScalar() {
 		return getDouble(NX_ORIENTATION_MATRIX);
 	}
 
@@ -337,8 +378,28 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setOrientation_matrixScalar(double orientation_matrix) {
+	public DataNode setOrientation_matrixScalar(Double orientation_matrix) {
 		return setField(NX_ORIENTATION_MATRIX, orientation_matrix);
+	}
+
+	@Override
+	public IDataset getUb_matrix() {
+		return getDataset(NX_UB_MATRIX);
+	}
+
+	@Override
+	public Double getUb_matrixScalar() {
+		return getDouble(NX_UB_MATRIX);
+	}
+
+	@Override
+	public DataNode setUb_matrix(IDataset ub_matrix) {
+		return setDataset(NX_UB_MATRIX, ub_matrix);
+	}
+
+	@Override
+	public DataNode setUb_matrixScalar(Double ub_matrix) {
+		return setField(NX_UB_MATRIX, ub_matrix);
 	}
 
 	@Override
@@ -347,7 +408,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getMassScalar() {
+	public Double getMassScalar() {
 		return getDouble(NX_MASS);
 	}
 
@@ -357,7 +418,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setMassScalar(double mass) {
+	public DataNode setMassScalar(Double mass) {
 		return setField(NX_MASS, mass);
 	}
 
@@ -367,7 +428,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getDensityScalar() {
+	public Double getDensityScalar() {
 		return getDouble(NX_DENSITY);
 	}
 
@@ -377,7 +438,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setDensityScalar(double density) {
+	public DataNode setDensityScalar(Double density) {
 		return setField(NX_DENSITY, density);
 	}
 
@@ -387,7 +448,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getRelative_molecular_massScalar() {
+	public Double getRelative_molecular_massScalar() {
 		return getDouble(NX_RELATIVE_MOLECULAR_MASS);
 	}
 
@@ -397,7 +458,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setRelative_molecular_massScalar(double relative_molecular_mass) {
+	public DataNode setRelative_molecular_massScalar(Double relative_molecular_mass) {
 		return setField(NX_RELATIVE_MOLECULAR_MASS, relative_molecular_mass);
 	}
 
@@ -522,6 +583,36 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
+	public NXsample_component getSample_componentGroup() {
+		return getChild("sample_componentGroup", NXsample_component.class);
+	}
+
+	@Override
+	public void setSample_componentGroup(NXsample_component sample_componentGroup) {
+		putChild("sample_componentGroup", sample_componentGroup);
+	}
+
+	@Override
+	public NXsample_component getSample_componentGroup(String name) {
+		return getChild(name, NXsample_component.class);
+	}
+
+	@Override
+	public void setSample_componentGroup(String name, NXsample_component sample_componentGroup) {
+		putChild(name, sample_componentGroup);
+	}
+
+	@Override
+	public Map<String, NXsample_component> getAllSample_componentGroup() {
+		return getChildren(NXsample_component.class);
+	}
+	
+	@Override
+	public void setAllSample_componentGroup(Map<String, NXsample_component> sample_componentGroup) {
+		setChildren(sample_componentGroup);
+	}
+
+	@Override
 	public IDataset getComponent() {
 		return getDataset(NX_COMPONENT);
 	}
@@ -567,7 +658,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getConcentrationScalar() {
+	public Double getConcentrationScalar() {
 		return getDouble(NX_CONCENTRATION);
 	}
 
@@ -577,7 +668,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setConcentrationScalar(double concentration) {
+	public DataNode setConcentrationScalar(Double concentration) {
 		return setField(NX_CONCENTRATION, concentration);
 	}
 
@@ -587,7 +678,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getVolume_fractionScalar() {
+	public Double getVolume_fractionScalar() {
 		return getDouble(NX_VOLUME_FRACTION);
 	}
 
@@ -597,7 +688,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setVolume_fractionScalar(double volume_fraction) {
+	public DataNode setVolume_fractionScalar(Double volume_fraction) {
 		return setField(NX_VOLUME_FRACTION, volume_fraction);
 	}
 
@@ -607,7 +698,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getScattering_length_densityScalar() {
+	public Double getScattering_length_densityScalar() {
 		return getDouble(NX_SCATTERING_LENGTH_DENSITY);
 	}
 
@@ -617,7 +708,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setScattering_length_densityScalar(double scattering_length_density) {
+	public DataNode setScattering_length_densityScalar(Double scattering_length_density) {
 		return setField(NX_SCATTERING_LENGTH_DENSITY, scattering_length_density);
 	}
 
@@ -642,23 +733,43 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public IDataset getUnit_cell_group() {
-		return getDataset(NX_UNIT_CELL_GROUP);
+	public IDataset getSpace_group() {
+		return getDataset(NX_SPACE_GROUP);
 	}
 
 	@Override
-	public String getUnit_cell_groupScalar() {
-		return getString(NX_UNIT_CELL_GROUP);
+	public String getSpace_groupScalar() {
+		return getString(NX_SPACE_GROUP);
 	}
 
 	@Override
-	public DataNode setUnit_cell_group(IDataset unit_cell_group) {
-		return setDataset(NX_UNIT_CELL_GROUP, unit_cell_group);
+	public DataNode setSpace_group(IDataset space_group) {
+		return setDataset(NX_SPACE_GROUP, space_group);
 	}
 
 	@Override
-	public DataNode setUnit_cell_groupScalar(String unit_cell_group) {
-		return setString(NX_UNIT_CELL_GROUP, unit_cell_group);
+	public DataNode setSpace_groupScalar(String space_group) {
+		return setString(NX_SPACE_GROUP, space_group);
+	}
+
+	@Override
+	public IDataset getPoint_group() {
+		return getDataset(NX_POINT_GROUP);
+	}
+
+	@Override
+	public String getPoint_groupScalar() {
+		return getString(NX_POINT_GROUP);
+	}
+
+	@Override
+	public DataNode setPoint_group(IDataset point_group) {
+		return setDataset(NX_POINT_GROUP, point_group);
+	}
+
+	@Override
+	public DataNode setPoint_groupScalar(String point_group) {
+		return setString(NX_POINT_GROUP, point_group);
 	}
 
 	@Override
@@ -667,7 +778,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getPath_lengthScalar() {
+	public Double getPath_lengthScalar() {
 		return getDouble(NX_PATH_LENGTH);
 	}
 
@@ -677,7 +788,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setPath_lengthScalar(double path_length) {
+	public DataNode setPath_lengthScalar(Double path_length) {
 		return setField(NX_PATH_LENGTH, path_length);
 	}
 
@@ -687,7 +798,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getPath_length_windowScalar() {
+	public Double getPath_length_windowScalar() {
 		return getDouble(NX_PATH_LENGTH_WINDOW);
 	}
 
@@ -697,7 +808,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setPath_length_windowScalar(double path_length_window) {
+	public DataNode setPath_length_windowScalar(Double path_length_window) {
 		return setField(NX_PATH_LENGTH_WINDOW, path_length_window);
 	}
 
@@ -707,7 +818,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getThicknessScalar() {
+	public Double getThicknessScalar() {
 		return getDouble(NX_THICKNESS);
 	}
 
@@ -717,7 +828,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setThicknessScalar(double thickness) {
+	public DataNode setThicknessScalar(Double thickness) {
 		return setField(NX_THICKNESS, thickness);
 	}
 
@@ -777,7 +888,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getExternal_DACScalar() {
+	public Double getExternal_DACScalar() {
 		return getDouble(NX_EXTERNAL_DAC);
 	}
 
@@ -787,7 +898,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setExternal_DACScalar(double external_DAC) {
+	public DataNode setExternal_DACScalar(Double external_DAC) {
 		return setField(NX_EXTERNAL_DAC, external_DAC);
 	}
 
@@ -827,7 +938,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getRotation_angleScalar() {
+	public Double getRotation_angleScalar() {
 		return getDouble(NX_ROTATION_ANGLE);
 	}
 
@@ -837,7 +948,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setRotation_angleScalar(double rotation_angle) {
+	public DataNode setRotation_angleScalar(Double rotation_angle) {
 		return setField(NX_ROTATION_ANGLE, rotation_angle);
 	}
 
@@ -847,7 +958,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getX_translationScalar() {
+	public Double getX_translationScalar() {
 		return getDouble(NX_X_TRANSLATION);
 	}
 
@@ -857,7 +968,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setX_translationScalar(double x_translation) {
+	public DataNode setX_translationScalar(Double x_translation) {
 		return setField(NX_X_TRANSLATION, x_translation);
 	}
 
@@ -867,7 +978,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public double getDistanceScalar() {
+	public Double getDistanceScalar() {
 		return getDouble(NX_DISTANCE);
 	}
 
@@ -877,7 +988,7 @@ public class NXsampleImpl extends NXobjectImpl implements NXsample {
 	}
 
 	@Override
-	public DataNode setDistanceScalar(double distance) {
+	public DataNode setDistanceScalar(Double distance) {
 		return setField(NX_DISTANCE, distance);
 	}
 

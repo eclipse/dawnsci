@@ -14,17 +14,12 @@ import static org.junit.Assert.assertNotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.FloatDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LongDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.ShortDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.StringDataset;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.FloatDataset;
+import org.eclipse.january.dataset.IDataset;
 import org.junit.Before;
 
 public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
@@ -60,13 +55,13 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		testData.put("actualTime", createDoubleDataset(
 				1.39112723398E9, 1.391127234478E9, 1.391127234673E9, 1.391127234871E9, 1.391127235068E9,
 				1.391127248978E9, 1.391127249481E9, 1.391127249751E9, 1.391127249953E9, 1.391127250154E9));
-		testData.put("beamok", DatasetFactory.ones(shape, AbstractDataset.FLOAT64));
+		testData.put("beamok", DatasetFactory.ones(shape));
 		testData.put("ionc_i", createDoubleDataset(
 				8.374020580781096, 8.370683990350841, 8.370854377232897, 8.373055360469023, 8.375409630828424,
 				8.363466060032364, 8.361367064643199, 8.360248862560692, 8.358109255244436, 8.358963327124483));
 		testData.put("count_time", createFilledDataset(0.1, size));
 		testData.put("data", createDetectorDataDataset());
-		testData.put("region_origin", DatasetFactory.zeros(new int[] { 1,  2 }, AbstractDataset.FLOAT32));
+		testData.put("region_origin", DatasetFactory.zeros(FloatDataset.class, 1,  2));
 		testData.put("region_size", create2DIntDataset(new int[][] { { 2560, 2160 } }));
 		testData.put("start_time", createDoubleDataset(
 				8.779, 9.277, 9.473, 9.670, 9.867, 23.777, 24.282, 24.532, 24.748, 24.950));
@@ -79,7 +74,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		testData.put("sourceProbe", "X-ray");
 		testData.put("sourceType", "Synchotron X-Ray Source");
 
-		testData.put("imageNumber", DatasetFactory.createRange(9.0, AbstractDataset.FLOAT64));
+		testData.put("imageNumber", DatasetFactory.createRange(9.0));
 		testData.put("image_key", createDoubleDataset(2.0, 2.0, 2.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0));
 		testData.put("tomoScanDevice.ss1_X", createDoubleDataset(11.150060000000002, 11.15, 11.15, 11.15, 11.15,
 				5.00002, 5.0, 5.0, 5.0, 5.0));
@@ -100,59 +95,30 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 	}
 
 	private static IDataset createDoubleDataset(double... values) {
-		DoubleDataset dataset = new DoubleDataset(values.length);
-		for (int i = 0; i < values.length; i++) {
-			dataset.set(values[i], i);
-		}
-
-		return dataset;
+		return DatasetFactory.createFromObject(values);
 	}
 
 	private static IDataset createIntegerDataset(int... values) {
-		IntegerDataset dataset = new IntegerDataset(values.length);
-		for (int i = 0; i < values.length; i++) {
-			dataset.set(values[i], i);
-		}
-
-		return dataset;
+		return DatasetFactory.createFromObject(values);
 	}
 
 	private static IDataset createLongDataset(long... values) {
-		LongDataset dataset = new LongDataset(values.length);
-		for (int i = 0; i < values.length; i++) {
-			dataset.set(values[i], i);
-		}
-
-		return dataset;
+		return DatasetFactory.createFromObject(values);
 	}
 
 
 	private static Dataset createFilledDataset(final double value, final int size) {
-		DoubleDataset dataset = new DoubleDataset(size);
+		DoubleDataset dataset = DatasetFactory.zeros(DoubleDataset.class, size);
 		dataset.fill(value);
 		return dataset;
 	}
 
 	private static Dataset create2DIntDataset(final int[][] values) {
-		IntegerDataset dataset = new IntegerDataset(values.length, values[0].length);
-		for (int i = 0; i < values.length; i++) {
-			for (int j = 0; j < values[i].length; j++) {
-				dataset.setItem(values[i][j], i, j);
-			}
-		}
-
-		return dataset;
+		return DatasetFactory.createFromObject(values);
 	}
 
 	private static Dataset create2DFloatDataset(final float[][] values) {
-		FloatDataset dataset = new FloatDataset(values.length, values[0].length);
-		for (int i = 0; i < values.length; i++) {
-			for (int j = 0; j < values[i].length; i++) {
-				dataset.setItem(values[i][j], i, j);
-			}
-		}
-
-		return dataset;
+		return DatasetFactory.createFromObject(values);
 	}
 
 	private IDataset createDetectorDataDataset() {
@@ -184,8 +150,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 			pageOffset += 100;
 		}
 		
-		
-		return new ShortDataset(flatArray, shape);
+		return DatasetFactory.createFromObject(flatArray, shape);
 	}
 	
 	private DataNode getDataNode(final String path) {
@@ -201,7 +166,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 			cs1Collection.setDataset(fieldName, value);
 			cs1Collection.setAttribute(fieldName, "field_type", "input");
 			cs1Collection.setAttribute(fieldName, "format", "%5.5g");
-			cs1Collection.setAttribute(fieldName, "units", "mm");
+			cs1Collection.setAttribute(fieldName, NexusConstants.UNITS, "mm");
 		}
 
 		return cs1Collection;
@@ -225,7 +190,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 			} else {
 				units = "mm";
 			}
-			sampleStageCollection.setAttribute(fieldName, "units", units);
+			sampleStageCollection.setAttribute(fieldName, NexusConstants.UNITS, units);
 		}
 
 		return sampleStageCollection;
@@ -276,21 +241,21 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 
 		pco1HwHdfDectector.setDataset("start_time", getTestData("start_time"));
 		pco1HwHdfDectector.setAttribute("start_time", "start", "2014-01-31T00:13:45");
-		pco1HwHdfDectector.setAttribute("start_time", "units", "s");
+		pco1HwHdfDectector.setAttribute("start_time", NexusConstants.UNITS, "s");
 		pco1HwHdfDectector.setAttribute("start_time", "target", "/entry1/instrument/pco1_hw_hdf/start_time");
 
 		pco1HwHdfDectector.setDataset("time_ms", getTestData("time_ms"));
-		pco1HwHdfDectector.setAttribute("time_ms", "units", "ms");
+		pco1HwHdfDectector.setAttribute("time_ms", NexusConstants.UNITS, "ms");
 		pco1HwHdfDectector.setAttribute("time_ms", "target", "/entry1/instrument/pco1_hw_hdf/time_ms");
 
 		// source : NXsource
 		NXsource source = NexusNodeFactory.createNXsource();
 		instrument.setSource(source);
 		source.setDataset("current", getTestData("current"));
-		source.setAttribute("current", "units", "mA");
+		source.setAttribute("current", NexusConstants.UNITS, "mA");
 
 		source.setDataset("energy", getTestData("energy"));
-		source.setAttribute("energy", "units", "GeV");
+		source.setAttribute("energy", NexusConstants.UNITS, "GeV");
 
 		source.setName(getTestData("sourceName"));
 		source.setProbe(getTestData("sourceProbe"));
@@ -364,7 +329,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		dataGroupNode.addDataNode("data", getDataNode("/entry1/instrument/pco1_hw_hdf/data"));
 		dataGroupNode.addDataNode("rotation_angle", getDataNode("/entry1/instrument/tomoScanDevice/ss1_rot"));
 
-		tomoEntry.setDefinition(StringDataset.createFromObject("definition"));
+		tomoEntry.setDefinition(DatasetFactory.createFromObject("definition"));
 
 		// instrument : NXinstrument
 		NXinstrument instrument = NexusNodeFactory.createNXinstrument();
@@ -418,8 +383,8 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		NXcollection sampleStage = createSampleStageCollection();
 		beforeScanCollection.addGroupNode("sample_stage", sampleStage);
 
-		entry1.setEntry_identifier(StringDataset.createFromObject("24737"));
-		entry1.setExperiment_identifier(StringDataset.createFromObject("mt9396-1"));
+		entry1.setEntry_identifier(DatasetFactory.createFromObject("24737"));
+		entry1.setExperiment_identifier(DatasetFactory.createFromObject("mt9396-1"));
 
 		NXinstrument instrument = createInstrument();
 		entry1.setInstrument(instrument);
@@ -427,7 +392,7 @@ public class ComplexNexusFileTest extends AbstractNexusFileTestBase {
 		NXdata pco1HwHdfData = createPco1HwHdfData();
 		entry1.setData("pco1_hw_hdf", pco1HwHdfData);
 
-		entry1.setProgram_name(StringDataset.createFromObject("GDA 8.36.0"));
+		entry1.setProgram_name(DatasetFactory.createFromObject("GDA 8.36.0"));
 		entry1.setField("scan_command", "scan tomoScanDevice Start: -88.200000 Stop: 91.800000 Step: 2.000000 Darks every:0 imagesPerDark:5 Flats every:0 imagesPerFlat:5 InBeamPosition:11.150000 OutOfBeamPosition:5.000000 numImages 111  actualTime ionc_i pco1_hw_hdf 0.1 beamok");
 		entry1.setField("scan_dimensions", 111);
 		entry1.setField("scan_identifier", "a3d668c0-e3c4-4ed9-b127-4a202b2b6bac");

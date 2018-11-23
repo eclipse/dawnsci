@@ -13,7 +13,19 @@
 package org.eclipse.dawnsci.analysis.dataset.impl;
 
 import java.util.Arrays;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
+import org.eclipse.january.dataset.ComplexDoubleDataset;
+import org.eclipse.january.dataset.ComplexFloatDataset;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.PositionIterator;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.dataset.SliceIterator;
+import org.eclipse.january.dataset.SliceND;
 import org.jtransforms.fft.DoubleFFT_1D;
 import org.jtransforms.fft.DoubleFFT_2D;
 import org.jtransforms.fft.DoubleFFT_3D;
@@ -188,14 +200,14 @@ public class FFT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 		case Dataset.COMPLEX64:
 			FloatFFT_1D ffft = new FloatFFT_1D(n);
 			shape = a.getShape();
 			shape[axis] = n;
-			result = new ComplexFloatDataset(shape);
-			dest = new ComplexFloatDataset(new int[] {2*n});
+			result = DatasetFactory.zeros(ComplexFloatDataset.class, shape);
+			dest = DatasetFactory.zeros(ComplexFloatDataset.class, new int[] {2*n});
 			float[] fdata = (float[]) dest.getBuffer();
 			pi = a.getPositionIterator(axis);
 			pos = pi.getPos();
@@ -212,8 +224,8 @@ public class FFT {
 			DoubleFFT_1D dfft = new DoubleFFT_1D(n);
 			shape = a.getShape();
 			shape[axis] = n;
-			result = new ComplexDoubleDataset(shape);
-			dest = new ComplexDoubleDataset(new int[] {2*n});
+			result = DatasetFactory.zeros(ComplexDoubleDataset.class, shape);
+			dest = DatasetFactory.zeros(ComplexDoubleDataset.class, new int[] {2*n});
 			double[] ddata = (double[]) dest.getBuffer();
 			pi = a.getPositionIterator(axis);
 			pos = pi.getPos();
@@ -241,13 +253,13 @@ public class FFT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 		case Dataset.COMPLEX64:
 			FloatFFT_2D ffft = new FloatFFT_2D(s[0], s[1]);
 			float[] fdata = null;
-			result = new ComplexFloatDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new ComplexFloatDataset(s);
+			result = DatasetFactory.zeros(ComplexFloatDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(ComplexFloatDataset.class, s);
 			fdata = (float[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -263,8 +275,8 @@ public class FFT {
 		case Dataset.COMPLEX128:
 			DoubleFFT_2D dfft = new DoubleFFT_2D(s[0], s[1]);
 			double[] ddata = null;
-			result = new ComplexDoubleDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new ComplexDoubleDataset(s);
+			result = DatasetFactory.zeros(ComplexDoubleDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(ComplexDoubleDataset.class, s);
 			ddata = (double[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -292,14 +304,14 @@ public class FFT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 		case Dataset.COMPLEX64:
 			FloatFFT_3D ffft = new FloatFFT_3D(s[0], s[1], s[2]);
 
 			float[] fdata = null;
-			result = new ComplexFloatDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new ComplexFloatDataset(s);
+			result = DatasetFactory.zeros(ComplexFloatDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(ComplexFloatDataset.class, s);
 			fdata = (float[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -316,8 +328,8 @@ public class FFT {
 			DoubleFFT_3D dfft = new DoubleFFT_3D(s[0], s[1], s[2]);
 
 			double[] ddata = null;
-			result = new ComplexDoubleDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new ComplexDoubleDataset(s);
+			result = DatasetFactory.zeros(ComplexDoubleDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(ComplexDoubleDataset.class, s);
 			ddata = (double[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -476,15 +488,15 @@ public class FFT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 		case Dataset.COMPLEX64:
 			FloatFFT_1D ffft = new FloatFFT_1D(n);
 			float[] fdata = null;
 			shape = a.getShape();
 			shape[axis] = n;
-			result = new ComplexFloatDataset(shape);
-			dest = new ComplexFloatDataset(new int[] {n});
+			result = DatasetFactory.zeros(ComplexFloatDataset.class, shape);
+			dest = DatasetFactory.zeros(ComplexFloatDataset.class, new int[] {n});
 			fdata = (float[]) dest.getBuffer();
 			pi = a.getPositionIterator(axis);
 			pos = pi.getPos();
@@ -502,8 +514,8 @@ public class FFT {
 			double[] ddata = null;
 			shape = a.getShape();
 			shape[axis] = n;
-			result = new ComplexDoubleDataset(shape);
-			dest = new ComplexDoubleDataset(new int[] {n});
+			result = DatasetFactory.zeros(ComplexDoubleDataset.class, shape);
+			dest = DatasetFactory.zeros(ComplexDoubleDataset.class, new int[] {n});
 			ddata = (double[]) dest.getBuffer();
 			pi = a.getPositionIterator(axis);
 			pos = pi.getPos();
@@ -531,13 +543,13 @@ public class FFT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 		case Dataset.COMPLEX64:
 			FloatFFT_2D ffft = new FloatFFT_2D(s[0], s[1]);
 			float[] fdata = null;
-			result = new ComplexFloatDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new ComplexFloatDataset(s);
+			result = DatasetFactory.zeros(ComplexFloatDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(ComplexFloatDataset.class, s);
 			fdata = (float[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -553,8 +565,8 @@ public class FFT {
 		case Dataset.COMPLEX128:
 			DoubleFFT_2D dfft = new DoubleFFT_2D(s[0], s[1]);
 			double[] ddata = null;
-			result = new ComplexDoubleDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new ComplexDoubleDataset(s);
+			result = DatasetFactory.zeros(ComplexDoubleDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(ComplexDoubleDataset.class, s);
 			ddata = (double[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -582,13 +594,13 @@ public class FFT {
 		int[] pos;
 		boolean[] hit;
 
-		switch (a.getDtype()) {
+		switch (a.getDType()) {
 		case Dataset.FLOAT32:
 		case Dataset.COMPLEX64:
 			FloatFFT_3D ffft = new FloatFFT_3D(s[0], s[1], s[2]);
 			float[] fdata = null;
-			result = new ComplexFloatDataset(newShape(a.getShapeRef(), s, axes));
-			dest = new ComplexFloatDataset(s);
+			result = DatasetFactory.zeros(ComplexFloatDataset.class, newShape(a.getShapeRef(), s, axes));
+			dest = DatasetFactory.zeros(ComplexFloatDataset.class, s);
 			fdata = (float[]) dest.getBuffer();
 			pi = a.getPositionIterator(axes);
 			pos = pi.getPos();
@@ -604,8 +616,8 @@ public class FFT {
 		case Dataset.COMPLEX128:
 				DoubleFFT_3D dfft = new DoubleFFT_3D(s[0], s[1], s[2]);
 				double[] ddata = null;
-				result = new ComplexDoubleDataset(newShape(a.getShapeRef(), s, axes));
-				dest = new ComplexDoubleDataset(s);
+				result = DatasetFactory.zeros(ComplexDoubleDataset.class, newShape(a.getShapeRef(), s, axes));
+				dest = DatasetFactory.zeros(ComplexDoubleDataset.class, s);
 				ddata = (double[]) dest.getBuffer();
 				pi = a.getPositionIterator(axes);
 				pos = pi.getPos();
@@ -632,25 +644,41 @@ public class FFT {
 	 * @return shifted dataset
 	 */
 	public static Dataset fftshift(final Dataset a, int[] axes) {
+		SortedSet<Integer> axis = new TreeSet<Integer>();
 		int alen;
 		if (axes == null) {
 			alen = a.getRank();
-			axes = new int[alen];
-			for (int i = 0; i < alen; i++)
-				axes[i] = i;
+			for (int i = 0; i < alen; i++) {
+				axis.add(i);
+			}
+//			return shift(a, true);
 		} else {
 			alen = axes.length;
-			for (int i = 0; i < alen; i++)
-				axes[i] = a.checkAxis(axes[i]);
+			for (int i = 0; i < alen; i++) {
+				axis.add(a.checkAxis(axes[i]));
+			}
+			
+//			boolean all = axis.size() == a.getRank();
+//			if (all) {
+//				int n = 0;
+//				for (int i : axis) {
+//					if (i != n++) {
+//						all = false;
+//						break;
+//					}
+//				}
+//			}
 		}
+//		if (all) {
+//			return shift(a, true);
+//		}
 
 		Dataset result = a;
 		int[] indices;
-		for (int i = 0; i < alen; i++) {
-			int axis = axes[i];
-			int n = a.getShapeRef()[axis];
+		for (int i : axis) {
+			int n = a.getShapeRef()[i];
 			int p = (n+1)/2;
-			logger.info("Shift {} by {}", axis, p);
+//			logger.info("Shift {} by {}", i, p);
 			indices = new int[n];
 			for (int j = 0; j < n; j++) {
 				if (j < n - p)
@@ -659,38 +687,50 @@ public class FFT {
 					indices[j] = j - n + p;
 			}
 
-			result = DatasetUtils.take(result, indices, axis);
+			result = DatasetUtils.take(result, indices, i);
 		}
 
 		return result;
 	}
 
 	/**
-	 * Shift zero-frequency component to centre of dataset
+	 * Reverse shift of zero-frequency component to centre of dataset
 	 * @param a
 	 * @param axes (if null, then shift all axes)
 	 * @return shifted dataset
 	 */
 	public static Dataset ifftshift(final Dataset a, int[] axes) {
+		SortedSet<Integer> axis = new TreeSet<Integer>();
 		int alen;
 		if (axes == null) {
 			alen = a.getRank();
-			axes = new int[alen];
-			for (int i = 0; i < alen; i++)
-				axes[i] = i;
+			for (int i = 0; i < alen; i++) {
+				axis.add(i);
+			}
 		} else {
 			alen = axes.length;
-			for (int i = 0; i < alen; i++)
-				axes[i] = a.checkAxis(axes[i]);
+			for (int i = 0; i < alen; i++) {
+				axis.add(a.checkAxis(axes[i]));
+			}
+//			
+//			boolean all = axis.size() == a.getRank();
+//			if (all) {
+//				int n = 0;
+//				for (int i : axis) {
+//					if (i != n++) {
+//						all = false;
+//						break;
+//					}
+//				}
+//			}
 		}
 
 		Dataset result = a;
 		int[] indices;
-		for (int i = 0; i < alen; i++) {
-			int axis = axes[i];
-			int n = a.getShapeRef()[axis];
+		for (int i : axis) {
+			int n = a.getShapeRef()[i];
 			int p = n - (n+1)/2;
-			logger.info("Shift {} by {}", axis, p);
+//			logger.info("Shift {} by {}", axis, p);
 			indices = new int[n];
 			for (int j = 0; j < n; j++) {
 				if (j < n - p)
@@ -699,7 +739,7 @@ public class FFT {
 					indices[j] = j - n + p;
 			}
 
-			result = DatasetUtils.take(result, indices, axis);
+			result = DatasetUtils.take(result, indices, i);
 		}
 
 		return result;
@@ -713,6 +753,103 @@ public class FFT {
 	 */
 	public static Dataset sampleFrequencies(int n, double d) {
 		int hn = n/2;
-		return DatasetUtils.roll(DoubleDataset.createRange(n).isubtract(hn).imultiply(1/(d*n)), n - hn, null);
+		return DatasetUtils.roll(DatasetFactory.createRange(DoubleDataset.class, n).isubtract(hn).imultiply(1/(d*n)), n - hn, null);
+	}
+
+	/**
+	 * Pad out dataset to new shape with zeros. There are two ways to zero-pad:
+	 * <ol>
+	 * <li>set data in volume starting at origin</li>
+	 * <li>split data in 2^N volumes and scatter to corners of larger volume</li>
+	 * </ol>
+	 * 
+	 * @param input
+	 * @param newShape
+	 * @param inFreqSpace if true, then pad higher frequencies as zero
+	 * @return zero-padded dataset
+	 */
+	public static Dataset zeroPad(Dataset input, int[] newShape, boolean inFreqSpace) {
+		Dataset output = DatasetFactory.zeros(input.getElementsPerItem(), input.getClass(), newShape);
+		if (inFreqSpace) {
+			int rank = input.getRank();
+			int[] iShape = input.getShapeRef();
+			int[] hShape = iShape.clone();
+			int[] rShape = iShape.clone();
+			for (int i = 0; i < rank; i++) {
+				hShape[i] = (hShape[i] + 1) / 2;
+				rShape[i] -= hShape[i];
+			}
+	
+			int[] del = new int[rank];
+			Arrays.fill(del, 2);
+			SliceIterator it = new SliceIterator(input.getShapeRef(), input.getSize(), null, hShape, del.clone());
+			int[] pos = it.getPos();
+			SliceND iSlice = new SliceND(iShape, new Slice(1));
+			SliceND oSlice = new SliceND(newShape, new Slice(1));
+			while (it.hasNext()) {
+				for (int i = 0; i < rank; i++) {
+					int b = pos[i];
+					int l = hShape[i];
+					if (b == 0) {
+						iSlice.setSlice(i, b, b + l, 1);
+						oSlice.setSlice(i, 0, l, 1);
+					} else {
+						iSlice.setSlice(i, b, iShape[i], 1);
+						l = newShape[i];
+						oSlice.setSlice(i, l - rShape[i], l, 1);
+					}
+				}
+				output.setSlice(input.getSliceView(iSlice), oSlice);
+			}
+		} else {
+			output.setSlice(input, null, input.getShapeRef(), null);
+		}
+		return output;
+	}
+
+	/**
+	 * Shift frequency components
+	 * <p>
+	 * A forward shift moves the zero-frequency from the origin position
+	 * to the centre of the dataset. A backward shift reverts a forward shift
+	 * 
+	 * @param input
+	 * @param forward if true, shift forward, else shift back 
+	 * @return shifted dataset
+	 */
+	public static Dataset shift(Dataset input, boolean forward) {
+		Dataset output = DatasetFactory.zeros(input);
+		int rank = input.getRank();
+		int[] iShape = input.getShapeRef();
+		int[] hShape = new int[rank];
+		int[] rShape = new int[rank];
+		int adjust = forward ? 1 : -1;
+		for (int i = 0; i < rank; i++) {
+			int l = (iShape[i] + adjust) / 2;
+			hShape[i] = l;
+			rShape[i] = iShape[i] - l;
+		}
+
+		int[] del = new int[rank];
+		Arrays.fill(del, 2);
+		SliceIterator it = new SliceIterator(input.getShapeRef(), input.getSize(), null, hShape, del.clone());
+		int[] pos = it.getPos();
+		SliceND iSlice = new SliceND(iShape, new Slice(1));
+		SliceND oSlice = new SliceND(iShape, new Slice(1));
+		while (it.hasNext()) {
+			for (int i = 0; i < rank; i++) {
+				int b = pos[i];
+				int l = hShape[i];
+				if (b == 0) {
+					iSlice.setSlice(i, b, b + l, 1);
+					oSlice.setSlice(i, rShape[i], iShape[i], 1);
+				} else {
+					iSlice.setSlice(i, b, iShape[i], 1);
+					oSlice.setSlice(i, 0, rShape[i], 1);
+				}
+			}
+			output.setSlice(input.getSliceView(iSlice), oSlice);
+		}
+		return output;
 	}
 }

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * A neutron moderator
@@ -125,7 +125,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDistanceScalar();
+	public Double getDistanceScalar();
 
 	/**
 	 * Effective distance as seen by measuring radiation
@@ -136,7 +136,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @param distance the distance
 	 */
-	public DataNode setDistanceScalar(double distance);
+	public DataNode setDistanceScalar(Double distance);
 
 	/**
 	 * <p>
@@ -238,7 +238,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPoison_depthScalar();
+	public Double getPoison_depthScalar();
 
 	/**
 	 * <p>
@@ -248,7 +248,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @param poison_depth the poison_depth
 	 */
-	public DataNode setPoison_depthScalar(double poison_depth);
+	public DataNode setPoison_depthScalar(Double poison_depth);
 
 	/**
 	 * whether the moderator is coupled
@@ -278,7 +278,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public boolean getCoupledScalar();
+	public Boolean getCoupledScalar();
 
 	/**
 	 * whether the moderator is coupled
@@ -288,7 +288,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @param coupled the coupled
 	 */
-	public DataNode setCoupledScalar(boolean coupled);
+	public DataNode setCoupledScalar(Boolean coupled);
 
 	/**
 	 * The material used for coupling. Usually Cd.
@@ -393,7 +393,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTemperatureScalar();
+	public Double getTemperatureScalar();
 
 	/**
 	 * average/nominal moderator temperature
@@ -404,7 +404,7 @@ public interface NXmoderator extends NXobject {
 	 * 
 	 * @param temperature the temperature
 	 */
-	public DataNode setTemperatureScalar(double temperature);
+	public DataNode setTemperatureScalar(Double temperature);
 
 	/**
 	 * log file of moderator temperature

@@ -11,17 +11,17 @@ package org.eclipse.dawnsci.analysis.api.persistence;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.diffraction.IPowderCalibrationInfo;
 import org.eclipse.dawnsci.analysis.api.fitting.functions.IFunction;
 import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.OriginMetadata;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.processing.IOperation;
 import org.eclipse.dawnsci.analysis.api.processing.OperationData;
 import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.metadata.OriginMetadata;
 
 /**
  * An IPersistent File is defined by what can be saved in an HDF5 file.<br>
@@ -59,13 +59,12 @@ import org.eclipse.dawnsci.analysis.api.roi.IROI;
  * more regions with different names.
  * 
  * <br>
- * After using an IPersistentFile, the method close() needs to be called.
+ * As IPersistentFile is auto-closeable, its close() method is called when used in a try-with-resources
+ * block. Otherwise the close() method needs to be called.
  * <code>
- * //Get file ref
- * try {
+ * // Get file ref
+ * try (IPersistentFile fileRef = ...) {
  *    // save some things
- * } finally {
- *    fileref.close();
  * }
  * </code>
  * <br>
@@ -73,7 +72,7 @@ import org.eclipse.dawnsci.analysis.api.roi.IROI;
  * @author Matthew Gerring
  *
  */
-public interface IPersistentFile {
+public interface IPersistentFile extends AutoCloseable {
 
 	/**
 	 * Method to set a map of masks<br>
@@ -88,26 +87,28 @@ public interface IPersistentFile {
 	/**
 	 * Method to add a mask to the current map of masks<br>
 	 * If the mask already exist, it will be overwritten.<br>
-	 * 
+	 * @param mon
 	 * @param name
 	 *           the name of the mask (must be unique)
 	 * @param mask
 	 *           the mask value as a BooleanDataset
-	 * @param mon
+	 * 
 	 * @throws Exception
 	 */
-	public void addMask(String name, IDataset mask, IMonitor mon) throws Exception;
+	public void addMask(IMonitor mon, String name, IDataset mask) throws Exception;
 
 	/**
-	 * Method to set a dataset: can be an image or a stack of images<br>
-	 * This will write the data to entry/data<br>
-	 * If the data already exist it will be overwritten.<br>
-	 * 
+	 * Write data and axes in a single call.
+	 * <p>
+	 * <b>Important:</b> the axes should be in order of the dimensions of the dataset
+	 * <p>
+	 * Multiple calls to this will expand the entry/data group to a NXcollection of NXdata subgroups.
 	 * @param data
-	 * @throws Exception 
+	 * @param axes
+	 * @throws Exception
 	 */
-	public void setData(IDataset data) throws Exception;
-	
+	public void setData(IDataset data, IDataset... axes) throws Exception;
+
 	/**
 	 * Method to set datasets which persist history
 	 * 
@@ -123,16 +124,6 @@ public interface IPersistentFile {
 	 * @throws Exception 
 	 */
 	public Map<String, ILazyDataset> getHistory(IMonitor mon) throws Exception;
-
-	/**
-	 * Method to set the axes<br>
-	 * This will write the data to entry/data<br>
-	 * If the axes already exist, they will be overwritten.<br>
-	 * 
-	 * @param axes
-	 * @throws Exception 
-	 */
-	public void setAxes(List<? extends IDataset> axes) throws Exception;
 
 	/**
 	 * Method to set a map of ROIs<br>
@@ -182,26 +173,26 @@ public interface IPersistentFile {
 	/**
 	 * Method that returns an ILazyDataset. Could be an image or a stack of images.<br>
 	 * This method reads from entry/data.<br>
-	 * 
-	 * @param dataName
 	 * @param mon
+	 * @param dataName
+	 * 
 	 * @return ILazyDataset
 	 * @throws Exception
 	 *              is thrown if no correct entry is found in the file
 	 */
-	public ILazyDataset getData(String dataName, IMonitor mon) throws Exception;
+	public ILazyDataset getData(IMonitor mon, String dataName) throws Exception;
 
 	/**
 	 * Method that reads a List of axes from entry/data.<br>
 	 * 
-	 * @param xAxisName
-	 * @param yAxisName
 	 * @param mon
+	 * @param dataName can be null for first data
+	 * @param axisNames
 	 * @return List<ILazyDataset>
 	 * @throws Exception
 	 *              is thrown if no correct entry is found in the file
 	 */
-	public List<ILazyDataset> getAxes(String xAxisName, String yAxisName, IMonitor mon) throws Exception;
+	public List<ILazyDataset> getAxes(IMonitor mon, String dataName, String... axisNames) throws Exception;
 
 	/**
 	 * Method that reads a map of all available masks from entry/mask.<br>
@@ -225,9 +216,10 @@ public interface IPersistentFile {
 	public IDataset getMask(String maskName, IMonitor mon) throws Exception;
 
 	/**
-	 * Close the Hierarchical file<br>
+	 * Close the file<br>
 	 * This method needs to be called after the saving / writing of the file is done.
 	 */
+	@Override
 	public void close();
 
 	/**
@@ -459,5 +451,4 @@ public interface IPersistentFile {
 	 * @throws Exception
 	 */
 	public OriginMetadata getOperationDataOrigin() throws Exception;
-
 }

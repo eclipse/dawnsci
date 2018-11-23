@@ -32,7 +32,7 @@ public class EmptyWorkbenchPart<T> extends WorkbenchPart {
 		this.system = system;
 	}
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
     public Object getAdapter(final Class clazz) {
 		

@@ -9,18 +9,20 @@
 
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang.ArrayUtils;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.dataset.SliceND;
 
 public class SliceInformation {
 
 	private SliceND currentSlice;
-	private int number;
 	private SliceND output;
 	private SliceND sampling;
 	private int[] dataDimensions;
-	private int totalSlices;
+	private final int number;
+	private final int totalSlices;
 	
 	/**
 	 * Object to store the information about where a slice is from in a lazy dataset
@@ -28,17 +30,20 @@ public class SliceInformation {
 	 * @param current - slice describing where this data comes from in the original dataset 
 	 * @param output - slice describing where this data goes in the output dataset
 	 * @param sampling - slice describing how original data is subsampled for iteration 
-	 * @param dataDimensions - dimensions which correspond to the data (as apposed to the stack or scan)
-	 * @param total - total number of slices that can be taken
-	 * @param number - which number this slice corresponds to
+	 * @param dataDimensions - dimensions which correspond to the data (as opposed to the stack or scan)
+	 * @param total - total number of slices that can be taken (can be negative to indicate total is unknown)
+	 * @param number - which number this slice corresponds to (must be less than total, if total is non-negative)
 	 */
 	public SliceInformation(SliceND current, SliceND output, SliceND sampling, int[] dataDimensions, int total, int number) {
 		this.currentSlice = current;
-		this.number = number;
 		this.output = output;
-		this.dataDimensions = dataDimensions;
-		this.totalSlices = total;
 		this.sampling = sampling;
+		this.dataDimensions = dataDimensions;
+		if (total >= 0 && number >= total) {
+			throw new IllegalArgumentException("Given number must be less than given total");
+		}
+		this.totalSlices = total;
+		this.number = number;
 	}
 
 	public Slice[] getSliceFromInput() {
@@ -52,7 +57,15 @@ public class SliceInformation {
 	public int getSliceNumber() {
 		return number;
 	}
-	
+
+	public boolean isFirstSlice() {
+		return number == 0;
+	}
+
+	public boolean isLastSlice() {
+		return number == totalSlices - 1;
+	}
+
 	public int[] getSubSampledShape() {
 		return sampling.getShape();
 	}
@@ -67,6 +80,9 @@ public class SliceInformation {
 									dataDimensions.clone(), totalSlices, number);
 	}
 
+	/**
+	 * @return total number of slices. Can be negative to indicate this is not known
+	 */
 	public int getTotalSlices() {
 		return totalSlices;
 	}
@@ -94,6 +110,29 @@ public class SliceInformation {
 		ss[dim].setStop(1);
 		ss[dim].setStep(1);
 		
+		output = new SliceND(sss, cs);
+		sampling = new SliceND(sss,ss);
+	}
+	
+	public void convertSliceDimensionToFull(int dim) {
+		
+		Slice[] cs = output.convertToSlice();
+		int[] sss = sampling.getShape();
+		Slice[] ss = sampling.convertToSlice();
+		
+//		sss[dim] = 1;
+		cs[dim].setStart(0);
+		cs[dim].setStop(sss[dim]);
+		cs[dim].setStep(1);
+		
+		ss[dim].setStart(0);
+		ss[dim].setStop(sss[dim]);
+		ss[dim].setStep(1);
+		
+		int[] dd = new int[dataDimensions.length +1];
+		System.arraycopy(dataDimensions, 0, dd, 1, dataDimensions.length);
+		dd[0] = dim;
+		dataDimensions = dd;
 		output = new SliceND(sss, cs);
 		sampling = new SliceND(sss,ss);
 	}
@@ -138,5 +177,19 @@ public class SliceInformation {
 		}
 		
 		return new SliceND(newShape, newSlice);
+	}
+	
+	public int calculateFastestDimension() {
+		int[] dd = dataDimensions.clone();
+		Arrays.sort(dd);
+		
+		int[] shape = getSubSampledShape();
+		
+		for (int i = shape.length-1; i > -1; i--) {
+			int key = Arrays.binarySearch(dd, i);
+			if (key < 0) return i;
+		}
+		
+		return -1;	
 	}
 }

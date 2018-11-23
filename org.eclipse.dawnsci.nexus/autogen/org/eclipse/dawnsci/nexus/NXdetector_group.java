@@ -7,14 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Logical grouping of detector elements.
@@ -102,7 +102,7 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getGroup_indexScalar();
+	public Long getGroup_indexScalar();
 
 	/**
 	 * Unique ID for group. A group_index array
@@ -114,7 +114,7 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @param group_index the group_index
 	 */
-	public DataNode setGroup_indexScalar(long group_index);
+	public DataNode setGroup_indexScalar(Long group_index);
 
 	/**
 	 * Index of group parent in the hierarchy: -1 means no parent (i.e. a top level) group
@@ -147,7 +147,7 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getGroup_parentScalar();
+	public Long getGroup_parentScalar();
 
 	/**
 	 * Index of group parent in the hierarchy: -1 means no parent (i.e. a top level) group
@@ -158,7 +158,7 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @param group_parent the group_parent
 	 */
-	public DataNode setGroup_parentScalar(long group_parent);
+	public DataNode setGroup_parentScalar(Long group_parent);
 
 	/**
 	 * Code number for group type, e.g. bank=1, tube=2 etc.
@@ -191,7 +191,7 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getGroup_typeScalar();
+	public Long getGroup_typeScalar();
 
 	/**
 	 * Code number for group type, e.g. bank=1, tube=2 etc.
@@ -202,6 +202,6 @@ public interface NXdetector_group extends NXobject {
 	 * 
 	 * @param group_type the group_type
 	 */
-	public DataNode setGroup_typeScalar(long group_type);
+	public DataNode setGroup_typeScalar(Long group_type);
 
 }

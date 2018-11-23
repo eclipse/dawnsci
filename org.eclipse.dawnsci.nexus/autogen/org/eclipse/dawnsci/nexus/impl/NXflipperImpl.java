@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -82,7 +82,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getFlip_turnsScalar() {
+	public Double getFlip_turnsScalar() {
 		return getDouble(NX_FLIP_TURNS);
 	}
 
@@ -92,7 +92,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public DataNode setFlip_turnsScalar(double flip_turns) {
+	public DataNode setFlip_turnsScalar(Double flip_turns) {
 		return setField(NX_FLIP_TURNS, flip_turns);
 	}
 
@@ -102,7 +102,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getComp_turnsScalar() {
+	public Double getComp_turnsScalar() {
 		return getDouble(NX_COMP_TURNS);
 	}
 
@@ -112,7 +112,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public DataNode setComp_turnsScalar(double comp_turns) {
+	public DataNode setComp_turnsScalar(Double comp_turns) {
 		return setField(NX_COMP_TURNS, comp_turns);
 	}
 
@@ -122,7 +122,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getGuide_turnsScalar() {
+	public Double getGuide_turnsScalar() {
 		return getDouble(NX_GUIDE_TURNS);
 	}
 
@@ -132,7 +132,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public DataNode setGuide_turnsScalar(double guide_turns) {
+	public DataNode setGuide_turnsScalar(Double guide_turns) {
 		return setField(NX_GUIDE_TURNS, guide_turns);
 	}
 
@@ -142,7 +142,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getFlip_currentScalar() {
+	public Double getFlip_currentScalar() {
 		return getDouble(NX_FLIP_CURRENT);
 	}
 
@@ -152,7 +152,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public DataNode setFlip_currentScalar(double flip_current) {
+	public DataNode setFlip_currentScalar(Double flip_current) {
 		return setField(NX_FLIP_CURRENT, flip_current);
 	}
 
@@ -162,7 +162,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getComp_currentScalar() {
+	public Double getComp_currentScalar() {
 		return getDouble(NX_COMP_CURRENT);
 	}
 
@@ -172,7 +172,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public DataNode setComp_currentScalar(double comp_current) {
+	public DataNode setComp_currentScalar(Double comp_current) {
 		return setField(NX_COMP_CURRENT, comp_current);
 	}
 
@@ -182,7 +182,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getGuide_currentScalar() {
+	public Double getGuide_currentScalar() {
 		return getDouble(NX_GUIDE_CURRENT);
 	}
 
@@ -192,7 +192,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public DataNode setGuide_currentScalar(double guide_current) {
+	public DataNode setGuide_currentScalar(Double guide_current) {
 		return setField(NX_GUIDE_CURRENT, guide_current);
 	}
 
@@ -202,7 +202,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public double getThicknessScalar() {
+	public Double getThicknessScalar() {
 		return getDouble(NX_THICKNESS);
 	}
 
@@ -212,7 +212,7 @@ public class NXflipperImpl extends NXobjectImpl implements NXflipper {
 	}
 
 	@Override
-	public DataNode setThicknessScalar(double thickness) {
+	public DataNode setThicknessScalar(Double thickness) {
 		return setField(NX_THICKNESS, thickness);
 	}
 

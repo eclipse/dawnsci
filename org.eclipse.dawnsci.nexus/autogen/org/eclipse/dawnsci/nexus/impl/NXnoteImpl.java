@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -18,8 +18,8 @@ import java.util.EnumSet;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.DatasetFactory;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -167,7 +167,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 	}
 
 	@Override
-	public long getSequence_indexScalar() {
+	public Long getSequence_indexScalar() {
 		return getLong(NX_SEQUENCE_INDEX);
 	}
 
@@ -177,7 +177,7 @@ public class NXnoteImpl extends NXobjectImpl implements NXnote {
 	}
 
 	@Override
-	public DataNode setSequence_indexScalar(long sequence_index) {
+	public DataNode setSequence_indexScalar(Long sequence_index) {
 		return setField(NX_SEQUENCE_INDEX, sequence_index);
 	}
 

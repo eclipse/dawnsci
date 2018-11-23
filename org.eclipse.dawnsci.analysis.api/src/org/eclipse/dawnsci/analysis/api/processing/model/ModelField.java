@@ -56,6 +56,15 @@ public class ModelField {
     	return name;
 	}
 
+	public String getDescription() {
+		OperationModelField anot = ModelUtils.getAnnotation(model, name);
+		if (anot != null) {
+			String descr = anot.description();
+			if (descr != null && !"".equals(descr))
+				return descr;
+		}
+		return null;
+	}
 
 	@Override
 	public int hashCode() {
@@ -88,9 +97,9 @@ public class ModelField {
 		return true;
 	}
 
-	public Class<? extends Object> getType() throws NoSuchFieldException, SecurityException {
+	public Class<? extends Object> getType() {
 		Field field = ModelUtils.getField(model, name);
-		return field.getType();
+		return field != null ? field.getType() : null;
 	}
 	
 
@@ -101,14 +110,13 @@ public class ModelField {
 	public boolean isFileProperty() {
 		
     	final OperationModelField anot = getAnnotation();
-    	if (anot!=null && anot.file()!=FileType.NONE) return true;
+    	if (anot!=null && anot.file()!=FileType.NONE)
+    		return true;
 
 		Class<? extends Object> clazz;
-		try {
-			clazz = getType();
-		} catch (NoSuchFieldException | SecurityException e) {
+		clazz = getType();
+		if (clazz == null)
 			return false;
-		}
 		return ModelUtils.isFileType(clazz);
 	}
 

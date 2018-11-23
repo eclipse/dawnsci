@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -84,7 +84,7 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 	}
 
 	@Override
-	public double getBeamline_distanceScalar() {
+	public Double getBeamline_distanceScalar() {
 		return getDouble(NX_BEAMLINE_DISTANCE);
 	}
 
@@ -94,7 +94,7 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 	}
 
 	@Override
-	public DataNode setBeamline_distanceScalar(double beamline_distance) {
+	public DataNode setBeamline_distanceScalar(Double beamline_distance) {
 		return setField(NX_BEAMLINE_DISTANCE, beamline_distance);
 	}
 
@@ -104,7 +104,7 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 	}
 
 	@Override
-	public double getTimingScalar() {
+	public Double getTimingScalar() {
 		return getDouble(NX_TIMING);
 	}
 
@@ -114,7 +114,7 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 	}
 
 	@Override
-	public DataNode setTimingScalar(double timing) {
+	public DataNode setTimingScalar(Double timing) {
 		return setField(NX_TIMING, timing);
 	}
 
@@ -134,7 +134,7 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 	}
 
 	@Override
-	public double getSet_currentScalar() {
+	public Double getSet_currentScalar() {
 		return getDouble(NX_SET_CURRENT);
 	}
 
@@ -144,7 +144,7 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 	}
 
 	@Override
-	public DataNode setSet_currentScalar(double set_current) {
+	public DataNode setSet_currentScalar(Double set_current) {
 		return setField(NX_SET_CURRENT, set_current);
 	}
 
@@ -164,7 +164,7 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 	}
 
 	@Override
-	public double getSet_voltageScalar() {
+	public Double getSet_voltageScalar() {
 		return getDouble(NX_SET_VOLTAGE);
 	}
 
@@ -174,7 +174,7 @@ public class NXelectrostatic_kickerImpl extends NXobjectImpl implements NXelectr
 	}
 
 	@Override
-	public DataNode setSet_voltageScalar(double set_voltage) {
+	public DataNode setSet_voltageScalar(Double set_voltage) {
 		return setField(NX_SET_VOLTAGE, set_voltage);
 	}
 

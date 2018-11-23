@@ -1,3 +1,14 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.nexus.builder.data;
 
 import java.text.MessageFormat;
@@ -403,7 +414,9 @@ public class DataDeviceBuilder<N extends NXobject> {
 				// if this is not a primary device, the primary data field of the
 				// nexus object provider is an axis field for the signal field
 				// (which is from the primary device)
-				axisFieldNames.add(nexusObjectProvider.getPrimaryDataFieldName());
+				if (nexusObjectProvider.getPrimaryDataFieldName() != null) {
+					axisFieldNames.add(nexusObjectProvider.getPrimaryDataFieldName());
+				}
 			}
 			if (nexusObjectProvider.getDefaultAxisDataFieldName() != null) {
 				axisFieldNames.add(nexusObjectProvider.getDefaultAxisDataFieldName());

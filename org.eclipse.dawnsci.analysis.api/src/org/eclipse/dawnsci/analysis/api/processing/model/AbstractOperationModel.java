@@ -35,13 +35,6 @@ import org.eclipse.dawnsci.analysis.api.roi.IROI;
  * 
  * This class MUST define a no argument constructor with getters and setters.
  * 
- * NOTE You can currently have only two level of inheritance below this class so
- * 
- * class B extends A ...
- * class A extends AbstractOperationModel 
- * 
- * Would be ok; BUT class C extends B ...  IS NOT OK - TWO LEVELS ONLY ARE ALLOWED! :)
- * 
  */
 public abstract class AbstractOperationModel implements IOperationModel {
 	
@@ -50,39 +43,39 @@ public abstract class AbstractOperationModel implements IOperationModel {
 	 * so that camel case may be used in method names. This means that this
 	 * method is not particularly fast, so avoid calling in big loops!
 	 * @throws InvocationTargetException 
-	 * @throws IllegalArgumentException 
 	 * @throws IllegalAccessException 
 	 */
 	@Override
-	public Object get(String name) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		
-		Object val = get(getClass(), name);
-		if (val==null) val = get(getClass().getSuperclass(), name);
-		return val;
+	public Object get(String name) throws IllegalAccessException, InvocationTargetException {
+	
+		Class<?> klazz = getClass();
+		do {
+			Object val = get(klazz, name);
+			if (val != null)
+				return val;
+			klazz = klazz.getSuperclass();
+		} while (klazz != AbstractOperationModel.class && klazz != null);
+		return null;
 	}
 	
-	private Object get(Class<?> clazz, String name) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private Object get(Class<?> clazz, String name) throws IllegalAccessException, InvocationTargetException {
 		
 		if (clazz==null || clazz.equals(Object.class)) return null;
 		
 		final String getter = getGetterName(name).toLowerCase();
 		Method[] methods = clazz.getMethods();
 		for (Method method : methods) {
-			if (method.getName().toLowerCase().equals(getter)) {
-				if (method.getParameterTypes().length<1) {
-					method.setAccessible(true);
-					return method.invoke(this);
-				}
+			if (method.getName().toLowerCase().equals(getter) && method.getParameterTypes().length<1) {
+				method.setAccessible(true);
+				return method.invoke(this);
 			}
 		}
 		
 		final String isser  = getIsserName(name).toLowerCase();
 		for (Method method : methods) {
-			if (method.getName().toLowerCase().equals(isser)) {
-				if (method.getParameterTypes().length<1) {
-					method.setAccessible(true);
-					return method.invoke(this);
-				}
+			if (method.getName().toLowerCase().equals(isser) && method.getParameterTypes().length<1) {
+				method.setAccessible(true);
+				return method.invoke(this);
 			}
 		}
 		return null;
@@ -91,18 +84,13 @@ public abstract class AbstractOperationModel implements IOperationModel {
 	@Override
 	public boolean isModelField(String name) throws SecurityException {
 		
-		Field field = null;
-		try {
-		    field = getClass().getDeclaredField(name);
-		} catch (Exception ne) {
-			try {
-			field = getClass().getSuperclass().getDeclaredField(name);
-			} catch (Exception ne2) {
-				return false;
-			}
-		}
+		Field field = ModelUtils.getField(this, name);
+		if (field == null)
+			return false;
 
 		OperationModelField omf = field.getAnnotation(OperationModelField.class);
+		if (omf != null && !omf.visible())
+			return false;
 
 		
 		final String getter = getGetterName(name).toLowerCase();

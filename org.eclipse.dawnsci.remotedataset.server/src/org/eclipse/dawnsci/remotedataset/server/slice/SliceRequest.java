@@ -31,14 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionBindingListener;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
-import org.eclipse.dawnsci.analysis.api.metadata.OriginMetadata;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.plotting.api.histogram.HistogramBound;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
@@ -47,9 +40,17 @@ import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.ImageOrigin;
 import org.eclipse.dawnsci.remotedataset.Constants;
 import org.eclipse.dawnsci.remotedataset.Format;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.dawnsci.remotedataset.server.utils.DataServerUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Random;
+import org.eclipse.january.dataset.Slice;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.RGB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * There are one of these objects per session.
  * 
@@ -103,6 +104,7 @@ class SliceRequest implements HttpSessionBindingListener {
 	private ReentrantLock lock;
 	private String sessionId;
 
+	private static Logger logger = LoggerFactory.getLogger(SliceRequest.class);
 
 	// Actually the SliceRequest
 	SliceRequest(String sessionId) {
@@ -170,8 +172,8 @@ class SliceRequest implements HttpSessionBindingListener {
 		
 		final File   file = new File(path); // Can we see the file using the local file system?
 		if (!file.exists()) throw new IOException("Path '"+path+"' does not exist!");
-		ServiceHolder.getLoaderService().clearSoftReferenceCache();
-		final IDataHolder holder = ServiceHolder.getLoaderService().getData(path, new IMonitor.Stub()); // TOOD Make it cancellable?
+
+		final IDataHolder holder = DataServerUtils.getDataHolderWithLogging(path);
 		
 		final ILazyDataset lz = dataset!=null 
 				              ? holder.getLazyDataset(dataset)
@@ -189,17 +191,26 @@ class SliceRequest implements HttpSessionBindingListener {
 
 	private IDataset getData(ILazyDataset lz, Slice[] slices, String bin) throws Exception {
 		
+		long startTime = System.currentTimeMillis();
+		
 		IDataset data = slices!=null ? lz.getSlice(slices) : null;
-
+		
 		// We might load all the data if it is not too large
 		if (data==null && lz.getRank()<3) data = lz.getSlice(); // Loads all data
 
 		if (data==null) throw new Exception("Cannot get slice of data for '"+lz+"'");
 
-		data = data.squeeze();
+		long endTime = System.currentTimeMillis()-startTime;
+		
+		if (endTime > 100 && endTime < 500) {
+			logger.info("Read of data slice {} from {} took {} ms", Slice.createString(slices), lz.getName(), endTime);
+		} else if (endTime >= 500) {
+			logger.warn("Read of data slice {} from {} took {} ms",Slice.createString(slices), lz.getName(), endTime);
+		}
 
 		// We downsample if there was one
 		if (bin!=null) {
+			data = data.squeeze();
 			data = ServiceHolder.getDownService().downsample(bin, data).get(0);
 		}
         return data;
@@ -327,6 +338,8 @@ class SliceRequest implements HttpSessionBindingListener {
 			               HttpServletResponse response, 
 			               Format              format) throws Exception {
 		
+		data.squeeze();
+		
 		if (data.getRank()!=2 && data.getRank()!=1) {
 			throw new Exception("The data used to make an image must either be 1D or 2D!"); 
 		}
@@ -360,7 +373,7 @@ class SliceRequest implements HttpSessionBindingListener {
 		response.setContentType("application/zip");
 		response.setStatus(HttpServletResponse.SC_OK);
 
-		response.setHeader("elementClass", data.elementClass().toString());
+		response.setHeader("elementClass", data.getElementClass().toString());
 
 		final ObjectOutputStream ostream = new ObjectOutputStream(response.getOutputStream());
 		try {
@@ -370,7 +383,7 @@ class SliceRequest implements HttpSessionBindingListener {
 			ostream.writeObject(data);
 			
 		} catch (Exception ne) {
-			ne.printStackTrace();
+			logger.error("Error writing object to output stream",ne);
 			throw ne;
 		} finally {
 			ostream.flush();
@@ -449,9 +462,9 @@ class SliceRequest implements HttpSessionBindingListener {
 	}
 
 	public void start() {
-		System.out.println(">>>>>> Slice Request Started");
+		logger.info(">>>>>> Slice Request Started");
 	}
 	public void stop() {
-		System.out.println(">>>>>> Slice Request Stopped");
+		logger.info(">>>>>> Slice Request Stopped");
 	}
 }

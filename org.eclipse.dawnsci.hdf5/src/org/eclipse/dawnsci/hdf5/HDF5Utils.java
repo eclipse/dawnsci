@@ -11,6 +11,8 @@ package org.eclipse.dawnsci.hdf5;
 
 import java.io.File;
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,34 +22,92 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.SliceND;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import hdf.hdf5lib.H5;
 import hdf.hdf5lib.HDF5Constants;
-import hdf.hdf5lib.HDFNativeData;
 import hdf.hdf5lib.exceptions.HDF5Exception;
 import hdf.hdf5lib.exceptions.HDF5LibraryException;
 import hdf.hdf5lib.structs.H5O_info_t;
-import hdf.object.Datatype;
-import hdf.object.h5.H5Datatype;
 
 public class HDF5Utils {
 	private static final Logger logger = LoggerFactory.getLogger(HDF5Utils.class);
+
+	private static String host;
+
+	/**
+	 * Gracefully gets the local host name (if there is a mis-configuration or any other issue, "localhost" is returned) 
+	 * @return local host name
+	 */
+	public static String getLocalHostName() {
+		if (host == null) {
+			ExecutorService ex = Executors.newSingleThreadExecutor();
+			Future<String> fu = ex.submit(new Callable<String>() {
+				@Override
+				public String call() throws Exception {
+					try { // this can block for a long while
+						return InetAddress.getLocalHost().getHostName();
+					} catch (UnknownHostException e) {
+						logger.error("Could not find host name", e);
+					}
+					return null;
+				}
+			});
+	
+			try { // time-out after 5 seconds
+				host = fu.get(5, TimeUnit.SECONDS);
+			} catch (TimeoutException e) {
+				logger.error("Timed out finding host name", e);
+			} catch (InterruptedException e) {
+				logger.error("Thread interrupted on finding host name", e);
+				Thread.currentThread().interrupt();
+			} catch (ExecutionException e) {
+				logger.error("Task aborted on finding host name", e);
+			}
+			if (host == null) {
+				host = "localhost";
+			}
+		}
+		return host;
+	}
+
+	/**
+	 * Check if file is a HDF5 file
+	 * @param fileName
+	 * @return true if it can be read as an HDF5 file
+	 */
+	public static boolean isHDF5(final String fileName) {
+		if (fileName == null || !new File(fileName).canRead()) {
+			return false;
+		}
+		try {
+			return H5.H5Fis_hdf5(fileName);
+		} catch (HDF5LibraryException e) {
+			logger.error("Problem using HDF5 library when checking if a file is HDF5: {}", fileName, e);
+		}
+		return false;
+	}
 
 	/**
 	 * Create a dataset from the given data object
@@ -59,7 +119,7 @@ public class HDF5Utils {
 	 */
 	public static Dataset createDataset(final Object data, final int[] shape, final int dtype,
 			final boolean extend) {
-		Dataset ds = DatasetFactory.createFromObject(data, dtype);
+		Dataset ds = DatasetFactory.createFromObject(dtype, data);
 	
 		if (extend) {
 			ds = DatasetUtils.makeUnsigned(ds);
@@ -74,12 +134,10 @@ public class HDF5Utils {
 	 * @param dsize data type element size in bytes
 	 * @return dataset type
 	 */
-	public static int getDtype(final int dclass, final int dsize) {
-		switch (dclass) {
-		case Datatype.CLASS_STRING:
+	public static int getDType(final int dclass, final int dsize) {
+		if (dclass == HDF5Constants.H5T_STRING) {
 			return Dataset.STRING;
-		case Datatype.CLASS_CHAR:
-		case Datatype.CLASS_INTEGER:
+		} else if (dclass == HDF5Constants.H5T_INTEGER) {
 			switch (dsize) {
 			case 1:
 				return Dataset.INT8;
@@ -90,8 +148,7 @@ public class HDF5Utils {
 			case 8:
 				return Dataset.INT64;
 			}
-			break;
-		case Datatype.CLASS_BITFIELD:
+		} else if (dclass == HDF5Constants.H5T_BITFIELD) {
 			switch (dsize) {
 			case 1:
 				return Dataset.INT8;
@@ -102,15 +159,13 @@ public class HDF5Utils {
 			case 8:
 				return Dataset.INT64;
 			}
-			break;
-		case Datatype.CLASS_FLOAT:
+		} else if (dclass == HDF5Constants.H5T_FLOAT) {
 			switch (dsize) {
 			case 4:
 				return Dataset.FLOAT32;
 			case 8:
 				return Dataset.FLOAT64;
 			}
-			break;
 		}
 		return -1;
 	}
@@ -123,6 +178,8 @@ public class HDF5Utils {
 	public static long getHDF5type(Class<?> clazz) {
 		if (clazz.equals(String.class)) {
 			return HDF5Constants.H5T_C_S1;
+		} else if (clazz.equals(Boolean.class)) {
+			return HDF5Constants.H5T_NATIVE_INT8;
 		} else if (clazz.equals(Byte.class)) {
 			return HDF5Constants.H5T_NATIVE_INT8;
 		} else if (clazz.equals(Short.class)) {
@@ -205,10 +262,27 @@ public class HDF5Utils {
 	public static Dataset loadDataset(final String fileName, final String node)
 				throws ScanFileHolderException {
 
+		try {
+			HDF5File fid = HDF5FileFactory.acquireFile(fileName, false);
+
+			return loadDataset(fid, node);
+		} finally {
+			HDF5FileFactory.releaseFile(fileName);
+		}
+	}
+
+	/**
+	 * Load entire dataset from given file
+	 * @param fileName
+	 * @param node
+	 * @return dataset
+	 * @throws Exception
+	 */
+	public static Dataset loadDataset(final HDF5File fid, final String node)
+				throws ScanFileHolderException {
+
 		Dataset data = null;
 		try {
-			long fid = HDF5FileFactory.acquireFile(fileName, false);
-
 			int[][] shapes = readDatasetShape(fid, node);
 			int[] shape = shapes[0];
 			int[] start = new int[shape.length];
@@ -216,10 +290,9 @@ public class HDF5Utils {
 			Arrays.fill(step, 1);
 			data = readDataset(fid, node, start, shape, step, -1, -1, false);
 		} catch (Throwable le) {
-			logger.error("Problem loading dataset in file: {}", fileName, le);
-			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
-		} finally {
-			HDF5FileFactory.releaseFile(fileName);
+			String msg = String.format("Problem loading dataset %s in %s", node, fid.toString());
+			logger.error(msg, le);
+			throw new ScanFileHolderException(msg, le);
 		}
 
 		return data;
@@ -266,12 +339,12 @@ public class HDF5Utils {
 
 		Dataset data = null;
 		try {
-			long fid = HDF5FileFactory.acquireFile(fileName, false);
+			HDF5File fid = HDF5FileFactory.acquireFile(fileName, false);
 
 			data = readDataset(fid, node, start, count, step, dtype, isize, extend);
 		} catch (Throwable le) {
-			logger.error("Problem loading dataset in file: {}", fileName, le);
-			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
+			logger.error("Problem loading dataset from file", le);
+			throw new ScanFileHolderException("Problem loading file", le);
 		} finally {
 			HDF5FileFactory.releaseFile(fileName, close);
 		}
@@ -291,12 +364,12 @@ public class HDF5Utils {
 			throws ScanFileHolderException {
 
 		try {
-			long fid = HDF5FileFactory.acquireFile(fileName, false);
+			HDF5File fid = HDF5FileFactory.acquireFile(fileName, false);
 
 			return readDatasetShape(fid, node);
 		} catch (Throwable le) {
-			logger.error("Problem loading dataset shape in file: {}", fileName, le);
-			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
+			logger.error("Problem loading dataset shape in file", le);
+			throw new ScanFileHolderException("Problem loading file", le);
 		} finally {
 			HDF5FileFactory.releaseFile(fileName);
 		}
@@ -304,17 +377,17 @@ public class HDF5Utils {
 
 	/**
 	 * Read shape information from a dataset
-	 * @param fileID
+	 * @param f
 	 * @param dataPath
 	 * @return null for when there's no data; two empty arrays for a zero-rank dataset;
 	 *  shape, max shape otherwise
 	 * @throws NexusException
 	 */
-	public static int[][] readDatasetShape(long fileID, String dataPath) throws NexusException {
+	public static int[][] readDatasetShape(HDF5File f, String dataPath) throws NexusException {
 		long hdfDatasetId = -1;
 		try {
 			try {
-				hdfDatasetId = H5.H5Dopen(fileID, dataPath, HDF5Constants.H5P_DEFAULT);
+				hdfDatasetId = H5.H5Dopen(f.getID(), dataPath, HDF5Constants.H5P_DEFAULT);
 	
 				long hdfDataspaceId = -1;
 				try {
@@ -355,15 +428,16 @@ public class HDF5Utils {
 				}
 			}
 		} catch (HDF5Exception e) {
-			logger.error("Could not read dataset shape", e);
-			throw new NexusException("Could not read dataset shape", e);
+			String msg = String.format("Could not read dataset shape for %s in %s", dataPath, f.toString());
+			logger.error(msg, e);
+			throw new NexusException(msg, e);
 		}
 	}
 
 	/**
 	 * Read dataset from given file ID
-	 * @param fid
-	 * @param node
+	 * @param f
+	 * @param dataPath
 	 * @param start
 	 * @param count
 	 * @param step
@@ -373,20 +447,20 @@ public class HDF5Utils {
 	 * @return dataset
 	 * @throws NexusException
 	 */
-	public static Dataset readDataset(long fid, final String node, final int[] start, final int[] count,
+	public static Dataset readDataset(HDF5File f, final String dataPath, final int[] start, final int[] count,
 			final int[] step, final int dtype, final int isize, final boolean extend)
 					throws NexusException {
 		Dataset data = null;
 
 		try {
-			H5O_info_t info = H5.H5Oget_info_by_name(fid, node, HDF5Constants.H5P_DEFAULT);
+			H5O_info_t info = H5.H5Oget_info_by_name(f.getID(), dataPath, HDF5Constants.H5P_DEFAULT);
 			int t = info.type;
 			if (t != HDF5Constants.H5O_TYPE_DATASET) {
-				logger.error("Node {} was not a dataset", node);
+				logger.error("Path {} was not a dataset in {}", dataPath, f);
 				return data;
 			}
 		} catch (HDF5Exception ex) {
-			logger.error("Could not find info about object {}" + node);
+			logger.error("Could not find info about object {} in {}", dataPath, f);
 			return data;
 		}
 
@@ -394,52 +468,29 @@ public class HDF5Utils {
 		long tid = -1;
 		long ntid = -1;
 		try {
-			did = H5.H5Dopen(fid, node, HDF5Constants.H5P_DEFAULT);
+			did = H5.H5Dopen(f.getID(), dataPath, HDF5Constants.H5P_DEFAULT);
 			tid = H5.H5Dget_type(did);
+			if (H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_OBJ)) {
+				String msg = String.format("Could not handle reference object data for %s in %s", dataPath, f.toString());
+				logger.error(msg);
+				throw new NexusException(msg);
+			}
+
 			ntid = H5.H5Tget_native_type(tid);
 			DatasetType type = getDatasetType(tid, ntid);
-			long sid = -1, pid = -1;
+			if (type == null) {
+				String msg = String.format("Datatype not supported for %s in %s", dataPath, f.toString());
+				logger.error(msg);
+				throw new NexusException(msg);
+			}
+			long sid = -1;
+			long msid = -1;
 			int rank;
-			boolean isText, isVLEN; //, isUnsigned = false;
-//				boolean isEnum, isRegRef, isNativeDatatype;
-			long[] dims;
 
 			// create a new scalar dataset
-
 			try {
-				pid = H5.H5Dget_create_plist(did);
-
 				sid = H5.H5Dget_space(did);
-
 				rank = H5.H5Sget_simple_extent_ndims(sid);
-
-				isText = type.dtype == Dataset.STRING;
-				isVLEN = type.isVariableLength;
-
-				final int ldtype = dtype >= 0 ? dtype : type.dtype;
-				final int lisize = isize >= 0 ? isize : type.isize;
-
-				if (rank == 0) {
-					// a single data point
-					rank = 1;
-					dims = new long[1];
-					dims[0] = 1;
-				} else {
-					dims = new long[rank];
-					H5.H5Sget_simple_extent_dims(sid, dims, null);
-				}
-
-				long[] schunk = null; // source chunking
-
-				try {
-					if (H5.H5Pget_layout(pid) == HDF5Constants.H5D_CHUNKED) {
-						schunk = new long[rank];
-						H5.H5Pget_chunk(pid, rank, schunk);
-					}
-				} catch (HDF5Exception ex) {
-					logger.error("Could not get chunk size");
-					throw new NexusException("Could not get chunk size", ex);
-				}
 
 				final long[] sstart = new long[rank]; // source start
 				final long[] sstride = new long[rank]; // source steps
@@ -451,168 +502,56 @@ public class HDF5Utils {
 					dsize[i] = count[i];
 				}
 
-				boolean all = false;
-				if (schunk == null) {
-					all = true;
+				if (rank == 0) {
+					msid = H5.H5Screate(HDF5Constants.H5S_SCALAR);
 				} else {
-					if (Arrays.equals(dims, schunk)) {
-						all = true;
-					} else {
-						int j = rank - 1; // find last chunked dimension that is sliced across
-						while (j >= 0) {
-							if (schunk[j] > 1 && dsize[j] <= 1)
-								break;
-							j--;
-						}
-						all = j < 0;
-					}
-				}
-				if (schunk == null || all) {
 					H5.H5Sselect_hyperslab(sid, HDF5Constants.H5S_SELECT_SET, sstart, sstride, dsize, null);
-//						long length = 1;
-//						for (int i = 0; i < rank; i++)
-//							length *= count[i];
-//
-//						long msid = H5.H5Screate_simple(1, new long[] {length}, null);
-					long msid = H5.H5Screate_simple(rank, dsize, null);
+					msid = H5.H5Screate_simple(rank, dsize, null);
 					H5.H5Sselect_all(msid);
-					data = DatasetFactory.zeros(lisize, count, ldtype);
-					Object odata = data.getBuffer();
+				}
+				final int ldtype = dtype >= 0 ? dtype : type.dtype;
+				final int lisize = isize >= 0 ? isize : type.isize;
+				data = DatasetFactory.zeros(lisize, count, ldtype);
+				Object odata = data.getBuffer();
 
-					boolean isREF = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_OBJ);
-					if (isVLEN) {
+				try {
+					if (type.isVariableLength) {
 						H5.H5Dread_VLStrings(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
+					} else if (type.dtype == Dataset.STRING) {
+						H5.H5Dread_string(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (String[]) odata);
 					} else {
 						H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
-
-						if (odata instanceof byte[] && ldtype != Dataset.INT8) {
-							// TODO check if this is actually used
-							Object idata = null;
-							byte[] bdata = (byte[]) odata;
-							if (isText) {
-								idata = hdf.object.Dataset.byteToString(bdata, (int) H5.H5Tget_size(tid));
-							} else if (isREF) {
-								idata = HDFNativeData.byteToLong(bdata);
-							}
-
-							if (idata != null) {
-								data = createDataset(idata, count, ldtype, false); // extend later, if necessary
-							}
-						}
 					}
-				} else {
-					// read in many split chunks
-					final boolean[] isSplit = new boolean[rank];
-					final long[] send = new long[rank];
-					int length = 1;
-					for (int i = 0; i < rank; i++) {
-						send[i] = sstart[i] + count[i] * step[i];
-						isSplit[i] = schunk[i] <= 1 && dsize[i] > 1;
-						if (isSplit[i]) {
-							dsize[i] = 1;
-						} else {
-							length *= dsize[i];
-						}
+					if (extend) {
+						data = DatasetUtils.makeUnsigned(data, true);
 					}
-					if (length == 1) { // if just single point then bulk up request
-						for (int i = rank - 1; i >= 0; i--) {
-							int l = count[i];
-							if (l > 1) {
-								dsize[i] = l;
-								length = l;
-								isSplit[i] = false;
-								break;
-							}
-						}
-					}
-					final List<Integer> notSplit = new ArrayList<Integer>();
-					for (int i = 0; i < rank; i++) {
-						if (!isSplit[i])
-							notSplit.add(i);
-					}
-					final int[] axes = new int[notSplit.size()];
-					for (int i = 0; i < axes.length; i++) {
-						axes[i] = notSplit.get(i);
-					}
-					data = DatasetFactory.zeros(count, ldtype);
-					Object odata;
-					try {
-						odata = H5Datatype.allocateArray(tid, length);
-					} catch (OutOfMemoryError err) {
-						logger.error("Out of memory", err);
-						throw new NexusException("Out Of Memory", err);
-					}
-//						long msid = H5.H5Screate_simple(1, new long[] {length}, null);
-					long msid = H5.H5Screate_simple(rank, dsize, null);
-					H5.H5Sselect_all(msid);
-
-					PositionIterator it = data.getPositionIterator(axes);
-					final int[] pos = it.getPos();
-					final boolean[] hit = it.getOmit();
-					while (it.hasNext()) {
-						H5.H5Sselect_hyperslab(sid, HDF5Constants.H5S_SELECT_SET, sstart, sstride, dsize, null);
-						boolean isREF = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_OBJ);
-						Object idata;
-						if (isVLEN) {
-							H5.H5Dread_VLStrings(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, (Object[]) odata);
-							idata = odata;
-						} else {
-							H5.H5Dread(did, tid, msid, sid, HDF5Constants.H5P_DEFAULT, odata);
-
-							if (odata instanceof byte[] && ldtype != Dataset.INT8) {
-								// TODO check if this is actually used
-								byte[] bdata = (byte[]) odata;
-								if (isText) {
-									idata = hdf.object.Dataset.byteToString(bdata, (int) H5.H5Tget_size(tid));
-								} else if (isREF) {
-									idata = HDFNativeData.byteToLong(bdata);
-								} else {
-									idata = odata;
-								}
-							} else {
-								idata = odata;
-							}
-						}
-
-						data.setItemsOnAxes(pos, hit, idata);
-						int j = rank - 1;
-						for (; j >= 0; j--) {
-							if (isSplit[j]) {
-								sstart[j] += sstride[j];
-								if (sstart[j] >= send[j]) {
-									sstart[j] = start[j];
-								} else {
-									break;
-								}
-							}
-						}
-						if (j == -1)
-							break;
-					}
-				}
-				if (extend) {
-					data = DatasetUtils.makeUnsigned(data);
+				} catch (HDF5LibraryException e) {
+					String msg = String.format("Could not read data from %s in %s", dataPath, f.toString());
+					logger.error(msg, e);
+					throw new NexusException(msg, e);
 				}
 			} catch (HDF5Exception ex) {
-				logger.error("Could not get data space information", ex);
-				throw new NexusException("Could not get data space information", ex);
+				String msg = String.format("Could not get data space information from %s in %s", dataPath, f.toString());
+				logger.error(msg, ex);
+				throw new NexusException(msg, ex);
 			} finally {
+				if (msid != -1) {
+					try {
+						H5.H5Sclose(msid);
+					} catch (HDF5Exception ex2) {
+					}
+				}
 				if (sid != -1) {
 					try {
 						H5.H5Sclose(sid);
 					} catch (HDF5Exception ex2) {
 					}
 				}
-				if (pid != -1) {
-					try {
-						H5.H5Pclose(pid);
-					} catch (HDF5Exception ex) {
-					}
-				}
 			}
 		} catch (HDF5Exception ex) {
-			logger.error("Could not open dataset", ex);
-			throw new NexusException("Could not open dataset", ex);
+			String msg = String.format("Could not open dataset %s in %s", dataPath, f.toString());
+			logger.error(msg, ex);
+			throw new NexusException(msg, ex);
 		} finally {
 			if (ntid != -1) {
 				try {
@@ -637,7 +576,10 @@ public class HDF5Utils {
 		return data;
 	}
 
-	private static String absolutePathToData(String parentPath, String name) {
+	/**
+	 * @return the absolute path to data
+	 */
+	public static String absolutePathToData(String parentPath, String name) {
 		if (parentPath == null || parentPath.isEmpty()) {
 			parentPath = Tree.ROOT;
 		} else if (!parentPath.startsWith(Tree.ROOT)) {
@@ -684,7 +626,7 @@ public class HDF5Utils {
 	private static void createDataset(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned, final boolean close) throws ScanFileHolderException {
 
 		try {
-			long fid = HDF5FileFactory.acquireFile(fileName, true);
+			HDF5File fid = HDF5FileFactory.acquireFile(fileName, true);
 
 			requireDestination(fid, parentPath);
 			String dataPath = absolutePathToData(parentPath, name);
@@ -732,21 +674,21 @@ public class HDF5Utils {
 	 * @param asUnsigned
 	 * @throws ScanFileHolderException
 	 */
-	public static void createDatasetWithClose(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned) throws ScanFileHolderException {
+	static void createDatasetWithClose(final String fileName, final String parentPath, final String name, final int[] initialShape, final int[] maxShape, final int[] chunking, final int dtype, final Object fill, final boolean asUnsigned) throws ScanFileHolderException {
 		createDataset(fileName, parentPath, name, initialShape, maxShape, chunking, dtype, fill, asUnsigned, true);
 	}
 
-	private static void requireDestination(long fileID, String group) throws HDF5Exception {
+	private static void requireDestination(HDF5File fid, String group) throws HDF5Exception {
 		boolean exists = false;
 		long gid = -1;
 		try {
 			try {
-				gid = H5.H5Gopen(fileID, group, HDF5Constants.H5P_DEFAULT);
+				gid = H5.H5Gopen(fid.getID(), group, HDF5Constants.H5P_DEFAULT);
 				exists = true;
 			} catch (Exception e) {
 			} finally {
 				if (!exists) {
-					gid = createDestination(fileID, group);
+					gid = createDestination(fid.getID(), group);
 				}
 			}
 		} finally {
@@ -783,8 +725,8 @@ public class HDF5Utils {
 	}
 
 	/**
-	 * Create a dataset in given file ID
-	 * @param fileID
+	 * Create a dataset in given file
+	 * @param f
 	 * @param compression
 	 * @param dataPath
 	 * @param dtype
@@ -794,7 +736,7 @@ public class HDF5Utils {
 	 * @param fillValue
 	 * @throws NexusException
 	 */
-	public static void createDataset(long fileID, int compression, String dataPath, int dtype, int[] iShape, int[] iMaxShape, int[] iChunks,
+	public static void createDataset(HDF5File f, int compression, String dataPath, int dtype, int[] iShape, int[] iMaxShape, int[] iChunks,
 			Object fillValue) throws NexusException {
 		long[] shape = toLongArray(iShape);
 		long[] maxShape = toLongArray(iMaxShape);
@@ -836,7 +778,7 @@ public class HDF5Utils {
 				}
 				long hdfDatasetId = -1;
 				try {
-					hdfDatasetId = H5.H5Dcreate(fileID, dataPath, hdfDatatypeId, hdfDataspaceId,
+					hdfDatasetId = H5.H5Dcreate(f.getID(), dataPath, hdfDatatypeId, hdfDataspaceId,
 						HDF5Constants.H5P_DEFAULT, hdfPropertiesId, HDF5Constants.H5P_DEFAULT);
 				} finally {
 					if (hdfDatasetId != -1) {
@@ -867,8 +809,9 @@ public class HDF5Utils {
 				}
 			}
 		} catch (HDF5Exception e) {
-			logger.error("Could not create dataset", e);
-			throw new NexusException("Could not create dataset", e);
+			String msg = String.format("Could not create dataset %s in %s", dataPath, f.toString());
+			logger.error(msg, e);
+			throw new NexusException(msg, e);
 		}
 	}
 
@@ -880,33 +823,32 @@ public class HDF5Utils {
 	 * @throws ScanFileHolderException 
 	 */
 	public static void writeDataset(String fileName, String parentPath, IDataset data) throws ScanFileHolderException {
-		long fid = HDF5FileFactory.acquireFile(fileName, true);
+		HDF5File fid = HDF5FileFactory.acquireFile(fileName, true);
 
 		try {
 			requireDestination(fid, parentPath);
 			String dataPath = absolutePathToData(parentPath, data.getName());
 			writeDataset(fid, dataPath, data);
 		} catch (Throwable le) {
-			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
+			throw new ScanFileHolderException("Problem dataset to file: " + fileName, le);
 		} finally {
 			HDF5FileFactory.releaseFile(fileName);
 		}
 	}
 
 	/**
-	 * Write a dataset in given file ID
-	 * @param fileID
+	 * Write a dataset in given file
+	 * @param f
 	 * @param dataPath
 	 * @param data
 	 * @throws NexusException
 	 */
-	public static void writeDataset(long fileID, String dataPath, IDataset data) throws NexusException {
+	public static void writeDataset(HDF5File f, String dataPath, IDataset data) throws NexusException {
 		Dataset dataset = DatasetUtils.convertToDataset(data);
 
-		// cannot write zero-rank datasets so make them 1D
-		long[] shape = dataset.getRank() == 0 ? new long[] {1} : toLongArray(dataset.getShapeRef());
+		long[] shape = toLongArray(dataset.getShapeRef());
 
-		int dtype = dataset.getDtype();
+		int dtype = dataset.getDType();
 		boolean stringDataset = dtype == Dataset.STRING;
 		long hdfType = getHDF5type(dtype);
 
@@ -917,7 +859,7 @@ public class HDF5Utils {
 
 			try {
 				hdfDatatypeId = H5.H5Tcopy(hdfType);
-				hdfDataspaceId = H5.H5Screate_simple(shape.length, shape, null);
+				hdfDataspaceId = shape.length == 0 ? H5.H5Screate(HDF5Constants.H5S_SCALAR) : H5.H5Screate_simple(shape.length, shape, null);
 				hdfPropertiesId = H5.H5Pcreate(HDF5Constants.H5P_DATASET_CREATE);
 
 				if (stringDataset) {
@@ -926,7 +868,7 @@ public class HDF5Utils {
 				}
 				long hdfDatasetId = -1;
 				try {
-					hdfDatasetId = H5.H5Dcreate(fileID, dataPath, hdfDatatypeId, hdfDataspaceId,
+					hdfDatasetId = H5.H5Dcreate(f.getID(), dataPath, hdfDatatypeId, hdfDataspaceId,
 						HDF5Constants.H5P_DEFAULT, hdfPropertiesId, HDF5Constants.H5P_DEFAULT);
 					if (stringDataset) {
 						String[] strings = (String[])DatasetUtils.serializeDataset(data);
@@ -964,8 +906,9 @@ public class HDF5Utils {
 				}
 			}
 		} catch (HDF5Exception e) {
-			logger.error("Could not write dataset", e);
-			throw new NexusException("Could not write dataset", e);
+			String msg = String.format("Could not write dataset %s in %s", dataPath, f.toString());
+			logger.error(msg, e);
+			throw new NexusException(msg, e);
 		}
 	}
 
@@ -979,53 +922,59 @@ public class HDF5Utils {
 	 * @throws ScanFileHolderException 
 	 */
 	public static void writeAttributes(String fileName, String path, IDataset... attributes) throws ScanFileHolderException {
-		long fid = HDF5FileFactory.acquireFile(fileName, true);
+		HDF5File fid = HDF5FileFactory.acquireFile(fileName, true);
 
 		try {
 			writeAttributes(fid, path, attributes);
 		} catch (Throwable le) {
-			throw new ScanFileHolderException("Problem loading file: " + fileName, le);
+			throw new ScanFileHolderException("Problem writing attribute", le);
 		} finally {
 			HDF5FileFactory.releaseFile(fileName);
 		}
 	}
 
 	/**
-	 * Write attributes to a group or dataset in given file ID
-	 * @param fileID
+	 * Write attributes to a group or dataset in given file
+	 * @param f
 	 * @param path
 	 * @param attributes
 	 * @throws NexusException
 	 */
-	public static void writeAttributes(long fileID, String path, IDataset... attributes) throws NexusException {
+	public static void writeAttributes(HDF5File f, String path, IDataset... attributes) throws NexusException {
 		for (IDataset attr : attributes) {
 			String attrName = attr.getName();
 			if (attrName == null || attrName.isEmpty()) {
 				throw new NullPointerException("Attribute must have a name");
 			}
 
+			long fileID = f.getID();
 			try {
 				// if an attribute with the same name already exists, we delete it to be consistent with NAPI
 				if (H5.H5Aexists_by_name(fileID, path, attrName, HDF5Constants.H5P_DEFAULT)) {
 					try {
 						H5.H5Adelete_by_name(fileID, path, attrName, HDF5Constants.H5P_DEFAULT);
 					} catch (HDF5Exception e) {
-						throw new NexusException("Could not delete existing attribute", e);
+						String msg = String.format("Could not delete existing attribute %s for %s in %s", attrName, path, f.toString());
+						logger.error(msg, e);
+						throw new NexusException(msg, e);
 					}
 				}
 			} catch (HDF5Exception e) {
-				throw new NexusException("Error inspecting existing attributes", e);
+				String msg = String.format("Could not check for existing attribute %s for %s in %s", attrName, path, f.toString());
+				logger.error(msg, e);
+				throw new NexusException(msg, e);
 			}
 			Dataset attrData = DatasetUtils.convertToDataset(attr);
-			long baseHdf5Type = getHDF5type(attrData.getDtype());
+			long baseHdf5Type = getHDF5type(attrData.getDType());
 
-			final long[] shape = attrData.getRank() == 0 ? new long[] {1} : toLongArray(attrData.getShapeRef());
+			final boolean isScalar = attrData.getRank() == 0;
+			final long[] shape = toLongArray(attrData.getShapeRef());
 			long datatypeID = -1;
 			long dataspaceID = -1;
 			try {
 				datatypeID = H5.H5Tcopy(baseHdf5Type);
-				dataspaceID = H5.H5Screate_simple(shape.length, shape, shape);
-				boolean stringDataset = attrData.getDtype() == Dataset.STRING;
+				dataspaceID = isScalar ? H5.H5Screate(HDF5Constants.H5S_SCALAR) : H5.H5Screate_simple(shape.length, shape, shape);
+				boolean stringDataset = attrData.getDType() == Dataset.STRING;
 				Serializable buffer = DatasetUtils.serializeDataset(attrData);
 				if (stringDataset) {
 					String[] strings = (String[]) buffer;
@@ -1057,7 +1006,9 @@ public class HDF5Utils {
 
 					H5.H5Awrite(attrID, datatypeID, buffer);
 				} catch (HDF5Exception e) {
-					throw new NexusException("Could not create attribute", e);
+					String msg = String.format("Could not create or write attribute %s for %s in %s", attrName, path, f.toString());
+					logger.error(msg, e);
+					throw new NexusException(msg, e);
 				} finally {
 					if (attrID != -1) {
 						try {
@@ -1067,7 +1018,9 @@ public class HDF5Utils {
 					}
 				}
 			} catch (HDF5Exception e) {
-				throw new NexusException("Could not make data type or space", e);
+				String msg = String.format("Could not make data type or space for attribute %s for %s in %s", attrName, path, f.toString());
+				logger.error(msg, e);
+				throw new NexusException(msg, e);
 			} finally {
 				if (dataspaceID != -1) {
 					try {
@@ -1094,7 +1047,7 @@ public class HDF5Utils {
 	 * @param value
 	 * @throws ScanFileHolderException
 	 */
-	public static void setDatasetSliceWithClose(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
+	static void setDatasetSliceWithClose(final String fileName, final String parentPath, final String name, final SliceND slice, final IDataset value) throws ScanFileHolderException {
 		setDatasetSlice(fileName, parentPath, name, slice, value, true, false);
 	}
 
@@ -1140,7 +1093,7 @@ public class HDF5Utils {
 			if (!exists) {
 				prepareFile(fileName, parentPath, name, slice, value);
 			}
-			long fid = HDF5FileFactory.acquireFile(fileName, true);
+			HDF5File fid = HDF5FileFactory.acquireFile(fileName, true);
 
 			String dataPath = absolutePathToData(parentPath, name);
 			writeDatasetSlice(fid, dataPath, slice, value);
@@ -1159,145 +1112,223 @@ public class HDF5Utils {
 				mshape = slice.getShape();
 			}
 			createDataset(fileName, parentPath, name, slice.getStart(), mshape, slice.getShape(),
-					AbstractDataset.getDType(value), null, false);
+					DTypeUtils.getDType(value), null, false);
+		}
+	}
+
+	/**
+	 * 
+	 * @param f
+	 * @param dataPath
+	 * @return
+	 * @throws NexusException
+	 */
+	public static long[] openDataset(HDF5File f, String dataPath) throws NexusException {
+		long hdfDatasetId = -1;
+		long hdfDataspaceId = -1;
+		try {
+			hdfDatasetId = H5.H5Dopen(f.getID(), dataPath, HDF5Constants.H5P_DEFAULT);
+
+			hdfDataspaceId = H5.H5Dget_space(hdfDatasetId);
+		} catch (HDF5Exception e) {
+			String msg = String.format("Could not open dataset %s in %s", dataPath, f.toString());
+			logger.error(msg, e);
+			throw new NexusException(msg, e);
+		}
+
+		return new long[] {hdfDatasetId, hdfDataspaceId};
+	}
+
+	/**
+	 * 
+	 * @param ids
+	 * @throws NexusException
+	 */
+	public static void flushDataset(long[] ids) throws NexusException {
+		long id = ids[0];
+		if (id != -1) {
+			try {
+				H5.H5Dflush(id);
+			} catch (HDF5Exception ex) {
+				logger.error("Could not flush data", ex);
+				throw new NexusException("Could not flush data", ex);
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param ids
+	 * @throws NexusException
+	 */
+	public static void closeDataset(long[] ids) throws NexusException {
+		long id = ids[1];
+		if (id != -1) {
+			ids[1] = -1;
+			try {
+				H5.H5Sclose(id);
+			} catch (HDF5Exception ex) {
+				logger.error("Could not close file space", ex);
+			}
+		}
+		try {
+			flushDataset(ids);
+		} finally {
+			id = ids[0];
+			if (id != -1) {
+				ids[0] = -1;
+				try {
+					H5.H5Dclose(id);
+				} catch (HDF5Exception ex) {
+					logger.error("Could not close data", ex);
+					throw new NexusException("Could not close data", ex);
+				}
+			}
 		}
 	}
 
 	/**
 	 * Write to a slice in a dataset
-	 * @param fileID
+	 * @param f
 	 * @param dataPath
 	 * @param slice
 	 * @param value
 	 * @throws NexusException
 	 */
-	public static void writeDatasetSlice(long fileID, String dataPath, SliceND slice, IDataset value) throws NexusException {
-		long hdfDatasetId = -1;
+	public static void writeDatasetSlice(HDF5File f, String dataPath, SliceND slice, IDataset value) throws NexusException {
+		long[] ids = null;
 		try {
+			ids = f.openDataset(dataPath);
+			long hdfDatasetId = ids[0];
+			long hdfDataspaceId = ids[1];
+
+			long hdfMemspaceId = -1;
+			long hdfDatatypeId = -1;
 			try {
-				hdfDatasetId = H5.H5Dopen(fileID, dataPath, HDF5Constants.H5P_DEFAULT);
+				int rank = H5.H5Sget_simple_extent_ndims(hdfDataspaceId);
+				long[] dims = new long[rank];
+				long[] mdims = new long[rank];
+				H5.H5Sget_simple_extent_dims(hdfDataspaceId, dims, mdims);
+				long[] start = toLongArray(slice.getStart());
+				long[] stride = toLongArray(slice.getStep());
+				long[] shape = toLongArray(slice.getShape());
 
-				long hdfDataspaceId = -1;
-				long hdfMemspaceId = -1;
-				long hdfDatatypeId = -1;
-				try {
-					hdfDataspaceId = H5.H5Dget_space(hdfDatasetId);
-					int rank = H5.H5Sget_simple_extent_ndims(hdfDataspaceId);
-					long[] dims = new long[rank];
-					long[] mdims = new long[rank];
-					H5.H5Sget_simple_extent_dims(hdfDataspaceId, dims, mdims);
-					long[] start = toLongArray(slice.getStart());
-					long[] stride = toLongArray(slice.getStep());
-					long[] shape = toLongArray(slice.getShape());
-
-					long[] newShape = null;
-					if (slice.isExpanded()) {
-						newShape = toLongArray(slice.getSourceShape());
-					} else {
-						long[] mShape = toLongArray(slice.getStop());
-						if (isGreaterThan(mShape, dims)) {
-							newShape = mShape;
-						}
+				long[] newShape = null;
+				if (slice.isExpanded()) {
+					newShape = toLongArray(slice.getSourceShape());
+				} else {
+					long[] mShape = toLongArray(slice.getStop());
+					if (expandToGreatestShape(mShape, dims)) {
+						newShape = mShape;
 					}
-					if (newShape != null) {
-						H5.H5Dset_extent(hdfDatasetId, newShape);
-						H5.H5Dflush(hdfDatasetId);
-						try {
-							H5.H5Sclose(hdfDataspaceId);
-						} catch (HDF5Exception ex) {
-						}
-						hdfDataspaceId = H5.H5Dget_space(hdfDatasetId);
+				}
+				if (newShape != null) {
+					H5.H5Dset_extent(hdfDatasetId, newShape);
+					try {
+						H5.H5Sclose(hdfDataspaceId);
+					} catch (HDF5Exception ex) {
 					}
-
+					hdfDataspaceId = H5.H5Screate_simple(rank, newShape, mdims);
+					ids[1] = hdfDataspaceId;
+				}
+				if (rank != 0) { // not a scalar (or null) dataspace
 					H5.H5Sselect_hyperslab(hdfDataspaceId, HDF5Constants.H5S_SELECT_SET, start, stride, shape, null);
-	
-					Dataset data = DatasetUtils.convertToDataset(value);
-					int dtype = data.getDtype();
-					long memtype = getHDF5type(dtype);
-					Serializable buffer = DatasetUtils.serializeDataset(data);
+				}
 
-					hdfMemspaceId = H5.H5Screate_simple(rank, HDF5Utils.toLongArray(data.getShape()), null);
-					if (dtype == Dataset.STRING) {
-						boolean vlenString = false;
-						hdfDatatypeId = H5.H5Dget_type(hdfDatasetId);
-						int typeSize = -1;
-						try {
-							typeSize = (int) H5.H5Tget_size(hdfDatatypeId);
-							vlenString = H5.H5Tis_variable_str(hdfDatatypeId);
-						} finally {
-							H5.H5Tclose(hdfDatatypeId);
-							hdfDatatypeId = -1;
-						}
-						hdfDatatypeId = H5.H5Tcopy(memtype);
-						H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
-						H5.H5Tset_size(hdfDatatypeId, vlenString ? HDF5Constants.H5T_VARIABLE : typeSize);
-						if (vlenString) {
-							H5.H5Dwrite_VLStrings(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, (String[]) buffer);
-						} else {
-							String[] strings = (String[]) buffer;
-							byte[] strBuffer = new byte[typeSize * strings.length];
-							int idx = 0;
-							for (String str : (String[]) strings) {
-								//typesize - 1 since we always want to leave room for \0 at the end of the string
-								if (str.length() > typeSize - 1) {
-									logger.warn("String does not fit into space allocated in HDF5 file in " + dataPath + " - string will be truncated");
-								}
-								byte[] src = str.getBytes(UTF8);
-								int length = Math.min(typeSize - 1, src.length);
-								System.arraycopy(src, 0, strBuffer, idx, length);
-								idx += typeSize;
-							}
-							H5.H5Dwrite(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, strBuffer);
-						}
+				Dataset data = DatasetUtils.convertToDataset(value);
+				int dtype = data.getDType();
+				long memtype = getHDF5type(dtype);
+				Serializable buffer = DatasetUtils.serializeDataset(data);
+
+				// convert boolean[] data to byte[]
+				// the HDF5 library cannot handle boolean[]
+				if (data.getElementClass().equals(Boolean.class)) {
+					boolean[] original = (boolean[]) buffer;
+					int length = original.length;
+					byte[] converted = new byte[length];
+					for (int i = 0; i < length; i++) {
+						converted[i] = (byte) (original[i] ? 1 : 0);
+					}
+					buffer = converted;
+				}
+
+				hdfMemspaceId = H5.H5Screate_simple(rank, HDF5Utils.toLongArray(data.getShape()), null);
+				if (dtype == Dataset.STRING) {
+					boolean vlenString = false;
+					hdfDatatypeId = H5.H5Dget_type(hdfDatasetId);
+					int typeSize = -1;
+					try {
+						typeSize = (int) H5.H5Tget_size(hdfDatatypeId);
+						vlenString = H5.H5Tis_variable_str(hdfDatatypeId);
+					} finally {
+						H5.H5Tclose(hdfDatatypeId);
+						hdfDatatypeId = -1;
+					}
+					hdfDatatypeId = H5.H5Tcopy(memtype);
+					H5.H5Tset_cset(hdfDatatypeId, HDF5Constants.H5T_CSET_UTF8);
+					H5.H5Tset_size(hdfDatatypeId, vlenString ? HDF5Constants.H5T_VARIABLE : typeSize);
+					if (vlenString) {
+						H5.H5Dwrite_VLStrings(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, (String[]) buffer);
 					} else {
-						H5.H5Dwrite(hdfDatasetId, memtype, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, buffer);
-					}
-				} finally {
-					if (hdfDatatypeId != -1) {
-						try {
-							H5.H5Tclose(hdfDatatypeId);
-						} catch (HDF5Exception ex) {
+						String[] strings = (String[]) buffer;
+						byte[] strBuffer = new byte[typeSize * strings.length];
+						int idx = 0;
+						for (String str : (String[]) strings) {
+							//typesize - 1 since we always want to leave room for \0 at the end of the string
+							if (str.length() > typeSize - 1) {
+								logger.warn("String does not fit into space allocated in HDF5 file in " + dataPath + " - string will be truncated");
+							}
+							byte[] src = str.getBytes(UTF8);
+							int length = Math.min(typeSize - 1, src.length);
+							System.arraycopy(src, 0, strBuffer, idx, length);
+							idx += typeSize;
 						}
+						H5.H5Dwrite(hdfDatasetId, hdfDatatypeId, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, strBuffer);
 					}
-					if (hdfMemspaceId != -1) {
-						try {
-							H5.H5Sclose(hdfMemspaceId);
-						} catch (HDF5Exception ex) {
-						}
-					}
-					if (hdfDataspaceId != -1) {
-						try {
-							H5.H5Sclose(hdfDataspaceId);
-						} catch (HDF5Exception ex) {
-						}
-					}
+				} else {
+					H5.H5Dwrite(hdfDatasetId, memtype, hdfMemspaceId, hdfDataspaceId, HDF5Constants.H5P_DEFAULT, buffer);
 				}
 			} finally {
-				if (hdfDatasetId != -1) {
+				if (hdfDatatypeId != -1) {
 					try {
-						H5.H5Dflush(hdfDatasetId);
+						H5.H5Tclose(hdfDatatypeId);
 					} catch (HDF5Exception ex) {
-					}
-					try {
-						H5.H5Dclose(hdfDatasetId);
-					} catch (HDF5Exception ex) {
+						logger.error("Could not close datatype", ex);
+						throw ex;
 					}
 				}
-			}
+				if (hdfMemspaceId != -1) {
+					try {
+						H5.H5Sclose(hdfMemspaceId);
+					} catch (HDF5Exception ex) {
+						logger.error("Could not close memory space", ex);
+						throw ex;
+					}
+				}
+			} // "Could not write slice to " + parentPath + Node.SEPARATOR + name + " in " + filePath, 
 		} catch (HDF5Exception e) {
-			logger.error("Could not write dataset slice", e);
-			throw new NexusException("Could not write dataset slice", e);
+			String msg = String.format("Could not write dataset slice to %s in %s", dataPath, f.toString());
+			logger.error(msg, e);
+			throw new NexusException(msg, e);
+		} finally {
+			if (!f.containsDataset(dataPath)) {
+				closeDataset(ids);
+			}
 		}
 	}
 
-	private static boolean isGreaterThan(long[] a, long[] b) {
+	private static boolean expandToGreatestShape(long[] a, long[] b) {
 		int rank = a.length;
+		boolean isExpanded = false;
 		for (int i = 0; i < rank; i++) {
 			if (a[i] > b[i]) {
-				return true;
+				isExpanded = true;
+			} else { // ensure shape is maximal
+				a[i] = b[i];
 			}
 		}
-		return false;
+
+		return isExpanded;
 	}
 
 	/**
@@ -1664,12 +1695,18 @@ public class HDF5Utils {
 				// TODO maybe convert to string dataset eventually
 				type.nEnum = H5.H5Tget_nmembers(nativeTypeId);
 				typeRepresentation = ENUM_SIZE_TO_HDF_TYPES.get(type.size);
+			} else if (tclass == HDF5Constants.H5T_REFERENCE) {
+				return null;
 			} else {
 				type.isVariableLength = tclass == HDF5Constants.H5T_VLEN;
 				typeRepresentation = getTypeRepresentation(nativeTypeId);
 			}
 			type.dtype = HDF_TYPES_TO_DATASET_TYPES.get(typeRepresentation);
 			type.unsigned = UNSIGNED_HDF_TYPES.contains(typeRepresentation);
+			type.name = DTypeUtils.getDTypeName(type.dtype, type.isize);
+			if (type.unsigned) {
+				type.name = "U" + type.name;
+			}
 		}
 //		isRegRef = H5.H5Tequal(tid, HDF5Constants.H5T_STD_REF_DSETREG);
 		return type;
@@ -1695,15 +1732,10 @@ public class HDF5Utils {
 					if (type == null) {
 						throw new NexusException("Unknown data type");
 					}
-					if (H5.H5Sget_simple_extent_type(spaceId) == HDF5Constants.H5S_SCALAR) {
-						shape = new long[] {1};
-						maxShape = new long[] {1};
-					} else {
-						final int nDims = H5.H5Sget_simple_extent_ndims(spaceId);
-						shape = new long[nDims];
-						maxShape = new long[nDims];
-						H5.H5Sget_simple_extent_dims(spaceId, shape, maxShape);
-					}
+					final int nDims = H5.H5Sget_simple_extent_ndims(spaceId);
+					shape = new long[nDims];
+					maxShape = new long[nDims];
+					H5.H5Sget_simple_extent_dims(spaceId, shape, maxShape);
 					final int[] iShape = toIntArray(shape);
 					int strCount = 1;
 					for (int d : iShape) {
@@ -1736,8 +1768,9 @@ public class HDF5Utils {
 				}
 			}
 		} catch (HDF5Exception e) {
-			logger.error("Could not retrieve attribute: {} in {}", name, path, e);
-			throw new NexusException("Could not retrieve attribute: " + name + " in " + path, e);
+			String msg = String.format("Could not retrieve attribute %s for %s", name, path);
+			logger.error(msg, e);
+			throw new NexusException(msg, e);
 		}
 		return dataset;
 	}

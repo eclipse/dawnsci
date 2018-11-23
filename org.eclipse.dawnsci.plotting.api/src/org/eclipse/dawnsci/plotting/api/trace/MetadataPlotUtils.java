@@ -12,35 +12,43 @@ package org.eclipse.dawnsci.plotting.api.trace;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.MaskMetadata;
+import org.eclipse.dawnsci.analysis.api.metadata.UnitMetadata;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.metadata.AxesMetadata;
+import org.eclipse.january.metadata.MaskMetadata;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 public class MetadataPlotUtils {
 
+	private final static Logger logger = LoggerFactory.getLogger(MetadataPlotUtils.class);
 	
 	public static void plotDataWithMetadata(IDataset data, final IPlottingSystem<?> system) {
 		plotDataWithMetadata(data, system, true);
 	}
 	
 	public static void plotDataWithMetadata(IDataset data, final IPlottingSystem<?> system, boolean clear) {
+		if (data == null || data.getSize() == 1) {
+			return;
+		}
 		
 		IDataset x = null;
 		IDataset y = null;
 		IDataset mask = null;
-		
+		String dataname = data.getName();
 		data = data.getSliceView().squeeze();
-		
+		data.setName(dataname);
 		IDataset[] axes = getAxesFromMetadata(data);
 		
 		MaskMetadata mmd = data.getFirstMetadata(MaskMetadata.class);
 		
-		if (mmd != null ) {
+		if (mmd != null) {
 			mask = mmd.getMask().getSlice().squeeze();
 		}
 		
@@ -56,6 +64,8 @@ public class MetadataPlotUtils {
 				y = y.getSlice(new Slice(0,1),(Slice)null).squeeze();
 			}
 			
+			if (x != null) x.setName(removeSquareBrackets(x.getName()));
+			if (y != null) y.setName(removeSquareBrackets(y.getName()));
 			
 			final ITrace t = system.updatePlot2D(data, Arrays.asList(new IDataset[]{y,x}), null);
 				
@@ -74,21 +84,36 @@ public class MetadataPlotUtils {
 			
 		} else if (data.getRank() == 1) {
 			x = axes == null ? null : axes[0];
-			if (clear) system.clear();
+			if (x != null) {
+				x.setName(removeSquareBrackets(x.getName())+getUnit(x));
+			}
+			if (clear) {
+				system.clearTraces();
+				system.resetAxes();
+			}
 			system.updatePlot1D(x,Arrays.asList(new IDataset[]{data}),null);
 		}
 		
 	}
 	
+	private static String getUnit(IDataset ds) {
+		
+		UnitMetadata um = ds.getFirstMetadata(UnitMetadata.class);
+		
+		if (um == null) return "";
+		
+		return " [" + um.toString() + "]";
+	}
+	
 
 	
 	public static IImageTrace buildTrace(String name, IDataset data, IPlottingSystem<Composite> system) {
-		return buildTrace(name, data, system,-1);
+		return buildTrace(name, data, system, -1);
 	
 	}
 	
 	public static IImageTrace buildTrace(IDataset data, IPlottingSystem<Composite> system) {
-		return buildTrace(data.getName(), data, system,-1);
+		return buildTrace(data.getName(), data, system, -1);
 	
 	}
 	
@@ -166,7 +191,10 @@ public class MetadataPlotUtils {
 			ILazyDataset[] axis = am.getAxis(dim);
 			IDataset[] out = new IDataset[axis.length];
 			for (int i = 0; i < out.length; i++) {
-				out[i] = axis[i] == null ? null : axis[i].getSlice();
+				try {
+					out[i] = axis[i] == null ? null : axis[i].getSlice();
+				} catch (DatasetException e) {
+				}
 			}
 			
 			return out;
@@ -179,8 +207,8 @@ public class MetadataPlotUtils {
 		return getAxesFromMetadata(data,true);
 	}
 	
-	public static IDataset[] getAxesFromMetadata(IDataset data, boolean squeeze) {
-		if (squeeze) data = data.getSliceView().squeeze();
+	public static IDataset[] getAxesFromMetadata(ILazyDataset data, boolean squeeze) {
+		if (squeeze) data = data.getSliceView().squeezeEnds();
 		return getAxesFromMetadata((ILazyDataset)data);
 	}
 	
@@ -202,28 +230,35 @@ public class MetadataPlotUtils {
 		if (amd != null && !amd.isEmpty()) {
 			AxesMetadata am = amd.get(0);
 			ILazyDataset[] axes = am.getAxes();
-			ILazyDataset lz0 = axes[0];
-			ILazyDataset lz1 = null;
 			IDataset[] out;
-			if (data.getRank() > 1) {
-				out = new IDataset[2];
-				lz1 = axes[1];
-			}else {
-				out= new IDataset[1];
+			if (axes.length > 0) {
+				ILazyDataset lz0 = axes[0];
+				ILazyDataset lz1 = null;
+				if (data.getRank() > 1) {
+					out = new IDataset[2];
+					lz1 = axes[1];
+				}else {
+					out= new IDataset[1];
+				}
+				
+				if (lz0 != null){
+	//				lz0.clearMetadata(null);
+					try {
+						x = lz0.getSlice().squeeze();
+						out[0] = x;
+					} catch (DatasetException e) {
+					}
+				}
+				if (lz1 != null) {
+	//				lz1.clearMetadata(null);
+					try {
+						y = lz1.getSlice().squeeze();
+						out[1] = y;
+					} catch (DatasetException e) {
+					}
+				}
+				return out;
 			}
-			
-			if (lz0 != null){
-//				lz0.clearMetadata(null);
-				x = lz0.getSlice().squeeze();
-				out[0] = x;
-			}
-			if (lz1 != null) {
-//				lz1.clearMetadata(null);
-				y = lz1.getSlice().squeeze();
-				out[1] = y;
-			}
-			
-			return out;
 		}
 		return null;
 	}
@@ -231,5 +266,28 @@ public class MetadataPlotUtils {
 	public static String removeSquareBrackets(String string) {
 		if (string == null) return null;
 		return string.replaceAll("\\[(.+?)\\]$", "");
+	}
+
+	public static IDataset[] getAxesAsIDatasetArray(ILazyDataset data) {
+		IDataset[] out = new IDataset[data.getRank()];
+		
+		AxesMetadata md = data.getFirstMetadata(AxesMetadata.class);
+		
+		if (md == null) return out;
+		
+		ILazyDataset[] axes = md.getAxes();
+		
+		if (axes == null) return out;
+		
+		for (int i = 0 ; i < axes.length; i++) {
+			try {
+				out[i] = axes[i] == null ? null : axes[i].getSlice();
+			} catch (Exception e) {
+				logger.error("Could not slice axes",e);
+			}
+			
+		}
+		
+		return out;
 	}
 }

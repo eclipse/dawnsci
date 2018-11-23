@@ -1,14 +1,25 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.remotedataset.test.server;
 
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
 import org.eclipse.dawnsci.remotedataset.server.DataServerMode;
 import org.eclipse.dawnsci.remotedataset.server.DiagnosticInfo;
+import org.eclipse.january.dataset.IDatasetConnector;
 import org.junit.Test;
 
 /**
@@ -64,7 +75,7 @@ public class FileMonitoringTest extends DataServerTest {
 
 	private void doConnectionAndDisconnect(int index, boolean checkListen) throws Exception {
 		
-		IRemoteDataset data = null;
+		IDatasetConnector data = null;
 		File h5File = null;
 		try {
 			testIsRunning = true;
@@ -74,7 +85,7 @@ public class FileMonitoringTest extends DataServerTest {
 			IRemoteDatasetService service = new RemoteDatasetServiceImpl();
 			data = service.createRemoteDataset("localhost", 8080);
 			data.setPath(h5File.getAbsolutePath());
-			data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
+			data.setDatasetName("/entry/data/image"); // We just get the first image in the PNG file.
 			data.connect();
 		
 			if (checkListen) {

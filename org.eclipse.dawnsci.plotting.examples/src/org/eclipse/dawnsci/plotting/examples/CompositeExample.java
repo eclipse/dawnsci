@@ -14,18 +14,18 @@ package org.eclipse.dawnsci.plotting.examples;
 import java.io.File;
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.examples.util.BundleUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.RGBDataset;
+import org.eclipse.january.dataset.Slice;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * A view which plots several image (2D) data together on the same pliotting system.
+ * A view which plots several image (2D) data together on the same plotting system.
  * 
  * This view uses the services available from plotting.api and 
  * analysis.io
@@ -49,14 +49,14 @@ public class CompositeExample extends PlotExample {
 			Dataset micro = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/microscope1/image/data"));
 			Dataset microx = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/microscope1/image/x"));
 			Dataset microy = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/microscope1/image/y"));
-			RGBDataset microrgb = new RGBDataset(micro.getSlice(new Slice(0,1),null,null).squeeze(),
+			RGBDataset microrgb = (RGBDataset) DatasetUtils.createCompoundDataset(Dataset.RGB, micro.getSlice(new Slice(0,1),null,null).squeeze(),
 												 micro.getSlice(new Slice(1,2),null,null).squeeze(),
 												 micro.getSlice(new Slice(2,3),null,null).squeeze());
 
 			Dataset map = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/map1/map/data"));
 			Dataset mapx = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/map1/map/x"));
 			Dataset mapy = DatasetUtils.sliceAndConvertLazyDataset(dh.getLazyDataset("/map1/map/y"));
-			
+
 			//Nudge co-ordinates
 			mapx.iadd(5);
 			mapy.isubtract(20);
@@ -87,6 +87,10 @@ public class CompositeExample extends PlotExample {
 			Dataset highMap = map.getSlice(new int[]{64,0},new int[]{128,64} ,null);
 			Dataset highx = mapx.getSlice(new int[]{0},new int[]{64},null);
 			Dataset highy = mapy.getSlice(new int[]{64},new int[]{128},null);
+
+			// fill quadrant with NaNs
+			highMap.setSlice(Float.NaN, new int[] {32,0}, new int[] {64,32}, null);
+
 			IImageTrace    top = system.createImageTrace("top");
 			top.setData(highMap, Arrays.asList(highx,highy), false);
 			top.setAlpha(150);

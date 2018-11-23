@@ -11,7 +11,7 @@
  *******************************************************************************/ 
 package org.eclipse.dawnsci.plotting.api;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 public interface IPlottingSystemSelection {
 	

@@ -13,23 +13,20 @@ package org.eclipse.dawnsci.remotedataset.client.streamer;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-class MJPGStreamer extends AbstractStreamer<BufferedImage> {
-
+class MJPGStreamer extends AbstractNonCachingStreamer<BufferedImage> {
 
 	/**
 	 * 
 	 * @param url - URL to read from
 	 * @param sleepTime - time to sleep between image reads, we don't want to use all CPU
-	 * @param cacheSize - size of image cache. If image cache grows too large, they are DROPPED.
 	 * @throws Exception
 	 */
-	public MJPGStreamer(URL url, long sleepTime, int cacheSize) throws Exception {
-		init(url, sleepTime, cacheSize);
+	public MJPGStreamer(URL url, long sleepTime) throws Exception {
+		init(url, sleepTime);
 	}
 	
 	private static BufferedImage QUEUE_END = new BufferedImage(1, 1, 1);

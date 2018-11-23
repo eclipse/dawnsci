@@ -17,12 +17,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -42,6 +42,7 @@ public abstract class AbstractPlottingFilter implements IPlottingFilter {
 		this.cache = new ArrayList<OriginalData>(7);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void filter(IPlottingSystem<?> system, TraceWillPlotEvent evt) throws Exception {
 		final ITrace trace = (ITrace)evt.getSource();

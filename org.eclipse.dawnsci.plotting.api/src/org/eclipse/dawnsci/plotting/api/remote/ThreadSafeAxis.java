@@ -11,9 +11,9 @@ package org.eclipse.dawnsci.plotting.api.remote;
 
 import java.io.Serializable;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.axis.IAxis;
 import org.eclipse.dawnsci.plotting.api.axis.IAxisListener;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
@@ -227,6 +227,11 @@ class ThreadSafeAxis extends ThreadSafeObject implements IAxis, Serializable {
 	}
 
 	@Override
+	public String format(Object value, int extraDP) {
+		return (String)call(getMethodName(Thread.currentThread().getStackTrace()), value, extraDP);
+	}
+
+	@Override
 	public double getScaling() {
 		return (Double)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
@@ -252,6 +257,17 @@ class ThreadSafeAxis extends ThreadSafeObject implements IAxis, Serializable {
 		return (Boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
+	@Override
+	public void setInverted(boolean isInverted) {
+		call(getMethodName(Thread.currentThread().getStackTrace()), isInverted);
+		
+	}
+
+	@Override
+	public boolean isInverted() {
+		return (Boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
+	}
+	
 	IAxis getDelegate() {
 		return delegate;
 	}

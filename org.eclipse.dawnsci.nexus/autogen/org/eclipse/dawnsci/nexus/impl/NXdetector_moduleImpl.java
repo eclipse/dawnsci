@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -66,7 +66,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 	}
 
 	@Override
-	public long getData_originScalar() {
+	public Long getData_originScalar() {
 		return getLong(NX_DATA_ORIGIN);
 	}
 
@@ -76,7 +76,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 	}
 
 	@Override
-	public DataNode setData_originScalar(long data_origin) {
+	public DataNode setData_originScalar(Long data_origin) {
 		return setField(NX_DATA_ORIGIN, data_origin);
 	}
 
@@ -86,7 +86,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 	}
 
 	@Override
-	public long getData_sizeScalar() {
+	public Long getData_sizeScalar() {
 		return getLong(NX_DATA_SIZE);
 	}
 
@@ -96,7 +96,7 @@ public class NXdetector_moduleImpl extends NXobjectImpl implements NXdetector_mo
 	}
 
 	@Override
-	public DataNode setData_sizeScalar(long data_size) {
+	public DataNode setData_sizeScalar(Long data_size) {
 		return setField(NX_DATA_SIZE, data_size);
 	}
 

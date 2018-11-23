@@ -1,3 +1,14 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.nexus.builder.data.impl;
 
 import static org.eclipse.dawnsci.nexus.test.util.NexusAssert.assertAxes;
@@ -8,7 +19,6 @@ import static org.eclipse.dawnsci.nexus.test.util.NexusAssert.assertTarget;
 
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.FloatDataset;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXpositioner;
@@ -23,6 +33,8 @@ import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.data.DataDeviceBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.FloatDataset;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,9 +69,9 @@ public class DefaultNexusDataExamplesTest {
 		@Override
 		protected NXdetector createNexusObject() {
 			NXdetector detector = NexusNodeFactory.createNXdetector();
-			detector.setData(new FloatDataset(shape));
+			detector.setData(DatasetFactory.zeros(FloatDataset.class, shape));
 			if (hasTimeOfFlight) {
-				detector.setTime_of_flight(new FloatDataset(shape[shape.length - 1]));
+				detector.setTime_of_flight(DatasetFactory.zeros(FloatDataset.class, shape[shape.length - 1]));
 			}
 			
 			return detector;
@@ -79,7 +91,7 @@ public class DefaultNexusDataExamplesTest {
 		@Override
 		protected NXpositioner createNexusObject() {
 			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
-			positioner.setValue(new FloatDataset(shape));
+			positioner.setValue(DatasetFactory.zeros(FloatDataset.class, shape));
 			return positioner;
 		}
 		
@@ -95,15 +107,15 @@ public class DefaultNexusDataExamplesTest {
 			super(name, NexusBaseClass.NX_POSITIONER);
 			this.dimensionIndex = dimensionIndex;
 			this.scanShape = scanShape;
-			setAxisDataFieldNames("rbv", "demand");
-			setDefaultAxisDataFieldName("demand");
+			setAxisDataFieldNames("rbv", "set");
+			setDefaultAxisDataFieldName("set");
 		}
 		
 		@Override
 		protected NXpositioner createNexusObject() {
 			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
-			positioner.setField("rbv", new FloatDataset(scanShape));
-			positioner.setField("demand", new FloatDataset(scanShape[dimensionIndex]));
+			positioner.setField("rbv", DatasetFactory.zeros(FloatDataset.class, scanShape));
+			positioner.setField("set", DatasetFactory.zeros(FloatDataset.class, scanShape[dimensionIndex]));
 			return positioner;
 		}
 		
@@ -254,13 +266,13 @@ public class DefaultNexusDataExamplesTest {
 		dataBuilder.addAxisDevice(timePositioner, null, 0, 1);
 		
 		assertSignal(nxData, "det1");
-		assertAxes(nxData, "polar_angle_demand", "frame_number", ".");
+		assertAxes(nxData, "polar_angle_set", "frame_number", ".");
 		assertShape(nxData, "det1", 50, 5, 1024);
 		assertTarget(nxData, "det1", nxRoot, "/entry/instrument/det1/data");
 		
-		assertIndices(nxData, "polar_angle_demand", 0);
-		assertShape(nxData, "polar_angle_demand", 50);
-		assertTarget(nxData, "polar_angle_demand", nxRoot, "/entry/instrument/polar_angle/demand");
+		assertIndices(nxData, "polar_angle_set", 0);
+		assertShape(nxData, "polar_angle_set", 50);
+		assertTarget(nxData, "polar_angle_set", nxRoot, "/entry/instrument/polar_angle/set");
 		assertIndices(nxData, "polar_angle_rbv", 0, 1);
 		assertShape(nxData, "polar_angle_rbv", 50, 5);
 		assertTarget(nxData, "polar_angle_rbv", nxRoot, "/entry/instrument/polar_angle/rbv");

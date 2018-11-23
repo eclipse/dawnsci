@@ -11,10 +11,11 @@ package org.eclipse.dawnsci.slicing.api.data;
 
 import java.io.File;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
 
 
 /**
@@ -32,7 +33,11 @@ public class TransferableLazyDataset extends AbstractTransferableDataObject {
 
 	@Override
 	public IDataset getData(IMonitor monitor) {
-		return delegate.getSlice();
+		try {
+			return delegate.getSlice();
+		} catch (DatasetException e) {
+		}
+		return null;
 	}
 
 	@Override
@@ -42,8 +47,8 @@ public class TransferableLazyDataset extends AbstractTransferableDataObject {
 
 	@Override
 	public String getFileName() {
-		return delegate instanceof IRemoteDataset
-			  ? (new File( ((IRemoteDataset)delegate).getPath() )).getName()
+		return delegate instanceof IDatasetConnector
+			  ? (new File( ((IDatasetConnector)delegate).getPath() )).getName()
 		      : null;
 	}
 
@@ -65,9 +70,9 @@ public class TransferableLazyDataset extends AbstractTransferableDataObject {
 
 	@Override
 	public String getPath() {
-		if (delegate instanceof  IRemoteDataset) {
-			IRemoteDataset rd = (IRemoteDataset)delegate;
-			if (rd.getDataset()!=null) return rd.getDataset(); 
+		if (delegate instanceof IDatasetConnector) {
+			IDatasetConnector rd = (IDatasetConnector)delegate;
+			if (rd.getDatasetName()!=null) return rd.getDatasetName(); 
 		}
 	    return delegate.getName();
 	}
@@ -89,8 +94,8 @@ public class TransferableLazyDataset extends AbstractTransferableDataObject {
 
 	@Override
 	public String getFilePath() {
-		return delegate instanceof IRemoteDataset
-				  ? ((IRemoteDataset)delegate).getPath()
+		return delegate instanceof IDatasetConnector
+				  ? ((IDatasetConnector)delegate).getPath()
 			      : null;
 	}
 

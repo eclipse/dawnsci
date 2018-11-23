@@ -1,12 +1,23 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.remotedataset.client;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.remotedataset.Format;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.dataset.SliceND;
 
 /**
  * Holds data and builds urls from it when required.
@@ -52,6 +63,21 @@ public class URLBuilder {
 	public URLBuilder(String serverName, int port) {
 		this.serverName = serverName;
 		this.port       = port;
+	}
+	
+	public URLBuilder(URLBuilder builder) {
+		this.get             = builder.get;
+		this.url             = builder.url;	
+		this.serverName      = builder.serverName;
+		this.port            = builder.port;
+		this.slice           = builder.slice;
+		this.bin             = builder.bin;
+		this.format          = builder.format;
+		this.histo           = builder.histo;
+		this.sleep           = builder.sleep;
+		this.path            = builder.path;
+		this.dataset         = builder.dataset;
+		this.writingExpected = builder.writingExpected;
 	}
 
 	public URL getSliceURL() throws Exception {

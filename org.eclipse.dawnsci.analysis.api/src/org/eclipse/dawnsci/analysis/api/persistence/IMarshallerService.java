@@ -10,11 +10,10 @@
 package org.eclipse.dawnsci.analysis.api.persistence;
 
 /**
- * The marshaller service is a service in which will marshal 
- * existing dawnsci object types. In addition if object types
- * are required to marshall/unmarshall in projects which 
- * the marshaller service implementation cannot see directly,
- * extension points may be used.
+ * The marshaller service will marshal  existing dawnsci object types.
+ * In addition, if object types are required to marshall/unmarshall
+ * in projects which the marshaller service implementation cannot
+ * see directly, extension points may be used.
  * 
  * @author Colin Palmer
  */
@@ -25,8 +24,10 @@ public interface IMarshallerService {
 	 * <p>
 	 * Objects to be marshalled should have no-arg constructors, and getters and setters for their fields.
 	 * <p>
-	 * The default implementation will add type information to the JSON string to allow objects to be deserialized
-	 * correctly even in an OSGi environment (where many classes are not visible to this bundle's classloader).
+	 * Where the object type cannot be determined inside the vanilla marshaller, class registries are used
+	 * to provide a list of class id's and their corresponding class, through an extension point. 
+	 *
+	 * This is the same as marshal(anyObject, true)
 	 *
 	 * @param anyObject
 	 *            the object to be serialized
@@ -34,27 +35,27 @@ public interface IMarshallerService {
 	 * @throws Exception
 	 *             if the object cannot be marshalled correctly
 	 */
-	// TODO switch to using a specific wrapper exception? Or throw a RuntimeException instead of checked? Or just return null?
 	public String marshal(Object anyObject) throws Exception;
-
-	// TODO add method to marshal objects without type information?
+	
+	
+	/**
+	 * This marshal gives the option of turning off the class registry id information in the
+	 * serialization. If you are not using interfaces (the norm) then this information is not needed
+	 * because the types are static.
+	 * 
+	 * @param anyObject
+	 * @param useRegisteredClassTyping
+	 * @return the JSON string representing the object
+	 * @throws Exception
+	 */
+	public String marshal(Object anyObject, boolean useRegisteredClassTyping) throws Exception;
+	
 
 	/**
 	 * Deserialize the given JSON string as an instance of the given class
 	 * <p>
-	 * The default implementation will try to find the correct classes for deserialization if possible, using type
-	 * information encoded in the JSON string if available. If you still have problems with ClassNotFoundExceptions,
-	 * one option which might help is to try setting the thread context classloader before calling the unmarshal
-	 * method:
-	 * <pre>
-	 * ClassLoader tccl = Thread.currentThread().getContextClassLoader();
-	 * try {
-	 * 	Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-	 * 	// call the unmarshaller
-	 * } finally {
-	 * 	Thread.currentThread().setContextClassLoader(tccl);
-	 * }
-	 * </pre>
+	 * The default implementation will try to find the correct classes for deserialization if possible,
+	 * using type information encoded in the JSON string if available.
 	 *
 	 * @param string
 	 *            the JSON string to be deserialized
@@ -64,6 +65,13 @@ public interface IMarshallerService {
 	 * @throws Exception
 	 *             if the object cannot be unmarshalled correctly
 	 */
-	// TODO what is returned from an empty JSON string? null or exception?
 	public <U> U unmarshal(String string, Class<U> beanClass) throws Exception;
+
+	/**
+	 * Returns true if this Object has a mix-in class (for ROIs for instance)
+	 * 
+	 * @param obj
+	 * @return boolean
+	 */
+	public boolean isObjMixInSupported(Object obj);
 }

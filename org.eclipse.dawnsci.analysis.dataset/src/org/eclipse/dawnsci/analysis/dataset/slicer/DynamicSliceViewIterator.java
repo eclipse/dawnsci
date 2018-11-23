@@ -10,17 +10,18 @@
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
 import java.util.Arrays;
-import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.metadata.DynamicMetadataUtils;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.LongDataset;
+import org.eclipse.january.dataset.SliceND;
+import org.eclipse.january.metadata.AxesMetadata;
+import org.eclipse.january.metadata.DynamicMetadataUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +30,6 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	private static final Logger logger = LoggerFactory.getLogger(DynamicSliceViewIterator.class);
 	
 	private DynamicSliceNDIterator iterator = null;
-	int count;
 	
 	private IDynamicDataset lazy;
 	private IDynamicDataset[] keys;
@@ -38,20 +38,27 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	private SourceInformation source;
 	private boolean next = false;
 	
-	boolean last = false;
+	private boolean last = false;
 	
 	private int maxTimeout = 60000;
 	private int timeout = 1000;
-
 	
-	public DynamicSliceViewIterator(IDynamicDataset lazy, IDynamicDataset[] keys, IDynamicDataset finished) {
-		iterator = new DynamicSliceNDIterator(lazy.getShape(), mergeKeys(keys), keys[0].getRank());
+	public DynamicSliceViewIterator(IDynamicDataset lazy, IDynamicDataset[] keys, IDynamicDataset finished, int dataSize) {
+		this(lazy, keys, finished, dataSize, false);
+	}
+	
+	public DynamicSliceViewIterator(IDynamicDataset lazy, IDynamicDataset[] keys, IDynamicDataset finished, int dataSize, boolean repeating) {
+		try {
+			iterator = new DynamicSliceNDIterator(lazy.getShape(), mergeKeys(keys), lazy.getRank()-dataSize);
+			if (repeating) iterator.enableRepeating();
+		} catch (DatasetException e) {
+			logger.error("Could not get data from lazy dataset", e);
+		}
 		this.lazy = lazy;
 		this.keys = keys;
 		this.finished = finished;
 		
 		int lr = lazy.getRank();
-		int dataSize = lazy.getRank() - keys[0].getRank();
 		
 		this.axes = new int[dataSize];
 		
@@ -66,12 +73,22 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 		else logger.warn("Lazy dataset contains no source information");
 
 	}
+	
+	public void setMaxTimeout(int maxTimeout) {
+		this.maxTimeout = maxTimeout;
+		timeout = maxTimeout/50;
+	}
 
 	public void updateShape() {
 		try {
 			lazy.refreshShape();
+			int[] current = lazy.getShape();
 			for (IDynamicDataset k : keys) k.refreshShape();
 			int[] s = DynamicMetadataUtils.refreshDynamicAxesMetadata(lazy.getMetadata(AxesMetadata.class), lazy.getShape());
+			logger.info("Dynamic iterator setting max shape " + Arrays.toString(s) + " for lazy shape " + Arrays.toString(current));
+			for (int i = 0; i < axes.length;i++) {
+				s[axes[i]] = current[axes[i]];
+			}
 			lazy.resize(s);
 			iterator.updateShape(lazy.getShape(), mergeKeys(keys));
 		} catch (Exception e) {
@@ -84,21 +101,26 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	public boolean hasNext() {
 		
 		boolean hasNext = next;
-		count++;
 		double time = 0;
 		
 		while (time < maxTimeout && !iterator.peekHasNext()  && !last) {
 			try {
 				Thread.sleep(timeout);
 				updateShape();
+				finished.refreshShape();
 				last = finished.getSlice().getInt(0) == 1;
 				time += timeout;
 			} catch (InterruptedException e) {
 				break;
+			} catch (DatasetException e) {
+				logger.error("Could not get data from lazy dataset", e);
 			}
 		}
 		
-		if (time >= maxTimeout) last = true;
+		if (time >= maxTimeout) {
+			last = true;
+			logger.error("Dynamic slice view iterator has timed-out");
+		}
 		
 		return hasNext;
 	}
@@ -106,9 +128,12 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	/**
 	 * Resets the iterator
 	 */
+	@Override
 	public void reset() {
-		count = 0;
 		iterator.reset();
+		last = false;
+		updateShape();
+		next = iterator.hasNext();
 	}
 	
 	/**
@@ -119,12 +144,20 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	@Override
 	public ILazyDataset next() {
 		SliceND current = iterator.getCurrentSlice().clone();
-		ILazyDataset view = lazy.getSlice(current);
+		ILazyDataset view;
+		try {
+			view = lazy.getSlice(current);
+		} catch (DatasetException e) {
+			logger.error("Could not get data from lazy dataset", e);
+			return null;
+		}
 		view.clearMetadata(SliceFromSeriesMetadata.class);
+		
+		int count = iterator.getCount();
 		
 		SliceInformation sl = new SliceInformation(current,
 				current.clone(), new SliceND(lazy.getShape()),
-				axes, last ? count : -1, count);
+				axes, last ? count : -1, count - 1);
 		
 		SliceFromSeriesMetadata m = new SliceFromSeriesMetadata(source, sl);
 		
@@ -145,15 +178,6 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 	}
 	
 	/**
-	 * Get the number of the current ILazyDataset
-	 * 
-	 * @return current
-	 */
-	public int getCurrent(){
-		return count;
-	}
-	
-	/**
 	 * Get the shape of the subsampled view
 	 * 
 	 * @return shape
@@ -168,7 +192,21 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 		//TODO throw something?
 	}
 	
-	private IDataset mergeKeys(IDynamicDataset[] keys){
+	private IDataset mergeKeys(IDynamicDataset[] keys) throws DatasetException {
+		
+		try {
+			
+			for (IDynamicDataset key : keys) {
+				String name = key.getName();
+				if (name == null) name = "unknown";
+				logger.info("merge " + name + " with shape " + Arrays.toString(key.getShape()));
+			}
+			
+			//For testing on I18
+		} catch (Exception e) {
+			logger.info("Exception testing keys",e);
+		}
+		
 		if (keys.length == 1) return keys[0].getSlice();
 		Dataset[] dk = new Dataset[keys.length];
 		int[] maxShape = new int[keys[0].getRank()];
@@ -180,15 +218,19 @@ public class DynamicSliceViewIterator implements ISliceViewIterator {
 			if (dk[i].getSize() < minSize) minSize = dk[i].getSize();
 		}
 		
-		Dataset key = DatasetFactory.zeros(new int[]{minSize}, Dataset.INT64);
+		Dataset key = DatasetFactory.zeros(LongDataset.class,new int[]{minSize});
 		
 		for (int i = 0; i < minSize ; i++) {
+			long sum = 0;
 			for (Dataset k : dk) {
 				if (i > k.getSize()) return key;
+				long l = k.getElementLongAbs(i);
 				if (k.getElementLongAbs(i) == 0) return key;
+				sum+=l;
+				
 			}
 			
-			key.set(i+1, i);
+			key.set(sum, i);
 		}
 		
 		return key;

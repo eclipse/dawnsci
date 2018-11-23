@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -38,7 +38,6 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 		NexusBaseClass.NX_DATA,
 		NexusBaseClass.NX_NOTE,
 		NexusBaseClass.NX_NOTE,
-		NexusBaseClass.NX_CHARACTERIZATION,
 		NexusBaseClass.NX_COLLECTION,
 		NexusBaseClass.NX_DETECTOR_MODULE);
 
@@ -72,7 +71,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getTime_of_flightScalar() {
+	public Double getTime_of_flightScalar() {
 		return getDouble(NX_TIME_OF_FLIGHT);
 	}
 
@@ -82,31 +81,31 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setTime_of_flightScalar(double time_of_flight) {
+	public DataNode setTime_of_flightScalar(Double time_of_flight) {
 		return setField(NX_TIME_OF_FLIGHT, time_of_flight);
 	}
 
 	@Override
 	@Deprecated
-	public long getTime_of_flightAttributeAxis() {
+	public Long getTime_of_flightAttributeAxis() {
 		return getAttrLong(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_AXIS);
 	}
 
 	@Override
 	@Deprecated
-	public void setTime_of_flightAttributeAxis(long axis) {
+	public void setTime_of_flightAttributeAxis(Long axis) {
 		setAttribute(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_AXIS, axis);
 	}
 
 	@Override
 	@Deprecated
-	public long getTime_of_flightAttributePrimary() {
+	public Long getTime_of_flightAttributePrimary() {
 		return getAttrLong(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_PRIMARY);
 	}
 
 	@Override
 	@Deprecated
-	public void setTime_of_flightAttributePrimary(long primary) {
+	public void setTime_of_flightAttributePrimary(Long primary) {
 		setAttribute(NX_TIME_OF_FLIGHT, NX_TIME_OF_FLIGHT_ATTRIBUTE_PRIMARY, primary);
 	}
 
@@ -126,7 +125,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public long getRaw_time_of_flightScalar() {
+	public Long getRaw_time_of_flightScalar() {
 		return getLong(NX_RAW_TIME_OF_FLIGHT);
 	}
 
@@ -136,7 +135,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setRaw_time_of_flightScalar(long raw_time_of_flight) {
+	public DataNode setRaw_time_of_flightScalar(Long raw_time_of_flight) {
 		return setField(NX_RAW_TIME_OF_FLIGHT, raw_time_of_flight);
 	}
 
@@ -156,7 +155,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public long getDetector_numberScalar() {
+	public Long getDetector_numberScalar() {
 		return getLong(NX_DETECTOR_NUMBER);
 	}
 
@@ -166,7 +165,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setDetector_numberScalar(long detector_number) {
+	public DataNode setDetector_numberScalar(Long detector_number) {
 		return setField(NX_DETECTOR_NUMBER, detector_number);
 	}
 
@@ -201,12 +200,12 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public long getDataAttributeCheck_sum() {
+	public Long getDataAttributeCheck_sum() {
 		return getAttrLong(NX_DATA, NX_DATA_ATTRIBUTE_CHECK_SUM);
 	}
 
 	@Override
-	public void setDataAttributeCheck_sum(long check_sum) {
+	public void setDataAttributeCheck_sum(Long check_sum) {
 		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_CHECK_SUM, check_sum);
 	}
 
@@ -236,7 +235,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getX_pixel_offsetScalar() {
+	public Double getX_pixel_offsetScalar() {
 		return getDouble(NX_X_PIXEL_OFFSET);
 	}
 
@@ -246,31 +245,31 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setX_pixel_offsetScalar(double x_pixel_offset) {
+	public DataNode setX_pixel_offsetScalar(Double x_pixel_offset) {
 		return setField(NX_X_PIXEL_OFFSET, x_pixel_offset);
 	}
 
 	@Override
 	@Deprecated
-	public long getX_pixel_offsetAttributeAxis() {
+	public Long getX_pixel_offsetAttributeAxis() {
 		return getAttrLong(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_AXIS);
 	}
 
 	@Override
 	@Deprecated
-	public void setX_pixel_offsetAttributeAxis(long axis) {
+	public void setX_pixel_offsetAttributeAxis(Long axis) {
 		setAttribute(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_AXIS, axis);
 	}
 
 	@Override
 	@Deprecated
-	public long getX_pixel_offsetAttributePrimary() {
+	public Long getX_pixel_offsetAttributePrimary() {
 		return getAttrLong(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_PRIMARY);
 	}
 
 	@Override
 	@Deprecated
-	public void setX_pixel_offsetAttributePrimary(long primary) {
+	public void setX_pixel_offsetAttributePrimary(Long primary) {
 		setAttribute(NX_X_PIXEL_OFFSET, NX_X_PIXEL_OFFSET_ATTRIBUTE_PRIMARY, primary);
 	}
 
@@ -290,7 +289,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getY_pixel_offsetScalar() {
+	public Double getY_pixel_offsetScalar() {
 		return getDouble(NX_Y_PIXEL_OFFSET);
 	}
 
@@ -300,31 +299,31 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setY_pixel_offsetScalar(double y_pixel_offset) {
+	public DataNode setY_pixel_offsetScalar(Double y_pixel_offset) {
 		return setField(NX_Y_PIXEL_OFFSET, y_pixel_offset);
 	}
 
 	@Override
 	@Deprecated
-	public long getY_pixel_offsetAttributeAxis() {
+	public Long getY_pixel_offsetAttributeAxis() {
 		return getAttrLong(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_AXIS);
 	}
 
 	@Override
 	@Deprecated
-	public void setY_pixel_offsetAttributeAxis(long axis) {
+	public void setY_pixel_offsetAttributeAxis(Long axis) {
 		setAttribute(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_AXIS, axis);
 	}
 
 	@Override
 	@Deprecated
-	public long getY_pixel_offsetAttributePrimary() {
+	public Long getY_pixel_offsetAttributePrimary() {
 		return getAttrLong(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_PRIMARY);
 	}
 
 	@Override
 	@Deprecated
-	public void setY_pixel_offsetAttributePrimary(long primary) {
+	public void setY_pixel_offsetAttributePrimary(Long primary) {
 		setAttribute(NX_Y_PIXEL_OFFSET, NX_Y_PIXEL_OFFSET_ATTRIBUTE_PRIMARY, primary);
 	}
 
@@ -344,7 +343,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getDistanceScalar() {
+	public Double getDistanceScalar() {
 		return getDouble(NX_DISTANCE);
 	}
 
@@ -354,7 +353,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setDistanceScalar(double distance) {
+	public DataNode setDistanceScalar(Double distance) {
 		return setField(NX_DISTANCE, distance);
 	}
 
@@ -364,7 +363,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getPolar_angleScalar() {
+	public Double getPolar_angleScalar() {
 		return getDouble(NX_POLAR_ANGLE);
 	}
 
@@ -374,7 +373,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setPolar_angleScalar(double polar_angle) {
+	public DataNode setPolar_angleScalar(Double polar_angle) {
 		return setField(NX_POLAR_ANGLE, polar_angle);
 	}
 
@@ -384,7 +383,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getAzimuthal_angleScalar() {
+	public Double getAzimuthal_angleScalar() {
 		return getDouble(NX_AZIMUTHAL_ANGLE);
 	}
 
@@ -394,7 +393,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setAzimuthal_angleScalar(double azimuthal_angle) {
+	public DataNode setAzimuthal_angleScalar(Double azimuthal_angle) {
 		return setField(NX_AZIMUTHAL_ANGLE, azimuthal_angle);
 	}
 
@@ -474,7 +473,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getSolid_angleScalar() {
+	public Double getSolid_angleScalar() {
 		return getDouble(NX_SOLID_ANGLE);
 	}
 
@@ -484,7 +483,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setSolid_angleScalar(double solid_angle) {
+	public DataNode setSolid_angleScalar(Double solid_angle) {
 		return setField(NX_SOLID_ANGLE, solid_angle);
 	}
 
@@ -494,7 +493,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getX_pixel_sizeScalar() {
+	public Double getX_pixel_sizeScalar() {
 		return getDouble(NX_X_PIXEL_SIZE);
 	}
 
@@ -504,7 +503,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setX_pixel_sizeScalar(double x_pixel_size) {
+	public DataNode setX_pixel_sizeScalar(Double x_pixel_size) {
 		return setField(NX_X_PIXEL_SIZE, x_pixel_size);
 	}
 
@@ -514,7 +513,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getY_pixel_sizeScalar() {
+	public Double getY_pixel_sizeScalar() {
 		return getDouble(NX_Y_PIXEL_SIZE);
 	}
 
@@ -524,7 +523,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setY_pixel_sizeScalar(double y_pixel_size) {
+	public DataNode setY_pixel_sizeScalar(Double y_pixel_size) {
 		return setField(NX_Y_PIXEL_SIZE, y_pixel_size);
 	}
 
@@ -534,7 +533,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getDead_timeScalar() {
+	public Double getDead_timeScalar() {
 		return getDouble(NX_DEAD_TIME);
 	}
 
@@ -544,7 +543,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setDead_timeScalar(double dead_time) {
+	public DataNode setDead_timeScalar(Double dead_time) {
 		return setField(NX_DEAD_TIME, dead_time);
 	}
 
@@ -554,7 +553,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getGas_pressureScalar() {
+	public Double getGas_pressureScalar() {
 		return getDouble(NX_GAS_PRESSURE);
 	}
 
@@ -564,7 +563,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setGas_pressureScalar(double gas_pressure) {
+	public DataNode setGas_pressureScalar(Double gas_pressure) {
 		return setField(NX_GAS_PRESSURE, gas_pressure);
 	}
 
@@ -574,7 +573,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getDetection_gas_pathScalar() {
+	public Double getDetection_gas_pathScalar() {
 		return getDouble(NX_DETECTION_GAS_PATH);
 	}
 
@@ -584,7 +583,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setDetection_gas_pathScalar(double detection_gas_path) {
+	public DataNode setDetection_gas_pathScalar(Double detection_gas_path) {
 		return setField(NX_DETECTION_GAS_PATH, detection_gas_path);
 	}
 
@@ -594,7 +593,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public long getCrateScalar() {
+	public Long getCrateScalar() {
 		return getLong(NX_CRATE);
 	}
 
@@ -604,7 +603,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setCrateScalar(long crate) {
+	public DataNode setCrateScalar(Long crate) {
 		return setField(NX_CRATE, crate);
 	}
 
@@ -624,7 +623,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public long getSlotScalar() {
+	public Long getSlotScalar() {
 		return getLong(NX_SLOT);
 	}
 
@@ -634,7 +633,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setSlotScalar(long slot) {
+	public DataNode setSlotScalar(Long slot) {
 		return setField(NX_SLOT, slot);
 	}
 
@@ -654,7 +653,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public long getInputScalar() {
+	public Long getInputScalar() {
 		return getLong(NX_INPUT);
 	}
 
@@ -664,7 +663,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setInputScalar(long input) {
+	public DataNode setInputScalar(Long input) {
 		return setField(NX_INPUT, input);
 	}
 
@@ -789,42 +788,6 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	@Deprecated
-	public NXcharacterization getCharacterization() {
-		return getChild("characterization", NXcharacterization.class);
-	}
-
-	@Override
-	@Deprecated
-	public void setCharacterization(NXcharacterization characterization) {
-		putChild("characterization", characterization);
-	}
-
-	@Override
-	@Deprecated
-	public NXcharacterization getCharacterization(String name) {
-		return getChild(name, NXcharacterization.class);
-	}
-
-	@Override
-	@Deprecated
-	public void setCharacterization(String name, NXcharacterization characterization) {
-		putChild(name, characterization);
-	}
-
-	@Override
-	@Deprecated
-	public Map<String, NXcharacterization> getAllCharacterization() {
-		return getChildren(NXcharacterization.class);
-	}
-	
-	@Override
-	@Deprecated
-	public void setAllCharacterization(Map<String, NXcharacterization> characterization) {
-		setChildren(characterization);
-	}
-
-	@Override
 	public NXcollection getCollection() {
 		return getChild("collection", NXcollection.class);
 	}
@@ -880,7 +843,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getBeam_center_xScalar() {
+	public Double getBeam_center_xScalar() {
 		return getDouble(NX_BEAM_CENTER_X);
 	}
 
@@ -890,7 +853,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setBeam_center_xScalar(double beam_center_x) {
+	public DataNode setBeam_center_xScalar(Double beam_center_x) {
 		return setField(NX_BEAM_CENTER_X, beam_center_x);
 	}
 
@@ -900,7 +863,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getBeam_center_yScalar() {
+	public Double getBeam_center_yScalar() {
 		return getDouble(NX_BEAM_CENTER_Y);
 	}
 
@@ -910,7 +873,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setBeam_center_yScalar(double beam_center_y) {
+	public DataNode setBeam_center_yScalar(Double beam_center_y) {
 		return setField(NX_BEAM_CENTER_Y, beam_center_y);
 	}
 
@@ -920,7 +883,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public long getFrame_start_numberScalar() {
+	public Long getFrame_start_numberScalar() {
 		return getLong(NX_FRAME_START_NUMBER);
 	}
 
@@ -930,7 +893,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setFrame_start_numberScalar(long frame_start_number) {
+	public DataNode setFrame_start_numberScalar(Long frame_start_number) {
 		return setField(NX_FRAME_START_NUMBER, frame_start_number);
 	}
 
@@ -940,7 +903,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getDiameterScalar() {
+	public Double getDiameterScalar() {
 		return getDouble(NX_DIAMETER);
 	}
 
@@ -950,7 +913,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setDiameterScalar(double diameter) {
+	public DataNode setDiameterScalar(Double diameter) {
 		return setField(NX_DIAMETER, diameter);
 	}
 
@@ -980,7 +943,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public boolean getAngular_calibration_appliedScalar() {
+	public Boolean getAngular_calibration_appliedScalar() {
 		return getBoolean(NX_ANGULAR_CALIBRATION_APPLIED);
 	}
 
@@ -990,7 +953,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setAngular_calibration_appliedScalar(boolean angular_calibration_applied) {
+	public DataNode setAngular_calibration_appliedScalar(Boolean angular_calibration_applied) {
 		return setField(NX_ANGULAR_CALIBRATION_APPLIED, angular_calibration_applied);
 	}
 
@@ -1000,7 +963,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getAngular_calibrationScalar() {
+	public Double getAngular_calibrationScalar() {
 		return getDouble(NX_ANGULAR_CALIBRATION);
 	}
 
@@ -1010,7 +973,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setAngular_calibrationScalar(double angular_calibration) {
+	public DataNode setAngular_calibrationScalar(Double angular_calibration) {
 		return setField(NX_ANGULAR_CALIBRATION, angular_calibration);
 	}
 
@@ -1020,7 +983,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public boolean getFlatfield_appliedScalar() {
+	public Boolean getFlatfield_appliedScalar() {
 		return getBoolean(NX_FLATFIELD_APPLIED);
 	}
 
@@ -1030,7 +993,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setFlatfield_appliedScalar(boolean flatfield_applied) {
+	public DataNode setFlatfield_appliedScalar(Boolean flatfield_applied) {
 		return setField(NX_FLATFIELD_APPLIED, flatfield_applied);
 	}
 
@@ -1040,7 +1003,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getFlatfieldScalar() {
+	public Double getFlatfieldScalar() {
 		return getDouble(NX_FLATFIELD);
 	}
 
@@ -1050,7 +1013,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setFlatfieldScalar(double flatfield) {
+	public DataNode setFlatfieldScalar(Double flatfield) {
 		return setField(NX_FLATFIELD, flatfield);
 	}
 
@@ -1060,7 +1023,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getFlatfield_errorScalar() {
+	public Double getFlatfield_errorScalar() {
 		return getDouble(NX_FLATFIELD_ERROR);
 	}
 
@@ -1070,7 +1033,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setFlatfield_errorScalar(double flatfield_error) {
+	public DataNode setFlatfield_errorScalar(Double flatfield_error) {
 		return setField(NX_FLATFIELD_ERROR, flatfield_error);
 	}
 
@@ -1080,7 +1043,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public boolean getPixel_mask_appliedScalar() {
+	public Boolean getPixel_mask_appliedScalar() {
 		return getBoolean(NX_PIXEL_MASK_APPLIED);
 	}
 
@@ -1090,7 +1053,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setPixel_mask_appliedScalar(boolean pixel_mask_applied) {
+	public DataNode setPixel_mask_appliedScalar(Boolean pixel_mask_applied) {
 		return setField(NX_PIXEL_MASK_APPLIED, pixel_mask_applied);
 	}
 
@@ -1100,7 +1063,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public long getPixel_maskScalar() {
+	public Long getPixel_maskScalar() {
 		return getLong(NX_PIXEL_MASK);
 	}
 
@@ -1110,7 +1073,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setPixel_maskScalar(long pixel_mask) {
+	public DataNode setPixel_maskScalar(Long pixel_mask) {
 		return setField(NX_PIXEL_MASK, pixel_mask);
 	}
 
@@ -1120,7 +1083,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public boolean getCountrate_correction__appliedScalar() {
+	public Boolean getCountrate_correction__appliedScalar() {
 		return getBoolean(NX_COUNTRATE_CORRECTION__APPLIED);
 	}
 
@@ -1130,7 +1093,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setCountrate_correction__appliedScalar(boolean countrate_correction__applied) {
+	public DataNode setCountrate_correction__appliedScalar(Boolean countrate_correction__applied) {
 		return setField(NX_COUNTRATE_CORRECTION__APPLIED, countrate_correction__applied);
 	}
 
@@ -1140,7 +1103,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public long getBit_depth_readoutScalar() {
+	public Long getBit_depth_readoutScalar() {
 		return getLong(NX_BIT_DEPTH_READOUT);
 	}
 
@@ -1150,7 +1113,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setBit_depth_readoutScalar(long bit_depth_readout) {
+	public DataNode setBit_depth_readoutScalar(Long bit_depth_readout) {
 		return setField(NX_BIT_DEPTH_READOUT, bit_depth_readout);
 	}
 
@@ -1160,7 +1123,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getDetector_readout_timeScalar() {
+	public Double getDetector_readout_timeScalar() {
 		return getDouble(NX_DETECTOR_READOUT_TIME);
 	}
 
@@ -1170,7 +1133,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setDetector_readout_timeScalar(double detector_readout_time) {
+	public DataNode setDetector_readout_timeScalar(Double detector_readout_time) {
 		return setField(NX_DETECTOR_READOUT_TIME, detector_readout_time);
 	}
 
@@ -1180,7 +1143,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getTrigger_delay_timeScalar() {
+	public Double getTrigger_delay_timeScalar() {
 		return getDouble(NX_TRIGGER_DELAY_TIME);
 	}
 
@@ -1190,7 +1153,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setTrigger_delay_timeScalar(double trigger_delay_time) {
+	public DataNode setTrigger_delay_timeScalar(Double trigger_delay_time) {
 		return setField(NX_TRIGGER_DELAY_TIME, trigger_delay_time);
 	}
 
@@ -1200,7 +1163,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getTrigger_delay_time_setScalar() {
+	public Double getTrigger_delay_time_setScalar() {
 		return getDouble(NX_TRIGGER_DELAY_TIME_SET);
 	}
 
@@ -1210,7 +1173,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setTrigger_delay_time_setScalar(double trigger_delay_time_set) {
+	public DataNode setTrigger_delay_time_setScalar(Double trigger_delay_time_set) {
 		return setField(NX_TRIGGER_DELAY_TIME_SET, trigger_delay_time_set);
 	}
 
@@ -1220,7 +1183,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getTrigger_internal_delay_timeScalar() {
+	public Double getTrigger_internal_delay_timeScalar() {
 		return getDouble(NX_TRIGGER_INTERNAL_DELAY_TIME);
 	}
 
@@ -1230,7 +1193,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setTrigger_internal_delay_timeScalar(double trigger_internal_delay_time) {
+	public DataNode setTrigger_internal_delay_timeScalar(Double trigger_internal_delay_time) {
 		return setField(NX_TRIGGER_INTERNAL_DELAY_TIME, trigger_internal_delay_time);
 	}
 
@@ -1240,7 +1203,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getTrigger_dead_timeScalar() {
+	public Double getTrigger_dead_timeScalar() {
 		return getDouble(NX_TRIGGER_DEAD_TIME);
 	}
 
@@ -1250,7 +1213,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setTrigger_dead_timeScalar(double trigger_dead_time) {
+	public DataNode setTrigger_dead_timeScalar(Double trigger_dead_time) {
 		return setField(NX_TRIGGER_DEAD_TIME, trigger_dead_time);
 	}
 
@@ -1260,7 +1223,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getFrame_timeScalar() {
+	public Double getFrame_timeScalar() {
 		return getDouble(NX_FRAME_TIME);
 	}
 
@@ -1270,7 +1233,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setFrame_timeScalar(double frame_time) {
+	public DataNode setFrame_timeScalar(Double frame_time) {
 		return setField(NX_FRAME_TIME, frame_time);
 	}
 
@@ -1300,7 +1263,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public long getSaturation_valueScalar() {
+	public Long getSaturation_valueScalar() {
 		return getLong(NX_SATURATION_VALUE);
 	}
 
@@ -1310,7 +1273,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setSaturation_valueScalar(long saturation_value) {
+	public DataNode setSaturation_valueScalar(Long saturation_value) {
 		return setField(NX_SATURATION_VALUE, saturation_value);
 	}
 
@@ -1320,7 +1283,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public long getNumber_of_cyclesScalar() {
+	public Long getNumber_of_cyclesScalar() {
 		return getLong(NX_NUMBER_OF_CYCLES);
 	}
 
@@ -1330,7 +1293,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setNumber_of_cyclesScalar(long number_of_cycles) {
+	public DataNode setNumber_of_cyclesScalar(Long number_of_cycles) {
 		return setField(NX_NUMBER_OF_CYCLES, number_of_cycles);
 	}
 
@@ -1360,7 +1323,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getSensor_thicknessScalar() {
+	public Double getSensor_thicknessScalar() {
 		return getDouble(NX_SENSOR_THICKNESS);
 	}
 
@@ -1370,7 +1333,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setSensor_thicknessScalar(double sensor_thickness) {
+	public DataNode setSensor_thicknessScalar(Double sensor_thickness) {
 		return setField(NX_SENSOR_THICKNESS, sensor_thickness);
 	}
 
@@ -1380,7 +1343,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public double getThreshold_energyScalar() {
+	public Double getThreshold_energyScalar() {
 		return getDouble(NX_THRESHOLD_ENERGY);
 	}
 
@@ -1390,7 +1353,7 @@ public class NXdetectorImpl extends NXobjectImpl implements NXdetector {
 	}
 
 	@Override
-	public DataNode setThreshold_energyScalar(double threshold_energy) {
+	public DataNode setThreshold_energyScalar(Double threshold_energy) {
 		return setField(NX_THRESHOLD_ENERGY, threshold_energy);
 	}
 

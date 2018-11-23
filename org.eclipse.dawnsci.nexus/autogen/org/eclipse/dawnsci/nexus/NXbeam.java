@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Properties of the neutron or X-ray beam at a given location.
@@ -76,7 +76,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDistanceScalar();
+	public Double getDistanceScalar();
 
 	/**
 	 * Distance from sample
@@ -87,7 +87,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @param distance the distance
 	 */
-	public DataNode setDistanceScalar(double distance);
+	public DataNode setDistanceScalar(Double distance);
 
 	/**
 	 * Energy on entering beamline component
@@ -123,7 +123,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getIncident_energyScalar();
+	public Double getIncident_energyScalar();
 
 	/**
 	 * Energy on entering beamline component
@@ -135,7 +135,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @param incident_energy the incident_energy
 	 */
-	public DataNode setIncident_energyScalar(double incident_energy);
+	public DataNode setIncident_energyScalar(Double incident_energy);
 
 	/**
 	 * Energy on leaving beamline component
@@ -171,7 +171,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFinal_energyScalar();
+	public Double getFinal_energyScalar();
 
 	/**
 	 * Energy on leaving beamline component
@@ -183,7 +183,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @param final_energy the final_energy
 	 */
-	public DataNode setFinal_energyScalar(double final_energy);
+	public DataNode setFinal_energyScalar(Double final_energy);
 
 	/**
 	 * Energy change caused by beamline component
@@ -219,7 +219,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getEnergy_transferScalar();
+	public Double getEnergy_transferScalar();
 
 	/**
 	 * Energy change caused by beamline component
@@ -231,7 +231,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @param energy_transfer the energy_transfer
 	 */
-	public DataNode setEnergy_transferScalar(double energy_transfer);
+	public DataNode setEnergy_transferScalar(Double energy_transfer);
 
 	/**
 	 * Wavelength on entering beamline component
@@ -267,7 +267,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getIncident_wavelengthScalar();
+	public Double getIncident_wavelengthScalar();
 
 	/**
 	 * Wavelength on entering beamline component
@@ -279,7 +279,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @param incident_wavelength the incident_wavelength
 	 */
-	public DataNode setIncident_wavelengthScalar(double incident_wavelength);
+	public DataNode setIncident_wavelengthScalar(Double incident_wavelength);
 
 	/**
 	 * Wavelength spread FWHM on entering component
@@ -315,7 +315,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getIncident_wavelength_spreadScalar();
+	public Double getIncident_wavelength_spreadScalar();
 
 	/**
 	 * Wavelength spread FWHM on entering component
@@ -327,7 +327,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @param incident_wavelength_spread the incident_wavelength_spread
 	 */
-	public DataNode setIncident_wavelength_spreadScalar(double incident_wavelength_spread);
+	public DataNode setIncident_wavelength_spreadScalar(Double incident_wavelength_spread);
 
 	/**
 	 * Divergence of beam entering this component
@@ -363,7 +363,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getIncident_beam_divergenceScalar();
+	public Double getIncident_beam_divergenceScalar();
 
 	/**
 	 * Divergence of beam entering this component
@@ -375,7 +375,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @param incident_beam_divergence the incident_beam_divergence
 	 */
-	public DataNode setIncident_beam_divergenceScalar(double incident_beam_divergence);
+	public DataNode setIncident_beam_divergenceScalar(Double incident_beam_divergence);
 
 	/**
 	 * Wavelength on leaving beamline component
@@ -411,7 +411,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFinal_wavelengthScalar();
+	public Double getFinal_wavelengthScalar();
 
 	/**
 	 * Wavelength on leaving beamline component
@@ -423,7 +423,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @param final_wavelength the final_wavelength
 	 */
-	public DataNode setFinal_wavelengthScalar(double final_wavelength);
+	public DataNode setFinal_wavelengthScalar(Double final_wavelength);
 
 	/**
 	 * Polarization vector on entering beamline component
@@ -459,7 +459,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getIncident_polarizationScalar();
+	public Double getIncident_polarizationScalar();
 
 	/**
 	 * Polarization vector on entering beamline component
@@ -471,7 +471,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @param incident_polarization the incident_polarization
 	 */
-	public DataNode setIncident_polarizationScalar(double incident_polarization);
+	public DataNode setIncident_polarizationScalar(Double incident_polarization);
 
 	/**
 	 * Polarization vector on leaving beamline component
@@ -507,7 +507,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFinal_polarizationScalar();
+	public Double getFinal_polarizationScalar();
 
 	/**
 	 * Polarization vector on leaving beamline component
@@ -519,7 +519,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @param final_polarization the final_polarization
 	 */
-	public DataNode setFinal_polarizationScalar(double final_polarization);
+	public DataNode setFinal_polarizationScalar(Double final_polarization);
 
 	/**
 	 * Wavelength spread FWHM of beam leaving this component
@@ -555,7 +555,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFinal_wavelength_spreadScalar();
+	public Double getFinal_wavelength_spreadScalar();
 
 	/**
 	 * Wavelength spread FWHM of beam leaving this component
@@ -567,7 +567,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @param final_wavelength_spread the final_wavelength_spread
 	 */
-	public DataNode setFinal_wavelength_spreadScalar(double final_wavelength_spread);
+	public DataNode setFinal_wavelength_spreadScalar(Double final_wavelength_spread);
 
 	/**
 	 * Divergence FWHM of beam leaving this component
@@ -603,7 +603,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFinal_beam_divergenceScalar();
+	public Double getFinal_beam_divergenceScalar();
 
 	/**
 	 * Divergence FWHM of beam leaving this component
@@ -615,7 +615,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @param final_beam_divergence the final_beam_divergence
 	 */
-	public DataNode setFinal_beam_divergenceScalar(double final_beam_divergence);
+	public DataNode setFinal_beam_divergenceScalar(Double final_beam_divergence);
 
 	/**
 	 * flux incident on beam plane area
@@ -651,7 +651,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFluxScalar();
+	public Double getFluxScalar();
 
 	/**
 	 * flux incident on beam plane area
@@ -663,7 +663,7 @@ public interface NXbeam extends NXobject {
 	 * 
 	 * @param flux the flux
 	 */
-	public DataNode setFluxScalar(double flux);
+	public DataNode setFluxScalar(Double flux);
 
 	/**
 	 * Distribution of beam with respect to relevant variable e.g. wavelength. This is mainly

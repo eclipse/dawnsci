@@ -13,9 +13,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.dataset.impl.SliceNDIterator;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.SliceND;
+import org.eclipse.january.dataset.SliceNDIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,16 +64,12 @@ public class SliceViewIterator implements ISliceViewIterator{
 		
 		next = iterator.hasNext();
 		
-		List<SliceFromSeriesMetadata> sl;
-		try {
-			sl = lazyDataset.getMetadata(SliceFromSeriesMetadata.class);
-			if (sl != null && !sl.isEmpty() && sl.get(0) != null) {
-				SliceFromSeriesMetadata ss = sl.get(0);
+
+			SliceFromSeriesMetadata ss = lazyDataset.getFirstMetadata(SliceFromSeriesMetadata.class);
+			if (ss != null) {
 				if (ss.getSourceInfo() != null) source = ss.getSourceInfo();
 			}
-		} catch (Exception e) {
-			logger.warn("Lazy dataset contains no source information", e);
-		}
+			
 	}
 	
 	/**
@@ -83,7 +79,6 @@ public class SliceViewIterator implements ISliceViewIterator{
 	 */
 	@Override
 	public boolean hasNext(){
-		count++;
 		return next;
 	}
 	
@@ -103,12 +98,13 @@ public class SliceViewIterator implements ISliceViewIterator{
 	 */
 	@Override
 	public ILazyDataset next() {
+		count++;
 		SliceND current = iterator.getCurrentSlice().clone();
 		ILazyDataset view = lazyDataset.getSliceView(current);
 		view.clearMetadata(SliceFromSeriesMetadata.class);
 		SliceInformation sl = new SliceInformation(current,
 				iterator.getOutputSlice().clone(), sampling,
-				axes, total, count);
+				axes, total, count - 1);
 		
 		SliceFromSeriesMetadata m = new SliceFromSeriesMetadata(source, sl);
 		

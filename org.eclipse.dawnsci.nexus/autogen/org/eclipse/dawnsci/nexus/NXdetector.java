@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * A detector, detector bank, or multidetector.
@@ -139,7 +139,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTime_of_flightScalar();
+	public Double getTime_of_flightScalar();
 
 	/**
 	 * Total time of flight
@@ -151,7 +151,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param time_of_flight the time_of_flight
 	 */
-	public DataNode setTime_of_flightScalar(double time_of_flight);
+	public DataNode setTime_of_flightScalar(Double time_of_flight);
 
 	/**
 	 * <p>
@@ -163,7 +163,7 @@ public interface NXdetector extends NXobject {
 	 * @return  the value.
 	 */
 	@Deprecated
-	public long getTime_of_flightAttributeAxis();
+	public Long getTime_of_flightAttributeAxis();
 	
 	/**
 	 * <p>
@@ -175,7 +175,7 @@ public interface NXdetector extends NXobject {
 	 * @param axis the axis
 	 */
 	@Deprecated
-	public void setTime_of_flightAttributeAxis(long axis);
+	public void setTime_of_flightAttributeAxis(Long axis);
 
 	/**
 	 * <p>
@@ -187,7 +187,7 @@ public interface NXdetector extends NXobject {
 	 * @return  the value.
 	 */
 	@Deprecated
-	public long getTime_of_flightAttributePrimary();
+	public Long getTime_of_flightAttributePrimary();
 	
 	/**
 	 * <p>
@@ -199,7 +199,7 @@ public interface NXdetector extends NXobject {
 	 * @param primary the primary
 	 */
 	@Deprecated
-	public void setTime_of_flightAttributePrimary(long primary);
+	public void setTime_of_flightAttributePrimary(Long primary);
 
 	/**
 	 * Total time of flight
@@ -249,7 +249,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getRaw_time_of_flightScalar();
+	public Long getRaw_time_of_flightScalar();
 
 	/**
 	 * In DAQ clock pulses
@@ -261,7 +261,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param raw_time_of_flight the raw_time_of_flight
 	 */
-	public DataNode setRaw_time_of_flightScalar(long raw_time_of_flight);
+	public DataNode setRaw_time_of_flightScalar(Long raw_time_of_flight);
 
 	/**
 	 * Clock frequency in Hz
@@ -308,7 +308,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getDetector_numberScalar();
+	public Long getDetector_numberScalar();
 
 	/**
 	 * Identifier for detector
@@ -319,7 +319,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param detector_number the detector_number
 	 */
-	public DataNode setDetector_numberScalar(long detector_number);
+	public DataNode setDetector_numberScalar(Long detector_number);
 
 	/**
 	 * Data values from the detector.
@@ -388,14 +388,14 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getDataAttributeCheck_sum();
+	public Long getDataAttributeCheck_sum();
 	
 	/**
 	 * Integral of data as check of data integrity
 	 * 
 	 * @param check_sum the check_sum
 	 */
-	public void setDataAttributeCheck_sum(long check_sum);
+	public void setDataAttributeCheck_sum(Long check_sum);
 
 	/**
 	 * The best estimate of the uncertainty in the data value. Where
@@ -490,7 +490,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getX_pixel_offsetScalar();
+	public Double getX_pixel_offsetScalar();
 
 	/**
 	 * Offset from the detector center in x-direction.
@@ -503,7 +503,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param x_pixel_offset the x_pixel_offset
 	 */
-	public DataNode setX_pixel_offsetScalar(double x_pixel_offset);
+	public DataNode setX_pixel_offsetScalar(Double x_pixel_offset);
 
 	/**
 	 * <p>
@@ -515,7 +515,7 @@ public interface NXdetector extends NXobject {
 	 * @return  the value.
 	 */
 	@Deprecated
-	public long getX_pixel_offsetAttributeAxis();
+	public Long getX_pixel_offsetAttributeAxis();
 	
 	/**
 	 * <p>
@@ -527,7 +527,7 @@ public interface NXdetector extends NXobject {
 	 * @param axis the axis
 	 */
 	@Deprecated
-	public void setX_pixel_offsetAttributeAxis(long axis);
+	public void setX_pixel_offsetAttributeAxis(Long axis);
 
 	/**
 	 * <p>
@@ -539,7 +539,7 @@ public interface NXdetector extends NXobject {
 	 * @return  the value.
 	 */
 	@Deprecated
-	public long getX_pixel_offsetAttributePrimary();
+	public Long getX_pixel_offsetAttributePrimary();
 	
 	/**
 	 * <p>
@@ -551,7 +551,7 @@ public interface NXdetector extends NXobject {
 	 * @param primary the primary
 	 */
 	@Deprecated
-	public void setX_pixel_offsetAttributePrimary(long primary);
+	public void setX_pixel_offsetAttributePrimary(Long primary);
 
 	/**
 	 * x-axis offset from detector center
@@ -604,7 +604,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getY_pixel_offsetScalar();
+	public Double getY_pixel_offsetScalar();
 
 	/**
 	 * Offset from the detector center in the y-direction.
@@ -617,7 +617,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param y_pixel_offset the y_pixel_offset
 	 */
-	public DataNode setY_pixel_offsetScalar(double y_pixel_offset);
+	public DataNode setY_pixel_offsetScalar(Double y_pixel_offset);
 
 	/**
 	 * <p>
@@ -629,7 +629,7 @@ public interface NXdetector extends NXobject {
 	 * @return  the value.
 	 */
 	@Deprecated
-	public long getY_pixel_offsetAttributeAxis();
+	public Long getY_pixel_offsetAttributeAxis();
 	
 	/**
 	 * <p>
@@ -641,7 +641,7 @@ public interface NXdetector extends NXobject {
 	 * @param axis the axis
 	 */
 	@Deprecated
-	public void setY_pixel_offsetAttributeAxis(long axis);
+	public void setY_pixel_offsetAttributeAxis(Long axis);
 
 	/**
 	 * <p>
@@ -653,7 +653,7 @@ public interface NXdetector extends NXobject {
 	 * @return  the value.
 	 */
 	@Deprecated
-	public long getY_pixel_offsetAttributePrimary();
+	public Long getY_pixel_offsetAttributePrimary();
 	
 	/**
 	 * <p>
@@ -665,7 +665,7 @@ public interface NXdetector extends NXobject {
 	 * @param primary the primary
 	 */
 	@Deprecated
-	public void setY_pixel_offsetAttributePrimary(long primary);
+	public void setY_pixel_offsetAttributePrimary(Long primary);
 
 	/**
 	 * y-axis offset from detector center
@@ -727,7 +727,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDistanceScalar();
+	public Double getDistanceScalar();
 
 	/**
 	 * This is the distance to the previous component in the
@@ -743,7 +743,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param distance the distance
 	 */
-	public DataNode setDistanceScalar(double distance);
+	public DataNode setDistanceScalar(Double distance);
 
 	/**
 	 * This is the polar angle of the detector towards the previous
@@ -800,7 +800,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPolar_angleScalar();
+	public Double getPolar_angleScalar();
 
 	/**
 	 * This is the polar angle of the detector towards the previous
@@ -819,7 +819,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param polar_angle the polar_angle
 	 */
-	public DataNode setPolar_angleScalar(double polar_angle);
+	public DataNode setPolar_angleScalar(Double polar_angle);
 
 	/**
 	 * This is the azimuthal angle angle of the detector towards
@@ -876,7 +876,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getAzimuthal_angleScalar();
+	public Double getAzimuthal_angleScalar();
 
 	/**
 	 * This is the azimuthal angle angle of the detector towards
@@ -895,7 +895,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param azimuthal_angle the azimuthal_angle
 	 */
-	public DataNode setAzimuthal_angleScalar(double azimuthal_angle);
+	public DataNode setAzimuthal_angleScalar(Double azimuthal_angle);
 
 	/**
 	 * name/manufacturer/model/etc. information
@@ -1049,7 +1049,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSolid_angleScalar();
+	public Double getSolid_angleScalar();
 
 	/**
 	 * Solid angle subtended by the detector at the sample
@@ -1061,7 +1061,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param solid_angle the solid_angle
 	 */
-	public DataNode setSolid_angleScalar(double solid_angle);
+	public DataNode setSolid_angleScalar(Double solid_angle);
 
 	/**
 	 * Size of each detector pixel. If it is scalar all pixels are the same size.
@@ -1097,7 +1097,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getX_pixel_sizeScalar();
+	public Double getX_pixel_sizeScalar();
 
 	/**
 	 * Size of each detector pixel. If it is scalar all pixels are the same size.
@@ -1109,7 +1109,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param x_pixel_size the x_pixel_size
 	 */
-	public DataNode setX_pixel_sizeScalar(double x_pixel_size);
+	public DataNode setX_pixel_sizeScalar(Double x_pixel_size);
 
 	/**
 	 * Size of each detector pixel. If it is scalar all pixels are the same size
@@ -1145,7 +1145,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getY_pixel_sizeScalar();
+	public Double getY_pixel_sizeScalar();
 
 	/**
 	 * Size of each detector pixel. If it is scalar all pixels are the same size
@@ -1157,7 +1157,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param y_pixel_size the y_pixel_size
 	 */
-	public DataNode setY_pixel_sizeScalar(double y_pixel_size);
+	public DataNode setY_pixel_sizeScalar(Double y_pixel_size);
 
 	/**
 	 * Detector dead time
@@ -1193,7 +1193,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDead_timeScalar();
+	public Double getDead_timeScalar();
 
 	/**
 	 * Detector dead time
@@ -1205,7 +1205,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param dead_time the dead_time
 	 */
-	public DataNode setDead_timeScalar(double dead_time);
+	public DataNode setDead_timeScalar(Double dead_time);
 
 	/**
 	 * Detector gas pressure
@@ -1241,7 +1241,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getGas_pressureScalar();
+	public Double getGas_pressureScalar();
 
 	/**
 	 * Detector gas pressure
@@ -1253,7 +1253,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param gas_pressure the gas_pressure
 	 */
-	public DataNode setGas_pressureScalar(double gas_pressure);
+	public DataNode setGas_pressureScalar(Double gas_pressure);
 
 	/**
 	 * maximum drift space dimension
@@ -1286,7 +1286,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDetection_gas_pathScalar();
+	public Double getDetection_gas_pathScalar();
 
 	/**
 	 * maximum drift space dimension
@@ -1297,7 +1297,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param detection_gas_path the detection_gas_path
 	 */
-	public DataNode setDetection_gas_pathScalar(double detection_gas_path);
+	public DataNode setDetection_gas_pathScalar(Double detection_gas_path);
 
 	/**
 	 * Crate number of detector
@@ -1330,7 +1330,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getCrateScalar();
+	public Long getCrateScalar();
 
 	/**
 	 * Crate number of detector
@@ -1341,7 +1341,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param crate the crate
 	 */
-	public DataNode setCrateScalar(long crate);
+	public DataNode setCrateScalar(Long crate);
 
 	/**
 	 * Equivalent local term
@@ -1388,7 +1388,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getSlotScalar();
+	public Long getSlotScalar();
 
 	/**
 	 * Slot number of detector
@@ -1399,7 +1399,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param slot the slot
 	 */
-	public DataNode setSlotScalar(long slot);
+	public DataNode setSlotScalar(Long slot);
 
 	/**
 	 * Equivalent local term
@@ -1446,7 +1446,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getInputScalar();
+	public Long getInputScalar();
 
 	/**
 	 * Input number of detector
@@ -1457,7 +1457,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param input the input
 	 */
-	public DataNode setInputScalar(long input);
+	public DataNode setInputScalar(Long input);
 
 	/**
 	 * Equivalent local term
@@ -1692,80 +1692,6 @@ public interface NXdetector extends NXobject {
 	public void setData_file(NXnote data_file);
 
 	/**
-	 * :see: https://github.com/nexusformat/definitions/issues/177
-	 * 
-	 * @deprecated use :ref:`NXcollection` instead
-	 * @return  the value.
-	 */
-	@Deprecated
-	public NXcharacterization getCharacterization();
-	
-	/**
-	 * :see: https://github.com/nexusformat/definitions/issues/177
-	 * 
-	 * @deprecated use :ref:`NXcollection` instead
-	 * @param characterization the characterization
-	 */
-	@Deprecated
-	public void setCharacterization(NXcharacterization characterization);
-  
-	/**
-	 * Get a NXcharacterization node by name:
-	 * <ul>
-	 * <li>
-	 * :see: https://github.com/nexusformat/definitions/issues/177</li>
-	 * </ul>
-	 * 
-	 * @deprecated use :ref:`NXcollection` instead
-	 * @param name  the name of the node.
-	 * @return  a map from node names to the NXcharacterization for that node.
-	 */
-	@Deprecated
-	public NXcharacterization getCharacterization(String name);
-	
-	/**
-	 * Set a NXcharacterization node by name:
-	 * <ul>
-	 * <li>
-	 * :see: https://github.com/nexusformat/definitions/issues/177</li>
-	 * </ul>
-	 * 
-	 * @deprecated use :ref:`NXcollection` instead
-	 * @param name the name of the node
-	 * @param characterization the value to set
-	 */
-	@Deprecated
-	public void setCharacterization(String name, NXcharacterization characterization);
-	
-	/**
-	 * Get all NXcharacterization nodes:
-	 * <ul>
-	 * <li>
-	 * :see: https://github.com/nexusformat/definitions/issues/177</li>
-	 * </ul>
-	 * 
-	 * @deprecated use :ref:`NXcollection` instead
-	 * @return  a map from node names to the NXcharacterization for that node.
-	 */
-	@Deprecated
-	public Map<String, NXcharacterization> getAllCharacterization();
-	
-	/**
-	 * Set multiple child nodes of a particular type.
-	 * <ul>
-	 * <li>
-	 * :see: https://github.com/nexusformat/definitions/issues/177</li>
-	 * </ul>
-	 * 
-	 * @deprecated use :ref:`NXcollection` instead
-	 * @param characterization the child nodes to add 
-	 */
-	
-	@Deprecated
-	public void setAllCharacterization(Map<String, NXcharacterization> characterization);
-	
-
-	/**
 	 * Use this group to provide other data related to this NXdetector group.
 	 * 
 	 * @return  the value.
@@ -1877,8 +1803,9 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * This is the x position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1890,8 +1817,9 @@ public interface NXdetector extends NXobject {
 	
 	/**
 	 * This is the x position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1903,8 +1831,9 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * This is the x position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1912,12 +1841,13 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBeam_center_xScalar();
+	public Double getBeam_center_xScalar();
 
 	/**
 	 * This is the x position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1925,12 +1855,13 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param beam_center_x the beam_center_x
 	 */
-	public DataNode setBeam_center_xScalar(double beam_center_x);
+	public DataNode setBeam_center_xScalar(Double beam_center_x);
 
 	/**
 	 * This is the y position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1942,8 +1873,9 @@ public interface NXdetector extends NXobject {
 	
 	/**
 	 * This is the y position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1955,8 +1887,9 @@ public interface NXdetector extends NXobject {
 
 	/**
 	 * This is the y position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1964,12 +1897,13 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBeam_center_yScalar();
+	public Double getBeam_center_yScalar();
 
 	/**
 	 * This is the y position where the direct beam would hit the detector.
-	 * This is a length, not a pixel position, and can be outside of the actual
-	 * detector.
+	 * This is a length and can be outside of the actual
+	 * detector. The length can be in physical units or pixels
+	 * as documented by the units attribute.
 	 * <p>
 	 * <b>Type:</b> NX_FLOAT
 	 * <b>Units:</b> NX_LENGTH
@@ -1977,7 +1911,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param beam_center_y the beam_center_y
 	 */
-	public DataNode setBeam_center_yScalar(double beam_center_y);
+	public DataNode setBeam_center_yScalar(Double beam_center_y);
 
 	/**
 	 * This is the start number of the first frame of a scan. In PX one
@@ -2016,7 +1950,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getFrame_start_numberScalar();
+	public Long getFrame_start_numberScalar();
 
 	/**
 	 * This is the start number of the first frame of a scan. In PX one
@@ -2029,7 +1963,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param frame_start_number the frame_start_number
 	 */
-	public DataNode setFrame_start_numberScalar(long frame_start_number);
+	public DataNode setFrame_start_numberScalar(Long frame_start_number);
 
 	/**
 	 * The diameter of a cylindrical detector
@@ -2062,7 +1996,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDiameterScalar();
+	public Double getDiameterScalar();
 
 	/**
 	 * The diameter of a cylindrical detector
@@ -2073,7 +2007,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param diameter the diameter
 	 */
-	public DataNode setDiameterScalar(double diameter);
+	public DataNode setDiameterScalar(Double diameter);
 
 	/**
 	 * The acquisition mode of the detector.
@@ -2174,7 +2108,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public boolean getAngular_calibration_appliedScalar();
+	public Boolean getAngular_calibration_appliedScalar();
 
 	/**
 	 * True when the angular calibration has been applied in the
@@ -2185,7 +2119,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param angular_calibration_applied the angular_calibration_applied
 	 */
-	public DataNode setAngular_calibration_appliedScalar(boolean angular_calibration_applied);
+	public DataNode setAngular_calibration_appliedScalar(Boolean angular_calibration_applied);
 
 	/**
 	 * Angular calibration data.
@@ -2218,7 +2152,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getAngular_calibrationScalar();
+	public Double getAngular_calibrationScalar();
 
 	/**
 	 * Angular calibration data.
@@ -2229,7 +2163,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param angular_calibration the angular_calibration
 	 */
-	public DataNode setAngular_calibrationScalar(double angular_calibration);
+	public DataNode setAngular_calibrationScalar(Double angular_calibration);
 
 	/**
 	 * True when the flat field correction has been applied in the
@@ -2262,7 +2196,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public boolean getFlatfield_appliedScalar();
+	public Boolean getFlatfield_appliedScalar();
 
 	/**
 	 * True when the flat field correction has been applied in the
@@ -2273,7 +2207,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param flatfield_applied the flatfield_applied
 	 */
-	public DataNode setFlatfield_appliedScalar(boolean flatfield_applied);
+	public DataNode setFlatfield_appliedScalar(Boolean flatfield_applied);
 
 	/**
 	 * Flat field correction data.
@@ -2306,7 +2240,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFlatfieldScalar();
+	public Double getFlatfieldScalar();
 
 	/**
 	 * Flat field correction data.
@@ -2317,7 +2251,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param flatfield the flatfield
 	 */
-	public DataNode setFlatfieldScalar(double flatfield);
+	public DataNode setFlatfieldScalar(Double flatfield);
 
 	/**
 	 * Errors of the flat field correction data.
@@ -2350,7 +2284,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFlatfield_errorScalar();
+	public Double getFlatfield_errorScalar();
 
 	/**
 	 * Errors of the flat field correction data.
@@ -2361,7 +2295,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param flatfield_error the flatfield_error
 	 */
-	public DataNode setFlatfield_errorScalar(double flatfield_error);
+	public DataNode setFlatfield_errorScalar(Double flatfield_error);
 
 	/**
 	 * True when the pixel mask correction has been applied in the
@@ -2394,7 +2328,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public boolean getPixel_mask_appliedScalar();
+	public Boolean getPixel_mask_appliedScalar();
 
 	/**
 	 * True when the pixel mask correction has been applied in the
@@ -2405,7 +2339,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param pixel_mask_applied the pixel_mask_applied
 	 */
-	public DataNode setPixel_mask_appliedScalar(boolean pixel_mask_applied);
+	public DataNode setPixel_mask_appliedScalar(Boolean pixel_mask_applied);
 
 	/**
 	 * The 32-bit pixel mask for the detector.
@@ -2498,7 +2432,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getPixel_maskScalar();
+	public Long getPixel_maskScalar();
 
 	/**
 	 * The 32-bit pixel mask for the detector.
@@ -2529,7 +2463,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param pixel_mask the pixel_mask
 	 */
-	public DataNode setPixel_maskScalar(long pixel_mask);
+	public DataNode setPixel_maskScalar(Long pixel_mask);
 
 	/**
 	 * True when a count-rate correction has already been applied in the
@@ -2562,7 +2496,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public boolean getCountrate_correction__appliedScalar();
+	public Boolean getCountrate_correction__appliedScalar();
 
 	/**
 	 * True when a count-rate correction has already been applied in the
@@ -2573,7 +2507,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param countrate_correction__applied the countrate_correction__applied
 	 */
-	public DataNode setCountrate_correction__appliedScalar(boolean countrate_correction__applied);
+	public DataNode setCountrate_correction__appliedScalar(Boolean countrate_correction__applied);
 
 	/**
 	 * How many bits the electronics reads per pixel.
@@ -2612,7 +2546,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getBit_depth_readoutScalar();
+	public Long getBit_depth_readoutScalar();
 
 	/**
 	 * How many bits the electronics reads per pixel.
@@ -2625,7 +2559,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param bit_depth_readout the bit_depth_readout
 	 */
-	public DataNode setBit_depth_readoutScalar(long bit_depth_readout);
+	public DataNode setBit_depth_readoutScalar(Long bit_depth_readout);
 
 	/**
 	 * Time it takes to read the detector (typically milliseconds).
@@ -2661,7 +2595,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDetector_readout_timeScalar();
+	public Double getDetector_readout_timeScalar();
 
 	/**
 	 * Time it takes to read the detector (typically milliseconds).
@@ -2673,7 +2607,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param detector_readout_time the detector_readout_time
 	 */
-	public DataNode setDetector_readout_timeScalar(double detector_readout_time);
+	public DataNode setDetector_readout_timeScalar(Double detector_readout_time);
 
 	/**
 	 * Time it takes to start exposure after a trigger signal has been received.
@@ -2715,7 +2649,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTrigger_delay_timeScalar();
+	public Double getTrigger_delay_timeScalar();
 
 	/**
 	 * Time it takes to start exposure after a trigger signal has been received.
@@ -2729,7 +2663,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param trigger_delay_time the trigger_delay_time
 	 */
-	public DataNode setTrigger_delay_timeScalar(double trigger_delay_time);
+	public DataNode setTrigger_delay_timeScalar(Double trigger_delay_time);
 
 	/**
 	 * User-specified trigger delay.
@@ -2762,7 +2696,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTrigger_delay_time_setScalar();
+	public Double getTrigger_delay_time_setScalar();
 
 	/**
 	 * User-specified trigger delay.
@@ -2773,7 +2707,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param trigger_delay_time_set the trigger_delay_time_set
 	 */
-	public DataNode setTrigger_delay_time_setScalar(double trigger_delay_time_set);
+	public DataNode setTrigger_delay_time_setScalar(Double trigger_delay_time_set);
 
 	/**
 	 * Time it takes to start exposure after a trigger signal has been received.
@@ -2818,7 +2752,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTrigger_internal_delay_timeScalar();
+	public Double getTrigger_internal_delay_timeScalar();
 
 	/**
 	 * Time it takes to start exposure after a trigger signal has been received.
@@ -2833,7 +2767,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param trigger_internal_delay_time the trigger_internal_delay_time
 	 */
-	public DataNode setTrigger_internal_delay_timeScalar(double trigger_internal_delay_time);
+	public DataNode setTrigger_internal_delay_timeScalar(Double trigger_internal_delay_time);
 
 	/**
 	 * Time during which no new trigger signal can be accepted.
@@ -2875,7 +2809,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTrigger_dead_timeScalar();
+	public Double getTrigger_dead_timeScalar();
 
 	/**
 	 * Time during which no new trigger signal can be accepted.
@@ -2889,7 +2823,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param trigger_dead_time the trigger_dead_time
 	 */
-	public DataNode setTrigger_dead_timeScalar(double trigger_dead_time);
+	public DataNode setTrigger_dead_timeScalar(Double trigger_dead_time);
 
 	/**
 	 * This is time for each frame. This is exposure_time + readout time.
@@ -2925,7 +2859,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getFrame_timeScalar();
+	public Double getFrame_timeScalar();
 
 	/**
 	 * This is time for each frame. This is exposure_time + readout time.
@@ -2937,7 +2871,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param frame_time the frame_time
 	 */
-	public DataNode setFrame_timeScalar(double frame_time);
+	public DataNode setFrame_timeScalar(Double frame_time);
 
 	/**
 	 * The gain setting of the detector. This influences background etc.
@@ -3033,7 +2967,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getSaturation_valueScalar();
+	public Long getSaturation_valueScalar();
 
 	/**
 	 * The value at which the detector goes into saturation.
@@ -3045,7 +2979,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param saturation_value the saturation_value
 	 */
-	public DataNode setSaturation_valueScalar(long saturation_value);
+	public DataNode setSaturation_valueScalar(Long saturation_value);
 
 	/**
 	 * CCD images are sometimes constructed by summing
@@ -3087,7 +3021,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getNumber_of_cyclesScalar();
+	public Long getNumber_of_cyclesScalar();
 
 	/**
 	 * CCD images are sometimes constructed by summing
@@ -3101,7 +3035,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param number_of_cycles the number_of_cycles
 	 */
-	public DataNode setNumber_of_cyclesScalar(long number_of_cycles);
+	public DataNode setNumber_of_cyclesScalar(Long number_of_cycles);
 
 	/**
 	 * At times, radiation is not directly sensed by the detector.
@@ -3195,7 +3129,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSensor_thicknessScalar();
+	public Double getSensor_thicknessScalar();
 
 	/**
 	 * At times, radiation is not directly sensed by the detector.
@@ -3209,7 +3143,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param sensor_thickness the sensor_thickness
 	 */
-	public DataNode setSensor_thicknessScalar(double sensor_thickness);
+	public DataNode setSensor_thicknessScalar(Double sensor_thickness);
 
 	/**
 	 * Single photon counter detectors can be adjusted
@@ -3248,7 +3182,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getThreshold_energyScalar();
+	public Double getThreshold_energyScalar();
 
 	/**
 	 * Single photon counter detectors can be adjusted
@@ -3261,7 +3195,7 @@ public interface NXdetector extends NXobject {
 	 * 
 	 * @param threshold_energy the threshold_energy
 	 */
-	public DataNode setThreshold_energyScalar(double threshold_energy);
+	public DataNode setThreshold_energyScalar(Double threshold_energy);
 
 	/**
 	 * For use in special cases where the data in NXdetector

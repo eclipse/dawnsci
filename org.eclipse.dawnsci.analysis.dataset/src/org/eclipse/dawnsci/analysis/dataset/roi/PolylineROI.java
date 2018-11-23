@@ -21,8 +21,8 @@ import java.util.TreeSet;
 
 import org.eclipse.dawnsci.analysis.api.roi.IPolylineROI;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
 
 /**
  * Class for a polyline ROI (really a list of point ROIs)
@@ -237,14 +237,17 @@ public class PolylineROI extends ROIBase implements IPolylineROI, Serializable {
 	@Override
 	public RectangularROI getBounds() {
 		if (bounds == null) {
-			double[] max = new double[] { -Double.MAX_VALUE, -Double.MAX_VALUE };
-			double[] min = new double[] { Double.MAX_VALUE, Double.MAX_VALUE };
-			for (int i = 0, imax = pts.size(); i < imax; i++) {
-				ROIUtils.updateMaxMin(max, min, pts.get(i).getPointRef());
+			bounds = new RectangularROI(Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0);
+			int imax = pts.size();
+			if (imax > 0) {
+				double[] max = new double[] { -Double.MAX_VALUE, -Double.MAX_VALUE };
+				double[] min = new double[] { Double.MAX_VALUE, Double.MAX_VALUE };
+				for (int i = 0; i < imax; i++) {
+					ROIUtils.updateMaxMin(max, min, pts.get(i).getPointRef());
+				}
+				bounds.setPoint(min);
+				bounds.setLengths(max[0] - min[0], max[1] - min[1]);
 			}
-			bounds = new RectangularROI();
-			bounds.setPoint(min);
-			bounds.setLengths(max[0] - min[0], max[1] - min[1]);
 		}
 		return bounds;
 	}
@@ -354,7 +357,7 @@ public class PolylineROI extends ROIBase implements IPolylineROI, Serializable {
 			y[i] = p[1];
 		}
 
-		return new DoubleDataset[] { new DoubleDataset(x), new DoubleDataset(y) };
+		return new Dataset[] { DatasetFactory.createFromObject(x), DatasetFactory.createFromObject(y) };
 	}
 
 	protected Set<Double> calculateHorizontalIntersections(final double y) {

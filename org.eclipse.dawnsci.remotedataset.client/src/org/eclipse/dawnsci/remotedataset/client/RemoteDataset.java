@@ -1,3 +1,14 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.remotedataset.client;
 
 import java.io.BufferedReader;
@@ -11,14 +22,15 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
-import org.eclipse.dawnsci.analysis.api.dataset.DataListenerDelegate;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataListener;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
-import org.eclipse.dawnsci.analysis.api.metadata.DynamicConnectionInfo;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.DataEvent;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.IDataListener;
+import org.eclipse.january.dataset.IDatasetConnector;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.ShapeUtils;
+import org.eclipse.january.metadata.DynamicConnectionInfo;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
@@ -42,7 +54,7 @@ import org.slf4j.LoggerFactory;
 final IRemoteDatasetService service = ...
 final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);<br>
 data.setPath(h5File.getAbsolutePath());
-data.setDataset("image"); // We just get the first image in the PNG file.
+data.setDatasetName("image"); // We just get the first image in the PNG file.
 data.connect();
 
 try {
@@ -55,7 +67,7 @@ try {
  * @author Matthew Gerring
  *
  */
-class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
+class RemoteDataset extends LazyWriteableDataset implements IDatasetConnector {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RemoteDataset.class);
 	
@@ -63,7 +75,6 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	
 	// Web socket stuff
 	private Session connection;
-    private DataListenerDelegate eventDelegate;
 
 	private boolean dynamicShape = true;
 	private int[] transShape;
@@ -96,23 +107,31 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	 * @param port
 	 */
 	public RemoteDataset(String serverName, int port, Executor exec) {
-		super("unknown", Dataset.INT, new int[]{1}, new int[]{-1}, null, null);
+		super("unknown", Dataset.INT, new int[]{1}, new int[]{IDynamicDataset.UNLIMITED}, null, null);
 		this.urlBuilder = new URLBuilder(serverName, port);
 		urlBuilder.setWritingExpected(true);
-		this.eventDelegate = new DataListenerDelegate();
 		this.exec       = exec;
+		this.loader = new RemoteLoader(urlBuilder);
 	}
-		
+
+	@Override
+	public String connect() throws DatasetException {
+		return connect(500, TimeUnit.MILLISECONDS);
+	}
+
 	/**
 	 * Call to read the dataset, set current shape and create event connnection for
 	 * IDynamicDataset part of the dataset
 	 */
-    public String connect(long time, TimeUnit unit) throws Exception {
-    	
-		this.loader = new RemoteLoader(urlBuilder);
-		createInfo();
-		if (eventDelegate.hasDataListeners()) {
-			createFileListener();
+	@Override
+	public String connect(long time, TimeUnit unit) throws DatasetException {
+		try {
+			createInfo();
+			if (eventDelegate.hasDataListeners()) {
+				createFileListener();
+			}
+		} catch (Exception e) {
+			throw new DatasetException(e);
 		}
 		
 		// TODO Does this cause a memory leak?
@@ -125,27 +144,32 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		});
 		
 		return null;
-    }
-    
-    public void disconnect() throws Exception {
-    	
-    	eventDelegate.clear();
-        if (connection!=null && connection.isOpen()) {
-        	connection.getRemote().sendString("Disconnected from "+urlBuilder.getPath());
-       	    connection.close();
-        }
-    	if (client!=null && client.isStarted()) {
-    		client.stop();
-    	}
-    }
+	}
+
+	public void disconnect() throws DatasetException {
+
+		eventDelegate.clear();
+		try {
+			if (connection != null && connection.isOpen()) {
+				connection.getRemote().sendString("Disconnected from " + urlBuilder.getPath());
+				connection.close();
+			}
+			if (client != null && client.isStarted()) {
+				client.stop();
+			}
+		} catch (Exception e) {
+			throw new DatasetException(e);
+		}
+	}
 	
     @Override
-    public void refreshShape(){
+    public boolean refreshShape() {
     	try {
 			createInfo();
 		} catch (Exception e) {
-			//TODO log
+			return false;
 		}
+    	return true;
     }
     
 	private void createFileListener() throws Exception {
@@ -208,14 +232,18 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		
 		List<String> info = getInfo();
 		
-		this.name  = info.get(0);
+		if (this.name == null) this.name  = info.get(0);
 		this.shape = toIntArray(info.get(1));
+		if (this.shape.length == 1 && shape[0] == -1) {
+			System.err.println();
+			
+		}
 		setMax(shape);
 		this.oShape = shape;
 		this.dtype = Integer.parseInt(info.get(2));
 		this.isize = Integer.parseInt(info.get(3));
 		try {
-			size = AbstractDataset.calcLongSize(shape);
+			size = ShapeUtils.calcLongSize(shape);
 		} catch (IllegalArgumentException e) {
 			size = Long.MAX_VALUE; // this indicates that the entire dataset cannot be read in! 
 		}
@@ -227,8 +255,12 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 	}
 
 	private int[] toIntArray(String array) {
+		// array is null, or of the form [1,2,3,4]
 		if (array.equals("null"))
 			return null;
+		if (array.length() <= 2) {
+			return new int[0]; // special case of scalar dataset
+		}
 
 		final String[] split = array.substring(1, array.length()-1).split(",");
 		final int[]    ret   = new int[split.length];
@@ -265,11 +297,6 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		eventDelegate.addDataListener(l);
 	}
 
-	@Override
-	public void removeDataListener(IDataListener l) {
-		eventDelegate.removeDataListener(l);
-	}
-
 	public String getPath() {
 		return urlBuilder.getPath();
 	}
@@ -278,11 +305,11 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 		urlBuilder.setPath(path);
 	}
 
-	public String getDataset() {
+	public String getDatasetName() {
 		return urlBuilder.getDataset();
 	}
 
-	public void setDataset(String dataset) {
+	public void setDatasetName(String dataset) {
 		urlBuilder.setDataset(dataset);
 	}
 
@@ -292,5 +319,35 @@ class RemoteDataset extends LazyWriteableDataset implements IRemoteDataset {
 
 	public void setWritingExpected(boolean writingExpected) {
 		urlBuilder.setWritingExpected(writingExpected);
+	}
+
+	@Override
+	public IDynamicDataset getDataset() {
+		return this;
+	}
+	
+	@Override
+	public RemoteDataset clone() {
+		RemoteDataset ret = new RemoteDataset(urlBuilder.getServerName(),urlBuilder.getPort(),this.exec);
+		ret.urlBuilder.setDataset(this.urlBuilder.getDataset());
+		ret.urlBuilder.setPath(this.urlBuilder.getPath());
+		ret.client = this.client;
+		ret.connection = this.connection;
+		ret.loader = this.loader;
+		ret.shape = shape;
+		ret.size = size;
+		ret.maxShape = maxShape;
+		ret.oShape = oShape;
+		ret.prepShape = prepShape;
+		ret.postShape = postShape;
+		ret.begSlice = begSlice;
+		ret.delSlice = delSlice;
+		ret.map = map;
+		ret.base = base;
+		ret.metadata = copyMetadata();
+		ret.oMetadata = oMetadata;
+		ret.eventDelegate = eventDelegate;
+		ret.name = this.name;
+		return ret;
 	}
 }

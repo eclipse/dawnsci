@@ -11,10 +11,12 @@ package org.eclipse.dawnsci.analysis.dataset.slicer;
 
 import java.util.Iterator;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 
 public interface ISliceViewIterator extends Iterator<ILazyDataset> {
 	
 	public int[] getShape();
+	
+	public void reset();
 	
 }

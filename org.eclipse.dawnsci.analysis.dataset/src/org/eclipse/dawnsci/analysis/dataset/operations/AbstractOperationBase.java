@@ -10,23 +10,24 @@
 package org.eclipse.dawnsci.analysis.dataset.operations;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.ErrorMetadata;
 import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.MaskMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.MetadataType;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.processing.IOperation;
 import org.eclipse.dawnsci.analysis.api.processing.OperationData;
 import org.eclipse.dawnsci.analysis.api.processing.OperationException;
 import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
 import org.eclipse.dawnsci.analysis.dataset.slicer.SliceFromSeriesMetadata;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.metadata.AxesMetadata;
+import org.eclipse.january.metadata.ErrorMetadata;
+import org.eclipse.january.metadata.MaskMetadata;
+import org.eclipse.january.metadata.MetadataType;
 
 public abstract class AbstractOperationBase<T extends IOperationModel, D extends OperationData> implements IOperation<T, D> {
 
@@ -135,17 +136,8 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	 * @return axes
 	 */
 	public static ILazyDataset[] getFirstAxes(IDataset slice) {
-		List<AxesMetadata> metaList = null;
 
-		try {
-			metaList = slice.getMetadata(AxesMetadata.class);
-			if (metaList == null || metaList.isEmpty())
-				return null;
-		} catch (Exception e) {
-			return null;
-		}
-
-		AxesMetadata am = metaList.get(0);
+		AxesMetadata am = slice.getFirstMetadata(AxesMetadata.class);
 		if (am == null)
 			return null;
 
@@ -158,18 +150,7 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	 * @return mask
 	 */
 	public static IDataset getFirstMask(IDataset slice) {
-
-		List<MaskMetadata> metaList = null;
-
-		try {
-			metaList = slice.getMetadata(MaskMetadata.class);
-			if (metaList == null || metaList.isEmpty())
-				return null;
-		} catch (Exception e) {
-			return null;
-		}
-
-		MaskMetadata mm = metaList.get(0);
+		MaskMetadata mm = slice.getFirstMetadata(MaskMetadata.class);
 		if (mm == null)
 			return null;
 
@@ -183,21 +164,7 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	 */
 	public static IDiffractionMetadata getFirstDiffractionMetadata(IDataset slice) {
 
-		List<IMetadata> metaList;
-
-		try {
-			metaList = slice.getMetadata(IMetadata.class);
-			if (metaList == null || metaList.isEmpty())
-				return null;
-		} catch (Exception e) {
-			return null;
-		}
-
-		for (IMetadata meta : metaList)
-			if (meta instanceof IDiffractionMetadata)
-				return (IDiffractionMetadata) meta;
-
-		return null;
+		return slice.getFirstMetadata(IDiffractionMetadata.class);
 	}
 
 	/**
@@ -215,17 +182,7 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	
 	public static SliceFromSeriesMetadata getSliceSeriesMetadata(IDataset slice) {
 		
-		List<SliceFromSeriesMetadata> metaList = null;
-
-		try {
-			metaList = slice.getMetadata(SliceFromSeriesMetadata.class);
-			if (metaList == null || metaList.isEmpty())
-				return null;
-		} catch (Exception e) {
-			return null;
-		}
-
-		SliceFromSeriesMetadata sm = metaList.get(0);
+		SliceFromSeriesMetadata sm = slice.getFirstMetadata(SliceFromSeriesMetadata.class);
 		if (sm == null)
 			return null;
 		
@@ -279,12 +236,25 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	 * @param original
 	 * @param out
 	 */
-	public void copyMetadata(IDataset original, IDataset out) {
+	public static void copyMetadata(IDataset original, IDataset out) {
+		copyMetadata(original, out, true);
+	}
+	
+	/**
+	 * Convenience method to copy the metadata from one dataset to another.
+	 * Use if a process doesnt change the shape of the data to maintain axes, masks etc
+	 * 
+	 * @param original
+	 * @param out
+	 * @param copyAxesMetadata flag to determine whether the AxesMetadata should be copied too 
+	 */
+	public static void copyMetadata(IDataset original, IDataset out, boolean copyAxesMetadata) {
 		try {
 			List<MetadataType> metadata = original.getMetadata(null);
 
 			for (MetadataType m : metadata) {
 				if (m instanceof ErrorMetadata) continue;
+				if (!copyAxesMetadata && m instanceof AxesMetadata) continue; 
 				out.setMetadata(m);
 			}
 
@@ -312,13 +282,28 @@ public abstract class AbstractOperationBase<T extends IOperationModel, D extends
 	public boolean isPassUnmodifiedData() {
 		return passUnmodifiedData;
 	}
-	
+
+	@SuppressWarnings({ "unchecked" })
 	public Class<T> getModelClass() {
-		if (model != null) return (Class<T>) model.getClass();
-		return (Class<T>)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+		if (model != null) {
+			return (Class<T>) model.getClass();
+		}
+
+		Type type = this.getClass();
+		// Look for first parameterized super class -> this one will contain the model
+		while (!(type instanceof ParameterizedType)) {
+			type = ((Class<?>) type).getGenericSuperclass();
+		}
+
+		type = ((ParameterizedType) type).getActualTypeArguments()[0];
+		if (type instanceof TypeVariable) {
+			return (Class<T>) ((TypeVariable<?>) type).getBounds()[0];
+		}
+
+		return (Class<T>) type;
 	}
-	
-	public static class OperationComparitor implements Comparator<IOperation<? extends IOperationModel, ? extends OperationData>> {
+
+	public static class OperationComparator implements Comparator<IOperation<? extends IOperationModel, ? extends OperationData>> {
 
 		@Override
 		public int compare(IOperation<? extends IOperationModel, ? extends OperationData> arg0, IOperation<? extends IOperationModel, ? extends OperationData> arg1) {

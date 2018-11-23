@@ -35,7 +35,7 @@ public class RegionUtils {
 	 * @param system
 	 * @return
 	 */
-	public static String getUniqueName(final String nameStub, final IPlottingSystem<?> system, final String... usedNames) {
+	public static String getUniqueName(final String nameStub, final IRegionSystem system, final String... usedNames) {
 		int i = 1;
 		@SuppressWarnings("unchecked")
 		final List<String> used = (List<String>) (usedNames!=null ? Arrays.asList(usedNames) : Collections.emptyList());
@@ -51,7 +51,7 @@ public class RegionUtils {
 	 * @param plotter
 	 * @return
 	 */
-	public static Color getUniqueColor(IRegion.RegionType type, IPlottingSystem<?> plotter, Collection<Color> colours) {
+	public static Color getUniqueColor(IRegion.RegionType type, IRegionSystem plotter, Collection<Color> colours) {
 
 		final Collection<Color> used = new HashSet<Color>(7);
 		for (IRegion reg : plotter.getRegions()) {
@@ -72,7 +72,7 @@ public class RegionUtils {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static final IRegion replaceCreateRegion(final IPlottingSystem<?> system, 
+	public static final IRegion replaceCreateRegion(final IRegionSystem   system, 
 			                                        final String          name, 
 			                                        final RegionType      type) throws Exception {
 		

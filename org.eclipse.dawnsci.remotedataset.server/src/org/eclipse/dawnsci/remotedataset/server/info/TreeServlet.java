@@ -20,11 +20,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
-import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
 import org.eclipse.dawnsci.analysis.tree.TreeToMapUtils;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.dawnsci.remotedataset.XMLMarshallerService;
+import org.eclipse.dawnsci.remotedataset.server.utils.DataServerUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The handler for incoming requests. No work should be done here
@@ -65,6 +68,8 @@ public class TreeServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 9159927667493661200L;
+	
+	private static Logger logger = LoggerFactory.getLogger(TreeServlet.class);
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	doHandle(req, resp);
@@ -89,16 +94,21 @@ public class TreeServlet extends HttpServlet {
 		final String path    = request.getParameter("path");
 		
 		try {
-			final ILoaderService lservice = ServiceHolder.getLoaderService();
-			final IDataHolder holder = lservice.getData(path, true, new IMonitor.Stub());
-					        
+			
+			ServiceHolder.getLoaderService().clearSoftReferenceCache();
+			
+			final IDataHolder holder = DataServerUtils.getDataHolderWithLogging(path);
 			final Tree tree = holder.getTree();
+			
+			
 			Map<String,Object> map = TreeToMapUtils.treeToMap(tree);
-			final String json = ServiceHolder.getMarshallerService().marshal(map);
-			response.getWriter().println(json);
+			IMarshallerService mservice = new XMLMarshallerService();
+			final String xml = mservice.marshal(map);
+			response.setContentType("text/xml;charset=utf-8");
+			response.getWriter().println(xml);
 		   
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Read of tree from {} failed due to {}", path, e.getMessage());
 			response.setContentType("text/html;charset=utf-8");
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			response.getWriter().println("<h1>"+e.getMessage()+"</h1>");

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -138,7 +138,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public double getIncident_angleScalar() {
+	public Double getIncident_angleScalar() {
 		return getDouble(NX_INCIDENT_ANGLE);
 	}
 
@@ -148,7 +148,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public DataNode setIncident_angleScalar(double incident_angle) {
+	public DataNode setIncident_angleScalar(Double incident_angle) {
 		return setField(NX_INCIDENT_ANGLE, incident_angle);
 	}
 
@@ -168,7 +168,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public double getBend_angle_xScalar() {
+	public Double getBend_angle_xScalar() {
 		return getDouble(NX_BEND_ANGLE_X);
 	}
 
@@ -178,7 +178,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public DataNode setBend_angle_xScalar(double bend_angle_x) {
+	public DataNode setBend_angle_xScalar(Double bend_angle_x) {
 		return setField(NX_BEND_ANGLE_X, bend_angle_x);
 	}
 
@@ -188,7 +188,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public double getBend_angle_yScalar() {
+	public Double getBend_angle_yScalar() {
 		return getDouble(NX_BEND_ANGLE_Y);
 	}
 
@@ -198,7 +198,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public DataNode setBend_angle_yScalar(double bend_angle_y) {
+	public DataNode setBend_angle_yScalar(Double bend_angle_y) {
 		return setField(NX_BEND_ANGLE_Y, bend_angle_y);
 	}
 
@@ -248,7 +248,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public double getM_valueScalar() {
+	public Double getM_valueScalar() {
 		return getDouble(NX_M_VALUE);
 	}
 
@@ -258,7 +258,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public DataNode setM_valueScalar(double m_value) {
+	public DataNode setM_valueScalar(Double m_value) {
 		return setField(NX_M_VALUE, m_value);
 	}
 
@@ -288,7 +288,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public double getSubstrate_densityScalar() {
+	public Double getSubstrate_densityScalar() {
 		return getDouble(NX_SUBSTRATE_DENSITY);
 	}
 
@@ -298,7 +298,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public DataNode setSubstrate_densityScalar(double substrate_density) {
+	public DataNode setSubstrate_densityScalar(Double substrate_density) {
 		return setField(NX_SUBSTRATE_DENSITY, substrate_density);
 	}
 
@@ -308,7 +308,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public double getSubstrate_thicknessScalar() {
+	public Double getSubstrate_thicknessScalar() {
 		return getDouble(NX_SUBSTRATE_THICKNESS);
 	}
 
@@ -318,7 +318,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public DataNode setSubstrate_thicknessScalar(double substrate_thickness) {
+	public DataNode setSubstrate_thicknessScalar(Double substrate_thickness) {
 		return setField(NX_SUBSTRATE_THICKNESS, substrate_thickness);
 	}
 
@@ -348,7 +348,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public double getSubstrate_roughnessScalar() {
+	public Double getSubstrate_roughnessScalar() {
 		return getDouble(NX_SUBSTRATE_ROUGHNESS);
 	}
 
@@ -358,7 +358,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public DataNode setSubstrate_roughnessScalar(double substrate_roughness) {
+	public DataNode setSubstrate_roughnessScalar(Double substrate_roughness) {
 		return setField(NX_SUBSTRATE_ROUGHNESS, substrate_roughness);
 	}
 
@@ -368,7 +368,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public double getCoating_roughnessScalar() {
+	public Double getCoating_roughnessScalar() {
 		return getDouble(NX_COATING_ROUGHNESS);
 	}
 
@@ -378,7 +378,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public DataNode setCoating_roughnessScalar(double coating_roughness) {
+	public DataNode setCoating_roughnessScalar(Double coating_roughness) {
 		return setField(NX_COATING_ROUGHNESS, coating_roughness);
 	}
 
@@ -408,7 +408,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public double getEven_layer_densityScalar() {
+	public Double getEven_layer_densityScalar() {
 		return getDouble(NX_EVEN_LAYER_DENSITY);
 	}
 
@@ -418,7 +418,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public DataNode setEven_layer_densityScalar(double even_layer_density) {
+	public DataNode setEven_layer_densityScalar(Double even_layer_density) {
 		return setField(NX_EVEN_LAYER_DENSITY, even_layer_density);
 	}
 
@@ -448,7 +448,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public double getOdd_layer_densityScalar() {
+	public Double getOdd_layer_densityScalar() {
 		return getDouble(NX_ODD_LAYER_DENSITY);
 	}
 
@@ -458,7 +458,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public DataNode setOdd_layer_densityScalar(double odd_layer_density) {
+	public DataNode setOdd_layer_densityScalar(Double odd_layer_density) {
 		return setField(NX_ODD_LAYER_DENSITY, odd_layer_density);
 	}
 
@@ -468,7 +468,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public double getLayer_thicknessScalar() {
+	public Double getLayer_thicknessScalar() {
 		return getDouble(NX_LAYER_THICKNESS);
 	}
 
@@ -478,7 +478,7 @@ public class NXmirrorImpl extends NXobjectImpl implements NXmirror {
 	}
 
 	@Override
-	public DataNode setLayer_thicknessScalar(double layer_thickness) {
+	public DataNode setLayer_thicknessScalar(Double layer_thickness) {
 		return setField(NX_LAYER_THICKNESS, layer_thickness);
 	}
 

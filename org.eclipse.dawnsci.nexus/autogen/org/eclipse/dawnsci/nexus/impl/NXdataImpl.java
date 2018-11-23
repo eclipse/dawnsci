@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -16,12 +16,12 @@ import java.util.Set;
 import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
 /**
- * (**required**) :ref:`NXdata` describes the plottable data and related dimension scales.
+ * :ref:`NXdata` describes the plottable data and related dimension scales.
  * .. index:: plotting
  * It is mandatory that there is at least one :ref:`NXdata` group
  * in each :ref:`NXentry` group.
@@ -82,7 +82,7 @@ import org.eclipse.dawnsci.nexus.*;
  * Both are now out of date and
  * should not be used when writing new data files.
  * However, client software should expect to see data files
- * written either of these methods.
+ * written with any of these methods.
  * * One method uses the ``axes``
  * attribute to specify the names of each *dimension scale*.
  * * The oldest method uses the ``axis`` attribute on each
@@ -183,44 +183,44 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public boolean getVariableAttributeDistribution() {
+	public Boolean getVariableAttributeDistribution() {
 		return getAttrBoolean(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_DISTRIBUTION);
 	}
 
 	@Override
-	public void setVariableAttributeDistribution(boolean distribution) {
+	public void setVariableAttributeDistribution(Boolean distribution) {
 		setAttribute(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_DISTRIBUTION, distribution);
 	}
 
 	@Override
-	public long getVariableAttributeFirst_good() {
+	public Long getVariableAttributeFirst_good() {
 		return getAttrLong(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_FIRST_GOOD);
 	}
 
 	@Override
-	public void setVariableAttributeFirst_good(long first_good) {
+	public void setVariableAttributeFirst_good(Long first_good) {
 		setAttribute(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_FIRST_GOOD, first_good);
 	}
 
 	@Override
-	public long getVariableAttributeLast_good() {
+	public Long getVariableAttributeLast_good() {
 		return getAttrLong(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_LAST_GOOD);
 	}
 
 	@Override
-	public void setVariableAttributeLast_good(long last_good) {
+	public void setVariableAttributeLast_good(Long last_good) {
 		setAttribute(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_LAST_GOOD, last_good);
 	}
 
 	@Override
 	@Deprecated
-	public long getVariableAttributeAxis() {
+	public Long getVariableAttributeAxis() {
 		return getAttrLong(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_AXIS);
 	}
 
 	@Override
 	@Deprecated
-	public void setVariableAttributeAxis(long axis) {
+	public void setVariableAttributeAxis(Long axis) {
 		setAttribute(NX_VARIABLE, NX_VARIABLE_ATTRIBUTE_AXIS, axis);
 	}
 
@@ -266,13 +266,13 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 
 	@Override
 	@Deprecated
-	public long getDataAttributeSignal() {
+	public Long getDataAttributeSignal() {
 		return getAttrLong(NX_DATA, NX_DATA_ATTRIBUTE_SIGNAL);
 	}
 
 	@Override
 	@Deprecated
-	public void setDataAttributeSignal(long signal) {
+	public void setDataAttributeSignal(Long signal) {
 		setAttribute(NX_DATA, NX_DATA_ATTRIBUTE_SIGNAL, signal);
 	}
 
@@ -334,7 +334,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public double getScaling_factorScalar() {
+	public Double getScaling_factorScalar() {
 		return getDouble(NX_SCALING_FACTOR);
 	}
 
@@ -344,7 +344,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public DataNode setScaling_factorScalar(double scaling_factor) {
+	public DataNode setScaling_factorScalar(Double scaling_factor) {
 		return setField(NX_SCALING_FACTOR, scaling_factor);
 	}
 
@@ -354,7 +354,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public double getOffsetScalar() {
+	public Double getOffsetScalar() {
 		return getDouble(NX_OFFSET);
 	}
 
@@ -364,7 +364,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public DataNode setOffsetScalar(double offset) {
+	public DataNode setOffsetScalar(Double offset) {
 		return setField(NX_OFFSET, offset);
 	}
 
@@ -374,7 +374,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public double getXScalar() {
+	public Double getXScalar() {
 		return getDouble(NX_X);
 	}
 
@@ -384,7 +384,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public DataNode setXScalar(double x) {
+	public DataNode setXScalar(Double x) {
 		return setField(NX_X, x);
 	}
 
@@ -394,7 +394,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public double getYScalar() {
+	public Double getYScalar() {
 		return getDouble(NX_Y);
 	}
 
@@ -404,7 +404,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public DataNode setYScalar(double y) {
+	public DataNode setYScalar(Double y) {
 		return setField(NX_Y, y);
 	}
 
@@ -414,7 +414,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public double getZScalar() {
+	public Double getZScalar() {
 		return getDouble(NX_Z);
 	}
 
@@ -424,7 +424,7 @@ public class NXdataImpl extends NXobjectImpl implements NXdata {
 	}
 
 	@Override
-	public DataNode setZScalar(double z) {
+	public DataNode setZScalar(Double z) {
 		return setField(NX_Z, z);
 	}
 

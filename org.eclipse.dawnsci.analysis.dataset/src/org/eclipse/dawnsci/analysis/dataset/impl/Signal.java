@@ -15,13 +15,26 @@ package org.eclipse.dawnsci.analysis.dataset.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.Maths;
+
 
 /**
  * Signal processing class
  */
 public class Signal {
 
-	private static int[] paddedShape(final int[] ashape, final int[] bshape, final int[] axes) {
+	/**
+	 * Pad shape to given an expanded shape
+	 * @param ashape
+	 * @param bshape
+	 * @param axes array of axes to pad, can be null to pad all axes
+	 * @return padded shape
+	 */
+	private static int[] padShape(final int[] ashape, final int[] bshape, final int[] axes) {
 		int[] s = ashape.clone();
 		if (axes == null) {
 			 // pad all axes
@@ -29,7 +42,7 @@ public class Signal {
 				s[i] += bshape[i] - 1; // pad 
 			}
 		} else {
-			 // pad chosen axes
+			// pad chosen axes
 			for (int i = 0; i < s.length; i++) {
 				int j = 0;
 				for (; j < axes.length; j++) {
@@ -95,7 +108,7 @@ public class Signal {
 		}
 
 		Dataset c = null, d = null;
-		int[] s = paddedShape(f.getShapeRef(), g.getShapeRef(), axes);
+		int[] s = padShape(f.getShapeRef(), g.getShapeRef(), axes);
 		c = FFT.fftn(f, s, axes);
 		d = FFT.fftn(g, s, axes);
 		c = Maths.multiply(c, d);
@@ -103,7 +116,7 @@ public class Signal {
 		Dataset conv = FFT.ifftn(c, s, axes);
 		if (f.isComplex() || g.isComplex())
 			return conv;
-		return conv.real();
+		return conv.getRealView();
 	}
 
 	/**
@@ -151,7 +164,7 @@ public class Signal {
 		}
 
 		Dataset c = null, d = null;
-		int[] s = paddedShape(f.getShapeRef(), g.getShapeRef(), axes);
+		int[] s = padShape(f.getShapeRef(), g.getShapeRef(), axes);
 		
 		c = FFT.fftn(f, s, axes);
 		d = FFT.fftn(g, s, axes);
@@ -159,7 +172,7 @@ public class Signal {
 
 		Dataset corr = FFT.ifftn(c, s, axes);
 		if (!f.isComplex() && !g.isComplex())
-			corr = corr.real();
+			corr = corr.getRealView();
 
 		int rank = s.length;
 		int alen;
@@ -226,7 +239,7 @@ public class Signal {
 	 */
 	public static List<Dataset> phaseCorrelate(final Dataset f, final Dataset g, final int[] axes, boolean includeInverse) {
 		Dataset c = null, d = null;
-		int[] s = paddedShape(f.getShapeRef(), g.getShapeRef(), axes);
+		int[] s = padShape(f.getShapeRef(), g.getShapeRef(), axes);
 		c = FFT.fftn(f, s, axes);
 		d = FFT.fftn(g, s, axes);
 		c.idivide(d);
@@ -240,14 +253,14 @@ public class Signal {
 		if (f.isComplex() || g.isComplex())
 			results.add(corr);
 		else
-			results.add(corr.real());
+			results.add(corr.getRealView());
 
 		if (includeInverse) {
 			corr = FFT.ifftn(c, s, axes);
 			if (f.isComplex() || g.isComplex())
 				results.add(corr);
 			else
-				results.add(corr.real());
+				results.add(corr.getRealView());
 		}
 
 		return results;
@@ -259,7 +272,7 @@ public class Signal {
 	 * @return window
 	 */
 	public static Dataset rectangularWindow(int n) {
-		return DatasetFactory.ones(new int[] {n}, Dataset.FLOAT64);
+		return DatasetFactory.ones(n);
 	}
 
 	/**
@@ -268,7 +281,7 @@ public class Signal {
 	 * @return window
 	 */
 	public static Dataset triangularWindow(int n) {
-		DoubleDataset w = new DoubleDataset(n);
+		DoubleDataset w = DatasetFactory.zeros(n);
 		double f = 2./(n+1);
 		double o = f*(n-1)*0.5;
 		for (int i = 0; i < n; i++) {
@@ -283,7 +296,7 @@ public class Signal {
 	 * @return window
 	 */
 	public static Dataset bartlettWindow(int n) {
-		DoubleDataset w = new DoubleDataset(n);
+		DoubleDataset w = DatasetFactory.zeros(DoubleDataset.class, n);
 		double f = 2./(n-1);
 		double o = f*(n-1)*0.5;
 		for (int i = 0; i < n; i++) {
@@ -320,10 +333,32 @@ public class Signal {
 	 * @return window
 	 */
 	public static Dataset hammingWindow(int n, double a, double b) {
-		DoubleDataset w = new DoubleDataset(n);
+		DoubleDataset w = DatasetFactory.zeros(DoubleDataset.class, n);
 		double f = 2*Math.PI/(n-1);
 		for (int i = 0; i < n; i++) {
 			w.setAbs(i, a - b*Math.cos(i*f));
+		}
+		return w;
+	}
+
+	/**
+	 * A Tukey (also known as a tapered cosine) window
+	 * @param n
+	 * @param a
+	 * @return window
+	 */
+	public static Dataset tukeyWindow(int n, double a) {
+		DoubleDataset w = DatasetFactory.ones(DoubleDataset.class, n);
+		if (a < 0 || a > 1) {
+			throw new IllegalArgumentException("Parameter a (taper width) must be in range [0,1]");
+		}
+		double p = a*(n-1)/2;
+		double f = Math.PI/p;
+		int imax = (int) Math.ceil(p);
+		for (int i = 0; i < imax; i++) {
+			double wv = 0.5 + 0.5*Math.cos(i*f - Math.PI);
+			w.setAbs(i, wv);
+			w.setAbs(n - 1 - i, wv);
 		}
 		return w;
 	}

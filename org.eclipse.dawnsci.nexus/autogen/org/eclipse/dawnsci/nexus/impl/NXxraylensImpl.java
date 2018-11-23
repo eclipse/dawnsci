@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -84,7 +84,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public boolean getSymmetricScalar() {
+	public Boolean getSymmetricScalar() {
 		return getBoolean(NX_SYMMETRIC);
 	}
 
@@ -94,7 +94,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public DataNode setSymmetricScalar(boolean symmetric) {
+	public DataNode setSymmetricScalar(Boolean symmetric) {
 		return setField(NX_SYMMETRIC, symmetric);
 	}
 
@@ -104,7 +104,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public boolean getCylindricalScalar() {
+	public Boolean getCylindricalScalar() {
 		return getBoolean(NX_CYLINDRICAL);
 	}
 
@@ -114,7 +114,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public DataNode setCylindricalScalar(boolean cylindrical) {
+	public DataNode setCylindricalScalar(Boolean cylindrical) {
 		return setField(NX_CYLINDRICAL, cylindrical);
 	}
 
@@ -154,7 +154,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public double getLens_thicknessScalar() {
+	public Double getLens_thicknessScalar() {
 		return getDouble(NX_LENS_THICKNESS);
 	}
 
@@ -164,7 +164,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public DataNode setLens_thicknessScalar(double lens_thickness) {
+	public DataNode setLens_thicknessScalar(Double lens_thickness) {
 		return setField(NX_LENS_THICKNESS, lens_thickness);
 	}
 
@@ -174,7 +174,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public double getLens_lengthScalar() {
+	public Double getLens_lengthScalar() {
 		return getDouble(NX_LENS_LENGTH);
 	}
 
@@ -184,7 +184,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public DataNode setLens_lengthScalar(double lens_length) {
+	public DataNode setLens_lengthScalar(Double lens_length) {
 		return setField(NX_LENS_LENGTH, lens_length);
 	}
 
@@ -194,7 +194,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public double getCurvatureScalar() {
+	public Double getCurvatureScalar() {
 		return getDouble(NX_CURVATURE);
 	}
 
@@ -204,7 +204,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public DataNode setCurvatureScalar(double curvature) {
+	public DataNode setCurvatureScalar(Double curvature) {
 		return setField(NX_CURVATURE, curvature);
 	}
 
@@ -214,7 +214,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public double getApertureScalar() {
+	public Double getApertureScalar() {
 		return getDouble(NX_APERTURE);
 	}
 
@@ -224,7 +224,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public DataNode setApertureScalar(double aperture) {
+	public DataNode setApertureScalar(Double aperture) {
 		return setField(NX_APERTURE, aperture);
 	}
 
@@ -234,7 +234,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public long getNumber_of_lensesScalar() {
+	public Long getNumber_of_lensesScalar() {
 		return getLong(NX_NUMBER_OF_LENSES);
 	}
 
@@ -244,7 +244,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public DataNode setNumber_of_lensesScalar(long number_of_lenses) {
+	public DataNode setNumber_of_lensesScalar(Long number_of_lenses) {
 		return setField(NX_NUMBER_OF_LENSES, number_of_lenses);
 	}
 
@@ -294,7 +294,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public double getGas_pressureScalar() {
+	public Double getGas_pressureScalar() {
 		return getDouble(NX_GAS_PRESSURE);
 	}
 
@@ -304,7 +304,7 @@ public class NXxraylensImpl extends NXobjectImpl implements NXxraylens {
 	}
 
 	@Override
-	public DataNode setGas_pressureScalar(double gas_pressure) {
+	public DataNode setGas_pressureScalar(Double gas_pressure) {
 		return setField(NX_GAS_PRESSURE, gas_pressure);
 	}
 

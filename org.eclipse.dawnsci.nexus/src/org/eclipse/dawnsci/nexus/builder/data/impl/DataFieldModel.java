@@ -1,6 +1,16 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.nexus.builder.data.impl;
 
-import java.text.MessageFormat;
 import java.util.Objects;
 
 import org.eclipse.dawnsci.nexus.NXdata;
@@ -26,10 +36,10 @@ public class DataFieldModel {
 	public DataFieldModel(String sourceFieldName, String destinationFieldName, int fieldRank) {
 		Objects.requireNonNull(sourceFieldName);
 		Objects.requireNonNull(destinationFieldName);
-		if (fieldRank < 1) {
-			throw new IllegalArgumentException(MessageFormat.format(
-					"Dataset rank must be at least 1, was {0}: {1}", fieldRank, sourceFieldName));
-		}
+//		if (fieldRank < 1) {
+//			throw new IllegalArgumentException(MessageFormat.format(
+//					"Dataset rank must be at least 1, was {0}: {1}", fieldRank, sourceFieldName));
+//		}
 		this.sourceFieldName = sourceFieldName;
 		this.destinationFieldName = destinationFieldName;
 		this.fieldRank = fieldRank;

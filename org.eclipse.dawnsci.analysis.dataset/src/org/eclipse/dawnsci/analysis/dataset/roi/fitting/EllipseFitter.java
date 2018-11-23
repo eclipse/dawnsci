@@ -30,15 +30,16 @@ import org.apache.commons.math3.optim.nonlinear.vector.ModelFunctionJacobian;
 import org.apache.commons.math3.optim.nonlinear.vector.Target;
 import org.apache.commons.math3.optim.nonlinear.vector.Weight;
 import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquardtOptimizer;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.fitting.IConicSectionFitFunction;
 import org.eclipse.dawnsci.analysis.api.fitting.IConicSectionFitter;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
-import org.eclipse.dawnsci.analysis.dataset.impl.LinearAlgebra;
-import org.eclipse.dawnsci.analysis.dataset.impl.Maths;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IndexIterator;
+import org.eclipse.january.dataset.LinearAlgebra;
+import org.eclipse.january.dataset.Maths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,7 +78,7 @@ class EllipseCoordinatesFunction implements IConicSectionFitFunction, Serializab
 		Y = DatasetUtils.convertToDataset(y);
 		n = X.getSize();
 		m = 2*n;
-		v = new DoubleDataset(m);
+		v = DatasetFactory.zeros(DoubleDataset.class, m);
 		j = new double[m][PARAMETERS+n];
 		for (int i = 0; i < m; i++) {
 			j[i][3] = 1;
@@ -184,7 +185,7 @@ class EllipseCoordinatesFunction implements IConicSectionFitFunction, Serializab
 	public Dataset calcDistanceSquared(double[] parameters) throws IllegalArgumentException {
 		final double[] p = calcAllInitValues(parameters).getInitialGuess();
 
-		final DoubleDataset v = new DoubleDataset(n);
+		final DoubleDataset v = DatasetFactory.zeros(DoubleDataset.class, n);
 		final double[] values = v.getData();
 		final double a = p[0];
 		final double b = p[1];
@@ -488,8 +489,8 @@ public class EllipseFitter implements IConicSectionFitter, Serializable {
 
 		Dataset[] coords = new Dataset[2];
 
-		DoubleDataset x = new DoubleDataset(angles.getShape());
-		DoubleDataset y = new DoubleDataset(angles.getShape());
+		DoubleDataset x = DatasetFactory.zeros(DoubleDataset.class, angles.getShape());
+		DoubleDataset y = DatasetFactory.zeros(DoubleDataset.class, angles.getShape());
 		coords[0] = x;
 		coords[1] = y;
 

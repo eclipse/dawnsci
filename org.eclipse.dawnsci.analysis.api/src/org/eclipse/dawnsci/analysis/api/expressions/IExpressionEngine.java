@@ -12,7 +12,7 @@ package org.eclipse.dawnsci.analysis.api.expressions;
 import java.util.Collection;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
+import org.eclipse.january.IMonitor;
 
 /**
  * This service can be called to save and/or load data from an hdf5 file.
@@ -34,7 +34,7 @@ public interface IExpressionEngine {
 	 * @return Object
 	 * @throws Exception
 	 */
-	public Object evaluate() throws Exception;
+	public <T> T evaluate() throws Exception;
 	
 	/**
 	 * Adds a listener for expression evaluated with event (calculation performed in separate thread)

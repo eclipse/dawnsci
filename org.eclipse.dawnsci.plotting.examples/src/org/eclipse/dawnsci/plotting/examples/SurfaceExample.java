@@ -13,13 +13,13 @@ package org.eclipse.dawnsci.plotting.examples;
 
 import java.io.File;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.histogram.IPaletteService;
 import org.eclipse.dawnsci.plotting.api.trace.ISurfaceTrace;
 import org.eclipse.dawnsci.plotting.examples.util.BundleUtils;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.widgets.Composite;
 

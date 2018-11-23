@@ -12,9 +12,9 @@ package org.eclipse.dawnsci.plotting.api.remote;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.axis.IAxis;
 import org.eclipse.dawnsci.plotting.api.axis.IAxisListener;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
@@ -250,10 +250,17 @@ public interface IRemoteAxis extends Remote {
 	public void setMaximumRange(double lower, double upper) throws RemoteException;
 
 	/**
-	 * 
+	 * @param value
 	 * @return the number (usually Double) formatted to the current format
 	 */
 	public String format(Object value) throws RemoteException;
+
+	/**
+	 * @param value
+	 * @param extraDP extra decimal places
+	 * @return the number (usually Double) formatted to the current format
+	 */
+	public String format(Object value, int extraDP) throws RemoteException;
 
 	/**
 	 * @return scaling of axis in terms of pixels/unit

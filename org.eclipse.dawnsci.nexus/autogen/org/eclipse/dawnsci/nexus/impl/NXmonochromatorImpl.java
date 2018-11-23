@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -76,7 +76,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 	}
 
 	@Override
-	public double getWavelengthScalar() {
+	public Double getWavelengthScalar() {
 		return getDouble(NX_WAVELENGTH);
 	}
 
@@ -86,7 +86,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 	}
 
 	@Override
-	public DataNode setWavelengthScalar(double wavelength) {
+	public DataNode setWavelengthScalar(Double wavelength) {
 		return setField(NX_WAVELENGTH, wavelength);
 	}
 
@@ -96,7 +96,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 	}
 
 	@Override
-	public double getWavelength_errorScalar() {
+	public Double getWavelength_errorScalar() {
 		return getDouble(NX_WAVELENGTH_ERROR);
 	}
 
@@ -106,7 +106,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 	}
 
 	@Override
-	public DataNode setWavelength_errorScalar(double wavelength_error) {
+	public DataNode setWavelength_errorScalar(Double wavelength_error) {
 		return setField(NX_WAVELENGTH_ERROR, wavelength_error);
 	}
 
@@ -116,7 +116,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 	}
 
 	@Override
-	public double getEnergyScalar() {
+	public Double getEnergyScalar() {
 		return getDouble(NX_ENERGY);
 	}
 
@@ -126,7 +126,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 	}
 
 	@Override
-	public DataNode setEnergyScalar(double energy) {
+	public DataNode setEnergyScalar(Double energy) {
 		return setField(NX_ENERGY, energy);
 	}
 
@@ -136,7 +136,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 	}
 
 	@Override
-	public double getEnergy_errorScalar() {
+	public Double getEnergy_errorScalar() {
 		return getDouble(NX_ENERGY_ERROR);
 	}
 
@@ -146,7 +146,7 @@ public class NXmonochromatorImpl extends NXobjectImpl implements NXmonochromator
 	}
 
 	@Override
-	public DataNode setEnergy_errorScalar(double energy_error) {
+	public DataNode setEnergy_errorScalar(Double energy_error) {
 		return setField(NX_ENERGY_ERROR, energy_error);
 	}
 

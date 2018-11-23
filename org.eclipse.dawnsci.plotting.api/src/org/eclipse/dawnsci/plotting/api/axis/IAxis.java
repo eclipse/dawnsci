@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.plotting.api.axis;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
@@ -256,10 +256,17 @@ public interface IAxis {
 	public void setMaximumRange(double lower, double upper);
 
 	/**
-	 * 
+	 * @param value
 	 * @return the number (usually Double) formatted to the current format
 	 */
 	public String format(Object value);
+
+	/**
+	 * @param value
+	 * @param extraDP extra decimal places
+	 * @return the number (usually Double) formatted to the current format
+	 */
+	public String format(Object value, int extraDP);
 
 	/**
 	 * @return scaling of axis in terms of pixels/unit
@@ -285,4 +292,14 @@ public interface IAxis {
 	 * @return true if autoscaling axis is tight to displayed data
 	 */
 	public boolean isAxisAutoscaleTight();
+	
+	/**
+	 * @param set whether axis is inverted
+	 */
+	public void setInverted(boolean isInverted);
+	
+	/**
+	 * @return true if axis is inverted
+	 */
+	public boolean isInverted();
 }

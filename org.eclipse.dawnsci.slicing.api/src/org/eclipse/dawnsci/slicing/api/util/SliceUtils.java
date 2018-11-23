@@ -22,29 +22,29 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDatasetMathsService;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
 import org.eclipse.dawnsci.analysis.api.io.SliceObject;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.doe.DOEUtils;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.expressions.IVariableManager;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.slicing.api.Activator;
+import org.eclipse.dawnsci.slicing.api.ServiceHolder;
 import org.eclipse.dawnsci.slicing.api.system.AxisType;
 import org.eclipse.dawnsci.slicing.api.system.DimsData;
 import org.eclipse.dawnsci.slicing.api.system.DimsDataList;
 import org.eclipse.dawnsci.slicing.api.system.ISliceRangeSubstituter;
 import org.eclipse.dawnsci.slicing.api.system.SliceSource;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.dataset.SliceND;
+import org.eclipse.richbeans.annot.DOEUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,13 +109,13 @@ public class SliceUtils {
 
     		final IDatasetMathsService service = (IDatasetMathsService)Activator.getService(IDatasetMathsService.class);
     		if (dimsData.getPlotAxis()==AxisType.X) {
-    			x = service.createRange(dataShape[i], IDatasetMathsService.INT);
+    			x = service.createRange(dataShape[i], Integer.class);
     			x.setName("Dimension "+(dimsData.getDimension()+1));
     			currentSlice.setX(dimsData.getDimension());
     			currentSlice.setxSize(x.getSize());
     		}
     		if (dimsData.getPlotAxis()==AxisType.Y || dimsData.getPlotAxis()==AxisType.Y_MANY) {
-       			y = service.createRange(dataShape[i], IDatasetMathsService.INT);
+       			y = service.createRange(dataShape[i], Integer.class);
     			y.setName("Dimension "+(dimsData.getDimension()+1));
     			currentSlice.setY(dimsData.getDimension());
     			final int count = DOEUtils.getSize(dimsData.getSliceRange(true), null);
@@ -324,7 +324,7 @@ public class SliceUtils {
 		final IDatasetMathsService service = (IDatasetMathsService)Activator.getService(IDatasetMathsService.class);
 		if ("indices".equals(axisName) || axisName==null) {
 			if (requireIndicesOnError) {
-				IDataset indices = service.createRange(length, IDatasetMathsService.INT); // Save time
+				IDataset indices = service.createRange(length, Integer.class); // Save time
 				indices.setName("");
 				return indices;
 			} else {
@@ -359,7 +359,7 @@ public class SliceUtils {
 				}
 			} catch (Exception ignored) {
 				// This is a late on fix, if we cannot get the axes, we set no axis.
-				x = service.createRange(length, IDatasetMathsService.INT); // Save time
+				x = service.createRange(length, Integer.class); // Save time
 				x.setName("Indices");
 			}
 			if (x.getRank()==2) {
@@ -368,7 +368,7 @@ public class SliceUtils {
 			}
 
 			if (x.getRank()!=1) {
-				x = service.createRange(length, IDatasetMathsService.INT); // Save time
+				x = service.createRange(length, Integer.class); // Save time
 				x.setName("Indices");
 			}
             return x;
@@ -376,7 +376,7 @@ public class SliceUtils {
 		} catch (Throwable ne) {
 			logger.error("Cannot get nexus axis during slice!", ne);
 			if (requireIndicesOnError) {
-				IDataset indices = service.createRange(length, IDatasetMathsService.INT); // Save time
+				IDataset indices = service.createRange(length, Integer.class); // Save time
 				indices.setName("");
 				return indices;
 
@@ -430,10 +430,12 @@ public class SliceUtils {
 		}
 		
 		if (requireUnit) { // Slower
-			IHierarchicalDataFile file = null;
+			NexusFile file = null;
 			try {
-				file = HierarchicalDataFactory.getReader(currentSlice.getPath());
-				final String  group    = file.getParent(currentSlice.getName());
+				file = ServiceHolder.getNexusFileFactory().newNexusFile(currentSlice.getPath());
+				file.openToRead();
+
+				final String  group = currentSlice.getName();
 				
 				final String fullName = group+"/"+axisName;
 				
@@ -455,8 +457,6 @@ public class SliceUtils {
 			final ILoaderService service = (ILoaderService)Activator.getService(ILoaderService.class);
 			axis = service.getDataset(currentSlice.getPath(), fullName, new ProgressMonitorWrapper(monitor));
 			if (axis == null) return null;
-			axis = axis.squeeze();
-		
 		}
 
 		// TODO Should really be averaging not using first index.
@@ -464,13 +464,18 @@ public class SliceUtils {
 			axis = sliceDimension(axis, dimension);
 		}
 		
+		if (axis.getRank() > 1) {
+			axis = axis.squeeze();
+		}
+		if (axis.getRank() == 0) {
+			axis.setShape(1);
+		}
 		axis.setName(getAxisLabel(currentSlice, origName));
-	    return axis;
-
+		return axis;
 	}
 
 
-	private static IDataset sliceDimension(ILazyDataset axis, int dimension) {
+	private static IDataset sliceDimension(ILazyDataset axis, int dimension) throws DatasetException {
 		
 		final int[] shape = axis.getShape();
 		final int[] start = new int[shape.length];
@@ -565,6 +570,9 @@ public class SliceUtils {
 			} 
 			
 			final String name = slice.getName();
+			if (slice.getErrors() != null) {
+				slice.setErrors(DatasetUtils.sliceAndConvertLazyDataset(slice.getErrors()));
+			}
 			slice = slice.squeeze();		
 			if (currentSlice.getX() > currentSlice.getY() && slice.getShape().length==2) {
 				// transpose clobbers name
@@ -705,7 +713,7 @@ public class SliceUtils {
 			if (isH5 && !name.startsWith("/")) continue;
 			
 			ILazyDataset ls = holder.getLazyDataset(name);
-			if (restrictions.contains(ls.elementClass())) continue;
+			if (restrictions.contains(ls.getElementClass())) continue;
 			int[] shape = ls!=null ? ls.getShape() : null;
 			if (shape==null) continue;
 			

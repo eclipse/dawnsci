@@ -13,17 +13,16 @@
 package org.eclipse.dawnsci.analysis.api.processing;
 
 import java.util.List;
-import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.SliceND;
 
 /**
  * Essential things to set
  * 1. Either: 
- *   a) an ILazyDataset (setData(..)) or    [If the lazydataset is there it takes precidence.]
+ *   a) an ILazyDataset (setData(..)) or    [If the lazy dataset is there it takes precedence.]
  *   b) the filePath and datasetPath
  * 
  * 2. The slicing
@@ -32,7 +31,7 @@ import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
  * Optional
  * 1. Execution type
  * 2. Parallel timeout (default 5000ms) [series runs have no timeout]
- * 3. Vistor
+ * 3. Visitor
  * 4. Monitor
  * 
  * Parallel Timeout Handling:
@@ -145,11 +144,30 @@ public interface IOperationContext {
 	public ExecutionType getExecutionType();
 	
 	/**
+	 * Sets the execution type for operations.
+	 * If the ExecutionType is set to PARALLEL all processors seen
+	 * by Runtime will be set as the number of available cores by
+	 * default. If the number of CPU cores to be set is to be defined 
+	 * implicitly this must be done after setting the execution type
 	 * 
 	 * @param executionType
 	 */
 	public void setExecutionType(ExecutionType executionType) ;
 
+	/**
+	 * 
+	 * @return number of cores.
+	 */
+	public int getNumberOfCores();
+	
+	/**
+	 * Sets the number of CPU cores to use.
+	 * Must be set after setting the execution type
+	 * 
+	 * @param numberOfCores
+	 */
+	public void setNumberOfCores(int numberOfCores) ;
+	
 	/**
 	 * Timeout in parallel mode.
 	 * @return timeout

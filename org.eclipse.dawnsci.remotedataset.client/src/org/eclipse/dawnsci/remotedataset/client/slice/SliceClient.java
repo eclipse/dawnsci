@@ -135,7 +135,7 @@ public class SliceClient<T> {
 			return get();
 		}
 		
-		if (isFinished()) throw new Exception("Client has infinished reading images!");
+		if (isFinished()) throw new Exception("Client has finished reading images!");
 		if (streamer==null) {
 			this.isFinished = false;
 	        this.streamer = (IStreamer<T>)StreamerFactory.getStreamer(urlBuilder.getSliceURL(), getSleep(), imageCache, format);

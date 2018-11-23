@@ -7,14 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * definition for a spin rotator.
@@ -98,7 +98,7 @@ public interface NXspin_rotator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBeamline_distanceScalar();
+	public Double getBeamline_distanceScalar();
 
 	/**
 	 * define position of beamline element relative to production target
@@ -109,7 +109,7 @@ public interface NXspin_rotator extends NXobject {
 	 * 
 	 * @param beamline_distance the beamline_distance
 	 */
-	public DataNode setBeamline_distanceScalar(double beamline_distance);
+	public DataNode setBeamline_distanceScalar(Double beamline_distance);
 
 	/**
 	 * current set on magnet supply.
@@ -142,7 +142,7 @@ public interface NXspin_rotator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSet_Bfield_currentScalar();
+	public Double getSet_Bfield_currentScalar();
 
 	/**
 	 * current set on magnet supply.
@@ -153,7 +153,7 @@ public interface NXspin_rotator extends NXobject {
 	 * 
 	 * @param set_Bfield_current the set_Bfield_current
 	 */
-	public DataNode setSet_Bfield_currentScalar(double set_Bfield_current);
+	public DataNode setSet_Bfield_currentScalar(Double set_Bfield_current);
 
 	/**
 	 * current read from magnet supply.
@@ -214,7 +214,7 @@ public interface NXspin_rotator extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSet_Efield_voltageScalar();
+	public Double getSet_Efield_voltageScalar();
 
 	/**
 	 * current set on HT supply.
@@ -225,7 +225,7 @@ public interface NXspin_rotator extends NXobject {
 	 * 
 	 * @param set_Efield_voltage the set_Efield_voltage
 	 */
-	public DataNode setSet_Efield_voltageScalar(double set_Efield_voltage);
+	public DataNode setSet_Efield_voltageScalar(Double set_Efield_voltage);
 
 	/**
 	 * current read from HT supply.

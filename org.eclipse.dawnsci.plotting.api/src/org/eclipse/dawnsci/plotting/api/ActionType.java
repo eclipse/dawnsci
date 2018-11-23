@@ -13,12 +13,23 @@ package org.eclipse.dawnsci.plotting.api;
 
 public enum ActionType {
 
-	XY, IMAGE, XYANDIMAGE, THREED, SURFACE, SCATTER3D, MULTIIMAGE, ALL, FX3D;
+	XY, IMAGE, XYANDIMAGE, THREED, SURFACE, SCATTER3D, MULTIIMAGE, ALL, FX3D, DATA, JZY3D_COLOR;
 
 	public boolean isCompatible(PlotType type) {
 
 		if (this == ALL)
 			return true;
+		if (type == PlotType.DATA && this == ActionType.DATA)
+			return true;
+		else if (type == PlotType.DATA)
+			return false;
+		
+		if (type == PlotType.JZY3D_COLOR && this == ActionType.JZY3D_COLOR) {
+			return true;
+		} else if (type == PlotType.JZY3D_COLOR){
+			return false;
+		}
+		
 		if (type.is1D() && this == XY) {
 			return true;
 		}
@@ -43,6 +54,8 @@ public enum ActionType {
 		if (type.isMulti2D() && this == MULTIIMAGE) {
 			return true;
 		}
+		
+			
 		return false;
 	}
 }

@@ -7,24 +7,17 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * A generic positioner such as a motor or piezo-electric transducer.
- * It is used to document the
- * current information of a piece of beam line equipment.
- * Note: When using multiple :ref:`NXpositioner` groups, it is suggested to place
- * them inside a :ref:`NXcollection` group. In such cases, when
- * :ref:`NXpositioner` is used in another class,
- * :ref:`NXcollection`/:ref:`NXpositioner`
- * is then constructed.
  * 
  * @version 1.0
  */

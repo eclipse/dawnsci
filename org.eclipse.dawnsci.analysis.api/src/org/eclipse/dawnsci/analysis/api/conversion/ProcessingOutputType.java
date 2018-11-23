@@ -11,5 +11,5 @@ package org.eclipse.dawnsci.analysis.api.conversion;
 
 //TODO FIXME Javadocs on org.eclipse.dawnsci mandatory
 public enum ProcessingOutputType {
-	PROCESSING_ONLY, ORIGINAL_AND_PROCESSED
+	PROCESSING_ONLY, ORIGINAL_AND_PROCESSED, LINK_ORIGINAL
 }

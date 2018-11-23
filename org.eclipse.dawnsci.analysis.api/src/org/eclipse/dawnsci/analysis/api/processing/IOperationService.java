@@ -15,8 +15,8 @@ package org.eclipse.dawnsci.analysis.api.processing;
 import java.util.Collection;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * This is a service for creating and returning operations.

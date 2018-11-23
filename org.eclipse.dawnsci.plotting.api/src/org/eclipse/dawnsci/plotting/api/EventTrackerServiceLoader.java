@@ -29,7 +29,7 @@ public class EventTrackerServiceLoader {
 	 * Injected by OSGI
 	 * @param et
 	 */
-	public static void setService(EventTracker et) {
+	public void setService(EventTracker et) {
 		service = et;
 	}
 

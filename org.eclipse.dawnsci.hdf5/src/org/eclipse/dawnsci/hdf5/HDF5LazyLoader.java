@@ -10,17 +10,16 @@
 package org.eclipse.dawnsci.hdf5;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.api.io.ILazyDynamicLoader;
-import org.eclipse.dawnsci.analysis.api.io.ILazyLoader;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.SliceND;
+import org.eclipse.january.io.ILazyDynamicLoader;
+import org.eclipse.january.io.ILazyLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +39,7 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	private int isize;
 	private boolean extendUnsigned;
 	protected String name;
+	protected File file;
 
 	/**
 	 * @param hostname
@@ -53,12 +53,7 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	 */
 	public HDF5LazyLoader(String hostname, String filename, String node, String name, int[] trueShape, int isize, int dtype,
 			boolean extendUnsigned) {
-		try {
-			isRemote = hostname != null && hostname.length() > 0 && !hostname.equals(InetAddress.getLocalHost().getHostName());
-		} catch (UnknownHostException e) {
-			isRemote = false;
-			logger.warn("Problem finding local host so ignoring check", e);
-		}
+		isRemote = hostname != null && hostname.length() > 0 && !hostname.equals(HDF5Utils.getLocalHostName());
 		filePath = filename;
 		isReadable = false;
 		nodePath = node;
@@ -72,7 +67,10 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	@Override
 	public boolean isFileReadable() {
 		if (!isReadable && !isRemote) { // keep trying if local
-			isReadable = new File(filePath).canRead();
+			if (file == null) {
+				file = new File(filePath);
+			}
+			isReadable = file.canRead();
 		}
 		return isReadable;
 	}
@@ -83,7 +81,7 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 	}
 
 	@Override
-	public Dataset getDataset(IMonitor mon, SliceND slice) throws ScanFileHolderException {
+	public Dataset getDataset(IMonitor mon, SliceND slice) throws IOException {
 		int[] lstart = slice.getStart();
 		int[] lstep  = slice.getStep();
 		int[] newShape = slice.getShape();
@@ -142,12 +140,20 @@ public class HDF5LazyLoader implements ILazyLoader, ILazyDynamicLoader, Serializ
 			if (d != null) {
 				d.setName(name);
 			}
+			if (mon != null) {
+				if (mon.isCancelled()) {
+					return d;
+				}
+				mon.worked(1);
+			}
 		} catch (Exception e) {
-			throw new ScanFileHolderException("Problem loading dataset", e);
+			throw new IOException("Problem loading dataset", e);
 		}
+		
 		return d;
 	}
-	
+
+	@Override
 	public int[] refreshShape() {
 		int[][] shape = null;
 		try {

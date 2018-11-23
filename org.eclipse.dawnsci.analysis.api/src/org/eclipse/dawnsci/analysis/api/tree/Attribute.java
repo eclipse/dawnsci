@@ -12,7 +12,7 @@
 
 package org.eclipse.dawnsci.analysis.api.tree;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Represent an attribute of a node

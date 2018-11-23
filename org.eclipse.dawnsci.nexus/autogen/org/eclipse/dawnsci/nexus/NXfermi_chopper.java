@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * A Fermi chopper, possibly with curved slits.
@@ -97,7 +97,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getRotation_speedScalar();
+	public Double getRotation_speedScalar();
 
 	/**
 	 * chopper rotation speed
@@ -108,7 +108,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @param rotation_speed the rotation_speed
 	 */
-	public DataNode setRotation_speedScalar(double rotation_speed);
+	public DataNode setRotation_speedScalar(Double rotation_speed);
 
 	/**
 	 * radius of chopper
@@ -141,7 +141,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getRadiusScalar();
+	public Double getRadiusScalar();
 
 	/**
 	 * radius of chopper
@@ -152,7 +152,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @param radius the radius
 	 */
-	public DataNode setRadiusScalar(double radius);
+	public DataNode setRadiusScalar(Double radius);
 
 	/**
 	 * width of an individual slit
@@ -185,7 +185,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSlitScalar();
+	public Double getSlitScalar();
 
 	/**
 	 * width of an individual slit
@@ -196,7 +196,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @param slit the slit
 	 */
-	public DataNode setSlitScalar(double slit);
+	public DataNode setSlitScalar(Double slit);
 
 	/**
 	 * radius of curvature of slits
@@ -229,7 +229,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getR_slitScalar();
+	public Double getR_slitScalar();
 
 	/**
 	 * radius of curvature of slits
@@ -240,7 +240,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @param r_slit the r_slit
 	 */
-	public DataNode setR_slitScalar(double r_slit);
+	public DataNode setR_slitScalar(Double r_slit);
 
 	/**
 	 * number of slits
@@ -273,7 +273,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getNumberScalar();
+	public Long getNumberScalar();
 
 	/**
 	 * number of slits
@@ -284,7 +284,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @param number the number
 	 */
-	public DataNode setNumberScalar(long number);
+	public DataNode setNumberScalar(Long number);
 
 	/**
 	 * input beam height
@@ -317,7 +317,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getHeightScalar();
+	public Double getHeightScalar();
 
 	/**
 	 * input beam height
@@ -328,7 +328,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @param height the height
 	 */
-	public DataNode setHeightScalar(double height);
+	public DataNode setHeightScalar(Double height);
 
 	/**
 	 * input beam width
@@ -361,7 +361,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getWidthScalar();
+	public Double getWidthScalar();
 
 	/**
 	 * input beam width
@@ -372,7 +372,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @param width the width
 	 */
-	public DataNode setWidthScalar(double width);
+	public DataNode setWidthScalar(Double width);
 
 	/**
 	 * distance
@@ -405,7 +405,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getDistanceScalar();
+	public Double getDistanceScalar();
 
 	/**
 	 * distance
@@ -416,7 +416,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @param distance the distance
 	 */
-	public DataNode setDistanceScalar(double distance);
+	public DataNode setDistanceScalar(Double distance);
 
 	/**
 	 * Wavelength transmitted by chopper
@@ -449,7 +449,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getWavelengthScalar();
+	public Double getWavelengthScalar();
 
 	/**
 	 * Wavelength transmitted by chopper
@@ -460,7 +460,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @param wavelength the wavelength
 	 */
-	public DataNode setWavelengthScalar(double wavelength);
+	public DataNode setWavelengthScalar(Double wavelength);
 
 	/**
 	 * energy selected
@@ -493,7 +493,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getEnergyScalar();
+	public Double getEnergyScalar();
 
 	/**
 	 * energy selected
@@ -504,7 +504,7 @@ public interface NXfermi_chopper extends NXobject {
 	 * 
 	 * @param energy the energy
 	 */
-	public DataNode setEnergyScalar(double energy);
+	public DataNode setEnergyScalar(Double energy);
 
 	/**
 	 * geometry of the fermi chopper

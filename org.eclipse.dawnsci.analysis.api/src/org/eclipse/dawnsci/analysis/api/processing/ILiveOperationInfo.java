@@ -9,9 +9,7 @@
 
 package org.eclipse.dawnsci.analysis.api.processing;
 
-import java.util.List;
-
-import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.IDynamicDataset;
 
 
 public interface ILiveOperationInfo {
@@ -19,5 +17,7 @@ public interface ILiveOperationInfo {
 	public IDynamicDataset[] getKeys();
 	
 	public IDynamicDataset getComplete();
+	
+	public boolean isMonitorForOverwrite();
 
 }

@@ -13,6 +13,7 @@
 package org.eclipse.dawnsci.nexus.builder;
 
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.dawnsci.nexus.NXcollection;
 import org.eclipse.dawnsci.nexus.NXdata;
@@ -78,11 +79,11 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	public String getCollectionName();
 	
 	/**
-	 * Returns the name of the external HDF5 file that this device writes
-	 * its data to, or <code>null</code> if none
+	 * Returns the names of the external HDF5 file(s) that this device writes
+	 * its data to, or <code>null</code> if none.
 	 * @return name of external file, or <code>null</code>
 	 */
-	public String getExternalFileName();
+	public Set<String> getExternalFileNames();
 	
 	/**
 	 * Returns the rank of the external dataset with the given field name.
@@ -162,11 +163,11 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * of an {@link NXdata} group (i.e. that referred to by the <code>@signal</code> attribute),
 	 * and additional data fields within this device provide default axis for that data field
 	 * @param primaryDataFieldName name of primary data field
-	 * @param dataFieldName data field
+	 * @param axisDataFieldName axis data field name
 	 * @return dimension of the default data field for which the field with the
 	 *   given name provides a default axis, or <code>null</code> if none
 	 */
-	public Integer getDefaultAxisDimension(String primaryDataFieldName, String dataFieldName);
+	public Integer getDefaultAxisDimension(String primaryDataFieldName, String axisDataFieldName);
 
 	/**
 	 * Returns the dimension mappings between the data field and
@@ -176,11 +177,11 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 * attribute), and additional data fields within that 
 	 * and the default data field of this device.
 	 * @param primaryDataFieldName field name
-	 * @param dataFieldName data field name
+	 * @param axisDataFieldName axis data field name
 	 * @return dimension mappings between the field with the given name and the
 	 *    default data field
 	 */
-	public int[] getDimensionMappings(String primaryDataFieldName, String dataFieldName);
+	public int[] getDimensionMappings(String primaryDataFieldName, String axisDataFieldName);
 	
 	/**
 	 * Returns whether the names of the fields within the nexus object should be prefixed with the
@@ -192,5 +193,19 @@ public interface NexusObjectProvider<N extends NXobject> extends NexusEntryModif
 	 *     group, <code>false</code> to not use the device name, <code>null</code> unspecified  
 	 */
 	public Boolean getUseDeviceNameInNXdata();
+	
+	/**
+	 * Returns the value of the application defined property of this object with the given name.
+	 * This allows arbitrary application or implementation specific information to be
+	 * associated with this object.
+	 * <p>
+	 * Note that these properties should not be confused with the fields of the
+	 * NeXus object returned by {@link #getNexusObject()}.
+	 * 
+	 * @param propertyName name of property
+	 * @return the value of the property with the given name, or <code>null</code> if no property
+	 *   with the given name is set
+	 */
+	public Object getPropertyValue(String propertyName);
 	
 }

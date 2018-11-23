@@ -108,10 +108,10 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.dawnsci.nexus.builder.NexusFileBuilder#createFile()
+	 * @see org.eclipse.dawnsci.nexus.builder.NexusFileBuilder#createFile(boolean)
 	 */
 	@Override
-	public NexusScanFile createFile() throws NexusException {
+	public NexusScanFile createFile(boolean async) throws NexusException {
 		if (fileCreated) {
 			throw new IllegalStateException("The Nexus file has already been created");
 		}
@@ -128,6 +128,7 @@ public class DefaultNexusFileBuilder implements NexusFileBuilder {
 		final INexusFileFactory nexusFileFactory = ServiceHolder.getNexusFileFactory();
 		try (NexusFile nexusFile = nexusFileFactory.newNexusFile(filename, true)) {
 			nexusFile.createAndOpenToWrite();
+			nexusFile.setWritesAsync(async);
 			// save the content of the TreeFile into the nexus file
 			nexusFile.addNode("/", treeFile.getGroupNode());
 			nexusFile.flush();

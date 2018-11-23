@@ -1,3 +1,14 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.nexus.test;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -16,14 +27,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
 import org.eclipse.dawnsci.nexus.NXdata;
@@ -45,6 +50,12 @@ import org.eclipse.dawnsci.nexus.builder.NexusScanFile;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.impl.DefaultNexusFileBuilder;
 import org.eclipse.dawnsci.nexus.test.util.NexusTestUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.IntegerDataset;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -123,7 +134,7 @@ public class MultipleThreadNexusFileWriteTest {
 		protected NXdetector createNexusObject() {
 			final NXdetector detector = NexusNodeFactory.createNXdetector();
 			final ILazyWriteableDataset dataset = detector.initializeLazyDataset(
-					NXdetector.NX_DATA, 3, Dataset.INT32);
+					NXdetector.NX_DATA, 3, Integer.class);
 			dataset.setMaxShape(new int[] { ILazyWriteableDataset.UNLIMITED, numRows, numColumns });
 			return detector;
 		}
@@ -140,7 +151,7 @@ public class MultipleThreadNexusFileWriteTest {
 		}
 
 		private IDataset createNewData() {
-			final IntegerDataset dataset = new IntegerDataset(numColumns, numRows);
+			final IntegerDataset dataset = DatasetFactory.zeros(IntegerDataset.class, numColumns, numRows);
 			final ThreadLocalRandom random = ThreadLocalRandom.current();
 			for (int rowNum = 0; rowNum < numRows; rowNum++) {
 				for (int columnNum = 0; columnNum < numColumns; columnNum++) {
@@ -164,7 +175,7 @@ public class MultipleThreadNexusFileWriteTest {
 		@Override
 		protected NXpositioner createNexusObject() {
 			final NXpositioner positioner = NexusNodeFactory.createNXpositioner();
-			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Dataset.FLOAT64);
+			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Double.class);
 			return positioner;
 		}
 
@@ -195,24 +206,17 @@ public class MultipleThreadNexusFileWriteTest {
 	private static final int DETECTOR_ROWS = 1024;
 	private static final int DETECTOR_COLUMNS = 1024;
 
-	private static final String FILE_NAME = "positioners.nx5";
-
 	private static String testScratchDirectoryName;
-
-	private String filePath;
 
 	private TestDetector detector;
 
 	private List<TestPositioner> positioners;
 	
-	private NexusScanFile nexusScanFile;
-
 	@Before
 	public void setUp() throws Exception {
 		testScratchDirectoryName = TestUtils.generateDirectorynameFromClassname(getClass().getCanonicalName());
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
-		ServiceHolder.setNexusFileFactory(new NexusFileFactoryHDF5());
-		filePath = testScratchDirectoryName + FILE_NAME;
+		new ServiceHolder().setNexusFileFactory(new NexusFileFactoryHDF5());
 	}
 
 	private List<TestPositioner> createPositioners(int numPositioners) {
@@ -224,8 +228,14 @@ public class MultipleThreadNexusFileWriteTest {
 		return positioners;
 	}
 
-	private void createNexusFile(final int numPositioners) throws NexusException {
-		NexusFileBuilder fileBuilder = new DefaultNexusFileBuilder(filePath);
+	String makeFileName(boolean async, final int numPositioners) {
+		String s = async ? "Async" : "Sync";
+		return testScratchDirectoryName + "test" + numPositioners + s + "Positioners.nxs";
+	}
+
+	private NexusScanFile createNexusFile(boolean async, final int numPositioners) throws NexusException {
+		String fileName = makeFileName(async, numPositioners);
+		NexusFileBuilder fileBuilder = new DefaultNexusFileBuilder(fileName);
 		final NexusEntryBuilder entryBuilder = fileBuilder.newEntry();
 		entryBuilder.addDefaultGroups();
 		detector = new TestDetector(DETECTOR_ROWS, DETECTOR_COLUMNS);
@@ -239,7 +249,7 @@ public class MultipleThreadNexusFileWriteTest {
 			dataBuilder.addAxisDevice(positioner);
 		}
 		
-		nexusScanFile = fileBuilder.createFile();
+		return fileBuilder.createFile(async);
 	}
 
 	private void initializeDevices(final long stepTime, final int numSteps) {
@@ -276,7 +286,7 @@ public class MultipleThreadNexusFileWriteTest {
 		}
 	}
 
-	private void checkFile(int numPositioners, int numSteps) throws NexusException {
+	private void checkFile(String filePath, int numPositioners, int numSteps) throws NexusException {
 		final TreeFile file = NexusTestUtils.loadNexusFile(filePath, true);
 		final NXroot root = (NXroot) file.getGroupNode();
 		final NXentry entry = root.getEntry();
@@ -299,40 +309,64 @@ public class MultipleThreadNexusFileWriteTest {
 		assertArrayEquals(expectedShape, detectorDataset.getShape());
 	}
 
-	public void doTestMultiplePositioners(final int numPositioners, final int numSteps, final long stepTime) throws Exception {
-		createNexusFile(numPositioners);
+	public void doTestMultiplePositioners(boolean async, final int numPositioners, final int numSteps, final long stepTime) throws Exception {
+		String filePath = makeFileName(async, numPositioners); 
+		NexusScanFile nexusFile = createNexusFile(async, numPositioners);
 		initializeDevices(stepTime, numSteps);
-		nexusScanFile.openToWrite();
-		final long timeout = (numSteps + 1) * stepTime * 2;
+		nexusFile.openToWrite();
+		// we need quite a long timeout so as not to fail on jenkins when there are other jobs running
+		final long timeout = (numPositioners * 50) + (numSteps + 1) * stepTime * 2;
+		System.err.println("Timeout = " + timeout);
+		long startTime = System.currentTimeMillis();
 		runThreads(numPositioners, numSteps, timeout);
-		nexusScanFile.close();
-		checkFile(numPositioners, numSteps);
+		nexusFile.close();
+		checkFile(filePath, numPositioners, numSteps);
 		HDF5FileFactory.releaseFile(filePath, true);
+		long elapsedTime = System.currentTimeMillis() - startTime;
+		System.err.println("Took " + elapsedTime + "ms, timeout was " + timeout + "ms");
 	}
 
-	public void doTestNPositioners(final int numPositioners) throws Exception {
-		doTestMultiplePositioners(numPositioners, 100, 100);
+	public void doTestNPositionersSync(final int numPositioners) throws Exception {
+		doTestMultiplePositioners(false, numPositioners, 100, 100);
 	}
 
-	@Test
-	public void test2Positioners() throws Exception {
-		doTestNPositioners(2);
-	}
-
-	@Test
-	public void test20Positioners() throws Exception {
-		doTestNPositioners(20);
+	public void doTestNPositionersAsync(final int numPositioners) throws Exception {
+		doTestMultiplePositioners(true, numPositioners, 100, 100);
 	}
 
 	@Test
-	public void test200Positioners() throws Exception {
-		doTestNPositioners(200);
+	public void test2PositionersSync() throws Exception {
+		doTestNPositionersSync(2);
+	}
+
+	@Test
+	public void test20PositionersSync() throws Exception {
+		doTestNPositionersSync(20);
+	}
+
+	@Test
+	public void test200PositionersSync() throws Exception {
+		doTestNPositionersSync(200);
+	}
+
+	@Test
+	public void test2PositionersAsync() throws Exception {
+		doTestNPositionersAsync(2);
+	}
+
+	@Test
+	public void test20PositionersAsync() throws Exception {
+		doTestNPositionersAsync(20);
+	}
+
+	@Test
+	public void test200PositionersAsync() throws Exception {
+		doTestNPositionersAsync(200);
 	}
 
 	@Test
 	@Ignore // this test times out most times
-	public void test500Positioners() throws Exception {
-		doTestNPositioners(500);
+	public void test500PositionersAsync() throws Exception {
+		doTestNPositionersAsync(500);
 	}
-
 }

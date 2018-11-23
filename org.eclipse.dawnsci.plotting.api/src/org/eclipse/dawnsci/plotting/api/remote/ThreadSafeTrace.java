@@ -14,8 +14,6 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
 import org.eclipse.dawnsci.plotting.api.axis.IAxis;
 import org.eclipse.dawnsci.plotting.api.histogram.HistogramBound;
@@ -38,6 +36,9 @@ import org.eclipse.dawnsci.plotting.api.trace.ISurfaceTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.IVectorTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IVolumeRenderTrace;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicShape;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.PaletteData;
 
@@ -318,6 +319,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 		return (Boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<IDataset> getAxes() {
 		return (List<IDataset>) call(getMethodName(Thread.currentThread().getStackTrace()));
@@ -459,6 +461,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 		return (Boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> getAxesNames() {
 		return (List<String>)call(getMethodName(Thread.currentThread().getStackTrace()));
@@ -556,6 +559,11 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 		call(getMethodName(Thread.currentThread().getStackTrace()), imageData, size, offset, planeNormal, axes);		
 	}
 
+	@Override
+	public void setDynamicData(IDynamicShape dynamic) {
+		call(getMethodName(Thread.currentThread().getStackTrace()), dynamic);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// javafx 3D line stuff
 	//////////////////////////////////////////////////////////////////////////
@@ -613,7 +621,7 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	//////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public boolean setData(IDataset image, List<? extends IDataset> axes,
+	public boolean setData(ILazyDataset image, List<? extends IDataset> axes,
 			boolean performAutoScale) {
 		return (Boolean)call(getMethodName(Thread.currentThread().getStackTrace()));
 
@@ -758,6 +766,11 @@ class ThreadSafeTrace extends ThreadSafeObject implements ITrace,
 	@Override
 	public int getAlpha() {
 		return (Integer)call(getMethodName(Thread.currentThread().getStackTrace()));
+	}
+
+	@Override
+	public double[] getGlobalRange() {
+		return (double[])call(getMethodName(Thread.currentThread().getStackTrace()));
 	}
 
 	@Override

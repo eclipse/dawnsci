@@ -7,14 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * A neutron velocity selector
@@ -94,7 +94,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getRotation_speedScalar();
+	public Double getRotation_speedScalar();
 
 	/**
 	 * velocity selector rotation speed
@@ -105,7 +105,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @param rotation_speed the rotation_speed
 	 */
-	public DataNode setRotation_speedScalar(double rotation_speed);
+	public DataNode setRotation_speedScalar(Double rotation_speed);
 
 	/**
 	 * radius at beam centre
@@ -138,7 +138,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getRadiusScalar();
+	public Double getRadiusScalar();
 
 	/**
 	 * radius at beam centre
@@ -149,7 +149,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @param radius the radius
 	 */
-	public DataNode setRadiusScalar(double radius);
+	public DataNode setRadiusScalar(Double radius);
 
 	/**
 	 * spoke width at beam centre
@@ -182,7 +182,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSpwidthScalar();
+	public Double getSpwidthScalar();
 
 	/**
 	 * spoke width at beam centre
@@ -193,7 +193,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @param spwidth the spwidth
 	 */
-	public DataNode setSpwidthScalar(double spwidth);
+	public DataNode setSpwidthScalar(Double spwidth);
 
 	/**
 	 * rotor length
@@ -226,7 +226,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getLengthScalar();
+	public Double getLengthScalar();
 
 	/**
 	 * rotor length
@@ -237,7 +237,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @param length the length
 	 */
-	public DataNode setLengthScalar(double length);
+	public DataNode setLengthScalar(Double length);
 
 	/**
 	 * number of spokes/lamella
@@ -270,7 +270,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getNumScalar();
+	public Long getNumScalar();
 
 	/**
 	 * number of spokes/lamella
@@ -281,7 +281,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @param num the num
 	 */
-	public DataNode setNumScalar(long num);
+	public DataNode setNumScalar(Long num);
 
 	/**
 	 * twist angle along axis
@@ -314,7 +314,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTwistScalar();
+	public Double getTwistScalar();
 
 	/**
 	 * twist angle along axis
@@ -325,7 +325,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @param twist the twist
 	 */
-	public DataNode setTwistScalar(double twist);
+	public DataNode setTwistScalar(Double twist);
 
 	/**
 	 * offset vertical angle
@@ -358,7 +358,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTableScalar();
+	public Double getTableScalar();
 
 	/**
 	 * offset vertical angle
@@ -369,7 +369,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @param table the table
 	 */
-	public DataNode setTableScalar(double table);
+	public DataNode setTableScalar(Double table);
 
 	/**
 	 * input beam height
@@ -402,7 +402,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getHeightScalar();
+	public Double getHeightScalar();
 
 	/**
 	 * input beam height
@@ -413,7 +413,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @param height the height
 	 */
-	public DataNode setHeightScalar(double height);
+	public DataNode setHeightScalar(Double height);
 
 	/**
 	 * input beam width
@@ -446,7 +446,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getWidthScalar();
+	public Double getWidthScalar();
 
 	/**
 	 * input beam width
@@ -457,7 +457,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @param width the width
 	 */
-	public DataNode setWidthScalar(double width);
+	public DataNode setWidthScalar(Double width);
 
 	/**
 	 * wavelength
@@ -490,7 +490,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getWavelengthScalar();
+	public Double getWavelengthScalar();
 
 	/**
 	 * wavelength
@@ -501,7 +501,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @param wavelength the wavelength
 	 */
-	public DataNode setWavelengthScalar(double wavelength);
+	public DataNode setWavelengthScalar(Double wavelength);
 
 	/**
 	 * deviation FWHM /Wavelength
@@ -534,7 +534,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getWavelength_spreadScalar();
+	public Double getWavelength_spreadScalar();
 
 	/**
 	 * deviation FWHM /Wavelength
@@ -545,7 +545,7 @@ public interface NXvelocity_selector extends NXobject {
 	 * 
 	 * @param wavelength_spread the wavelength_spread
 	 */
-	public DataNode setWavelength_spreadScalar(double wavelength_spread);
+	public DataNode setWavelength_spreadScalar(Double wavelength_spread);
 
 	/**
 	 * 

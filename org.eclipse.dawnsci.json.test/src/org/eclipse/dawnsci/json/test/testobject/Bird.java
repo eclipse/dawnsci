@@ -1,20 +1,15 @@
 /*-
- *******************************************************************************
- * Copyright (c) 2011, 2014, 2016 Diamond Light Source Ltd.
+ * Copyright 2016 Diamond Light Source Ltd.
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Colin Palmer - initial API and implementation and/or initial documentation
- *******************************************************************************/
+ */
+
 package org.eclipse.dawnsci.json.test.testobject;
 
 public class Bird extends Animal {
-
-	public static final String BUNDLE_NAME_FOR_TESTING = "uk.ac.diamond.daq.test.example";
-	public static final String BUNDLE_VERSION_FOR_TESTING = "2.0.0";
 
 	String feathers;
 

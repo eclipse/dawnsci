@@ -10,19 +10,18 @@
 package org.eclipse.dawnsci.plotting.examples;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.trace.IVolumeRenderTrace;
 import org.eclipse.dawnsci.plotting.examples.util.BundleUtils;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.swt.widgets.Composite;
 
 public class VolumeExample extends PlotExample {
@@ -33,7 +32,7 @@ public class VolumeExample extends PlotExample {
 		try {
 			// We create a basic plot
 			system.createPlotPart(parent, "Volume Example", getViewSite()
-					.getActionBars(), PlotType.VOLUME, this);
+					.getActionBars(), PlotType.XY, this);
 			system.setPlotType(PlotType.VOLUME);
 			File loc = new File(
 					BundleUtils.getBundleLocation(Activator.PLUGIN_ID),
@@ -78,7 +77,7 @@ public class VolumeExample extends PlotExample {
 	}
 	private IDataset generateIndexAxis(int max) {
 		double[] axis = IntStream.range(0, max).mapToDouble(i -> i).toArray();
-		return new DoubleDataset(axis, max);
+		return DatasetFactory.createFromObject(axis);
 	}
 	
 	protected String getFileName() {

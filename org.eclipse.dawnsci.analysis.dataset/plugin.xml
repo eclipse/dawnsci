@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.dawnsci.analysis.classloader">
       <bundle
-            class="org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset">
+            class="org.eclipse.january.dataset.AbstractDataset">
       </bundle>
    </extension>
 

@@ -174,8 +174,17 @@ package org.eclipse.dawnsci.nexus.validation;&#10;</xsl:text>
 		<xsl:text>final Map&lt;String, </xsl:text><xsl:value-of select="@type"/>
 		<xsl:text>&gt; all</xsl:text><xsl:value-of select="dawnsci:capitalise-first($groupNameInBaseClass)"/>
 		<xsl:text> = </xsl:text><xsl:value-of select="$parentGroupVariableName"/>
-		<xsl:text>.getAll</xsl:text><xsl:value-of select="dawnsci:capitalise-first($groupNameInBaseClass)"/>
-		<xsl:text>();&#10;</xsl:text>
+		<xsl:choose>
+			<xsl:when test="not($baseClassGroupDef)">
+				<xsl:text>.getChildren(</xsl:text>
+				<xsl:value-of select="@type"/>
+				<xsl:text>.class);&#10;</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>.getAll</xsl:text><xsl:value-of select="dawnsci:capitalise-first($groupNameInBaseClass)"/>
+				<xsl:text>();&#10;</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
 
 		<!-- For loop over values -->
 		<xsl:value-of select="dawnsci:tabs(2)"/>
@@ -552,7 +561,7 @@ package org.eclipse.dawnsci.nexus.validation;&#10;</xsl:text>
 		<xsl:text>&#10;</xsl:text>
 	</xsl:if>
 
-	<xsl:text>import org.eclipse.dawnsci.analysis.api.dataset.IDataset;&#10;</xsl:text>
+	<xsl:text>import org.eclipse.january.dataset.IDataset;&#10;</xsl:text>
 	<xsl:if test="//nx:attribute">
 		<xsl:text>import org.eclipse.dawnsci.analysis.api.tree.Attribute;&#10;</xsl:text>
 	</xsl:if>

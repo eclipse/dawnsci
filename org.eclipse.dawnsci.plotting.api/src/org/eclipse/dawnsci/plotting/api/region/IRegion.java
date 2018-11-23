@@ -17,7 +17,6 @@ import java.util.EnumSet;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
-import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.axis.ICoordinateSystem;
 import org.eclipse.swt.graphics.Color;
@@ -378,7 +377,12 @@ public interface IRegion {
 	 * @param b
 	 */
 	public void setShowLabel(boolean b);
-	
+
+	/**
+	 * @return True if Label is shown
+	 */
+	public boolean isShowLabel();
+
 	/**
 	 * 
 	 * @return true if the selection region only draws an outline.
@@ -409,4 +413,10 @@ public interface IRegion {
 	 * Snaps the region to Grid (Pixel values)
 	 */
 	public void snapToGrid();
+
+	/**
+	 * Sets the coordinate system for the region
+	 * @param coordinate system
+	 */
+	public void setCoordinateSystem(ICoordinateSystem co);
 }

@@ -1,5 +1,5 @@
 /*-
- * Copyright 2015 Diamond Light Source Ltd.
+ * Copyright 2015, 2017 Diamond Light Source Ltd.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,12 +9,14 @@
 
 package org.eclipse.dawnsci.hdf5;
 
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
+import org.eclipse.dawnsci.hdf5.HDF5FileFactory;
+import org.eclipse.dawnsci.hdf5.HDF5Utils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.PositionIterator;
+import org.eclipse.january.dataset.ShapeUtils;
+import org.eclipse.january.dataset.SliceND;
 import org.junit.Test;
 
 public class WriteThreadTest extends AbstractThreadTestBase {
@@ -49,8 +51,8 @@ public class WriteThreadTest extends AbstractThreadTestBase {
 		String dataName = "data" + index;
 
 		int[] shape = chunk.clone();
-		int size = AbstractDataset.calcSize(shape);
-		Dataset data1 = DatasetFactory.createRange(size, Dataset.FLOAT64);
+		int size = ShapeUtils.calcSize(shape);
+		Dataset data1 = DatasetFactory.createRange(size);
 		data1.setShape(shape);
 
 		shape[0] = 128;

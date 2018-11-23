@@ -13,20 +13,19 @@
 
 	<properties>
 		<tycho-version>0.24.0</tycho-version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<modules>
         <module>org.eclipse.dawnsci.targetplatform</module>
 		<module>../../dawn-hdf/hdf.hdf5lib</module>
-		<module>../../dawn-hdf/hdf.object</module>
 		<module>../org.eclipse.richbeans</module>
 		<module>org.eclipse.dawnsci.analysis.api</module>
-		<module>org.eclipse.dawnsci.analysis.asserts</module>
 		<module>org.eclipse.dawnsci.analysis.dataset</module>
 		<module>org.eclipse.dawnsci.analysis.dataset.test</module>
 		<module>org.eclipse.dawnsci.analysis.examples</module>
 		<module>org.eclipse.dawnsci.analysis.tree</module>
-		<module>org.eclipse.dawnsci.doe</module>
 		<module>org.eclipse.dawnsci.hdf5</module>
 		<module>org.eclipse.dawnsci.hdf5.editor</module>
 		<module>org.eclipse.dawnsci.hdf5.model</module>
@@ -45,6 +44,8 @@
 		<module>org.eclipse.dawnsci.remotedataset.server</module>
 		<module>org.eclipse.dawnsci.remotedataset.test</module>
 		<module>org.eclipse.dawnsci.slicing.api</module>
+		<module>org.eclipse.dawnsci.xdi</module>
+		<module>org.eclipse.dawnsci.xdi.test</module>
 	</modules>
 	
 	<dependencies>
@@ -81,30 +82,9 @@
 			<version>${tycho-version}</version>
 			<configuration>
 				<environments>
-				
 					<environment>
 						<os>linux</os>
 						<ws>gtk</ws>
-						<arch>x86</arch>
-					</environment>
-					<environment>
-						<os>linux</os>
-						<ws>gtk</ws>
-						<arch>x86_64</arch>
-					</environment>
-					<environment>
-						<os>win32</os>
-						<ws>win32</ws>
-						<arch>x86</arch>
-					</environment>
-					<environment>
-						<os>win32</os>
-						<ws>win32</ws>
-						<arch>x86_64</arch>
-					</environment>
-					<environment>
-						<os>macosx</os>
-						<ws>cocoa</ws>
 						<arch>x86_64</arch>
 					</environment>
 				</environments>

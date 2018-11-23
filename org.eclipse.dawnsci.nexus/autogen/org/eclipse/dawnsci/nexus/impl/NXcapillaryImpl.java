@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -105,7 +105,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public double getMaximum_incident_angleScalar() {
+	public Double getMaximum_incident_angleScalar() {
 		return getDouble(NX_MAXIMUM_INCIDENT_ANGLE);
 	}
 
@@ -115,7 +115,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public DataNode setMaximum_incident_angleScalar(double maximum_incident_angle) {
+	public DataNode setMaximum_incident_angleScalar(Double maximum_incident_angle) {
 		return setField(NX_MAXIMUM_INCIDENT_ANGLE, maximum_incident_angle);
 	}
 
@@ -125,7 +125,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public double getAccepting_apertureScalar() {
+	public Double getAccepting_apertureScalar() {
 		return getDouble(NX_ACCEPTING_APERTURE);
 	}
 
@@ -135,7 +135,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public DataNode setAccepting_apertureScalar(double accepting_aperture) {
+	public DataNode setAccepting_apertureScalar(Double accepting_aperture) {
 		return setField(NX_ACCEPTING_APERTURE, accepting_aperture);
 	}
 
@@ -165,7 +165,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public double getWorking_distanceScalar() {
+	public Double getWorking_distanceScalar() {
 		return getDouble(NX_WORKING_DISTANCE);
 	}
 
@@ -175,7 +175,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public DataNode setWorking_distanceScalar(double working_distance) {
+	public DataNode setWorking_distanceScalar(Double working_distance) {
 		return setField(NX_WORKING_DISTANCE, working_distance);
 	}
 
@@ -185,7 +185,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public double getFocal_sizeScalar() {
+	public Double getFocal_sizeScalar() {
 		return getDouble(NX_FOCAL_SIZE);
 	}
 
@@ -195,7 +195,7 @@ public class NXcapillaryImpl extends NXobjectImpl implements NXcapillary {
 	}
 
 	@Override
-	public DataNode setFocal_sizeScalar(double focal_size) {
+	public DataNode setFocal_sizeScalar(Double focal_size) {
 		return setField(NX_FOCAL_SIZE, focal_size);
 	}
 

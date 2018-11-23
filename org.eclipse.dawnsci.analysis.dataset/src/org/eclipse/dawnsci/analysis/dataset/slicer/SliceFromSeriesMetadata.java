@@ -12,10 +12,12 @@ package org.eclipse.dawnsci.analysis.dataset.slicer;
 import java.util.Arrays;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
-import org.eclipse.dawnsci.analysis.api.metadata.OriginMetadata;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.Slice;
+import org.eclipse.january.metadata.OriginMetadata;
 
 public class SliceFromSeriesMetadata implements OriginMetadata {
 	
@@ -33,6 +35,14 @@ public class SliceFromSeriesMetadata implements OriginMetadata {
 	
 	public SliceFromSeriesMetadata(SourceInformation source) {
 		this.sourceInfo = source;
+	}
+
+	@Override
+	public void initialize(int[] shape, int[] maxShape, int[] chunkShape) {
+	}
+
+	@Override
+	public void initialize(ILazyDataset parent, Slice[] outSlice, int[] dataDims, String filePath, String datasetName) {
 	}
 
 	public SourceInformation getSourceInfo() {
@@ -170,8 +180,15 @@ public class SliceFromSeriesMetadata implements OriginMetadata {
 	 * 
 	 * @param ds
 	 * @return slice
+	 * @throws DatasetException 
 	 */
-	public IDataset getMatchingSlice(ILazyDataset ds) {
+	public IDataset getMatchingSlice(ILazyDataset ds) throws DatasetException {
+		
+		boolean isLive = sourceInfo.isLive();
+		
+		if (isLive) {
+			if (ds instanceof IDynamicDataset) ((IDynamicDataset)ds).refreshShape();
+		}
 		
 		int[] oShape = getParent().getShape();
 		int[] shape = ds.getShape();
@@ -184,16 +201,29 @@ public class SliceFromSeriesMetadata implements OriginMetadata {
 		Slice[] oSlices = getSliceFromInput();
 		Slice[] slices = new Slice[shape.length];
 		
-		for (int i = 0; i < slices.length; i++) {
+		for (int i = 0; i < slices.length && i < oShape.length; i++) {
 			if (ArrayUtils.contains(datadims, i)) {
 				slices[i] = null;
 			} else {
-				if (shape[i] != oShape[i]) return null;
-				slices[i] = oSlices[i];
+				
+				if (isLive && shape[i] >= oSlices[i].getStart()) {
+					slices[i] = oSlices[i];
+				} else if (shape[i] != oShape[i]) {
+					return null;
+				} else {
+					slices[i] = oSlices[i];
+				}
+				
 			}
 		}
 		
 		return ds.getSlice(slices);
+	}
+	
+	public void setSliceDimensionToFull(int dim) {
+		if (sliceInfo.isDataDimension(dim)) throw new IllegalArgumentException("Cannot apply to data dimension!");
+		sliceInfo.convertSliceDimensionToFull(dim);
+		
 	}
 
 	@Override

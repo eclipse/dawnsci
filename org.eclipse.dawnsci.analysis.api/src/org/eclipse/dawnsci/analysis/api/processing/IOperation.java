@@ -12,9 +12,9 @@
 
 package org.eclipse.dawnsci.analysis.api.processing;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Interface to encapsulate processing operations on an IRichDataset
@@ -61,6 +61,13 @@ public interface IOperation<M extends IOperationModel, D extends OperationData> 
 	 */
 	public String getId();
 
+	/**
+	 * @return a short suffix that will be used to synthesis a file name when the operation
+	 * is the last one in a chain. Can be null
+	 */
+	public default String getFilenameSuffix() {
+		return null;
+	}
 		
 	/**
 	 * The execute method operates on the data set last send via setDataset() and the
@@ -152,4 +159,11 @@ public interface IOperation<M extends IOperationModel, D extends OperationData> 
 	 * Called on each operation after each file is processed
 	 */
 	public void dispose();
+	
+	/**
+	 * Called when an operation gets removed from the pipeline in the Processing perspective 
+	 */
+	public default void destroy() {
+		// do nothing
+	}
 }

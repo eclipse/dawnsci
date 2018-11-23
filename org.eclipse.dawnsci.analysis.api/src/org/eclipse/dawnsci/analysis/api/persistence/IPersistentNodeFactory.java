@@ -9,13 +9,13 @@
 
 package org.eclipse.dawnsci.analysis.api.persistence;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.diffraction.IPowderCalibrationInfo;
 import org.eclipse.dawnsci.analysis.api.metadata.IDiffractionMetadata;
-import org.eclipse.dawnsci.analysis.api.metadata.OriginMetadata;
 import org.eclipse.dawnsci.analysis.api.processing.IOperation;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Tree;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.metadata.OriginMetadata;
 
 public interface IPersistentNodeFactory {
 

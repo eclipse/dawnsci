@@ -1,3 +1,14 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.remotedataset.test.server;
 
 import java.awt.image.BufferedImage;
@@ -6,21 +17,22 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Random;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.dawnsci.plotting.api.histogram.IImageService;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.RemoteDatasetServiceImpl;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.IDatasetConnector;
+import org.eclipse.january.dataset.LazyWriteableDataset;
+import org.eclipse.january.dataset.Random;
+import org.eclipse.january.dataset.Slice;
 import org.eclipse.swt.graphics.ImageData;
 import org.junit.Test;
 
@@ -35,9 +47,9 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 		final File dir = createSomeDirectoryData(10, 64, 64);
 		
 		IRemoteDatasetService service = new RemoteDatasetServiceImpl();
-		final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);
+		final IDatasetConnector data = service.createRemoteDataset("localhost", 8080);
 		data.setPath(dir.getAbsolutePath());
-		data.setDataset("Image Stack"); // We get the stack.
+		data.setDatasetName("Image Stack"); // We get the stack.
 		data.connect();
 		
         checkSlices(data);
@@ -83,9 +95,9 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 		final File h5File = createSomeH5Data(10, 64, 64);
 		
 		IRemoteDatasetService service = new RemoteDatasetServiceImpl();
-		final IRemoteDataset data = service.createRemoteDataset("localhost", 8080);
+		final IDatasetConnector data = service.createRemoteDataset("localhost", 8080);
 		data.setPath(h5File.getAbsolutePath());
-		data.setDataset("/entry/data/image"); // We just get the first image in the PNG file.
+		data.setDatasetName("/entry/data/image"); // We just get the first image in the PNG file.
 		data.connect();
 		
 		checkSlices(data);
@@ -93,8 +105,9 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 	}
 	
 	
-	private void checkSlices(IRemoteDataset data) throws Exception {
+	private void checkSlices(IDatasetConnector rdata) throws Exception {
 		try { // New we have the opportunity to slice this remote blighter as much as we like...
+			ILazyDataset data = rdata.getDataset();
 			IDataset slice = data.getSlice(new Slice(0,1,1)); 
 			if (!Arrays.equals(slice.getShape(), new int[]{1,64, 64})) throw new Exception("Wrong shape of remote data!");
 			
@@ -108,7 +121,7 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 			if (!Arrays.equals(slice.getShape(), new int[]{5,5,64})) throw new Exception("Wrong shape of remote data!");			
 			
 		} finally {
-			data.disconnect();
+			rdata.disconnect();
 		}		
 	}
 
@@ -135,7 +148,7 @@ public class RemoteDatasetSliceTest extends DataServerTest {
 				int[] start = {index, 0, 0};
 				int[] stop  = {index+1, 64, 64};
 				index++;
-				if (index>23) index = 23; // Stall on the last image to avoid writing massive stacks
+				if (index>LIMIT) index = LIMIT; // Stall on the last image to avoid writing massive stacks
 				
 				IDataset       rimage   = Random.rand(new int[]{1, 64, 64});
 				rimage.setName("image");

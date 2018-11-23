@@ -14,11 +14,11 @@ package org.eclipse.dawnsci.remotedataset.test.server;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.remotedataset.Format;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.client.slice.SliceClient;
 import org.eclipse.dawnsci.remotedataset.test.mock.LoaderServiceMock;
+import org.eclipse.january.dataset.IDataset;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,7 +40,7 @@ public class SliceClientTest extends DataServerTest {
 	@Before
 	@Override
 	public void setLoader() {
-		ServiceHolder.setLoaderService(new LoaderServiceMock(factory));
+		new ServiceHolder().setLoaderService(new LoaderServiceMock(factory));
 	}
 
 	@Test
@@ -53,7 +53,7 @@ public class SliceClientTest extends DataServerTest {
 		client.setSlice("[0,:2048,:2048]");
 
 		final IDataset data = client.get();
-		if (!Arrays.equals(data.getShape(), new int[]{2048, 2048})) {
+		if (!Arrays.equals(data.getShape(), new int[]{1,2048, 2048})) {
 			throw new Exception("Unexpected shape "+Arrays.toString(data.getShape()));
 		}
 		System.out.println("> testFullData ok");

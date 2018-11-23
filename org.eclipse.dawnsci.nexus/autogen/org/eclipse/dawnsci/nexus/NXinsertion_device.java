@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * An insertion device, as used in a synchrotron light source.
@@ -112,7 +112,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getGapScalar();
+	public Double getGapScalar();
 
 	/**
 	 * separation between opposing pairs of magnetic poles
@@ -123,7 +123,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @param gap the gap
 	 */
-	public DataNode setGapScalar(double gap);
+	public DataNode setGapScalar(Double gap);
 
 	/**
 	 * angular of gap difference between upstream and downstream ends of the insertion device
@@ -156,7 +156,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getTaperScalar();
+	public Double getTaperScalar();
 
 	/**
 	 * angular of gap difference between upstream and downstream ends of the insertion device
@@ -167,7 +167,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @param taper the taper
 	 */
-	public DataNode setTaperScalar(double taper);
+	public DataNode setTaperScalar(Double taper);
 
 	/**
 	 * <p>
@@ -197,7 +197,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPhaseScalar();
+	public Double getPhaseScalar();
 
 	/**
 	 * <p>
@@ -207,7 +207,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @param phase the phase
 	 */
-	public DataNode setPhaseScalar(double phase);
+	public DataNode setPhaseScalar(Double phase);
 
 	/**
 	 * number of poles
@@ -240,7 +240,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getPolesScalar();
+	public Long getPolesScalar();
 
 	/**
 	 * number of poles
@@ -251,7 +251,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @param poles the poles
 	 */
-	public DataNode setPolesScalar(long poles);
+	public DataNode setPolesScalar(Long poles);
 
 	/**
 	 * <p>
@@ -281,7 +281,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getMagnetic_wavelengthScalar();
+	public Double getMagnetic_wavelengthScalar();
 
 	/**
 	 * <p>
@@ -291,7 +291,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @param magnetic_wavelength the magnetic_wavelength
 	 */
-	public DataNode setMagnetic_wavelengthScalar(double magnetic_wavelength);
+	public DataNode setMagnetic_wavelengthScalar(Double magnetic_wavelength);
 
 	/**
 	 * beam displacement parameter
@@ -324,7 +324,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getKScalar();
+	public Double getKScalar();
 
 	/**
 	 * beam displacement parameter
@@ -335,7 +335,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @param k the k
 	 */
-	public DataNode setKScalar(double k);
+	public DataNode setKScalar(Double k);
 
 	/**
 	 * length of insertion device
@@ -368,7 +368,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getLengthScalar();
+	public Double getLengthScalar();
 
 	/**
 	 * length of insertion device
@@ -379,7 +379,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @param length the length
 	 */
-	public DataNode setLengthScalar(double length);
+	public DataNode setLengthScalar(Double length);
 
 	/**
 	 * total power delivered by insertion device
@@ -412,7 +412,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPowerScalar();
+	public Double getPowerScalar();
 
 	/**
 	 * total power delivered by insertion device
@@ -423,7 +423,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @param power the power
 	 */
-	public DataNode setPowerScalar(double power);
+	public DataNode setPowerScalar(Double power);
 
 	/**
 	 * energy of peak intensity in output spectrum
@@ -456,7 +456,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getEnergyScalar();
+	public Double getEnergyScalar();
 
 	/**
 	 * energy of peak intensity in output spectrum
@@ -467,7 +467,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @param energy the energy
 	 */
-	public DataNode setEnergyScalar(double energy);
+	public DataNode setEnergyScalar(Double energy);
 
 	/**
 	 * bandwidth of peak energy
@@ -500,7 +500,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBandwidthScalar();
+	public Double getBandwidthScalar();
 
 	/**
 	 * bandwidth of peak energy
@@ -511,7 +511,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @param bandwidth the bandwidth
 	 */
-	public DataNode setBandwidthScalar(double bandwidth);
+	public DataNode setBandwidthScalar(Double bandwidth);
 
 	/**
 	 * harmonic number of peak
@@ -544,7 +544,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getHarmonicScalar();
+	public Long getHarmonicScalar();
 
 	/**
 	 * harmonic number of peak
@@ -555,7 +555,7 @@ public interface NXinsertion_device extends NXobject {
 	 * 
 	 * @param harmonic the harmonic
 	 */
-	public DataNode setHarmonicScalar(long harmonic);
+	public DataNode setHarmonicScalar(Long harmonic);
 
 	/**
 	 * spectrum of insertion device

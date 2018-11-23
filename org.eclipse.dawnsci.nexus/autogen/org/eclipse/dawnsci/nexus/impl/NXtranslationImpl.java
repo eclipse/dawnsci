@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.EnumSet;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -73,7 +73,7 @@ public class NXtranslationImpl extends NXobjectImpl implements NXtranslation {
 	}
 
 	@Override
-	public double getDistancesScalar() {
+	public Double getDistancesScalar() {
 		return getDouble(NX_DISTANCES);
 	}
 
@@ -83,7 +83,7 @@ public class NXtranslationImpl extends NXobjectImpl implements NXtranslation {
 	}
 
 	@Override
-	public DataNode setDistancesScalar(double distances) {
+	public DataNode setDistancesScalar(Double distances) {
 		return setField(NX_DISTANCES, distances);
 	}
 

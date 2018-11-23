@@ -29,6 +29,11 @@ public class BasePlottingConstants {
 	 * Stores if colour map is to be inverted.
 	 */
 	public static final String CM_INVERTED = "org.eclipse.dawnsci.plotting.preference.colourMapInverted";
+	
+	/**
+	 * Stores if colour map is to have log scale.
+	 */
+	public static final String CM_LOGSCALE = "org.eclipse.dawnsci.plotting.preference.colourMapLogScale";
 
 	/**
 	 *  This String is used to retrieve the plot view colour map preference which is in analysis.rcp
@@ -40,6 +45,21 @@ public class BasePlottingConstants {
 	 * Used to store origin preference, do not change string
 	 */
 	public static final String ORIGIN_PREF = "org.dawb.plotting.system.originChoice";
+
+	/**
+	 * Image origin menu id
+	 */
+	public static final String IMAGE_ORIGIN_MENU_ID = "org.dawnsci.plotting.system.imageOriginMenu";
+
+	/**
+	 * id for XY plot menu
+	 */
+	public static final String XY_PLOT_MENU_ID = "org.dawnsci.plotting.system.xyPlotMenu";
+
+	/**
+	 * id for image plot menu
+	 */
+	public static final String IMAGE_PLOT_MENU_ID = "org.dawnsci.plotting.system.imagePlotMenu";
 
 	/**
 	 * true when the image should keep aspect ratio, otherwise it will stretch to the available area.
@@ -61,6 +81,10 @@ public class BasePlottingConstants {
 	 */
 	public static final String HISTO_PREF = "org.dawb.plotting.system.histogram.type";
 
+	/**
+	 * Histogram tool id
+	 */
+	public static final String HISTO_TOOL_ID = "org.dawnsci.plotting.histogram.histogram_tool_page_2";
 	/**
 	 * 
 	 */

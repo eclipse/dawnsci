@@ -1,9 +1,20 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.nexus;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.LazyDataset;
 import org.eclipse.dawnsci.nexus.builder.AbstractNexusObjectProvider;
 import org.eclipse.dawnsci.nexus.builder.CustomNexusEntryModification;
 import org.eclipse.dawnsci.nexus.builder.NexusObjectProvider;
+import org.eclipse.january.dataset.LazyDataset;
 
 /**
  * Any device which can write NeXus should implement this interface.
@@ -53,7 +64,7 @@ public interface INexusDevice<N extends NXobject> {
 	 * <code>setXXXScalar</code> methods for fields defined in the appropriate 
 	 * NXDL base class definition.
 	 * 
-s	 * @param info
+	 * @param info
 	 *            Information about the scan which can be useful when creating
 	 *            dataset e.g. <code>info.getRank()</code>
 	 * @return The {@link NXobject} created using the <code>nodeFactory</code>

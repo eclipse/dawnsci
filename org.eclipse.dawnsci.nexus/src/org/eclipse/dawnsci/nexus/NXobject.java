@@ -16,13 +16,12 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.dawnsci.analysis.api.dataset.Dtype;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
 
 /**
  * Base interface of all Nexus group nodes
@@ -74,6 +73,13 @@ public interface NXobject extends GroupNode {
 	public <N extends NXobject> Map<String, N> getChildren(Class<N> nxClass);
 
 	/**
+	 * Returns a map containing all the children of this node. The keys of the map are the
+	 * names of the child nodes within this {@link NXobject}.
+	 * @return map of children, key is the child node's name
+	 */
+	public Map<String, NXobject> getChildren();
+	
+	/**
 	 * Sets the dataset for the field with the given name
 	 * @param name
 	 * @param value
@@ -93,33 +99,33 @@ public interface NXobject extends GroupNode {
 	
 	/**
 	 * Creates and adds a new {@link ILazyWriteableDataset} to this group for the given field name,
-	 * with the given rank (dimensionality) and of the given type, a constant from {@link Dtype}.
+	 * with the given rank (dimensionality) and of the given element class
 	 * @param name field name
 	 * @param rank rank
-	 * @param dtype data type constant from {@link Dtype}
+	 * @param clazz dataset element class
 	 * @return new lazy writable dataset
 	 */
-	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, int dtype);
+	public ILazyWriteableDataset initializeLazyDataset(String name, int rank, Class<?> clazz);
 	
 	/**
 	 * Creates and adds a new {@link ILazyWriteableDataset} to this group for the given field
-	 * name with the given fixed shape and of the given type, a constant from {@link Dtype}.
+	 * name with the given fixed shape and of the given element class
 	 * @param name field name
 	 * @param size the shape
-	 * @param dtype data type constant from {@link Dtype}
+	 * @param clazz dataset element class
 	 * @return new lazy writable dataset
 	 */
-	public ILazyWriteableDataset initializeFixedSizeLazyDataset(String name, int[] shape, int dtype);
+	public ILazyWriteableDataset initializeFixedSizeLazyDataset(String name, int[] shape, Class<?> clazz);
 
 	/**
 	 * Creates and adds a new {@link ILazyWriteableDataset} to this group for the given field name,
-	 * with the given maximum shape and of the given type, a constant from {@link Dtype}.
+	 * with the given maximum shape and of the given element class
 	 * @param name field name
 	 * @param maxShape the maximum shape 
-	 * @param dtype data type constant from {@link Dtype}
+	 * @param clazz dataset element class
 	 * @return new lazy writable dataset
 	 */
-	public ILazyWriteableDataset initializeLazyDataset(String name, int[] maxShape, int dtype);
+	public ILazyWriteableDataset initializeLazyDataset(String name, int[] maxShape, Class<?> clazz);
 	
 	/**
 	 * Creates and adds a new datanode to this group for the given field name and
@@ -177,7 +183,7 @@ public interface NXobject extends GroupNode {
 	public Date getDate(String name);
 
 	/**
-	 * Gets the value of the given field as a number.
+	 * Gets the value of the given field as a number, or <code>null</code> if not set.
 	 * @param name name of field
 	 * @return the value of the given field as a number, <code>null</code> if
 	 *   there is no field with the given name
@@ -186,31 +192,31 @@ public interface NXobject extends GroupNode {
 	public Number getNumber(String name);
 
 	/**
-	 * Gets the value of the given field as a double.
+	 * Gets the value of the given field as a {@link Double}, or <code>null</code> if not set.
 	 * @param name name of field
 	 * @return the value of the given field as a double, <code>null</code> if
 	 *   there is no field with the given name
 	 * @throws IllegalArgumentException if the node with the given name is not a {@link DataNode}.
 	 */
-	public double getDouble(String name);
+	public Double getDouble(String name);
 
 	/**
-	 * Gets the value of the given field as a long.
+	 * Gets the value of the given field as a long, or <code>null</code> if not set.
 	 * @param name name of field
 	 * @return the value of the given field as a long, <code>null</code> if
 	 *   there is no field with the given name
 	 * @throws IllegalArgumentException if the node with the given name is not a {@link DataNode}.
 	 */
-	public long getLong(String name);
+	public Long getLong(String name);
 
 	/**
-	 * Gets the value of the given field as a boolean.
+	 * Gets the value of the given field as a boolean, or <code>null</code> if not set
 	 * @param name name of field
 	 * @return the value of the given field as a boolean, <code>null</code> if
 	 *   there is no field with the given name
 	 * @throws IllegalArgumentException if the node with the given name is not a {@link DataNode}.
 	 */
-	public boolean getBoolean(String name);
+	public Boolean getBoolean(String name);
 
 	/**
 	 * Gets the value of the given field as a string.
@@ -243,37 +249,37 @@ public interface NXobject extends GroupNode {
 	public Number getAttrNumber(String name, String attrName);
 
 	/**
-	 * Get the value of the given attribute as a double. If the first argument is
-	 * not <code>null</code> then returns the value of attribute of the field
-	 * or child group with that name.
+	 * Get the value of the given attribute as a {@link Double}, or <code>null</code> if not set.
+	 * If the first argument is not <code>null</code> then returns the value of attribute of the
+	 * field or child group with that name.
 	 * @param name name of node (if <code>null</code> then current group)
 	 * @param attrName attribute name
 	 * @return value of attribute as a double
 	 */
-	public double getAttrDouble(String name, String attrName);
+	public Double getAttrDouble(String name, String attrName);
 
 	/**
-	 * Get the value of the given attribute as a long. If the first argument is
-	 * not <code>null</code> then returns the value of attribute of the field
-	 * or child group with that name.
+	 * Get the value of the given attribute as a {@link Long}, or <code>null</code> if not set.
+	 * If the first argument is not <code>null</code> then returns the value of attribute of the
+	 * field or child group with that name.
 	 * @param name name of node (if <code>null</code> then current group)
 	 * @param attrName attribute name
-	 * @return value of attribute as a long
+	 * @return value of attribute as a Long, or <code>null</code> if not set
 	 */
-	public long getAttrLong(String name, String attrName);
+	public Long getAttrLong(String name, String attrName);
 
 	/**
-	 * Get the value of the given attribute as a boolean. If the first argument is
-	 * not <code>null</code> then returns the value of attribute of the field
-	 * or child group with that name.
+	 * Get the value of the given attribute as a {@link Boolean}, or <code>null</code> if not set.
+	 * If the first argument is not <code>null</code> then returns the value of attribute of the
+	 * field or child group with that name.
 	 * @param name name of node (if <code>null</code> then current group)
 	 * @param attrName attribute name
-	 * @return value of attribute as a long
+	 * @return value of attribute as a {@link Boolean}, or <code>null</code> if not set
 	 */
-	public boolean getAttrBoolean(String name, String attrName);
+	public Boolean getAttrBoolean(String name, String attrName);
 
 	/**
-	 * Get the value of the given attribute as a string. If the first argument is
+	 * Get the value of the given attribute as a {@link String}. If the first argument is
 	 * not <code>null</code> then returns the value of attribute of the field
 	 * or child group with that name.
 	 * @param name name of node (if <code>null</code> then current group)
@@ -315,9 +321,9 @@ public interface NXobject extends GroupNode {
 	public <N extends NXobject> void setChildren(Map<String, N> map);
 
 	/**
-	 * Returns
-	 * @return
+	 * Returns all datasets as a map keyed by field name
+	 * @return all datasets
 	 */
-	public Map<String, Dataset> getAllDatasets();
+	public Map<String, IDataset> getAllDatasets();
 
 }

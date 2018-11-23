@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.IPlotActionSystem;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.PlotType;
@@ -44,6 +43,7 @@ import org.eclipse.dawnsci.plotting.api.trace.IVectorTrace;
 import org.eclipse.dawnsci.plotting.api.trace.IVolumeRenderTrace;
 import org.eclipse.dawnsci.plotting.api.trace.TraceEvent;
 import org.eclipse.dawnsci.plotting.api.trace.TraceWillPlotEvent;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Control;
@@ -147,10 +147,24 @@ public class ThreadSafePlottingSystem<T> extends ThreadSafeObject implements IPl
 	}
 
 	private List<ITrace> getThreadSafe(Collection<ITrace> traces) {
-		if (traces==null) return null;
-		if (traces.isEmpty()) return Collections.emptyList();
-		List<ITrace> ret = new ArrayList<ITrace>(traces.size());
-		for (ITrace iTrace : traces) ret.add(new ThreadSafeTrace(iTrace));
+		if (traces==null)
+			return null;
+		if (traces.isEmpty())
+			return Collections.emptyList();
+		List<ITrace> ret = new ArrayList<>(traces.size());
+		for (ITrace iTrace : traces) 
+			ret.add(new ThreadSafeTrace(iTrace));
+		return ret;
+	}
+
+	private <Y extends ITrace> List<Y> getThreadSafeByClass(Collection<Y> traces, Class<Y> klazz) {
+		if (traces==null)
+			return null;
+		if (traces.isEmpty())
+			return Collections.emptyList();
+		List<Y> ret = new ArrayList<>(traces.size());
+		for (Y iTrace : traces)
+			ret.add(klazz.cast(new ThreadSafeTrace(iTrace)));
 		return ret;
 	}
 
@@ -159,6 +173,11 @@ public class ThreadSafePlottingSystem<T> extends ThreadSafeObject implements IPl
 		return getThreadSafe(delegate.getTraces(clazz));
 	}
 
+	@Override
+	public <W extends ITrace> Collection<W> getTracesByClass(Class<W> klazz) {
+		return getThreadSafeByClass(delegate.getTracesByClass(klazz), klazz);
+	}
+	
 	@Override
 	public void addTraceListener(ITraceListener l) {
 		delegate.addTraceListener(l);
@@ -514,6 +533,7 @@ public class ThreadSafePlottingSystem<T> extends ThreadSafeObject implements IPl
 		call(getMethodName(Thread.currentThread().getStackTrace()), new Class[] { boolean.class }, b);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		return call(getMethodName(Thread.currentThread().getStackTrace()), new Class[] { adapter }, adapter);
@@ -641,6 +661,16 @@ public class ThreadSafePlottingSystem<T> extends ThreadSafeObject implements IPl
 	@Override
 	public void moveTrace(String oldName, String name) {
 		call(getMethodName(Thread.currentThread().getStackTrace()), oldName, name);
+	}
+
+	@Override
+	public <U extends ITrace> U createTrace(String traceName, Class<U> clazz) {
+		return delegate.createTrace(traceName, clazz);
+	}
+
+	@Override
+	public List<Class<? extends ITrace>> getRegisteredTraceClasses() {
+		return delegate.getRegisteredTraceClasses();
 	}
 
 }

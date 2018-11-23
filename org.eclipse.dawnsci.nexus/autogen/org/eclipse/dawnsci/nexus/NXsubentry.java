@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Group of multiple application definitions for "multi-modal" (e.g. SAXS/WAXS) measurements.
@@ -534,7 +534,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getDurationScalar();
+	public Long getDurationScalar();
 
 	/**
 	 * Duration of measurement
@@ -545,7 +545,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @param duration the duration
 	 */
-	public DataNode setDurationScalar(long duration);
+	public DataNode setDurationScalar(Long duration);
 
 	/**
 	 * Time transpired actually collecting data i.e. taking out time when collection was
@@ -581,7 +581,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCollection_timeScalar();
+	public Double getCollection_timeScalar();
 
 	/**
 	 * Time transpired actually collecting data i.e. taking out time when collection was
@@ -593,7 +593,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @param collection_time the collection_time
 	 */
-	public DataNode setCollection_timeScalar(double collection_time);
+	public DataNode setCollection_timeScalar(Double collection_time);
 
 	/**
 	 * Such as "2007-3". Some user facilities organize their beam time into run cycles.
@@ -763,7 +763,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getPre_sample_flightpathScalar();
+	public Double getPre_sample_flightpathScalar();
 
 	/**
 	 * This is the flightpath before the sample position. This can be determined by a chopper,
@@ -777,7 +777,7 @@ public interface NXsubentry extends NXobject {
 	 * 
 	 * @param pre_sample_flightpath the pre_sample_flightpath
 	 */
-	public DataNode setPre_sample_flightpathScalar(double pre_sample_flightpath);
+	public DataNode setPre_sample_flightpathScalar(Double pre_sample_flightpath);
 
 	/**
 	 * Notes describing entry
@@ -808,62 +808,6 @@ public interface NXsubentry extends NXobject {
 	 * @param thumbnail the thumbnail
 	 */
 	public void setThumbnail(NXnote thumbnail);
-
-	/**
-	 * 
-	 * @return  the value.
-	 */
-	public NXcharacterization getCharacterization();
-	
-	/**
-	 * 
-	 * @param characterization the characterization
-	 */
-	public void setCharacterization(NXcharacterization characterization);
-  
-	/**
-	 * Get a NXcharacterization node by name:
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 * 
-	 * @param name  the name of the node.
-	 * @return  a map from node names to the NXcharacterization for that node.
-	 */
-	public NXcharacterization getCharacterization(String name);
-	
-	/**
-	 * Set a NXcharacterization node by name:
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 * 
-	 * @param name the name of the node
-	 * @param characterization the value to set
-	 */
-	public void setCharacterization(String name, NXcharacterization characterization);
-	
-	/**
-	 * Get all NXcharacterization nodes:
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 * 
-	 * @return  a map from node names to the NXcharacterization for that node.
-	 */
-	public Map<String, NXcharacterization> getAllCharacterization();
-	
-	/**
-	 * Set multiple child nodes of a particular type.
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 * 
-	 * @param characterization the child nodes to add 
-	 */
-	
-	public void setAllCharacterization(Map<String, NXcharacterization> characterization);
-	
 
 	/**
 	 * 

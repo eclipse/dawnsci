@@ -12,6 +12,7 @@ package org.eclipse.dawnsci.nexus.impl;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 import java.util.Calendar;
@@ -19,13 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.Dtype;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.nexus.NXaperture;
 import org.eclipse.dawnsci.nexus.NXcollection;
 import org.eclipse.dawnsci.nexus.NXdetector;
@@ -34,6 +29,11 @@ import org.eclipse.dawnsci.nexus.NXinstrument;
 import org.eclipse.dawnsci.nexus.NXsample;
 import org.eclipse.dawnsci.nexus.NXsensor;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
 import org.junit.Test;
 
 public class NXobjectTest {
@@ -113,7 +113,7 @@ public class NXobjectTest {
 	}
 
 	@Test
-	public void testSetGetDataset() {
+	public void testGetSetDataset() {
 		NXdetector detector = NexusNodeFactory.createNXdetector();
 		IDataset numberOfCycles = DatasetFactory.createFromObject(3);
 		detector.setNumber_of_cycles(numberOfCycles);
@@ -125,11 +125,11 @@ public class NXobjectTest {
 	@Test
 	public void testInitializeLazyDataset() {
 		NXdetector detector = NexusNodeFactory.createNXdetector();
-		ILazyWriteableDataset dataset = detector.initializeLazyDataset(NXdetector.NX_DATA, 2, Dtype.FLOAT64);
+		ILazyWriteableDataset dataset = detector.initializeLazyDataset(NXdetector.NX_DATA, 2, Double.class);
 		assertNotNull(dataset);
 		assertEquals(2, dataset.getRank());
-		assertEquals(Double.class, dataset.elementClass());
-		assertEquals(AbstractDataset.getDType(dataset), Dtype.FLOAT64);
+		assertEquals(Double.class, dataset.getElementClass());
+		assertEquals(DTypeUtils.getDType(dataset), Dataset.FLOAT64);
 		
 		assertSame(dataset, detector.getLazyWritableDataset(NXdetector.NX_DATA));
 		DataNode dataNode = detector.getDataNode(NXdetector.NX_DATA);
@@ -141,13 +141,13 @@ public class NXobjectTest {
 	public void testInitializeFixedSizeLazyDataset() {
 		NXcollection scanPointsCollection = NexusNodeFactory.createNXcollection();
 		final int[] shape = new int[] { 1 };
-		ILazyWriteableDataset dataset = scanPointsCollection.initializeFixedSizeLazyDataset("scan_finished", shape, Dtype.INT32);
+		ILazyWriteableDataset dataset = scanPointsCollection.initializeFixedSizeLazyDataset("scan_finished", shape, Integer.class);
 		assertNotNull(dataset);
 		assertEquals(1, dataset.getRank());
 		assertArrayEquals(shape, dataset.getShape());
 		assertArrayEquals(shape, dataset.getMaxShape());
-		assertEquals(Integer.class, dataset.elementClass());
-		assertEquals(AbstractDataset.getDType(dataset), Dtype.INT32);
+		assertEquals(Integer.class, dataset.getElementClass());
+		assertEquals(DTypeUtils.getDType(dataset), Dataset.INT32);
 		
 		assertSame(dataset, scanPointsCollection.getLazyWritableDataset("scan_finished"));
 		DataNode dataNode = scanPointsCollection.getDataNode("scan_finished");
@@ -156,17 +156,25 @@ public class NXobjectTest {
 	}
 	
 	@Test
-	public void testSetGetString() {
-		final String name = "my sensor";
+	public void testGetSetString() {
+		// check value is initially null
 		NXsensor sensor = NexusNodeFactory.createNXsensor();
+		assertNull(sensor.getString(NXsensor.NX_NAME));
+		
+		// check value after setting
+		final String name = "my sensor";
 		sensor.setField(NXsensor.NX_NAME, name);
 		assertEquals(name, sensor.getString(NXsensor.NX_NAME)); 
 	}
 	
 	@Test
-	public void testSetGetBoolean() {
-		boolean angularCalibrationApplied = true; 
+	public void testGetSetBoolean() {
+		// check value is initially null
 		NXdetector detector = NexusNodeFactory.createNXdetector();
+		assertNull(detector.getBoolean(NXdetector.NX_ANGULAR_CALIBRATION_APPLIED));
+		
+		// check value after setting
+		boolean angularCalibrationApplied = true;
 		detector.setField(NXdetector.NX_ANGULAR_CALIBRATION_APPLIED, angularCalibrationApplied);
 		assertEquals(angularCalibrationApplied, detector.getBoolean(NXdetector.NX_ANGULAR_CALIBRATION_APPLIED));
 
@@ -176,48 +184,66 @@ public class NXobjectTest {
 	}
 	
 	@Test
-	public void testSetGetLong() {
+	public void testGetSetLong() {
+		// check value is initially null
 		NXsensor sensor = NexusNodeFactory.createNXsensor();
+		assertNull(sensor.getLong(NXsensor.NX_HIGH_TRIP_VALUE));
+		
+		// check value after setting
 		final long value = 1234567890l;
 		sensor.setField(NXsensor.NX_HIGH_TRIP_VALUE, value); 
-		assertEquals(value, sensor.getLong(NXsensor.NX_HIGH_TRIP_VALUE)); 
+		assertEquals(value, sensor.getLong(NXsensor.NX_HIGH_TRIP_VALUE).longValue()); 
 	}
 	
 	@Test
-	public void testSetGetDouble() {
-		final double distance = 2.4;
+	public void testGetSetDouble() {
+		// check value is initially null
 		NXdetector detector = NexusNodeFactory.createNXdetector();
-		detector.setField(NXdetector.NX_DISTANCE, distance);
+		assertNull(detector.getDouble(NXdetector.NX_DISTANCE));
 		
+		// check value after setting
+		final double distance = 2.4;
+		detector.setField(NXdetector.NX_DISTANCE, distance);
 		assertEquals(distance, detector.getDouble(NXdetector.NX_DISTANCE), 0.0); 
 	}
 	
 	@Test
-	public void testSetGetNumber_floatingPoint() {
-		final double distance = 2.4;
+	public void testGetSetNumber_floatingPoint() {
+		// check value is initially null
 		NXdetector detector = NexusNodeFactory.createNXdetector();
-		detector.setField(NXdetector.NX_DISTANCE, distance);
+		assertNull(detector.getDouble(NXdetector.NX_DISTANCE));
 		
+		// check value after setting
+		final double distance = 2.4;
+		detector.setField(NXdetector.NX_DISTANCE, distance);
 		assertEquals(Double.valueOf(distance), detector.getNumber(NXdetector.NX_DISTANCE)); 
 	}
 	
 	@Test
-	public void testSetGetNumber_integer() {
-		final int frameStartNumber = 12;
+	public void testGetSetNumber_integer() {
+		// check value is initially null
 		NXdetector detector = NexusNodeFactory.createNXdetector();
+		assertNull(detector.getNumber(NXdetector.NX_FRAME_START_NUMBER));
+		
+		// check value after setting
+		final int frameStartNumber = 12;
 		detector.setField(NXdetector.NX_FRAME_START_NUMBER, frameStartNumber); 
 		// all integers stored as Java longs
 		assertEquals(Long.valueOf(frameStartNumber), detector.getNumber(NXdetector.NX_FRAME_START_NUMBER));
 	}
 	
 	@Test
-	public void testSetGetDate() {
+	public void testGetSetDate() {
+		// check value is initially null
+		NXdetector detector = NexusNodeFactory.createNXdetector();
+		assertNull(detector.getDate(NXdetector.NX_CALIBRATION_DATE));
+		
+		// check value after setting
 		// Use current date to nearest second (the string format used does not include milliseconds)
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.MILLISECOND, 0);
 		Date date = cal.getTime();
 		
-		NXdetector detector = NexusNodeFactory.createNXdetector();
 		detector.setField(NXdetector.NX_CALIBRATION_DATE, date);
 		assertEquals(date, detector.getDate(NXdetector.NX_CALIBRATION_DATE));
 	}
@@ -234,7 +260,7 @@ public class NXobjectTest {
 		detector.setNumber_of_cycles(numberOfCycles);
 		detector.setDistance(distance);
 		
-		final Map<String, Dataset> datasets = detector.getAllDatasets();
+		final Map<String, IDataset> datasets = detector.getAllDatasets();
 		assertEquals(3, datasets.size());
 		assertSame(azimuthalAngle, datasets.get(NXdetector.NX_AZIMUTHAL_ANGLE));
 		assertSame(numberOfCycles, datasets.get(NXdetector.NX_NUMBER_OF_CYCLES));
@@ -242,82 +268,114 @@ public class NXobjectTest {
 	}
 	
 	@Test
-	public void testSetGetAttribute() {
-		String value = "attrVal";
+	public void testGetSetAttribute() {
+		// check value is null initially
 		NXdetector detector = NexusNodeFactory.createNXdetector();
+		detector.setField("field", "fieldValue");
+		assertNull(detector.getAttr("field", "attribute"));
+		
+		// check value after setting
+		String value = "attrVal";
 		detector.setField("field", "fieldValue");
 		detector.setAttribute("field", "attribute", value);
 		IDataset dataset = detector.getAttr("field", "attribute");
 		assertNotNull(dataset);
-		assertEquals(1, dataset.getRank());
+		assertEquals(0, dataset.getRank());
 		assertEquals(1, dataset.getSize());
-		assertEquals(value, dataset.getString(0));
+		assertEquals(value, dataset.getString());
 	}
 	
 	@Test
-	public void testSetGetAttrString() {
-		String value = "attrVal";
+	public void testGetSetAttrString() {
+		// check value is null initially
 		NXdetector detector = NexusNodeFactory.createNXdetector();
 		detector.setField("field", "fieldValue");
+		assertNull(detector.getAttrString("field", "attribute"));
+		
+		// check value after setting
+		String value = "attrVal";
 		detector.setAttribute("field", "attribute", value);
 		assertEquals(value, detector.getAttrString("field", "attribute"));
 	}
 	
 	@Test
-	public void testSetGetAttrBoolean() {
-		final boolean value = true;
+	public void testGetSetAttrBoolean() {
+		// check value is null initially
 		NXdetector detector = NexusNodeFactory.createNXdetector();
 		detector.setField("field", "fieldValue");
+		assertNull(detector.getAttrBoolean("field", "attribute"));
+
+		// check value after setting
+		final boolean value = true;
 		detector.setAttribute("field", "attribute", value);
 		assertEquals(value, detector.getAttrBoolean("field", "attribute"));
 	}
 	
 	@Test
-	public void testSetGetAttrLong() {
-		final long value = 1234567890l;
+	public void testGetSetAttrLong() {
+		// check value is null initially
 		NXdetector detector = NexusNodeFactory.createNXdetector();
 		detector.setField("field", "fieldValue");
+		assertNull(detector.getAttrLong("field", "attribute"));
+		
+		// check value after setting
+		final Long value = 1234567890l;
 		detector.setAttribute("field", "attribute", value);
 		assertEquals(value, detector.getAttrLong("field", "attribute"));
 	}
 	
 	@Test
-	public void testSetGetAttrDouble() {
-		final double value = 1234.5678;
+	public void testGetSetAttrDouble() {
+		// check value is null initially
 		NXdetector detector = NexusNodeFactory.createNXdetector();
 		detector.setField("field", "fieldValue");
+		assertNull(detector.getAttrDouble("field", "attribute"));
+		
+		// check value after setting
+		final double value = 1234.5678;
 		detector.setAttribute("field", "attribute", value);
 		assertEquals(value, detector.getAttrDouble("field", "attribute"), 0.0);
 	}
 	
 	@Test
-	public void testSetGetAttrNumber_floatingPoint() {
-		final double value = 1234.5678;
+	public void testGetSetAttrNumber_floatingPoint() {
+		// check value is null initially
 		NXdetector detector = NexusNodeFactory.createNXdetector();
 		detector.setField("field", "fieldValue");
+		assertNull(detector.getAttrNumber("field", "attribute"));
+
+		// check value after setting
+		final double value = 1234.5678;
 		detector.setAttribute("field", "attribute", value);
 		assertEquals(Double.valueOf(value), detector.getAttrNumber("field", "attribute"));
 	}
 	
 	@Test
-	public void testSetGetAttrNumber_integer() {
-		final int value = 1234;
+	public void testGetSetAttrNumber_integer() {
+		// check value is null initially
 		NXdetector detector = NexusNodeFactory.createNXdetector();
 		detector.setField("field", "fieldValue");
+		assertNull(detector.getAttrNumber("field", "attribute"));
+		
+		// check value after setting
+		final int value = 1234;
 		detector.setAttribute("field", "attribute", value);
 		assertEquals(Long.valueOf(value), detector.getAttrNumber("field", "attribute"));
-		
 	}
 	
 	@Test
 	public void testGetSetAttrDate() {
+		// check value is null initially
+		NXdetector detector = NexusNodeFactory.createNXdetector();
+		detector.setField("field", "fieldValue");
+		assertNull(detector.getAttrNumber("field", "attribute"));
+		
+		// check value after setting
 		// Use current date to nearest second (the string format used does not include milliseconds)
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.MILLISECOND, 0);
 		Date date = cal.getTime();
 		
-		NXdetector detector = NexusNodeFactory.createNXdetector();
-		detector.setField("field", "fieldValue");
 		detector.setAttribute("field", "attribute", date);
 		assertEquals(date, detector.getAttrDate("field", "attribute"));
 	}

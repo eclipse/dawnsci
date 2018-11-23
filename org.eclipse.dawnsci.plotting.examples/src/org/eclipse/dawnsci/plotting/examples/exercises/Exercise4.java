@@ -10,11 +10,7 @@
 package org.eclipse.dawnsci.plotting.examples.exercises;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
-import org.eclipse.dawnsci.analysis.dataset.impl.BooleanDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.PlotType;
@@ -27,6 +23,11 @@ import org.eclipse.dawnsci.plotting.api.region.RegionEvent;
 import org.eclipse.dawnsci.plotting.api.tool.AbstractToolPage;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.dawnsci.plotting.examples.Examples;
+import org.eclipse.january.dataset.BooleanDataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.PositionIterator;
+import org.eclipse.january.dataset.Slice;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -142,7 +143,7 @@ public class Exercise4 extends AbstractToolPage implements IROIListener {
 			int end1   = (int)Math.round(box.getEndPoint()[1]);
 			
 			IDataset       slice = data.getSliceView(new Slice(start1, end1), new Slice(start0, end0));
-			BooleanDataset mask  = new BooleanDataset(slice.getShape());
+			BooleanDataset mask  = DatasetFactory.zeros(BooleanDataset.class, slice.getShape());
 			mask.fill(true);
 
 			// Iterate everything - yes this is slowish now. In Java8 we are

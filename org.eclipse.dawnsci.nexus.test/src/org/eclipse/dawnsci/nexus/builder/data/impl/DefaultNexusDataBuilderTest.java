@@ -1,3 +1,14 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.nexus.builder.data.impl;
 
 import static org.eclipse.dawnsci.nexus.test.util.NexusAssert.assertAxes;
@@ -9,11 +20,11 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXdetector;
 import org.eclipse.dawnsci.nexus.NXpositioner;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
+import org.eclipse.dawnsci.nexus.NexusConstants;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.AbstractNexusObjectProvider;
@@ -38,7 +49,7 @@ public class DefaultNexusDataBuilderTest {
 		@Override
 		protected NXdetector createNexusObject() {
 			NXdetector detector = NexusNodeFactory.createNXdetector();
-			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.FLOAT64);
+			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Double.class);
 			return detector;
 		}
 		
@@ -55,9 +66,9 @@ public class DefaultNexusDataBuilderTest {
 		@Override
 		protected NXdetector createNexusObject() {
 			NXdetector detector = NexusNodeFactory.createNXdetector();
-			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.FLOAT64);
-			detector.setAttribute(NXdetector.NX_DATA, "units", "mm");
-			detector.initializeLazyDataset(NXdetector.NX_TIME_OF_FLIGHT, 1, Dataset.FLOAT64);
+			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Double.class);
+			detector.setAttribute(NXdetector.NX_DATA, NexusConstants.UNITS, "mm");
+			detector.initializeLazyDataset(NXdetector.NX_TIME_OF_FLIGHT, 1, Double.class);
 			
 			return detector;
 		}
@@ -75,8 +86,8 @@ public class DefaultNexusDataBuilderTest {
 		@Override
 		protected NXdetector createNexusObject() {
 			NXdetector detector = NexusNodeFactory.createNXdetector();
-			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Dataset.FLOAT64);
-			detector.initializeLazyDataset("sum", 3, Dataset.FLOAT64);
+			detector.initializeLazyDataset(NXdetector.NX_DATA, 3, Double.class);
+			detector.initializeLazyDataset("sum", 3, Double.class);
 			
 			return detector;
 		}
@@ -87,7 +98,7 @@ public class DefaultNexusDataBuilderTest {
 		
 		public TestDetectorWithExternalLink() {
 			super("testDetector", NexusBaseClass.NX_DETECTOR, NXdetector.NX_DATA);
-			setExternalFileName("external.nxs");
+			setDefaultExternalFileName("external.nxs");
 		}
 		
 		@Override
@@ -113,8 +124,8 @@ public class DefaultNexusDataBuilderTest {
 		@Override
 		protected NXpositioner createNexusObject() {
 			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
-			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Dataset.FLOAT64);
-			positioner.initializeLazyDataset("source", 1, Dataset.FLOAT64);
+			positioner.initializeLazyDataset(NXpositioner.NX_VALUE, 1, Double.class);
+			positioner.initializeLazyDataset("source", 1, Double.class);
 			return positioner;
 		}
 		
@@ -131,10 +142,10 @@ public class DefaultNexusDataBuilderTest {
 		@Override
 		protected NXpositioner createNexusObject() {
 			NXpositioner positioner = NexusNodeFactory.createNXpositioner();
-			positioner.initializeLazyDataset("field1", 1, Dataset.FLOAT64);
-			positioner.initializeLazyDataset("field2", 1, Dataset.FLOAT64);
-			positioner.initializeLazyDataset("field3", 1, Dataset.FLOAT64);
-			positioner.initializeLazyDataset("field4", 1, Dataset.FLOAT64);
+			positioner.initializeLazyDataset("field1", 1, Double.class);
+			positioner.initializeLazyDataset("field2", 1, Double.class);
+			positioner.initializeLazyDataset("field3", 1, Double.class);
+			positioner.initializeLazyDataset("field4", 1, Double.class);
 			return positioner;
 		}
 		
@@ -144,7 +155,7 @@ public class DefaultNexusDataBuilderTest {
 		
 		public TestPositionerWithExternalLink() {
 			super("positioner", NexusBaseClass.NX_POSITIONER, NXpositioner.NX_VALUE);
-			setExternalFileName("external.nxs");
+			setDefaultExternalFileName("external.nxs");
 		}
 		
 		@Override

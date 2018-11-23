@@ -16,15 +16,18 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
-import org.eclipse.dawnsci.analysis.api.metadata.AxesMetadata;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.api.processing.OperationData;
 import org.eclipse.dawnsci.analysis.api.processing.OperationException;
 import org.eclipse.dawnsci.analysis.api.processing.OperationRank;
 import org.eclipse.dawnsci.analysis.api.processing.model.IOperationModel;
 import org.eclipse.dawnsci.analysis.dataset.slicer.SliceFromSeriesMetadata;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.MetadataException;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.ShapeUtils;
+import org.eclipse.january.metadata.AxesMetadata;
+import org.eclipse.january.metadata.MetadataFactory;
 
 /**
  * Abstract implementation of IOperation.
@@ -45,7 +48,8 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 
 
 	protected abstract OperationData process(IDataset input, IMonitor monitor) throws OperationException;
-	
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public D execute(IDataset slice, IMonitor monitor) throws OperationException {
 		
@@ -58,9 +62,9 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 		
 		OperationData output = process(view,monitor);
 
-		if (output == null) return null;
+		if (output == null || output.getData() == null) return (D) output;
 		
-		return updateOutputToFullRank(output, slice);	
+		return updateOutputToFullRank(output, slice);
 	}
 	
 	/**
@@ -73,18 +77,24 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 	 * @throws OperationException
 	 */
 	private D updateOutputToFullRank(OperationData output, IDataset original) throws OperationException {
-		
 		int outr = output.getData().getRank();
 		int inr = original.getRank();
-		
+	
 		//Check ranks acceptable for this step
-		if (getOutputRank().equals(OperationRank.ZERO) || getOutputRank().equals(OperationRank.NONE) || getOutputRank().getRank() > 2) throw new OperationException(null, "Invalid Operation Rank!");
+		if (getOutputRank().equals(OperationRank.ZERO) || getOutputRank().equals(OperationRank.NONE) || getOutputRank().getRank() > 2)
+			throw new OperationException(null, "Invalid Operation Rank!");
 		
 		int rankDif = 0;
 		
 		if (!getOutputRank().equals(OperationRank.SAME)) {
-			
-			rankDif = getInputRank().getRank() - getOutputRank().getRank();
+			// TODO: a case that is currently not covered is ANY -> ANY... e.g. a sum operation that can deal with any rank will return that rank minus one
+			if (getInputRank().equals(OperationRank.ANY) && getOutputRank().equals(OperationRank.ANY)) {
+				throw new OperationException(this, "Both Operation Rangs set to ANY is currently not supported");
+			} else if (getInputRank().equals(OperationRank.ANY)) {
+				rankDif = ShapeUtils.squeezeShape(original.getShape(), false).length - getOutputRank().getRank();
+			} else {
+				rankDif = getInputRank().getRank() - getOutputRank().getRank();
+			}
 		}
 		
 		//Single image/line case, nothing to alter
@@ -109,12 +119,11 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 			datadims = new int[]{datadims[0]};
 		}
 		
-		
 		//Update rank of dataset (will automatically update rank of axes)
 		updateOutputDataShape(output.getData(), inr-rankDif, datadims, rankDif);
 		updateAxes(output.getData(),original,metadata,rankDif, datadims, oddims);
 		updateAuxData(output.getAuxData(), original);
-		
+
 		return (D)output;
 	}
 	
@@ -127,11 +136,10 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 	 * @param rankDif
 	 */
 	private void updateOutputDataShape(IDataset out, int rank, int[] dataDims, int rankDif) {
-		int[] shape = out.getSliceView().squeeze().getShape();
+		int[] shape = ShapeUtils.squeezeShape(out.getShape(), false);
 		
 		int[] updated = new int[rank];
 		Arrays.fill(updated, 1);
-		
 		if (rankDif == 0) {
 			//1D-1D or 2D - 2D
 			for (int i = 0; i< shape.length; i++) updated[dataDims[i]] = shape[i]; 
@@ -177,7 +185,13 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 			
 			AxesMetadata axOut = null;
 			if (metaout != null && !metaout.isEmpty()) axOut = metaout.get(0);
-			if (axOut == null) axOut = inMeta.createAxesMetadata(original.getRank() - rankDif);
+			if (axOut == null) {
+				try {
+					axOut = MetadataFactory.createMetadata(AxesMetadata.class, original.getRank() - rankDif);
+				} catch (MetadataException e) {
+					throw new OperationException(this, e);
+				}
+			}
 			
 			//Clone to get copies of lazy datasets
 			AxesMetadata cloneMeta = (AxesMetadata) inMeta.clone();
@@ -221,7 +235,7 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 	 */
 	private void updateAuxData(Serializable[] auxData, IDataset original){
 		
-		if (auxData == null || auxData[0] == null) return;
+		if (auxData == null || auxData.length == 0 || auxData[0] == null) return;
 		
 		List<AxesMetadata> metadata = null;
 		
@@ -244,7 +258,11 @@ public abstract class AbstractOperation<T extends IOperationModel, D extends Ope
 			int rankDif = 0;
 			
 			if (!getOutputRank().equals(OperationRank.SAME)) {
-				rankDif = getInputRank().getRank() - outr;
+				if (getInputRank().equals(OperationRank.ANY)) {
+					rankDif = ShapeUtils.squeezeShape(original.getShape(), false).length - outr;
+				} else {
+					rankDif = getInputRank().getRank() - outr;
+				}
 			}
 			
 			int[] datadims = getOriginalDataDimensions(original).clone();

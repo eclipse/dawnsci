@@ -12,11 +12,12 @@ package org.eclipse.dawnsci.analysis.dataset.metadata;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
-import org.eclipse.dawnsci.analysis.api.metadata.ARPESMetadata;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.metadata.ARPESMetadata;
 
 public class ARPESMetadataImpl implements ARPESMetadata {
 
@@ -70,31 +71,31 @@ public class ARPESMetadataImpl implements ARPESMetadata {
 			if (dh.contains(NX_ARPES_ANALYSER_ANGLES)) {
 				arpesMetadata.setAnalyserAngles(dh.getLazyDataset(NX_ARPES_ANALYSER_ANGLES));
 			} else {
-				arpesMetadata.setAnalyserAngles(new DoubleDataset(new double[] {0.0}, new int[] {1}));
+				arpesMetadata.setAnalyserAngles(DatasetFactory.zeros(DoubleDataset.class, 1));
 			}
 			
 			if (dh.contains(NX_ARPES_ANALYSER_ENERGIES)) {
 				arpesMetadata.setKineticEnergies(dh.getLazyDataset(NX_ARPES_ANALYSER_ENERGIES));
 			} else {
-				arpesMetadata.setKineticEnergies(new DoubleDataset(new double[] {0.0}, new int[] {1}));
+				arpesMetadata.setKineticEnergies(DatasetFactory.zeros(DoubleDataset.class, 1));
 			}
 			
 			if (dh.contains(NX_ARPES_MANIPULATOR_SAPOLAR)) {
 				arpesMetadata.setPolarAngles(dh.getLazyDataset(NX_ARPES_MANIPULATOR_SAPOLAR));
 			} else {
-				arpesMetadata.setPolarAngles(new DoubleDataset(new double[] {0.0}, new int[] {1}));
+				arpesMetadata.setPolarAngles(DatasetFactory.zeros(DoubleDataset.class, 1));
 			}
 			
 			if (dh.contains(NX_ARPES_MANIPULATOR_SATILT)) {
 				arpesMetadata.setTiltAngles(dh.getLazyDataset(NX_ARPES_MANIPULATOR_SATILT));
 			} else {
-				arpesMetadata.setTiltAngles(new DoubleDataset(new double[] {0.0}, new int[] {1}));
+				arpesMetadata.setTiltAngles(DatasetFactory.zeros(DoubleDataset.class, 1));
 			}
 		
 			if (dh.contains(NX_ARPES_MANIPULATOR_SAAZIMUTHAL)) {
 				arpesMetadata.setAzimuthalAngles(dh.getLazyDataset(NX_ARPES_MANIPULATOR_SAAZIMUTHAL));
 			} else {
-				arpesMetadata.setAzimuthalAngles(new DoubleDataset(new double[] {0.0}, new int[] {1}));
+				arpesMetadata.setAzimuthalAngles(DatasetFactory.zeros(DoubleDataset.class, 1));
 			}
 			data.addMetadata(arpesMetadata);
 			return data;
@@ -135,7 +136,11 @@ public class ARPESMetadataImpl implements ARPESMetadata {
 		this.bindingEnergies = getView(metadata.getBindingEnergies());
 		this.photoelectronMomentum = getView(metadata.getPhotoelectronMomentum());
 	}
-	
+
+	@Override
+	public void initialize() {
+	}
+
 	private ILazyDataset getView(ILazyDataset l) {
 		return l == null ? null : l.getSliceView();
 	}

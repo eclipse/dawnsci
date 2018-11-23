@@ -9,11 +9,11 @@
 
 package org.eclipse.dawnsci.analysis.dataset.slicer;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ShapeUtils;
+import org.eclipse.january.dataset.SliceND;
 
 public class DynamicSliceNDIterator {
 
@@ -22,6 +22,10 @@ public class DynamicSliceNDIterator {
 	private int absCurrentPosition = -1;
 	private int currentMax = 0;
 	private SliceND currentSlice;
+	
+	private boolean repeating = false;
+	private long currentkey;
+	private int count = 0;
 	
 	public DynamicSliceNDIterator(int[] initialShape, IDataset key, int scanRank) {
 		scanShape = new int[scanRank];
@@ -44,10 +48,11 @@ public class DynamicSliceNDIterator {
 	}
 	
 	private void updateScanShape(int[] initialShape){
+		//change for shape of 0?
 		System.arraycopy(initialShape, 0, scanShape, 0, scanShape.length);
-		currentMax = scanShape[0];
+		currentMax = scanShape[0] == 0 ? 1 : scanShape[0]; 
 		for (int i = 1; i < scanShape.length; i++){
-			currentMax *= scanShape[i];
+			currentMax *= scanShape[i] == 0 ? 1 : scanShape[i]; 
 		}
 		currentMax--;
 	}
@@ -58,44 +63,75 @@ public class DynamicSliceNDIterator {
 	}
 	
 	private void updateCurrentSlice() {
-		int[] pos = AbstractDataset.getNDPositionFromShape(absCurrentPosition,scanShape);
+		int[] pos = ShapeUtils.getNDPositionFromShape(absCurrentPosition,scanShape);
 		for (int i = 0; i < pos.length; i++) currentSlice.setSlice(i, pos[i], pos[i]+1, 1);
 	}
 	
 	public SliceND getCurrentSlice() {
-		return absCurrentPosition == -1 ? null : currentSlice;
+		if (absCurrentPosition == -1) throw new IllegalArgumentException("Current position is at -1!, has hasNext been called?");
+		return currentSlice;
 	}
 	
 	public boolean hasNext() {
 		
+		//if repeating, process current position if key different
+		if (repeating && absCurrentPosition >= 0) {
+			
+			long k = key.getElementLongAbs(absCurrentPosition);
+			
+			if (k != currentkey) {
+				currentkey = key.getElementLongAbs(absCurrentPosition);
+				return true;
+			}
+		}
+		
 		if (absCurrentPosition == currentMax) return false;
 		
 		absCurrentPosition++;
-		if ( key.getSize() <= absCurrentPosition || key.getElementDoubleAbs(absCurrentPosition) == 0) {
+		if ( key.getSize() <= absCurrentPosition || key.getElementLongAbs(absCurrentPosition) == 0) {
 			absCurrentPosition--;
 			return false;
 		}
 		
-		updateCurrentSlice();
+		if (repeating) currentkey = key.getElementLongAbs(absCurrentPosition);
 		
+		updateCurrentSlice();
+		count++;
 		return true;
 	}
 	
 	public boolean peekHasNext() {
+		
+		if (repeating && absCurrentPosition >= 0) {
+			long k = key.getElementLongAbs(absCurrentPosition);
+			
+			if (k != currentkey) return true;
+		}
+		
+		
 		if (absCurrentPosition == currentMax) return false;
 		
 		if (key.getSize() <= absCurrentPosition +1 ) return false;
 		
-		return !(key.getElementDoubleAbs(absCurrentPosition + 1) == 0);
-
+		return key.getElementLongAbs(absCurrentPosition + 1) != 0;
 	}
 	
 	public void reset() {
 		absCurrentPosition = -1;
+		count = 0;
+		currentkey = 0;
 	}
 	
 	public int getCurrentMax() {
 		return currentMax;
+	}
+	
+	public void enableRepeating() {
+		repeating = true;
+	}
+
+	public int getCount() {
+		return count;
 	}
 	
 }

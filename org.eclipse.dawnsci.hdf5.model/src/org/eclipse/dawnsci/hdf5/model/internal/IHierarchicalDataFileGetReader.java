@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.eclipse.dawnsci.hdf5.model.internal;
 
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf5.model.IHierarchicalDataModel;
+import org.eclipse.dawnsci.nexus.NexusFile;
 
 public interface IHierarchicalDataFileGetReader {
 	/**
@@ -20,5 +20,5 @@ public interface IHierarchicalDataFileGetReader {
 	 * @return a IHierarchicalDataFile
 	 * @throws Exception if there was any problem obtaining the reader
 	 */
-	IHierarchicalDataFile getReader() throws Exception;
+	NexusFile getReader() throws Exception;
 }

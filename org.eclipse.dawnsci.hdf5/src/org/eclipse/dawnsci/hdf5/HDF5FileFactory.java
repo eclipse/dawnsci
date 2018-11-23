@@ -31,14 +31,8 @@ import hdf.hdf5lib.exceptions.HDF5LibraryException;
 public class HDF5FileFactory {
 	private static final Logger logger = LoggerFactory.getLogger(HDF5FileFactory.class);
 
-	static class FileAccess {
-		long id;   // HDF5 low level ID
-		long time; // time of release
-		int count; // number of accessors
-		boolean writeable; // if true then can write
-	}
-
 	private static long heldPeriod = 5000; // 5 seconds
+	private static long finishPeriod = heldPeriod / 5; // 1 seconds
 	private static boolean verbose = false;
 
 	/**
@@ -54,7 +48,7 @@ public class HDF5FileFactory {
 		INSTANCE = new HDF5FileFactory();
 	}
 
-	private ConcurrentMap<String, FileAccess> map;
+	private ConcurrentMap<String, HDF5File> map;
 
 	// Need singleton to add finalizer
 	private HDF5FileFactory() {
@@ -64,10 +58,14 @@ public class HDF5FileFactory {
 	@Override
 	protected void finalize() throws Throwable {
 		synchronized (map) {
-			for (String f : map.keySet()) {
-				FileAccess a = map.get(f);
+			Iterator<String> iter = map.keySet().iterator();
+			while (iter.hasNext()) {
+				String f = iter.next();
+				HDF5File a = map.remove(f);
+				a.flushWrites();
+				a.finish(finishPeriod);
 				try {
-					H5.H5Fclose(a.id);
+					H5.H5Fclose(a.getID());
 				} catch (HDF5LibraryException e) {
 					logger.error("Could not close file: {}", f);
 				}
@@ -91,7 +89,6 @@ public class HDF5FileFactory {
 		}
 	}
 
-
 	/**
 	 * Set period of time a file ID is held open for. The period specified must be greater
 	 * than or equal to 100 ms.
@@ -101,6 +98,7 @@ public class HDF5FileFactory {
 		if (heldPeriod < 100) {
 			throw new IllegalArgumentException();
 		}
+		finishPeriod = heldPeriod/10l;
 		HDF5FileFactory.heldPeriod = heldPeriod;
 	}
 
@@ -112,7 +110,10 @@ public class HDF5FileFactory {
 		return heldPeriod;
 	}
 
-	private static void closeFile(long fid) throws HDF5LibraryException {
+	private static void closeFile(HDF5File f) throws HDF5LibraryException {
+		f.flushWrites();
+		f.finish(finishPeriod);
+		long fid = f.getID();
 		long openObjects = H5.H5Fget_obj_count(fid,
 				HDF5Constants.H5F_OBJ_LOCAL |
 				HDF5Constants.H5F_OBJ_DATASET |
@@ -120,7 +121,7 @@ public class HDF5FileFactory {
 				HDF5Constants.H5F_OBJ_GROUP |
 				HDF5Constants.H5F_OBJ_ATTR);
 		if (openObjects > 0) {
-			logger.error("There are " + openObjects + " hdf5 objects left open");
+			logger.error("There are {} hdf5 objects left open in {}", openObjects, f);
 		}
 		H5.H5Fclose(fid);
 	}
@@ -140,23 +141,23 @@ public class HDF5FileFactory {
 
 					long now = System.currentTimeMillis();
 					long next = now + heldPeriod;
-					synchronized (INSTANCE) {
+					synchronized (INSTANCE.map) {
 						Iterator<String> iter = INSTANCE.map.keySet().iterator();
 						while (iter.hasNext()) {
 							String f = iter.next();
-							FileAccess a = INSTANCE.map.get(f);
-							if (a.count <= 0) {
-								if (a.time <= now) {
+							HDF5File a = INSTANCE.map.get(f);
+							if (a.getCount() <= 0) {
+								if (a.getTime() <= now) {
 									try {
-										closeFile(a.id);
+										closeFile(a);
 										INSTANCE.map.remove(f);
 // FIXME for CustomTomoConverter, etc 
 //										HierarchicalDataFactory.releaseLowLevelReadingAccess(f);
 									} catch (HDF5LibraryException e) {
 										logger.error("Could not close file {}", f, e);
 									}
-								} else if (a.time < next) {
-									next = a.time; // reduce waiting to next earliest between now and next
+								} else if (a.getTime() < next) {
+									next = a.getTime(); // reduce waiting to next earliest between now and next
 								}
 							}
 						}
@@ -187,63 +188,64 @@ public class HDF5FileFactory {
 	 * @return file ID
 	 * @throws ScanFileHolderException
 	 */
-	private static long acquireFile(String fileName, boolean writeable, boolean asNew, boolean withLatestVersion) throws ScanFileHolderException {
+	private synchronized static HDF5File acquireFile(String fileName, boolean writeable, boolean asNew, boolean withLatestVersion) throws ScanFileHolderException {
 		final String cPath;
 		try {
 			cPath = canonicalisePath(fileName);
 		} catch (IOException e) {
-			logger.error("Problem canonicalising path", e);
-			throw new ScanFileHolderException("Problem canonicalising path", e);
+			String msg = String.format("Problem canonicalising file path %s", fileName);
+			logger.error(msg, e);
+			throw new ScanFileHolderException(msg, e);
 		}
 
-		FileAccess access = null;
+		HDF5File access = null;
 		long fid = -1;
 		long fapl = -1;
+		boolean canSWMR = false;
 
-		synchronized (INSTANCE) {
+		synchronized (INSTANCE.map) {
 			try {
 				if (INSTANCE.map.containsKey(cPath)) {
 					access = INSTANCE.map.get(cPath);
 					if (asNew) {
 						// we should be able to create if nobody is actually using the old file handle,
 						// even though it hasn't been disposed yet
-						if (access.count > 0) {
-							logger.error("File already open and will need to closed: {}", cPath);
-							throw new ScanFileHolderException("File already open and will need to closed");
+						if (access.getCount() > 0) {
+							String msg = String.format("File %s already open and will need to closed", cPath);
+							logger.error(msg);
+							throw new ScanFileHolderException(msg);
 						} else {
-							//close and allow fall through to file creation below
-							closeFile(access.id);
+							// close and allow fall through to file creation below
+							closeFile(access);
 							INSTANCE.map.remove(cPath);
 						}
 					} else {
-						if (writeable && !access.writeable) {
-							logger.error("Cannot get file {} in writeable state as it has been opened read-only", cPath);
-							throw new ScanFileHolderException("Cannot get file in writeable state as it has been opened read-only");
+						if (writeable && !access.isWriteable()) {
+							String msg = String.format("Could not get file %s in writeable state as it has been opened read-only", cPath);
+							logger.error(msg);
+							throw new ScanFileHolderException(msg);
 						}
-						access.count++;
-						return access.id;
+						access.incrementCount();
+						return access;
 					}
 				}
 // FIXME for CustomTomoConverter, etc 
 //				HierarchicalDataFactory.acquireLowLevelReadingAccess(cPath);
 				try {
-					access = new FileAccess();
-					access.count = 1;
 					fapl = H5.H5Pcreate(HDF5Constants.H5P_FILE_ACCESS);
 					if (writeable && withLatestVersion) {
+						canSWMR = true;
 						H5.H5Pset_libver_bounds(fapl, HDF5Constants.H5F_LIBVER_LATEST, HDF5Constants.H5F_LIBVER_LATEST);
 					}
 					if (asNew) {
-						access.writeable = true;
 						if (verbose) {
-							System.err.println("Creating " + cPath);
+							System.err.println("Creating " + cPath + " with latest " + withLatestVersion);
 						}
 						fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_TRUNC, HDF5Constants.H5P_DEFAULT, fapl);
 					} else {
-						access.writeable = writeable;
 						if (new File(cPath).exists()) {
 							if (verbose) {
-								System.err.println("Opening " + cPath + " with writeable " + writeable);
+								System.err.println("Opening " + cPath + " with writeable " + writeable + " with latest " + withLatestVersion);
 							}
 							if (!writeable) {
 								// attempt to read with SWMR access first
@@ -262,11 +264,12 @@ public class HDF5FileFactory {
 								fid = H5.H5Fopen(cPath, a, fapl);
 							}
 						} else if (!writeable) {
-							logger.error("File {} does not exist!", cPath);
-							throw new FileNotFoundException("File does not exist!");
+							String msg = String.format("File %s does not exist!", cPath);
+							logger.error(msg);
+							throw new FileNotFoundException(msg);
 						} else {
 							if (verbose) {
-								System.err.println("Creating " + cPath);
+								System.err.println("Creating " + cPath + " with latest " + withLatestVersion);
 							}
 							fid = H5.H5Fcreate(cPath, HDF5Constants.H5F_ACC_EXCL, HDF5Constants.H5P_DEFAULT, fapl);
 						}
@@ -276,49 +279,62 @@ public class HDF5FileFactory {
 						H5.H5Pclose(fapl);
 					}
 				}
-				access.id = fid;
+				access = new HDF5File(cPath, fid, asNew || writeable, canSWMR);
 				INSTANCE.map.put(cPath, access);
-				return fid;
+				return access;
 			} catch (Throwable le) {
 // FIXME for CustomTomoConverter, etc 
 //				if (!IDS.containsKey(cPath)) {
 //					HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath);
 //				}
-				logger.error("Could not acquire access to file: {}", cPath, le);
-				throw new ScanFileHolderException("Could not acquire access to file: " + cPath, le);
+				String msg = String.format("Could not acquire access to file %s", cPath);
+				logger.error(msg, le);
+				throw new ScanFileHolderException(msg, le);
 			}
 		}
 	}
 
 	/**
-	 * Acquire file ID
+	 * Acquire file
 	 * @param fileName
 	 * @param writeable
-	 * @return file ID
+	 * @return file
 	 * @throws ScanFileHolderException
 	 */
-	public static long acquireFile(String fileName, boolean writeable) throws ScanFileHolderException {
+	public static HDF5File acquireFile(String fileName, boolean writeable) throws ScanFileHolderException {
 		return acquireFile(fileName, writeable, false, false);
 	}
 
 	/**
-	 * Acquire file ID
+	 * Acquire file
 	 * @param fileName
-	 * @return file ID
+	 * @param writeable
+	 * @param withLatestVersion if true, use latest object format version for writing
+	 * @return file
 	 * @throws ScanFileHolderException
 	 */
-	public static long acquireFileAsNew(String fileName) throws ScanFileHolderException {
+	public static HDF5File acquireFile(String fileName, boolean writeable, boolean withLatestVersion) throws ScanFileHolderException {
+		return acquireFile(fileName, writeable, false, withLatestVersion);
+	}
+
+	/**
+	 * Acquire file as a newly created one. This deletes extant files
+	 * @param fileName
+	 * @return file
+	 * @throws ScanFileHolderException
+	 */
+	public static HDF5File acquireFileAsNew(String fileName) throws ScanFileHolderException {
 		return acquireFile(fileName, true, true, false);
 	}
 
 	/**
-	 * Acquire file ID
+	 * Acquire file as a newly created one. This deletes extant files
 	 * @param fileName
 	 * @param withLatestVersion if true, use latest object format version for writing
-	 * @return file ID
+	 * @return file
 	 * @throws ScanFileHolderException
 	 */
-	public static long acquireFileAsNew(String fileName, boolean withLatestVersion) throws ScanFileHolderException {
+	public static HDF5File acquireFileAsNew(String fileName, boolean withLatestVersion) throws ScanFileHolderException {
 		return acquireFile(fileName, true, true, withLatestVersion);
 	}
 
@@ -332,20 +348,22 @@ public class HDF5FileFactory {
 		try {
 			cPath = canonicalisePath(fileName);
 		} catch (IOException e) {
-			logger.error("Problem canonicalising path", e);
-			throw new ScanFileHolderException("Problem canonicalising path", e);
+			String msg = String.format("Problem canonicalising file path %s", fileName);
+			logger.error(msg, e);
+			throw new ScanFileHolderException(msg, e);
 		}
 
-		synchronized (INSTANCE) {
+		synchronized (INSTANCE.map) {
 			if (INSTANCE.map.containsKey(cPath)) {
 				try {
-					FileAccess access = INSTANCE.map.get(cPath);
-					if (access.count <= 0) {
+					HDF5File access = INSTANCE.map.get(cPath);
+					if (access.getCount() <= 0) {
 						try {
+							access.finish(finishPeriod);
 							if (verbose) {
 								System.err.println("Closing and deleting " + cPath);
 							}
-							H5.H5Fclose(access.id);
+							H5.H5Fclose(access.getID());
 							INSTANCE.map.remove(cPath);
 // FIXME for CustomTomoConverter, etc 
 //							HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath); 
@@ -354,12 +372,17 @@ public class HDF5FileFactory {
 							throw e;
 						}
 					} else {
-						logger.error("File is currently being used: {}", cPath);
-						throw new ScanFileHolderException("File is currently being used: " + cPath);
+						if (verbose) {
+							System.err.println("Could not close as file being used " + cPath);
+						}
+						String msg = String.format("File %s currently being used", cPath);
+						logger.error(msg);
+						throw new ScanFileHolderException(msg);
 					}
 				} catch (Throwable le) {
-					logger.error("Problem releasing access to file: {}", cPath, le);
-					throw new ScanFileHolderException("Problem releasing access to file: " + cPath, le);
+					String msg = String.format("Problem releasing access to file %s", cPath);
+					logger.error(msg, le);
+					throw new ScanFileHolderException(msg, le);
 				}
 			}
 		}
@@ -371,7 +394,7 @@ public class HDF5FileFactory {
 	}
 
 	/**
-	 * Release file ID
+	 * Release file
 	 * @param fileName
 	 * @throws ScanFileHolderException
 	 */
@@ -380,7 +403,7 @@ public class HDF5FileFactory {
 	}
 
 	/**
-	 * Release ID associated with file
+	 * Release file associated with file name
 	 * @param fileName
 	 * @param close if true then close it too
 	 * @throws ScanFileHolderException
@@ -390,26 +413,31 @@ public class HDF5FileFactory {
 		try {
 			cPath = canonicalisePath(fileName);
 		} catch (IOException e) {
-			logger.error("Problem canonicalising path", e);
-			throw new ScanFileHolderException("Problem canonicalising path", e);
+			String msg = String.format("Problem canonicalising file path %s", fileName);
+			logger.error(msg, e);
+			throw new ScanFileHolderException(msg, e);
 		}
 
-		synchronized (INSTANCE) {
+		synchronized (INSTANCE.map) {
 			if (!INSTANCE.map.containsKey(cPath)) {
 				logger.debug("File not known - has it already been released?");
 				return;
 			}
 		
 			try {
-				FileAccess access = INSTANCE.map.get(cPath);
-				access.count--;
-				if (access.count <= 0) {
+				HDF5File access = INSTANCE.map.get(cPath);
+				if (access.decrementCount() <= 0) {
 					if (close) {
 						try {
 							if (verbose) {
+								System.err.println("Finishing writes for " + cPath);
+							}
+							access.finish(access.getID());
+							tryToCloseOpenObjects(access.getID());
+							if (verbose) {
 								System.err.println("Closing " + cPath);
 							}
-							H5.H5Fclose(access.id);
+							H5.H5Fclose(access.getID());
 							INSTANCE.map.remove(cPath);
 // FIXME for CustomTomoConverter, etc 
 //							HierarchicalDataFactory.releaseLowLevelReadingAccess(cPath); 
@@ -418,12 +446,100 @@ public class HDF5FileFactory {
 							throw e;
 						}
 					} else {
-						access.time = System.currentTimeMillis() + heldPeriod; // update release time
+						access.setTime(System.currentTimeMillis() + heldPeriod); // update release time
 					}
 				}
 			} catch (Throwable le) {
-				logger.error("Problem releasing access to file: {}", cPath, le);
-				throw new ScanFileHolderException("Problem releasing access to file: " + cPath, le);
+				String msg = String.format("Problem releasing access to file %s", cPath);
+				logger.error(msg, le);
+				throw new ScanFileHolderException(msg, le);
+			}
+		}
+	}
+	
+	private static void tryToCloseOpenObjects(long fileId) throws ScanFileHolderException {
+		try {
+			//try datasets, datatypes and groups (things that can be closed with H5Oclose)
+			int typeIdentifier = HDF5Constants.H5F_OBJ_DATASET |
+					HDF5Constants.H5F_OBJ_DATATYPE |
+					HDF5Constants.H5F_OBJ_GROUP |
+					HDF5Constants.H5F_OBJ_LOCAL;
+			int openObjectCount = (int) H5.H5Fget_obj_count(fileId, typeIdentifier);
+			if (openObjectCount > 0) {
+				logger.debug("Trying to close hdf5 file with open objects");
+				long[] openIds = new long[openObjectCount];
+				H5.H5Fget_obj_ids(fileId, typeIdentifier, openObjectCount, openIds);
+				for (int i = 0; i < openObjectCount; i++) {
+					long id = openIds[i];
+					try {
+						H5.H5Oclose(id);
+						openIds[i] = -1;
+					} catch (HDF5LibraryException e) {
+						logger.error("Error closing hdf5 file - could not close open object");
+					}
+				}
+			}
+			//try attributes
+			typeIdentifier = HDF5Constants.H5F_OBJ_ATTR | HDF5Constants.H5F_OBJ_LOCAL;
+			openObjectCount = (int) H5.H5Fget_obj_count(fileId, typeIdentifier);
+			if (openObjectCount > 0) {
+				logger.debug("Trying to close hdf5 file with open attributes");
+				long[] attrIds = new long[openObjectCount];
+				H5.H5Fget_obj_ids(fileId, typeIdentifier, openObjectCount, attrIds);
+				for (int i = 0; i < openObjectCount; i++) {
+					long id = attrIds[i];
+					try {
+						H5.H5Aclose(id);
+						attrIds[i] = -1;
+					} catch (HDF5LibraryException e) {
+						logger.error("Error closing hdf5 file - could not close open attribute");
+					}
+				}
+			}
+		} catch (HDF5LibraryException e) {
+			throw new ScanFileHolderException("Could not query for open objects", e);
+		}
+	}
+
+
+	/**
+	 * Flush writes to file associated with file name
+	 * @param fileName
+	 * @throws ScanFileHolderException
+	 */
+	public static void flushWrites(String fileName) throws ScanFileHolderException {
+		final String cPath;
+		try {
+			cPath = canonicalisePath(fileName);
+		} catch (IOException e) {
+			String msg = String.format("Problem canonicalising file path %s", fileName);
+			logger.error(msg, e);
+			throw new ScanFileHolderException(msg, e);
+		}
+
+		HDF5File access = null;
+		synchronized (INSTANCE.map) {
+			if (!INSTANCE.map.containsKey(cPath)) {
+//				logger.debug("File not known - has it already been released?");
+				return;
+			}
+			access = INSTANCE.map.get(cPath);
+		}
+
+		synchronized(access) {
+			try {
+				if (verbose) {
+					System.err.println("Flushing writes for " + cPath);
+				}
+				access.flushWrites();
+				int status = H5.H5Fflush(access.getID(), HDF5Constants.H5F_SCOPE_GLOBAL);
+				if (status < 0) {
+					throw new HDF5LibraryException("H5Fflush returned an error value: " + status);
+				}
+			} catch (Throwable le) {
+				String msg = String.format("Problem flushing file %s", cPath);
+				logger.error(msg, le);
+				throw new ScanFileHolderException(msg, le);
 			}
 		}
 	}

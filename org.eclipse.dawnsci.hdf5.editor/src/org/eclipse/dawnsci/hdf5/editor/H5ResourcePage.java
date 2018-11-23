@@ -67,6 +67,8 @@ public class H5ResourcePage extends WizardDataTransferPage {
 		final Object res = selection.getFirstElement();
 		if (res instanceof IAdaptable) {
 			final IContainer container = (IContainer)((IAdaptable)res).getAdapter(IContainer.class);
+			if (container == null)
+				return null;
 			return container.getFullPath().toPortableString();
 		}
 		return null;

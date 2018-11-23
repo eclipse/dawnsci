@@ -1,6 +1,6 @@
 /*-
  *******************************************************************************
- * Copyright (c) 2011, 2014 Diamond Light Source Ltd.
+ * Copyright (c) 2011, 2017 Diamond Light Source Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *    Baha El-Kassaby - Removal of IHierchicalDataFile usage
  *******************************************************************************/ 
 package org.eclipse.dawnsci.hdf5.editor;
 
@@ -19,7 +20,8 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
+import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -89,25 +91,31 @@ public class H5Wizard extends Wizard implements INewWizard {
 		}
 		return true;
 	}
-	
+
 	private void doFinish(IContainer container, String h5Name, IProgressMonitor monitor) {
+		NexusFile nxfile = null;
 		try {
-			
-			monitor.beginTask("Create "+h5Name, 5);
-            final IFile      file      = container instanceof IFolder
-                                       ? ((IFolder)container).getFile(h5Name)
-                                       : ((IProject)container).getFile(h5Name);
-            
-            HierarchicalDataFactory.create(file.getLocation().toOSString());
-            
-            monitor.worked(1);
-            container.refreshLocal(IResource.DEPTH_ONE, monitor);
-            
-            
+
+			monitor.beginTask("Create " + h5Name, 5);
+			final IFile file = container instanceof IFolder ? ((IFolder) container).getFile(h5Name)
+					: ((IProject) container).getFile(h5Name);
+			nxfile = ServiceHolder.getNexusFileFactory().newNexusFile(file.getLocation().toOSString());
+			nxfile.createAndOpenToWrite();
+
+			monitor.worked(1);
+			container.refreshLocal(IResource.DEPTH_ONE, monitor);
+
 		} catch (Exception ne) {
 			logger.error("Cannot create sequence", ne);
-		}		
+		} finally {
+			if (nxfile != null) {
+				try {
+					nxfile.close();
+				} catch (NexusException e) {
+					logger.error("Error closing file:", e.getMessage());
+				}
+			}
+		}
 	}
-
 
 }

@@ -1,3 +1,14 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.remotedataset.server.event;
 
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
@@ -14,17 +25,19 @@ import java.nio.file.WatchService;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.DataEvent;
-import org.eclipse.dawnsci.analysis.api.dataset.IDynamicDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
 import org.eclipse.dawnsci.remotedataset.server.DiagnosticInfo;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.DataEvent;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import hdf.hdf5lib.exceptions.HDF5FunctionArgumentException;
 
 public class FileMonitorSocket extends WebSocketAdapter {
 	
@@ -154,6 +167,12 @@ public class FileMonitorSocket extends WebSocketAdapter {
 			                	session.getRemote().sendString(json);
 			                    if (diagInfo!=null) diagInfo.record("JSON Send", json);
 			                	
+			               	 
+	 	             		} catch (HDF5FunctionArgumentException h5error) {
+	 	             			// This happens sometimes when the file is not ready to read.
+	 	             			logger.trace("Path might not be ready to read "+path);
+	 	             			continue;
+	 	           			
 	 	             		} catch (Exception ne) {
 	 	             			logger.error("Exception getting data from "+path);
 	 	             			continue;

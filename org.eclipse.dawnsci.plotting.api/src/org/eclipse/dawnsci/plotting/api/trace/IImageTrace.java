@@ -13,9 +13,11 @@ package org.eclipse.dawnsci.plotting.api.trace;
 
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.HistoType;
 import org.eclipse.dawnsci.plotting.api.histogram.ImageServiceBean.ImageOrigin;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IDynamicShape;
+import org.eclipse.january.dataset.ILazyDataset;
 
 /**
  * Interface used for the plotting system to plot images.
@@ -112,8 +114,14 @@ public interface IImageTrace extends IPaletteTrace, IDownsampledTrace, ICoordina
 	 * @param performAutoScale - true to rescale to new selection, otherwise keeps last axis position.
 	 * @return false if could not set data
 	 */
-	public boolean setData(final IDataset image, List<? extends IDataset> axes, boolean performAutoScale);
-	
+	public boolean setData(final ILazyDataset image, List<? extends IDataset> axes, boolean performAutoScale);
+
+	/**
+	 * Set image as a changeable one
+	 * @param dynamic
+	 */
+	public void setDynamicData(final IDynamicShape dynamic);
+
 	/**
 	 * Change the axes without changing the underlying data.
 	 * @param axes
@@ -230,10 +238,17 @@ public interface IImageTrace extends IPaletteTrace, IDownsampledTrace, ICoordina
 	public int getAlpha();
 	
 	/**
+	 * Get a global axis range associated with the image.
+	 * This parameter is used to mark an image trace as part of a collection which will be plotted
+	 * on true linear axes (in the same style as XY data), potentially with multiple other traces
+	 */
+	public double[] getGlobalRange();
+	
+	/**
 	 * Set a global axis range associated with the image.
 	 * This parameter is used to mark an image trace as part of a collection which will be plotted
 	 * on true linear axes (in the same style as XY data), potentially with multiple other traces
-	 * @param alpha
+	 * @param globalRange
 	 */
 	public void setGlobalRange(double[] globalRange);
 	

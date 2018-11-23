@@ -1,3 +1,14 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.nexus.test.util;
 
 import static org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder.ATTR_NAME_AXES;
@@ -17,8 +28,6 @@ import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
@@ -26,12 +35,16 @@ import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
 import org.eclipse.dawnsci.analysis.api.tree.TreeFile;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.PositionIterator;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NXroot;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.dataset.PositionIterator;
 
 public class NexusAssert {
 
@@ -85,7 +98,7 @@ public class NexusAssert {
 			String attrPath = path + Node.ATTRIBUTE + attributeName;
 			Attribute expectedAttr = expectedGroup.getAttribute(attributeName);
 			Attribute actualAttr = actualGroup.getAttribute(attributeName);
-			if (!expectedAttr.getName().equals("target")) {
+			if (!expectedAttr.getName().equals("target") && !expectedAttr.getName().equals("file_name")) {
 				assertNotNull(attrPath, actualAttr);
 				assertAttributesEquals(attrPath, expectedAttr, actualAttr);
 			}
@@ -119,11 +132,19 @@ public class NexusAssert {
 		assertEquals(path, expectedAttr.getTypeName(), actualAttr.getTypeName());
 		assertEquals(path, expectedAttr.getFirstElement(), actualAttr.getFirstElement());
 		assertEquals(path, expectedAttr.getSize(), actualAttr.getSize());
+		if (expectedAttr.getSize() == 1 && expectedAttr.getRank() == 1 && actualAttr.getRank() == 0) {
+			// TODO fix examples now that we can save scalar (or zero-ranked) datasets
+			actualAttr.getValue().setShape(1);
+		}
 		assertEquals(path, expectedAttr.getRank(), actualAttr.getRank());
 		assertArrayEquals(path, expectedAttr.getShape(), actualAttr.getShape());
 		assertDatasetsEqual(path, expectedAttr.getValue(), actualAttr.getValue());
 	}
-
+	
+	public static void assertDatasetValue(Object expectedValue, ILazyDataset dataset) {
+		assertDatasetsEqual(null, DatasetFactory.createFromObject(expectedValue), dataset);
+	}
+	
 	public static void assertDataNodesEqual(final String path,
 			final DataNode expectedDataNode, final DataNode actualDataNode) {
 		// check number of attributes same (i.e. actualDataNode has no additional attributes)
@@ -165,19 +186,11 @@ public class NexusAssert {
 		// Note: dataset names can be different, as long as the containing data node names are the same
 		// assertEquals(dataset1.getName(), dataset2.getName());
 		// assertEquals(dataset1.getClass(), dataset2.getClass());
-		assertEquals(path, expectedDataset.elementClass(), actualDataset.elementClass());
+		assertEquals(path, expectedDataset.getElementClass(), actualDataset.getElementClass());
 		assertEquals(path, expectedDataset.getElementsPerItem(), actualDataset.getElementsPerItem());
 		assertEquals(path, expectedDataset.getSize(), actualDataset.getSize());
-		if (actualDataset.getRank() == 0) {
-			// TODO: special case for scalar datasets. This could be fixed in future by marking the
-			// dataset as scalar in the HDF5 file
-			assertEquals(path, 1, expectedDataset.getRank());
-			assertArrayEquals(path, new int[] { 1 }, expectedDataset.getShape());
-		} else {
-			assertEquals(path, expectedDataset.getRank(), actualDataset.getRank());
-			assertArrayEquals(path, expectedDataset.getShape(), actualDataset.getShape());
-		}
-
+		assertEquals(path, expectedDataset.getRank(), actualDataset.getRank());
+		assertArrayEquals(path, expectedDataset.getShape(), actualDataset.getShape());
 		assertDatasetDataEqual(path, expectedDataset, actualDataset);
 
 		// TODO: in future also check metadata
@@ -194,10 +207,16 @@ public class NexusAssert {
 			}
 			
 			// getSlice() with no args loads whole dataset if a lazy dataset
-			IDataset expectedSlice = expectedDataset.getSlice();
-			IDataset actualSlice = actualDataset.getSlice();
+			IDataset expectedSlice;
+			IDataset actualSlice;
+			try {
+				expectedSlice = expectedDataset.getSlice();
+				actualSlice = actualDataset.getSlice();
+			} catch (DatasetException e) {
+				throw new AssertionError("Could not get data from lazy dataset", e.getCause());
+			}
 
-			final int datatype = AbstractDataset.getDType(actualDataset);
+			final int datatype = DTypeUtils.getDType(actualDataset);
 			PositionIterator positionIterator = new PositionIterator(actualDataset.getShape());
 			while (positionIterator.hasNext()) {
 				int[] position = positionIterator.getPos();
@@ -242,7 +261,7 @@ public class NexusAssert {
 	public static void assertSignal(NXdata nxData, String expectedSignalFieldName) {
 		Attribute signalAttr = nxData.getAttribute(ATTR_NAME_SIGNAL);
 		assertThat(signalAttr, is(notNullValue()));
-		assertThat(signalAttr.getRank(), is(1));
+		assertThat(signalAttr.getRank(), is(0));
 		assertThat(signalAttr.getFirstElement(), is(equalTo(expectedSignalFieldName)));
 		assertThat(nxData.getNode(expectedSignalFieldName), is(notNullValue()));
 	}

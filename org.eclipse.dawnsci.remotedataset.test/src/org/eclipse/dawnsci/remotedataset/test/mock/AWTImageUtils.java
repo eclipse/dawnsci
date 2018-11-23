@@ -20,15 +20,14 @@ import java.awt.image.WritableRaster;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.metadata.Metadata;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.FloatDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
-import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.RGBDataset;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.IndexIterator;
+import org.eclipse.january.dataset.IntegerDataset;
+import org.eclipse.january.dataset.RGBDataset;
+import org.eclipse.january.metadata.IMetadata;
+import org.eclipse.january.metadata.Metadata;
 
 /**
  * Helper methods to convert to/from AWT images and datasets
@@ -51,14 +50,13 @@ public class AWTImageUtils {
 
 		for (int i = 0; i < bands; i++) {
 			if (dtype == Dataset.FLOAT32) {
-				tmp = new FloatDataset(r.getSamples(0, 0, width, height, i, (float[]) null), height, width);
+				tmp =  DatasetFactory.createFromObject(r.getSamples(0, 0, width, height, i, (float[]) null), height, width);
 			} else if (dtype == Dataset.FLOAT64) {
-				tmp = new DoubleDataset(r.getSamples(0, 0, width, height, i, (double[]) null), height, width);
+				tmp = DatasetFactory.createFromObject(r.getSamples(0, 0, width, height, i, (double[]) null), height, width);
 			} else if (dtype == Dataset.INT32) {
-				tmp = new IntegerDataset(r.getSamples(0, 0, width, height, i, (int[]) null), height, width);
+				tmp = DatasetFactory.createFromObject(r.getSamples(0, 0, width, height, i, (int[]) null), height, width);
 			} else {
-				tmp = DatasetFactory.createFromObject(r.getSamples(0, 0, width, height, i, (int[]) null), dtype);
-				tmp.setShape(height, width);
+				tmp = DatasetFactory.createFromObject(dtype, r.getSamples(0, 0, width, height, i, (int[]) null), height, width);
 			}
 			data[i] = tmp;
 		}
@@ -89,9 +87,12 @@ public class AWTImageUtils {
 	}
 
 	private static void tagIntForShortDataset(Dataset ret) {
-		final Map<String,String> metadata = new HashMap<String, String>(1);
-		metadata.put("unsigned.short.data", "true");
-		ret.setMetadata(new Metadata(metadata));
+		final Map<String,String> map = new HashMap<String, String>(1);
+		map.put("unsigned.short.data", "true");
+		IMetadata metadata = new Metadata();
+		metadata.initialize(map);
+
+		ret.setMetadata(metadata);
 	}
 
 	static public int[] getDTypeFromImage(final SampleModel sm, boolean keepBitWidth) {

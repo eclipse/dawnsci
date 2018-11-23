@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus.impl;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 import org.eclipse.dawnsci.nexus.*;
 
@@ -86,7 +86,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getGapScalar() {
+	public Double getGapScalar() {
 		return getDouble(NX_GAP);
 	}
 
@@ -96,7 +96,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public DataNode setGapScalar(double gap) {
+	public DataNode setGapScalar(Double gap) {
 		return setField(NX_GAP, gap);
 	}
 
@@ -106,7 +106,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getTaperScalar() {
+	public Double getTaperScalar() {
 		return getDouble(NX_TAPER);
 	}
 
@@ -116,7 +116,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public DataNode setTaperScalar(double taper) {
+	public DataNode setTaperScalar(Double taper) {
 		return setField(NX_TAPER, taper);
 	}
 
@@ -126,7 +126,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getPhaseScalar() {
+	public Double getPhaseScalar() {
 		return getDouble(NX_PHASE);
 	}
 
@@ -136,7 +136,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public DataNode setPhaseScalar(double phase) {
+	public DataNode setPhaseScalar(Double phase) {
 		return setField(NX_PHASE, phase);
 	}
 
@@ -146,7 +146,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public long getPolesScalar() {
+	public Long getPolesScalar() {
 		return getLong(NX_POLES);
 	}
 
@@ -156,7 +156,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public DataNode setPolesScalar(long poles) {
+	public DataNode setPolesScalar(Long poles) {
 		return setField(NX_POLES, poles);
 	}
 
@@ -166,7 +166,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getMagnetic_wavelengthScalar() {
+	public Double getMagnetic_wavelengthScalar() {
 		return getDouble(NX_MAGNETIC_WAVELENGTH);
 	}
 
@@ -176,7 +176,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public DataNode setMagnetic_wavelengthScalar(double magnetic_wavelength) {
+	public DataNode setMagnetic_wavelengthScalar(Double magnetic_wavelength) {
 		return setField(NX_MAGNETIC_WAVELENGTH, magnetic_wavelength);
 	}
 
@@ -186,7 +186,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getKScalar() {
+	public Double getKScalar() {
 		return getDouble(NX_K);
 	}
 
@@ -196,7 +196,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public DataNode setKScalar(double k) {
+	public DataNode setKScalar(Double k) {
 		return setField(NX_K, k);
 	}
 
@@ -206,7 +206,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getLengthScalar() {
+	public Double getLengthScalar() {
 		return getDouble(NX_LENGTH);
 	}
 
@@ -216,7 +216,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public DataNode setLengthScalar(double length) {
+	public DataNode setLengthScalar(Double length) {
 		return setField(NX_LENGTH, length);
 	}
 
@@ -226,7 +226,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getPowerScalar() {
+	public Double getPowerScalar() {
 		return getDouble(NX_POWER);
 	}
 
@@ -236,7 +236,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public DataNode setPowerScalar(double power) {
+	public DataNode setPowerScalar(Double power) {
 		return setField(NX_POWER, power);
 	}
 
@@ -246,7 +246,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getEnergyScalar() {
+	public Double getEnergyScalar() {
 		return getDouble(NX_ENERGY);
 	}
 
@@ -256,7 +256,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public DataNode setEnergyScalar(double energy) {
+	public DataNode setEnergyScalar(Double energy) {
 		return setField(NX_ENERGY, energy);
 	}
 
@@ -266,7 +266,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public double getBandwidthScalar() {
+	public Double getBandwidthScalar() {
 		return getDouble(NX_BANDWIDTH);
 	}
 
@@ -276,7 +276,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public DataNode setBandwidthScalar(double bandwidth) {
+	public DataNode setBandwidthScalar(Double bandwidth) {
 		return setField(NX_BANDWIDTH, bandwidth);
 	}
 
@@ -286,7 +286,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public long getHarmonicScalar() {
+	public Long getHarmonicScalar() {
 		return getLong(NX_HARMONIC);
 	}
 
@@ -296,7 +296,7 @@ public class NXinsertion_deviceImpl extends NXobjectImpl implements NXinsertion_
 	}
 
 	@Override
-	public DataNode setHarmonicScalar(long harmonic) {
+	public DataNode setHarmonicScalar(Long harmonic) {
 		return setField(NX_HARMONIC, harmonic);
 	}
 

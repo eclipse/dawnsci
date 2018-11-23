@@ -1,3 +1,14 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.nexus;
 
 import org.eclipse.dawnsci.nexus.INexusFileFactory;
@@ -9,7 +20,7 @@ public class NexusTestServiceHolder {
 	
 	private static INexusFileFactory nexusFileFactory;
 
-	public static void setNexusBuilderFactory(NexusBuilderFactory nexusBuilderFactory) {
+	public void setNexusBuilderFactory(NexusBuilderFactory nexusBuilderFactory) {
 		NexusTestServiceHolder.nexusBuilderFactory = nexusBuilderFactory; 
 	}
 	
@@ -17,7 +28,7 @@ public class NexusTestServiceHolder {
 		return nexusBuilderFactory;
 	}
 	
-	public static void setNexusFileFactory(INexusFileFactory nexusFileFactory) {
+	public void setNexusFileFactory(INexusFileFactory nexusFileFactory) {
 		NexusTestServiceHolder.nexusFileFactory = nexusFileFactory; 
 	}
 	

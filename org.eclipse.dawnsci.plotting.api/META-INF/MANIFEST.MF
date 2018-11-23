@@ -7,15 +7,17 @@ Bundle-Name: Plotting API
 Bundle-SymbolicName: org.eclipse.dawnsci.plotting.api;singleton:=true
 Bundle-Version: 1.2.0.qualifier
 Bundle-Vendor: Diamond Light Source
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.jface;bundle-version="3.8.0",
  org.eclipse.ui.workbench;bundle-version="3.8.2",
  org.eclipse.core.commands;bundle-version="3.6.1",
  org.eclipse.core.runtime;bundle-version="3.8.0",
- org.eclipse.dawnsci.analysis.api;bundle-version="1.0.0"
+ org.eclipse.january;bundle-version="1.0.0",
+ org.eclipse.dawnsci.analysis.api;bundle-version="1.1.0"
 Import-Package: org.slf4j;version="[1.7.2,2.0.0)"
 Export-Package: org.eclipse.dawnsci.plotting.api,
  org.eclipse.dawnsci.plotting.api.annotation,
+ org.eclipse.dawnsci.plotting.api.area,
  org.eclipse.dawnsci.plotting.api.axis,
  org.eclipse.dawnsci.plotting.api.expressions,
  org.eclipse.dawnsci.plotting.api.filter,

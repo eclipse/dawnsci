@@ -20,5 +20,12 @@
             class="org.eclipse.dawnsci.plotting.api.PlottingFactory">
       </bundle>
    </extension>
+   <extension
+         point="org.eclipse.dawnsci.analysis.api.classregistry">
+      <classregistry
+            class="org.eclipse.dawnsci.plotting.api.classregistry.DawnsciPlottingClassRegistry"
+            id="org.eclipse.dawnsci.plotting.api.dawnsciPlottingClassRegistry">
+      </classregistry>
+   </extension>
    
 </plugin>

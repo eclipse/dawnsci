@@ -17,23 +17,24 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.api.tree.NodeLink;
 import org.eclipse.dawnsci.analysis.api.tree.SymbolicNode;
+import org.eclipse.january.dataset.ILazyDataset;
 
 public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	protected static final long serialVersionUID = 8830337783420707862L;
 
 	private Map<Long, Node> pool;
-	private int dataNodes;
-	private int groups;
+	private int numDataNodes;
+	private int numGroupNodes;
 	private final Map<String, NodeLink> nodes;
 	private boolean populated = false;
 
@@ -53,8 +54,8 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 	 */
 	public GroupNodeImpl(final long oid) {
 		super(oid);
-		dataNodes = 0;
-		groups = 0;
+		numDataNodes = 0;
+		numGroupNodes = 0;
 		nodes = new LinkedHashMap<String, NodeLink>();
 	}
 
@@ -91,9 +92,9 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			}
 			Node n = link.getDestination();
 			if (n instanceof GroupNode) {
-				groups++;
+				numGroupNodes++;
 			} else {
-				dataNodes++;
+				numDataNodes++;
 			}
 			nodes.put(name, link);
 			populated = true;
@@ -102,8 +103,9 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	@Override
 	public void addNode(final String name, final Node node) {
-		if (node == null)
+		if (node == null) {
 			return;
+		}
 	
 		if (node instanceof SymbolicNode) {
 			addSymbolicNode(name, (SymbolicNode) node);
@@ -116,7 +118,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	@Override
 	public int getNumberOfGroupNodes() {
-		return groups;
+		return numGroupNodes;
 	}
 	
 	@Override
@@ -149,6 +151,41 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		return null;
 	}
 
+	@Override
+	public List<GroupNode> getGroupNodes() {
+		List<GroupNode> groupNodes = new ArrayList<>(numGroupNodes);
+		final Iterator<String> nodeNameIter = getNodeNameIterator();
+		while (nodeNameIter.hasNext()) {
+			Node node = getNode(nodeNameIter.next());
+			if (node instanceof SymbolicNode) {
+				node = ((SymbolicNode) node).getNode();
+			}
+			if (node instanceof GroupNode) {
+				groupNodes.add((GroupNode) node);
+			}
+		}
+		
+		return groupNodes;
+	}
+
+	@Override
+	public Map<String, GroupNode> getGroupNodeMap() {
+		final Map<String, GroupNode> groupNodeMap = new LinkedHashMap<>(numGroupNodes);
+		final Iterator<String> nodeNameIter = getNodeNameIterator();
+		while (nodeNameIter.hasNext()) {
+			final String nodeName = nodeNameIter.next();
+			Node node = getNode(nodeName);
+			if (node instanceof SymbolicNode) {
+				node = ((SymbolicNode) node).getNode();
+			}
+			if (node instanceof GroupNode) {
+				groupNodeMap.put(nodeName, (GroupNode) node);
+			}
+		}
+		
+		return groupNodeMap;
+	}
+
 	public void addGroupNode(final String name, final GroupNode g) {
 		synchronized (nodes) {
 			// check that there is not an existing data node with the same name
@@ -158,7 +195,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 					throw new IllegalArgumentException("Cannot add node as group contains node with same name that is not a group node: " + name);
 				}
 			} else {
-				groups++;
+				numGroupNodes++;
 			}
 			// add the new node
 			nodes.put(name, createNodeLink(name, g));
@@ -184,7 +221,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		}
 
 		nodes.remove(name);
-		groups--;
+		numGroupNodes--;
 	}
 
 	@Override
@@ -193,7 +230,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			NodeLink l = nodes.get(n);
 			if (l.getDestination().equals(g)) {
 				nodes.remove(n);
-				groups--;
+				numGroupNodes--;
 				return;
 			}
 		}
@@ -202,7 +239,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	@Override
 	public int getNumberOfDataNodes() {
-		return dataNodes;
+		return numDataNodes;
 	}
 
 	@Override
@@ -229,7 +266,42 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 		return null;
 	}
-	
+
+	@Override
+	public List<DataNode> getDataNodes() {
+		final List<DataNode> dataNodes = new ArrayList<>(numDataNodes);
+		final Iterator<String> nodeNameIter = getNodeNameIterator();
+		while (nodeNameIter.hasNext()) {
+			Node node = getNode(nodeNameIter.next());
+			while (node instanceof SymbolicNode) {
+				node = ((SymbolicNode) node).getNode();
+			}
+			if (node instanceof DataNode) {
+				dataNodes.add((DataNode) node);
+			}
+		}
+		
+		return dataNodes;
+	}
+
+	@Override
+	public Map<String, DataNode> getDataNodeMap() {
+		final Map<String, DataNode> dataNodeMap = new LinkedHashMap<>(numDataNodes);
+		final Iterator<String> nodeNameIter = getNodeNameIterator();
+		while (nodeNameIter.hasNext()) {
+			final String nodeName = nodeNameIter.next();
+			Node node = getNode(nodeName);
+			while (node instanceof SymbolicNode) {
+				node = ((SymbolicNode) node).getNode();
+			}
+			if (node instanceof DataNode) {
+				dataNodeMap.put(nodeName, (DataNode) node);
+			}
+		}
+		
+		return dataNodeMap;
+	}
+
 	public Node getNode(final String name) {
 		if (nodes.containsKey(name)) {
 			return nodes.get(name).getDestination();
@@ -247,7 +319,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 					throw new IllegalArgumentException("Cannot add node as group contains node with same name that is not a data node: " + name);
 				}
 			} else {
-				dataNodes++;
+				numDataNodes++;
 			}
 			nodes.put(name, createNodeLink(name, d));
 			populated = true;
@@ -276,7 +348,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		}
 
 		nodes.remove(name);
-		dataNodes--;
+		numDataNodes--;
 	}
 
 	@Override
@@ -285,7 +357,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			NodeLink l = nodes.get(n);
 			if (l.getDestination().equals(d)) {
 				nodes.remove(n);
-				dataNodes--;
+				numDataNodes--;
 				return;
 			}
 		}
@@ -302,9 +374,9 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 				}
 			} else {
 				if (name.endsWith(Node.SEPARATOR)) {
-					groups++;
+					numGroupNodes++;
 				} else {
-					dataNodes++;
+					numDataNodes++;
 				}
 			}
 			nodes.put(name, createNodeLink(name, s));
@@ -326,7 +398,7 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			
 			return (SymbolicNode) n;
 		}
-		
+
 		return null;
 	}
 
@@ -335,12 +407,12 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		if (!nodes.containsKey(name)) {
 			throw new IllegalArgumentException("No node exists in this group with the name: " + name);
 		}
-		
+
 		Node n = nodes.get(name).getDestination();
 		if (!(n instanceof SymbolicNode)) {
 			throw new IllegalArgumentException("The node with the given name is not a symbolic node: " + name);
 		}
-		
+
 		nodes.remove(name);
 	}
 
@@ -353,10 +425,10 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 				return;
 			}
 		}
-		
+	
 		throw new IllegalArgumentException("Given symbolic node does not exist in this group");
 	}
-	
+
 	@Override
 	public boolean isGroupNode() {
 		return true;
@@ -386,24 +458,27 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		s.append(INDENT);
 		s.append(n);
 		Node node = nodes.get(n).getDestination();
-		if (node instanceof SymbolicNode)
+		if (node instanceof SymbolicNode) {
 			s.append('@');
-		else if (node instanceof GroupNode)
+		} else if (node instanceof GroupNode) {
 			s.append('/');
-//			else
+		}
+//		else {
 //				s.append(String.format("(%d)", node.getID()));
+//	}
 		s.append('\n');
 	}
-	
 
 	@Override
-	public Iterator<String> getNodeNameIterator() {
-		return nodes.keySet().iterator();
+	public synchronized Iterator<String> getNodeNameIterator() {
+		synchronized (nodes) {
+			return new LinkedHashSet<>(nodes.keySet()).iterator();
+		}
 	}
 
 	@Override
 	public List<ILazyDataset> getDatasets(final String name) {
-		final ArrayList<ILazyDataset> list = new ArrayList<ILazyDataset>();
+		final ArrayList<ILazyDataset> list = new ArrayList<>();
 
 		for (NodeLink l : this) {
 			findDatasets(name, list, l);
@@ -415,15 +490,17 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 		Node n = null;
 		if (link.isDestinationSymbolic()) {
 			SymbolicNode slink = (SymbolicNode) link.getDestination();
-			if (slink.isData())
+			if (slink.isData()) {
 				n = slink.getNode();
+			}
 		} else {
 			n = link.getDestination();
 		}
-	
-		if (n == null)
+
+		if (n == null) {
 			return;
-	
+		}
+
 		if (n instanceof GroupNode) {
 			for (NodeLink l : (GroupNode) n) {
 				findDatasets(name, list, l);
@@ -454,18 +531,21 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 			if (i < 0) {
 				return node;
 			}
-			String path = pathname.substring(i+1);
 			if (node.isDestinationSymbolic()) {
 				node = ((SymbolicNode) node.getDestination()).getNodeLink();
 			}
 			if (node.isDestinationGroup()) {
+				String path = pathname.substring(i + 1);
+				if (path.isEmpty()) { // pathname ended in SEPARATOR
+					return node;
+				}
 				return ((GroupNode) node.getDestination()).findNodeLink(path);
 			}
 		} else { // is attribute?
 			i = link.indexOf(ATTRIBUTE);
 			if (i > 0) {
 				link = pathname.substring(0, i);
-				String attr = pathname.substring(i+1);
+				String attr = pathname.substring(i + 1);
 				if (nodes.containsKey(link)) {
 					NodeLink node = nodes.get(link);
 					if (node.getDestination().containsAttribute(attr)) {
@@ -479,13 +559,13 @@ public class GroupNodeImpl extends NodeImpl implements GroupNode, Serializable {
 
 	@Override
 	public Iterator<NodeLink> iterator() {
-		return (Iterator<NodeLink>)  nodes.values().iterator();
+		return nodes.values().iterator();
 	}
 
 	@Override
 	public Collection<String> getNames() {
 		synchronized (nodes) {
-			return new ArrayList<String>(nodes.keySet());
+			return new ArrayList<>(nodes.keySet());
 		}
 	}
 }

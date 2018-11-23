@@ -1,3 +1,14 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.nexus.validation;
 
 import java.sql.Date;
@@ -5,7 +16,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Enumeration of Data types allowed in NXDL specifications.
@@ -70,7 +81,7 @@ public enum NexusDataType {
 	}
 	
 	public void validate(final String fieldName, final IDataset dataset) throws NexusValidationException {
-		Class<?> elementClass = dataset.elementClass();
+		Class<?> elementClass = dataset.getElementClass();
 		for (Class<?> javaClass : javaClasses) {
 			if (javaClass.isAssignableFrom(elementClass)) {
 				return;

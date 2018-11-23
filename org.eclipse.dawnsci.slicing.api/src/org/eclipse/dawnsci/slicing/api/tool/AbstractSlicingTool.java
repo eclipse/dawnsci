@@ -15,14 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDatasetMathsService;
-import org.eclipse.dawnsci.analysis.api.dataset.Slice;
 import org.eclipse.dawnsci.slicing.api.Activator;
 import org.eclipse.dawnsci.slicing.api.system.DimsData;
 import org.eclipse.dawnsci.slicing.api.system.DimsDataList;
 import org.eclipse.dawnsci.slicing.api.system.ISliceSystem;
 import org.eclipse.dawnsci.slicing.api.util.SliceUtils;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.Slice;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.widgets.Composite;
 
@@ -112,7 +112,7 @@ public abstract class AbstractSlicingTool implements ISlicingTool {
 			}
             if (axis==null) {
             	final IDatasetMathsService service = (IDatasetMathsService)Activator.getService(IDatasetMathsService.class);
-            	axis = service.createRange(dataShape[dd.getDimension()], IDatasetMathsService.INT);
+            	axis = service.createRange(dataShape[dd.getDimension()], Integer.class);
             }
             ret.add(axis);
 		}

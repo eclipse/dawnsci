@@ -11,9 +11,9 @@ package org.eclipse.dawnsci.plotting.api.remote;
 
 import java.rmi.RemoteException;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.axis.IAxis;
 import org.eclipse.dawnsci.plotting.api.axis.IAxisListener;
+import org.eclipse.january.dataset.IDataset;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
@@ -143,6 +143,9 @@ public class RemoteAxis implements IRemoteAxis {
 	}
 	public String format(Object value) throws RemoteException {
 		return delegate.format(value);
+	}
+	public String format(Object value, int extraDP) throws RemoteException {
+		return delegate.format(value, extraDP);
 	}
 	public double getScaling() throws RemoteException {
 		return delegate.getScaling();

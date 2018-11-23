@@ -14,10 +14,10 @@ package org.eclipse.dawnsci.slicing.api.system;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.analysis.api.dataset.IDatasetMathsService;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.slicing.api.Activator;
+import org.eclipse.january.dataset.IDataset;
 
 public enum AxisType {
 

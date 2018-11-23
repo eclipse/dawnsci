@@ -1,14 +1,30 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.nexus;
+
+import static org.eclipse.dawnsci.nexus.NexusScanInfo.NexusRole.PER_POINT;
+import static org.eclipse.dawnsci.nexus.NexusScanInfo.NexusRole.PER_SCAN;
+import static org.eclipse.dawnsci.nexus.NexusScanInfo.ScanRole.MONITOR_PER_SCAN;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
+import org.eclipse.january.dataset.SliceND;
 
 /**
  * 
@@ -16,15 +32,43 @@ import org.eclipse.dawnsci.analysis.api.dataset.SliceND;
  * 
  * For instance, names of scannables in the axes and the rank of the scan.
  * 
+ * TODO mattd 2017-02-28: should this class be removed and we use ScanInformation / ScanModel instead?
+ * 
  * @author Matthew Gerring
  *
  */
 public class NexusScanInfo {
-
+	
+	public static enum NexusRole {
+		PER_POINT, PER_SCAN
+	}
+	
+	public static enum ScanRole {
+		DETECTOR(PER_POINT),
+		SCANNABLE(PER_POINT),
+		MONITOR_PER_POINT(PER_POINT),
+		MONITOR_PER_SCAN(PER_SCAN),
+		NONE(PER_SCAN);
+		
+		private final NexusRole nexusRole;
+		
+		private ScanRole(NexusRole nexusRole) {
+			this.nexusRole = nexusRole;
+		}
+		
+		public NexusRole getNexusRole() {
+			return nexusRole;
+		}
+		
+	}
+	
 	private int rank;
-	private Collection<String> scannableNames;
-	private Set<String> monitorNames;
-	private Set<String> metadataScannableNames;
+	
+	private final Map<ScanRole, Collection<String>> deviceNames;
+	
+	private int[] shape;
+	
+	private String filePath;
 	
 	public NexusScanInfo() {
 		this(Collections.emptyList());
@@ -34,9 +78,10 @@ public class NexusScanInfo {
 	 * 
 	 * @param axisNames must be ordered correctly into indices
 	 */
-	public NexusScanInfo(Collection<String> axisNames) {
+	public NexusScanInfo(List<String> axisNames) {
 		super();
-		this.scannableNames = axisNames;
+		deviceNames = new EnumMap<>(ScanRole.class);
+		deviceNames.put(ScanRole.SCANNABLE, axisNames);
 		this.rank = 1;
 	}
 	
@@ -48,49 +93,95 @@ public class NexusScanInfo {
 		this.rank = rank;
 	}
 	
-	public Collection<String> getScannableNames() {
-		if (scannableNames == null) {
-			return Collections.emptyList();
-		}
-		return scannableNames;
+	private void setDeviceNames(ScanRole scanRole, Collection<String> names) {
+		// private so that we can ensure the correct type of collection for the role
+		// e.g. List for Scannables
+		deviceNames.put(scanRole, names);
+	}
+	
+	public Collection<String> getDeviceNames(ScanRole scanRole) {
+		Collection<String> names = deviceNames.get(scanRole);
+		return names == null ? Collections.emptyList() : names;
+	}
+	
+	public void setDetectorNames(Set<String> detectorNames) {
+		setDeviceNames(ScanRole.DETECTOR, detectorNames);
+	}
+	
+	public Collection<String> getDetectorNames() {
+		return getDeviceNames(ScanRole.DETECTOR);
+	}
+
+	public List<String> getScannableNames() {
+		return (List<String>) getDeviceNames(ScanRole.SCANNABLE);
 	}
 	
 	public void setScannableNames(List<String> axisNames) {
-		this.scannableNames = axisNames;
+		setDeviceNames(ScanRole.SCANNABLE, axisNames);
 	}
 	
-	public boolean isScannable(String name) {
-		return scannableNames != null && scannableNames.contains(name);
+	public Set<String> getPerPointMonitorNames() {
+		return (Set<String>) getDeviceNames(ScanRole.MONITOR_PER_POINT);
 	}
 	
-	public Set<String> getMonitorNames() {
-		if (monitorNames == null) {
-			return Collections.emptySet();
+	public void setPerPointMonitorNames(Set<String> monitorNames) {
+		setDeviceNames(ScanRole.MONITOR_PER_POINT, monitorNames);
+	}
+	
+	public Set<String> getPerScanMonitorNames() {
+		return (Set<String>) getDeviceNames(ScanRole.MONITOR_PER_SCAN);
+	}
+	
+	public void setPerScanMonitorNames(Set<String> metadataScannableNames) {
+		setDeviceNames(ScanRole.MONITOR_PER_SCAN, metadataScannableNames);
+	}
+	
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public int[] getShape() {
+		return shape;
+	}
+
+	public void setShape(int[] shape) {
+		this.shape = shape;
+	}
+
+	/**
+	 * Returns the {@link ScanRole} of the device with the given name within the scan. If the device
+	 * is not in the scan {@link ScanRole#NONE} is returned.
+	 * @param name name of device
+	 * @return role or device within scan, never <code>null</code>
+	 */
+	public ScanRole getScanRole(String name) {
+		for (ScanRole scanRole : deviceNames.keySet()) {
+			Collection<String> names = deviceNames.get(scanRole);
+			if (names != null && names.contains(name)) {
+				return scanRole;
+			}
 		}
-		return monitorNames;
+		
+		return ScanRole.NONE;
 	}
 	
-	public void setMonitorNames(Set<String> monitorNames) {
-		this.monitorNames = monitorNames;
+	/**
+	 * Returns whether the device with the given name should write its data
+	 * once for the whole scan, or 
+	 * @param name
+	 * @return
+	 */
+	public boolean writeDataPerScan(String name) {
+		final ScanRole scanRole = getScanRole(name);
+		return scanRole == null || scanRole == MONITOR_PER_SCAN;
 	}
 	
-	public boolean isMonitor(String name) {
-		return monitorNames != null && monitorNames.contains(name);
-	}
-	
-	public Set<String> getMetadataScannableNames() {
-		if (metadataScannableNames == null) {
-			return Collections.emptySet();
-		}
-		return metadataScannableNames;
-	}
-	
-	public void setMetadataScannableNames(Set<String> metadataScannableNames) {
-		this.metadataScannableNames = metadataScannableNames;
-	}
-	
-	public boolean isMetadataScannable(String name) {
-		return metadataScannableNames != null && metadataScannableNames.contains(name);
+	public int[] createChunk(int... datashape) {
+		return createChunk(true, datashape);
 	}
 
 	/**
@@ -102,9 +193,9 @@ public class NexusScanInfo {
 	 * @param datashape
 	 * @return the suggested chunk array
 	 */
-	public int[] createChunk(int... datashape) {
+	public int[] createChunk(boolean append, int... datashape) {
 		// Create chunk array of correct length
-		final int[] chunk = new int[rank+datashape.length];
+		final int[] chunk = append ? new int[rank+datashape.length] : new int[rank];
 
 		// Initialise the array to all 1
 		// TODO this is slightly redundant but ensures no zeros can ever be allowed through
@@ -138,7 +229,7 @@ public class NexusScanInfo {
 
 	@Override
 	public String toString() {
-		return "NexusScanInfo [rank=" + rank + ", axisNames=" + scannableNames + "]";
+		return "NexusScanInfo [rank=" + rank + ", axisNames=" + getScannableNames() + "]";
 	}
 
 }

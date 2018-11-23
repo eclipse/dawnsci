@@ -20,13 +20,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyDataset;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.api.io.ILoaderService;
-import org.eclipse.dawnsci.analysis.api.metadata.DimensionMetadata;
-import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
-import org.eclipse.dawnsci.analysis.dataset.impl.AbstractDataset;
 import org.eclipse.dawnsci.remotedataset.ServiceHolder;
+import org.eclipse.january.IMonitor;
+import org.eclipse.january.dataset.DTypeUtils;
+import org.eclipse.january.dataset.IDynamicDataset;
+import org.eclipse.january.dataset.ILazyDataset;
+import org.eclipse.january.metadata.DimensionMetadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The handler for incoming requests. No work should be done here
@@ -61,6 +64,8 @@ data
  *
  */
 public class InfoServlet extends HttpServlet {
+	
+	private static Logger logger = LoggerFactory.getLogger(InfoServlet.class);
 			
     /**
 	 * 
@@ -96,10 +101,14 @@ public class InfoServlet extends HttpServlet {
 			final ILazyDataset lz    = dataset!=null && !"".equals(dataset)
 					                 ? holder.getLazyDataset(dataset)
 					                 : holder.getLazyDataset(0);
+
+			if (lz instanceof IDynamicDataset) {
+				((IDynamicDataset)lz).refreshShape();
+			}
 					                 
 			response.getWriter().println(lz.getName());
 			response.getWriter().println(Arrays.toString(lz.getShape()));
-			response.getWriter().println(AbstractDataset.getDTypeFromClass(lz.elementClass()));
+			response.getWriter().println(DTypeUtils.getDTypeFromClass(lz.getElementClass()));
 			response.getWriter().println(lz.getElementsPerItem()); // Probably 1
 			List<DimensionMetadata> dmds = lz.getMetadata(DimensionMetadata.class);
 			if (dmds != null && dmds.size() > 0) {
@@ -109,7 +118,7 @@ public class InfoServlet extends HttpServlet {
 			}
 		   
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.trace("Invalid dataset loaded from "+path, e);
 			response.setContentType("text/html;charset=utf-8");
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			response.getWriter().println("<h1>"+e.getMessage()+"</h1>");

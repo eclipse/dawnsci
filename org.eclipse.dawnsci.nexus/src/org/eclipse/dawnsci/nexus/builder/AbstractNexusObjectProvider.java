@@ -16,18 +16,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.nexus.NXdata;
 import org.eclipse.dawnsci.nexus.NXobject;
 import org.eclipse.dawnsci.nexus.NexusBaseClass;
-import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.dawnsci.nexus.builder.data.NexusDataBuilder;
 import org.eclipse.dawnsci.nexus.builder.data.impl.PrimaryDataFieldModel;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
 
 /**
  * Abstract implementation of {@link NexusObjectProvider}.
@@ -83,7 +83,9 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	
 	private Map<String, PrimaryDataFieldModel> primaryDataFieldModels = null;
 	
-	private String externalFileName = null;
+	private String defaultExternalFileName = null;
+	
+	private Set<String> externalFileNames = null;
 
 	private Map<String, Integer> externalDatasetRanks = null;
 	
@@ -94,6 +96,8 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	private NexusBaseClass category = null;
 	
 	private Boolean useDeviceNameInNXdata = null;
+	
+	private Map<String, Object> properties = null;
 
 	/**
 	 * Creates a new {@link AbstractNexusObjectProvider} for given name, base class type
@@ -183,16 +187,28 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	 * @see org.eclipse.dawnsci.nexus.builder.NexusObjectProvider#getExternalFileName()
 	 */
 	@Override
-	public String getExternalFileName() {
-		return externalFileName;
+	public Set<String> getExternalFileNames() {
+		return externalFileNames == null ? Collections.emptySet() : externalFileNames;
 	}
 	
 	/**
 	 * Set the name of the external file that this device writes its data to.
 	 * @param externalFileName external file name
 	 */
-	public void setExternalFileName(String externalFileName) {
-		this.externalFileName = externalFileName;
+	public void setDefaultExternalFileName(String externalFileName) {
+		defaultExternalFileName = externalFileName;
+		addExternalFileName(externalFileName);
+	}
+	
+	/**
+	 * Adds an external filename to this {@link AbstractNexusObjectProvider}.
+	 * @param externalFileName
+	 */
+	public void addExternalFileName(String externalFileName) {
+		if (externalFileNames == null) {
+			externalFileNames = new HashSet<>(4);
+		}
+		externalFileNames.add(externalFileName);
 	}
 
 	/**
@@ -204,8 +220,8 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	 * <code>axes</code> and <code>&lt;axisname&gt;_indices</code> to be
 	 * created.
 	 * <p>
-	 * An external file must have been set by calling
-	 * {@link #setExternalDatasetRank(String, int)} prior to calling this method.
+	 * An external file must have been set by calling {@link #setDefaultExternalFileName(String)}
+	 * prior to calling this method.
 	 *  
 	 * @param groupNode group node to add external link to
 	 * @param fieldName name of external dataset within the group
@@ -214,9 +230,17 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	 */
 	public void addExternalLink(NXobject groupNode, String fieldName,
 			String pathToNode, int rank) {
-		if (externalFileName == null) {
+		if (defaultExternalFileName == null) {
 			throw new IllegalStateException("External file name not set.");
 		}
+		
+		groupNode.addExternalLink(fieldName, defaultExternalFileName, pathToNode);
+		setExternalDatasetRank(fieldName, rank);
+	}
+	
+	public void addExternalLink(NXobject groupNode, String fieldName, String externalFileName,
+			String pathToNode, int rank) {
+		addExternalFileName(externalFileName);
 		
 		groupNode.addExternalLink(fieldName, externalFileName, pathToNode);
 		setExternalDatasetRank(fieldName, rank);
@@ -236,14 +260,14 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 
 	/**
 	 * Set the rank of an external dataset within the nexus object returned by
-	 * {@link #getNexusObject()}. The method {@link #setExternalFileName(String)} must
+	 * {@link #getNexusObject()}. The method {@link #setDefaultExternalFileName(String)} must
 	 * have been invoked before calling this method.
 	 * @param fieldName the name of the external dataset within the nexus object
 	 * @param rank the rank of the external dataset
 	 */
 	public void setExternalDatasetRank(String fieldName, int rank) {
-		if (externalFileName == null) { 
-			throw new IllegalStateException("External file name must be set before adding external datasets.");
+		if (externalFileNames == null || externalFileNames.isEmpty()) { 
+			throw new IllegalStateException("An external file name must be added before adding external datasets.");
 		}
 		
 		if (externalDatasetRanks == null) {
@@ -293,7 +317,9 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	 */
 	public void setDefaultAxisDataFieldName(String defaultAxisDataFieldName) {
 		this.defaultAxisDataFieldName = defaultAxisDataFieldName;
-		axisDataFieldNames.add(defaultAxisDataFieldName);
+		if (defaultAxisDataFieldName != null) {
+			axisDataFieldNames.add(defaultAxisDataFieldName);
+		}
 	}
 
 	@Override
@@ -336,12 +362,15 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	}
 	
 	/**
-	 * Adds the given data field. This field with this name will be added to any {@link NXdata}
-	 * groups created for this scan.
+	 * Adds the given axis data field for the primary data field of this device. It will be
+	 * added as an axis field to the {@link NXdata} group where the primary data field of this
+	 * device is the <code>@signal</code> field.
 	 * @param dataFieldName name of data field
-	 * @param defaultAxisDimension the dimension
-	 * @param dimensionMappings mappings between the dimensions of the data field and the
-	 *    primary data field for this device 
+	 * @param defaultAxisDimension the dimension of the primary data field for which this
+	 *   field is a default axis
+	 * @param dimensionMappings mappings between the dimensions of the axis data field and the
+	 *    primary data field for this device, can be omitted if the mapping is one-to-one as is
+	 *    usually the case
 	 */
 	public void addAxisDataField(String dataFieldName, Integer defaultAxisDimension, int... dimensionMappings) {
 		if (primaryDataFieldName == null) {
@@ -442,19 +471,19 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	}
 
 	@Override
-	public Integer getDefaultAxisDimension(String primaryDataFieldName, String dataFieldName) {
+	public Integer getDefaultAxisDimension(String primaryDataFieldName, String axisDataFieldName) {
 		PrimaryDataFieldModel dataFieldModel = getPrimaryDataFieldModel(primaryDataFieldName, false);
 		if (dataFieldModel != null) {
-			return dataFieldModel.getDefaultAxisDimension(dataFieldName);
+			return dataFieldModel.getDefaultAxisDimension(axisDataFieldName);
 		}
 		return null;
 	}
 	
 	@Override
-	public int[] getDimensionMappings(String primaryDataFieldName, String dataFieldName) {
+	public int[] getDimensionMappings(String primaryDataFieldName, String axisDataFieldName) {
 		PrimaryDataFieldModel dataFieldModel = getPrimaryDataFieldModel(primaryDataFieldName, false);
 		if (dataFieldModel != null) {
-			return dataFieldModel.getDimensionMappings(dataFieldName);
+			return dataFieldModel.getDimensionMappings(axisDataFieldName);
 		}
 		return null;
 	}
@@ -470,5 +499,21 @@ public abstract class AbstractNexusObjectProvider<N extends NXobject> implements
 	public void setUseDeviceNameInNXdata(boolean useDeviceNameInNXdata) {
 		this.useDeviceNameInNXdata = useDeviceNameInNXdata;
 	}
+
+	@Override
+	public Object getPropertyValue(String propertyName) {
+		if (properties == null) return null;
+		return properties.get(propertyName);
+	}
+	
+	public void setPropertyValue(String propertyName, Object value) {
+		if (properties == null) {
+			properties = new HashMap<>(4);
+		}
+		
+		properties.put(propertyName, value);
+	}
+	
+	 
 
 }

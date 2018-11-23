@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * A beamline mirror or supermirror.
@@ -208,7 +208,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getIncident_angleScalar();
+	public Double getIncident_angleScalar();
 
 	/**
 	 * <p>
@@ -218,7 +218,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @param incident_angle the incident_angle
 	 */
-	public DataNode setIncident_angleScalar(double incident_angle);
+	public DataNode setIncident_angleScalar(Double incident_angle);
 
 	/**
 	 * Reflectivity as function of wavelength
@@ -262,7 +262,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBend_angle_xScalar();
+	public Double getBend_angle_xScalar();
 
 	/**
 	 * <p>
@@ -272,7 +272,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @param bend_angle_x the bend_angle_x
 	 */
-	public DataNode setBend_angle_xScalar(double bend_angle_x);
+	public DataNode setBend_angle_xScalar(Double bend_angle_x);
 
 	/**
 	 * <p>
@@ -302,7 +302,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getBend_angle_yScalar();
+	public Double getBend_angle_yScalar();
 
 	/**
 	 * <p>
@@ -312,7 +312,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @param bend_angle_y the bend_angle_y
 	 */
-	public DataNode setBend_angle_yScalar(double bend_angle_y);
+	public DataNode setBend_angle_yScalar(Double bend_angle_y);
 
 	/**
 	 * <p>
@@ -424,7 +424,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getM_valueScalar();
+	public Double getM_valueScalar();
 
 	/**
 	 * The m value for a supermirror, which defines the supermirror
@@ -436,7 +436,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @param m_value the m_value
 	 */
-	public DataNode setM_valueScalar(double m_value);
+	public DataNode setM_valueScalar(Double m_value);
 
 	/**
 	 * 
@@ -490,7 +490,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSubstrate_densityScalar();
+	public Double getSubstrate_densityScalar();
 
 	/**
 	 * <p>
@@ -500,7 +500,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @param substrate_density the substrate_density
 	 */
-	public DataNode setSubstrate_densityScalar(double substrate_density);
+	public DataNode setSubstrate_densityScalar(Double substrate_density);
 
 	/**
 	 * <p>
@@ -530,7 +530,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSubstrate_thicknessScalar();
+	public Double getSubstrate_thicknessScalar();
 
 	/**
 	 * <p>
@@ -540,7 +540,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @param substrate_thickness the substrate_thickness
 	 */
-	public DataNode setSubstrate_thicknessScalar(double substrate_thickness);
+	public DataNode setSubstrate_thicknessScalar(Double substrate_thickness);
 
 	/**
 	 * 
@@ -594,7 +594,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getSubstrate_roughnessScalar();
+	public Double getSubstrate_roughnessScalar();
 
 	/**
 	 * <p>
@@ -604,7 +604,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @param substrate_roughness the substrate_roughness
 	 */
-	public DataNode setSubstrate_roughnessScalar(double substrate_roughness);
+	public DataNode setSubstrate_roughnessScalar(Double substrate_roughness);
 
 	/**
 	 * <p>
@@ -634,7 +634,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getCoating_roughnessScalar();
+	public Double getCoating_roughnessScalar();
 
 	/**
 	 * <p>
@@ -644,7 +644,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @param coating_roughness the coating_roughness
 	 */
-	public DataNode setCoating_roughnessScalar(double coating_roughness);
+	public DataNode setCoating_roughnessScalar(Double coating_roughness);
 
 	/**
 	 * 
@@ -698,7 +698,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getEven_layer_densityScalar();
+	public Double getEven_layer_densityScalar();
 
 	/**
 	 * <p>
@@ -708,7 +708,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @param even_layer_density the even_layer_density
 	 */
-	public DataNode setEven_layer_densityScalar(double even_layer_density);
+	public DataNode setEven_layer_densityScalar(Double even_layer_density);
 
 	/**
 	 * 
@@ -762,7 +762,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getOdd_layer_densityScalar();
+	public Double getOdd_layer_densityScalar();
 
 	/**
 	 * <p>
@@ -772,7 +772,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @param odd_layer_density the odd_layer_density
 	 */
-	public DataNode setOdd_layer_densityScalar(double odd_layer_density);
+	public DataNode setOdd_layer_densityScalar(Double odd_layer_density);
 
 	/**
 	 * An array describing the thickness of each layer
@@ -805,7 +805,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public double getLayer_thicknessScalar();
+	public Double getLayer_thicknessScalar();
 
 	/**
 	 * An array describing the thickness of each layer
@@ -816,7 +816,7 @@ public interface NXmirror extends NXobject {
 	 * 
 	 * @param layer_thickness the layer_thickness
 	 */
-	public DataNode setLayer_thicknessScalar(double layer_thickness);
+	public DataNode setLayer_thicknessScalar(Double layer_thickness);
 
 	/**
 	 * A NXshape group describing the shape of the mirror

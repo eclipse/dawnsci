@@ -1,6 +1,6 @@
 /*-
  *******************************************************************************
- * Copyright (c) 2011, 2014 Diamond Light Source Ltd.
+ * Copyright (c) 2011, 2017 Diamond Light Source Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,6 +15,8 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -30,6 +32,7 @@ import org.eclipse.dawnsci.plotting.api.trace.IPaletteTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ISurfaceTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.dawnsci.plotting.api.trace.IWindowTrace;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Composite;
@@ -77,6 +80,16 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 	private ImageDescriptor imageDescriptor;
 	private IViewPart       viewPart;
 
+	/**
+	 * used for data reduction export tools: this index is incremented every time the
+	 * export method is called while data reducing.
+	 */
+	protected int exportIndex;
+	/**
+	 * Map to store the ILazyWriteableDataset used to append data to an hdf5 file
+	 */
+	protected Map<String, ILazyWriteableDataset> lazyWritables;
+
 	public AbstractToolPage() {
 		this.unique_id = getUniqueId(AbstractToolPage.class);
 	}
@@ -94,6 +107,7 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 		this.plotSystem = system;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
     public <T> IPlottingSystem<T> getPlottingSystem() {
     	if (getLinkedToolPlot()!=null) return (IPlottingSystem<T>)getLinkedToolPlot();
@@ -220,6 +234,7 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 	/**
 	 * Default does nothing
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class key) {
 		if (key == IPlottingSystem.class) return getPlottingSystem();
@@ -372,6 +387,7 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
     	return linkedTool !=null ? linkedTool.getToolPlottingSystem() : null;
     }
     	
+	@SuppressWarnings("unchecked")
 	@Override
 	public IPlottingSystem<Composite> getToolPlottingSystem() {
 		return null;
@@ -493,13 +509,16 @@ public abstract class AbstractToolPage extends Page implements IToolPage, IAdapt
 	 * For instance write final datasets.
 	 */
 	public void exportFinished()  throws Exception {
-		
+		lazyWritables.clear();
 	}
 	
 	/**
 	 * Optionally override to do return an initial name for the NXData class saved at export 
 	 */
 	public String exportInit() {
+		exportIndex = 0;
+		if (lazyWritables == null)
+			lazyWritables = new HashMap<String, ILazyWriteableDataset>();
 		return null;
 	}
 }

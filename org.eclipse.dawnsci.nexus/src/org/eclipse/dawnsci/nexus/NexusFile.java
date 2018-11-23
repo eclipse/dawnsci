@@ -12,12 +12,12 @@ package org.eclipse.dawnsci.nexus;
 import java.io.IOException;
 import java.net.URI;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.dataset.ILazyWriteableDataset;
 import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.api.tree.Node;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.ILazyWriteableDataset;
 
 /**
  * Replacement for old Nexus file interface
@@ -28,7 +28,11 @@ import org.eclipse.dawnsci.analysis.api.tree.Node;
  */
 public interface NexusFile extends AutoCloseable {
 
-	public static final String NXCLASS = "NX_class";
+	/**
+	 * @deprecated Use {@link NexusConstants#NXCLASS}
+	 */
+	@Deprecated
+	public static final String NXCLASS = NexusConstants.NXCLASS;
 
 	public static final String NXCLASS_SEPARATOR = ":";
 
@@ -85,10 +89,36 @@ public interface NexusFile extends AutoCloseable {
 	public void createAndOpenToWrite() throws NexusException;
 
 	/**
+	 * Set to writes to be performed asynchronously for data nodes created after calling this
+	 * @param async
+	 */
+	public void setWritesAsync(boolean async);
+	
+	/**
+	 * Sets the datasets written to to be held open until the file is closed
+	 * 
+	 * With this value set to true, datasets will not be flushed until the file is closed,
+	 * call {@link #flushAllCachedDatasets()} to flush
+	 * @param cacheDataset
+	 */
+	public void setCacheDataset(boolean cacheDataset);
+
+	/**
+	 * Flush datasets cached when {@link #setCacheDataset(boolean)} is set true
+	 */
+	public void flushAllCachedDatasets();
+	
+	/**
 	 * Set to instrument some method calls via logging at the DEBUG level
 	 * @param debug
 	 */
 	public void setDebug(boolean debug);
+
+	/**
+	 * Get the path of rood node from internal tree
+	 * @return root node path
+	 */
+	public String getRoot();
 
 	/**
 	 * Get path of node from internal tree
@@ -146,6 +176,26 @@ public interface NexusFile extends AutoCloseable {
 	 * @throws NexusException if node already exists in group with name
 	 */
 	public void addNode(GroupNode group, String name, Node node) throws NexusException;
+
+	/**
+	 * Remove node from given path.
+	 * <p>
+	 * Note, this will <b>fail</b> if the file is in SWMR node
+	 * @param path path to parent group of node
+	 * @param name name of node in parent group
+	 * @throws NexusException
+	 */
+	public void removeNode(String path, String name) throws NexusException;
+
+	/**
+	 * Remove node from given group.
+	 * <p>
+	 * Note, this will <b>fail</b> if the file is in SWMR node
+	 * @param group parent group of node
+	 * @param name name of node in parent group
+	 * @throws NexusException
+	 */
+	public void removeNode(GroupNode group, String name) throws NexusException;
 
 	/**
 	 * Create data node with given path to its group and create path if necessary
@@ -279,6 +329,15 @@ public interface NexusFile extends AutoCloseable {
 	public Attribute createAttribute(IDataset attr);
 
 	/**
+	 * The full attribute key is: <node full path>@<attribute name>
+	 * e.g. /entry1/data@napimount
+	 * @param fullAttributeKey
+	 * @return
+	 * @throws NexusException
+	 */
+	public String getAttributeValue(String path) throws NexusException;
+
+	/**
 	 * Add (and write) attribute(s) to given node
 	 * @param node
 	 * @param attribute
@@ -334,5 +393,13 @@ public interface NexusFile extends AutoCloseable {
 	 * @throws NexusException if SWMR mode could not be activated
 	 */
 	public void activateSwmrMode() throws NexusException;
+
+	/**
+	 * Get Node with given path. Can be a GroupNode or a DataNode
+	 *
+	 * @param path
+	 * @return node or null if group does not exist at specified path
+	 */
+	public Node getNode(String path) throws NexusException;
 
 }

@@ -1,3 +1,14 @@
+/*-
+ *******************************************************************************
+ * Copyright (c) 2011, 2016 Diamond Light Source Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Matthew Gerring - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.dawnsci.remotedataset.client;
 
 import java.io.BufferedReader;
@@ -7,10 +18,11 @@ import java.net.URLConnection;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteData;
-import org.eclipse.dawnsci.analysis.api.dataset.IRemoteDataset;
 import org.eclipse.dawnsci.analysis.api.io.IRemoteDatasetService;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
+import org.eclipse.dawnsci.remotedataset.XMLMarshallerService;
+import org.eclipse.january.dataset.IDatasetConnector;
+import org.eclipse.january.dataset.IRemoteData;
 
 class RemoteData implements IRemoteData {
 
@@ -36,9 +48,9 @@ class RemoteData implements IRemoteData {
 
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 		try {
-			String json = reader.readLine();
-			IMarshallerService marshaller = RemoteDatasetServiceImpl.getMarshallerService();
-			return (Map<String, Object>)marshaller.unmarshal(json, Map.class);
+			String xml = reader.readLine();
+			IMarshallerService marshaller = new XMLMarshallerService();
+			return (Map<String, Object>)marshaller.unmarshal(xml, Map.class);
 
 		} finally {
 			reader.close();
@@ -46,9 +58,9 @@ class RemoteData implements IRemoteData {
 	}
 
 	@Override
-	public IRemoteDataset createRemoteDataset(String datasetPath) throws Exception {
-		IRemoteDataset set = service.createRemoteDataset(urlBuilder.getServerName(), urlBuilder.getPort());
-		set.setDataset(datasetPath);
+	public IDatasetConnector createRemoteDataset(String datasetPath) throws Exception {
+		IDatasetConnector set = service.createRemoteDataset(urlBuilder.getServerName(), urlBuilder.getPort());
+		set.setDatasetName(datasetPath);
 		set.setPath(getPath());
 		return set;
 	}

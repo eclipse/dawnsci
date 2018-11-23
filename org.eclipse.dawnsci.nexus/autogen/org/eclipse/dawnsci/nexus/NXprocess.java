@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Document an event of data processing, reconstruction, or analysis for this data.
@@ -104,7 +104,7 @@ public interface NXprocess extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getSequence_indexScalar();
+	public Long getSequence_indexScalar();
 
 	/**
 	 * Sequence index of processing,
@@ -116,7 +116,7 @@ public interface NXprocess extends NXobject {
 	 * 
 	 * @param sequence_index the sequence_index
 	 */
-	public DataNode setSequence_indexScalar(long sequence_index);
+	public DataNode setSequence_indexScalar(Long sequence_index);
 
 	/**
 	 * Version of the program used

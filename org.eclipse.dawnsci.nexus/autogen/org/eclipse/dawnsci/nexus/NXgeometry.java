@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * This file was auto-generated from the NXDL XML definition.
- * Generated at: 2016-06-07T11:32:35.177+01:00
+ * Generated at: 2017-06-23T10:28:44.471+01:00
  *******************************************************************************/
 
 package org.eclipse.dawnsci.nexus;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * legacy class - recommend to use :ref:`NXtransformations` now
@@ -292,7 +292,7 @@ public interface NXgeometry extends NXobject {
 	 * 
 	 * @return  the value.
 	 */
-	public long getComponent_indexScalar();
+	public Long getComponent_indexScalar();
 
 	/**
 	 * Position of the component along the beam path. The sample is at 0, components upstream
@@ -304,6 +304,6 @@ public interface NXgeometry extends NXobject {
 	 * 
 	 * @param component_index the component_index
 	 */
-	public DataNode setComponent_indexScalar(long component_index);
+	public DataNode setComponent_indexScalar(Long component_index);
 
 }
