@@ -211,6 +211,7 @@ public class HDF5Utils {
 			return HDF5Constants.H5T_NATIVE_INT8;
 		case Dataset.INT16:
 		case Dataset.ARRAYINT16:
+		case Dataset.RGB:
 			return HDF5Constants.H5T_NATIVE_INT16;
 		case Dataset.INT32:
 		case Dataset.ARRAYINT32:
